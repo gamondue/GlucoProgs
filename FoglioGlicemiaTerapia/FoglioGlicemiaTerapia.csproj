@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <Import Project="..\UseXOffice\SharedXOffice\SharedXOffice.projitems" Label="Shared" />
+
+  <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <PackageReference Include="NetOfficeFw.Core" Version="1.8.0" />
+    <PackageReference Include="NetOfficeFw.Excel" Version="1.8.0" />
+    <PackageReference Include="NetOfficeFw.Word" Version="1.8.0" />
+  </ItemGroup>
+
+</Project>

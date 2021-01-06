@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan_Mobile.WeighFood_Page"
+             Title="Weighing to calculate CHO">
+    <ContentPage.Content>
+        <StackLayout>
+            <!--<Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+                <Label Text="Hypoglicemia time prediction" HorizontalTextAlignment="Center" TextColor="White" FontSize="25"/>
+            </Frame>-->
+            <Label Text="Target glucose for Hypo" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

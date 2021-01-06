@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>a099d29b-5307-4564-acad-2a073fd1ef64</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SharedGlucoMan</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)DataLayer\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BolusCalculation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\HypoPrediction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\WeighFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Food.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlucoseRecord.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextFile.cs" />
+  </ItemGroup>
+</Project>

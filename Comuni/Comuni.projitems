@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>39e11b8c-84eb-4b88-ba11-57e8cd78b799</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Comuni</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BidirectionalMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComuneItaliano.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DatiComuniTabellaOpzioni.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Funzioni.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComuniItaliani.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileDiTesto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OggettiEDati.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Password.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProvinceItaliane.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProvinciaItaliana.cs" />
+  </ItemGroup>
+</Project>

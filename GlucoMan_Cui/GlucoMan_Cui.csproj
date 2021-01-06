@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="TypeOfInsulineTaken.cs" />
+  </ItemGroup>
+
+  <Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
+
+  <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
+
+  <Import Project="..\SharedWindows\SharedWindows.projitems" Label="Shared" />
+
+</Project>

@@ -1,0 +1,34 @@
+﻿<Window x:Class="FoglioGlicemiaTerapia.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FoglioGlicemiaTerapia"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="1034">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="13*"/>
+            <ColumnDefinition Width="187*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="File modello" HorizontalAlignment="Left" Margin="67,96,0,0" VerticalAlignment="Top" FontSize="20" Grid.ColumnSpan="2" RenderTransformOrigin="0.825,0.56"/>
+        <TextBox x:Name="TxtFileModello" HorizontalAlignment="Left" Margin="67,138,0,0" 
+                 Text="Dati diabete Gabriele Monti_Formato del Centro antidiabetico_Test.xlsx" TextWrapping="Wrap" VerticalAlignment="Top" Width="951" FontSize="24" Grid.ColumnSpan="2"/>
+        <Label Content="File da cui leggere i dati" HorizontalAlignment="Left" Margin="67,180,0,0" VerticalAlignment="Top" FontSize="20" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="TxtFileDati" HorizontalAlignment="Left" Margin="67,213,0,0" 
+                 Text="Dati diabete Gabriele Monti_Test.xlsx" TextWrapping="Wrap" VerticalAlignment="Top" Width="951" FontSize="24" Grid.ColumnSpan="2"/>
+        <DatePicker x:Name="DtpMeseODataIniziale" HorizontalAlignment="Left" FontSize="24" Margin="7,355,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Button x:Name="BtnGeneraFile" Content="Genera File" FontSize="24" Grid.Column="1" HorizontalAlignment="Left" Margin="789,342,0,0" VerticalAlignment="Top" Height="53" Width="133" Click="BtnGeneraFile_Click"/>
+        <Label Content="File in cui scrivere i dati" HorizontalAlignment="Left" Margin="67,256,0,0" VerticalAlignment="Top" FontSize="20" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="TxtFileFinale" HorizontalAlignment="Left" Margin="67,293,0,0" 
+            Text="" TextWrapping="Wrap" VerticalAlignment="Top"
+                 Width="951" FontSize="24" Grid.ColumnSpan="2"/>
+        <Label Content="Path dei file" HorizontalAlignment="Left" Margin="67,-7,0,0" VerticalAlignment="Top" FontSize="20" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="TxtPathDeiFile" HorizontalAlignment="Left" Margin="67,35,0,0" 
+            Text="C:\Users\gabri\OneDrive\Diabete\Dati\" 
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="957" FontSize="24" Grid.ColumnSpan="2" TextChanged="TxtPathDeiFile_TextChanged" MouseDoubleClick="TxtPathDeiFile_MouseDoubleClick"/>
+        <Button x:Name="BtnGeneraFile_Dieta" Content="Gen.file 'Dieta'" FontSize="24" Grid.Column="1" HorizontalAlignment="Left" Margin="636,342,0,0" VerticalAlignment="Top" Height="53" Width="133" Click="GeneraFileDieta_Click"/>
+
+    </Grid>
+</Window>
