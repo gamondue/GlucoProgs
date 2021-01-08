@@ -15,10 +15,10 @@ namespace GlucoMan_Forms_Core
             hypo = new HypoPrediction();
 
             hypo.RestoreData();
-            FromClassToUi(hypo);
+            FromClassToUi();
         }
 
-        private void FromClassToUi(HypoPrediction hypo)
+        private void FromClassToUi()
         {
             txtGlucoseTarget.Text = hypo.HypoGlucoseTarget.Text;
             txtGlucoseLast.Text = hypo.GlucoseLast.Text;
@@ -30,7 +30,7 @@ namespace GlucoMan_Forms_Core
             txtGlucoseSlope.Text = hypo.GlucoseSlope.ToString(); 
         }
 
-        private void FromUiToClass(HypoPrediction hypo)
+        private void FromUiToClass()
         {
             hypo.HypoGlucoseTarget.Text = txtGlucoseTarget.Text;
             hypo.GlucoseLast.Text = txtGlucoseLast.Text;
@@ -56,7 +56,7 @@ namespace GlucoMan_Forms_Core
 
         private void btnPredict_Click(object sender, EventArgs e)
         {
-            FromUiToClass(hypo); 
+            FromUiToClass(); 
             DateTime? finalTime = hypo.PredictHypoTime();
             if (finalTime != null)
             {
@@ -92,7 +92,7 @@ namespace GlucoMan_Forms_Core
 
         private void frmPredictHypo_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FromUiToClass(hypo); 
+            FromUiToClass(); 
             hypo.SaveData(); 
         }
     }

@@ -17,7 +17,7 @@ namespace GlucoMan_Forms_Core
         private void frmInsulineCalc_Load(object sender, EventArgs e)
         {
             bolus.RestoreData();
-            FromClassToUi(bolus);
+            FromClassToUi();
             txtGlucoseBeforeMeal.Focus();
         }
 
@@ -28,13 +28,13 @@ namespace GlucoMan_Forms_Core
 
         private void btnCalc_Click(object sender, EventArgs e)
         {
-            FromUiToClass(bolus);
-            bolus.CalculateBolus(bolus);
+            FromUiToClass();
+            bolus.CalculateBolus();
             bolus.SaveData(); 
-            FromClassToUi(bolus); 
+            FromClassToUi(); 
         }
 
-        private void FromClassToUi(BolusCalculation bolus)
+        private void FromClassToUi()
         {
             txtChoToEat.Text = bolus.ChoToEat.Text;
             txtRatioEvening.Text = bolus.ChoInsulineRatioEvening.Text;
@@ -63,7 +63,7 @@ namespace GlucoMan_Forms_Core
             txtRatioMorning.Text = bolus.ChoInsulineRatioMorning.Text;
         }
 
-        private void FromUiToClass(BolusCalculation bolus)
+        private void FromUiToClass()
         {
             bolus.ChoToEat.Text = txtChoToEat.Text;
             bolus.ChoInsulineRatioEvening.Text = txtRatioEvening.Text;
@@ -79,7 +79,7 @@ namespace GlucoMan_Forms_Core
 
         private void frmInsulineCalc_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FromUiToClass(bolus);
+            FromUiToClass();
             bolus.SaveData();
         }
     }

@@ -24,6 +24,7 @@ namespace GlucoMan.BusinessLayer
         internal IntAndText MinuteLast { get; set; }
         internal IntAndText MinutePrevious { get; set; }
         internal DateTimeAndText PredictedTime { get; set; }
+        
         internal HypoPrediction()
         {
             GlucoseLast = new IntAndText(); 

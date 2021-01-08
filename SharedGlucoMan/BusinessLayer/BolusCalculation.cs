@@ -54,7 +54,7 @@ namespace GlucoMan.BusinessLayer
             TotalChoLunch = new DoubleAndText(); 
             TotalChoDinner = new DoubleAndText(); 
         }
-        internal void CalculateBolus(BolusCalculation bolus)
+        internal void CalculateBolus()
         {
             try
             {

@@ -1,4 +1,5 @@
-﻿using SharedGlucoMan.BusinessLayer;
+﻿using SharedData;
+using SharedGlucoMan.BusinessLayer;
 using System;
 using System.Windows.Forms;
 
@@ -6,13 +7,16 @@ namespace GlucoMan_Forms_Core
 {
     public partial class frmWeighFood : Form
     {
+        string persistentStorage = CommonData.PathConfigurationData + @"WeighFood.txt";
+
         WeighFood food = new WeighFood(); 
 
         public frmWeighFood()
         {
             InitializeComponent();
 
-            food.RestoreData(); 
+            food.RestoreData();
+            FromClassToUi();
         }
 
         private void frmWeighFood_Load(object sender, EventArgs e)
@@ -35,7 +39,7 @@ namespace GlucoMan_Forms_Core
             food.T0AllPreCooking.Text = TxtT0AllPreCooking.Text;
             food.TpPortionWithAll.Text = TxtTpPortionWithAll.Text;
             food.M0pS1pPeRawFoodAndSauce.Text = TxtM0pS1pPeRawFoodAndSauce.Text;
-            food.M1CourseCooked.Text = TxtM1CourseCooked.Text;
+            food.M1MainfoodCooked.Text = TxtM1CourseCooked.Text;
             food.M1pS1CourseCookedPlusSauce.Text = TxtM1pS1CourseCookedPlusSauce.Text;
             food.M1pS1CourseCookedPlusSauce.Text = TxtACookRatio.Text;
             food.SpPortionOfSauceInGrams.Text = TxtSpPortionOfSauceInGrams.Text;
@@ -58,7 +62,7 @@ namespace GlucoMan_Forms_Core
             TxtT0AllPreCooking.Text = food.T0AllPreCooking.Text;
             TxtTpPortionWithAll.Text = food.TpPortionWithAll.Text;
             TxtM0pS1pPeRawFoodAndSauce.Text = food.M0pS1pPeRawFoodAndSauce.Text;
-            TxtM1CourseCooked.Text = food.M1CourseCooked.Text;
+            TxtM1CourseCooked.Text = food.M1MainfoodCooked.Text;
             TxtM1pS1CourseCookedPlusSauce.Text = food.M1pS1CourseCookedPlusSauce.Text;
             TxtACookRatio.Text = food.M1pS1CourseCookedPlusSauce.Text;
             TxtSpPortionOfSauceInGrams.Text = food.SpPortionOfSauceInGrams.Text;

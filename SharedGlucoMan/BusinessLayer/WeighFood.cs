@@ -1,10 +1,8 @@
 ﻿using GlucoMan;
 using SharedData;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Text;
 
 namespace SharedGlucoMan.BusinessLayer
 {
@@ -28,7 +26,7 @@ namespace SharedGlucoMan.BusinessLayer
         internal DoubleAndText TpPortionWithAll = new DoubleAndText();
         internal DoubleAndText T0AllPreCooking = new DoubleAndText();
         internal DoubleAndText M0pS1pPeRawFoodAndSauce = new DoubleAndText();
-        internal DoubleAndText M1CourseCooked = new DoubleAndText();
+        internal DoubleAndText M1MainfoodCooked = new DoubleAndText();
         internal DoubleAndText M1pS1CourseCookedPlusSauce = new DoubleAndText();
         internal DoubleAndText ACookRatio = new DoubleAndText();
         internal DoubleAndText MppSpPortionOfCoursePlusSauce = new DoubleAndText();
@@ -46,12 +44,12 @@ namespace SharedGlucoMan.BusinessLayer
             T0AllPreCooking.Double = M0AllRawMainFood.Double + 
                 S1AllSauce.Double + PotCookingPot.Double;
             M0pS1pPeRawFoodAndSauce.Double = M0AllRawMainFood.Double + S1AllSauce.Double;
-            M1CourseCooked.Double = T1AllCooked.Double - S1AllSauce.Double - PotCookingPot.Double;
-            M1pS1CourseCookedPlusSauce.Double = M1CourseCooked.Double + S1AllSauce.Double; 
-            ACookRatio.Double = M1CourseCooked.Double / M0AllRawMainFood.Double;
+            M1MainfoodCooked.Double = T1AllCooked.Double - S1AllSauce.Double - PotCookingPot.Double;
+            M1pS1CourseCookedPlusSauce.Double = M1MainfoodCooked.Double + S1AllSauce.Double; 
+            ACookRatio.Double = M1MainfoodCooked.Double / M0AllRawMainFood.Double;
             MppSpPortionOfCoursePlusSauce.Double = Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double;
             PPercPercentageOfPortion.Double = (Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double) /
-                (M1CourseCooked.Double + S1AllSauce.Double) * 100;
+                (M1MainfoodCooked.Double + S1AllSauce.Double) * 100;
             SpPortionOfSauceInGrams.Double = S1AllSauce.Double * 
                 PPercPercentageOfPortion.Double / 100;
             Mp0PortionReportedToRaw.Double = Mp1PortionCooked.Double / ACookRatio.Double; 
@@ -65,9 +63,14 @@ namespace SharedGlucoMan.BusinessLayer
         {
             try
             {
-                string file = T0AllPreCooking.Text + "\n";
+                string file = M0AllRawMainFood.Text + "\n";
+                file += PotCookingPot.Text + "\n";
+                file += T0AllPreCooking.Text + "\n";
+                file += S1AllSauce.Text + "\n";
+                file += DiDish.Text + "\n";
+                file += TpPortionWithAll.Text + "\n";
                 file += M0pS1pPeRawFoodAndSauce.Text + "\n";
-                file += M1CourseCooked.Text + "\n";
+                file += M1MainfoodCooked.Text + "\n";
                 file += M1pS1CourseCookedPlusSauce.Text + "\n";
                 file += ACookRatio.Text + "\n";
                 file += MppSpPortionOfCoursePlusSauce.Text + "\n";
@@ -76,7 +79,11 @@ namespace SharedGlucoMan.BusinessLayer
                 file += Mp0PortionReportedToRaw.Text + "\n";
                 file += Mp1PortionCooked.Text + "\n";
                 file += ChoTotalMainfood.Text + "\n";
-                file += ChoTotalSauce.Text;
+                file += ChoSaucePercent.Text + "\n";
+                file += ChoMainfoodPercent.Text + "\n";
+                file += ChoTotalMainfood.Text + "\n";
+                file += ChoTotalSauce.Text + "\n";
+                file += S1pPotSaucePlusPot.Text + "\n";
 
                 TextFile.StringToFile(persistentStorage, file, false);
             }
@@ -92,18 +99,28 @@ namespace SharedGlucoMan.BusinessLayer
                 try
                 {
                     string[] f = TextFile.FileToArray(persistentStorage);
-                    T0AllPreCooking.Text = f[0];
-                    M0pS1pPeRawFoodAndSauce.Text = f[1];
-                    M1CourseCooked.Text = f[2];
-                    M1pS1CourseCookedPlusSauce.Text = f[3];
-                    ACookRatio.Text = f[4];
-                    MppSpPortionOfCoursePlusSauce.Text = f[5];
-                    PPercPercentageOfPortion.Text = f[6];
-                    SpPortionOfSauceInGrams.Text = f[7];
-                    Mp0PortionReportedToRaw.Text = f[8];
-                    Mp1PortionCooked.Text = f[9];
-                    ChoTotalMainfood.Text = f[10];
-                    ChoTotalSauce.Text = f[11];
+                    M0AllRawMainFood.Text = f[0];
+                    PotCookingPot.Text = f[1];
+                    T0AllPreCooking.Text = f[2];
+                    S1AllSauce.Text = f[3];
+                    DiDish.Text = f[4];
+                    TpPortionWithAll.Text = f[5];
+                    M0pS1pPeRawFoodAndSauce.Text = f[6];
+                    M1MainfoodCooked.Text = f[7];
+                    M1pS1CourseCookedPlusSauce.Text = f[8];
+                    ACookRatio.Text = f[9];
+                    MppSpPortionOfCoursePlusSauce.Text = f[10];
+                    PPercPercentageOfPortion.Text = f[11];
+                    SpPortionOfSauceInGrams.Text = f[12];
+                    Mp0PortionReportedToRaw.Text = f[13];
+                    Mp1PortionCooked.Text = f[14];
+                    ChoTotalMainfood.Text = f[15];
+                    ChoSaucePercent.Text = f[16];
+                    ChoMainfoodPercent.Text = f[17];
+                    ChoTotalMainfood.Text = f[18];
+                    ChoTotalSauce.Text = f[19];
+                    S1pPotSaucePlusPot.Text = f[20];
+                    
                 }
                 catch (Exception ex)
                 {
