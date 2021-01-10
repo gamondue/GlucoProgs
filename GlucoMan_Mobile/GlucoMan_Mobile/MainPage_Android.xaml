@@ -13,18 +13,18 @@
             <Label.FormattedText>
                 <FormattedString>
                     <FormattedString.Spans>
-                        <Span Text="Learn more at "/>
-                        <Span Text="https://ingmonti.it/XXXXXXXXXXXX" FontAttributes="Bold"/>
+                        <Span Text="Distribution at "/>
+                        <Span Text="https://ingmonti.it/GlucoMan/" FontAttributes="Bold"/>
                     </FormattedString.Spans>
                 </FormattedString>
             </Label.FormattedText>
         </Label>
         <Label Text="Here are the first functions I implemented: " FontSize="16" Padding="30,20,30,0"/>
-        <Button x:Name="btnHypoPrediction" Text="Hypo time prediction" Clicked="btnHypoPrediction_Clicked"
-                Margin="30,0,30,0"></Button>
         <Button x:Name="btnWeighFood" Text="Weigh Food" Clicked="btnWeighFood_Clicked"
                 Margin="30,0,30,0"></Button>
         <Button x:Name="btnInsuline" Text="Insuline bolus calculation" Clicked="btnInsuline_Clicked"
+                Margin="30,0,30,0"></Button>
+        <Button x:Name="btnHypoPrediction" Text="Hypo time prediction" Clicked="btnHypoPrediction_Clicked"
                 Margin="30,0,30,0"></Button>
         <Label Text="GlucoMan is Free Software by:" FontSize="16" Padding="30,30,30,0"/>
         <Label Text="Ing.Gabriele Monti (gamon) - Forlì - Italia" FontSize="18" Padding="30,0,30,10"/>

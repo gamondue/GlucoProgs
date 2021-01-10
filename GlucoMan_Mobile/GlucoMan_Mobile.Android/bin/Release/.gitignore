@@ -1,0 +1,4 @@
+*
+!*.dll
+!*-Signed.apk
+!.gitignore

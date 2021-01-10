@@ -2,6 +2,7 @@
 using SharedGlucoMan.BusinessLayer;
 using System;
 using System.Windows.Forms;
+using SharedGlucoMan.BusinessLayer; 
 
 namespace GlucoMan_Forms_Core
 {
@@ -9,7 +10,9 @@ namespace GlucoMan_Forms_Core
     {
         string persistentStorage = CommonData.PathConfigurationData + @"WeighFood.txt";
 
-        WeighFood food = new WeighFood(); 
+        WeighFood food = new WeighFood();
+        GrossTareAndNetWeight M0RawMain;
+        GrossTareAndNetWeight S1Sauce;
 
         public frmWeighFood()
         {
@@ -21,19 +24,24 @@ namespace GlucoMan_Forms_Core
 
         private void frmWeighFood_Load(object sender, EventArgs e)
         {
-
+            M0RawMain = new GrossTareAndNetWeight(food.M0MainRawGross, food.M0MainRawTare,
+                food.M0MainRawNet);
+            S1Sauce = new GrossTareAndNetWeight(food.S1SauceGross, food.S1SauceTare, food.S1SauceNet);
         }
 
-        private void textBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         internal void FromUiToClass()
         {
+            food.M0MainRawGross.Text = TxtM0MainRawGross.Text;
+            food.M0MainRawTare.Text = TxtM0MainRawTare.Text;
+            food.M0MainRawNet.Text = TxtM0MainRawNet.Text;
+
+            food.S1SauceGross.Text = TxtS1SauceGross.Text;
+            food.S1SauceTare.Text = TxtS1SauceTare.Text;
+            food.S1SauceNet.Text = TxtS1SauceNet.Text;
+
             food.Mp0PortionReportedToRaw.Text = TxtMp0PortionReportedToRaw.Text;
-            food.M0AllRawMainFood.Text = TxtM0AllRawMainFood.Text;
             food.PotCookingPot.Text = TxtPotCookingPot.Text;
-            food.S1pPotSaucePlusPot.Text = TxtS1pPotAllSauce.Text;
+            food.S1pPotSaucePlusPot.Text = TxtS1SauceNet.Text; // !!!!!!
             food.S1pPotSaucePlusPot.Text = TxtS1pPotSaucePlusPot.Text;
             food.DiDish.Text = TxtDiDish.Text;
             food.T0AllPreCooking.Text = TxtT0AllPreCooking.Text;
@@ -53,10 +61,17 @@ namespace GlucoMan_Forms_Core
         }
         internal void FromClassToUi()
         {
+            TxtM0MainRawGross.Text = food.M0MainRawGross.Text;
+            TxtM0MainRawTare.Text = food.M0MainRawTare.Text;
+            TxtM0MainRawNet.Text = food.M0MainRawNet.Text;
+
+            TxtS1SauceGross.Text = food.S1SauceGross.Text;
+            TxtS1SauceTare.Text = food.S1SauceTare.Text;
+            TxtS1SauceNet.Text = food.S1SauceNet.Text;
+
             TxtMp0PortionReportedToRaw.Text = food.Mp0PortionReportedToRaw.Text;
-            TxtM0AllRawMainFood.Text = food.M0AllRawMainFood.Text;
             TxtPotCookingPot.Text = food.PotCookingPot.Text;
-            TxtS1pPotAllSauce.Text = food.S1pPotSaucePlusPot.Text;
+            // TxtS1SauceNet.Text = food.S1pPotSaucePlusPot.Text;
             TxtS1pPotSaucePlusPot.Text = food.S1pPotSaucePlusPot.Text;
             TxtDiDish.Text = food.DiDish.Text;
             TxtT0AllPreCooking.Text = food.T0AllPreCooking.Text;
@@ -73,10 +88,6 @@ namespace GlucoMan_Forms_Core
             TxtChoMainfoodPercent.Text = food.ChoMainfoodPercent.Text;
             TxtChoTotalMainfood.Text = food.ChoTotalMainfood.Text;
             TxtChoTotalSauce.Text = food.ChoTotalSauce.Text;
-        }
-        private void textBox_Leave(object sender, EventArgs e)
-        {
-
         }
 
         private void btnCalc_Click(object sender, EventArgs e)
@@ -95,12 +106,73 @@ namespace GlucoMan_Forms_Core
         {
             FromUiToClass();
             if (food.PotCookingPot.Text != "")  
-                food.S1AllSauce.Double = food.S1pPotSaucePlusPot.Double - 
+                food.S1SauceNet.Double = food.S1pPotSaucePlusPot.Double - 
                 food.PotCookingPot.Double;
-            food.T0AllPreCooking.Double = food.M0AllRawMainFood.Double +
-                food.S1AllSauce.Double + food.PotCookingPot.Double; 
+            food.T0AllPreCooking.Double = food.M0MainRawGross.Double +
+                food.S1SauceNet.Double + food.PotCookingPot.Double; 
                 
                 food.CalcUnknownData(); 
+            FromClassToUi();
+        }
+
+        private void TxtM0MainRawGross_TextChanged(object sender, EventArgs e)
+        {
+               
+        }
+
+        private void TxtM0MainRawGross_Leave(object sender, EventArgs e)
+        {
+            food.M0MainRawGross.Text = TxtM0MainRawGross.Text;
+            M0RawMain.GrossOrTareChanged();
+            FromClassToUi();
+        }
+
+        private void TxtM0MainRawTare_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtM0MainRawTare_Leave(object sender, EventArgs e)
+        {
+            food.M0MainRawTare.Text = TxtM0MainRawTare.Text;
+            M0RawMain.GrossOrTareChanged();
+            FromClassToUi();
+        }
+        private void TxtM0MainRawNet_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtM0MainRawNet_Leave(object sender, EventArgs e)
+        {
+            food.M0MainRawNet.Text = TxtM0MainRawNet.Text;
+            M0RawMain.NetWeightChanged();
+            FromClassToUi();
+        }
+
+        private void BtnM0RawChooseTare_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtS1SauceGross_Leave(object sender, EventArgs e)
+        {
+            food.S1SauceGross.Text = TxtS1SauceGross.Text;
+            S1Sauce.GrossOrTareChanged();
+            FromClassToUi();
+        }
+
+        private void TxtS1SauceTare_Leave(object sender, EventArgs e)
+        {
+            food.S1SauceTare.Text = TxtS1SauceTare.Text;
+            S1Sauce.GrossOrTareChanged();
+            FromClassToUi();
+        }
+
+        private void TxtS1SauceNet_Leave(object sender, EventArgs e)
+        {
+            food.S1SauceNet.Text = TxtS1SauceNet.Text;
+            S1Sauce.NetWeightChanged();
             FromClassToUi();
         }
     }

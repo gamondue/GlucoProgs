@@ -29,6 +29,7 @@ namespace GlucoMan_Forms_Core
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.btnHypoPrediction = new System.Windows.Forms.Button();
             this.btnWeighFood = new System.Windows.Forms.Button();
             this.btnInsuline = new System.Windows.Forms.Button();
@@ -75,6 +76,7 @@ namespace GlucoMan_Forms_Core
             this.Controls.Add(this.btnInsuline);
             this.Controls.Add(this.btnWeighFood);
             this.Controls.Add(this.btnHypoPrediction);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
             this.Text = "GlucoRecord";
             this.Load += new System.EventHandler(this.frmMain_Load);

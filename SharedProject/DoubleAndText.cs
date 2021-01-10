@@ -29,7 +29,7 @@ namespace GlucoMan
                 }
                 catch
                 {
-                    text = null;
+                    text = "NaN";
                 }
             }
         }

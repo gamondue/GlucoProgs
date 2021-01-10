@@ -15,19 +15,19 @@ namespace GlucoMan_Mobile
 
             bolus = new BolusCalculation();
             bolus.RestoreData();
-            FromClassToUi(bolus);
+            FromClassToUi();
             txtGlucoseBeforeMeal.Focus();
         }
 
         private void btnCalc_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            bolus.CalculateBolus(bolus);
+            bolus.CalculateBolus();
             bolus.SaveData();
-            FromClassToUi(bolus);
+            FromClassToUi();
         }
 
-        private void FromClassToUi(BolusCalculation bolus)
+        private void FromClassToUi()
         {
             txtChoToEat.Text = bolus.ChoToEat.Text;
             txtRatioEvening.Text = bolus.ChoInsulineRatioEvening.Text;

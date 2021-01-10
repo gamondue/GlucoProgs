@@ -13,6 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BolusCalculation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\GrossTareAndNetWeight.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\HypoPrediction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\WeighFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Food.cs" />

@@ -17,10 +17,14 @@ namespace SharedGlucoMan.BusinessLayer
         Color calculatedNonImportantColor = Color.White;
         Color programsResult = Color.SkyBlue;
 
-        internal DoubleAndText M0AllRawMainFood = new DoubleAndText();
+        internal DoubleAndText M0MainRawGross = new DoubleAndText();
+        internal DoubleAndText M0MainRawTare = new DoubleAndText();
+        internal DoubleAndText M0MainRawNet = new DoubleAndText();
         internal DoubleAndText PotCookingPot = new DoubleAndText();
-        internal DoubleAndText S1AllSauce = new DoubleAndText();
-        internal DoubleAndText S1pPotSaucePlusPot = new DoubleAndText();
+        internal DoubleAndText S1SauceGross = new DoubleAndText();
+        internal DoubleAndText S1SauceTare = new DoubleAndText();
+        internal DoubleAndText S1SauceNet = new DoubleAndText();
+        internal DoubleAndText S1pPotSaucePlusPot = new DoubleAndText(); // eliminare !!
         internal DoubleAndText DiDish = new DoubleAndText();
         internal DoubleAndText T1AllCooked = new DoubleAndText();
         internal DoubleAndText TpPortionWithAll = new DoubleAndText();
@@ -41,16 +45,16 @@ namespace SharedGlucoMan.BusinessLayer
 
         internal void CalcUnknownData()
         {
-            T0AllPreCooking.Double = M0AllRawMainFood.Double + 
-                S1AllSauce.Double + PotCookingPot.Double;
-            M0pS1pPeRawFoodAndSauce.Double = M0AllRawMainFood.Double + S1AllSauce.Double;
-            M1MainfoodCooked.Double = T1AllCooked.Double - S1AllSauce.Double - PotCookingPot.Double;
-            M1pS1CourseCookedPlusSauce.Double = M1MainfoodCooked.Double + S1AllSauce.Double; 
-            ACookRatio.Double = M1MainfoodCooked.Double / M0AllRawMainFood.Double;
+            T0AllPreCooking.Double = M0MainRawGross.Double + 
+                S1SauceNet.Double + PotCookingPot.Double;
+            M0pS1pPeRawFoodAndSauce.Double = M0MainRawGross.Double + S1SauceNet.Double;
+            M1MainfoodCooked.Double = T1AllCooked.Double - S1SauceNet.Double - PotCookingPot.Double;
+            M1pS1CourseCookedPlusSauce.Double = M1MainfoodCooked.Double + S1SauceNet.Double; 
+            ACookRatio.Double = M1MainfoodCooked.Double / M0MainRawGross.Double;
             MppSpPortionOfCoursePlusSauce.Double = Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double;
             PPercPercentageOfPortion.Double = (Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double) /
-                (M1MainfoodCooked.Double + S1AllSauce.Double) * 100;
-            SpPortionOfSauceInGrams.Double = S1AllSauce.Double * 
+                (M1MainfoodCooked.Double + S1SauceNet.Double) * 100;
+            SpPortionOfSauceInGrams.Double = S1SauceNet.Double * 
                 PPercPercentageOfPortion.Double / 100;
             Mp0PortionReportedToRaw.Double = Mp1PortionCooked.Double / ACookRatio.Double; 
             Mp1PortionCooked.Double = TpPortionWithAll.Double - 
@@ -63,10 +67,10 @@ namespace SharedGlucoMan.BusinessLayer
         {
             try
             {
-                string file = M0AllRawMainFood.Text + "\n";
+                string file = M0MainRawGross.Text + "\n";
                 file += PotCookingPot.Text + "\n";
                 file += T0AllPreCooking.Text + "\n";
-                file += S1AllSauce.Text + "\n";
+                file += S1SauceNet.Text + "\n";
                 file += DiDish.Text + "\n";
                 file += TpPortionWithAll.Text + "\n";
                 file += M0pS1pPeRawFoodAndSauce.Text + "\n";
@@ -99,10 +103,10 @@ namespace SharedGlucoMan.BusinessLayer
                 try
                 {
                     string[] f = TextFile.FileToArray(persistentStorage);
-                    M0AllRawMainFood.Text = f[0];
+                    M0MainRawGross.Text = f[0];
                     PotCookingPot.Text = f[1];
                     T0AllPreCooking.Text = f[2];
-                    S1AllSauce.Text = f[3];
+                    S1SauceNet.Text = f[3];
                     DiDish.Text = f[4];
                     TpPortionWithAll.Text = f[5];
                     M0pS1pPeRawFoodAndSauce.Text = f[6];

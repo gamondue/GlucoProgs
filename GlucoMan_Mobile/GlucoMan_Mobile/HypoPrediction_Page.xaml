@@ -25,9 +25,9 @@
 
             <Button Grid.Row="0" Grid.Column="0" Text="Now"
                     Clicked="btnNow_Click"></Button>
-            <Button Grid.Row="0" Grid.Column="2" 
-                    Clicked="btnPredict_Click" Text="Predict"></Button>
             <Button Grid.Row="0" Grid.Column="3" 
+                    Clicked="btnPredict_Click" Text="Predict"></Button>
+            <Button Grid.Row="0" Grid.Column="1" 
                     Clicked="btnNext_Click" Text="Next"></Button>
             <Label Grid.Row="1" Grid.ColumnSpan="3" Text="Target glucose for hypoglycemia alert" 
                     XAlign="Center" YAlign="End"/>
