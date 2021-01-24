@@ -84,6 +84,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmFoodToHitTargetCarbs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFoodToHitTargetCarbs.Designer.cs">
+      <DependentUpon>frmFoodToHitTargetCarbs.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmInsulineCalc.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +117,9 @@
     <Compile Include="WinFormsFunctions.cs" />
     <Compile Include="Main_GlucoRecord_Forms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmFoodToHitTargetCarbs.resx">
+      <DependentUpon>frmFoodToHitTargetCarbs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmInsulineCalc.resx">
       <DependentUpon>frmInsulineCalc.cs</DependentUpon>
     </EmbeddedResource>

@@ -24,6 +24,9 @@
     <Compile Update="MainPage_Android.xaml.cs">
       <DependentUpon>MainPage_Android.xaml</DependentUpon>
     </Compile>
+    <Compile Update="FoodToHitTargetCarbs_Page.xaml.cs">
+      <DependentUpon>FoodToHitTargetCarbs_Page.xaml</DependentUpon>
+    </Compile>
     <Compile Update="WeighFood_Page.xaml.cs">
       <DependentUpon>WeighFood_Page.xaml</DependentUpon>
     </Compile>
@@ -34,6 +37,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="InsulineCalc_Page.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FoodToHitTargetCarbs_Page.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="WeighFood_Page.xaml">

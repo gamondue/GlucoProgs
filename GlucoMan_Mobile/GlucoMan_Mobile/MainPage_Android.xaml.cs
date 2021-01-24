@@ -24,5 +24,10 @@ namespace GlucoMan_Mobile
         {
             await Navigation.PushAsync(new HypoPrediction_Page());
         }
+
+        private async void btnFoodToHitTargetCarbs_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FoodToHitTargetCarbs_Page());
+        }
     }
 }

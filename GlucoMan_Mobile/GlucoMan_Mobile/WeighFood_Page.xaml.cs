@@ -1,11 +1,6 @@
 ﻿using SharedData;
 using SharedGlucoMan.BusinessLayer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,17 +22,21 @@ namespace GlucoMan_Mobile
             food.RestoreData();
             FromClassToUi();
 
-            M0RawMain = new GrossTareAndNetWeight(food.M0MainRawGross, food.M0MainRawTare,
-                food.M0MainRawNet);
+            M0RawMain = new GrossTareAndNetWeight(food.T0RawGross, food.T0RawTare,
+                food.T0RawNet);
             S1Sauce = new GrossTareAndNetWeight(food.S1SauceGross, food.S1SauceTare, 
                 food.S1SauceNet);
         }
 
         internal void FromUiToClass()
         {
-            food.M0MainRawGross.Text = TxtM0MainRawGross.Text;
-            food.M0MainRawTare.Text = TxtM0MainRawTare.Text;
-            food.M0MainRawNet.Text = TxtM0MainRawNet.Text;
+            food.M0RawGross.Text = TxtM0RawGross.Text;
+            food.M0RawTare.Text = TxtM0RawTare.Text;
+            food.M0RawNet.Text = TxtM0RawNet.Text;
+            
+            //food.T0RawGross.Text = TxtT0RawGross.Text;
+            //food.T0RawTare.Text = TxtT0RawTare.Text;
+            //food.T0RawNet.Text = TxtT0RawNet.Text;
 
             food.S1SauceGross.Text = TxtS1SauceGross.Text;
             food.S1SauceTare.Text = TxtS1SauceTare.Text;
@@ -65,9 +64,9 @@ namespace GlucoMan_Mobile
         }
         internal void FromClassToUi()
         {
-            TxtM0MainRawGross.Text = food.M0MainRawGross.Text;
-            TxtM0MainRawTare.Text = food.M0MainRawTare.Text;
-            TxtM0MainRawNet.Text = food.M0MainRawNet.Text;
+            TxtM0RawGross.Text = food.T0RawGross.Text;
+            TxtM0RawTare.Text = food.T0RawTare.Text;
+            TxtM0RawNet.Text = food.T0RawNet.Text;
 
             TxtS1SauceGross.Text = food.S1SauceGross.Text;
             TxtS1SauceTare.Text = food.S1SauceTare.Text;
@@ -102,6 +101,12 @@ namespace GlucoMan_Mobile
 
             food.SaveData();
         }
+        private void TxtM0RawGross_Leave(object sender, FocusEventArgs e)
+        {
+            food.T0RawGross.Text = TxtM0RawGross.Text;
+            M0RawMain.GrossOrTareChanged();
+            FromClassToUi();
+        }
         private void TxtS1pPotSaucePlusPot_TextChanged(object sender, EventArgs e)
         {
 
@@ -109,33 +114,25 @@ namespace GlucoMan_Mobile
         private void TxtS1pPotSaucePlusPot_Leave(object sender, EventArgs e)
         {
             FromUiToClass();
-            if (food.PotCookingPot.Text != "")
+            if (food.T0RawTare.Text != "")
                 food.S1SauceNet.Double = food.S1pPotSaucePlusPot.Double -
-                food.PotCookingPot.Double;
-            food.T0AllPreCooking.Double = food.M0MainRawGross.Double +
-                food.S1SauceNet.Double + food.PotCookingPot.Double;
+                food.T0RawTare.Double;
+            food.T0RawGross.Double = food.T0RawGross.Double +
+                food.S1SauceNet.Double + food.T0RawTare.Double;
 
             food.CalcUnknownData();
             FromClassToUi();
         }
-
-        private void TxtM0MainRawGross_Leave(object sender, EventArgs e)
+        private void TxtM0RawTare_Leave(object sender, EventArgs e)
         {
-            food.M0MainRawGross.Text = TxtM0MainRawGross.Text;
+            food.T0RawTare.Text = TxtM0RawTare.Text;
             M0RawMain.GrossOrTareChanged();
             FromClassToUi();
         }
 
-        private void TxtM0MainRawTare_Leave(object sender, EventArgs e)
+        private void TxtM0RawNet_Leave(object sender, EventArgs e)
         {
-            food.M0MainRawTare.Text = TxtM0MainRawTare.Text;
-            M0RawMain.GrossOrTareChanged();
-            FromClassToUi();
-        }
-
-        private void TxtM0MainRawNet_Leave(object sender, EventArgs e)
-        {
-            food.M0MainRawNet.Text = TxtM0MainRawNet.Text;
+            food.T0RawNet.Text = TxtM0RawNet.Text;
             M0RawMain.NetWeightChanged();
             FromClassToUi();
         }

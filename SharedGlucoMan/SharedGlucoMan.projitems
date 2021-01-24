@@ -9,10 +9,12 @@
     <Import_RootNamespace>SharedGlucoMan</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)BusinessLayer\NewFolder\" />
     <Folder Include="$(MSBuildThisFileDirectory)DataLayer\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BolusCalculation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\FoodToHitTargetCarbs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\GrossTareAndNetWeight.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\HypoPrediction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\WeighFood.cs" />

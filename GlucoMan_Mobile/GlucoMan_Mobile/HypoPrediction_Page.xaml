@@ -63,6 +63,8 @@
                    YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
             <Label Grid.Row="9" Grid.Column="2" x:Name="txtPredictedMinute" Text="XXXX" FontSize="Large"
                    YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
+            <!--<Button Grid.Row="9" Grid.Column="3" 
+                    Clicked="btnAlarm_Click" Text="Alarm"></Button>-->
         </Grid>
     </ContentPage.Content>
 </ContentPage>

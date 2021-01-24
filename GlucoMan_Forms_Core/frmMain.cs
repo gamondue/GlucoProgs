@@ -34,5 +34,11 @@ namespace GlucoMan_Forms_Core
         {
 
         }
+
+        private void btnFoodToHitTargetCarbs_Click(object sender, EventArgs e)
+        {
+            frmFoodToHitTargetCarbs f = new frmFoodToHitTargetCarbs();
+            f.Show(); 
+        }
     }
 }

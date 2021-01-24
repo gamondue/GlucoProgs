@@ -56,18 +56,20 @@ namespace GlucoMan_Mobile
 
         private void FromUiToClass()
         {
-            bolus.ChoToEat.Text = txtChoToEat.Text;
-            bolus.ChoInsulineRatioEvening.Text = txtRatioEvening.Text;
-            bolus.ChoInsulineRatioMidday.Text = txtRatioMidday.Text;
-            bolus.ChoInsulineRatioMorning.Text = txtRatioMorning.Text;
+            // since it is easy to mistakenly insert blanks during editing, we tear blanks off 
+            // from all the Entry controls that input a number 
+            bolus.ChoToEat.Text = txtChoToEat.Text.Replace(" ", "");
+            bolus.ChoInsulineRatioEvening.Text = txtRatioEvening.Text.Replace(" ", "");
+            bolus.ChoInsulineRatioMidday.Text = txtRatioMidday.Text.Replace(" ", "");
+            bolus.ChoInsulineRatioMorning.Text = txtRatioMorning.Text.Replace(" ", "");
 
-            bolus.GlucoseBeforeMeal.Text = txtGlucoseBeforeMeal.Text;
+            bolus.GlucoseBeforeMeal.Text = txtGlucoseBeforeMeal.Text.Replace(" ", "");
 
-            bolus.TypicalBolusMidday.Text = txtTypicalBolusMidday.Text;
-            bolus.TypicalBolusMorning.Text = txtTypicalBolusMorning.Text;
-            bolus.TypicalBolusEvening.Text = txtTypicalBolusEvening.Text;
-            bolus.TypicalBolusNight.Text = txtTypicalBolusNight.Text;
-            bolus.TargetGlucose.Text = txtTargetGlucose.Text;
+            bolus.TypicalBolusMidday.Text = txtTypicalBolusMidday.Text.Replace(" ", "");
+            bolus.TypicalBolusMorning.Text = txtTypicalBolusMorning.Text.Replace(" ", "");
+            bolus.TypicalBolusEvening.Text = txtTypicalBolusEvening.Text.Replace(" ", "");
+            bolus.TypicalBolusNight.Text = txtTypicalBolusNight.Text.Replace(" ", "");
+            bolus.TargetGlucose.Text = txtTargetGlucose.Text.Replace(" ", "");
         }
     }
 }

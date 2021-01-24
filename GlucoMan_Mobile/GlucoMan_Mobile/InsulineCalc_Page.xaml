@@ -30,11 +30,11 @@
             <Label Grid.Row="1" Grid.Column="0" Text="morning" XAlign="Center" YAlign="End" />
             <Label Grid.Row="1" Grid.Column="1" Text="midday" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="evening" XAlign="Center" YAlign="End"/>
-            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtRatioMorning" Text="4,5" 
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtRatioMorning" Text="" 
                    Placeholder="morn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
-            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtRatioMidday" Text="7" 
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtRatioMidday" Text="" 
                    Placeholder="mid.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
-            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtRatioEvening" Text="6,5" 
+            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtRatioEvening" Text="" 
                    Placeholder="eve.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Button Grid.Row="2" Grid.Column="3" x:Name="btnCalc" Text="Calc" 
                    Clicked="btnCalc_Click" />
@@ -44,13 +44,13 @@
             <Label Grid.Row="4" Grid.Column="1" Text="midday" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="2" Text="evening" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="3" Text="night" XAlign="Center" YAlign="End"/>
-            <Entry Grid.Row="5" Grid.Column="0" x:Name="txtTypicalBolusMorning" Text="10" 
+            <Entry Grid.Row="5" Grid.Column="0" x:Name="txtTypicalBolusMorning" Text="" 
                    Placeholder="morn.ratio" HorizontalTextAlignment ="End" BackgroundColor="GreenYellow" />
-            <Entry Grid.Row="5" Grid.Column="1" x:Name="txtTypicalBolusMidday" Text="11" 
+            <Entry Grid.Row="5" Grid.Column="1" x:Name="txtTypicalBolusMidday" Text="" 
                    Placeholder="mid.ratio" HorizontalTextAlignment ="End" BackgroundColor="GreenYellow" />
-            <Entry Grid.Row="5" Grid.Column="2" x:Name="txtTypicalBolusEvening" Text="12" 
+            <Entry Grid.Row="5" Grid.Column="2" x:Name="txtTypicalBolusEvening" Text="" 
                    Placeholder="eve.ratio" HorizontalTextAlignment ="End" BackgroundColor="GreenYellow" />
-            <Entry Grid.Row="5" Grid.Column="3" x:Name="txtTypicalBolusNight" Text="16" 
+            <Entry Grid.Row="5" Grid.Column="3" x:Name="txtTypicalBolusNight" Text="" 
                    Placeholder="eve.ratio" HorizontalTextAlignment ="End" BackgroundColor="GreenYellow" />
             <Label Grid.Row="6" Grid.Column="0" Text="TDD" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="6" Grid.Column="1" Text="Sens.1500" XAlign="Center" YAlign="End"/>
@@ -65,7 +65,7 @@
             <Label Grid.Row="8" Grid.Column="3" Text="CHO to eat" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="9" Grid.Column="0" HorizontalTextAlignment ="End" x:Name="txtGlucoseBeforeMeal" Text="" 
                    Placeholder="mg/dl" BackgroundColor="GreenYellow" />
-            <Entry Grid.Row="9" Grid.Column="1" HorizontalTextAlignment ="End" x:Name="txtTargetGlucose" Text="120" 
+            <Entry Grid.Row="9" Grid.Column="1" HorizontalTextAlignment ="End" x:Name="txtTargetGlucose" Text="mg/dl" 
                    Placeholder="" BackgroundColor="PaleGoldenrod" />
             <Label Grid.Row="9" Grid.Column="2" x:Name="txtGlucoseToBeCorrected" 
                    Text="XXXX" XAlign="Center" YAlign="Center"/>

@@ -11,7 +11,7 @@ using Android.App;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("gamon")]
 [assembly: AssemblyProduct("GlucoMan_Mobile.Android")]
-[assembly: AssemblyCopyright("Copyright © - Ing.Gabriele Monti - Forlì - Italy - 2020")]
+[assembly: AssemblyCopyright("Copyright © - Ing.Gabriele Monti - Forlì - Italy - 2021")]
 [assembly: AssemblyTrademark("GlucoMan: Ing.Gabriele Monti")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

@@ -7,7 +7,7 @@
         <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
             <Label Text="GlucoMan " HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
         </Frame>
-        <Label Text="GlucoMan will be a Glucose Manager program for diabetic persons. " FontSize="18" Padding="30,10,30,10"/>
+        <Label Text="GlucoMan will be a Glucose Manager program for diabetic persons. " FontSize="18" Padding="30,10,30,0"/>
         <Label Text="Currently it makes just a few calculations, but very useful to the diabetic person that has to make carbohydrate count. I will expand the program in the future, including full management of insuline and carboihydrates." FontSize="16" Padding="30,0,30,0"/>
         <Label FontSize="16" Padding="30,10,30,0">
             <Label.FormattedText>
@@ -19,14 +19,16 @@
                 </FormattedString>
             </Label.FormattedText>
         </Label>
-        <Label Text="Here are the first functions I implemented: " FontSize="16" Padding="30,20,30,0"/>
+        <Label Text="Here are the first functions I implemented: " FontSize="16" Padding="30,10,30,0"/>
         <Button x:Name="btnWeighFood" Text="Weigh Food" Clicked="btnWeighFood_Clicked"
-                Margin="30,0,30,0"></Button>
+                Margin="30,0,20,0"></Button>
         <Button x:Name="btnInsuline" Text="Insuline bolus calculation" Clicked="btnInsuline_Clicked"
-                Margin="30,0,30,0"></Button>
-        <Button x:Name="btnHypoPrediction" Text="Hypo time prediction" Clicked="btnHypoPrediction_Clicked"
-                Margin="30,0,30,0"></Button>
-        <Label Text="GlucoMan is Free Software by:" FontSize="16" Padding="30,30,30,0"/>
+                Margin="30,0,20,0"></Button>
+        <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to eat to reach wanted carbs" Clicked="btnFoodToHitTargetCarbs_Clicked"
+                Margin="30,0,20,0"></Button>
+        <Button x:Name="btnHypoPrediction" Text="Hypoglicemia time prediction" Clicked="btnHypoPrediction_Clicked"
+                Margin="30,0,20,0"></Button>
+        <Label Text="GlucoMan is Free Software by:" FontSize="16" Padding="30,0,30,0"/>
         <Label Text="Ing.Gabriele Monti (gamon) - Forlì - Italia" FontSize="18" Padding="30,0,30,10"/>
     </StackLayout>
 </ContentPage>

@@ -17,18 +17,25 @@ namespace SharedGlucoMan.BusinessLayer
         Color calculatedNonImportantColor = Color.White;
         Color programsResult = Color.SkyBlue;
 
-        internal DoubleAndText M0MainRawGross = new DoubleAndText();
-        internal DoubleAndText M0MainRawTare = new DoubleAndText();
-        internal DoubleAndText M0MainRawNet = new DoubleAndText();
-        internal DoubleAndText PotCookingPot = new DoubleAndText();
+        internal DoubleAndText M0RawGross = new DoubleAndText();
+        internal DoubleAndText M0RawTare = new DoubleAndText();
+        internal DoubleAndText M0RawNet = new DoubleAndText();
+
         internal DoubleAndText S1SauceGross = new DoubleAndText();
         internal DoubleAndText S1SauceTare = new DoubleAndText();
         internal DoubleAndText S1SauceNet = new DoubleAndText();
+
+        internal DoubleAndText T0RawGross = new DoubleAndText();
+        internal DoubleAndText T0RawTare = new DoubleAndText();
+        internal DoubleAndText T0RawNet = new DoubleAndText();
+        internal DoubleAndText T0SaucePlusTare = new DoubleAndText();
+
         internal DoubleAndText S1pPotSaucePlusPot = new DoubleAndText(); // eliminare !!
         internal DoubleAndText DiDish = new DoubleAndText();
-        internal DoubleAndText T1AllCooked = new DoubleAndText();
+        internal DoubleAndText T1CookedGross = new DoubleAndText();
+        internal DoubleAndText T1CookedTare = new DoubleAndText();
+        internal DoubleAndText T1CookedNet = new DoubleAndText();
         internal DoubleAndText TpPortionWithAll = new DoubleAndText();
-        internal DoubleAndText T0AllPreCooking = new DoubleAndText();
         internal DoubleAndText M0pS1pPeRawFoodAndSauce = new DoubleAndText();
         internal DoubleAndText M1MainfoodCooked = new DoubleAndText();
         internal DoubleAndText M1pS1CourseCookedPlusSauce = new DoubleAndText();
@@ -45,31 +52,31 @@ namespace SharedGlucoMan.BusinessLayer
 
         internal void CalcUnknownData()
         {
-            T0AllPreCooking.Double = M0MainRawGross.Double + 
-                S1SauceNet.Double + PotCookingPot.Double;
-            M0pS1pPeRawFoodAndSauce.Double = M0MainRawGross.Double + S1SauceNet.Double;
-            M1MainfoodCooked.Double = T1AllCooked.Double - S1SauceNet.Double - PotCookingPot.Double;
-            M1pS1CourseCookedPlusSauce.Double = M1MainfoodCooked.Double + S1SauceNet.Double; 
-            ACookRatio.Double = M1MainfoodCooked.Double / M0MainRawGross.Double;
-            MppSpPortionOfCoursePlusSauce.Double = Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double;
-            PPercPercentageOfPortion.Double = (Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double) /
-                (M1MainfoodCooked.Double + S1SauceNet.Double) * 100;
-            SpPortionOfSauceInGrams.Double = S1SauceNet.Double * 
-                PPercPercentageOfPortion.Double / 100;
-            Mp0PortionReportedToRaw.Double = Mp1PortionCooked.Double / ACookRatio.Double; 
-            Mp1PortionCooked.Double = TpPortionWithAll.Double - 
-                SpPortionOfSauceInGrams.Double - DiDish.Double;
-            ChoTotalMainfood.Double = Mp1PortionCooked.Double * ChoMainfoodPercent.Double / 100;
-            ChoTotalSauce.Double = SpPortionOfSauceInGrams.Double * ChoSaucePercent.Double / 100;
+        ////////    T0RawGross.Double = T0RawGross.Double + 
+        ////////        S1SauceNet.Double + T0RawTare.Double;
+        ////////    M0pS1pPeRawFoodAndSauce.Double = T0RawGross.Double + S1SauceNet.Double;
+        ////////    M1MainfoodCooked.Double = T1Cooked.Double - S1SauceNet.Double - T0RawTare.Double;
+        ////////    M1pS1CourseCookedPlusSauce.Double = M1MainfoodCooked.Double + S1SauceNet.Double; 
+        ////////    ACookRatio.Double = M1MainfoodCooked.Double / T0RawGross.Double;
+        ////////    MppSpPortionOfCoursePlusSauce.Double = Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double;
+        ////////    PPercPercentageOfPortion.Double = (Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double) /
+        ////////        (M1MainfoodCooked.Double + S1SauceNet.Double) * 100;
+        ////////    SpPortionOfSauceInGrams.Double = S1SauceNet.Double * 
+        ////////        PPercPercentageOfPortion.Double / 100;
+        ////////    Mp0PortionReportedToRaw.Double = Mp1PortionCooked.Double / ACookRatio.Double; 
+        ////////    Mp1PortionCooked.Double = TpPortionWithAll.Double - 
+        ////////        SpPortionOfSauceInGrams.Double - DiDish.Double;
+        ////////    ChoTotalMainfood.Double = Mp1PortionCooked.Double * ChoMainfoodPercent.Double / 100;
+        ////////    ChoTotalSauce.Double = SpPortionOfSauceInGrams.Double * ChoSaucePercent.Double / 100;
+        ////////
         }
-
         internal void SaveData()
         {
             try
             {
-                string file = M0MainRawGross.Text + "\n";
-                file += PotCookingPot.Text + "\n";
-                file += T0AllPreCooking.Text + "\n";
+                string file = T0RawGross.Text + "\n";
+                file += T0RawTare.Text + "\n";
+                file += T0RawGross.Text + "\n";
                 file += S1SauceNet.Text + "\n";
                 file += DiDish.Text + "\n";
                 file += TpPortionWithAll.Text + "\n";
@@ -103,9 +110,9 @@ namespace SharedGlucoMan.BusinessLayer
                 try
                 {
                     string[] f = TextFile.FileToArray(persistentStorage);
-                    M0MainRawGross.Text = f[0];
-                    PotCookingPot.Text = f[1];
-                    T0AllPreCooking.Text = f[2];
+                    T0RawGross.Text = f[0];
+                    T0RawTare.Text = f[1];
+                    T0RawGross.Text = f[2];
                     S1SauceNet.Text = f[3];
                     DiDish.Text = f[4];
                     TpPortionWithAll.Text = f[5];

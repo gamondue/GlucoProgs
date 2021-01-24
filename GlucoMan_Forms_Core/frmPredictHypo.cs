@@ -95,5 +95,10 @@ namespace GlucoMan_Forms_Core
             FromUiToClass(); 
             hypo.SaveData(); 
         }
+
+        private void btnSetAlarm_Click(object sender, EventArgs e)
+        {
+            hypo.SetAlarm(); 
+        }
     }
 }

@@ -98,7 +98,7 @@ namespace GlucoMan.BusinessLayer
                     PredictedTime.DateTime = DateTime.MaxValue;
                     return null;
                 }
-                // changhe seconds to hours in 
+                // change seconds to hours in 
                 GlucoseSlope.Double = GlucoseSlope.Double * 60 * 60;
                 
                 PredictedTime.DateTime = TimeLast.AddSeconds((int) predictedIntervalSeconds);
@@ -110,6 +110,11 @@ namespace GlucoMan.BusinessLayer
             {
                 return null; 
             }
+        }
+
+        internal void SetAlarm()
+        {
+            //PredictedTime ;
         }
 
         internal void SaveData()
