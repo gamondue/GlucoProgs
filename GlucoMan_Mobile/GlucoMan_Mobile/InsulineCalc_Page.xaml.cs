@@ -1,4 +1,5 @@
 ﻿using GlucoMan.BusinessLayer;
+using SharedData;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -17,6 +18,8 @@ namespace GlucoMan_Mobile
             bolus.RestoreData();
             FromClassToUi();
             txtGlucoseBeforeMeal.Focus();
+
+            //tempText.Text = CommonData.PathUsersDownload; 
         }
 
         private void btnCalc_Click(object sender, EventArgs e)

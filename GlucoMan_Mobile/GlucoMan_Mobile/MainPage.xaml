@@ -14,7 +14,7 @@
                 <FormattedString>
                     <FormattedString.Spans>
                         <Span Text="Distribution at "/>
-                        <Span Text="https://ingmonti.it/GlucoMan/" FontAttributes="Bold"/>
+                        <Span x:Name="tempText" Text="https://ingmonti.it/GlucoMan/" FontAttributes="Bold"/>
                     </FormattedString.Spans>
                 </FormattedString>
             </Label.FormattedText>

@@ -10,7 +10,7 @@ namespace GlucoMan_Mobile
             InitializeComponent();
 
             string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            lblAppName.Text += " " + version; 
+            lblAppName.Text += " " + version;
         }
 
         private async void btnWeighFood_Clicked(object sender, EventArgs e)

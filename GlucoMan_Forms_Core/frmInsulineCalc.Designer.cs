@@ -129,7 +129,7 @@ namespace GlucoMan_Forms_Core
             // 
             // txtChoToEat
             // 
-            this.txtChoToEat.BackColor = System.Drawing.Color.LightGreen;
+            this.txtChoToEat.BackColor = System.Drawing.Color.GreenYellow;
             this.txtChoToEat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtChoToEat.Location = new System.Drawing.Point(389, 303);
             this.txtChoToEat.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -249,7 +249,7 @@ namespace GlucoMan_Forms_Core
             // 
             // txtGlucoseBeforeMeal
             // 
-            this.txtGlucoseBeforeMeal.BackColor = System.Drawing.Color.LawnGreen;
+            this.txtGlucoseBeforeMeal.BackColor = System.Drawing.Color.GreenYellow;
             this.txtGlucoseBeforeMeal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGlucoseBeforeMeal.Location = new System.Drawing.Point(3, 303);
             this.txtGlucoseBeforeMeal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -273,12 +273,12 @@ namespace GlucoMan_Forms_Core
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(94, 207);
+            this.label9.Location = new System.Drawing.Point(44, 207);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(149, 20);
+            this.label9.Size = new System.Drawing.Size(224, 20);
             this.label9.TabIndex = 49;
-            this.label9.Text = "Sensitivity 1500 rule";
+            this.label9.Text = "Sensitivity to insuline 1500 rule";
             // 
             // label10
             // 
@@ -543,7 +543,7 @@ namespace GlucoMan_Forms_Core
             // 
             // txtTypicalBolusMorning
             // 
-            this.txtTypicalBolusMorning.BackColor = System.Drawing.Color.GreenYellow;
+            this.txtTypicalBolusMorning.BackColor = System.Drawing.Color.PaleGreen;
             this.txtTypicalBolusMorning.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTypicalBolusMorning.Location = new System.Drawing.Point(19, 53);
             this.txtTypicalBolusMorning.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -566,7 +566,7 @@ namespace GlucoMan_Forms_Core
             // 
             // txtTypicalBolusMidday
             // 
-            this.txtTypicalBolusMidday.BackColor = System.Drawing.Color.GreenYellow;
+            this.txtTypicalBolusMidday.BackColor = System.Drawing.Color.PaleGreen;
             this.txtTypicalBolusMidday.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTypicalBolusMidday.Location = new System.Drawing.Point(95, 53);
             this.txtTypicalBolusMidday.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -599,7 +599,7 @@ namespace GlucoMan_Forms_Core
             // 
             // txtTypicalBolusEvening
             // 
-            this.txtTypicalBolusEvening.BackColor = System.Drawing.Color.GreenYellow;
+            this.txtTypicalBolusEvening.BackColor = System.Drawing.Color.PaleGreen;
             this.txtTypicalBolusEvening.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTypicalBolusEvening.Location = new System.Drawing.Point(171, 53);
             this.txtTypicalBolusEvening.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -613,7 +613,7 @@ namespace GlucoMan_Forms_Core
             // 
             // txtTypicalBolusNight
             // 
-            this.txtTypicalBolusNight.BackColor = System.Drawing.Color.GreenYellow;
+            this.txtTypicalBolusNight.BackColor = System.Drawing.Color.PaleGreen;
             this.txtTypicalBolusNight.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTypicalBolusNight.Location = new System.Drawing.Point(247, 53);
             this.txtTypicalBolusNight.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);

@@ -6,8 +6,8 @@ namespace GlucoMan.BusinessLayer
 {
     internal class BolusCalculation
     {
-        string persistentStorage = CommonData.PathConfigurationData + @"BolusCalculation.txt";
-        string logFile = CommonData.PathConfigurationData + @"LogOfBolusCalculations.tsv";
+        string persistentStorage = Path.Combine(CommonData.PathConfigurationData, @"BolusCalculation.txt");
+        string logFile = Path.Combine(CommonData.PathUsersDownload, @"LogOfBolusCalculations.tsv");
         internal DoubleAndText ChoToEat { get; set; }
         internal DoubleAndText TypicalBolusMorning { get; set; }
         internal DoubleAndText TypicalBolusMidday { get; set; }
@@ -67,8 +67,8 @@ namespace GlucoMan.BusinessLayer
                 CorrectionInsuline.Double = GlucoseToBeCorrected.Double / InsulineSensitivity1800.Double;
 
                 ChoInsulineBreakfast.Double = ChoToEat.Double / ChoInsulineRatioMorning.Double;
-                ChoInsulineDinner.Double = ChoToEat.Double / ChoInsulineRatioEvening.Double;
                 ChoInsulineLunch.Double = ChoToEat.Double / ChoInsulineRatioMidday.Double;
+                ChoInsulineDinner.Double = ChoToEat.Double / ChoInsulineRatioEvening.Double;
 
                 TotalInsulineBreakfast.Double = ChoInsulineBreakfast.Double + CorrectionInsuline.Double;
                 TotalInsulineLunch.Double = ChoInsulineLunch.Double + CorrectionInsuline.Double;

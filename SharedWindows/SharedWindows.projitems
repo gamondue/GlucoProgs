@@ -9,6 +9,6 @@
     <Import_RootNamespace>SharedWindows</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)CommonData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommonDataWindows.cs" />
   </ItemGroup>
 </Project>
