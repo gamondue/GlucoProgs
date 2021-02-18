@@ -24,6 +24,7 @@ namespace GlucoMan_Mobile
             FromUiToClass();
             bolus.CalculateBolus();
             bolus.SaveData();
+            bolus.SaveLog();
             FromClassToUi();
         }
 
@@ -40,9 +41,9 @@ namespace GlucoMan_Mobile
             txtGlucoseToBeCorrected.Text = bolus.GlucoseToBeCorrected.Text;
             txtCorrectionInsuline.Text = bolus.CorrectionInsuline.Text;
   
-            txtTotalChoDinner.Text = bolus.TotalChoDinner.Text;
-            txtTotalChoLunch.Text = bolus.TotalChoLunch.Text;
-            txtTotalChoBreakfast.Text = bolus.TotalChoBreakfast.Text;
+            txtTotalChoDinner.Text = bolus.TotalInsulineDinner.Text;
+            txtTotalChoLunch.Text = bolus.TotalInsulineLunch.Text;
+            txtTotalChoBreakfast.Text = bolus.TotalInsulineBreakfast.Text;
             txtTypicalBolusMidday.Text = bolus.TypicalBolusMidday.Text;
             txtTypicalBolusMorning.Text = bolus.TypicalBolusMorning.Text;
             txtTypicalBolusEvening.Text = bolus.TypicalBolusEvening.Text;

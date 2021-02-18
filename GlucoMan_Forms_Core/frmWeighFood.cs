@@ -159,13 +159,6 @@ namespace GlucoMan_Forms_Core
             S1Sauce.GrossOrTareChanged();
             FromClassToUi();
         }
-        private void TxtS1SauceNet_Leave(object sender, EventArgs e)
-        {
-            food.S1SauceNet.Text = TxtS1SauceNet.Text;
-            S1Sauce.NetWeightChanged();
-            food.CalcUnknownData();
-            FromClassToUi();
-        }
         private void TxtS1pPotSaucePlusPot_Leave(object sender, EventArgs e)
         {
             FromUiToClass();
@@ -209,7 +202,6 @@ namespace GlucoMan_Forms_Core
         {
             // TxtT0SaucePlusTare
         }
-
         private void TxtT0RawNet_TextChanged(object sender, EventArgs e)
         {
 
@@ -221,6 +213,17 @@ namespace GlucoMan_Forms_Core
 
             TxtT0RawNet.Text = "";
             TxtT0SaucePlusTare.Text = (food.S1SauceNet.Double + food.T0RawTare.Double).ToString();
+            FromClassToUi();
+        }
+        private void TxtS1SauceNet_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void TxtS1SauceNet_Leave(object sender, EventArgs e)
+        {
+            food.S1SauceNet.Text = TxtS1SauceNet.Text;
+            S1Sauce.NetWeightChanged();
+            food.CalcUnknownData();
             FromClassToUi();
         }
     }

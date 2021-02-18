@@ -44,6 +44,14 @@ namespace SharedGlucoMan.BusinessLayer
         }
         internal void NetWeightChanged()
         {
+            // if one of the other two in a number, the other is calculated
+            if (gross.Double > 0)
+            {
+                container.Double = gross.Double - net.Double;
+            }
+            else if (container.Double > 0)
+                gross.Double = container.Double + net.Double;
+
             // if net has changed and is a number, the other two must be different from a number
             if (!EqualWithNaN(net.Double, oldNet.Double)
                 && !Double.IsNaN(net.Double))

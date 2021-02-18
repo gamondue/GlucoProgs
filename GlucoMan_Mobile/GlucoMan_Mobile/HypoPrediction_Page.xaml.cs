@@ -1,4 +1,5 @@
-﻿using GlucoMan;
+﻿
+using GlucoMan;
 using GlucoMan.BusinessLayer;
 using System;
 using Xamarin.Forms;
@@ -83,5 +84,11 @@ namespace GlucoMan_Mobile
             btnNow_Click(null, null);
             txtGlucoseLast.Focus();
         }
+
+        private void btnAlarm_Click(object sender, EventArgs e)
+        {
+              
+        }
+
     }
 }

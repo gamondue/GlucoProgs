@@ -5,7 +5,7 @@
 
     <StackLayout>
         <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-            <Label Text="GlucoMan " HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+            <Label x:Name="lblAppName" Text="GlucoMan " HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
         </Frame>
         <Label Text="GlucoMan will be a Glucose Manager program for diabetic persons. " FontSize="18" Padding="30,10,30,0"/>
         <Label Text="Currently it makes just a few calculations, but very useful to the diabetic person that has to make carbohydrate count. I will expand the program in the future, including full management of insuline and carboihydrates." FontSize="16" Padding="30,0,30,0"/>

@@ -32,7 +32,8 @@ namespace GlucoMan_Forms_Core
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-
+            string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            this.Text += " " + version; 
         }
 
         private void btnFoodToHitTargetCarbs_Click(object sender, EventArgs e)

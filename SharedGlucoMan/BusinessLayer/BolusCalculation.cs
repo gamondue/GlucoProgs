@@ -7,6 +7,7 @@ namespace GlucoMan.BusinessLayer
     internal class BolusCalculation
     {
         string persistentStorage = CommonData.PathConfigurationData + @"BolusCalculation.txt";
+        string logFile = CommonData.PathConfigurationData + @"LogOfBolusCalculations.tsv";
         internal DoubleAndText ChoToEat { get; set; }
         internal DoubleAndText TypicalBolusMorning { get; set; }
         internal DoubleAndText TypicalBolusMidday { get; set; }
@@ -26,9 +27,9 @@ namespace GlucoMan.BusinessLayer
         internal DoubleAndText ChoInsulineBreakfast { get; }
         internal DoubleAndText ChoInsulineLunch { get; }
         internal DoubleAndText ChoInsulineDinner { get; }
-        internal DoubleAndText TotalChoBreakfast { get; set; }
-        internal DoubleAndText TotalChoLunch { get; set; }
-        internal DoubleAndText TotalChoDinner { get; set; }
+        internal DoubleAndText TotalInsulineBreakfast { get; set; }
+        internal DoubleAndText TotalInsulineLunch { get; set; }
+        internal DoubleAndText TotalInsulineDinner { get; set; }
         internal BolusCalculation()
         {
             ChoToEat = new DoubleAndText(); 
@@ -50,9 +51,9 @@ namespace GlucoMan.BusinessLayer
             ChoInsulineBreakfast = new DoubleAndText(); 
             ChoInsulineLunch = new DoubleAndText(); 
             ChoInsulineDinner = new DoubleAndText(); 
-            TotalChoBreakfast = new DoubleAndText(); 
-            TotalChoLunch = new DoubleAndText(); 
-            TotalChoDinner = new DoubleAndText(); 
+            TotalInsulineBreakfast = new DoubleAndText(); 
+            TotalInsulineLunch = new DoubleAndText(); 
+            TotalInsulineDinner = new DoubleAndText(); 
         }
         internal void CalculateBolus()
         {
@@ -69,9 +70,9 @@ namespace GlucoMan.BusinessLayer
                 ChoInsulineDinner.Double = ChoToEat.Double / ChoInsulineRatioEvening.Double;
                 ChoInsulineLunch.Double = ChoToEat.Double / ChoInsulineRatioMidday.Double;
 
-                TotalChoBreakfast.Double = ChoInsulineBreakfast.Double + CorrectionInsuline.Double;
-                TotalChoLunch.Double = ChoInsulineLunch.Double + CorrectionInsuline.Double;
-                TotalChoDinner.Double = ChoInsulineDinner.Double + CorrectionInsuline.Double;
+                TotalInsulineBreakfast.Double = ChoInsulineBreakfast.Double + CorrectionInsuline.Double;
+                TotalInsulineLunch.Double = ChoInsulineLunch.Double + CorrectionInsuline.Double;
+                TotalInsulineDinner.Double = ChoInsulineDinner.Double + CorrectionInsuline.Double;
             }
             catch (Exception ex)
             {
@@ -93,6 +94,48 @@ namespace GlucoMan.BusinessLayer
                 file += TargetGlucose.Text + "\n";
                 file += ChoToEat.Text + "\n";
                 TextFile.StringToFile(persistentStorage, file, false);
+            }
+            catch (Exception ex)
+            {
+                Console.Beep();
+            }
+        }
+        internal void SaveLog()
+        {
+            try
+            {
+                string fileContent;
+                // create header of log file if it doesn't exist 
+                if (!System.IO.File.Exists(logFile))
+                {
+                    fileContent = "Timestamp" +
+                        "\tCHO/Insuline Ratio in the Morning\tCHO/Insuline Ratio at midday\tCHO/Insuline Ratio at evening" +
+                        "\tTypical bolus in the morning\tTypical bolus at midday\tTypical bolus at evening\tTypical bolus at night" +
+                        "\tMeasured glucose before meal\tTarget glucose\tCHO to eat at meal" +
+                        "\tCorrection insuline due to glucose difference from target\tBolus of insuline to inject if Breakfast" +
+                        "\tBolus of insuline to inject if Lunch\tBolus of insuline to inject if Dinner";
+                    fileContent += "\r\n";
+                }
+                else
+                    fileContent = ""; 
+
+                fileContent += DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\t";
+                fileContent += ChoInsulineRatioMorning.Text + "\t";
+                fileContent += ChoInsulineRatioMidday.Text + "\t";
+                fileContent += ChoInsulineRatioEvening.Text + "\t";
+                fileContent += TypicalBolusMorning.Text + "\t";
+                fileContent += TypicalBolusMidday.Text + "\t";
+                fileContent += TypicalBolusEvening.Text + "\t";
+                fileContent += TypicalBolusNight.Text + "\t";
+                fileContent += GlucoseBeforeMeal.Text + "\t";
+                fileContent += TargetGlucose.Text + "\t";
+                fileContent += ChoToEat.Text + "\t";
+                fileContent += CorrectionInsuline.Text + "\t";
+                fileContent += TotalInsulineBreakfast.Text + "\t";
+                fileContent += TotalInsulineLunch.Text + "\t";
+                fileContent += TotalInsulineDinner.Text + "\t";
+                fileContent += "\r\n";
+                TextFile.StringToFile(logFile, fileContent, true);
             }
             catch (Exception ex)
             {

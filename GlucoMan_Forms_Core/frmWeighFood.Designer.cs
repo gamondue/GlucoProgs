@@ -285,6 +285,7 @@ namespace GlucoMan_Forms_Core
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(26, 35);
             this.button1.TabIndex = 176;
+            this.button1.TabStop = false;
             this.button1.Text = "T";
             this.toolTip1.SetToolTip(this.button1, "Choose contaneir to put a tare value automatically");
             this.button1.UseVisualStyleBackColor = true;
@@ -440,6 +441,7 @@ namespace GlucoMan_Forms_Core
             this.BtnM0RawChooseContainer.Name = "BtnM0RawChooseContainer";
             this.BtnM0RawChooseContainer.Size = new System.Drawing.Size(26, 35);
             this.BtnM0RawChooseContainer.TabIndex = 175;
+            this.BtnM0RawChooseContainer.TabStop = false;
             this.BtnM0RawChooseContainer.Text = "T";
             this.toolTip1.SetToolTip(this.BtnM0RawChooseContainer, "Choose contaneir to put a tare value automatically");
             this.BtnM0RawChooseContainer.UseVisualStyleBackColor = true;
@@ -574,6 +576,7 @@ namespace GlucoMan_Forms_Core
             this.BtnSauceRawChooseContainer.Name = "BtnSauceRawChooseContainer";
             this.BtnSauceRawChooseContainer.Size = new System.Drawing.Size(26, 35);
             this.BtnSauceRawChooseContainer.TabIndex = 176;
+            this.BtnSauceRawChooseContainer.TabStop = false;
             this.BtnSauceRawChooseContainer.Text = "T";
             this.toolTip1.SetToolTip(this.BtnSauceRawChooseContainer, "Choose contaneir to put a tare value automatically");
             this.BtnSauceRawChooseContainer.UseVisualStyleBackColor = true;
@@ -669,6 +672,7 @@ namespace GlucoMan_Forms_Core
             this.TxtS1SauceNet.TabIndex = 15;
             this.TxtS1SauceNet.Text = "XXXX";
             this.TxtS1SauceNet.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtS1SauceNet.TextChanged += new System.EventHandler(this.TxtS1SauceNet_TextChanged);
             this.TxtS1SauceNet.Leave += new System.EventHandler(this.TxtS1SauceNet_Leave);
             // 
             // label12

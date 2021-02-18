@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-    <Version>0.0.1</Version>
+    <Version>0.2.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -18,11 +18,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="HypoPrediction_Page.xaml.cs">
       <DependentUpon>HypoPrediction_Page.xaml</DependentUpon>
     </Compile>
-    <Compile Update="MainPage_Android.xaml.cs">
-      <DependentUpon>MainPage_Android.xaml</DependentUpon>
+    <Compile Update="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="FoodToHitTargetCarbs_Page.xaml.cs">
       <DependentUpon>FoodToHitTargetCarbs_Page.xaml</DependentUpon>
