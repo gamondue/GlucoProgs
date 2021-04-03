@@ -43,7 +43,6 @@ namespace GlucoMan_Forms_Core
             this.txtGlucoseSlope = new System.Windows.Forms.TextBox();
             this.btnNow = new System.Windows.Forms.Button();
             this.btnPredict = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
             this.txtGlucoseTarget = new System.Windows.Forms.TextBox();
             this.txtPredictedMinute = new System.Windows.Forms.TextBox();
             this.txtPredictedHour = new System.Windows.Forms.TextBox();
@@ -51,9 +50,16 @@ namespace GlucoMan_Forms_Core
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.txtAlarmMinute = new System.Windows.Forms.TextBox();
+            this.txtAlarmHour = new System.Windows.Forms.TextBox();
+            this.btnSetAlarm = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
-            this.btnSetAlarm = new System.Windows.Forms.Button();
+            this.btnPaste = new System.Windows.Forms.Button();
+            this.txtAlarmAdvanceTime = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtGlucoseLast
@@ -155,6 +161,7 @@ namespace GlucoMan_Forms_Core
             // 
             // txtGlucoseSlope
             // 
+            this.txtGlucoseSlope.BackColor = System.Drawing.Color.AliceBlue;
             this.txtGlucoseSlope.Enabled = false;
             this.txtGlucoseSlope.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGlucoseSlope.Location = new System.Drawing.Point(103, 240);
@@ -185,34 +192,24 @@ namespace GlucoMan_Forms_Core
             this.btnPredict.UseVisualStyleBackColor = true;
             this.btnPredict.Click += new System.EventHandler(this.btnPredict_Click);
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 60);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(271, 20);
-            this.label4.TabIndex = 18;
-            this.label4.Tag = "Measured glucose to which we take anti-hypoglicemia action";
-            this.label4.Text = "Target glucose for hypoglycemia alert";
-            // 
             // txtGlucoseTarget
             // 
             this.txtGlucoseTarget.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.txtGlucoseTarget.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGlucoseTarget.Location = new System.Drawing.Point(103, 85);
+            this.txtGlucoseTarget.Location = new System.Drawing.Point(27, 89);
             this.txtGlucoseTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtGlucoseTarget.Name = "txtGlucoseTarget";
             this.txtGlucoseTarget.Size = new System.Drawing.Size(68, 26);
             this.txtGlucoseTarget.TabIndex = 0;
-            this.txtGlucoseTarget.Text = "80";
+            this.txtGlucoseTarget.Text = "75";
             this.txtGlucoseTarget.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip1.SetToolTip(this.txtGlucoseTarget, "Measured glucose to which we take anti-hypoglicemia action");
             // 
             // txtPredictedMinute
             // 
             this.txtPredictedMinute.BackColor = System.Drawing.Color.SkyBlue;
             this.txtPredictedMinute.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPredictedMinute.Location = new System.Drawing.Point(179, 321);
+            this.txtPredictedMinute.Location = new System.Drawing.Point(179, 308);
             this.txtPredictedMinute.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtPredictedMinute.Name = "txtPredictedMinute";
             this.txtPredictedMinute.Size = new System.Drawing.Size(68, 26);
@@ -225,7 +222,7 @@ namespace GlucoMan_Forms_Core
             // 
             this.txtPredictedHour.BackColor = System.Drawing.Color.SkyBlue;
             this.txtPredictedHour.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPredictedHour.Location = new System.Drawing.Point(103, 321);
+            this.txtPredictedHour.Location = new System.Drawing.Point(103, 308);
             this.txtPredictedHour.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtPredictedHour.Name = "txtPredictedHour";
             this.txtPredictedHour.Size = new System.Drawing.Size(68, 26);
@@ -237,7 +234,7 @@ namespace GlucoMan_Forms_Core
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 288);
+            this.label5.Location = new System.Drawing.Point(3, 283);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(352, 20);
@@ -264,6 +261,44 @@ namespace GlucoMan_Forms_Core
             this.label7.TabIndex = 23;
             this.label7.Text = "Previous";
             // 
+            // txtAlarmMinute
+            // 
+            this.txtAlarmMinute.BackColor = System.Drawing.Color.SkyBlue;
+            this.txtAlarmMinute.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAlarmMinute.Location = new System.Drawing.Point(178, 371);
+            this.txtAlarmMinute.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtAlarmMinute.Name = "txtAlarmMinute";
+            this.txtAlarmMinute.Size = new System.Drawing.Size(68, 26);
+            this.txtAlarmMinute.TabIndex = 31;
+            this.txtAlarmMinute.Text = "XXXX";
+            this.txtAlarmMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip1.SetToolTip(this.txtAlarmMinute, "Minute in which glucose should reach target level");
+            // 
+            // txtAlarmHour
+            // 
+            this.txtAlarmHour.BackColor = System.Drawing.Color.SkyBlue;
+            this.txtAlarmHour.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAlarmHour.Location = new System.Drawing.Point(102, 371);
+            this.txtAlarmHour.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtAlarmHour.Name = "txtAlarmHour";
+            this.txtAlarmHour.Size = new System.Drawing.Size(68, 26);
+            this.txtAlarmHour.TabIndex = 30;
+            this.txtAlarmHour.Text = "XXXX";
+            this.txtAlarmHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip1.SetToolTip(this.txtAlarmHour, "Hour in which glucose should reach target level");
+            // 
+            // btnSetAlarm
+            // 
+            this.btnSetAlarm.Enabled = false;
+            this.btnSetAlarm.Location = new System.Drawing.Point(270, 365);
+            this.btnSetAlarm.Name = "btnSetAlarm";
+            this.btnSetAlarm.Size = new System.Drawing.Size(75, 39);
+            this.btnSetAlarm.TabIndex = 26;
+            this.btnSetAlarm.Text = "Alarm";
+            this.toolTip1.SetToolTip(this.btnSetAlarm, "Set an alarm at alarm time");
+            this.btnSetAlarm.UseVisualStyleBackColor = true;
+            this.btnSetAlarm.Click += new System.EventHandler(this.btnSetAlarm_Click);
+            // 
             // btnNext
             // 
             this.btnNext.Location = new System.Drawing.Point(103, 12);
@@ -277,28 +312,82 @@ namespace GlucoMan_Forms_Core
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(185, 243);
+            this.label8.Location = new System.Drawing.Point(174, 243);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(104, 20);
             this.label8.TabIndex = 25;
             this.label8.Text = "Slope [gluc/h]";
             // 
-            // btnSetAlarm
+            // btnPaste
             // 
-            this.btnSetAlarm.Location = new System.Drawing.Point(270, 315);
-            this.btnSetAlarm.Name = "btnSetAlarm";
-            this.btnSetAlarm.Size = new System.Drawing.Size(75, 39);
-            this.btnSetAlarm.TabIndex = 26;
-            this.btnSetAlarm.Text = "Alarm";
-            this.btnSetAlarm.UseVisualStyleBackColor = true;
-            this.btnSetAlarm.Click += new System.EventHandler(this.btnSetAlarm_Click);
+            this.btnPaste.Enabled = false;
+            this.btnPaste.Location = new System.Drawing.Point(270, 83);
+            this.btnPaste.Name = "btnPaste";
+            this.btnPaste.Size = new System.Drawing.Size(75, 39);
+            this.btnPaste.TabIndex = 27;
+            this.btnPaste.TabStop = false;
+            this.btnPaste.Text = "Paste";
+            this.btnPaste.UseVisualStyleBackColor = true;
+            this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
+            // 
+            // txtAlarmAdvanceTime
+            // 
+            this.txtAlarmAdvanceTime.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.txtAlarmAdvanceTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAlarmAdvanceTime.Location = new System.Drawing.Point(179, 89);
+            this.txtAlarmAdvanceTime.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtAlarmAdvanceTime.Name = "txtAlarmAdvanceTime";
+            this.txtAlarmAdvanceTime.Size = new System.Drawing.Size(68, 26);
+            this.txtAlarmAdvanceTime.TabIndex = 28;
+            this.txtAlarmAdvanceTime.Text = "30";
+            this.txtAlarmAdvanceTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(4, 69);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(166, 15);
+            this.label4.TabIndex = 18;
+            this.label4.Tag = "";
+            this.label4.Text = "Target hypoglycemia glucose";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(141, 54);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(145, 15);
+            this.label9.TabIndex = 29;
+            this.label9.Tag = "";
+            this.label9.Text = "Alarm advance time [min]";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(131, 346);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(82, 20);
+            this.label10.TabIndex = 32;
+            this.label10.Text = "alarm time";
             // 
             // frmPredictHypo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(357, 366);
+            this.ClientSize = new System.Drawing.Size(357, 412);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.txtAlarmMinute);
+            this.Controls.Add(this.txtAlarmHour);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.txtAlarmAdvanceTime);
+            this.Controls.Add(this.btnPaste);
             this.Controls.Add(this.btnSetAlarm);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.btnNext);
@@ -327,7 +416,7 @@ namespace GlucoMan_Forms_Core
             this.Name = "frmPredictHypo";
             this.Text = "Predict Hypo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPredictHypo_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.frmPredictHypo_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,7 +436,6 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.TextBox txtGlucoseSlope;
         private System.Windows.Forms.Button btnNow;
         private System.Windows.Forms.Button btnPredict;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtGlucoseTarget;
         private System.Windows.Forms.TextBox txtPredictedMinute;
         private System.Windows.Forms.TextBox txtPredictedHour;
@@ -358,6 +446,13 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnSetAlarm;
+        private System.Windows.Forms.Button btnPaste;
+        private System.Windows.Forms.TextBox txtAlarmAdvanceTime;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtAlarmMinute;
+        private System.Windows.Forms.TextBox txtAlarmHour;
     }
 }
 

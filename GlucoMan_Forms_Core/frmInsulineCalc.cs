@@ -83,5 +83,11 @@ namespace GlucoMan_Forms_Core
             FromUiToClass();
             bolus.SaveData();
         }
+
+        private void btnRoundInsuline_Click(object sender, EventArgs e)
+        {
+            bolus.RoundInsulineToZeroDecimal();
+            FromClassToUi(); 
+        }
     }
 }

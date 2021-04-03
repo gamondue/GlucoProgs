@@ -29,6 +29,7 @@ namespace GlucoMan_Forms_Core
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFoodToHitTargetCarbs));
             this.TxtChoAlreadyTaken = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
@@ -42,6 +43,9 @@ namespace GlucoMan_Forms_Core
             this.TxtFoodToHitTarget = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnReadTarget = new System.Windows.Forms.Button();
+            this.btnCalculateGrams = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // TxtChoAlreadyTaken
@@ -179,11 +183,37 @@ namespace GlucoMan_Forms_Core
             this.label6.TabIndex = 157;
             this.label6.Text = "g";
             // 
+            // btnReadTarget
+            // 
+            this.btnReadTarget.ForeColor = System.Drawing.Color.Black;
+            this.btnReadTarget.Location = new System.Drawing.Point(46, 168);
+            this.btnReadTarget.Name = "btnReadTarget";
+            this.btnReadTarget.Size = new System.Drawing.Size(75, 50);
+            this.btnReadTarget.TabIndex = 158;
+            this.btnReadTarget.Text = "Read target";
+            this.toolTip1.SetToolTip(this.btnReadTarget, "Read target CHO from bolus calculation window");
+            this.btnReadTarget.UseVisualStyleBackColor = true;
+            this.btnReadTarget.Click += new System.EventHandler(this.btnReadTarget_Click);
+            // 
+            // btnCalculateGrams
+            // 
+            this.btnCalculateGrams.ForeColor = System.Drawing.Color.Black;
+            this.btnCalculateGrams.Location = new System.Drawing.Point(202, 168);
+            this.btnCalculateGrams.Name = "btnCalculateGrams";
+            this.btnCalculateGrams.Size = new System.Drawing.Size(75, 50);
+            this.btnCalculateGrams.TabIndex = 159;
+            this.btnCalculateGrams.Text = "Calc grams";
+            this.toolTip1.SetToolTip(this.btnCalculateGrams, "Calculate grams of food to get target grams of CHO");
+            this.btnCalculateGrams.UseVisualStyleBackColor = true;
+            this.btnCalculateGrams.Click += new System.EventHandler(this.btnCalculateGrams_Click);
+            // 
             // frmFoodToHitTargetCarbs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(330, 162);
+            this.ClientSize = new System.Drawing.Size(316, 230);
+            this.Controls.Add(this.btnCalculateGrams);
+            this.Controls.Add(this.btnReadTarget);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.TxtFoodToHitTarget);
@@ -200,7 +230,7 @@ namespace GlucoMan_Forms_Core
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmFoodToHitTargetCarbs";
-            this.Text = "Food to hit target CHO";
+            this.Text = "Calculate CHO to hit target";
             this.Load += new System.EventHandler(this.frmFoodToHitTargetCarbs_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -221,5 +251,8 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.TextBox TxtFoodToHitTarget;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnReadTarget;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnCalculateGrams;
     }
 }

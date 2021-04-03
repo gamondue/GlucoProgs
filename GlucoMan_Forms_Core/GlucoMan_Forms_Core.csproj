@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>0.5.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -175,5 +175,6 @@
   <Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
   <Import Project="..\SharedWindows\SharedWindows.projitems" Label="Shared" />
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
+  <Import Project="..\SharedWinForms\SharedWinForms.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

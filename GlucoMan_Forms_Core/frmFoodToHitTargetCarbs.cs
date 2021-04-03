@@ -1,4 +1,5 @@
-﻿using SharedData;
+﻿using GlucoMan.BusinessLayer;
+using SharedData;
 using SharedGlucoMan.BusinessLayer;
 using System;
 using System.Windows.Forms;
@@ -61,13 +62,22 @@ namespace GlucoMan_Forms_Core
         {
 
         }
-
         private void TxtTargetCho_Leave(object sender, EventArgs e)
         {
             food.TargetCho.Text = TxtTargetCho.Text;
             food.Calculations(); 
 
             FromClassToUi();
+        }
+        private void btnReadTarget_Click(object sender, EventArgs e)
+        {
+            BolusCalculation bolus = new BolusCalculation();
+            bolus.RestoreData();
+            TxtTargetCho.Text = bolus.ChoToEat.Text; 
+        }
+        private void btnCalculateGrams_Click(object sender, EventArgs e)
+        {
+            FromUiToClass(); 
         }
     }
 }

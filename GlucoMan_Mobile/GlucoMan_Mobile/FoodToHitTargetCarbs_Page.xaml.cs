@@ -1,4 +1,5 @@
-﻿using SharedGlucoMan.BusinessLayer;
+﻿using GlucoMan.BusinessLayer;
+using SharedGlucoMan.BusinessLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +65,13 @@ namespace GlucoMan_Mobile
         private void btnCalc_Click(object sender, EventArgs e)
         {
             food.Calculations();
+            FromClassToUi();
+        }
+        private void btnReadTarget_Click(object sender, EventArgs e)
+        {
+            BolusCalculation bolus = new BolusCalculation();
+            bolus.RestoreData();
+            food.TargetCho.Double = bolus.ChoToEat.Double;
             FromClassToUi();
         }
     }

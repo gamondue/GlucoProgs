@@ -18,15 +18,13 @@ namespace GlucoMan_Mobile
 
             hypo = new HypoPrediction();
 
-            //btnNow_Click(null, null);
-
             hypo.RestoreData();
-            FromClassToUi(hypo);
+            FromClassToUi();
 
             txtGlucoseSlope.Text = "XXXX";
             txtGlucoseLast.Focus();
         }
-        private void FromClassToUi(HypoPrediction hypo)
+        private void FromClassToUi()
         {
             txtGlucoseTarget.Text = hypo.HypoGlucoseTarget.Text;
             txtGlucoseLast.Text = hypo.GlucoseLast.Text;
@@ -35,11 +33,12 @@ namespace GlucoMan_Mobile
             txtHourPrevious.Text = hypo.HourPrevious.Text;
             txtMinuteLast.Text = hypo.MinuteLast.Text;
             txtMinutePrevious.Text = hypo.MinutePrevious.Text;
+            txtAlarmAdvanceTime.Text = hypo.AlarmAdvanceTime.TotalMinutes.ToString();
             txtGlucoseSlope.Text = hypo.GlucoseSlope.ToString();
         }
-
         private void FromUiToClass(HypoPrediction hypo)
         {
+            hypo.AlarmAdvanceTime = new TimeSpan(0, int.Parse(txtAlarmAdvanceTime.Text), 0);
             hypo.HypoGlucoseTarget.Text = txtGlucoseTarget.Text;
             hypo.GlucoseLast.Text = txtGlucoseLast.Text;
             hypo.GlucosePrevious.Text = txtGlucosePrevious.Text;
@@ -48,7 +47,6 @@ namespace GlucoMan_Mobile
             hypo.MinuteLast.Text = txtMinuteLast.Text;
             hypo.MinutePrevious.Text = txtMinutePrevious.Text;
         }
-
         private void btnNow_Click(object sender, EventArgs e)
         {
             DateTime now = DateTime.Now;
@@ -56,20 +54,27 @@ namespace GlucoMan_Mobile
             txtMinuteLast.Text = now.Minute.ToString();
             txtGlucosePrevious.Focus();
         }
-
         private void btnPredict_Click(object sender, EventArgs e)
         {
             FromUiToClass(hypo);
-            DateTime? finalTime = hypo.PredictHypoTime();
+            hypo.PredictHypoTime();
+            DateTime? finalTime = hypo.PredictedTime.DateTime;
+            DateTime? alarmTime = hypo.AlarmTime.DateTime;
             if (finalTime != null)
             {
                 txtPredictedHour.Text = ((DateTime)finalTime).Hour.ToString();
                 txtPredictedMinute.Text = ((DateTime)finalTime).Minute.ToString();
+
+                txtAlarmHour.Text = ((DateTime)alarmTime).Hour.ToString();
+                txtAlarmMinute.Text = ((DateTime)alarmTime).Minute.ToString();
             }
             else
             {
                 txtPredictedHour.Text = "XXXX";
                 txtPredictedMinute.Text = "XXXX";
+
+                txtAlarmHour.Text = "XXXX";
+                txtAlarmMinute.Text = "XXXX";
             }
             hypo.SaveData();
             txtGlucoseSlope.Text = hypo.GlucoseSlope.Text;
@@ -84,11 +89,19 @@ namespace GlucoMan_Mobile
             btnNow_Click(null, null);
             txtGlucoseLast.Focus();
         }
-
         private void btnAlarm_Click(object sender, EventArgs e)
         {
               
         }
-
+        private void btnPaste_Click(object sender, EventArgs e)
+        {
+            //Control c = SharedWinForms.Methods.FindFocusedControl(this);
+            //try
+            //{
+            //    c.Text = Clipboard.GetText();
+            //}
+            //catch (Exception ex)
+            //{ }
+        }
     }
 }

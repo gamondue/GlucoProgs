@@ -59,7 +59,7 @@
             <Label Grid.Row="7" Grid.Column="1" x:Name="txtSensitivity1500" Text="XXXX" XAlign="Center" YAlign="Center"/>
             <Label Grid.Row="7" Grid.Column="3" x:Name="txtSensitivity1800" Text="XXXX" 
                    XAlign="Center" YAlign="Center"/>
-            <Label Grid.Row="8" Grid.Column="0" Text="premeal Gluc" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="8" Grid.Column="0" Text="Premeal Gluc" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="8" Grid.Column="1" Text="Target Gluc" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="8" Grid.Column="2" Text="Gl. to correct" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="8" Grid.Column="3" Text="CHO to eat" XAlign="Center" YAlign="End"/>
@@ -67,8 +67,19 @@
                    Placeholder="mg/dl" BackgroundColor="GreenYellow" />
             <Entry Grid.Row="9" Grid.Column="1" HorizontalTextAlignment ="End" x:Name="txtTargetGlucose" Text="mg/dl" 
                    Placeholder="" BackgroundColor="PaleGoldenrod" />
-            <Label Grid.Row="9" Grid.Column="2" x:Name="txtGlucoseToBeCorrected" 
+            <Grid Grid.Row="9" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="18"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" x:Name="txtGlucoseToBeCorrected" 
                    Text="XXXX" XAlign="Center" YAlign="Center"/>
+                <Button Grid.Row="1" Grid.Column="0" Text="Round" 
+                        x:Name="btnRoundInsuline" Clicked="btnRoundInsuline_Click" />
+            </Grid>
             <Entry Grid.Row="9" Grid.Column="3" x:Name="txtChoToEat" Text="" 
                    Placeholder="g" HorizontalTextAlignment ="End" BackgroundColor="GreenYellow" />
             <Label Grid.Row="10" Grid.Column="0" Text="Corr.insuline" XAlign="Center" YAlign="End"/>

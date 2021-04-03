@@ -75,5 +75,10 @@ namespace GlucoMan_Mobile
             bolus.TypicalBolusNight.Text = txtTypicalBolusNight.Text.Replace(" ", "");
             bolus.TargetGlucose.Text = txtTargetGlucose.Text.Replace(" ", "");
         }
+        private void btnRoundInsuline_Click(object sender, EventArgs e)
+        {
+            bolus.RoundInsulineToZeroDecimal();
+            FromClassToUi();
+        }
     }
 }

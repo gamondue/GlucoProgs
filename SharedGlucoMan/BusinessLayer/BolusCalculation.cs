@@ -30,6 +30,13 @@ namespace GlucoMan.BusinessLayer
         internal DoubleAndText TotalInsulineBreakfast { get; set; }
         internal DoubleAndText TotalInsulineLunch { get; set; }
         internal DoubleAndText TotalInsulineDinner { get; set; }
+
+        private DateTime initialBreakfastPeriod;
+        private DateTime finalBreakfastPeriod;
+        private DateTime initialLunchPeriod;
+        private DateTime finalLunchPeriod;
+        private DateTime initialDinnerPeriod;
+        private DateTime finalDinnerPeriod;
         internal BolusCalculation()
         {
             ChoToEat = new DoubleAndText(); 
@@ -53,9 +60,19 @@ namespace GlucoMan.BusinessLayer
             ChoInsulineDinner = new DoubleAndText(); 
             TotalInsulineBreakfast = new DoubleAndText(); 
             TotalInsulineLunch = new DoubleAndText(); 
-            TotalInsulineDinner = new DoubleAndText(); 
+            TotalInsulineDinner = new DoubleAndText();
+
+            DateTime now = DateTime.Now;
+            int y = now.Year;
+            initialBreakfastPeriod = new DateTime(y, now.Month, now.Day, 6, 0, 0);
+            finalBreakfastPeriod = new DateTime(now.Year, now.Month, now.Day, 10, 0, 0);
+            initialLunchPeriod = new DateTime(now.Year, now.Month, now.Day, 11, 0, 0);
+            finalLunchPeriod = new DateTime(now.Year, now.Month, now.Day, 15, 0, 0);
+            initialDinnerPeriod = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            finalDinnerPeriod = new DateTime(now.Year, now.Month, now.Day, 21, 0, 0);
         }
-        internal void CalculateBolus()
+
+    internal void CalculateBolus()
         {
             try
             {
@@ -79,6 +96,72 @@ namespace GlucoMan.BusinessLayer
                 Console.Beep();
             }
         }
+
+        internal void RoundInsulineToZeroDecimal()
+        {
+            // find target bolus and relative CHO with bisection algorithm 
+            
+            // calc bolus to determine target bolus
+            CalculateBolus();
+            // target bolus will be nearest integer 
+            double targetBolus = Math.Round(bolusOfMealAtThisTime());
+            // calc the two CHO "Plus" and "Minus" initial values 
+            double initialCho = ChoToEat.Double;
+            double choPlus = initialCho + 15;
+            double choMinus = initialCho - 15;
+            // calc bolus for the "Plus" initial value
+            ChoToEat.Double = choPlus;  // ChoToEat.Double is the CHO 
+            CalculateBolus();
+            double bolusPlus = bolusOfMealAtThisTime();
+            // calc bolus for the "Minus" initial value
+            ChoToEat.Double = choMinus;
+            CalculateBolus();
+            double bolusMinus = bolusOfMealAtThisTime();
+
+            double bolusCurrent; 
+            do
+            {
+                // next attempt CHO, in the middle of current interval 
+                ChoToEat.Double = (choPlus - choMinus) / 2 + choMinus;
+                CalculateBolus();
+                bolusCurrent = bolusOfMealAtThisTime(); 
+                if (bolusCurrent < targetBolus)
+                {
+                    choMinus = ChoToEat.Double;
+                    bolusMinus = bolusCurrent;
+                }
+                else
+                {
+                    choPlus = ChoToEat.Double;
+                    bolusPlus = bolusCurrent;
+                }
+            } while (Math.Abs(bolusCurrent - targetBolus) > 0.01); 
+        }
+
+        private double bolusOfMealAtThisTime()
+        {
+            double b;
+            DateTime now = DateTime.Now;
+            if (now > initialBreakfastPeriod && now < finalBreakfastPeriod)
+            {
+                b = TotalInsulineBreakfast.Double; 
+            }
+            else if (now > initialLunchPeriod && now < finalLunchPeriod)
+            {
+                b = TotalInsulineLunch.Double;
+            }
+            else if (now > initialDinnerPeriod && now < finalDinnerPeriod)
+            {
+                b = TotalInsulineDinner.Double;
+            }
+            else
+            {
+                // outside any meal period uses lunch
+                b = TotalInsulineLunch.Double; 
+            }
+            return b;
+        }
+
         internal void SaveData()
         {
             try
@@ -142,9 +225,8 @@ namespace GlucoMan.BusinessLayer
                 Console.Beep();
             }
         }
-        internal HypoPrediction RestoreData()
+        internal void RestoreData()
         {
-            HypoPrediction h = null;
             if (File.Exists(persistentStorage))
                 try
                 {
@@ -164,7 +246,6 @@ namespace GlucoMan.BusinessLayer
                 {
                     Console.Beep();
                 }
-            return h;
         }
     }
 }

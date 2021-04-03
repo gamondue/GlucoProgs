@@ -24,6 +24,8 @@
             <Label Text="Food to eat to hit target CHO [g]" XAlign="Center" YAlign="End"/>
             <Entry x:Name="TxtFoodToHitTarget" Text="" 
                    Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" BackgroundColor="SkyBlue" />
+            <Button x:Name="btnReadTarget" Text="Read Target CHO" 
+                   Margin="30,0,30,0" Clicked="btnReadTarget_Click" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

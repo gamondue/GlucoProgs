@@ -48,6 +48,7 @@ namespace GlucoMan_Forms_Core
             this.txtGlucoseBeforeMeal = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label11 = new System.Windows.Forms.Label();
+            this.btnRoundInsuline = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.txtGlucoseToBeCorrected = new System.Windows.Forms.TextBox();
@@ -269,6 +270,18 @@ namespace GlucoMan_Forms_Core
             this.label11.TabIndex = 53;
             this.label11.Text = "Correction insuline [Ui]";
             this.toolTip1.SetToolTip(this.label11, "Insuline to be included in the bolus to correct for glucose more than target");
+            // 
+            // btnRoundInsuline
+            // 
+            this.btnRoundInsuline.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRoundInsuline.Location = new System.Drawing.Point(433, 390);
+            this.btnRoundInsuline.Name = "btnRoundInsuline";
+            this.btnRoundInsuline.Size = new System.Drawing.Size(75, 46);
+            this.btnRoundInsuline.TabIndex = 102;
+            this.btnRoundInsuline.Text = "Round insuline";
+            this.toolTip1.SetToolTip(this.btnRoundInsuline, "Calculate CHO that gives  integer insuline");
+            this.btnRoundInsuline.UseVisualStyleBackColor = true;
+            this.btnRoundInsuline.Click += new System.EventHandler(this.btnRoundInsuline_Click);
             // 
             // label9
             // 
@@ -642,6 +655,7 @@ namespace GlucoMan_Forms_Core
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(521, 546);
+            this.Controls.Add(this.btnRoundInsuline);
             this.Controls.Add(this.txtTargetGlucose);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -733,5 +747,6 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.TextBox txtTypicalBolusEvening;
         private System.Windows.Forms.TextBox txtTypicalBolusNight;
         private System.Windows.Forms.TextBox txtTargetGlucose;
+        private System.Windows.Forms.Button btnRoundInsuline;
     }
 }

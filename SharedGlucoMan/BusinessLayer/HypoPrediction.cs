@@ -6,11 +6,19 @@ namespace GlucoMan.BusinessLayer
 {
     internal class HypoPrediction
     {
+//#if !__ANDROID__ 
+//        System.Timers.Timer alarm;
+//        //System.Media.SoundPlayer player; 
+//#endif
         string persistentStorage = CommonData.PathConfigurationData + @"HypoPrediction.txt";
 
         private DateTime timeLast;
         private DateTime timePrevious;
         private TimeSpan interval;
+
+        private bool alarmSet = false;
+        private bool playing;
+        public bool AlarmIsSet { get => alarmSet; set => alarmSet = value; }
 
         internal DateTime TimeLast { get => timeLast; set => timeLast = value; }
         internal DateTime TimePrevious { get => timePrevious; }
@@ -24,7 +32,9 @@ namespace GlucoMan.BusinessLayer
         internal IntAndText MinuteLast { get; set; }
         internal IntAndText MinutePrevious { get; set; }
         internal DateTimeAndText PredictedTime { get; set; }
-        
+        internal DateTimeAndText AlarmTime { get; set; }
+        internal TimeSpan AlarmAdvanceTime { get; set; }
+
         internal HypoPrediction()
         {
             GlucoseLast = new IntAndText(); 
@@ -36,11 +46,17 @@ namespace GlucoMan.BusinessLayer
             HourPrevious= new IntAndText(); 
             MinuteLast= new IntAndText(); 
             MinutePrevious= new IntAndText();
-            PredictedTime = new DateTimeAndText(); 
-    }
-        internal DateTime? PredictHypoTime()
+            PredictedTime = new DateTimeAndText();
+            AlarmTime = new DateTimeAndText();
+
+            //#if !__ANDROID__
+
+            //            alarm = new System.Timers.Timer();
+            //            alarm.Elapsed += Alarm_Triggered;
+            //#endif
+        }
+        internal void PredictHypoTime()
         {
-            DateTime? finalTime; 
             try
             {
                 int hourLast = HourLast.Int;
@@ -83,7 +99,9 @@ namespace GlucoMan.BusinessLayer
                     // if glucose increases, hypo is not possible 
                     GlucoseSlope.Double = double.NaN;
                     PredictedTime.DateTime = DateTime.MaxValue;
-                    return null;
+                    AlarmTime.DateTime = DateTime.MaxValue;
+
+                    return;
                 }
                 GlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
 
@@ -96,27 +114,77 @@ namespace GlucoMan.BusinessLayer
                 {
                     GlucoseSlope.Double = double.NaN;
                     PredictedTime.DateTime = DateTime.MaxValue;
-                    return null;
+                    AlarmTime.DateTime = DateTime.MaxValue;
+
+                    return;
                 }
-                // change seconds to hours in 
+                // change seconds to hours in slope
                 GlucoseSlope.Double = GlucoseSlope.Double * 60 * 60;
                 
                 PredictedTime.DateTime = TimeLast.AddSeconds((int) predictedIntervalSeconds);
+                AlarmTime.DateTime = PredictedTime.DateTime.Subtract(AlarmAdvanceTime);
 
                 SaveData();
-                return PredictedTime.DateTime;
+
+                return;
             }
             catch (Exception ex)
             {
-                return null; 
+                return; 
             }
         }
+        //internal void SetAlarm()
+        //{
+        //    try
+        //    {
+        //        //                TimeSpan ts = AlarmTime.DateTime.Subtract(DateTime.Now);
+        //        ////#if !__ANDROID__
+        //        ////                alarm.Interval = ts.TotalMilliseconds;
+        //        ////                alarm.Start();
+        //        ////#endif
+        //        ///
+        //        //AlarmIsSet = true;
+        //    }
+        //    catch
+        //    {
+        //        //AlarmIsSet = false;
+        //    }
+        //}
+        //private void Alarm_Triggered(object sender, System.Timers.ElapsedEventArgs e)
+        //{
+        //    //#if !__ANDROID__
+        //    //            alarm.Stop(); 
+        //    //#endif
+        //    try
+        //    {
+        //        //#if !__ANDROID__
+        //        //                player = new System.Media.SoundPlayer();
+        //        //                player.SoundLocation = @"C:\Windows\Media\Alarm03.wav";
+        //        //                player.PlayLooping();
+        //        //                playing = true; 
+        //        //#endif
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-        internal void SetAlarm()
-        {
-            //PredictedTime ;
-        }
-
+        //    }
+        //}
+    //    internal void StopAlarm()
+    //    {
+    //    if (playing)
+    //    {
+    //        //#if !__ANDROID__
+    //        //                //player.Stop();
+    //        //                //playing = false; 
+    //        //#endif
+    //    }
+    //    else
+    //    {
+    //        //#if !__ANDROID__
+    //        //                alarm.Stop();  
+    //        //#endif
+    //    }
+    //}
         internal void SaveData()
         {
             try
@@ -127,7 +195,8 @@ namespace GlucoMan.BusinessLayer
                 file += HourLast.Text + "\n";
                 file += HourPrevious.Text + "\n";
                 file += MinuteLast.Text + "\n";
-                file += MinutePrevious.Text;
+                file += MinutePrevious.Text + "\n";
+                file += AlarmAdvanceTime.TotalMinutes;
                 TextFile.StringToFile(persistentStorage, file, false);
             }
             catch (Exception ex)
@@ -135,7 +204,6 @@ namespace GlucoMan.BusinessLayer
                 Console.Beep();
             }
         }
-
         internal HypoPrediction RestoreData()
         {
             HypoPrediction h = null;
@@ -150,10 +218,13 @@ namespace GlucoMan.BusinessLayer
                     HourPrevious.Text = f[4];
                     MinuteLast.Text = f[5];
                     MinutePrevious.Text = f[6];
+                    AlarmAdvanceTime = new TimeSpan(0, int.Parse(f[7]), 0);
                 }
                 catch (Exception ex)
                 {
-                    Console.Beep();
+//#if !__ANDROID__
+//                    Console.Beep();
+//#endif
                 }
             return h;
         }
