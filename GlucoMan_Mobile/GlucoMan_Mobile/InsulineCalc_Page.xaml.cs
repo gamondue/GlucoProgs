@@ -1,6 +1,7 @@
 ﻿using GlucoMan.BusinessLayer;
 using SharedData;
 using System;
+using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,12 +10,12 @@ namespace GlucoMan_Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class InsulineCalc_Page : ContentPage
     {
-        BolusCalculation bolus;
+        Bl_BolusCalculation bolus;
         public InsulineCalc_Page()
         {
             InitializeComponent();
 
-            bolus = new BolusCalculation();
+            bolus = new Bl_BolusCalculation();
             bolus.RestoreData();
             FromClassToUi();
             txtGlucoseBeforeMeal.Focus();
@@ -57,7 +58,6 @@ namespace GlucoMan_Mobile
             txtRatioMidday.Text = bolus.ChoInsulineRatioMidday.Text;
             txtRatioMorning.Text = bolus.ChoInsulineRatioMorning.Text;
         }
-
         private void FromUiToClass()
         {
             // since it is easy to mistakenly insert blanks during editing, we tear blanks off 
@@ -77,7 +77,9 @@ namespace GlucoMan_Mobile
         }
         private void btnRoundInsuline_Click(object sender, EventArgs e)
         {
+            FromUiToClass();
             bolus.RoundInsulineToZeroDecimal();
+            bolus.SaveData();
             FromClassToUi();
         }
     }

@@ -289,7 +289,6 @@ namespace GlucoMan_Forms_Core
             // 
             // btnSetAlarm
             // 
-            this.btnSetAlarm.Enabled = false;
             this.btnSetAlarm.Location = new System.Drawing.Point(270, 365);
             this.btnSetAlarm.Name = "btnSetAlarm";
             this.btnSetAlarm.Size = new System.Drawing.Size(75, 39);

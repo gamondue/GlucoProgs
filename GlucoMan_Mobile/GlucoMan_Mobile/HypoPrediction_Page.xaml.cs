@@ -1,7 +1,9 @@
 ﻿
 using GlucoMan;
 using GlucoMan.BusinessLayer;
+using SharedData;
 using System;
+using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,13 +12,13 @@ namespace GlucoMan_Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HypoPrediction_Page : ContentPage
     {
-        HypoPrediction hypo;
+        Bl_HypoPrediction hypo;
 
         public HypoPrediction_Page()
         {
             InitializeComponent();
 
-            hypo = new HypoPrediction();
+            hypo = new Bl_HypoPrediction();
 
             hypo.RestoreData();
             FromClassToUi();
@@ -36,7 +38,7 @@ namespace GlucoMan_Mobile
             txtAlarmAdvanceTime.Text = hypo.AlarmAdvanceTime.TotalMinutes.ToString();
             txtGlucoseSlope.Text = hypo.GlucoseSlope.ToString();
         }
-        private void FromUiToClass(HypoPrediction hypo)
+        private void FromUiToClass(Bl_HypoPrediction hypo)
         {
             hypo.AlarmAdvanceTime = new TimeSpan(0, int.Parse(txtAlarmAdvanceTime.Text), 0);
             hypo.HypoGlucoseTarget.Text = txtGlucoseTarget.Text;

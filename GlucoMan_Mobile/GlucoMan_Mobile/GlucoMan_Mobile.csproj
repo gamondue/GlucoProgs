@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-    <Version>0.2.2</Version>
+    <Version>0.2.2.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -55,9 +55,7 @@
 
   <Import Project="..\..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
 
-  <Import Project="..\..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
+  <Import Project="..\..\SharedProject\SharedProject.projitems" Label="Shared" />
 
   <Import Project="..\..\SharedAndroid\SharedAndroid.projitems" Label="Shared" />
-
-  <Import Project="..\..\SharedProject\SharedProject.projitems" Label="Shared" />
 </Project>

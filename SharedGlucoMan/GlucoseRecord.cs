@@ -62,7 +62,6 @@ namespace GlucoMan
         SensorIntermediateValue,
         SensorScanValue
     }
-
     enum TypeOfMeal
     {
         NotSet,
@@ -72,14 +71,12 @@ namespace GlucoMan
         Snack,
         GlucoseCorrection
     }
-
     enum TypeOfInsulineSpeed
     {
         NotSet,
         QuickActionInsuline,
         SlowActionInsuline
     }
-
     enum TypeOfInsulineBolus
     {
         NotSet, 
@@ -88,7 +85,6 @@ namespace GlucoMan
         ExtendedBolus,
         BasalBolus
     }
-
     enum Accuracy
     {
         NotSet,

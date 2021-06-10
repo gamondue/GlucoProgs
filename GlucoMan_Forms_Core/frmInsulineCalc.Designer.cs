@@ -152,7 +152,7 @@ namespace GlucoMan_Forms_Core
             // 
             // btnCalc
             // 
-            this.btnCalc.Location = new System.Drawing.Point(438, 57);
+            this.btnCalc.Location = new System.Drawing.Point(436, 53);
             this.btnCalc.Name = "btnCalc";
             this.btnCalc.Size = new System.Drawing.Size(75, 33);
             this.btnCalc.TabIndex = 100;

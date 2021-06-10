@@ -6,12 +6,12 @@ namespace GlucoMan_Forms_Core
 {
     public partial class frmInsulineCalc : Form
     {
-        BolusCalculation bolus; 
+        Bl_BolusCalculation bolus; 
         public frmInsulineCalc()
         {
             InitializeComponent();
 
-            bolus = new BolusCalculation(); 
+            bolus = new Bl_BolusCalculation(); 
         }
 
         private void frmInsulineCalc_Load(object sender, EventArgs e)
@@ -86,8 +86,10 @@ namespace GlucoMan_Forms_Core
 
         private void btnRoundInsuline_Click(object sender, EventArgs e)
         {
+            FromUiToClass();
             bolus.RoundInsulineToZeroDecimal();
-            FromClassToUi(); 
+            bolus.SaveData();
+            FromClassToUi();
         }
     }
 }

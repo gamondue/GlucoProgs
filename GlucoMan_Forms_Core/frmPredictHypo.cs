@@ -7,12 +7,12 @@ namespace GlucoMan_Forms_Core
 {
     public partial class frmPredictHypo : Form
     {
-        HypoPrediction hypo; 
+        Bl_HypoPrediction hypo; 
         public frmPredictHypo()
         {
             InitializeComponent();
 
-            hypo = new HypoPrediction();
+            hypo = new Bl_HypoPrediction();
 
             hypo.RestoreData();
             FromClassToUi();
@@ -70,7 +70,7 @@ namespace GlucoMan_Forms_Core
             }
             else
             {
-                Console.Beep();
+                Console.Beep(200,40);
                 txtPredictedHour.Text = "XXXX";
                 txtPredictedMinute.Text = "XXXX";
 
@@ -101,17 +101,17 @@ namespace GlucoMan_Forms_Core
         }
         private void btnSetAlarm_Click(object sender, EventArgs e)
         {
-            ////////if (btnSetAlarm.Text != "Stop")
-            ////////{
-            ////////    hypo.SetAlarm();
-            ////////    if (hypo.AlarmIsSet)
-            ////////        btnSetAlarm.Text = "Stop";
-            ////////}
-            ////////else
-            ////////{
-            ////////    hypo.StopAlarm();
-            ////////    btnSetAlarm.Text = "Alarm";
-            ////////}
+            if (btnSetAlarm.Text != "Stop")
+            {
+                hypo.SetAlarm();
+                if (hypo.AlarmIsSet)
+                    btnSetAlarm.Text = "Stop";
+            }
+            else
+            {
+                hypo.StopAlarm();
+                btnSetAlarm.Text = "Alarm";
+            }
         }
         private void btnPaste_Click(object sender, EventArgs e)
         {

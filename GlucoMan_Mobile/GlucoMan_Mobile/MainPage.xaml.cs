@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedFunctions;
+using System;
 using Xamarin.Forms;
 
 namespace GlucoMan_Mobile
@@ -11,6 +12,8 @@ namespace GlucoMan_Mobile
 
             string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             lblAppName.Text += " " + version;
+
+            CommonFunctions.Initializations();
         }
 
         private async void btnWeighFood_Clicked(object sender, EventArgs e)

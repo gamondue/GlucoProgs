@@ -9,10 +9,4 @@
     <Compile Remove="TypeOfInsulineTaken.cs" />
   </ItemGroup>
 
-  <Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
-
-  <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
-
-  <Import Project="..\SharedWindows\SharedWindows.projitems" Label="Shared" />
-
 </Project>

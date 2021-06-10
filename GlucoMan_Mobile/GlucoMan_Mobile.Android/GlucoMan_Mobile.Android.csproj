@@ -96,6 +96,7 @@
   </ItemGroup>
   <Import Project="..\..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
   <Import Project="..\..\SharedAndroid\SharedAndroid.projitems" Label="Shared" />
+  <Import Project="..\..\SharedProject\SharedProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
