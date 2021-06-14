@@ -68,7 +68,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -84,6 +84,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmCarbCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCarbCount.Designer.cs">
+      <DependentUpon>frmCarbCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFoodData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFoodData.Designer.cs">
+      <DependentUpon>frmFoodData.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmFoodToHitTargetCarbs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,9 +126,14 @@
     <Compile Include="frmWeighFood.Designer.cs">
       <DependentUpon>frmWeighFood.cs</DependentUpon>
     </Compile>
-    <Compile Include="WinFormsFunctions.cs" />
-    <Compile Include="Main_GlucoRecord_Forms.cs" />
+    <Compile Include="Main_GlucoMan_Forms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmCarbCount.resx">
+      <DependentUpon>frmCarbCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFoodData.resx">
+      <DependentUpon>frmFoodData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmFoodToHitTargetCarbs.resx">
       <DependentUpon>frmFoodToHitTargetCarbs.cs</DependentUpon>
     </EmbeddedResource>

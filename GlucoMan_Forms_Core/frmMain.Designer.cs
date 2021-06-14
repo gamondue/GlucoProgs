@@ -37,12 +37,13 @@ namespace GlucoMan_Forms_Core
             this.label1 = new System.Windows.Forms.Label();
             this.txtHeaderText = new System.Windows.Forms.TextBox();
             this.txtFooterText = new System.Windows.Forms.TextBox();
+            this.btnChoCount = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnHypoPrediction
             // 
             this.btnHypoPrediction.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHypoPrediction.Location = new System.Drawing.Point(297, 148);
+            this.btnHypoPrediction.Location = new System.Drawing.Point(388, 147);
             this.btnHypoPrediction.Name = "btnHypoPrediction";
             this.btnHypoPrediction.Size = new System.Drawing.Size(89, 54);
             this.btnHypoPrediction.TabIndex = 0;
@@ -53,7 +54,7 @@ namespace GlucoMan_Forms_Core
             // btnWeighFood
             // 
             this.btnWeighFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnWeighFood.Location = new System.Drawing.Point(12, 148);
+            this.btnWeighFood.Location = new System.Drawing.Point(12, 147);
             this.btnWeighFood.Name = "btnWeighFood";
             this.btnWeighFood.Size = new System.Drawing.Size(89, 54);
             this.btnWeighFood.TabIndex = 1;
@@ -64,7 +65,7 @@ namespace GlucoMan_Forms_Core
             // btnInsuline
             // 
             this.btnInsuline.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInsuline.Location = new System.Drawing.Point(107, 148);
+            this.btnInsuline.Location = new System.Drawing.Point(200, 147);
             this.btnInsuline.Name = "btnInsuline";
             this.btnInsuline.Size = new System.Drawing.Size(89, 54);
             this.btnInsuline.TabIndex = 2;
@@ -75,7 +76,7 @@ namespace GlucoMan_Forms_Core
             // btnFoodToHitTargetCarbs
             // 
             this.btnFoodToHitTargetCarbs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFoodToHitTargetCarbs.Location = new System.Drawing.Point(202, 148);
+            this.btnFoodToHitTargetCarbs.Location = new System.Drawing.Point(294, 147);
             this.btnFoodToHitTargetCarbs.Name = "btnFoodToHitTargetCarbs";
             this.btnFoodToHitTargetCarbs.Size = new System.Drawing.Size(89, 54);
             this.btnFoodToHitTargetCarbs.TabIndex = 3;
@@ -98,7 +99,7 @@ namespace GlucoMan_Forms_Core
             this.txtHeaderText.Location = new System.Drawing.Point(12, 12);
             this.txtHeaderText.Multiline = true;
             this.txtHeaderText.Name = "txtHeaderText";
-            this.txtHeaderText.Size = new System.Drawing.Size(374, 130);
+            this.txtHeaderText.Size = new System.Drawing.Size(467, 130);
             this.txtHeaderText.TabIndex = 5;
             // 
             // txtFooterText
@@ -107,14 +108,26 @@ namespace GlucoMan_Forms_Core
             this.txtFooterText.Location = new System.Drawing.Point(12, 208);
             this.txtFooterText.Multiline = true;
             this.txtFooterText.Name = "txtFooterText";
-            this.txtFooterText.Size = new System.Drawing.Size(374, 63);
+            this.txtFooterText.Size = new System.Drawing.Size(467, 63);
             this.txtFooterText.TabIndex = 6;
+            // 
+            // btnChoCount
+            // 
+            this.btnChoCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChoCount.Location = new System.Drawing.Point(106, 147);
+            this.btnChoCount.Name = "btnChoCount";
+            this.btnChoCount.Size = new System.Drawing.Size(89, 54);
+            this.btnChoCount.TabIndex = 7;
+            this.btnChoCount.Text = "Carb Count";
+            this.btnChoCount.UseVisualStyleBackColor = true;
+            this.btnChoCount.Click += new System.EventHandler(this.btnChoCount_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(397, 283);
+            this.ClientSize = new System.Drawing.Size(491, 283);
+            this.Controls.Add(this.btnChoCount);
             this.Controls.Add(this.txtFooterText);
             this.Controls.Add(this.txtHeaderText);
             this.Controls.Add(this.label1);
@@ -140,5 +153,6 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtHeaderText;
         private System.Windows.Forms.TextBox txtFooterText;
+        private System.Windows.Forms.Button btnChoCount;
     }
 }
