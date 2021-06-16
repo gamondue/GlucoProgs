@@ -50,5 +50,11 @@ namespace GlucoMan_Forms_Core
             frmFoodToHitTargetCarbs f = new frmFoodToHitTargetCarbs();
             f.Show(); 
         }
+
+        private void btnChoCount_Click(object sender, EventArgs e)
+        {
+            frmCarbCount fc = new frmCarbCount();
+            fc.Show(); 
+        }
     }
 }
