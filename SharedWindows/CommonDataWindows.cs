@@ -13,10 +13,11 @@ namespace SharedData
         internal static string PathExe = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
         internal static string PathAndFileExe = System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Substring(8);
 
-        internal static string PathConfigurationData = PathUser + "\\GlucoMan\\Config";  // save in user's documents folder
-        internal static string PathAndNameLogFile = PathConfigurationData + @".\GlucoMan_ErrorLog.txt";
+        internal static string PathConfigurationData = PathUser + "\\GlucoMan\\Config\\";  // save in user's documents folder
+        internal static string PathProgramsData = PathUser + "\\GlucoMan\\Data\\";  // save in user's documents folder
         internal static string PathUsersDownload = PathConfigurationData; // !!!! TODO find how to save on the download folder of user; 
-        // not yet uded: 
-        internal static string PathAndNameErrorLogFile = PathConfigurationData + @"./GlucoMan_ErrorLog.txt";
+        // not yet used: 
+        internal static string PathAndNameErrorLogFile = Path.Combine(PathConfigurationData, @"./GlucoMan_ErrorLog.txt");
+        internal static string PathAndNameLogFile = Path.Combine(PathConfigurationData, @".\GlucoMan_ErrorLog.txt");
     }
 }

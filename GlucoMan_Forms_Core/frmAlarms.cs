@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace GlucoMan_Forms_Core
 {
-    public partial class frmCarbCount : Form
+    public partial class frmAlarms : Form
     {
-        public frmCarbCount()
+        public frmAlarms()
         {
             InitializeComponent();
         }

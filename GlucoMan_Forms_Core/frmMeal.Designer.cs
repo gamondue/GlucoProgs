@@ -1,7 +1,7 @@
 ﻿
 namespace GlucoMan_Forms_Core
 {
-    partial class frmCarbCount
+    partial class frmMeal
     {
         /// <summary>
         /// Required designer variable.

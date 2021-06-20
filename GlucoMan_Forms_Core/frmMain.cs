@@ -36,10 +36,9 @@ namespace GlucoMan_Forms_Core
             this.Text += " " + version;
             txtHeaderText.Text = "GlucoMan will be a Glucose Manager program for diabetic persons." +
                 "\r\nCurrently it makes just a few calculations, but very useful to the diabetic person that has to make carbohydrate count." +
-                "\r\nI will expand the program in the future, including full management of insuline and carboihydrates." +
-                "\r\nDistribution at: " +
-                "\r\nhttps://ingmonti.it/GlucoMan/" +
-                "\r\nHere are the first functions I implemented:";
+                "\r\nI will expand the program in the future, including full management of insuline, carboihydrates, and possibly foods." +
+                "\r\nDistribution at: https://ingmonti.it/GlucoMan/" +
+                "\r\nThe first functions I implemented are those enabled in the following buttons:";
             txtFooterText.Text = "GlucoMan is Free Software by:" +
                 "\r\nIng.Gabriele Monti (gamon) - Forlì - Italia"+
                 "\r\nLicence: GPL v.2";
@@ -53,8 +52,20 @@ namespace GlucoMan_Forms_Core
 
         private void btnChoCount_Click(object sender, EventArgs e)
         {
-            frmCarbCount fc = new frmCarbCount();
+            frmMeal fc = new frmMeal();
             fc.Show(); 
+        }
+
+        private void btnAlarms_Click(object sender, EventArgs e)
+        {
+            frmAlarms fa = new frmAlarms();
+            fa.Show(); 
+        }
+
+        private void btnGlucoseMeasurement_Click(object sender, EventArgs e)
+        {
+            frmGlucose fg = new frmGlucose();
+            fg.Show(); 
         }
     }
 }

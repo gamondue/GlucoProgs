@@ -60,6 +60,7 @@ namespace GlucoMan_Forms_Core
             this.label4 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.btnReadGlucose = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtGlucoseLast
@@ -376,11 +377,23 @@ namespace GlucoMan_Forms_Core
             this.label10.TabIndex = 32;
             this.label10.Text = "alarm time";
             // 
+            // btnReadGlucose
+            // 
+            this.btnReadGlucose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.btnReadGlucose.Location = new System.Drawing.Point(184, 12);
+            this.btnReadGlucose.Name = "btnReadGlucose";
+            this.btnReadGlucose.Size = new System.Drawing.Size(75, 39);
+            this.btnReadGlucose.TabIndex = 33;
+            this.btnReadGlucose.Text = "Read gluc.";
+            this.btnReadGlucose.UseVisualStyleBackColor = true;
+            this.btnReadGlucose.Click += new System.EventHandler(this.btnReadGlucose_Click);
+            // 
             // frmPredictHypo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(357, 412);
+            this.Controls.Add(this.btnReadGlucose);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.txtAlarmMinute);
             this.Controls.Add(this.txtAlarmHour);
@@ -452,6 +465,7 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtAlarmMinute;
         private System.Windows.Forms.TextBox txtAlarmHour;
+        private System.Windows.Forms.Button btnReadGlucose;
     }
 }
 

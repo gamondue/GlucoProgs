@@ -40,7 +40,7 @@ namespace GlucoMan_Mobile
             txtRatioMorning.Text = bolus.ChoInsulineRatioMorning.Text;
             txtSensitivity1800.Text = bolus.InsulineSensitivity1800.Text;
             txtSensitivity1500.Text = bolus.InsulineSensitivity1500.Text;
-            txtTdd.Text = bolus.Tdd.Text;
+            txtTdd.Text = bolus.TotalDailyDoseOfInsulin.Text;
             txtGlucoseBeforeMeal.Text = bolus.GlucoseBeforeMeal.Text;
             txtGlucoseToBeCorrected.Text = bolus.GlucoseToBeCorrected.Text;
             txtCorrectionInsuline.Text = bolus.CorrectionInsuline.Text;

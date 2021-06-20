@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharedGlucoMan.BusinessLayer
+namespace GlucoMan.BusinessLayer
 {
     internal class Bl_GrossTareAndNetWeight
     {
+        DataLayer dl = new DataLayer();
+
         private DoubleAndText gross;
         private DoubleAndText container;
         private DoubleAndText net;

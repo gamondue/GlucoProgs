@@ -1,8 +1,7 @@
-﻿using SharedData;
-using SharedGlucoMan.BusinessLayer;
+﻿using GlucoMan.BusinessLayer;
+using SharedData;
 using System;
 using System.Windows.Forms;
-using SharedGlucoMan.BusinessLayer; 
 
 namespace GlucoMan_Forms_Core
 {
@@ -15,6 +14,7 @@ namespace GlucoMan_Forms_Core
         Bl_GrossTareAndNetWeight S1Sauce;
         Bl_GrossTareAndNetWeight T0Raw;
         Bl_GrossTareAndNetWeight T1Cooked;
+
         public frmWeighFood()
         {
             InitializeComponent();

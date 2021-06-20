@@ -5,11 +5,11 @@ using System;
 using System.Drawing;
 using System.IO;
 
-namespace SharedGlucoMan.BusinessLayer
+namespace GlucoMan.BusinessLayer
 {
     class Bl_WeighFood
     {
-        string persistentStorage = CommonData.PathConfigurationData + @"WeighFood.txt";
+        DataLayer dl = new DataLayer();
 
         Color inputColor = Color.PaleGreen;
         Color inputSlowChangingColor = Color.PaleGoldenrod;
@@ -73,72 +73,11 @@ namespace SharedGlucoMan.BusinessLayer
         }
         internal void SaveData()
         {
-            try
-            {
-                string file = T0RawGross.Text + "\n";
-                file += T0RawTare.Text + "\n";
-                file += T0RawGross.Text + "\n";
-                file += S1SauceNet.Text + "\n";
-                file += DiDish.Text + "\n";
-                file += TpPortionWithAll.Text + "\n";
-                file += M0pS1pPeRawFoodAndSauce.Text + "\n";
-                file += M1MainfoodCooked.Text + "\n";
-                file += M1pS1CourseCookedPlusSauce.Text + "\n";
-                file += ACookRatio.Text + "\n";
-                file += MppSpPortionOfCoursePlusSauce.Text + "\n";
-                file += PPercPercentageOfPortion.Text + "\n";
-                file += SpPortionOfSauceInGrams.Text + "\n";
-                file += Mp0PortionReportedToRaw.Text + "\n";
-                file += Mp1PortionCooked.Text + "\n";
-                file += ChoTotalMainfood.Text + "\n";
-                file += ChoSaucePercent.Text + "\n";
-                file += ChoMainfoodPercent.Text + "\n";
-                file += ChoTotalMainfood.Text + "\n";
-                file += ChoTotalSauce.Text + "\n";
-                file += S1pPotSaucePlusPot.Text + "\n";
-
-                TextFile.StringToFile(persistentStorage, file, false);
-            }
-            catch (Exception ex)
-            {
-                CommonFunctions.NotifyError(ex.Message);
-            }
+            dl.SaveWeighFood(this); 
         }
-        internal Bl_WeighFood RestoreData()
+        internal void RestoreData()
         {
-            Bl_WeighFood w = null;
-            if (File.Exists(persistentStorage))
-                try
-                {
-                    string[] f = TextFile.FileToArray(persistentStorage);
-                    T0RawGross.Text = f[0];
-                    T0RawTare.Text = f[1];
-                    T0RawGross.Text = f[2];
-                    S1SauceNet.Text = f[3];
-                    DiDish.Text = f[4];
-                    TpPortionWithAll.Text = f[5];
-                    M0pS1pPeRawFoodAndSauce.Text = f[6];
-                    M1MainfoodCooked.Text = f[7];
-                    M1pS1CourseCookedPlusSauce.Text = f[8];
-                    ACookRatio.Text = f[9];
-                    MppSpPortionOfCoursePlusSauce.Text = f[10];
-                    PPercPercentageOfPortion.Text = f[11];
-                    SpPortionOfSauceInGrams.Text = f[12];
-                    Mp0PortionReportedToRaw.Text = f[13];
-                    Mp1PortionCooked.Text = f[14];
-                    ChoTotalMainfood.Text = f[15];
-                    ChoSaucePercent.Text = f[16];
-                    ChoMainfoodPercent.Text = f[17];
-                    ChoTotalMainfood.Text = f[18];
-                    ChoTotalSauce.Text = f[19];
-                    S1pPotSaucePlusPot.Text = f[20];
-                    
-                }
-                catch (Exception ex)
-                {
-                    CommonFunctions.NotifyError(ex.Message);
-                }
-            return w;
+            dl.RestoreWeighFood(this); 
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using GlucoMan.BusinessLayer;
 using SharedData;
-using SharedGlucoMan.BusinessLayer;
 using System;
 using System.Windows.Forms;
 

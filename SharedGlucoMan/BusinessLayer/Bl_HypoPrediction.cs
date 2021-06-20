@@ -8,7 +8,7 @@ namespace GlucoMan.BusinessLayer
 {
     internal class Bl_HypoPrediction
     {
-        string persistentStorage = Path.Combine(CommonData.PathConfigurationData , @"HypoPrediction.txt");
+        DataLayer dl = new DataLayer(); 
 
         private DateTime timeLast;
         private DateTime timePrevious;
@@ -154,42 +154,16 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
-                string file = HypoGlucoseTarget.Text + "\n";
-                file += GlucoseLast.Text + "\n";
-                file += GlucosePrevious.Text + "\n";
-                file += HourLast.Text + "\n";
-                file += HourPrevious.Text + "\n";
-                file += MinuteLast.Text + "\n";
-                file += MinutePrevious.Text + "\n";
-                file += AlarmAdvanceTime.TotalMinutes;
-                TextFile.StringToFile(persistentStorage, file, false);
+                dl.SaveHypoPrediction(this); 
             }
             catch (Exception ex)
             {
                 CommonFunctions.NotifyError(ex.Message);
             }
         }
-        internal Bl_HypoPrediction RestoreData()
+        internal void RestoreData()
         {
-            Bl_HypoPrediction h = null;
-            if (File.Exists(persistentStorage))
-                try
-                {
-                    string[] f = TextFile.FileToArray(persistentStorage);
-                    HypoGlucoseTarget.Text = f[0];
-                    GlucoseLast.Text = f[1];
-                    GlucosePrevious.Text = f[2];
-                    HourLast.Text = f[3];
-                    HourPrevious.Text = f[4];
-                    MinuteLast.Text = f[5];
-                    MinutePrevious.Text = f[6];
-                    AlarmAdvanceTime = new TimeSpan(0, int.Parse(f[7]), 0);
-                }
-                catch (Exception ex)
-                {
-                    CommonFunctions.NotifyError(ex.Message);
-                }
-            return h;
+            dl.RestoreHypoPrediction(this); 
         }
     }
 }

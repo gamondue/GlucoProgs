@@ -84,11 +84,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmCarbCount.cs">
+    <Compile Include="frmAlarms.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmCarbCount.Designer.cs">
-      <DependentUpon>frmCarbCount.cs</DependentUpon>
+    <Compile Include="frmAlarms.Designer.cs">
+      <DependentUpon>frmAlarms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFood.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFood.Designer.cs">
+      <DependentUpon>frmFood.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGlucose.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGlucose.Designer.cs">
+      <DependentUpon>frmGlucose.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMeal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMeal.Designer.cs">
+      <DependentUpon>frmMeal.cs</DependentUpon>
     </Compile>
     <Compile Include="frmFoodData.cs">
       <SubType>Form</SubType>
@@ -128,8 +146,11 @@
     </Compile>
     <Compile Include="Main_GlucoMan_Forms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmCarbCount.resx">
-      <DependentUpon>frmCarbCount.cs</DependentUpon>
+    <EmbeddedResource Include="frmGlucose.resx">
+      <DependentUpon>frmGlucose.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMeal.resx">
+      <DependentUpon>frmMeal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmFoodData.resx">
       <DependentUpon>frmFoodData.cs</DependentUpon>
@@ -164,6 +185,7 @@
     </Compile>
     <None Include="GlucoMan_Forms_Core_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />
+    <None Include="Properties\DataSources\GlucoMan.GlucoseRecord.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

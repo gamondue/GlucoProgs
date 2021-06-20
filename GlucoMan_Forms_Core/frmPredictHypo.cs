@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using GlucoMan;
 using GlucoMan.BusinessLayer;
@@ -7,7 +8,9 @@ namespace GlucoMan_Forms_Core
 {
     public partial class frmPredictHypo : Form
     {
-        Bl_HypoPrediction hypo; 
+        Bl_HypoPrediction hypo;
+        BL_GlucoseMeasurements blMeasurements = new BL_GlucoseMeasurements();
+
         public frmPredictHypo()
         {
             InitializeComponent();
@@ -122,6 +125,17 @@ namespace GlucoMan_Forms_Core
             //////}
             //////catch (Exception ex)
             //////{ }
+        }
+
+        private void btnReadGlucose_Click(object sender, EventArgs e)
+        {
+            List<GlucoseRecord> list = blMeasurements.GetLastTwoGlucoseMeasurements();
+            txtGlucoseLast.Text = list[0].GlucoseValue.ToString();
+            txtGlucosePrevious.Text = list[1].GlucoseValue.ToString();
+            txtHourLast.Text = list[0].Timestamp.Value.Hour.ToString();
+            txtHourPrevious.Text = list[1].Timestamp.Value.Hour.ToString();
+            txtMinuteLast.Text = list[0].Timestamp.Value.Minute.ToString();
+            txtMinutePrevious.Text = list[1].Timestamp.Value.Minute.ToString();
         }
     }
 }

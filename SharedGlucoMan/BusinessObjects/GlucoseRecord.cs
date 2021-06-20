@@ -15,43 +15,43 @@ namespace GlucoMan
         private string insulineDrugName;
         private double? insulineValue;
         private string insulineString; // qualitative indication of insuline taken
-        private Accuracy insulineAccuracy;
+        private QualitativeAccuracy insulineAccuracy;
 
         private TypeOfGlucoseMeasurement glucoseMeasurementType;
         private double? glucoseValue;
         private string glucoseString;  // qualitative indication of glucose measured quantity
-        private Accuracy glucoseAccuracy;
+        private QualitativeAccuracy glucoseAccuracy;
 
         private TypeOfMeal typeOfMeal;
         private double? carbohydratesValue;
         private string carbohydratesString;
         private string mealFoodString;
-        private Accuracy carbohydratesAccuracy;
+        private QualitativeAccuracy carbohydratesAccuracy;
 
         private double? chetonsMmolPerL; // in mmol/L
 
         private string notes;
 
-        internal DateTime? Timestamp { get => timestamp; set => timestamp = value; }
+        public DateTime? Timestamp { get => timestamp; set => timestamp = value; }
         internal string DeviceId { get => deviceId; set => deviceId = value; }
         internal string DeviceType { get => deviceType; set => deviceType = value; }
         internal int IdDocumentType { get => idDocumentType; set => idDocumentType = value; }
-        internal double? GlucoseValue_mg_l { get => glucoseValue; set => glucoseValue = value; }
+        public double? GlucoseValue { get => glucoseValue; set => glucoseValue = value; }  // in mg/l
         internal double? InsulineValue { get => insulineValue; set => insulineValue = value; }
-        public string GlucoseString { get => glucoseString; set => glucoseString = value; }
-        public string InsulineString { get => insulineString; set => insulineString = value; }
+        internal string GlucoseString { get => glucoseString; set => glucoseString = value; }
+        internal string InsulineString { get => insulineString; set => insulineString = value; }
         internal TypeOfInsulineBolus InsulineInjection { get => insulineInjection; set => insulineInjection = value; }
         internal string InsulineDrugName { get => insulineDrugName; set => insulineDrugName = value; }
         internal TypeOfInsulineSpeed InsulineSpeed { get => insulineSpeed; set => insulineSpeed = value; }
-        internal Accuracy InsulineAccuracy { get => insulineAccuracy; set => insulineAccuracy = value; }
+        internal QualitativeAccuracy InsulineAccuracy { get => insulineAccuracy; set => insulineAccuracy = value; }
         internal TypeOfGlucoseMeasurement GlucoseMeasurementType { get => glucoseMeasurementType; set => glucoseMeasurementType = value; }
-        internal Accuracy GlucoseAccuracy { get => glucoseAccuracy; set => glucoseAccuracy = value; }
-        internal Accuracy CarbohydratesAccuracy { get => carbohydratesAccuracy; set => carbohydratesAccuracy = value; }
+        internal QualitativeAccuracy GlucoseAccuracy { get => glucoseAccuracy; set => glucoseAccuracy = value; }
+        internal QualitativeAccuracy CarbohydratesAccuracy { get => carbohydratesAccuracy; set => carbohydratesAccuracy = value; }
         internal TypeOfMeal TypeOfMeal { get => typeOfMeal; set => typeOfMeal = value; }
         internal double? CarbohydratesValue_grams { get => carbohydratesValue; set => carbohydratesValue = value; }
         internal string CarbohydratesString { get => carbohydratesString; set => carbohydratesString = value; }
         internal string MealFoodString { get => mealFoodString; set => mealFoodString = value; }
-        internal double? Chetons_mmol_l { get => chetonsMmolPerL; set => chetonsMmolPerL = value; }
+        internal double? Chetons { get => chetonsMmolPerL; set => chetonsMmolPerL = value; } // in mmol/l
         internal string Notes { get => notes; set => notes = value; }
         internal int AccessoryIndex { get => accessoryIndex; set => accessoryIndex = value; }
     }
@@ -61,6 +61,18 @@ namespace GlucoMan
         Strip, 
         SensorIntermediateValue,
         SensorScanValue
+    }
+    enum TypeOfGlucoseMeasurementDevice
+    {
+        NotSet,
+        Strip,
+        SensorIntermediateValue,
+        SensorScanValue
+    }
+    enum ModelOfMeasurementSystem
+    {
+        AbbotFreestyle,
+        AbbotFreestyleLibre
     }
     enum TypeOfMeal
     {
@@ -85,7 +97,7 @@ namespace GlucoMan
         ExtendedBolus,
         BasalBolus
     }
-    enum Accuracy
+    enum QualitativeAccuracy
     {
         NotSet,
         VeryBad,
