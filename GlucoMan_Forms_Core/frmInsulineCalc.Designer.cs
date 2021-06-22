@@ -80,6 +80,7 @@ namespace GlucoMan_Forms_Core
             this.txtTypicalBolusEvening = new System.Windows.Forms.TextBox();
             this.txtTypicalBolusNight = new System.Windows.Forms.TextBox();
             this.txtTargetGlucose = new System.Windows.Forms.TextBox();
+            this.btnReadGlucose = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -650,11 +651,24 @@ namespace GlucoMan_Forms_Core
             this.txtTargetGlucose.Text = "120";
             this.txtTargetGlucose.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // btnReadGlucose
+            // 
+            this.btnReadGlucose.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReadGlucose.Location = new System.Drawing.Point(0, 349);
+            this.btnReadGlucose.Name = "btnReadGlucose";
+            this.btnReadGlucose.Size = new System.Drawing.Size(75, 46);
+            this.btnReadGlucose.TabIndex = 103;
+            this.btnReadGlucose.Text = "Read glucose";
+            this.toolTip1.SetToolTip(this.btnReadGlucose, "Read last glucose value  from recorded glucose measurements");
+            this.btnReadGlucose.UseVisualStyleBackColor = true;
+            this.btnReadGlucose.Click += new System.EventHandler(this.btnReadGlucose_Click);
+            // 
             // frmInsulineCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(521, 546);
+            this.Controls.Add(this.btnReadGlucose);
             this.Controls.Add(this.btnRoundInsuline);
             this.Controls.Add(this.txtTargetGlucose);
             this.Controls.Add(this.groupBox4);
@@ -748,5 +762,6 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.TextBox txtTypicalBolusNight;
         private System.Windows.Forms.TextBox txtTargetGlucose;
         private System.Windows.Forms.Button btnRoundInsuline;
+        private System.Windows.Forms.Button btnReadGlucose;
     }
 }

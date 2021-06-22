@@ -215,7 +215,7 @@ namespace GlucoMan_Forms_Core
             this.txtPredictedMinute.Name = "txtPredictedMinute";
             this.txtPredictedMinute.Size = new System.Drawing.Size(68, 26);
             this.txtPredictedMinute.TabIndex = 20;
-            this.txtPredictedMinute.Text = "XXXX";
+            this.txtPredictedMinute.Text = "-";
             this.txtPredictedMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTip1.SetToolTip(this.txtPredictedMinute, "Minute in which glucose should reach target level");
             // 
@@ -228,7 +228,7 @@ namespace GlucoMan_Forms_Core
             this.txtPredictedHour.Name = "txtPredictedHour";
             this.txtPredictedHour.Size = new System.Drawing.Size(68, 26);
             this.txtPredictedHour.TabIndex = 19;
-            this.txtPredictedHour.Text = "XXXX";
+            this.txtPredictedHour.Text = "-";
             this.txtPredictedHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTip1.SetToolTip(this.txtPredictedHour, "Hour in which glucose should reach target level");
             // 
@@ -271,7 +271,7 @@ namespace GlucoMan_Forms_Core
             this.txtAlarmMinute.Name = "txtAlarmMinute";
             this.txtAlarmMinute.Size = new System.Drawing.Size(68, 26);
             this.txtAlarmMinute.TabIndex = 31;
-            this.txtAlarmMinute.Text = "XXXX";
+            this.txtAlarmMinute.Text = "-";
             this.txtAlarmMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTip1.SetToolTip(this.txtAlarmMinute, "Minute in which glucose should reach target level");
             // 
@@ -284,7 +284,7 @@ namespace GlucoMan_Forms_Core
             this.txtAlarmHour.Name = "txtAlarmHour";
             this.txtAlarmHour.Size = new System.Drawing.Size(68, 26);
             this.txtAlarmHour.TabIndex = 30;
-            this.txtAlarmHour.Text = "XXXX";
+            this.txtAlarmHour.Text = "-";
             this.txtAlarmHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTip1.SetToolTip(this.txtAlarmHour, "Hour in which glucose should reach target level");
             // 
@@ -426,7 +426,7 @@ namespace GlucoMan_Forms_Core
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmPredictHypo";
-            this.Text = "Predict Hypo";
+            this.Text = "-";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPredictHypo_FormClosing);
             this.Load += new System.EventHandler(this.frmPredictHypo_Load);
             this.ResumeLayout(false);

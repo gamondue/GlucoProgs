@@ -17,7 +17,7 @@ namespace GlucoMan.BusinessLayer
 
         internal Bl_FoodToHitTargetCarbs()
         {
-            FoodToHitTarget.Format = "0"; 
+            //FoodToHitTarget.Format = "0"; 
         }
         internal void RestoreData()
         {

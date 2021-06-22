@@ -31,7 +31,7 @@ namespace GlucoMan_Forms_Core
             dgwMeasurements.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgwMeasurements.Columns[1].Name = "Date and time";
             dgwMeasurements.Columns[1].DataPropertyName = "Timestamp";
-            dgwMeasurements.Columns[1].Width = 250;
+            dgwMeasurements.Columns[1].Width = 180;
             dgwMeasurements.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 

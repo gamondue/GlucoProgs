@@ -12,9 +12,9 @@
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
 
   <ItemGroup>
-    <PackageReference Include="NetOfficeFw.Core" Version="1.8.0" />
-    <PackageReference Include="NetOfficeFw.Excel" Version="1.8.0" />
-    <PackageReference Include="NetOfficeFw.Word" Version="1.8.0" />
+    <PackageReference Include="NetOfficeFw.Core" Version="1.8.1" />
+    <PackageReference Include="NetOfficeFw.Excel" Version="1.8.1" />
+    <PackageReference Include="NetOfficeFw.Word" Version="1.8.1" />
   </ItemGroup>
 
 </Project>

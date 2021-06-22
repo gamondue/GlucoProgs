@@ -32,8 +32,11 @@ namespace GlucoMan.BusinessLayer
         internal IntAndText MinutePrevious { get; set; }
         internal DateTimeAndText PredictedTime { get; set; }
         internal DateTimeAndText AlarmTime { get; set; }
+        internal IntAndText PredictedHour { get; set; }
+        internal IntAndText PredictedMinute { get; set; }
+        internal IntAndText AlarmHour { get; set; }
+        internal IntAndText AlarmMinute { get; set; }
         internal TimeSpan AlarmAdvanceTime { get; set; }
-
         internal Bl_HypoPrediction()
         {
             GlucoseLast = new IntAndText(); 
@@ -47,6 +50,10 @@ namespace GlucoMan.BusinessLayer
             MinutePrevious= new IntAndText();
             PredictedTime = new DateTimeAndText();
             AlarmTime = new DateTimeAndText();
+            PredictedHour = new IntAndText();
+            PredictedMinute = new IntAndText();
+            AlarmHour = new IntAndText();
+            AlarmMinute = new IntAndText();
 
             alarm = new Alarm();   
             alarm.InitAlarm(); 
@@ -86,8 +93,21 @@ namespace GlucoMan.BusinessLayer
 
                 timePrevious = TimeLast.Subtract(Interval);
 
-                double secondsBetweenMeasurements = Interval.TotalSeconds; 
+                double secondsBetweenMeasurements = Interval.TotalSeconds;
 
+                // check if the difference in time is too big or too little
+                if (secondsBetweenMeasurements > 3 * 60 * 60 || secondsBetweenMeasurements < 20 * 60)
+                {
+                    CommonFunctions.NotifyError("Time between measurements too big or too little");
+                    GlucoseSlope.Text = "-";
+                    PredictedTime.Text = "-";
+                    AlarmTime.Text = "-";
+                    PredictedHour.Text = "-";
+                    PredictedMinute.Text = "-";
+                    AlarmHour.Text = "-";
+                    AlarmMinute.Text = "-";
+                    return; 
+                }
                 int glucoseDifference = GlucoseLast.Int - GlucosePrevious.Int;
 
                 if (glucoseDifference > 0) 
@@ -96,7 +116,6 @@ namespace GlucoMan.BusinessLayer
                     GlucoseSlope.Double = double.NaN;
                     PredictedTime.DateTime = DateTime.MinValue;
                     AlarmTime.DateTime = DateTime.MinValue;
-
                     return;
                 }
                 GlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
@@ -120,6 +139,34 @@ namespace GlucoMan.BusinessLayer
                 PredictedTime.Format = "yyyy.MM.dd HH:mm:ss";
                 PredictedTime.DateTime = TimeLast.AddSeconds((int) predictedIntervalSeconds);
                 AlarmTime.DateTime = PredictedTime.DateTime.Subtract(AlarmAdvanceTime);
+                if (PredictedTime.DateTime == DateTime.MinValue ||
+                        AlarmTime.DateTime == DateTime.MinValue)
+                {
+                    GlucoseSlope.Text = "-";
+                    PredictedHour.Text = "-";
+                    PredictedMinute.Text = "-";
+                    AlarmHour.Text = "-";
+                    AlarmMinute.Text = "-";
+                    return;
+                }
+                DateTime? finalTime = PredictedTime.DateTime;
+                DateTime? alarmTime = AlarmTime.DateTime;
+
+                if (finalTime != null)
+                {
+                    PredictedHour.Text = ((DateTime)finalTime).Hour.ToString();
+                    PredictedMinute.Text = ((DateTime)finalTime).Minute.ToString();
+                    AlarmHour.Text = ((DateTime)alarmTime).Hour.ToString();
+                    AlarmMinute.Text = ((DateTime)alarmTime).Minute.ToString();
+                }
+                else
+                {
+                    Console.Beep(200, 40);
+                    PredictedHour.Text = "-";
+                    PredictedMinute.Text = "-";
+                    AlarmHour.Text = "-";
+                    AlarmMinute.Text = "-";
+                }
 
                 SaveData();
 

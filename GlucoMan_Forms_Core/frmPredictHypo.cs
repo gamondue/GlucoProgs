@@ -50,7 +50,6 @@ namespace GlucoMan_Forms_Core
             DateTime now = DateTime.Now;
             txtHourLast.Text = now.Hour.ToString();
             txtMinuteLast.Text = now.Minute.ToString();
-
             txtGlucosePrevious.Focus();
         }
         private void txtGlucoseLast_Leave(object sender, EventArgs e)
@@ -61,26 +60,11 @@ namespace GlucoMan_Forms_Core
         {
             FromUiToClass();
             hypo.PredictHypoTime();
-            DateTime? finalTime = hypo.PredictedTime.DateTime;
-            DateTime? alarmTime = hypo.AlarmTime.DateTime;
-            if (finalTime != null)
-            {
-                txtPredictedHour.Text = ((DateTime)finalTime).Hour.ToString();
-                txtPredictedMinute.Text = ((DateTime)finalTime).Minute.ToString();
-
-                txtAlarmHour.Text = ((DateTime)alarmTime).Hour.ToString();
-                txtAlarmMinute.Text = ((DateTime)alarmTime).Minute.ToString();
-            }
-            else
-            {
-                Console.Beep(200,40);
-                txtPredictedHour.Text = "XXXX";
-                txtPredictedMinute.Text = "XXXX";
-
-                txtAlarmHour.Text = "XXXX";
-                txtAlarmMinute.Text = "XXXX";
-            }
             txtGlucoseSlope.Text = hypo.GlucoseSlope.Text; 
+            txtPredictedHour.Text = hypo.PredictedHour.Text;
+            txtPredictedMinute.Text = hypo.PredictedMinute.Text;
+            txtAlarmHour.Text = hypo.AlarmHour.Text;
+            txtAlarmMinute.Text = hypo.AlarmMinute.Text;
         }
         private void frmPredictHypo_Load(object sender, EventArgs e)
         {

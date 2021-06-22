@@ -1,31 +1,32 @@
-﻿using GlucoMan.BusinessLayer;
+﻿using GlucoMan;
+using GlucoMan.BusinessLayer;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace GlucoMan_Forms_Core
 {
     public partial class frmInsulineCalc : Form
     {
-        Bl_BolusCalculation bolus; 
+        Bl_BolusCalculation bolus;
+        BL_GlucoseMeasurements glucoseMeasuremet; 
         public frmInsulineCalc()
         {
             InitializeComponent();
 
-            bolus = new Bl_BolusCalculation(); 
+            bolus = new Bl_BolusCalculation();
+            glucoseMeasuremet = new BL_GlucoseMeasurements(); 
         }
-
         private void frmInsulineCalc_Load(object sender, EventArgs e)
         {
             bolus.RestoreData();
             FromClassToUi();
             txtGlucoseBeforeMeal.Focus();
         }
-
         private void txt_Leave(object sender, EventArgs e)
         {
 
         }
-
         private void btnCalc_Click(object sender, EventArgs e)
         {
             FromUiToClass();
@@ -34,7 +35,6 @@ namespace GlucoMan_Forms_Core
             bolus.SaveLog();
             FromClassToUi(); 
         }
-
         private void FromClassToUi()
         {
             txtChoToEat.Text = bolus.ChoToEat.Text;
@@ -63,7 +63,6 @@ namespace GlucoMan_Forms_Core
             txtRatioMidday.Text = bolus.ChoInsulineRatioMidday.Text;
             txtRatioMorning.Text = bolus.ChoInsulineRatioMorning.Text;
         }
-
         private void FromUiToClass()
         {
             bolus.ChoToEat.Text = txtChoToEat.Text;
@@ -83,13 +82,17 @@ namespace GlucoMan_Forms_Core
             FromUiToClass();
             bolus.SaveData();
         }
-
         private void btnRoundInsuline_Click(object sender, EventArgs e)
         {
             FromUiToClass();
             bolus.RoundInsulineToZeroDecimal();
             bolus.SaveData();
             FromClassToUi();
+        }
+        private void btnReadGlucose_Click(object sender, EventArgs e)
+        {
+            List<GlucoseRecord> list = glucoseMeasuremet.GetLastTwoGlucoseMeasurements();
+            txtGlucoseBeforeMeal.Text =  list[0].GlucoseValue.ToString();
         }
     }
 }

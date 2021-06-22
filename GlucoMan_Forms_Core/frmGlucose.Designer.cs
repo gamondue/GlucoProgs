@@ -66,7 +66,7 @@ namespace GlucoMan_Forms_Core
             // btnAddMeasurement
             // 
             this.btnAddMeasurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F);
-            this.btnAddMeasurement.Location = new System.Drawing.Point(670, 36);
+            this.btnAddMeasurement.Location = new System.Drawing.Point(673, 36);
             this.btnAddMeasurement.Name = "btnAddMeasurement";
             this.btnAddMeasurement.Size = new System.Drawing.Size(43, 45);
             this.btnAddMeasurement.TabIndex = 3;
@@ -77,7 +77,7 @@ namespace GlucoMan_Forms_Core
             // btnRemoveMeasurement
             // 
             this.btnRemoveMeasurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F);
-            this.btnRemoveMeasurement.Location = new System.Drawing.Point(719, 36);
+            this.btnRemoveMeasurement.Location = new System.Drawing.Point(722, 36);
             this.btnRemoveMeasurement.Name = "btnRemoveMeasurement";
             this.btnRemoveMeasurement.Size = new System.Drawing.Size(46, 45);
             this.btnRemoveMeasurement.TabIndex = 4;
@@ -136,7 +136,7 @@ namespace GlucoMan_Forms_Core
             this.dgwMeasurements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgwMeasurements.Location = new System.Drawing.Point(12, 87);
             this.dgwMeasurements.Name = "dgwMeasurements";
-            this.dgwMeasurements.Size = new System.Drawing.Size(784, 422);
+            this.dgwMeasurements.Size = new System.Drawing.Size(756, 422);
             this.dgwMeasurements.TabIndex = 10;
             this.dgwMeasurements.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwMeasurements_RowEnter);
             // 
@@ -148,7 +148,7 @@ namespace GlucoMan_Forms_Core
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(808, 521);
+            this.ClientSize = new System.Drawing.Size(780, 521);
             this.Controls.Add(this.dgwMeasurements);
             this.Controls.Add(this.chkAutosave);
             this.Controls.Add(this.chkNowInAdd);

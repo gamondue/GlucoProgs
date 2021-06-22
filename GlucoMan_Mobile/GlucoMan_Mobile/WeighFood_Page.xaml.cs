@@ -1,5 +1,5 @@
 ﻿using SharedData;
-using SharedGlucoMan.BusinessLayer;
+using GlucoMan.BusinessLayer;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

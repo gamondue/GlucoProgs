@@ -58,28 +58,13 @@ namespace GlucoMan_Mobile
         }
         private void btnPredict_Click(object sender, EventArgs e)
         {
-            FromUiToClass(hypo);
+            FromUiToClass(hypo); 
             hypo.PredictHypoTime();
-            DateTime? finalTime = hypo.PredictedTime.DateTime;
-            DateTime? alarmTime = hypo.AlarmTime.DateTime;
-            if (finalTime != null)
-            {
-                txtPredictedHour.Text = ((DateTime)finalTime).Hour.ToString();
-                txtPredictedMinute.Text = ((DateTime)finalTime).Minute.ToString();
-
-                txtAlarmHour.Text = ((DateTime)alarmTime).Hour.ToString();
-                txtAlarmMinute.Text = ((DateTime)alarmTime).Minute.ToString();
-            }
-            else
-            {
-                txtPredictedHour.Text = "XXXX";
-                txtPredictedMinute.Text = "XXXX";
-
-                txtAlarmHour.Text = "XXXX";
-                txtAlarmMinute.Text = "XXXX";
-            }
-            hypo.SaveData();
             txtGlucoseSlope.Text = hypo.GlucoseSlope.Text;
+            txtPredictedHour.Text = hypo.PredictedHour.Text;
+            txtPredictedMinute.Text = hypo.PredictedMinute.Text;
+            txtAlarmHour.Text = hypo.AlarmHour.Text;
+            txtAlarmMinute.Text = hypo.AlarmMinute.Text;
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
