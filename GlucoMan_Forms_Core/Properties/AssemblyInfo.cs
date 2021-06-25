@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GlucoMan")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyDescription("A program for the diabetic person")]
+[assembly: AssemblyConfiguration("Windows Forms .Net Core version")]
+[assembly: AssemblyCompany("-")]
 [assembly: AssemblyProduct("GlucoMan_Forms_Core")]
-[assembly: AssemblyCopyright("Copyright Ing.Gabriele Monti - Forlì ©  2020")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyleft by Ing.Gabriele Monti - Forlì Italia - 2020")]
+[assembly: AssemblyTrademark("GlucoMan")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
