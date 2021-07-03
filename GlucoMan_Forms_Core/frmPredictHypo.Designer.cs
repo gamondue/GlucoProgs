@@ -61,6 +61,7 @@ namespace GlucoMan_Forms_Core
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.btnReadGlucose = new System.Windows.Forms.Button();
+            this.txtStaturBar = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtGlucoseLast
@@ -388,11 +389,19 @@ namespace GlucoMan_Forms_Core
             this.btnReadGlucose.UseVisualStyleBackColor = true;
             this.btnReadGlucose.Click += new System.EventHandler(this.btnReadGlucose_Click);
             // 
+            // txtStaturBar
+            // 
+            this.txtStaturBar.Location = new System.Drawing.Point(12, 423);
+            this.txtStaturBar.Name = "txtStaturBar";
+            this.txtStaturBar.Size = new System.Drawing.Size(333, 26);
+            this.txtStaturBar.TabIndex = 114;
+            // 
             // frmPredictHypo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(357, 412);
+            this.ClientSize = new System.Drawing.Size(357, 461);
+            this.Controls.Add(this.txtStaturBar);
             this.Controls.Add(this.btnReadGlucose);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.txtAlarmMinute);
@@ -466,6 +475,7 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.TextBox txtAlarmMinute;
         private System.Windows.Forms.TextBox txtAlarmHour;
         private System.Windows.Forms.Button btnReadGlucose;
+        private System.Windows.Forms.TextBox txtStaturBar;
     }
 }
 

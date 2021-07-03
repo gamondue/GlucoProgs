@@ -20,7 +20,7 @@ namespace GlucoMan_Forms_Core
 
         private void btnWeighFood_Click(object sender, EventArgs e)
         {
-            frmWeighFood f = new frmWeighFood(); 
+            frmCorrectionBolus f = new frmCorrectionBolus(); 
             f.Show(); 
         }
 

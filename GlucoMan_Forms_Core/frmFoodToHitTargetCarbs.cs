@@ -7,7 +7,7 @@ namespace GlucoMan_Forms_Core
 {
     public partial class frmFoodToHitTargetCarbs : Form
     {
-        Bl_FoodToHitTargetCarbs foodToEat = new Bl_FoodToHitTargetCarbs();
+        BL_FoodToHitTargetCarbs foodToEat = new BL_FoodToHitTargetCarbs();
 
         public frmFoodToHitTargetCarbs()
         {
@@ -69,7 +69,7 @@ namespace GlucoMan_Forms_Core
         }
         private void btnReadTarget_Click(object sender, EventArgs e)
         {
-            Bl_BolusCalculation bolus = new Bl_BolusCalculation();
+            BL_BolusCalculation bolus = new BL_BolusCalculation();
             bolus.RestoreData(); // read data from BolusCalculation's file
             // set read data to local TargetCho
             foodToEat.TargetCho.Double = bolus.ChoToEat.Double;

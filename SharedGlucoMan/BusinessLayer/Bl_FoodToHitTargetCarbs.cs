@@ -6,7 +6,7 @@ using System.IO;
 
 namespace GlucoMan.BusinessLayer
 {
-    class Bl_FoodToHitTargetCarbs
+    class BL_FoodToHitTargetCarbs
     {
         DataLayer dl = new DataLayer();
 
@@ -15,7 +15,7 @@ namespace GlucoMan.BusinessLayer
         internal DoubleAndText TargetCho = new DoubleAndText();
         internal DoubleAndText FoodToHitTarget = new DoubleAndText();
 
-        internal Bl_FoodToHitTargetCarbs()
+        internal BL_FoodToHitTargetCarbs()
         {
             //FoodToHitTarget.Format = "0"; 
         }

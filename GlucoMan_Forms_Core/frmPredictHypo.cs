@@ -8,14 +8,14 @@ namespace GlucoMan_Forms_Core
 {
     public partial class frmPredictHypo : Form
     {
-        Bl_HypoPrediction hypo;
+        BL_HypoPrediction hypo;
         BL_GlucoseMeasurements blMeasurements = new BL_GlucoseMeasurements();
 
         public frmPredictHypo()
         {
             InitializeComponent();
 
-            hypo = new Bl_HypoPrediction();
+            hypo = new BL_HypoPrediction();
 
             hypo.RestoreData();
             FromClassToUi();
@@ -65,6 +65,7 @@ namespace GlucoMan_Forms_Core
             txtPredictedMinute.Text = hypo.PredictedMinute.Text;
             txtAlarmHour.Text = hypo.AlarmHour.Text;
             txtAlarmMinute.Text = hypo.AlarmMinute.Text;
+            txtStaturBar.Text = hypo.StatusMessage; 
         }
         private void frmPredictHypo_Load(object sender, EventArgs e)
         {

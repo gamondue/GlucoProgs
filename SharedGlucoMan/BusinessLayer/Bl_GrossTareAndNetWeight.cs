@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GlucoMan.BusinessLayer
 {
-    internal class Bl_GrossTareAndNetWeight
+    internal class BL_GrossTareAndNetWeight
     {
         DataLayer dl = new DataLayer();
 
@@ -17,7 +17,7 @@ namespace GlucoMan.BusinessLayer
         private DoubleAndText oldContainer = new DoubleAndText();
         private DoubleAndText oldNet = new DoubleAndText();
 
-        internal Bl_GrossTareAndNetWeight
+        internal BL_GrossTareAndNetWeight
             (DoubleAndText GrossWeight, DoubleAndText ContainerWeight, DoubleAndText NetWeight)
         {
             gross = GrossWeight;

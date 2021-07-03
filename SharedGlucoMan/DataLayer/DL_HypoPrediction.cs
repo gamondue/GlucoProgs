@@ -8,7 +8,7 @@ namespace GlucoMan
 {
     internal partial class DataLayer
     {
-        internal void SaveHypoPrediction(GlucoMan.BusinessLayer.Bl_HypoPrediction Hypo)
+        internal void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace GlucoMan
                 CommonFunctions.NotifyError(ex.Message);
             }
         }
-        internal void RestoreHypoPrediction(GlucoMan.BusinessLayer.Bl_HypoPrediction Hypo)
+        internal void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
         {
             if (File.Exists(persistentHypoPrediction))
                 try

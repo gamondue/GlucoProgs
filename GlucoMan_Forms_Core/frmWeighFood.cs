@@ -9,11 +9,11 @@ namespace GlucoMan_Forms_Core
     {
         string persistentStorage = CommonData.PathConfigurationData + @"WeighFood.txt";
 
-        Bl_WeighFood food = new Bl_WeighFood();
-        Bl_GrossTareAndNetWeight M0Raw;
-        Bl_GrossTareAndNetWeight S1Sauce;
-        Bl_GrossTareAndNetWeight T0Raw;
-        Bl_GrossTareAndNetWeight T1Cooked;
+        BL_WeighFood food = new BL_WeighFood();
+        BL_GrossTareAndNetWeight M0Raw;
+        BL_GrossTareAndNetWeight S1Sauce;
+        BL_GrossTareAndNetWeight T0Raw;
+        BL_GrossTareAndNetWeight T1Cooked;
 
         public frmWeighFood()
         {
@@ -24,11 +24,11 @@ namespace GlucoMan_Forms_Core
         }
         private void frmWeighFood_Load(object sender, EventArgs e)
         {
-            M0Raw = new Bl_GrossTareAndNetWeight(food.M0RawGross, food.M0RawTare,
+            M0Raw = new BL_GrossTareAndNetWeight(food.M0RawGross, food.M0RawTare,
                 food.M0RawNet);
-            S1Sauce = new Bl_GrossTareAndNetWeight(food.S1SauceGross, food.S1SauceTare, food.S1SauceNet);
-            T0Raw = new Bl_GrossTareAndNetWeight(food.T0RawGross, food.T0RawTare, food.T0RawNet);
-            T1Cooked= new Bl_GrossTareAndNetWeight(food.T1CookedGross, food.T1CookedTare, food.T1CookedNet);
+            S1Sauce = new BL_GrossTareAndNetWeight(food.S1SauceGross, food.S1SauceTare, food.S1SauceNet);
+            T0Raw = new BL_GrossTareAndNetWeight(food.T0RawGross, food.T0RawTare, food.T0RawNet);
+            T1Cooked= new BL_GrossTareAndNetWeight(food.T1CookedGross, food.T1CookedTare, food.T1CookedNet);
         }
         internal void FromUiToClass()
         {

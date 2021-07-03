@@ -1,7 +1,7 @@
 ﻿
 namespace GlucoMan_Forms_Core
 {
-    partial class frmFood
+    partial class frmFoodManagement
     {
         /// <summary>
         /// Required designer variable.

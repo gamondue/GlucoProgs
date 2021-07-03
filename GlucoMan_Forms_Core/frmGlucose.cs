@@ -22,23 +22,24 @@ namespace GlucoMan_Forms_Core
         {
             InitializeComponent();
 
-            dgwMeasurements.AutoGenerateColumns = false;
-            dgwMeasurements.Columns.Clear();
-            dgwMeasurements.ColumnCount = 2;
-            dgwMeasurements.Columns[0].Name = "Glucose";
-            dgwMeasurements.Columns[0].DataPropertyName = "GlucoseValue";
-            dgwMeasurements.Columns[0].Width = 80;
-            dgwMeasurements.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgwMeasurements.Columns[1].Name = "Date and time";
-            dgwMeasurements.Columns[1].DataPropertyName = "Timestamp";
-            dgwMeasurements.Columns[1].Width = 180;
-            dgwMeasurements.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvMeasurements.AutoGenerateColumns = false;
+            dgvMeasurements.Columns.Clear();
+            dgvMeasurements.ColumnCount = 2;
+            dgvMeasurements.Columns[1].Name = "Glucose";
+            dgvMeasurements.Columns[1].DataPropertyName = "GlucoseValue";
+            dgvMeasurements.Columns[1].Width = 80;
+            dgvMeasurements.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvMeasurements.Columns[0].Name = "Date and time";
+            dgvMeasurements.Columns[0].DataPropertyName = "Timestamp";
+            dgvMeasurements.Columns[0].Width = 180;
+            dgvMeasurements.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         private void frmGlucose_Load(object sender, EventArgs e)
         {
             glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
-            dgwMeasurements.DataSource = glucoseReadings; 
+            glucoseReadings = glucoseReadings.OrderBy(n => n.Timestamp).ToList();
+            dgvMeasurements.DataSource = glucoseReadings; 
         }
         private void btnAddMeasurement_Click(object sender, EventArgs e)
         {
@@ -59,15 +60,15 @@ namespace GlucoMan_Forms_Core
             glucoseReadings.Add(newReading);
             if (chkAutosave.Checked)
                 bl.SaveGlucoseMeasurements(glucoseReadings);
-            dgwMeasurements.DataSource = null;
-            dgwMeasurements.DataSource = glucoseReadings;
+            dgvMeasurements.DataSource = null;
+            dgvMeasurements.DataSource = glucoseReadings;
         }
 
         private void btnRemoveMeasurement_Click(object sender, EventArgs e)
         {
-            if (dgwMeasurements.SelectedRows.Count > 0)
+            if (dgvMeasurements.SelectedRows.Count > 0)
             {
-                int rowIndex = dgwMeasurements.SelectedRows[0].Index;
+                int rowIndex = dgvMeasurements.SelectedRows[0].Index;
                 if (MessageBox.Show(string.Format("Should I delete the measurement {0}, {1}",
                     glucoseReadings[rowIndex].GlucoseValue,
                     glucoseReadings[rowIndex].Timestamp), "", 
@@ -83,17 +84,17 @@ namespace GlucoMan_Forms_Core
                 MessageBox.Show("Choose a measurement to delete");
                 return;
             }
-            dgwMeasurements.DataSource = null;
-            dgwMeasurements.DataSource = glucoseReadings;
+            dgvMeasurements.DataSource = null;
+            dgvMeasurements.DataSource = glucoseReadings;
         }
-        private void dgwMeasurements_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvMeasurements_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
-        private void dgwMeasurements_RowEnter(object sender, DataGridViewCellEventArgs e)
+        private void dgvMeasurements_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            dgwMeasurements.Rows[e.RowIndex].Selected = true;
+            dgvMeasurements.Rows[e.RowIndex].Selected = true;
             txtGlucose.Text = glucoseReadings[e.RowIndex].GlucoseValue.ToString();
             if (glucoseReadings[e.RowIndex].Timestamp != null)
                 dtpEventInstant.Value = (DateTime)glucoseReadings[e.RowIndex].Timestamp;

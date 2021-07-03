@@ -39,9 +39,9 @@ namespace GlucoMan_Forms_Core
             this.dtpEventInstant = new System.Windows.Forms.DateTimePicker();
             this.chkNowInAdd = new System.Windows.Forms.CheckBox();
             this.chkAutosave = new System.Windows.Forms.CheckBox();
-            this.dgwMeasurements = new System.Windows.Forms.DataGridView();
+            this.dgvMeasurements = new System.Windows.Forms.DataGridView();
             this.glucoseRecordBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.dgwMeasurements)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMeasurements)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.glucoseRecordBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -130,15 +130,15 @@ namespace GlucoMan_Forms_Core
             // 
             // dgwMeasurements
             // 
-            this.dgwMeasurements.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgvMeasurements.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgwMeasurements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgwMeasurements.Location = new System.Drawing.Point(12, 87);
-            this.dgwMeasurements.Name = "dgwMeasurements";
-            this.dgwMeasurements.Size = new System.Drawing.Size(756, 422);
-            this.dgwMeasurements.TabIndex = 10;
-            this.dgwMeasurements.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwMeasurements_RowEnter);
+            this.dgvMeasurements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMeasurements.Location = new System.Drawing.Point(12, 87);
+            this.dgvMeasurements.Name = "dgwMeasurements";
+            this.dgvMeasurements.Size = new System.Drawing.Size(756, 422);
+            this.dgvMeasurements.TabIndex = 10;
+            this.dgvMeasurements.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasurements_RowEnter);
             // 
             // glucoseRecordBindingSource
             // 
@@ -149,7 +149,7 @@ namespace GlucoMan_Forms_Core
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(780, 521);
-            this.Controls.Add(this.dgwMeasurements);
+            this.Controls.Add(this.dgvMeasurements);
             this.Controls.Add(this.chkAutosave);
             this.Controls.Add(this.chkNowInAdd);
             this.Controls.Add(this.dtpEventInstant);
@@ -164,7 +164,7 @@ namespace GlucoMan_Forms_Core
             this.Name = "frmGlucose";
             this.Text = "Glucose measurements";
             this.Load += new System.EventHandler(this.frmGlucose_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgwMeasurements)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMeasurements)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.glucoseRecordBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -181,6 +181,6 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.CheckBox chkNowInAdd;
         private System.Windows.Forms.CheckBox chkAutosave;
         private System.Windows.Forms.BindingSource glucoseRecordBindingSource;
-        private System.Windows.Forms.DataGridView dgwMeasurements;
+        private System.Windows.Forms.DataGridView dgvMeasurements;
     }
 }

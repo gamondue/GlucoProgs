@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace GlucoMan_Forms_Core
 {
-    public partial class frmFood : Form
+    public partial class frmCorrectionBolus : Form
     {
-        public frmFood()
+        public frmCorrectionBolus()
         {
             InitializeComponent();
         }

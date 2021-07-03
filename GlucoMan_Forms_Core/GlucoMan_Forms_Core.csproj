@@ -90,11 +90,17 @@
     <Compile Include="frmAlarms.Designer.cs">
       <DependentUpon>frmAlarms.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmFood.cs">
+    <Compile Include="frmCorrectionBolus.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmFood.Designer.cs">
-      <DependentUpon>frmFood.cs</DependentUpon>
+    <Compile Include="frmCorrectionBolus.Designer.cs">
+      <DependentUpon>frmCorrectionBolus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFoodManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFoodManagement.Designer.cs">
+      <DependentUpon>frmFoodManagement.cs</DependentUpon>
     </Compile>
     <Compile Include="frmGlucose.cs">
       <SubType>Form</SubType>
@@ -146,6 +152,9 @@
     </Compile>
     <Compile Include="Main_GlucoMan_Forms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmCorrectionBolus.resx">
+      <DependentUpon>frmCorrectionBolus.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmGlucose.resx">
       <DependentUpon>frmGlucose.cs</DependentUpon>
     </EmbeddedResource>

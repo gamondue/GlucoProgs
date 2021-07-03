@@ -35,17 +35,17 @@ namespace GlucoMan_Mobile
         private void FromClassToUi()
         {
             txtChoToEat.Text = bolus.ChoToEat.Text;
-            txtRatioEvening.Text = bolus.ChoInsulineRatioEvening.Text;
+            txtRatioEvening.Text = bolus.ChoInsulineRatio.Text;
             txtRatioMidday.Text = bolus.ChoInsulineRatioMidday.Text;
             txtRatioMorning.Text = bolus.ChoInsulineRatioMorning.Text;
-            txtSensitivity1800.Text = bolus.InsulineSensitivity1800.Text;
-            txtSensitivity1500.Text = bolus.InsulineSensitivity1500.Text;
+            txtSensitivity1800.Text = bolus.InsulineSensitivity.Text;
+            txtSensitivity1500.Text = bolus.InsulineSensitivityFactor.Text;
             txtTdd.Text = bolus.TotalDailyDoseOfInsulin.Text;
             txtGlucoseBeforeMeal.Text = bolus.GlucoseBeforeMeal.Text;
             txtGlucoseToBeCorrected.Text = bolus.GlucoseToBeCorrected.Text;
             txtCorrectionInsuline.Text = bolus.CorrectionInsuline.Text;
   
-            txtTotalChoDinner.Text = bolus.TotalInsulineDinner.Text;
+            txtTotalChoDinner.Text = bolus.TotalInsulineMeal.Text;
             txtTotalChoLunch.Text = bolus.TotalInsulineLunch.Text;
             txtTotalChoBreakfast.Text = bolus.TotalInsulineBreakfast.Text;
             txtTypicalBolusMidday.Text = bolus.TypicalBolusMidday.Text;
@@ -54,7 +54,7 @@ namespace GlucoMan_Mobile
             txtTypicalBolusNight.Text = bolus.TypicalBolusNight.Text;
             txtTargetGlucose.Text = bolus.TargetGlucose.Text;
 
-            txtRatioEvening.Text = bolus.ChoInsulineRatioEvening.Text;
+            txtRatioEvening.Text = bolus.ChoInsulineRatio.Text;
             txtRatioMidday.Text = bolus.ChoInsulineRatioMidday.Text;
             txtRatioMorning.Text = bolus.ChoInsulineRatioMorning.Text;
         }
@@ -63,7 +63,7 @@ namespace GlucoMan_Mobile
             // since it is easy to mistakenly insert blanks during editing, we tear blanks off 
             // from all the Entry controls that input a number 
             bolus.ChoToEat.Text = txtChoToEat.Text.Replace(" ", "");
-            bolus.ChoInsulineRatioEvening.Text = txtRatioEvening.Text.Replace(" ", "");
+            bolus.ChoInsulineRatio.Text = txtRatioEvening.Text.Replace(" ", "");
             bolus.ChoInsulineRatioMidday.Text = txtRatioMidday.Text.Replace(" ", "");
             bolus.ChoInsulineRatioMorning.Text = txtRatioMorning.Text.Replace(" ", "");
 

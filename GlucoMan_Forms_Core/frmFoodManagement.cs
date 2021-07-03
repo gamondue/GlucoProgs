@@ -10,19 +10,11 @@ using System.Windows.Forms;
 
 namespace GlucoMan_Forms_Core
 {
-    public partial class frmMeal : Form
+    public partial class frmFoodManagement : Form
     {
-        public frmMeal()
+        public frmFoodManagement()
         {
             InitializeComponent();
-        }
-        private void dgvFoods_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-        private void dgvFoods_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }

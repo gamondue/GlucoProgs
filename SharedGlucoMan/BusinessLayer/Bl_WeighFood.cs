@@ -7,7 +7,7 @@ using System.IO;
 
 namespace GlucoMan.BusinessLayer
 {
-    class Bl_WeighFood
+    class BL_WeighFood
     {
         DataLayer dl = new DataLayer();
 

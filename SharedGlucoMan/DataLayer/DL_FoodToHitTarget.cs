@@ -9,7 +9,7 @@ namespace GlucoMan
 {
     internal partial class DataLayer
     {
-        internal void RestoreFoodToHitTargetCarbs(Bl_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
+        internal void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
         {
             if (File.Exists(persistentFoodToEatTarget))
                 try
@@ -26,7 +26,7 @@ namespace GlucoMan
                 }
         }
 
-        internal void SaveFoodToHitTarget(Bl_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
+        internal void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
         {
             try
             {

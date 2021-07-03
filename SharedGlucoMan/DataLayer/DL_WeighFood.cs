@@ -8,7 +8,7 @@ namespace GlucoMan
 {
     internal partial class DataLayer
     {
-        internal void RestoreWeighFood(GlucoMan.BusinessLayer.Bl_WeighFood WeighFood)
+        internal void RestoreWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
         {
             if (File.Exists(persistentWeighFood))
                 try
@@ -42,7 +42,7 @@ namespace GlucoMan
                     CommonFunctions.NotifyError(ex.Message);
                 }
         }
-        internal void SaveWeighFood(GlucoMan.BusinessLayer.Bl_WeighFood WeighFood)
+        internal void SaveWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
         {
             try
             {
