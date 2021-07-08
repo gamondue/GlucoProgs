@@ -11,9 +11,9 @@ namespace GlucoMan_Mobile
     {
         string persistentStorage = CommonData.PathConfigurationData + @"WeighFood.txt";
 
-        Bl_WeighFood food = new Bl_WeighFood();
-        Bl_GrossTareAndNetWeight M0RawMain;
-        Bl_GrossTareAndNetWeight S1Sauce;
+        BL_WeighFood food = new BL_WeighFood();
+        BL_GrossTareAndNetWeight M0RawMain;
+        BL_GrossTareAndNetWeight S1Sauce;
 
         public WeighFood_Page()
         {
@@ -22,9 +22,9 @@ namespace GlucoMan_Mobile
             food.RestoreData();
             FromClassToUi();
 
-            M0RawMain = new Bl_GrossTareAndNetWeight(food.T0RawGross, food.T0RawTare,
+            M0RawMain = new BL_GrossTareAndNetWeight(food.T0RawGross, food.T0RawTare,
                 food.T0RawNet);
-            S1Sauce = new Bl_GrossTareAndNetWeight(food.S1SauceGross, food.S1SauceTare, 
+            S1Sauce = new BL_GrossTareAndNetWeight(food.S1SauceGross, food.S1SauceTare, 
                 food.S1SauceNet);
         }
 

@@ -12,13 +12,13 @@ namespace GlucoMan_Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HypoPrediction_Page : ContentPage
     {
-        Bl_HypoPrediction hypo;
+        BL_HypoPrediction hypo;
 
         public HypoPrediction_Page()
         {
             InitializeComponent();
 
-            hypo = new Bl_HypoPrediction();
+            hypo = new BL_HypoPrediction();
 
             hypo.RestoreData();
             FromClassToUi();
@@ -38,7 +38,7 @@ namespace GlucoMan_Mobile
             txtAlarmAdvanceTime.Text = hypo.AlarmAdvanceTime.TotalMinutes.ToString();
             txtGlucoseSlope.Text = hypo.GlucoseSlope.ToString();
         }
-        private void FromUiToClass(Bl_HypoPrediction hypo)
+        private void FromUiToClass(BL_HypoPrediction hypo)
         {
             hypo.AlarmAdvanceTime = new TimeSpan(0, int.Parse(txtAlarmAdvanceTime.Text), 0);
             hypo.HypoGlucoseTarget.Text = txtGlucoseTarget.Text;

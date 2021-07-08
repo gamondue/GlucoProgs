@@ -40,8 +40,8 @@ namespace GlucoMan_Forms_Core
         private void FromClassToUi()
         {
             txtChoToEat.Text = bolusCalculation.ChoToEat.Text;
-            txtInsulineSensitivity.Text = bolusCalculation.InsulineSensitivity.Text;
-            cmbSensitivityFactor.Text = bolusCalculation.InsulineSensitivityFactor.Text;
+            txtInsulineSensitivity.Text = bolusCalculation.InsulineCorrectionSensitivity.Text;
+            cmbSensitivityFactor.Text = bolusCalculation.FactorOfInsulineCorrectionSensitivity.Text;
             txtTdd.Text = bolusCalculation.TotalDailyDoseOfInsulin.Text;
             txtGlucoseBeforeMeal.Text = bolusCalculation.GlucoseBeforeMeal.Text;
             txtGlucoseToBeCorrected.Text = bolusCalculation.GlucoseToBeCorrected  .Text;
@@ -84,7 +84,7 @@ namespace GlucoMan_Forms_Core
             bolusCalculation.ChoInsulineRatioBreakfast.Text = txtChoInsulineRatioBreakfast.Text;
             bolusCalculation.ChoInsulineRatioLunch.Text = txtChoInsulineRatioLunch.Text;
             bolusCalculation.GlucoseBeforeMeal.Text = txtGlucoseBeforeMeal.Text;
-            bolusCalculation.InsulineSensitivityFactor.Text = cmbSensitivityFactor.Text; 
+            bolusCalculation.FactorOfInsulineCorrectionSensitivity.Text = cmbSensitivityFactor.Text; 
             bolusCalculation.TypicalBolusMidday.Text = txtTypicalBolusMidday.Text;
             bolusCalculation.TypicalBolusMorning.Text = txtTypicalBolusMorning.Text;
             bolusCalculation.TypicalBolusEvening.Text = txtTypicalBolusEvening.Text;
@@ -122,6 +122,14 @@ namespace GlucoMan_Forms_Core
         private void txtRatioMidday_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnInsulineSensitivityCalculation_Click(object sender, EventArgs e)
+        {
+            FromUiToClass(); 
+            bolusCalculation.CalculateInsulinCorrectionSensitivity();  
+            // we don't save here! 
+            FromClassToUi(); 
         }
     }
 }

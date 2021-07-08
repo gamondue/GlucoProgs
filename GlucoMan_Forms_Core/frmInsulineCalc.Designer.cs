@@ -78,6 +78,7 @@ namespace GlucoMan_Forms_Core
             this.cmbSensitivityFactor = new System.Windows.Forms.ComboBox();
             this.txtStaturBar = new System.Windows.Forms.TextBox();
             this.txtTotalInsuline = new System.Windows.Forms.TextBox();
+            this.btnInsulineSensitivityCalculation = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -86,7 +87,7 @@ namespace GlucoMan_Forms_Core
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(231, 207);
+            this.label7.Location = new System.Drawing.Point(151, 207);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(154, 20);
@@ -96,7 +97,7 @@ namespace GlucoMan_Forms_Core
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 207);
+            this.label6.Location = new System.Drawing.Point(361, 133);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(42, 20);
@@ -188,11 +189,12 @@ namespace GlucoMan_Forms_Core
             // 
             // txtInsulineSensitivity
             // 
+            this.txtInsulineSensitivity.BackColor = System.Drawing.Color.PaleGoldenrod;
+            this.txtInsulineSensitivity.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtInsulineSensitivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtInsulineSensitivity.Location = new System.Drawing.Point(274, 232);
+            this.txtInsulineSensitivity.Location = new System.Drawing.Point(194, 232);
             this.txtInsulineSensitivity.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtInsulineSensitivity.Name = "txtInsulineSensitivity";
-            this.txtInsulineSensitivity.ReadOnly = true;
             this.txtInsulineSensitivity.Size = new System.Drawing.Size(68, 26);
             this.txtInsulineSensitivity.TabIndex = 27;
             this.txtInsulineSensitivity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -201,7 +203,7 @@ namespace GlucoMan_Forms_Core
             // txtTdd
             // 
             this.txtTdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTdd.Location = new System.Drawing.Point(3, 232);
+            this.txtTdd.Location = new System.Drawing.Point(348, 158);
             this.txtTdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTdd.Name = "txtTdd";
             this.txtTdd.ReadOnly = true;
@@ -303,7 +305,7 @@ namespace GlucoMan_Forms_Core
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(92, 207);
+            this.label9.Location = new System.Drawing.Point(16, 207);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(128, 20);
@@ -470,7 +472,7 @@ namespace GlucoMan_Forms_Core
             this.groupBox4.Controls.Add(this.label28);
             this.groupBox4.Controls.Add(this.txtTypicalBolusEvening);
             this.groupBox4.Controls.Add(this.txtTypicalBolusNight);
-            this.groupBox4.Location = new System.Drawing.Point(103, 105);
+            this.groupBox4.Location = new System.Drawing.Point(3, 105);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(327, 87);
             this.groupBox4.TabIndex = 8;
@@ -590,7 +592,7 @@ namespace GlucoMan_Forms_Core
             "1800",
             "1700",
             "1500"});
-            this.cmbSensitivityFactor.Location = new System.Drawing.Point(122, 230);
+            this.cmbSensitivityFactor.Location = new System.Drawing.Point(46, 230);
             this.cmbSensitivityFactor.Name = "cmbSensitivityFactor";
             this.cmbSensitivityFactor.Size = new System.Drawing.Size(68, 28);
             this.cmbSensitivityFactor.TabIndex = 104;
@@ -615,11 +617,23 @@ namespace GlucoMan_Forms_Core
             this.txtTotalInsuline.TabIndex = 114;
             this.txtTotalInsuline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // btnInsulineSensitivityCalculation
+            // 
+            this.btnInsulineSensitivityCalculation.Location = new System.Drawing.Point(345, 225);
+            this.btnInsulineSensitivityCalculation.Name = "btnInsulineSensitivityCalculation";
+            this.btnInsulineSensitivityCalculation.Size = new System.Drawing.Size(75, 33);
+            this.btnInsulineSensitivityCalculation.TabIndex = 115;
+            this.btnInsulineSensitivityCalculation.Text = "Calc";
+            this.toolTip1.SetToolTip(this.btnInsulineSensitivityCalculation, "Calculation of insuline sensitivity");
+            this.btnInsulineSensitivityCalculation.UseVisualStyleBackColor = true;
+            this.btnInsulineSensitivityCalculation.Click += new System.EventHandler(this.btnInsulineSensitivityCalculation_Click);
+            // 
             // frmInsulineCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(521, 544);
+            this.Controls.Add(this.btnInsulineSensitivityCalculation);
             this.Controls.Add(this.txtTotalInsuline);
             this.Controls.Add(this.txtStaturBar);
             this.Controls.Add(this.label2);
@@ -715,5 +729,6 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtStaturBar;
         private System.Windows.Forms.TextBox txtTotalInsuline;
+        private System.Windows.Forms.Button btnInsulineSensitivityCalculation;
     }
 }

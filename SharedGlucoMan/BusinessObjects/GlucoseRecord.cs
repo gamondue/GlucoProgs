@@ -52,8 +52,12 @@ namespace GlucoMan
         internal string CarbohydratesString { get => carbohydratesString; set => carbohydratesString = value; }
         internal string MealFoodString { get => mealFoodString; set => mealFoodString = value; }
         internal double? Chetons { get => chetonsMmolPerL; set => chetonsMmolPerL = value; } // in mmol/l
-        internal string Notes { get => notes; set => notes = value; }
         internal int AccessoryIndex { get => accessoryIndex; set => accessoryIndex = value; }
+        internal double? Weight { get; set; }
+        internal double? BloodPressure { get; set; }
+        internal double? PhysicalActivity { get; set; }
+        internal int? Photo { get; set; }
+        internal string Notes { get => notes; set => notes = value; }
     }
     enum TypeOfGlucoseMeasurement
     {
@@ -80,8 +84,12 @@ namespace GlucoMan
         Breakfast,
         Lunch,
         Dinner,
+        GlucoseRecover,
+        DecreasingGlucoseCorrection,
         Snack,
-        GlucoseCorrection
+        Night,
+        GlucoseCorrection,
+        Other
     }
     enum TypeOfInsulineSpeed
     {

@@ -15,7 +15,7 @@ namespace GlucoMan_Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FoodToHitTargetCarbs_Page : ContentPage
     {
-        Bl_FoodToHitTargetCarbs foodToEat = new Bl_FoodToHitTargetCarbs();
+        BL_FoodToHitTargetCarbs foodToEat = new BL_FoodToHitTargetCarbs();
 
         public FoodToHitTargetCarbs_Page()
         {

@@ -21,8 +21,8 @@ namespace GlucoMan.BusinessLayer
         internal DoubleAndText GlucoseBeforeMeal { get; set; }
         internal DoubleAndText GlucoseToBeCorrected { get; set; }
         internal DoubleAndText TargetGlucose { get; set; }
-        internal DoubleAndText InsulineSensitivityFactor { get; set; }
-        internal DoubleAndText InsulineSensitivity { get; }
+        internal DoubleAndText FactorOfInsulineCorrectionSensitivity { get; set; }
+        internal DoubleAndText InsulineCorrectionSensitivity { get; }
         internal DoubleAndText BolusInsulineDueToCorrectionOfGlucose { get; set; }
         internal DoubleAndText BolusInsulineDueToChoOfMeal { get; }
         internal DoubleAndText TotalInsulineForMeal { get; set; }
@@ -49,8 +49,8 @@ namespace GlucoMan.BusinessLayer
             GlucoseBeforeMeal = new DoubleAndText(); 
             GlucoseToBeCorrected = new DoubleAndText(); 
             TargetGlucose = new DoubleAndText(); 
-            InsulineSensitivityFactor = new DoubleAndText(); 
-            InsulineSensitivity = new DoubleAndText(); 
+            FactorOfInsulineCorrectionSensitivity = new DoubleAndText(); 
+            InsulineCorrectionSensitivity = new DoubleAndText(); 
             BolusInsulineDueToCorrectionOfGlucose = new DoubleAndText(); 
             BolusInsulineDueToChoOfMeal = new DoubleAndText(); 
             TotalInsulineForMeal = new DoubleAndText();
@@ -68,18 +68,24 @@ namespace GlucoMan.BusinessLayer
 
             MealOfBolus = new Meal(); 
         }
+        internal void CalculateInsulinCorrectionSensitivity()
+        {
+            TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double +
+                TypicalBolusEvening.Double + TypicalBolusNight.Double;
 
-    internal void CalculateBolus()
+            InsulineCorrectionSensitivity.Double = FactorOfInsulineCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
+        }
+        internal void CalculateBolus()
         {
             try
             {
                 // execute calculations
                 TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double + 
                     TypicalBolusEvening.Double + TypicalBolusNight.Double; 
-
-                InsulineSensitivity.Double = InsulineSensitivityFactor.Double / TotalDailyDoseOfInsulin.Double;
+                // insuline sensitivity is now calculated in a specific method
+                //InsulineCorrectionSensitivity.Double = FactorOfInsulineCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
-                BolusInsulineDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulineSensitivity.Double;
+                BolusInsulineDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulineCorrectionSensitivity.Double;
                
                 switch (MealOfBolus.Type)
                 {

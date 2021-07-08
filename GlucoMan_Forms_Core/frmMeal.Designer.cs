@@ -54,7 +54,7 @@ namespace GlucoMan_Forms_Core
             this.dgvFoods.Location = new System.Drawing.Point(13, 205);
             this.dgvFoods.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvFoods.Name = "dgvFoods";
-            this.dgvFoods.Size = new System.Drawing.Size(379, 178);
+            this.dgvFoods.Size = new System.Drawing.Size(379, 239);
             this.dgvFoods.TabIndex = 0;
             this.dgvFoods.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFoods_CellClick);
             this.dgvFoods.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFoods_CellContentClick);
@@ -168,9 +168,9 @@ namespace GlucoMan_Forms_Core
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(210, 76);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(79, 20);
+            this.label3.Size = new System.Drawing.Size(84, 20);
             this.label3.TabIndex = 44;
-            this.label3.Text = "Meal start";
+            this.label3.Text = "Meal finish";
             // 
             // dateTimePicker2
             // 
@@ -196,7 +196,7 @@ namespace GlucoMan_Forms_Core
             this.btnEndMeal.Name = "btnEndMeal";
             this.btnEndMeal.Size = new System.Drawing.Size(75, 29);
             this.btnEndMeal.TabIndex = 46;
-            this.btnEndMeal.Text = "End";
+            this.btnEndMeal.Text = "Finish";
             this.btnEndMeal.UseVisualStyleBackColor = true;
             // 
             // frmMeal

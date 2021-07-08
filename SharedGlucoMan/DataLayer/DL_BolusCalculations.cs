@@ -23,7 +23,9 @@ namespace GlucoMan
                 file += Bolus.GlucoseBeforeMeal.Text + "\n";
                 file += Bolus.TargetGlucose.Text + "\n";
                 file += Bolus.ChoToEat.Text + "\n";
-                file += Bolus.InsulineSensitivityFactor.Text + "\n";
+                file += Bolus.InsulineCorrectionSensitivity.Text + "\n";
+                file += Bolus.FactorOfInsulineCorrectionSensitivity.Text + "\n";
+                file += Bolus.TotalDailyDoseOfInsulin.Text + "\n";
 
                 TextFile.StringToFile(persistentBolusCalculation, file, false);
             }
@@ -48,7 +50,9 @@ namespace GlucoMan
                     Bolus.GlucoseBeforeMeal.Text = f[7];
                     Bolus.TargetGlucose.Text = f[8];
                     Bolus.ChoToEat.Text = f[9];
-                    Bolus.InsulineSensitivityFactor.Text = f[10]; ;
+                    Bolus.InsulineCorrectionSensitivity.Text = f[10];
+                    Bolus.FactorOfInsulineCorrectionSensitivity.Text = f[11];
+                    Bolus.TotalDailyDoseOfInsulin.Text = f[12];
                 }
                 catch (Exception ex)
                 {
@@ -83,7 +87,7 @@ namespace GlucoMan
                 fileContent += Bolus.TypicalBolusMidday.Text + "\t";
                 fileContent += Bolus.TypicalBolusEvening.Text + "\t";
                 fileContent += Bolus.TypicalBolusNight.Text + "\t";
-                fileContent += Bolus.InsulineSensitivityFactor.Text + "\t";
+                fileContent += Bolus.FactorOfInsulineCorrectionSensitivity.Text + "\t";
                 fileContent += Bolus.GlucoseBeforeMeal.Text + "\t";
                 fileContent += Bolus.TargetGlucose.Text + "\t";
                 fileContent += Bolus.ChoToEat.Text + "\t";
