@@ -65,7 +65,7 @@ namespace GlucoMan_Mobile
         }
         private void btnReadTarget_Click(object sender, EventArgs e)
         {
-            Bl_BolusCalculation bolus = new Bl_BolusCalculation();
+            BL_BolusCalculation bolus = new BL_BolusCalculation();
             bolus.RestoreData(); // read data from BolusCalculation's file
             // set read data to local TargetCho
             foodToEat.TargetCho.Double = bolus.ChoToEat.Double;

@@ -57,7 +57,7 @@ namespace GlucoMan_Forms_Core
             txtChoInsulineRatioBreakfast.Text = bolusCalculation.ChoInsulineRatioBreakfast.Text;
             txtChoInsulineRatioLunch.Text = bolusCalculation.ChoInsulineRatioLunch.Text; 
             txtChoInsulineRatioDinner.Text = bolusCalculation.ChoInsulineRatioDinner.Text;
-            txtStaturBar.Text = bolusCalculation.StatusMessage; 
+            txtStatusBar.Text = bolusCalculation.StatusMessage; 
             switch (bolusCalculation.MealOfBolus.Type)
             {
                 case (Meal.TypeOfMeal.Breakfast):
@@ -83,22 +83,17 @@ namespace GlucoMan_Forms_Core
             bolusCalculation.ChoInsulineRatioDinner.Text = txtChoInsulineRatioDinner.Text;
             bolusCalculation.ChoInsulineRatioBreakfast.Text = txtChoInsulineRatioBreakfast.Text;
             bolusCalculation.ChoInsulineRatioLunch.Text = txtChoInsulineRatioLunch.Text;
+            
             bolusCalculation.GlucoseBeforeMeal.Text = txtGlucoseBeforeMeal.Text;
-            bolusCalculation.FactorOfInsulineCorrectionSensitivity.Text = cmbSensitivityFactor.Text; 
+            bolusCalculation.FactorOfInsulineCorrectionSensitivity.Text = cmbSensitivityFactor.Text;
+
             bolusCalculation.TypicalBolusMidday.Text = txtTypicalBolusMidday.Text;
             bolusCalculation.TypicalBolusMorning.Text = txtTypicalBolusMorning.Text;
             bolusCalculation.TypicalBolusEvening.Text = txtTypicalBolusEvening.Text;
             bolusCalculation.TypicalBolusNight.Text = txtTypicalBolusNight.Text;
             bolusCalculation.TargetGlucose.Text = txtTargetGlucose.Text;
 
-            if (rdbIsBreakfast.Checked)
-                bolusCalculation.MealOfBolus.Type = Meal.TypeOfMeal.Breakfast;
-            if (rdbIsLunch.Checked)
-                bolusCalculation.MealOfBolus.Type = Meal.TypeOfMeal.Lunch;
-            if (rdbIsDinner.Checked)
-                bolusCalculation.MealOfBolus.Type = Meal.TypeOfMeal.Dinner;
-            if (rdbIsSnack.Checked)
-                bolusCalculation.MealOfBolus.Type = Meal.TypeOfMeal.Snack;
+
         }
 
         private void frmInsulineCalc_FormClosing(object sender, FormClosingEventArgs e)
@@ -130,6 +125,11 @@ namespace GlucoMan_Forms_Core
             bolusCalculation.CalculateInsulinCorrectionSensitivity();  
             // we don't save here! 
             FromClassToUi(); 
+        }
+
+        private void btnSaveBolus_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
