@@ -1,0 +1,6 @@
+*
+!.gitignore
+!GlucoMan_Desktop.dll
+!GlucoMan_Desktop.exe
+!GlucoMan_Desktop.runtimeconfig.json
+!GlucoMan_Desktop.deps.json

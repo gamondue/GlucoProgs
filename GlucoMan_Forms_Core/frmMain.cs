@@ -24,9 +24,9 @@ namespace GlucoMan_Forms_Core
             f.Show(); 
         }
 
-        private void btnInsulineCalc(object sender, EventArgs e)
+        private void btnInsulinCalc(object sender, EventArgs e)
         {
-            frmInsulineCalc f = new frmInsulineCalc();
+            frmInsulinCalc f = new frmInsulinCalc();
             f.Show(); 
         }
 

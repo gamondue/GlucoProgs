@@ -3,6 +3,7 @@ using GlucoMan;
 using GlucoMan.BusinessLayer;
 using SharedData;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,7 +14,7 @@ namespace GlucoMan_Mobile
     public partial class HypoPrediction_Page : ContentPage
     {
         BL_HypoPrediction hypo;
-
+        BL_GlucoseMeasurements blMeasurements = new BL_GlucoseMeasurements();
         public HypoPrediction_Page()
         {
             InitializeComponent();
@@ -23,7 +24,7 @@ namespace GlucoMan_Mobile
             hypo.RestoreData();
             FromClassToUi();
 
-            txtGlucoseSlope.Text = "XXXX";
+            txtGlucoseSlope.Text = "----";
             txtGlucoseLast.Focus();
         }
         private void FromClassToUi()
@@ -37,17 +38,19 @@ namespace GlucoMan_Mobile
             txtMinutePrevious.Text = hypo.MinutePrevious.Text;
             txtAlarmAdvanceTime.Text = hypo.AlarmAdvanceTime.TotalMinutes.ToString();
             txtGlucoseSlope.Text = hypo.GlucoseSlope.ToString();
+            txtAlarmHour.Text = hypo.AlarmTime.DateTime.Hour.ToString();
+            txtAlarmMinute.Text = hypo.AlarmTime.DateTime.Minute.ToString();
         }
-        private void FromUiToClass(BL_HypoPrediction hypo)
+        private void FromUiToClass()
         {
-            hypo.AlarmAdvanceTime = new TimeSpan(0, int.Parse(txtAlarmAdvanceTime.Text), 0);
-            hypo.HypoGlucoseTarget.Text = txtGlucoseTarget.Text;
-            hypo.GlucoseLast.Text = txtGlucoseLast.Text;
-            hypo.GlucosePrevious.Text = txtGlucosePrevious.Text;
-            hypo.HourLast.Text = txtHourLast.Text;
-            hypo.HourPrevious.Text = txtHourPrevious.Text;
-            hypo.MinuteLast.Text = txtMinuteLast.Text;
-            hypo.MinutePrevious.Text = txtMinutePrevious.Text;
+            FromUiToClass();
+            hypo.PredictHypoTime();
+            txtGlucoseSlope.Text = hypo.GlucoseSlope.Text;
+            txtPredictedHour.Text = hypo.PredictedHour.Text;
+            txtPredictedMinute.Text = hypo.PredictedMinute.Text;
+            txtAlarmHour.Text = hypo.AlarmHour.Text;
+            txtAlarmMinute.Text = hypo.AlarmMinute.Text;
+            txtStatusBar.Text = hypo.StatusMessage;
         }
         private void btnNow_Click(object sender, EventArgs e)
         {
@@ -58,13 +61,14 @@ namespace GlucoMan_Mobile
         }
         private void btnPredict_Click(object sender, EventArgs e)
         {
-            FromUiToClass(hypo); 
+            FromUiToClass();
             hypo.PredictHypoTime();
             txtGlucoseSlope.Text = hypo.GlucoseSlope.Text;
             txtPredictedHour.Text = hypo.PredictedHour.Text;
             txtPredictedMinute.Text = hypo.PredictedMinute.Text;
             txtAlarmHour.Text = hypo.AlarmHour.Text;
             txtAlarmMinute.Text = hypo.AlarmMinute.Text;
+            txtStatusBar.Text = hypo.StatusMessage;
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
@@ -89,6 +93,19 @@ namespace GlucoMan_Mobile
             //}
             //catch (Exception ex)
             //{ }
+        }
+        private void btnReadGlucose_Click(object sender, EventArgs e)
+        {
+            List<GlucoseRecord> list = blMeasurements.GetLastTwoGlucoseMeasurements();
+            if (list.Count != 0)
+            {
+                txtGlucoseLast.Text = list[0].GlucoseValue.ToString();
+                txtGlucosePrevious.Text = list[1].GlucoseValue.ToString();
+                txtHourLast.Text = list[0].Timestamp.Value.Hour.ToString();
+                txtHourPrevious.Text = list[1].Timestamp.Value.Hour.ToString();
+                txtMinuteLast.Text = list[0].Timestamp.Value.Minute.ToString();
+                txtMinutePrevious.Text = list[1].Timestamp.Value.Minute.ToString();
+            }
         }
     }
 }

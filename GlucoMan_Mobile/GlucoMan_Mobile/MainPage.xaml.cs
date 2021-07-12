@@ -1,5 +1,10 @@
 ﻿using SharedFunctions;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace GlucoMan_Mobile
@@ -15,15 +20,14 @@ namespace GlucoMan_Mobile
 
             CommonFunctions.Initializations();
         }
-
-        private async void btnWeighFood_Clicked(object sender, EventArgs e)
+            private async void btnWeighFood_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new WeighFood_Page());
         }
 
-        private async void btnInsuline_Clicked(object sender, EventArgs e)
+        private async void btnInsulin_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new InsulineCalc_Page());
+            await Navigation.PushAsync(new InsulinCalc_Page());
         }
 
         private async void btnHypoPrediction_Clicked(object sender, EventArgs e)
@@ -34,6 +38,10 @@ namespace GlucoMan_Mobile
         private async void btnFoodToHitTargetCarbs_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new FoodToHitTargetCarbs_Page());
+        }
+        private async void btnGlucoseMeasurement_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new GlucoseMeasurement_Page());
         }
     }
 }

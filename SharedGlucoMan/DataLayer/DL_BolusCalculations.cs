@@ -13,9 +13,9 @@ namespace GlucoMan
         internal void SaveBolusCalculations(BL_BolusCalculation Bolus)
         {
             try {
-                string file = Bolus.ChoInsulineRatioBreakfast.Text + "\n";
-                file += Bolus.ChoInsulineRatioLunch.Text + "\n";
-                file += Bolus.ChoInsulineRatioDinner.Text + "\n"; 
+                string file = Bolus.ChoInsulinRatioBreakfast.Text + "\n";
+                file += Bolus.ChoInsulinRatioLunch.Text + "\n";
+                file += Bolus.ChoInsulinRatioDinner.Text + "\n"; 
                 file += Bolus.TypicalBolusMorning.Text + "\n";
                 file += Bolus.TypicalBolusMidday.Text + "\n";
                 file += Bolus.TypicalBolusEvening.Text + "\n";
@@ -23,8 +23,8 @@ namespace GlucoMan
                 file += Bolus.GlucoseBeforeMeal.Text + "\n";
                 file += Bolus.TargetGlucose.Text + "\n";
                 file += Bolus.ChoToEat.Text + "\n";
-                file += Bolus.InsulineCorrectionSensitivity.Text + "\n";
-                file += Bolus.FactorOfInsulineCorrectionSensitivity.Text + "\n";
+                file += Bolus.InsulinCorrectionSensitivity.Text + "\n";
+                file += Bolus.FactorOfInsulinCorrectionSensitivity.Text + "\n";
                 file += Bolus.TotalDailyDoseOfInsulin.Text + "\n";
 
                 TextFile.StringToFile(persistentBolusCalculation, file, false);
@@ -40,9 +40,9 @@ namespace GlucoMan
                 try
                 {
                     string[] f = TextFile.FileToArray(persistentBolusCalculation);
-                    Bolus.ChoInsulineRatioBreakfast.Text = f[0];
-                    Bolus.ChoInsulineRatioLunch.Text = f[1];
-                    Bolus.ChoInsulineRatioDinner.Text = f[2];
+                    Bolus.ChoInsulinRatioBreakfast.Text = f[0];
+                    Bolus.ChoInsulinRatioLunch.Text = f[1];
+                    Bolus.ChoInsulinRatioDinner.Text = f[2];
                     Bolus.TypicalBolusMorning.Text = f[3];
                     Bolus.TypicalBolusMidday.Text = f[4];
                     Bolus.TypicalBolusEvening.Text = f[5];
@@ -50,8 +50,8 @@ namespace GlucoMan
                     Bolus.GlucoseBeforeMeal.Text = f[7];
                     Bolus.TargetGlucose.Text = f[8];
                     Bolus.ChoToEat.Text = f[9];
-                    Bolus.InsulineCorrectionSensitivity.Text = f[10];
-                    Bolus.FactorOfInsulineCorrectionSensitivity.Text = f[11];
+                    Bolus.InsulinCorrectionSensitivity.Text = f[10];
+                    Bolus.FactorOfInsulinCorrectionSensitivity.Text = f[11];
                     Bolus.TotalDailyDoseOfInsulin.Text = f[12];
                 }
                 catch (Exception ex)
@@ -68,32 +68,32 @@ namespace GlucoMan
                 if (!System.IO.File.Exists(logBolusCalculationsFile))
                 {
                     fileContent = "Timestamp" +
-                        "\tCHO/Insuline Ratio at breakfast\tCHO/Insuline Ratio at lunch\tCHO/Insuline Ratio at dinner" +
+                        "\tCHO/Insulin Ratio at breakfast\tCHO/Insulin Ratio at lunch\tCHO/Insulin Ratio at dinner" +
                         "\tTypical bolus in the morning\tTypical bolus at midday\tTypical bolus at evening\tTypical bolus at night" +
-                        "\tInsuline sensitivity factor used" +
+                        "\tInsulin sensitivity factor used" +
                         "\tMeasured glucose before meal\tTarget glucose\tCHO to eat at meal" +
-                        "\tCorrection insuline due to glucose difference from target\tCorrection insuline due to carbohydrates in meal" +
-                        "\tTotal bolus of insuline injected";
+                        "\tCorrection Insulin due to glucose difference from target\tCorrection Insulin due to carbohydrates in meal" +
+                        "\tTotal bolus of Insulin injected";
                     fileContent += "\r\n";
                 }
                 else
                     fileContent = "";
 
                 fileContent += DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\t";
-                fileContent += Bolus.ChoInsulineRatioBreakfast.Text + "\t";
-                fileContent += Bolus.ChoInsulineRatioLunch.Text + "\t";
-                fileContent += Bolus.ChoInsulineRatioDinner.Text + "\t";
+                fileContent += Bolus.ChoInsulinRatioBreakfast.Text + "\t";
+                fileContent += Bolus.ChoInsulinRatioLunch.Text + "\t";
+                fileContent += Bolus.ChoInsulinRatioDinner.Text + "\t";
                 fileContent += Bolus.TypicalBolusMorning.Text + "\t";
                 fileContent += Bolus.TypicalBolusMidday.Text + "\t";
                 fileContent += Bolus.TypicalBolusEvening.Text + "\t";
                 fileContent += Bolus.TypicalBolusNight.Text + "\t";
-                fileContent += Bolus.FactorOfInsulineCorrectionSensitivity.Text + "\t";
+                fileContent += Bolus.FactorOfInsulinCorrectionSensitivity.Text + "\t";
                 fileContent += Bolus.GlucoseBeforeMeal.Text + "\t";
                 fileContent += Bolus.TargetGlucose.Text + "\t";
                 fileContent += Bolus.ChoToEat.Text + "\t";
-                fileContent += Bolus.BolusInsulineDueToCorrectionOfGlucose.Text + "\t";
-                fileContent += Bolus.BolusInsulineDueToChoOfMeal.Text + "\t";
-                fileContent += Bolus.TotalInsulineForMeal.Text + "\t";
+                fileContent += Bolus.BolusInsulinDueToCorrectionOfGlucose.Text + "\t";
+                fileContent += Bolus.BolusInsulinDueToChoOfMeal.Text + "\t";
+                fileContent += Bolus.TotalInsulinForMeal.Text + "\t";
                 fileContent += "\r\n";
                 TextFile.StringToFile(logBolusCalculationsFile, fileContent, true);
             }

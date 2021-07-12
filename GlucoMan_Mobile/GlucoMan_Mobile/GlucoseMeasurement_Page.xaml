@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan_Mobile.GlucoseMeasurement_Page"
+             Title="Glucose measurements">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Text="Glucose" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="0" Grid.Column="1" Text="Date" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="0" Grid.Column="2" Text="Time" XAlign="Center" YAlign="End"/>
+            <Button Grid.Row="0" Grid.Column="3" Text="+" x:Name="btnAddMeasurement" Clicked="btnAddMeasurement_Click"></Button>
+            <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucose" Text="80" 
+                    HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod"
+                   IsEnabled="true"/>
+            <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate"/>
+            <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpEventTime"/>
+            <Button Grid.Row="1" Grid.Column="3" Text="-" x:Name="btnRemoveMeasurement" Clicked="btnRemoveMeasurement_Click"></Button>
+            <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
+                    <CheckBox.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="0,-10,0,0" />
+                            <On Platform="Android, WinPhone, Windows" Value="0,-5,0,0" />
+                        </OnPlatform>
+                    </CheckBox.Margin>
+                </CheckBox>
+                <Label VerticalTextAlignment="Center" VerticalOptions="Start" Text="Add with Now as time">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer>
+
+                        </TapGestureRecognizer>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            <StackLayout Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <CheckBox VerticalOptions="Start" x:Name="chkAutosave" IsChecked="True">
+                    <CheckBox.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="0,-10,0,0" />
+                            <On Platform="Android, WinPhone, Windows" Value="0,-5,0,0" />
+                        </OnPlatform>
+                    </CheckBox.Margin>
+                </CheckBox>
+                <Label VerticalTextAlignment="Center" VerticalOptions="Start"
+                    Text="Autosave">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer>
+
+                        </TapGestureRecognizer>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

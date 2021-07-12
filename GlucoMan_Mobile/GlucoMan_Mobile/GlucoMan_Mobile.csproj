@@ -1,54 +1,36 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-    <Version>0.3.1.0</Version>
-    <Company>-</Company>
+    <Version>0.4.0.0</Version>
     <Authors>Ing. Gabriele MONTI - Forlì - Italia</Authors>
+    <Company>-</Company>
     <Product>GlucoMan</Product>
+    <Copyright>Copyleft by Ing.Gabriele Monti - Forlì Italia - 2020-21</Copyright>
     <Description>A program for the diabetic person</Description>
-    <Copyright>Copyleft by Ing.Gabriele Monti - Forlì Italia - 2020</Copyright>
     <PackageLicenseExpression>GPL v.2</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>portable</DebugType>
-    
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    <PackageReference Include="Xamarin.Forms.DataGrid" Version="4.8.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="HypoPrediction_Page.xaml.cs">
-      <DependentUpon>HypoPrediction_Page.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="FoodToHitTargetCarbs_Page.xaml.cs">
-      <DependentUpon>FoodToHitTargetCarbs_Page.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="WeighFood_Page.xaml.cs">
-      <DependentUpon>WeighFood_Page.xaml</DependentUpon>
+    <Compile Update="InsulinCalc_Page.xaml.cs">
+      <DependentUpon>InsulinCalc_Page.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="HypoPrediction_Page.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="InsulineCalc_Page.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="FoodToHitTargetCarbs_Page.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="WeighFood_Page.xaml">
+    <EmbeddedResource Update="GlucoseMeasurement_Page.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -32,7 +32,7 @@ namespace GlucoMan_Forms_Core
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.btnHypoPrediction = new System.Windows.Forms.Button();
             this.btnWeighFood = new System.Windows.Forms.Button();
-            this.btnInsuline = new System.Windows.Forms.Button();
+            this.btnInsulin = new System.Windows.Forms.Button();
             this.btnFoodToHitTargetCarbs = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtHeaderText = new System.Windows.Forms.TextBox();
@@ -66,16 +66,16 @@ namespace GlucoMan_Forms_Core
             this.btnWeighFood.UseVisualStyleBackColor = true;
             this.btnWeighFood.Click += new System.EventHandler(this.btnWeighFood_Click);
             // 
-            // btnInsuline
+            // btnInsulin
             // 
-            this.btnInsuline.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInsuline.Location = new System.Drawing.Point(297, 148);
-            this.btnInsuline.Name = "btnInsuline";
-            this.btnInsuline.Size = new System.Drawing.Size(89, 54);
-            this.btnInsuline.TabIndex = 2;
-            this.btnInsuline.Text = "Meal Insuline";
-            this.btnInsuline.UseVisualStyleBackColor = true;
-            this.btnInsuline.Click += new System.EventHandler(this.btnInsulineCalc);
+            this.btnInsulin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInsulin.Location = new System.Drawing.Point(297, 148);
+            this.btnInsulin.Name = "btnInsulin";
+            this.btnInsulin.Size = new System.Drawing.Size(89, 54);
+            this.btnInsulin.TabIndex = 2;
+            this.btnInsulin.Text = "Meal Insuline";
+            this.btnInsulin.UseVisualStyleBackColor = true;
+            this.btnInsulin.Click += new System.EventHandler(this.btnInsulinCalc);
             // 
             // btnFoodToHitTargetCarbs
             // 
@@ -174,7 +174,7 @@ namespace GlucoMan_Forms_Core
             this.Controls.Add(this.txtHeaderText);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnFoodToHitTargetCarbs);
-            this.Controls.Add(this.btnInsuline);
+            this.Controls.Add(this.btnInsulin);
             this.Controls.Add(this.btnWeighFood);
             this.Controls.Add(this.btnHypoPrediction);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -190,7 +190,7 @@ namespace GlucoMan_Forms_Core
 
         private System.Windows.Forms.Button btnHypoPrediction;
         private System.Windows.Forms.Button btnWeighFood;
-        private System.Windows.Forms.Button btnInsuline;
+        private System.Windows.Forms.Button btnInsulin;
         private System.Windows.Forms.Button btnFoodToHitTargetCarbs;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtHeaderText;

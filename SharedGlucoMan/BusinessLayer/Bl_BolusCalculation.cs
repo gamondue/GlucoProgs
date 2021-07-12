@@ -14,18 +14,18 @@ namespace GlucoMan.BusinessLayer
         internal DoubleAndText TypicalBolusMidday { get; set; }
         internal DoubleAndText TypicalBolusEvening { get; set; }
         internal DoubleAndText TypicalBolusNight { get; set; }
-        internal DoubleAndText ChoInsulineRatioLunch { get; set; }
-        internal DoubleAndText ChoInsulineRatioDinner { get; set; }
-        internal DoubleAndText ChoInsulineRatioBreakfast { get; set; }
+        internal DoubleAndText ChoInsulinRatioLunch { get; set; }
+        internal DoubleAndText ChoInsulinRatioDinner { get; set; }
+        internal DoubleAndText ChoInsulinRatioBreakfast { get; set; }
         internal DoubleAndText TotalDailyDoseOfInsulin { get; set; }
         internal DoubleAndText GlucoseBeforeMeal { get; set; }
         internal DoubleAndText GlucoseToBeCorrected { get; set; }
         internal DoubleAndText TargetGlucose { get; set; }
-        internal DoubleAndText FactorOfInsulineCorrectionSensitivity { get; set; }
-        internal DoubleAndText InsulineCorrectionSensitivity { get; }
-        internal DoubleAndText BolusInsulineDueToCorrectionOfGlucose { get; set; }
-        internal DoubleAndText BolusInsulineDueToChoOfMeal { get; }
-        internal DoubleAndText TotalInsulineForMeal { get; set; }
+        internal DoubleAndText FactorOfInsulinCorrectionSensitivity { get; set; }
+        internal DoubleAndText InsulinCorrectionSensitivity { get; }
+        internal DoubleAndText BolusInsulinDueToCorrectionOfGlucose { get; set; }
+        internal DoubleAndText BolusInsulinDueToChoOfMeal { get; }
+        internal DoubleAndText TotalInsulinForMeal { get; set; }
         internal string StatusMessage { get => statusMessage; }
         internal Meal MealOfBolus { get; set; }
 
@@ -42,18 +42,18 @@ namespace GlucoMan.BusinessLayer
             TypicalBolusMidday = new DoubleAndText(); 
             TypicalBolusEvening = new DoubleAndText(); 
             TypicalBolusNight = new DoubleAndText();
-            ChoInsulineRatioBreakfast = new DoubleAndText();
-            ChoInsulineRatioLunch = new DoubleAndText();
-            ChoInsulineRatioDinner = new DoubleAndText();
+            ChoInsulinRatioBreakfast = new DoubleAndText();
+            ChoInsulinRatioLunch = new DoubleAndText();
+            ChoInsulinRatioDinner = new DoubleAndText();
             TotalDailyDoseOfInsulin = new DoubleAndText(); 
             GlucoseBeforeMeal = new DoubleAndText(); 
             GlucoseToBeCorrected = new DoubleAndText(); 
             TargetGlucose = new DoubleAndText(); 
-            FactorOfInsulineCorrectionSensitivity = new DoubleAndText(); 
-            InsulineCorrectionSensitivity = new DoubleAndText(); 
-            BolusInsulineDueToCorrectionOfGlucose = new DoubleAndText(); 
-            BolusInsulineDueToChoOfMeal = new DoubleAndText(); 
-            TotalInsulineForMeal = new DoubleAndText();
+            FactorOfInsulinCorrectionSensitivity = new DoubleAndText(); 
+            InsulinCorrectionSensitivity = new DoubleAndText(); 
+            BolusInsulinDueToCorrectionOfGlucose = new DoubleAndText(); 
+            BolusInsulinDueToChoOfMeal = new DoubleAndText(); 
+            TotalInsulinForMeal = new DoubleAndText();
 
             statusMessage = ""; 
             DateTime now = DateTime.Now;
@@ -73,7 +73,7 @@ namespace GlucoMan.BusinessLayer
             TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double +
                 TypicalBolusEvening.Double + TypicalBolusNight.Double;
 
-            InsulineCorrectionSensitivity.Double = FactorOfInsulineCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
+            InsulinCorrectionSensitivity.Double = FactorOfInsulinCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
         }
         internal void CalculateBolus()
         {
@@ -82,27 +82,27 @@ namespace GlucoMan.BusinessLayer
                 // execute calculations
                 TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double + 
                     TypicalBolusEvening.Double + TypicalBolusNight.Double; 
-                // insuline sensitivity is now calculated in a specific method
-                //InsulineCorrectionSensitivity.Double = FactorOfInsulineCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
+                // insulin sensitivity is now calculated in a specific method
+                //InsulinCorrectionSensitivity.Double = FactorOfInsulinCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
-                BolusInsulineDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulineCorrectionSensitivity.Double;
+                BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
                
                 switch (MealOfBolus.Type)
                 {
                     case (Meal.TypeOfMeal.Breakfast):
-                        BolusInsulineDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulineRatioBreakfast.Double;
+                        BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioBreakfast.Double;
                         break; 
                     case (Meal.TypeOfMeal.Lunch):
-                        BolusInsulineDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulineRatioLunch.Double;
+                        BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioLunch.Double;
                         break;
                     case (Meal.TypeOfMeal.Dinner):
-                        BolusInsulineDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulineRatioBreakfast.Double;
+                        BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioBreakfast.Double;
                         break;
                     case (Meal.TypeOfMeal.Snack):
-                        BolusInsulineDueToChoOfMeal.Double = 0; // snack has no insuline due to meal 
+                        BolusInsulinDueToChoOfMeal.Double = 0; // snack has no insulin due to meal 
                         break;
                 }
-                TotalInsulineForMeal.Double = BolusInsulineDueToChoOfMeal.Double + BolusInsulineDueToCorrectionOfGlucose.Double;
+                TotalInsulinForMeal.Double = BolusInsulinDueToChoOfMeal.Double + BolusInsulinDueToCorrectionOfGlucose.Double;
             }
             catch (Exception ex)
             {
@@ -110,14 +110,14 @@ namespace GlucoMan.BusinessLayer
             }
         }
 
-        internal void RoundInsulineToZeroDecimal()
+        internal void RoundInsulinToZeroDecimal()
         {
             // find target bolus and relative CHO with bisection algorithm 
             
             // calc bolus to determine target bolus
             CalculateBolus();
             // target bolus will be nearest integer 
-            double targetBolus = Math.Round(TotalInsulineForMeal.Double);
+            double targetBolus = Math.Round(TotalInsulinForMeal.Double);
             // calc the two CHO "Plus" and "Minus" initial values 
             double initialCho = ChoToEat.Double;
             double choPlus = initialCho + 15;
@@ -125,11 +125,11 @@ namespace GlucoMan.BusinessLayer
             // calc bolus for the "Plus" initial value
             ChoToEat.Double = choPlus;  // ChoToEat.Double is the CHO 
             CalculateBolus();
-            double bolusPlus = TotalInsulineForMeal.Double;
+            double bolusPlus = TotalInsulinForMeal.Double;
             // calc bolus for the "Minus" initial value
             ChoToEat.Double = choMinus;
             CalculateBolus();
-            double bolusMinus = TotalInsulineForMeal.Double;
+            double bolusMinus = TotalInsulinForMeal.Double;
 
             double bolusCurrent;
             int iterationsCount = 0; 
@@ -138,7 +138,7 @@ namespace GlucoMan.BusinessLayer
                 // next attempt CHO, in the middle of current interval 
                 ChoToEat.Double = (choPlus - choMinus) / 2 + choMinus;
                 CalculateBolus();
-                bolusCurrent = TotalInsulineForMeal.Double; 
+                bolusCurrent = TotalInsulinForMeal.Double; 
                 if (bolusCurrent < targetBolus)
                 {
                     choMinus = ChoToEat.Double;
