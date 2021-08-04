@@ -17,7 +17,7 @@ namespace GlucoMan_Forms_Core
             bolusCalculation = new BL_BolusCalculation();
             glucoseMeasuremet = new BL_GlucoseMeasurements();
         }
-        private void frmInsulineCalc_Load(object sender, EventArgs e)
+        private void frmInsulinCalc_Load(object sender, EventArgs e)
         {
             bolusCalculation.RestoreData();
             bolusCalculation.MealOfBolus.SelectMealBasedOnTimeNow();
@@ -40,23 +40,23 @@ namespace GlucoMan_Forms_Core
         private void FromClassToUi()
         {
             txtChoToEat.Text = bolusCalculation.ChoToEat.Text;
-            txtInsulineSensitivity.Text = bolusCalculation.InsulinCorrectionSensitivity.Text;
+            txtInsulinSensitivity.Text = bolusCalculation.InsulinCorrectionSensitivity.Text;
             cmbSensitivityFactor.Text = bolusCalculation.FactorOfInsulinCorrectionSensitivity.Text;
             txtTdd.Text = bolusCalculation.TotalDailyDoseOfInsulin.Text;
             txtGlucoseBeforeMeal.Text = bolusCalculation.GlucoseBeforeMeal.Text;
             txtGlucoseToBeCorrected.Text = bolusCalculation.GlucoseToBeCorrected  .Text;
-            txtCorrectionInsuline.Text = bolusCalculation.BolusInsulinDueToCorrectionOfGlucose.Text;
-            txtChoInsulineMeal.Text = bolusCalculation.BolusInsulinDueToChoOfMeal.Text;
-            txtTotalInsuline.Text = bolusCalculation.TotalInsulinForMeal.Text;
+            txtCorrectionInsulin.Text = bolusCalculation.BolusInsulinDueToCorrectionOfGlucose.Text;
+            txtChoInsulinMeal.Text = bolusCalculation.BolusInsulinDueToChoOfMeal.Text;
+            txtTotalInsulin.Text = bolusCalculation.TotalInsulinForMeal.Text;
             txtTypicalBolusMidday.Text = bolusCalculation.TypicalBolusMidday.Text;
             txtTypicalBolusMorning.Text = bolusCalculation.TypicalBolusMorning.Text;
             txtTypicalBolusEvening.Text = bolusCalculation.TypicalBolusEvening.Text;
             txtTypicalBolusNight.Text = bolusCalculation.TypicalBolusNight.Text;
             txtTargetGlucose.Text = bolusCalculation.TargetGlucose.Text;
 
-            txtChoInsulineRatioBreakfast.Text = bolusCalculation.ChoInsulinRatioBreakfast.Text;
-            txtChoInsulineRatioLunch.Text = bolusCalculation.ChoInsulinRatioLunch.Text; 
-            txtChoInsulineRatioDinner.Text = bolusCalculation.ChoInsulinRatioDinner.Text;
+            txtChoInsulinRatioBreakfast.Text = bolusCalculation.ChoInsulinRatioBreakfast.Text;
+            txtChoInsulinRatioLunch.Text = bolusCalculation.ChoInsulinRatioLunch.Text; 
+            txtChoInsulinRatioDinner.Text = bolusCalculation.ChoInsulinRatioDinner.Text;
             txtStatusBar.Text = bolusCalculation.StatusMessage; 
             switch (bolusCalculation.MealOfBolus.Type)
             {
@@ -73,16 +73,16 @@ namespace GlucoMan_Forms_Core
                     rdbIsSnack.Checked = true;
                     break;
             }
-            txtChoInsulineRatioBreakfast.Text = bolusCalculation.ChoInsulinRatioBreakfast.Text;
-            txtChoInsulineRatioLunch.Text = bolusCalculation.ChoInsulinRatioLunch.Text;
-            txtChoInsulineRatioDinner.Text = bolusCalculation.ChoInsulinRatioDinner.Text;
+            txtChoInsulinRatioBreakfast.Text = bolusCalculation.ChoInsulinRatioBreakfast.Text;
+            txtChoInsulinRatioLunch.Text = bolusCalculation.ChoInsulinRatioLunch.Text;
+            txtChoInsulinRatioDinner.Text = bolusCalculation.ChoInsulinRatioDinner.Text;
         }
         private void FromUiToClass()
         {
             bolusCalculation.ChoToEat.Text = txtChoToEat.Text;
-            bolusCalculation.ChoInsulinRatioDinner.Text = txtChoInsulineRatioDinner.Text;
-            bolusCalculation.ChoInsulinRatioBreakfast.Text = txtChoInsulineRatioBreakfast.Text;
-            bolusCalculation.ChoInsulinRatioLunch.Text = txtChoInsulineRatioLunch.Text;
+            bolusCalculation.ChoInsulinRatioDinner.Text = txtChoInsulinRatioDinner.Text;
+            bolusCalculation.ChoInsulinRatioBreakfast.Text = txtChoInsulinRatioBreakfast.Text;
+            bolusCalculation.ChoInsulinRatioLunch.Text = txtChoInsulinRatioLunch.Text;
             
             bolusCalculation.GlucoseBeforeMeal.Text = txtGlucoseBeforeMeal.Text;
             bolusCalculation.FactorOfInsulinCorrectionSensitivity.Text = cmbSensitivityFactor.Text;
@@ -96,12 +96,12 @@ namespace GlucoMan_Forms_Core
 
         }
 
-        private void frmInsulineCalc_FormClosing(object sender, FormClosingEventArgs e)
+        private void frmInsulinCalc_FormClosing(object sender, FormClosingEventArgs e)
         {
             FromUiToClass();
             bolusCalculation.SaveData();
         }
-        private void btnRoundInsuline_Click(object sender, EventArgs e)
+        private void btnRoundInsulin_Click(object sender, EventArgs e)
         {
             FromUiToClass();
             bolusCalculation.RoundInsulinToZeroDecimal();

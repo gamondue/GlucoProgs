@@ -29,12 +29,36 @@ namespace GlucoMan_Forms_Core
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.viewFoods = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.viewFoods)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // viewFoods
+            // 
+            this.viewFoods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.viewFoods.Location = new System.Drawing.Point(13, 166);
+            this.viewFoods.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.viewFoods.Name = "viewFoods";
+            this.viewFoods.Size = new System.Drawing.Size(734, 362);
+            this.viewFoods.TabIndex = 1;
+            // 
+            // frmFoodManagement
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(760, 543);
+            this.Controls.Add(this.viewFoods);
+            this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Name = "frmFoodManagement";
             this.Text = "frmFood";
+            ((System.ComponentModel.ISupportInitialize)(this.viewFoods)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.DataGridView viewFoods;
     }
 }

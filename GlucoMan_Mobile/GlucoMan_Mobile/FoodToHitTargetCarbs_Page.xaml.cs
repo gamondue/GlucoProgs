@@ -16,7 +16,6 @@ namespace GlucoMan_Mobile
     public partial class FoodToHitTargetCarbs_Page : ContentPage
     {
         BL_FoodToHitTargetCarbs foodToEat = new BL_FoodToHitTargetCarbs();
-
         public FoodToHitTargetCarbs_Page()
         {
             InitializeComponent();

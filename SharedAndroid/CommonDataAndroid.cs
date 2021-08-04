@@ -13,7 +13,7 @@ namespace SharedData
         // internal static string PathUsersDownload = Environment.SpecialFolder.ApplicationData.ToString();
 
         //internal string this.GetExternalFilesDir(null).AbsolutePath;
-        internal static string PathUsersDownload = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+        //internal static string PathUsersDownload = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
 
         //internal static string PathUsersDownload = Environment.SpecialFolder.ApplicationData.ToString();
 
@@ -21,7 +21,7 @@ namespace SharedData
         //internal static string PathUsersDownload = Path.Combine(Xamarin.Forms.PlatformConfiguration.Android.OS.Environment.ExternalStorageDirectory.AbsolutePath
         //, Android.OS.Environment.DirectoryDownloads);
 
-        //internal static string PathUsersDownload = ".//";
+        internal static string PathUsersDownload = ".//";
 
         // fix the former using some hints from here: 
         // https://stackoverflow.com/questions/54591881/xamarin-forms-platform-android-does-not-exist-after-xamarin-update-from-2-5-to-3

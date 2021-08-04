@@ -2,6 +2,67 @@
 
 namespace GlucoMan
 {
+    #region enums
+    enum TypeOfGlucoseMeasurement
+    {
+        NotSet,
+        Strip,
+        SensorIntermediateValue,
+        SensorScanValue
+    }
+    enum TypeOfGlucoseMeasurementDevice
+    {
+        NotSet,
+        Strip,
+        SensorIntermediateValue,
+        SensorScanValue
+    }
+    enum ModelOfMeasurementSystem
+    {
+        AbbotFreestyle,
+        AbbotFreestyleLibre
+    }
+    enum TypeOfMeal
+    {
+        NotSet,
+        Breakfast,
+        Lunch,
+        Dinner,
+        GlucoseRecover,
+        DecreasingGlucoseCorrection,
+        Snack,
+        Night,
+        GlucoseCorrection,
+        Other
+    }
+    enum TypeOfInsulineSpeed
+    {
+        NotSet,
+        QuickActionInsuline,
+        SlowActionInsuline
+    }
+    enum TypeOfInsulineBolus
+    {
+        NotSet,
+        CarbBolus,
+        CorrectionBolus,
+        ExtendedBolus,
+        BasalBolus
+    }
+    enum QualitativeAccuracy
+    {
+        NotSet,
+        VeryBad,
+        Bad,
+        Poor,
+        Satifactory,
+        Good,
+        VeryGood,
+        Outstanding,
+        Perfect
+    }
+
+    #endregion
     internal class GlucoseRecord
     {
         private DateTime? timestamp;
@@ -58,63 +119,9 @@ namespace GlucoMan
         internal double? PhysicalActivity { get; set; }
         internal int? Photo { get; set; }
         internal string Notes { get => notes; set => notes = value; }
-    }
-    enum TypeOfGlucoseMeasurement
-    {
-        NotSet,
-        Strip, 
-        SensorIntermediateValue,
-        SensorScanValue
-    }
-    enum TypeOfGlucoseMeasurementDevice
-    {
-        NotSet,
-        Strip,
-        SensorIntermediateValue,
-        SensorScanValue
-    }
-    enum ModelOfMeasurementSystem
-    {
-        AbbotFreestyle,
-        AbbotFreestyleLibre
-    }
-    enum TypeOfMeal
-    {
-        NotSet,
-        Breakfast,
-        Lunch,
-        Dinner,
-        GlucoseRecover,
-        DecreasingGlucoseCorrection,
-        Snack,
-        Night,
-        GlucoseCorrection,
-        Other
-    }
-    enum TypeOfInsulineSpeed
-    {
-        NotSet,
-        QuickActionInsuline,
-        SlowActionInsuline
-    }
-    enum TypeOfInsulineBolus
-    {
-        NotSet, 
-        CarbBolus,
-        CorrectionBolus,
-        ExtendedBolus,
-        BasalBolus
-    }
-    enum QualitativeAccuracy
-    {
-        NotSet,
-        VeryBad,
-        Bad,
-        Poor,
-        Satifactory,
-        Good,
-        VeryGood,
-        Outstanding, 
-        Perfect
+        public override string ToString()
+        {
+            return Timestamp?.ToString("yyyy-MM-dd HH:mm:ss"); 
+        }
     }
 }

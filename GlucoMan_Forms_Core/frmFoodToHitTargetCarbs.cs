@@ -45,7 +45,6 @@ namespace GlucoMan_Forms_Core
 
             FromClassToUi();
         }
-
         private void TxtChoOfFood_TextChanged(object sender, EventArgs e)
         {
 

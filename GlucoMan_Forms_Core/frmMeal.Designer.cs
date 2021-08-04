@@ -29,7 +29,7 @@ namespace GlucoMan_Forms_Core
         /// </summary>
         private void InitializeComponent()
         {
-            this.dgvFoods = new System.Windows.Forms.DataGridView();
+            this.viewFoods = new System.Windows.Forms.DataGridView();
             this.btnAddFood = new System.Windows.Forms.Button();
             this.btnRemoveFood = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -44,20 +44,20 @@ namespace GlucoMan_Forms_Core
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.btnStartMeal = new System.Windows.Forms.Button();
             this.btnEndMeal = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFoods)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.viewFoods)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dgvFoods
+            // viewFoods
             // 
-            this.dgvFoods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFoods.Location = new System.Drawing.Point(13, 205);
-            this.dgvFoods.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.dgvFoods.Name = "dgvFoods";
-            this.dgvFoods.Size = new System.Drawing.Size(379, 239);
-            this.dgvFoods.TabIndex = 0;
-            this.dgvFoods.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFoods_CellClick);
-            this.dgvFoods.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFoods_CellContentClick);
+            this.viewFoods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.viewFoods.Location = new System.Drawing.Point(13, 205);
+            this.viewFoods.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.viewFoods.Name = "viewFoods";
+            this.viewFoods.Size = new System.Drawing.Size(379, 239);
+            this.viewFoods.TabIndex = 0;
+            this.viewFoods.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.viewFoods_CellClick);
+            this.viewFoods.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.viewFoods_CellContentClick);
             // 
             // btnAddFood
             // 
@@ -68,6 +68,7 @@ namespace GlucoMan_Forms_Core
             this.btnAddFood.TabIndex = 1;
             this.btnAddFood.Text = "+ Food";
             this.btnAddFood.UseVisualStyleBackColor = true;
+            this.btnAddFood.Click += new System.EventHandler(this.btnAddFood_Click);
             // 
             // btnRemoveFood
             // 
@@ -214,12 +215,13 @@ namespace GlucoMan_Forms_Core
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnRemoveFood);
             this.Controls.Add(this.btnAddFood);
-            this.Controls.Add(this.dgvFoods);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.Controls.Add(this.viewFoods);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmMeal";
             this.Text = "Sum the carbs to ingest";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFoods)).EndInit();
+            this.Load += new System.EventHandler(this.frmMeal_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.viewFoods)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -229,7 +231,7 @@ namespace GlucoMan_Forms_Core
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvFoods;
+        private System.Windows.Forms.DataGridView viewFoods;
         private System.Windows.Forms.Button btnAddFood;
         private System.Windows.Forms.Button btnRemoveFood;
         private System.Windows.Forms.GroupBox groupBox1;

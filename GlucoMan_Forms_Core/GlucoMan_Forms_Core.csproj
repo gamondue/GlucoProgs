@@ -24,4 +24,8 @@
 
   <Import Project="..\SharedWinForms\SharedWinForms.projitems" Label="Shared" />
 
+  <ItemGroup>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.114.4" />
+  </ItemGroup>
+
 </Project>

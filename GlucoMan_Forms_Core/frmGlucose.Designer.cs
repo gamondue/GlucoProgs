@@ -39,15 +39,15 @@ namespace GlucoMan_Forms_Core
             this.dtpEventInstant = new System.Windows.Forms.DateTimePicker();
             this.chkNowInAdd = new System.Windows.Forms.CheckBox();
             this.chkAutosave = new System.Windows.Forms.CheckBox();
-            this.dgvMeasurements = new System.Windows.Forms.DataGridView();
+            this.viewMeasurements = new System.Windows.Forms.DataGridView();
             this.glucoseRecordBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMeasurements)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.viewMeasurements)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.glucoseRecordBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // txtGlucose
             // 
-            this.txtGlucose.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F);
+            this.txtGlucose.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtGlucose.Location = new System.Drawing.Point(12, 36);
             this.txtGlucose.Name = "txtGlucose";
             this.txtGlucose.Size = new System.Drawing.Size(100, 45);
@@ -65,7 +65,7 @@ namespace GlucoMan_Forms_Core
             // 
             // btnAddMeasurement
             // 
-            this.btnAddMeasurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F);
+            this.btnAddMeasurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnAddMeasurement.Location = new System.Drawing.Point(673, 36);
             this.btnAddMeasurement.Name = "btnAddMeasurement";
             this.btnAddMeasurement.Size = new System.Drawing.Size(43, 45);
@@ -76,7 +76,7 @@ namespace GlucoMan_Forms_Core
             // 
             // btnRemoveMeasurement
             // 
-            this.btnRemoveMeasurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F);
+            this.btnRemoveMeasurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnRemoveMeasurement.Location = new System.Drawing.Point(722, 36);
             this.btnRemoveMeasurement.Name = "btnRemoveMeasurement";
             this.btnRemoveMeasurement.Size = new System.Drawing.Size(46, 45);
@@ -97,7 +97,7 @@ namespace GlucoMan_Forms_Core
             // dtpEventInstant
             // 
             this.dtpEventInstant.CustomFormat = "yyyy/MM/dd HH:mm:ss";
-            this.dtpEventInstant.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F);
+            this.dtpEventInstant.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.dtpEventInstant.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpEventInstant.Location = new System.Drawing.Point(131, 36);
             this.dtpEventInstant.Name = "dtpEventInstant";
@@ -128,28 +128,24 @@ namespace GlucoMan_Forms_Core
             this.chkAutosave.Text = "Autosave";
             this.chkAutosave.UseVisualStyleBackColor = true;
             // 
-            // dgwMeasurements
+            // viewMeasurements
             // 
-            this.dgvMeasurements.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.viewMeasurements.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvMeasurements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMeasurements.Location = new System.Drawing.Point(12, 87);
-            this.dgvMeasurements.Name = "dgwMeasurements";
-            this.dgvMeasurements.Size = new System.Drawing.Size(756, 422);
-            this.dgvMeasurements.TabIndex = 10;
-            this.dgvMeasurements.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasurements_RowEnter);
-            // 
-            // glucoseRecordBindingSource
-            // 
-            this.glucoseRecordBindingSource.DataSource = typeof(GlucoMan.GlucoseRecord);
+            this.viewMeasurements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.viewMeasurements.Location = new System.Drawing.Point(12, 87);
+            this.viewMeasurements.Name = "viewMeasurements";
+            this.viewMeasurements.Size = new System.Drawing.Size(756, 422);
+            this.viewMeasurements.TabIndex = 10;
+            this.viewMeasurements.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasurements_RowEnter);
             // 
             // frmGlucose
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(780, 521);
-            this.Controls.Add(this.dgvMeasurements);
+            this.Controls.Add(this.viewMeasurements);
             this.Controls.Add(this.chkAutosave);
             this.Controls.Add(this.chkNowInAdd);
             this.Controls.Add(this.dtpEventInstant);
@@ -158,13 +154,13 @@ namespace GlucoMan_Forms_Core
             this.Controls.Add(this.btnAddMeasurement);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtGlucose);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmGlucose";
             this.Text = "Glucose measurements";
             this.Load += new System.EventHandler(this.frmGlucose_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMeasurements)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.viewMeasurements)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.glucoseRecordBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -181,6 +177,6 @@ namespace GlucoMan_Forms_Core
         private System.Windows.Forms.CheckBox chkNowInAdd;
         private System.Windows.Forms.CheckBox chkAutosave;
         private System.Windows.Forms.BindingSource glucoseRecordBindingSource;
-        private System.Windows.Forms.DataGridView dgvMeasurements;
+        private System.Windows.Forms.DataGridView viewMeasurements;
     }
 }

@@ -29,7 +29,6 @@ namespace GlucoMan_Mobile
 
             //tempText.Text = CommonData.PathUsersDownload; 
         }
-
         private void btnCalc_Click(object sender, EventArgs e)
         {
             FromUiToClass();
@@ -38,16 +37,15 @@ namespace GlucoMan_Mobile
             bolusCalculation.SaveLog();
             FromClassToUi();
         }
-
         private void FromClassToUi()
         {
             txtChoToEat.Text = bolusCalculation.ChoToEat.Text;
             txtInsulinSensitivity.Text = bolusCalculation.InsulinCorrectionSensitivity.Text;
-            ////////cmbSensitivityFactor.SetValue (bolusCalculation.FactorOfInsulineCorrectionSensitivity.Double);
+            ////////cmbSensitivityFactor.SetValue (bolusCalculation.FactorOfInsulinCorrectionSensitivity.Double);
             txtTdd.Text = bolusCalculation.TotalDailyDoseOfInsulin.Text;
             txtGlucoseBeforeMeal.Text = bolusCalculation.GlucoseBeforeMeal.Text;
             txtGlucoseToBeCorrected.Text = bolusCalculation.GlucoseToBeCorrected.Text;
-            txtCorrectionInsuline.Text = bolusCalculation.BolusInsulinDueToCorrectionOfGlucose.Text;
+            txtCorrectionInsulin.Text = bolusCalculation.BolusInsulinDueToCorrectionOfGlucose.Text;
             txtChoInsulinMeal.Text = bolusCalculation.BolusInsulinDueToChoOfMeal.Text;
             txtTotalInsulin.Text = bolusCalculation.TotalInsulinForMeal.Text;
             txtTypicalBolusMidday.Text = bolusCalculation.TypicalBolusMidday.Text;
@@ -89,7 +87,8 @@ namespace GlucoMan_Mobile
             bolusCalculation.ChoInsulinRatioLunch.Text = txtChoInsulinRatioLunch.Text.Replace(" ", "");
 
             bolusCalculation.GlucoseBeforeMeal.Text = txtGlucoseBeforeMeal.Text.Replace(" ", "");
-            bolusCalculation.FactorOfInsulinCorrectionSensitivity.Text = cmbSensitivityFactor.SelectedItem.ToString();
+            if (cmbSensitivityFactor.SelectedItem != null)
+                bolusCalculation.FactorOfInsulinCorrectionSensitivity.Text = cmbSensitivityFactor.SelectedItem.ToString();
 
             bolusCalculation.TypicalBolusMidday.Text = txtTypicalBolusMidday.Text.Replace(" ", "");
             bolusCalculation.TypicalBolusMorning.Text = txtTypicalBolusMorning.Text.Replace(" ", "");
@@ -122,7 +121,7 @@ namespace GlucoMan_Mobile
         {
             // !!!! TODO !!!!        
         }
-        private void btnInsulineSensitivityCalculation_Click(object sender, EventArgs e)
+        private void btnInsulinSensitivityCalculation_Click(object sender, EventArgs e)
         {
             FromUiToClass();
             bolusCalculation.CalculateInsulinCorrectionSensitivity();

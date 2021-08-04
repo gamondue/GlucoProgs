@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GlucoMan
 {
-    class Food
+    public class Food
     {
         internal int IdFood { get; set; } 
         internal string Name { get; set; } 
