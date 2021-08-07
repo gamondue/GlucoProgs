@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan_Mobile.InsulinCalc_Page"
-             Title="Insuline bolus calculation">
+             Title="Insulin bolus calculation">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -29,7 +29,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Label x:Name="tempText" Grid.Row="0" Grid.ColumnSpan="4" Text="Ratio CHO / insuline (from dietist)" 
+            <Label x:Name="tempText" Grid.Row="0" Grid.ColumnSpan="4" Text="Ratio CHO / insulin (from dietist)" 
                    XAlign="Center" YAlign="End"/>
             <Label Grid.Row="1" Grid.Column="0" Text="Breakfast" XAlign="Center" YAlign="End" />
             <Label Grid.Row="1" Grid.Column="1" Text="Lunch" XAlign="Center" YAlign="End"/>
@@ -88,7 +88,7 @@
             <Button Grid.Row="10" Grid.Column="0"  Text="Read" 
                         x:Name="btnReadGlucose" Clicked="btnReadGlucose_Click" />
             <Button Grid.Row="10" Grid.Column="2" Text="Round" 
-                        x:Name="btnRoundInsuline" Clicked="btnRoundInsulin_Click" />
+                        x:Name="btnRoundInsulin" Clicked="btnRoundInsulin_Click" />
             <Button Grid.Row="10" Grid.Column="3"  Text="Save" 
                         x:Name="btnSaveBolus" Clicked="btnSaveBolus_Click" />
                 
@@ -99,7 +99,7 @@
             <RadioButton Grid.Row="12" Grid.Column="2" Content="dinner" x:Name="rdbIsDinner" />
             <RadioButton Grid.Row="12" Grid.Column="3" Content="snack" x:Name="rdbIsSnack" />
 
-            <Label Grid.Row="13" Grid.Column="0" Text="Corr.insuline" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="13" Grid.Column="0" Text="Corr.insulin" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="13" Grid.Column="1" Text="CHO ins." XAlign="Center" YAlign="End"/>
             <Label Grid.Row="13" Grid.Column="2" Text="Total bolus" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="13" Grid.Column="3" Text="dinner" XAlign="Center" YAlign="End"/>

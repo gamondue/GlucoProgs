@@ -10,6 +10,8 @@
   <Import Project="..\SharedXOffice\SharedXOffice.projitems" Label="Shared" />
 
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
+
+  <Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
   <ItemGroup>
     <PackageReference Include="NetOfficeFw.Core" Version="1.8.1" />
     <PackageReference Include="NetOfficeFw.Excel" Version="1.8.1" />

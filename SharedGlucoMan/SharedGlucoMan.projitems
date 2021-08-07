@@ -15,16 +15,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_GrossTareAndNetWeight.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_HypoPrediction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_WeighFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FreeStyleLibreRecord.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Meal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Food.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\GlucoseRecord.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\SafeRead.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DataLayerConstructorsAndGeneral.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_BolusCalculations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_FoodToHitTarget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_GrossTareAndNetWeight.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_HypoPrediction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_ImportData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_WeighFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_GlucoseMeasurements.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TextFile.cs" />
   </ItemGroup>
 </Project>

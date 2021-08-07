@@ -36,7 +36,7 @@ namespace GlucoMan_Forms_Core
             this.Text += " " + version;
             txtHeaderText.Text = "GlucoMan will be a Glucose Manager program for diabetic persons." +
                 "\r\nCurrently it makes just a few calculations, but very useful to the diabetic person that has to make carbohydrate count." +
-                "\r\nI will expand the program in the future, including full management of insuline, carboihydrates, and possibly foods." +
+                "\r\nI will expand the program in the future, including full management of insulin, carboihydrates, and possibly foods." +
                 "\r\nDistribution at: https://ingmonti.it/GlucoMan/" +
                 "\r\nThe first functions I implemented are those enabled in the following buttons:";
             txtFooterText.Text = "GlucoMan is Free Software by:" +

@@ -35,13 +35,13 @@ namespace GlucoMan
         GlucoseCorrection,
         Other
     }
-    enum TypeOfInsulineSpeed
+    enum TypeOfInsulinSpeed
     {
         NotSet,
-        QuickActionInsuline,
-        SlowActionInsuline
+        QuickActionInsulin,
+        SlowActionInsulin
     }
-    enum TypeOfInsulineBolus
+    enum TypeOfInsulinBolus
     {
         NotSet,
         CarbBolus,
@@ -67,16 +67,16 @@ namespace GlucoMan
     {
         private DateTime? timestamp;
         private string deviceId;
-        private int accessoryIndex;
+        private int? accessoryIndex;
         private string deviceType;
-        private int idDocumentType;
+        private int? idDocumentType;
 
-        private TypeOfInsulineSpeed insulineSpeed;
-        private TypeOfInsulineBolus insulineInjection;
-        private string insulineDrugName;
-        private double? insulineValue;
-        private string insulineString; // qualitative indication of insuline taken
-        private QualitativeAccuracy insulineAccuracy;
+        private TypeOfInsulinSpeed insulinSpeed;
+        private TypeOfInsulinBolus insulinInjection;
+        private string insulinDrugName;
+        private double? insulinValue;
+        private string insulinString; // qualitative indication of insulin taken
+        private QualitativeAccuracy insulinAccuracy;
 
         private TypeOfGlucoseMeasurement glucoseMeasurementType;
         private double? glucoseValue;
@@ -89,22 +89,20 @@ namespace GlucoMan
         private string mealFoodString;
         private QualitativeAccuracy carbohydratesAccuracy;
 
-        private double? chetonsMmolPerL; // in mmol/L
-
         private string notes;
 
         public DateTime? Timestamp { get => timestamp; set => timestamp = value; }
         internal string DeviceId { get => deviceId; set => deviceId = value; }
         internal string DeviceType { get => deviceType; set => deviceType = value; }
-        internal int IdDocumentType { get => idDocumentType; set => idDocumentType = value; }
+        internal int? IdDocumentType { get => idDocumentType; set => idDocumentType = value; }
         public double? GlucoseValue { get => glucoseValue; set => glucoseValue = value; }  // in mg/l
-        internal double? InsulineValue { get => insulineValue; set => insulineValue = value; }
+        internal double? InsulinValue { get => insulinValue; set => insulinValue = value; }
         internal string GlucoseString { get => glucoseString; set => glucoseString = value; }
-        internal string InsulineString { get => insulineString; set => insulineString = value; }
-        internal TypeOfInsulineBolus InsulineInjection { get => insulineInjection; set => insulineInjection = value; }
-        internal string InsulineDrugName { get => insulineDrugName; set => insulineDrugName = value; }
-        internal TypeOfInsulineSpeed InsulineSpeed { get => insulineSpeed; set => insulineSpeed = value; }
-        internal QualitativeAccuracy InsulineAccuracy { get => insulineAccuracy; set => insulineAccuracy = value; }
+        internal string InsulinString { get => insulinString; set => insulinString = value; }
+        internal TypeOfInsulinBolus InsulinInjection { get => insulinInjection; set => insulinInjection = value; }
+        internal string InsulinDrugName { get => insulinDrugName; set => insulinDrugName = value; }
+        internal TypeOfInsulinSpeed InsulinSpeed { get => insulinSpeed; set => insulinSpeed = value; }
+        internal QualitativeAccuracy InsulinAccuracy { get => insulinAccuracy; set => insulinAccuracy = value; }
         internal TypeOfGlucoseMeasurement GlucoseMeasurementType { get => glucoseMeasurementType; set => glucoseMeasurementType = value; }
         internal QualitativeAccuracy GlucoseAccuracy { get => glucoseAccuracy; set => glucoseAccuracy = value; }
         internal QualitativeAccuracy CarbohydratesAccuracy { get => carbohydratesAccuracy; set => carbohydratesAccuracy = value; }
@@ -112,8 +110,7 @@ namespace GlucoMan
         internal double? CarbohydratesValue_grams { get => carbohydratesValue; set => carbohydratesValue = value; }
         internal string CarbohydratesString { get => carbohydratesString; set => carbohydratesString = value; }
         internal string MealFoodString { get => mealFoodString; set => mealFoodString = value; }
-        internal double? Chetons { get => chetonsMmolPerL; set => chetonsMmolPerL = value; } // in mmol/l
-        internal int AccessoryIndex { get => accessoryIndex; set => accessoryIndex = value; }
+        internal int? AccessoryIndex { get => accessoryIndex; set => accessoryIndex = value; }
         internal double? Weight { get; set; }
         internal double? BloodPressure { get; set; }
         internal double? PhysicalActivity { get; set; }

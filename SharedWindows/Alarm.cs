@@ -7,7 +7,8 @@ namespace SharedObjects
     internal class Alarm
     {
         static System.Timers.Timer alarm;
-        static System.Media.SoundPlayer player;
+        // find a general way to trigger alarm
+        ////////static System.Media.SoundPlayer player;
         private bool playing;
         internal void InitAlarm()
         {
@@ -24,9 +25,10 @@ namespace SharedObjects
             alarm.Stop();
             try
             {
-                player = new System.Media.SoundPlayer();
-                player.SoundLocation = @"C:\Windows\Media\Alarm03.wav";
-                player.PlayLooping();
+                // find a general way to trigger alarm
+                ////////player = new System.Media.SoundPlayer();
+                ////////player.SoundLocation = @"C:\Windows\Media\Alarm03.wav";
+                ////////player.PlayLooping();
                 playing = true;
             }
             catch (Exception ex)
@@ -38,7 +40,7 @@ namespace SharedObjects
         {
             if (playing)
             {
-                player.Stop();
+                //////player.Stop();
                 playing = false;
             }
             else
