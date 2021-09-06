@@ -119,7 +119,7 @@ namespace GlucoMan_Mobile
         }
         private void btnSaveBolus_Click(object sender, EventArgs e)
         {
-            // !!!! TODO !!!!        
+            bolusCalculation.SaveData(); 
         }
         private void btnInsulinSensitivityCalculation_Click(object sender, EventArgs e)
         {

@@ -13,6 +13,10 @@ namespace GlucoMan
         internal void SaveBolusCalculations(BL_BolusCalculation Bolus)
         {
             try {
+                if (!System.IO.File.Exists(persistentBolusCalculation))
+                {
+                    System.IO.File.Create(persistentBolusCalculation); 
+                }
                 string file = Bolus.ChoInsulinRatioBreakfast.Text + "\n";
                 file += Bolus.ChoInsulinRatioLunch.Text + "\n";
                 file += Bolus.ChoInsulinRatioDinner.Text + "\n"; 

@@ -47,7 +47,6 @@ namespace GlucoMan
                 return (fOut);
             }
         }
-
         /// <summary>
         /// Crea il file indicato e che scrive la stringa passata
         /// </summary>
@@ -64,14 +63,14 @@ namespace GlucoMan
             fOut.Close();
         }
         /// <summary>
-        /// Scrive nel file indicato tutto il contenuto della stringa passata
+        /// Write a string as a text file
         /// </summary>
         /// <param name="NomeFile"></param>
         /// <param name="stringa"></param>
         /// <param name="appendi"></param>
         /// <returns>Vero se non ci sono stati errori nella </returns>
         internal static bool StringToFile(string NomeFile, string stringa, bool appendi)
-        {   // scrive una stringa in un file di testo
+        {   
             StreamWriter fileOut;
             fileOut = openFileOut(NomeFile, appendi);
             try
@@ -194,7 +193,6 @@ namespace GlucoMan
             }
             return (stringaFile);
         }
-
         internal static byte[] FileToByteArray(string NomeFile)
         {
             byte[] buffer;
@@ -224,7 +222,6 @@ namespace GlucoMan
             }
             return (buffer);
         }
-
         /// <summary>
         /// Reads from a text file a string matrix. 
         /// If some of the strings are delimited by a specific character, it shoud be give as the optional parameter
@@ -505,7 +502,6 @@ namespace GlucoMan
             }
             return lineContent;
         }
-
         /// <summary>
         /// Legge riga per riga in un array di stringhe un file di testo. La prima riga viene separata dal resto del file e scritta nel vettore primaRiga[].
         /// </summary>

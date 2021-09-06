@@ -49,11 +49,11 @@ namespace GlucoMan
                     file += rec.GlucoseValue + "\t";
                     file += rec.Timestamp + "\t";
                     file += rec.GlucoseString + "\t";
-                    //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
                     file += rec.DeviceType + "\t";
                     file += rec.DeviceType + "\t";
                     file += rec.DeviceId + "\t";
                     file += rec.Notes + "\t";
+                    //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
                     file += "\n";
                 }
                 TextFile.StringToFile(persistentGlucoseMeasurements, file, false);

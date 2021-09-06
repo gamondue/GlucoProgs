@@ -72,7 +72,6 @@ namespace GlucoMan.BusinessLayer
         {
             TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double +
                 TypicalBolusEvening.Double + TypicalBolusNight.Double;
-
             InsulinCorrectionSensitivity.Double = FactorOfInsulinCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
         }
         internal void CalculateBolus()
@@ -80,10 +79,9 @@ namespace GlucoMan.BusinessLayer
             try
             {
                 // execute calculations
-                TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double + 
-                    TypicalBolusEvening.Double + TypicalBolusNight.Double; 
-                // insulin sensitivity is now calculated in a specific method
-                //InsulinCorrectionSensitivity.Double = FactorOfInsulinCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
+
+                // insulin sensitivity is now calculated in a specific method: CalculateInsulinCorrectionSensitivity()
+
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
                
@@ -96,7 +94,7 @@ namespace GlucoMan.BusinessLayer
                         BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioLunch.Double;
                         break;
                     case (Meal.TypeOfMeal.Dinner):
-                        BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioBreakfast.Double;
+                        BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioDinner.Double;
                         break;
                     case (Meal.TypeOfMeal.Snack):
                         BolusInsulinDueToChoOfMeal.Double = 0; // snack has no insulin due to meal 
@@ -109,7 +107,6 @@ namespace GlucoMan.BusinessLayer
                 CommonFunctions.NotifyError(ex.Message);
             }
         }
-
         internal void RoundInsulinToZeroDecimal()
         {
             // find target bolus and relative CHO with bisection algorithm 
@@ -157,6 +154,7 @@ namespace GlucoMan.BusinessLayer
             try
             {
                 dl.SaveBolusCalculations(this);
+                CommonFunctions.TestSaving(); 
             }
             catch (Exception ex)
             {
