@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DataLayer
+    internal abstract partial class DataLayer
     {
         internal List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, 
             DateTime? FinalInstant)

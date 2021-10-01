@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DataLayer
+    internal abstract partial class DataLayer
     {
         string persistentBolusCalculation = Path.Combine(CommonData.PathConfigurationData, @"BolusCalculation.txt");
         string persistentGlucoseMeasurements = Path.Combine(CommonData.PathConfigurationData, @"GlucoseMeasurements.txt");

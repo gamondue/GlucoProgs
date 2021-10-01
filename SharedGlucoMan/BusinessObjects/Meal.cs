@@ -18,7 +18,7 @@ namespace GlucoMan
         DateTime timeBegin;
         DateTime timeEnd;
         TypeOfMeal type;
-        int accuracyOfChoEstimate;
+        double accuracyOfChoEstimate;
 
         int breakfastStartHour = 6;
         int breakfastEndHour = 10;
@@ -31,7 +31,8 @@ namespace GlucoMan
         internal DateTime TimeBegin { get => timeBegin; set => timeBegin = value; }
         internal DateTime TimeEnd { get => timeEnd; set => timeEnd = value; }
         internal TypeOfMeal Type { get => type; set => type = value; }
-        internal int AccuracyOfChoEstimate { get => accuracyOfChoEstimate; set => accuracyOfChoEstimate = value; }
+        internal double AccuracyOfChoEstimate { get => accuracyOfChoEstimate; set => accuracyOfChoEstimate = value; }
+        internal QualitativeAccuracy QualitativeAccuracyOfChoEstimate { get; set; }
         internal Meal()
         {
             // default type of meal is snack
@@ -45,7 +46,7 @@ namespace GlucoMan
             else if (hour > lunchStartHour && hour < lunchEndHour)
                 type = TypeOfMeal.Lunch;
             else if (hour > dinnerStartHour && hour < dinnerEndHour)
-                type = TypeOfMeal.Lunch;
+                type = TypeOfMeal.Dinner;
             else
                 type = TypeOfMeal.Snack;
             return type;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DataLayer
+    internal abstract partial class DataLayer
     {
 
     }

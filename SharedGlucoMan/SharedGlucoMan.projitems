@@ -28,5 +28,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_ImportData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_WeighFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_GlucoseMeasurements.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SQLite\DL_Sqlite.cs" />
   </ItemGroup>
 </Project>

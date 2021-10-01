@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DataLayer
+    internal abstract partial class DataLayer
     {
         internal void RestoreWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
         {

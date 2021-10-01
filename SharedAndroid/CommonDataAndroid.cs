@@ -22,7 +22,7 @@ namespace SharedData
         // internal static string PathConfigurationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         internal static string PathConfigurationData = Path.Combine(PathUser, @"GlucoMan/Config");
         internal static string PathProgramsData = Path.Combine(PathUser, @"GlucoMan/Data");
-        internal static string PathAndFileDatabase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "glucoman.db3");
+        internal static string PathAndFileDatabase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "GlucoMan.db3");
 
         internal static string PathAndNameErrorLogFile = Path.Combine(PathConfigurationData, @"./GlucoMan_ErrorLog.txt");
     }
