@@ -12,10 +12,14 @@ namespace GlucoMan
     {
         internal void SaveBolusCalculations(BL_BolusCalculation Bolus)
         {
-            try {
+#if __ANDROID__
+            Xamarin.Essentials.FileSystem.OpenAppPackageFileAsync("appdata.txt");
+#endif
+            try
+            {
                 string file = Bolus.ChoInsulinRatioBreakfast.Text + "\n";
                 file += Bolus.ChoInsulinRatioLunch.Text + "\n";
-                file += Bolus.ChoInsulinRatioDinner.Text + "\n"; 
+                file += Bolus.ChoInsulinRatioDinner.Text + "\n";
                 file += Bolus.TypicalBolusMorning.Text + "\n";
                 file += Bolus.TypicalBolusMidday.Text + "\n";
                 file += Bolus.TypicalBolusEvening.Text + "\n";

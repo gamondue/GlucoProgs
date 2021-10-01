@@ -35,7 +35,18 @@ namespace GlucoMan
         }
         public string Text
         {
-            get => text; set
+            get
+            {
+                try
+                {
+                    return ((double)doubleVal).ToString(Format);
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+            set
             {
                 text = value;
                 try

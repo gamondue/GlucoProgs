@@ -93,7 +93,7 @@ namespace GlucoMan_Forms_Core
             bolusCalculation.TypicalBolusNight.Text = txtTypicalBolusNight.Text;
             bolusCalculation.TargetGlucose.Text = txtTargetGlucose.Text;
 
-
+            // ?????????????? where is the type of meal ????????????
         }
 
         private void frmInsulinCalc_FormClosing(object sender, FormClosingEventArgs e)

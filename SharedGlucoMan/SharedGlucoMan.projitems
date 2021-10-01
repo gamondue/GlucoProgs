@@ -26,7 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_GrossTareAndNetWeight.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_HypoPrediction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_ImportData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_WeighFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_Food.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_GlucoseMeasurements.cs" />
   </ItemGroup>
 </Project>

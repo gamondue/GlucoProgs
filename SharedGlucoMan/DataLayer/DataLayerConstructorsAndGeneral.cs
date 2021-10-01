@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using SQLite;
 
 namespace GlucoMan
 {
@@ -13,7 +14,11 @@ namespace GlucoMan
         string persistentFoodToEatTarget = Path.Combine(CommonData.PathConfigurationData, @"FoodToHitTargetCarbs.txt");
         string persistentHypoPrediction = Path.Combine(CommonData.PathConfigurationData, @"HypoPrediction.txt");
         string persistentWeighFood = Path.Combine(CommonData.PathConfigurationData, @"WeighFood.txt");
+        string persistentFoods = Path.Combine(CommonData.PathConfigurationData, @"Foods.txt");
 
         string logBolusCalculationsFile = Path.Combine(CommonData.PathConfigurationData, @"LogOfBolusCalculations.tsv");
+        
+        //[PrimaryKey, AutoIncrement]
+
     }
 }

@@ -52,6 +52,7 @@ namespace GlucoMan_Forms_Core
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmFoodManagement";
             this.Text = "frmFood";
+            this.Load += new System.EventHandler(this.frmFoodManagement_Load);
             ((System.ComponentModel.ISupportInitialize)(this.viewFoods)).EndInit();
             this.ResumeLayout(false);
 

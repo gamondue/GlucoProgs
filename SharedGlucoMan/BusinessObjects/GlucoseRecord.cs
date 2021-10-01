@@ -61,7 +61,6 @@ namespace GlucoMan
         Outstanding,
         Perfect
     }
-
     #endregion
     internal class GlucoseRecord
     {

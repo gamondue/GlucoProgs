@@ -13,7 +13,6 @@ namespace GlucoMan
             Dinner,
             Snack
         }
-
         List<Food> foodsEaten;
         DateTime timeBegin;
         DateTime timeEnd;
@@ -27,6 +26,7 @@ namespace GlucoMan
         int dinnerStartHour = 17;
         int dinnerEndHour = 21;
 
+        internal int IdMeal { get; set; }
         internal List<Food> FoodsEaten { get => foodsEaten; set => foodsEaten = value; }
         internal DateTime TimeBegin { get => timeBegin; set => timeBegin = value; }
         internal DateTime TimeEnd { get => timeEnd; set => timeEnd = value; }
@@ -49,6 +49,6 @@ namespace GlucoMan
             else
                 type = TypeOfMeal.Snack;
             return type;
-        }
+        }           
     }
 }

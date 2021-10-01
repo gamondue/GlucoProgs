@@ -77,9 +77,10 @@ namespace SharedFunctions
         }
         internal static void MakeFolderIfDontExist(string PathOfFolder)
         {
-            string dir = Path.GetDirectoryName(PathOfFolder);
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
+            // !!!!!!!!!!!! rimettere !!!!!!!!!!!!!!!!
+            //////////////string dir = Path.GetDirectoryName(PathOfFolder);
+            //////////////if (!Directory.Exists(dir))
+            //////////////    Directory.CreateDirectory(dir);
         }
 
         internal static string ConvertStringToFilename(string SubmittedName, bool SubstituteSpaces)

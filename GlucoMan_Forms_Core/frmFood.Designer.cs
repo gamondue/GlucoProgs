@@ -144,6 +144,7 @@ namespace GlucoMan_Forms_Core
             this.label16.Size = new System.Drawing.Size(64, 20);
             this.label16.TabIndex = 31;
             this.label16.Text = "Id Food";
+            this.label16.Visible = false;
             // 
             // textBox1
             // 
@@ -151,6 +152,7 @@ namespace GlucoMan_Forms_Core
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 26);
             this.textBox1.TabIndex = 30;
+            this.textBox1.Visible = false;
             // 
             // label13
             // 
@@ -160,6 +162,7 @@ namespace GlucoMan_Forms_Core
             this.label13.Size = new System.Drawing.Size(64, 20);
             this.label13.TabIndex = 29;
             this.label13.Text = "Id Food";
+            this.label13.Visible = false;
             // 
             // textBox10
             // 
@@ -167,6 +170,7 @@ namespace GlucoMan_Forms_Core
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(100, 26);
             this.textBox10.TabIndex = 28;
+            this.textBox10.Visible = false;
             // 
             // label14
             // 
@@ -176,6 +180,7 @@ namespace GlucoMan_Forms_Core
             this.label14.Size = new System.Drawing.Size(64, 20);
             this.label14.TabIndex = 27;
             this.label14.Text = "Id Food";
+            this.label14.Visible = false;
             // 
             // textBox11
             // 
@@ -183,6 +188,7 @@ namespace GlucoMan_Forms_Core
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(100, 26);
             this.textBox11.TabIndex = 26;
+            this.textBox11.Visible = false;
             // 
             // label15
             // 
@@ -192,6 +198,7 @@ namespace GlucoMan_Forms_Core
             this.label15.Size = new System.Drawing.Size(64, 20);
             this.label15.TabIndex = 25;
             this.label15.Text = "Id Food";
+            this.label15.Visible = false;
             // 
             // textBox12
             // 
@@ -199,6 +206,7 @@ namespace GlucoMan_Forms_Core
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(100, 26);
             this.textBox12.TabIndex = 24;
+            this.textBox12.Visible = false;
             // 
             // label12
             // 
@@ -224,6 +232,7 @@ namespace GlucoMan_Forms_Core
             this.label10.Size = new System.Drawing.Size(64, 20);
             this.label10.TabIndex = 21;
             this.label10.Text = "Id Food";
+            this.label10.Visible = false;
             // 
             // textBox7
             // 
@@ -231,6 +240,7 @@ namespace GlucoMan_Forms_Core
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(100, 26);
             this.textBox7.TabIndex = 20;
+            this.textBox7.Visible = false;
             // 
             // label8
             // 
@@ -368,6 +378,7 @@ namespace GlucoMan_Forms_Core
             this.btnSave.TabIndex = 20;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnFatSecret
             // 
@@ -387,7 +398,6 @@ namespace GlucoMan_Forms_Core
             this.btnManageFoods.TabIndex = 22;
             this.btnManageFoods.Text = "Manage Foods";
             this.btnManageFoods.UseVisualStyleBackColor = true;
-            this.btnManageFoods.Visible = false;
             this.btnManageFoods.Click += new System.EventHandler(this.btnManageFoods_Click);
             // 
             // btnNewFood
