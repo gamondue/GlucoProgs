@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Threading.Tasks;
+using SharedData;
 
 namespace GlucoMan
 {
@@ -11,37 +13,37 @@ namespace GlucoMan
         /// Apre il file passato come parametro.
         /// ATTENZIONE: lo lascia aperto
         /// </summary>
-        /// <param name="NomeFile">Path e nome del file da aprire</param>
-        /// <param name="appendi">Indica se il file viene aperto in accodamento (append)</param>
+        /// <param name="FileName">Path e nome del file da aprire</param>
+        /// <param name="Append">Indica se il file viene aperto in accodamento (append)</param>
         /// <returns>Uno StreamWriter che servirà po per leggere e scrivere nel file</returns>
-        internal static StreamWriter openFileOut(string NomeFile, bool appendi)
+        internal static StreamWriter openFileOut(string FileName, bool Append)
         {
-            if (!Directory.Exists(Path.GetDirectoryName(NomeFile)))
+            if (!Directory.Exists(Path.GetDirectoryName(FileName)))
             {
-                Directory.CreateDirectory(Path.GetFullPath(NomeFile));
+                Directory.CreateDirectory(Path.GetFullPath(FileName));
             }
-            //if(!File.Exists(NomeFile))
+            //if(!File.Exists(FileName))
             //{
-            //    File.Create(NomeFile); 
+            //    File.Create(FileName); 
             //}
             Encoding fileEncoding = Encoding.Default;
             try
             {
                 //prova ad aprire il file
                 FileStream fsOut;
-                if (appendi)
-                    fsOut = new FileStream(NomeFile, FileMode.Append, FileAccess.Write, FileShare.Read);
+                if (Append)
+                    fsOut = new FileStream(FileName, FileMode.Append, FileAccess.Write, FileShare.Read);
                 else
-                    fsOut = new FileStream(NomeFile, FileMode.Create, FileAccess.Write, FileShare.Read);
+                    fsOut = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read);
                 StreamWriter fOut = new StreamWriter(fsOut, fileEncoding);
                 return (fOut);
             }
             catch (Exception e)
             {	// il nome del file è sbagliato o non si riesce ad aprirlo
-                //Console.WriteLine("Non si riesce ad aprire il file. Provo a crearlo" + NomeFile + "\r\nErrore:" + e.Message);
-                Console.WriteLine("Non si riesce ad aprire il file. Provo a crearlo" + NomeFile);
+                //Console.WriteLine("Non si riesce ad aprire il file. Provo a crearlo" + FileName + "\r\nErrore:" + e.Message);
+                Console.WriteLine("Non si riesce ad aprire il file. Provo a crearlo" + FileName);
                 // lo apro creandolo
-                FileStream fsOut = new FileStream(NomeFile, FileMode.Create, FileAccess.Write, FileShare.Read);
+                FileStream fsOut = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read);
                 StreamWriter fOut = new StreamWriter(fsOut, fileEncoding);
 
                 return (fOut);
@@ -51,32 +53,32 @@ namespace GlucoMan
         /// <summary>
         /// Crea il file indicato e che scrive la stringa passata
         /// </summary>
-        /// <param name="NomeFile"></param>
-        /// <param name="stringa"></param>
-        internal static void CreateEmptyFile(string NomeFile, string stringa)
+        /// <param name="FileName"></param>
+        /// <param name="FileContent"></param>
+        internal static void CreateEmptyFile(string FileName, string FileContent)
         {
             Encoding fileEncoding = Encoding.Default;
-            FileStream fsOut = new FileStream(NomeFile, FileMode.Create, FileAccess.Write, FileShare.Read);
+            FileStream fsOut = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read);
             StreamWriter fOut = new StreamWriter(fsOut, fileEncoding);
 
-            fOut.WriteLine(stringa);
+            fOut.WriteLine(FileContent);
 
             fOut.Close();
         }
         /// <summary>
         /// Scrive nel file indicato tutto il contenuto della stringa passata
         /// </summary>
-        /// <param name="NomeFile"></param>
-        /// <param name="stringa"></param>
-        /// <param name="appendi"></param>
+        /// <param name="FileName"></param>
+        /// <param name="FileContent"></param>
+        /// <param name="AppendToFile"></param>
         /// <returns>Vero se non ci sono stati errori nella </returns>
-        internal static bool StringToFile(string NomeFile, string stringa, bool appendi)
+        internal static bool StringToFile(string FileName, string FileContent, bool AppendToFile)
         {   // scrive una stringa in un file di testo
             StreamWriter fileOut;
-            fileOut = openFileOut(NomeFile, appendi);
+            fileOut = openFileOut(FileName, AppendToFile);
             try
             {
-                fileOut.Write(stringa);
+                fileOut.Write(FileContent);
                 fileOut.Close();
                 return true;
             }
@@ -85,12 +87,26 @@ namespace GlucoMan
                 return false;
             }
         }
+        internal static async Task StringToFileAsync(string FileName, string FileContent)
+        {
+            try
+            {
+                using (var writer = File.CreateText(FileName))
+                {
+                    await writer.WriteAsync(FileContent);
+                }
+            }
+            catch (Exception e)
+            {
+                CommonData.CommonObj.LogOfProgram.Error("TextFile", e); 
+            }
+        }
         /// <summary>
         /// Legge tutto il contenuto del file indicato e lo mette nella stringa passata
         /// </summary>
-        /// <param name="NomeFile"></param>
+        /// <param name="FileName"></param>
         /// <returns>Tutto il contenuto del file</returns>
-        internal static string FileToString(string NomeFile)
+        internal static string FileToString(string FileName)
         {
             // legge riga per riga in un array di stringhe un file di testo
             int nLine = 0;
@@ -100,7 +116,7 @@ namespace GlucoMan
             {
                 // prova ad aprire il file
                 Encoding fileEncoding = Encoding.Default;
-                FileStream fsIn = new FileStream(NomeFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+                FileStream fsIn = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 StreamReader sr = new StreamReader(fsIn, fileEncoding, true);
 
                 stringaFile = sr.ReadToEnd();
@@ -119,29 +135,51 @@ namespace GlucoMan
             }
             catch (Exception e)
             {	// il nome del file è sbagliato o non si riesce al leggerlo
-                if (NomeFile != "")
+                if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + NomeFile + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
                 }
                 return null;
             }
             return (stringaFile);
         }
+        internal static async Task<string> FileToStringAsync(string FileName)
+        {
+            if (FileName == null || !File.Exists(FileName))
+            {
+                return null;
+            }
+            try
+            {
+                string line;
+                using (var reader = new StreamReader(FileName, true))
+                {
+                    while ((line = await reader.ReadLineAsync()) != null)
+                    {
+                    }
+                }
+                return line;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         /// <summary>
         /// Scrive nel file indicato tutto il contenuto dell'array di stringhe passatto. Ogni elemento dell'array corrisponde ad una riga nel file. 
         /// </summary>
-        /// <param name="NomeFile"></param>
-        /// <param name="stringa"></param>
-        /// <param name="appendi"></param>
+        /// <param name="FileName"></param>
+        /// <param name="FileContent"></param>
+        /// <param name="Append"></param>
         /// <returns>Vero se tutto è andato bene</returns>
-        internal static bool ArrayToFile(string NomeFile, string[] stringa, bool appendi)
+        internal static bool ArrayToFile(string FileName, string[] FileContent, bool Append)
         {   // scrive riga per riga un array di stringhe in un file di testo
             StreamWriter fileOut;
             try
             {
-                fileOut = openFileOut(NomeFile, appendi);
+                fileOut = openFileOut(FileName, Append);
 
-                foreach (string st in stringa)
+                foreach (string st in FileContent)
                 {
                     fileOut.WriteLine(st);
                 }
@@ -157,9 +195,9 @@ namespace GlucoMan
         /// <summary>
         /// Legge riga per riga in un array di stringhe un file di testo
         /// </summary>
-        /// <param name="NomeFile"></param>
+        /// <param name="FileName"></param>
         /// <returns>Vettore di stringhe nel quale è stato letto il conetnuto del file</returns>
-        internal static string[] FileToArray(string NomeFile)
+        internal static string[] FileToArray(string FileName)
         {
             int nLine = 0;
             string[] stringaFile = new string[0];
@@ -170,7 +208,7 @@ namespace GlucoMan
             {
                 // prova ad aprire il file
                 Encoding fileEncoding = Encoding.Default;
-                FileStream fsIn = new FileStream(NomeFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+                FileStream fsIn = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 StreamReader sr = new StreamReader(fsIn, fileEncoding, true);
 
                 nLine = 0;
@@ -186,23 +224,22 @@ namespace GlucoMan
             }
             catch (Exception e)
             {	// il nome del file è sbagliato o non si riesce al leggerlo
-                if (NomeFile != "")
+                if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + NomeFile + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
                 }
                 return null;
             }
             return (stringaFile);
         }
-
-        internal static byte[] FileToByteArray(string NomeFile)
+        internal static byte[] FileToByteArray(string FileName)
         {
             byte[] buffer;
             try
             {
                 // prova ad aprire il file
                 Encoding fileEncoding = Encoding.Default;
-                FileStream fsIn = new FileStream(NomeFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+                FileStream fsIn = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 StreamReader sr = new StreamReader(fsIn, fileEncoding, true);
 
                 string stringaFile = sr.ReadToEnd();
@@ -216,9 +253,9 @@ namespace GlucoMan
             }
             catch (Exception e)
             {	// il nome del file è sbagliato o non si riesce al leggerlo
-                if (NomeFile != "")
+                if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + NomeFile + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
                 }
                 return null;
             }
@@ -873,18 +910,18 @@ namespace GlucoMan
                 return (null);
             }
         }
-        internal static bool MatrixToFile(string NomeFile, string[,] Matrix, char Separatore, bool appendi)
+        internal static bool MatrixToFile(string FileName, string[,] Matrix, char FieldSeparator, bool Append)
         {   /// scrive riga per riga un array di stringhe in un file di testo
             StreamWriter fileOut;
             try
             {
-                fileOut = openFileOut(NomeFile, appendi);
+                fileOut = openFileOut(FileName, Append);
                 for (int i = 0; i < Matrix.GetLength(0); i++)
                 {
                     string linea = Matrix[i, 0];
                     for (int j = 1; j < Matrix.GetLength(1); j++)
                     {
-                        linea += Separatore + Matrix[i, j];
+                        linea += FieldSeparator + Matrix[i, j];
                     }
                     fileOut.WriteLine(linea);
                 }
@@ -904,11 +941,11 @@ namespace GlucoMan
         /// </summary>
         /// <param name="FileName">Nome del file da scrivere</param>
         /// <param name="Matrix">Matrix di stringhe da cui leggere i dati</param>
-        /// <param name="Separator">Carattere che delimita i campi del file della stessa riga</param>
+        /// <param name="FieldSeparator">Carattere che delimita i campi del file della stessa riga</param>
         /// <param name="FirstRow">Array di strignhe che viene scritto nella prima riga del file </param>
         /// <param name="Append">Se vero il metodo scrive in fondo al file esistente, se no lo crea daccapo</param>
         /// <returns>Vero se tutto è andato bene</returns>     
-        internal static bool MatrixToFile(string FileName, string[,] Matrix, char Separator, string[] FirstRow, bool Append)
+        internal static bool MatrixToFile(string FileName, string[,] Matrix, char FieldSeparator, string[] FirstRow, bool Append)
         {   /// scrive riga per riga un array di stringhe in un file di testo
             /// la prima riga viene gestita separatamente. Viene scritta la prima riga, poi il contenuto di tutta la matice. 
             StreamWriter fileOut;
@@ -920,7 +957,7 @@ namespace GlucoMan
                     string linea = FirstRow[0];
                     for (int j = 1; j < Matrix.GetLength(1); j++)
                     {
-                        linea += Separator + FirstRow[j];
+                        linea += FieldSeparator + FirstRow[j];
                     }
                     fileOut.WriteLine(linea);
                     for (int i = 0; i < Matrix.GetLength(0); i++)
@@ -928,7 +965,7 @@ namespace GlucoMan
                         linea = Matrix[i, 0];
                         for (int j = 1; j < Matrix.GetLength(1); j++)
                         {
-                            linea += Separator + Matrix[i, j];
+                            linea += FieldSeparator + Matrix[i, j];
                         }
                         fileOut.WriteLine(linea);
                     }

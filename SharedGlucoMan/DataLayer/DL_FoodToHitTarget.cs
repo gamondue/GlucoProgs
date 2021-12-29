@@ -1,4 +1,5 @@
 ﻿using GlucoMan.BusinessLayer;
+using SharedData;
 using SharedFunctions;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonFunctions.NotifyError(ex.Message);
+                    CommonData.CommonObj.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
                 }
         }
 
@@ -35,11 +36,12 @@ namespace GlucoMan
                 file += CalculationsOfChoMassToHitTarget.TargetCho.Text + "\n";
                 file += CalculationsOfChoMassToHitTarget.TargetCho.Text + "\n";
 
-                TextFile.StringToFile(persistentFoodToEatTarget, file, false);
+                //TextFile.StringToFile(persistentFoodToEatTarget, file, false);
+                TextFile.StringToFileAsync(persistentFoodToEatTarget, file);
             }
             catch (Exception ex)
             {
-                CommonFunctions.NotifyError(ex.Message);
+                CommonData.CommonObj.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
     }

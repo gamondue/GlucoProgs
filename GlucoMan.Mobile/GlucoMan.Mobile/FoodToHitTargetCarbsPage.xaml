@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Mobile.FoodToHitTargetCarbsPage"
+             Title="Calculation of food to reach CHO">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button x:Name="btnCalc" Text="Calc" 
+                   Margin="30,0,30,0" Clicked="btnCalc_Click" />
+
+            <Label Text="Target carbohydrates (CHO) [g]" XAlign="Center" YAlign="End"/>
+            <Entry x:Name="TxtTargetCho" Text="" Unfocused="TxtTargetCho_Leave"
+                   Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
+
+            <Label Text="Carbohydrates (CHO) already taken [g]" XAlign="Center" YAlign="End" />
+            <Entry x:Name="TxtChoAlreadyTaken" Text="" Unfocused="TxtChoAlreadyTaken_Leave"
+                   Margin="30,0,30,0" Placeholder="[g]" 
+                   HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+            
+            <Label Text="CHO % of food to eat [%]" XAlign="Center" YAlign="End"/>
+            <Entry x:Name="TxtChoOfFood" Text="" Unfocused="TxtChoOfFood_Leave"
+                   Margin="30,0,30,0" Placeholder="%" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+            
+            <Label Text="Food to eat to hit target CHO [g]" XAlign="Center" YAlign="End"/>
+            <Entry x:Name="TxtFoodToHitTarget" Text="" 
+                   Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" BackgroundColor="SkyBlue" />
+            <Button x:Name="btnReadTarget" Text="Read Target CHO" 
+                   Margin="30,0,30,0" Clicked="btnReadTarget_Click" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

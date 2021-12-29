@@ -1,4 +1,5 @@
-﻿using SharedFunctions;
+﻿using SharedData;
+using SharedFunctions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,7 +35,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonFunctions.NotifyError(ex.Message);
+                    CommonData.CommonObj.LogOfProgram.Error("DL_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
                 }
             return list; 
         }
@@ -56,11 +57,12 @@ namespace GlucoMan
                     file += rec.Notes + "\t";
                     file += "\n";
                 }
-                TextFile.StringToFile(persistentGlucoseMeasurements, file, false);
+                //TextFile.StringToFile(persistentGlucoseMeasurements, file, false);
+                TextFile.StringToFileAsync(persistentGlucoseMeasurements, file);
             }
             catch (Exception ex)
             {
-                CommonFunctions.NotifyError(ex.Message);
+                CommonData.CommonObj.LogOfProgram.Error("DL_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
         internal List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
@@ -98,7 +100,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonFunctions.NotifyError(ex.Message);
+                    CommonData.CommonObj.LogOfProgram.Error("DL_GlucoseMeasurement | GetLastTwoGlucoseMeasurements", ex);
                 }
             return list;
         }

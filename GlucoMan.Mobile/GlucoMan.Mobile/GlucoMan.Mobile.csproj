@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <AssemblyName>GlucoMan</AssemblyName>
+    <ApplicationIcon>Current_Icon_White.ico</ApplicationIcon>
+    <PackageId>GlucoMan</PackageId>
+    <Version>0.5.0.0</Version>
+    <NeutralLanguage>en-150</NeutralLanguage>
+    <PackageLicenseExpression>GPL-2.0-only</PackageLicenseExpression>
+    <Authors>Ing.Gabriele MONTI - Forlì - Italia</Authors>
+    <Copyright>Copyleft GPL v.2</Copyright>
+    <PackageProjectUrl>www.ingmonti.it/GlucoMan</PackageProjectUrl>
+    <PackageIcon>Current_Logo_White.png</PackageIcon>
+    <Company>ingmonti.it</Company>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Current_Icon_White.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Graphics\Logo\Current_Logo_White.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="FoodToHitTargetCarbsPage.xaml.cs">
+      <DependentUpon>FoodToHitTargetCarbsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="GlucoseMeasurementPage.xaml.cs">
+      <DependentUpon>GlucoseMeasurementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="HypoPredictionPage.xaml.cs">
+      <DependentUpon>HypoPredictionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="InsulinCalcPage.xaml.cs">
+      <DependentUpon>InsulinCalcPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="WeighFoodPage.xaml.cs">
+      <DependentUpon>WeighFoodPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <Import Project="..\..\SharedAndroid\SharedAndroid.projitems" Label="Shared" />
+
+  <Import Project="..\..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
+
+  <Import Project="..\..\SharedProject\SharedProject.projitems" Label="Shared" />
+</Project>

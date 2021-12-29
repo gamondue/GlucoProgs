@@ -16,6 +16,7 @@ namespace SharedFunctions
         {
             MakeFolderIfDontExist(CommonData.PathConfigurationData);
             MakeFolderIfDontExist(CommonData.PathProgramsData);
+            MakeFolderIfDontExist(CommonData.PathAndNameLogFile);
         }
     }
 }

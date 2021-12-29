@@ -1,4 +1,5 @@
-﻿using SharedFunctions;
+﻿using SharedData;
+using SharedFunctions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,7 +40,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonFunctions.NotifyError(ex.Message);
+                    CommonData.CommonObj.LogOfProgram.Error("DL_WeighFood | RestoreWeighFood", ex);
                 }
         }
         internal void SaveWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
@@ -72,7 +73,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                CommonFunctions.NotifyError(ex.Message);
+                CommonData.CommonObj.LogOfProgram.Error("DL_WeighFood | SaveWeighFood", ex);
             }
         }
     }

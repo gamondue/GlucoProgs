@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GlucoMan
 {
     internal partial class DataLayer
     {
-        internal void SaveBolusCalculations(BL_BolusCalculation Bolus)
+        internal async void SaveBolusCalculations(BL_BolusCalculation Bolus)
         {
             try {
                 string file = Bolus.ChoInsulinRatioBreakfast.Text + "\n";
@@ -27,11 +28,13 @@ namespace GlucoMan
                 file += Bolus.FactorOfInsulinCorrectionSensitivity.Text + "\n";
                 file += Bolus.TotalDailyDoseOfInsulin.Text + "\n";
 
-                TextFile.StringToFile(persistentBolusCalculation, file, false);
+                //TextFile.StringToFile(persistentBolusCalculation, file, false);
+                Task task = TextFile.StringToFileAsync(persistentBolusCalculation, file);
+                task.Wait();
             }
             catch (Exception ex)
             {
-                CommonFunctions.NotifyError(ex.Message);
+                CommonData.CommonObj.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
         internal void RestoreBolusCalculations(BL_BolusCalculation Bolus)
@@ -56,7 +59,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonFunctions.NotifyError(ex.Message);
+                    CommonData.CommonObj.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
                 }
         }
         internal void SaveLogOfBoluses(BL_BolusCalculation Bolus)
@@ -95,11 +98,13 @@ namespace GlucoMan
                 fileContent += Bolus.BolusInsulinDueToChoOfMeal.Text + "\t";
                 fileContent += Bolus.TotalInsulinForMeal.Text + "\t";
                 fileContent += "\r\n";
-                TextFile.StringToFile(logBolusCalculationsFile, fileContent, true);
+                // TextFile.StringToFile(logBolusCalculationsFile, fileContent, true);
+                Task task = TextFile.StringToFileAsync(logBolusCalculationsFile, fileContent);
+                task.Wait(); 
             }
             catch (Exception ex)
             {
-                CommonFunctions.NotifyError(ex.Message);
+                CommonData.CommonObj.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
     }

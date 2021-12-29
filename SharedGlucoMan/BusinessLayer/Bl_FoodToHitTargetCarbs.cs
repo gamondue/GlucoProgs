@@ -31,7 +31,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                CommonFunctions.NotifyError(ex.Message);
+                CommonData.CommonObj.LogOfProgram.Error("BL_FoodToHitTargetCarbs | SaveData", ex);
             }
         }
         internal void Calculations()

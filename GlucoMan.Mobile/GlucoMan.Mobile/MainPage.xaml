@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Mobile.MainPage">
+
+    <StackLayout>
+        <Frame BackgroundColor="#2196F3" Padding="0" CornerRadius="0" Margin="0,0,0,30">
+            <Label x:Name="lblAppName" Text="GlucoMan " HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
+        </Frame>
+        <Button x:Name="btnGlucoseMeasurement" Text="Glucose" Clicked="btnGlucoseMeasurement_Clicked"
+                Margin="15,0,15,0"></Button>
+        <Button x:Name="btnChoCount" Text="Meal" Clicked="btnChoCount_Clicked" IsEnabled="False"
+                Margin="15,0,15,0"></Button>
+        <Button x:Name="btnWeighFood" Text="Weigh Food" Clicked="btnWeighFood_Clicked" IsEnabled="False"
+                Margin="15,0,15,0"></Button>
+        <Button x:Name="btnInsulin" Text="Meal insulin" Clicked="btnInsulin_Clicked"
+                Margin="15,0,15,0"></Button>
+        <Button x:Name="btnInsulinCorrection" Text="Correction insulin" Clicked="btnInsulinCorrection_Clicked"
+                IsEnabled="False" Margin="15,0,15,0"></Button>
+        <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to eat to reach wanted carbs" Clicked="btnFoodToHitTargetCarbs_Clicked"
+                Margin="15,0,15,0"></Button>
+        <Button x:Name="btnHypoPrediction" Text="Hypoglicemia time prediction" Clicked="btnHypoPrediction_Clicked"
+                Margin="15,0,15,0"></Button>
+        <Button x:Name="btnAlarms" Text="Alarm" Clicked="btnAlarms_Clicked" IsEnabled="False"
+                Margin="15,0,15,0"></Button>
+        <Button x:Name="btnAbout" Text="About" Clicked="btnAbout_Clicked"
+                Margin="15,0,15,0"></Button>
+    </StackLayout>
+</ContentPage>

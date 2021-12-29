@@ -27,8 +27,9 @@ namespace FoglioGlicemiaTerapia
         {
             InitializeComponent();
 
-            CommonObjectsAndData.LogDelProgramma = new SharedData.Logger(
-                @".\", true, "Log.txt", "Log.txt", "Log.txt", "Log.txt", "Log.txt"); 
+            CommonData.CommonObj = new CommonObjects();
+            CommonData.CommonObj.LogOfProgram = new Logger(CommonData.PathProgramsData, true, "FoglioGlicemiaTerapia_log.txt",
+                CommonData.PathProgramsData, CommonData.PathProgramsData, null, null);
         }
 
         private void BtnGeneraFile_Click(object sender, RoutedEventArgs e)

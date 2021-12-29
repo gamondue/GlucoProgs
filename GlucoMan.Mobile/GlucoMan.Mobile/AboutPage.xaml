@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Mobile.AboutPage"
+             Title="About">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                <ContentView Padding="0,20,0,20" VerticalOptions="FillAndExpand">
+                    <Image Source="Current_Logo_Transparent.png" VerticalOptions="Center" HeightRequest="50" />
+                </ContentView>
+            </StackLayout>
+        </StackLayout>
+        <ScrollView Grid.Row="1">
+            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
+                <Frame BackgroundColor="#2196F3" Padding="0" CornerRadius="0">
+                    <Label x:Name="lblAppName" Text="GlucoMan " HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
+                </Frame>
+                <Label Text="GlucoMan will be a Glucose Manager program for the diabetic person. " FontSize="20" Padding="0,0,0,0"/>
+                <Label Text="Currently it makes just a few calculations, but very useful to the diabetic person that has to make carbohydrate count. I will expand the program in the future, including full management of insulin and carbohydrates." 
+                       FontSize="15" Padding="0,0,0,0"/>
+                <Label Text="GlucoMan is Free Software (licence: GPL v.2) by:" FontSize="15" 
+                       HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
+                <Label Text="Ing.Gabriele Monti (gamon) - Forlì - Italia" FontSize="17" 
+                       HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
+                <Label FontSize="13" Padding="30,0,30,0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="Distribution at "/>
+                                <Span x:Name="tempText" Text="https://ingmonti.it/GlucoMan/" FontAttributes="Bold"/>
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Button x:Name="btnExit" BackgroundColor="#2196F3" TextColor="White" Text="Menù" Clicked="btnExit_Click" />
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

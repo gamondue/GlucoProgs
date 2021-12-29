@@ -104,9 +104,9 @@ namespace GlucoMan.BusinessLayer
                 }
                 TotalInsulinForMeal.Double = BolusInsulinDueToChoOfMeal.Double + BolusInsulinDueToCorrectionOfGlucose.Double;
             }
-            catch (Exception ex)
+            catch (Exception Ex)
             {
-                CommonFunctions.NotifyError(ex.Message);
+                CommonData.CommonObj.LogOfProgram.Error("BL_BolusCalculations | CalculateBolus()", Ex);
             }
         }
 
@@ -160,7 +160,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                CommonFunctions.NotifyError(ex.Message);
+                CommonData.CommonObj.LogOfProgram.Error("BL_BolusCalculations | SaveData()", ex);
             }
         }
         internal void SaveLog()

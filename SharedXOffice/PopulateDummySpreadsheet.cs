@@ -10,64 +10,64 @@ namespace Comuni.XOffice
 
         internal override string Close()
         {
-            return CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|Close():\n", null);
+            return CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|Close():\n", null);
         }
 
         internal override string ReplaceSquaredParenthesisTag(string Tag, string ReplacingString)
         {
-            return CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|ReplaceString():\n" + Tag + "," + ReplacingString, null);
+            return CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|ReplaceString():\n" + Tag + "," + ReplacingString, null);
         }
 
         internal override string ShowWindow()
         {
-            return CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|ShowWordWindow()\n", null);
+            return CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|ShowWordWindow()\n", null);
         }
 
         internal override string Save()
         {
-            return CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|Save():\n", null);
+            return CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|Save():\n", null);
         }
 
         internal override string InsertTextInCell(int SheetNumber, int RowNumber, string ColumnName,
                 string CellText)
         {
-            return CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|InsertTextInCell()\n" + SheetNumber + "," +
+            return CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|InsertTextInCell()\n" + SheetNumber + "," +
                 RowNumber + "," + ColumnName + "," + CellText, null);
         }
 
         internal override string InsertTextInCell(int SheetNumber, int RowNumber, int ColumnNumber,
                 string CellText)
         {
-            return CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|InsertTextInCell():\n" + SheetNumber + "," + RowNumber +
+            return CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|InsertTextInCell():\n" + SheetNumber + "," + RowNumber +
                 "," + ColumnNumber + "," + CellText, null);
         }
 
         internal override void DeleteRow(int SheetNumber, int Row)
         {
-            CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|DeleteRowInTable():\n" + SheetNumber + "," + Row, null);
+            CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|DeleteRowInTable():\n" + SheetNumber + "," + Row, null);
         }
 
         internal override int CurrentRow()
         {
-            CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|CurrentRow():\n", null);
+            CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|CurrentRow():\n", null);
             return -1;
         }
 
         internal override int CurrentColumn()
         {
-            CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|CurrentRow():\n", null);
+            CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|CurrentRow():\n", null);
             return -1;
         }
 
         internal override int CurrentSheet()
         {
-            CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|CurrentSheet():\n", null);
+            CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|CurrentSheet():\n", null);
             return -1;
         }
 
         internal override string SaveAsPdf(int[] sheetsToBeSelected)
         {
-            return CommonObjectsAndData.LogDelProgramma.Error("PopulateSpreadsheet|SaveAsPdf():\n", null);
+            return CommonData.CommonObj.LogOfProgram.Error("PopulateSpreadsheet|SaveAsPdf():\n", null);
         }
 
         internal override object GetCurrentCellValueAndCoordinates(ref int row, ref int column)

@@ -25,7 +25,8 @@ namespace SharedWinForms
             {
                 SaveControlsValuesOfLevel(ParentControl, ref fileContent);
             }
-            TextFile.StringToFile(PathAndFile, fileContent, false);
+            //TextFile.StringToFile(PathAndFile, fileContent, false);
+            TextFile.StringToFileAsync(PathAndFile, fileContent);
         }
         private static void SaveControlsValuesOfLevel(Control ParentControl, ref string NamesAndValues)
         {

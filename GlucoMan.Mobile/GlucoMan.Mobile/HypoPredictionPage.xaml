@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Mobile.HypoPredictionPage"
+             Title="Hypoglicemia time prediction">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="40"/>
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="0" Text="Now"
+                    Clicked="btnNow_Click"></Button>
+            <Button Grid.Row="0" Grid.Column="1" 
+                    Clicked="btnNext_Click" Text="Next"></Button>
+            <Button Grid.Row="0" Grid.Column="2" 
+                    Clicked="btnReadGlucose_Click" Text="Read gluc."></Button>
+            <Button Grid.Row="0" Grid.Column="3" 
+                    Clicked="btnPredict_Click" Text="Predict"></Button>
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Text="Glucose for alarm" 
+                    XAlign="Center" YAlign="Center"/>
+            <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Text="Alarm advance time [min]" 
+                    XAlign="Center" YAlign="Center"/>
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtGlucoseTarget" Text="80" 
+                    HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod"
+                   IsEnabled="true"/>
+            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAlarmAdvanceTime" Text="80" 
+                    HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod"
+                   IsEnabled="true"/>
+            <Button Grid.Row="2" IsVisible="false" Grid.Column="3" 
+                    Clicked="btnPaste_Click" Text="Paste"></Button>
+            <Label Grid.Row="3" Grid.ColumnSpan="3" Text="Measurements of glucose and time" 
+                    XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="4" Grid.Column="0" Text="Glucose" XAlign="Center" YAlign="End"/>
+            <Entry Grid.Row="5" Grid.Column="0" x:Name="txtGlucoseLast" HorizontalTextAlignment ="End" Text="" 
+                       Placeholder="gluc.meas." BackgroundColor="LightGreen" />
+            <Label Grid.Row="4" Grid.Column="1" Text="Hour" XAlign="Center" YAlign="End" />
+            <Entry Grid.Row="5" Grid.Column="1" x:Name="txtHourLast" Placeholder="hour" 
+                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+            <Label Grid.Row="4" Grid.Column="2" Text="Minute" XAlign="Center" YAlign="End" />
+            <Entry Grid.Row="5" Grid.Column="2" x:Name="txtMinuteLast" Placeholder="minute" 
+                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+            <Label Grid.Row="5" Grid.Column="3" Text="current measurement" XAlign="Center" YAlign="Center" />
+            <Entry Grid.Row="6" Grid.Column="0" x:Name="txtGlucosePrevious" Text="" Placeholder="gluc.meas." 
+                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+            <Entry Grid.Row="6" Grid.Column="1" x:Name="txtHourPrevious" Placeholder="hour" 
+                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+            <Entry Grid.Row="6" Grid.Column="2" x:Name="txtMinutePrevious" Placeholder="minute" 
+                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+            <Label Grid.Row="6" Grid.Column="3" Text="previous measurement" 
+                   XAlign="Center" YAlign="center" />
+            <Label Grid.Row="7" Grid.Column="1" x:Name="txtGlucoseSlope" Text="----" FontSize="Large"
+                   YAlign="Center" XAlign="Center" BackgroundColor="LightGray"/>
+            <Label Grid.Row="7" Grid.Column="2" Text="Slope&#10;[gluc/h]" 
+                   XAlign="Center" YAlign="center" />
+            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Text="Expected time of achievement of the target value"
+                   VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="9" Grid.Column="1" x:Name="txtPredictedHour" Text="----" FontSize="Large"
+                   YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
+            <Label Grid.Row="9" Grid.Column="2" x:Name="txtPredictedMinute" Text="----" FontSize="Large"
+                   YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
+            <Label Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="4" Text="Alarm time"
+                   VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="11" Grid.Column="1" x:Name="txtAlarmHour" Text="----" FontSize="Large"
+                   YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
+            <Label Grid.Row="11" Grid.Column="2" x:Name="txtAlarmMinute" Text="----" FontSize="Large"
+                   YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
+            <Button Grid.Row="11" IsVisible="false" Grid.Column="3" 
+                    Clicked="btnAlarm_Click" Text="Alarm"></Button>
+            <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtStatusBar" Text="" FontSize="Large"
+                   YAlign="Center" XAlign="Center"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

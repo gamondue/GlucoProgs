@@ -10,7 +10,7 @@ namespace GlucoMan
     /// </summary>
     internal static class SafeRead
     {
-        internal static int? SafeInt(object Value)
+        internal static int? Int(object Value)
         {
             if (Value == null)
                 return null; 
@@ -23,8 +23,7 @@ namespace GlucoMan
                 return null;
             }
         }
-
-        internal static string SafeString(DbDataReader r, int FieldNumber)
+        internal static string String(DbDataReader r, int FieldNumber)
         {
             try
             {
@@ -35,8 +34,7 @@ namespace GlucoMan
                 return null;
             }
         }
-
-        internal static string SafeString(object Field)
+        internal static string String(object Field)
         {
             if (Field == null)
                 return null;
@@ -49,8 +47,7 @@ namespace GlucoMan
                 return null;
             }
         }
-
-        internal static string SafeString(object Field, bool NullOnError)
+        internal static string String(object Field, bool NullOnError)
         {
             try
             {
@@ -64,8 +61,7 @@ namespace GlucoMan
                     return "";
             }
         }
-
-        internal static Nullable<DateTime> SafeDateTime(object Field)
+        internal static Nullable<DateTime> DateTime(object Field)
         {
             try
             {
@@ -79,20 +75,18 @@ namespace GlucoMan
                 return null;
             }
         }
-
-        internal static Nullable<DateTime> SafeDateTime(string Date)
+        internal static Nullable<DateTime> DateTime(string Date)
         {
             try
             {
-                return DateTime.Parse(Date);
+                return System.DateTime.Parse(Date);
             }
             catch
             {
                 return null;
             }
         }
-
-        internal static Nullable<double> SafeDouble(string d)
+        internal static Nullable<double> Double(string d)
         {
             if (d == "")
                 return null; 
@@ -105,22 +99,20 @@ namespace GlucoMan
                 return null;
             }
         }
-
-        internal static double? SafeDouble(object Value)
+        internal static double? Double(object Value)
         {
             if (Value == null)
                 return null;
             try
             {
-                return Double.Parse(Value.ToString());
+                return double.Parse(Value.ToString());
             }
             catch
             {
                 return null;
             }
         }
-
-        internal static bool? SafeBool(string field)
+        internal static bool? Bool(string field)
         {
             if (field == "" || field == "0")
                 return true;

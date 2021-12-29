@@ -1,4 +1,5 @@
-﻿using SharedFunctions;
+﻿using SharedData;
+using SharedFunctions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,11 +21,12 @@ namespace GlucoMan
                 file += Hypo.MinuteLast.Text + "\n";
                 file += Hypo.MinutePrevious.Text + "\n";
                 file += Hypo.AlarmAdvanceTime.TotalMinutes;
-                TextFile.StringToFile(persistentHypoPrediction, file, false);
+                //TextFile.StringToFile(persistentHypoPrediction, file, false);
+                TextFile.StringToFileAsync(persistentHypoPrediction, file);
             }
             catch (Exception ex)
             {
-                CommonFunctions.NotifyError(ex.Message);
+                CommonData.CommonObj.LogOfProgram.Error("DL_HypoPrediction | SaveHypoPrediction", ex);
             }
         }
         internal void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
@@ -44,7 +46,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonFunctions.NotifyError(ex.Message);
+                    CommonData.CommonObj.LogOfProgram.Error("DL_HypoPrediction | RestoreHypoPrediction" , ex);
                 }
         }
     }

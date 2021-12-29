@@ -75,7 +75,7 @@ namespace SharedData
         {
             if (LoggingEvents)
             {
-                logInFile(eventLogFile, testo);
+                LogToFile(eventLogFile, testo);
             }
             if (ShowingEvents)
             { 
@@ -102,21 +102,24 @@ namespace SharedData
         /// <summary>
         /// Realizza il log degli errori
         /// </summary>
-        /// <param name="testo"></param>
-        public string Error(string testo, Exception ex)
+        /// <param name="ErrorText"></param>
+        public string Error(string ErrorText, Exception Exception)
         {
-            testo += "\nMessaggio: " + ex.Message +
-            "\nTipo: " + ex.GetType().ToString() +
-            "\nErrore: " + ex.ToString() + "\n";
-            if (LoggingErrors)
+            if (Exception != null)
             {
-                logInFile(errorFile, testo);
+                ErrorText += "\nMessage: " + Exception.Message +
+                "\nType: " + Exception.GetType().ToString() +
+                "\nError: " + Exception.ToString() + "\n";
+                if (LoggingErrors)
+                {
+                    LogToFile(errorFile, ErrorText);
+                }
+                if (ShowingErrors)
+                {
+                    Console.WriteLine(ErrorText);
+                }
             }
-            if (ShowingErrors)
-            {
-                Console.WriteLine(testo);
-            }
-            return testo; 
+            return ErrorText; 
         }
         /// <summary>
         /// debugging log
@@ -126,14 +129,13 @@ namespace SharedData
         {
             if (LoggingDebug)
             {
-                logInFile(debugFile, testo);
+                LogToFile(debugFile, testo);
             }
             if (ShowingDebug)
             {
                 Console.WriteLine(testo);
             }
         }
-
         public void Prompt(string testo)
         {
             Console.WriteLine(testo); 
@@ -147,7 +149,7 @@ namespace SharedData
             }
         }
 
-        private void logInFile(string file,string testo)
+        private void LogToFile(string file,string testo)
         {
             using (StreamWriter sw = File.AppendText(file))
             {

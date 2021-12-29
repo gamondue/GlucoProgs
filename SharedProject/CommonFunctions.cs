@@ -30,7 +30,6 @@ namespace SharedFunctions
                 return ex.Message;
             }
         }
-
         /// <summary>
         /// Writes the given object instance to a binary file.
         /// (taken from https://stackoverflow.com/questions/6115721/how-to-save-restore-serializable-object-to-from-file)
@@ -49,7 +48,6 @@ namespace SharedFunctions
                 binaryFormatter.Serialize(stream, ObjectToWrite);
             }
         }
-
         /// <summary>
         /// Reads an object instance from a binary file.
         /// (taken from https://stackoverflow.com/questions/6115721/how-to-save-restore-serializable-object-to-from-file)
@@ -81,7 +79,6 @@ namespace SharedFunctions
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
         }
-
         internal static string ConvertStringToFilename(string SubmittedName, bool SubstituteSpaces)
         {
             string s = SubmittedName;
@@ -99,7 +96,6 @@ namespace SharedFunctions
                 s = s.Replace(' ', '-');
             return s;
         }
-
         internal static DateTime NextWeekSameDay(DateTime from, DayOfWeek dayOfWeek)
         {
             int start = (int)from.DayOfWeek;
@@ -108,7 +104,6 @@ namespace SharedFunctions
                 target += 7;
             return from.AddDays(target - start);
         }
-
         public static object CloneObject(object o)
         {
             // from https://stackoverflow.com/questions/4544657/duplicate-group-box
