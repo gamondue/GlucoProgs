@@ -25,13 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="InsulinCalc_Page.xaml.cs">
-      <DependentUpon>InsulinCalc_Page.xaml</DependentUpon>
+    <Compile Update="InsulinCalcPage.xaml.cs">
+      <DependentUpon>InsulinCalcPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="GlucoseMeasurement_Page.xaml">
+    <EmbeddedResource Update="GlucoseMeasurementPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

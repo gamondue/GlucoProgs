@@ -15,8 +15,8 @@ namespace SharedFunctions
         }
         internal static void Initializations()
         {
-            MakeFolderIfDontExist(CommonData.PathConfigurationData);
-            MakeFolderIfDontExist(CommonData.PathProgramsData);
+            //////////////MakeFolderIfDontExist(CommonData.PathConfigurationData);
+            //////////////MakeFolderIfDontExist(CommonData.PathProgramsData);
         }
     }
 }

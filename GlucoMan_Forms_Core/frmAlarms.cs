@@ -16,5 +16,10 @@ namespace GlucoMan_Forms_Core
         {
             InitializeComponent();
         }
+
+        private void frmAlarms_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
