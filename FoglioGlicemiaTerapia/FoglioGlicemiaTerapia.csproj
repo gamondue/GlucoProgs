@@ -9,7 +9,7 @@
 
   <Import Project="..\SharedXOffice\SharedXOffice.projitems" Label="Shared" />
 
-  <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
+  <Import Project="..\SharedGeneral\SharedGeneral.projitems" Label="Shared" />
 
   <Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
 

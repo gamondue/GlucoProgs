@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlucoMan.Mobile", "GlucoMan
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedGlucoMan", "SharedGlucoMan\SharedGlucoMan.shproj", "{A099D29B-5307-4564-ACAD-2A073FD1EF64}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedProject", "SharedProject\SharedProject.shproj", "{ED912C6E-AD4C-41D0-B73A-50222569C201}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedAndroid", "SharedAndroid\SharedAndroid.shproj", "{7ABE1F51-C287-42F5-9DA8-8DC734CDA12B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlucoMan.Forms", "GlucoMan.Forms\GlucoMan.Forms.csproj", "{19A0720C-B541-4D0C-BD30-B872F8F0D6B4}"
@@ -27,27 +25,29 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedXOffice", "SharedXOff
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadFreeStyleLibreData", "ReadFreeStyleLibreData\ReadFreeStyleLibreData.csproj", "{8F5A9522-5D17-4292-B91D-198BB27D1DEF}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedGeneral", "SharedGeneral\SharedGeneral.shproj", "{B8615262-A1A5-4508-A7A2-321C10ED81CC}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SharedWinForms\SharedWinForms.projitems*{12450c6c-3750-476e-95ca-8615b1478239}*SharedItemsImports = 13
+		SharedGeneral\SharedGeneral.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
 		SharedGlucoMan\SharedGlucoMan.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
-		SharedProject\SharedProject.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
 		SharedWindows\SharedWindows.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
 		SharedWinForms\SharedWinForms.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
+		SharedGeneral\SharedGeneral.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
 		SharedGlucoMan\SharedGlucoMan.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
-		SharedProject\SharedProject.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
 		SharedWindows\SharedWindows.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
 		SharedXOffice\SharedXOffice.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
 		SharedAndroid\SharedAndroid.projitems*{7abe1f51-c287-42f5-9da8-8dc734cda12b}*SharedItemsImports = 13
+		SharedGeneral\SharedGeneral.projitems*{8f5a9522-5d17-4292-b91d-198bb27d1def}*SharedItemsImports = 5
 		SharedGlucoMan\SharedGlucoMan.projitems*{8f5a9522-5d17-4292-b91d-198bb27d1def}*SharedItemsImports = 5
-		SharedProject\SharedProject.projitems*{8f5a9522-5d17-4292-b91d-198bb27d1def}*SharedItemsImports = 5
 		SharedWindows\SharedWindows.projitems*{8f5a9522-5d17-4292-b91d-198bb27d1def}*SharedItemsImports = 5
 		SharedAndroid\SharedAndroid.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
+		SharedGeneral\SharedGeneral.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
 		SharedGlucoMan\SharedGlucoMan.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
-		SharedProject\SharedProject.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
 		SharedGlucoMan\SharedGlucoMan.projitems*{a099d29b-5307-4564-acad-2a073fd1ef64}*SharedItemsImports = 13
 		SharedWindows\SharedWindows.projitems*{b3c5e432-3f17-4683-976f-bd54081a9966}*SharedItemsImports = 13
-		SharedProject\SharedProject.projitems*{ed912c6e-ad4c-41d0-b73a-50222569c201}*SharedItemsImports = 13
+		SharedGeneral\SharedGeneral.projitems*{b8615262-a1a5-4508-a7a2-321c10ed81cc}*SharedItemsImports = 13
 		SharedXOffice\SharedXOffice.projitems*{eeb0680e-e0d0-4485-8c9a-f7aa98da1b90}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

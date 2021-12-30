@@ -1,6 +1,6 @@
 ﻿using GlucoMan.BusinessLayer;
 using SharedData;
-using SharedFunctions;
+using GlucoMan;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,9 +34,10 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                CommonData.CommonObj.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
+                Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
+
         internal void RestoreBolusCalculations(BL_BolusCalculation Bolus)
         {
             if (File.Exists(persistentBolusCalculation))
@@ -59,7 +60,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonData.CommonObj.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
+                    Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
                 }
         }
         internal void SaveLogOfBoluses(BL_BolusCalculation Bolus)
@@ -104,7 +105,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                CommonData.CommonObj.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
+                Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
     }

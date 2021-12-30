@@ -60,5 +60,5 @@
 
   <Import Project="..\..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
 
-  <Import Project="..\..\SharedProject\SharedProject.projitems" Label="Shared" />
+  <Import Project="..\..\SharedGeneral\SharedGeneral.projitems" Label="Shared" />
 </Project>

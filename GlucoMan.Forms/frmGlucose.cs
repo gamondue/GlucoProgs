@@ -1,5 +1,5 @@
 ﻿using GlucoMan;
-using SharedFunctions;
+using GlucoMan;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,29 +15,30 @@ namespace GlucoMan.Forms
 {
     public partial class frmGlucose : Form
     {
-        BL_GlucoseMeasurements bl = new BL_GlucoseMeasurements(); 
+        BL_GlucoseMeasurements bl = new BL_GlucoseMeasurements();
 
+        GlucoseRecord currentMeasurement = new GlucoseRecord();
         List<GlucoseRecord> glucoseReadings = new List<GlucoseRecord>(); 
         public frmGlucose()
         {
             InitializeComponent();
 
-            viewMeasurements.AutoGenerateColumns = false;
-            viewMeasurements.Columns.Clear();
-            viewMeasurements.ColumnCount = 2;
-            viewMeasurements.Columns[1].Name = "Glucose";
-            viewMeasurements.Columns[1].DataPropertyName = "GlucoseValue";
-            viewMeasurements.Columns[1].Width = 80;
-            viewMeasurements.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            viewMeasurements.Columns[0].Name = "Date and time";
-            viewMeasurements.Columns[0].DataPropertyName = "Timestamp";
-            viewMeasurements.Columns[0].Width = 180;
-            viewMeasurements.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            gridMeasurements.AutoGenerateColumns = false;
+            gridMeasurements.Columns.Clear();
+            gridMeasurements.ColumnCount = 2;
+            gridMeasurements.Columns[1].Name = "Glucose";
+            gridMeasurements.Columns[1].DataPropertyName = "GlucoseValue";
+            gridMeasurements.Columns[1].Width = 80;
+            gridMeasurements.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            gridMeasurements.Columns[0].Name = "Date and time";
+            gridMeasurements.Columns[0].DataPropertyName = "Timestamp";
+            gridMeasurements.Columns[0].Width = 180;
+            gridMeasurements.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            viewMeasurements.AllowUserToAddRows = false;
-            viewMeasurements.ReadOnly = true;
+            gridMeasurements.AllowUserToAddRows = false;
+            gridMeasurements.ReadOnly = true;
 
-            foreach (DataGridViewColumn column in viewMeasurements.Columns)
+            foreach (DataGridViewColumn column in gridMeasurements.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.Automatic;
             }
@@ -45,12 +46,10 @@ namespace GlucoMan.Forms
         private void frmGlucose_Load(object sender, EventArgs e)
         {
             glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
-
-            glucoseReadings = glucoseReadings.OrderBy(n => n.Timestamp).ToList();
-
-            viewMeasurements.DataSource = glucoseReadings;
-            
-            //viewMeasurements.Sort(this.viewMeasurements.Columns[0], ListSortDirection.Ascending);
+            // sort list descending
+            glucoseReadings = glucoseReadings.OrderByDescending(n => n.Timestamp).ToList();
+            // binf list to grid 
+            gridMeasurements.DataSource = glucoseReadings;
         }
         private void btnAddMeasurement_Click(object sender, EventArgs e)
         {
@@ -60,7 +59,7 @@ namespace GlucoMan.Forms
             }
             catch 
             {
-                CommonFunctions.NotifyError("");
+                MessageBox.Show("Input a number in the glucose box!");
                 return; 
             }
             if (chkNowInAdd.Checked)
@@ -71,14 +70,14 @@ namespace GlucoMan.Forms
             glucoseReadings.Add(newReading);
             if (chkAutosave.Checked)
                 bl.SaveGlucoseMeasurements(glucoseReadings);
-            viewMeasurements.DataSource = null;
-            viewMeasurements.DataSource = glucoseReadings; 
+            gridMeasurements.DataSource = null;
+            gridMeasurements.DataSource = glucoseReadings; 
         }
         private void btnRemoveMeasurement_Click(object sender, EventArgs e)
         {
-            if (viewMeasurements.SelectedRows.Count > 0)
+            if (gridMeasurements.SelectedRows.Count > 0)
             {
-                int rowIndex = viewMeasurements.SelectedRows[0].Index;
+                int rowIndex = gridMeasurements.SelectedRows[0].Index;
                 if (MessageBox.Show(string.Format("Should I delete the measurement {0}, {1}",
                     glucoseReadings[rowIndex].GlucoseValue,
                     glucoseReadings[rowIndex].Timestamp), "", 
@@ -94,8 +93,8 @@ namespace GlucoMan.Forms
                 MessageBox.Show("Choose a measurement to delete");
                 return;
             }
-            viewMeasurements.DataSource = null;
-            viewMeasurements.DataSource = glucoseReadings;
+            gridMeasurements.DataSource = null;
+            gridMeasurements.DataSource = glucoseReadings;
         }
         private void dgvMeasurements_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -103,7 +102,7 @@ namespace GlucoMan.Forms
         }
         private void dgvMeasurements_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            viewMeasurements.Rows[e.RowIndex].Selected = true;
+            gridMeasurements.Rows[e.RowIndex].Selected = true;
             txtGlucose.Text = glucoseReadings[e.RowIndex].GlucoseValue.ToString();
             if (glucoseReadings[e.RowIndex].Timestamp != null)
                 dtpEventInstant.Value = (DateTime)glucoseReadings[e.RowIndex].Timestamp;
@@ -111,6 +110,24 @@ namespace GlucoMan.Forms
         private void btnNow_Click(object sender, EventArgs e)
         {
             dtpEventInstant.Value = DateTime.Now;
+        }
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            FromUiToClass(); 
+            bl.SaveOneGlucoseMeasurement(currentMeasurement); 
+        }
+
+        private void FromUiToClass()
+        {
+            double glucose; 
+            double.TryParse(txtGlucose.Text, out glucose);
+            if (glucose < 0)
+            {
+                MessageBox.Show("Input a number in the glucose box!");
+                return; 
+            }
+            currentMeasurement.GlucoseValue = glucose;
+            currentMeasurement.Timestamp = dtpEventInstant.Value;
         }
     }
 }

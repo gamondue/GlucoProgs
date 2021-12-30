@@ -1,7 +1,7 @@
 ﻿using GlucoMan;
 using GlucoMan.BusinessLayer;
 using SharedData;
-using SharedFunctions;
+using GlucoMan;
 using System;
 using System.IO;
 using Xamarin.Forms;
@@ -22,7 +22,7 @@ namespace GlucoMan.Mobile
             glucoseMeasuremet = new BL_GlucoseMeasurements();
 
             bolusCalculation.RestoreData();
-            bolusCalculation.MealOfBolus.SelectMealBasedOnTimeNow();
+            bolusCalculation.MealOfBolus.Type = Common.SelectMealBasedOnTimeNow();
 
             FromClassToUi();
             txtGlucoseBeforeMeal.Focus();
@@ -60,16 +60,16 @@ namespace GlucoMan.Mobile
             txtStatusBar.Text = bolusCalculation.StatusMessage;
             switch (bolusCalculation.MealOfBolus.Type)
             {
-                case (Meal.TypeOfMeal.Breakfast):
+                case (Common.TypeOfMeal.Breakfast):
                     rdbIsBreakfast.IsChecked = true;
                     break;
-                case (Meal.TypeOfMeal.Dinner):
+                case (Common.TypeOfMeal.Dinner):
                     rdbIsDinner.IsChecked = true;
                     break;
-                case (Meal.TypeOfMeal.Lunch):
+                case (Common.TypeOfMeal.Lunch):
                     rdbIsLunch.IsChecked = true;
                     break;
-                case (Meal.TypeOfMeal.Snack):
+                case (Common.TypeOfMeal.Snack):
                     rdbIsSnack.IsChecked = true;
                     break;
             }
@@ -97,13 +97,13 @@ namespace GlucoMan.Mobile
             bolusCalculation.TargetGlucose.Text = txtTargetGlucose.Text.Replace(" ", "");
 
             if (rdbIsBreakfast.IsChecked)
-                bolusCalculation.MealOfBolus.Type = Meal.TypeOfMeal.Breakfast;
+                bolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Breakfast;
             if (rdbIsLunch.IsChecked)
-                bolusCalculation.MealOfBolus.Type = Meal.TypeOfMeal.Lunch;
+                bolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Lunch;
             if (rdbIsDinner.IsChecked)
-                bolusCalculation.MealOfBolus.Type = Meal.TypeOfMeal.Dinner;
+                bolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Dinner;
             if (rdbIsSnack.IsChecked)
-                bolusCalculation.MealOfBolus.Type = Meal.TypeOfMeal.Snack;
+                bolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Snack;
         }
         private void btnRoundInsulin_Click(object sender, EventArgs e)
         {
@@ -119,7 +119,7 @@ namespace GlucoMan.Mobile
         }
         private void btnSaveBolus_Click(object sender, EventArgs e)
         {
-            // !!!! TODO !!!!        
+            bolusCalculation.SaveData();
         }
         private void btnInsulinSensitivityCalculation_Click(object sender, EventArgs e)
         {

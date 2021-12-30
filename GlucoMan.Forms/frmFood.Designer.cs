@@ -29,6 +29,7 @@ namespace GlucoMan.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFood));
             this.txtFoodCarbohydrates = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -36,9 +37,7 @@ namespace GlucoMan.Forms
             this.txtCalories = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.txtMonoinsaturatedFats = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -67,12 +66,13 @@ namespace GlucoMan.Forms
             this.btnFatSecret = new System.Windows.Forms.Button();
             this.btnManageFoods = new System.Windows.Forms.Button();
             this.btnNewFood = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtFoodCarbohydrates
             // 
-            this.txtFoodCarbohydrates.Location = new System.Drawing.Point(6, 50);
+            this.txtFoodCarbohydrates.Location = new System.Drawing.Point(6, 107);
             this.txtFoodCarbohydrates.Name = "txtFoodCarbohydrates";
             this.txtFoodCarbohydrates.Size = new System.Drawing.Size(100, 26);
             this.txtFoodCarbohydrates.TabIndex = 0;
@@ -80,7 +80,7 @@ namespace GlucoMan.Forms
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 27);
+            this.label1.Location = new System.Drawing.Point(6, 84);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(113, 20);
             this.label1.TabIndex = 1;
@@ -89,7 +89,7 @@ namespace GlucoMan.Forms
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(125, 27);
+            this.label2.Location = new System.Drawing.Point(6, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(109, 20);
             this.label2.TabIndex = 3;
@@ -97,7 +97,7 @@ namespace GlucoMan.Forms
             // 
             // txtCalories
             // 
-            this.txtCalories.Location = new System.Drawing.Point(125, 50);
+            this.txtCalories.Location = new System.Drawing.Point(6, 50);
             this.txtCalories.Name = "txtCalories";
             this.txtCalories.Size = new System.Drawing.Size(100, 26);
             this.txtCalories.TabIndex = 2;
@@ -105,9 +105,7 @@ namespace GlucoMan.Forms
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.textBox10);
+            this.groupBox1.Controls.Add(this.txtMonoinsaturatedFats);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.textBox11);
             this.groupBox1.Controls.Add(this.label15);
@@ -140,43 +138,30 @@ namespace GlucoMan.Forms
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(6, 145);
+            this.label16.Location = new System.Drawing.Point(363, 27);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(64, 20);
+            this.label16.Size = new System.Drawing.Size(119, 20);
             this.label16.TabIndex = 31;
-            this.label16.Text = "Id Food";
+            this.label16.Text = "Mono fats  [g]%";
+            this.label16.Visible = false;
             // 
-            // textBox1
+            // txtMonoinsaturatedFats
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 168);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 26);
-            this.textBox1.TabIndex = 30;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(484, 145);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(64, 20);
-            this.label13.TabIndex = 29;
-            this.label13.Text = "Id Food";
-            // 
-            // textBox10
-            // 
-            this.textBox10.Location = new System.Drawing.Point(484, 168);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(100, 26);
-            this.textBox10.TabIndex = 28;
+            this.txtMonoinsaturatedFats.Location = new System.Drawing.Point(363, 50);
+            this.txtMonoinsaturatedFats.Name = "txtMonoinsaturatedFats";
+            this.txtMonoinsaturatedFats.Size = new System.Drawing.Size(100, 26);
+            this.txtMonoinsaturatedFats.TabIndex = 30;
+            this.txtMonoinsaturatedFats.Visible = false;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(364, 145);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(64, 20);
+            this.label14.Size = new System.Drawing.Size(122, 20);
             this.label14.TabIndex = 27;
-            this.label14.Text = "Id Food";
+            this.label14.Text = "Potassium  [g]%";
+            this.label14.Visible = false;
             // 
             // textBox11
             // 
@@ -184,15 +169,17 @@ namespace GlucoMan.Forms
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(100, 26);
             this.textBox11.TabIndex = 26;
+            this.textBox11.Visible = false;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(245, 145);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(64, 20);
+            this.label15.Size = new System.Drawing.Size(128, 20);
             this.label15.TabIndex = 25;
-            this.label15.Text = "Id Food";
+            this.label15.Text = "Cholesterol  [g]%";
+            this.label15.Visible = false;
             // 
             // textBox12
             // 
@@ -200,19 +187,20 @@ namespace GlucoMan.Forms
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(100, 26);
             this.textBox12.TabIndex = 24;
+            this.textBox12.Visible = false;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(484, 84);
+            this.label12.Location = new System.Drawing.Point(125, 27);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(75, 20);
+            this.label12.Size = new System.Drawing.Size(110, 20);
             this.label12.TabIndex = 23;
-            this.label12.Text = "Total fats";
+            this.label12.Text = "Total fats [g]%";
             // 
             // txtTotalFats
             // 
-            this.txtTotalFats.Location = new System.Drawing.Point(484, 107);
+            this.txtTotalFats.Location = new System.Drawing.Point(125, 50);
             this.txtTotalFats.Name = "txtTotalFats";
             this.txtTotalFats.Size = new System.Drawing.Size(100, 26);
             this.txtTotalFats.TabIndex = 22;
@@ -220,31 +208,34 @@ namespace GlucoMan.Forms
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(125, 145);
+            this.label10.Location = new System.Drawing.Point(482, 27);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(64, 20);
+            this.label10.Size = new System.Drawing.Size(104, 20);
             this.label10.TabIndex = 21;
-            this.label10.Text = "Id Food";
+            this.label10.Text = "Poli fats  [g]%";
+            this.label10.Visible = false;
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(125, 168);
+            this.textBox7.Location = new System.Drawing.Point(482, 50);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(100, 26);
             this.textBox7.TabIndex = 20;
+            this.toolTip1.SetToolTip(this.textBox7, "Poli insaturated fats");
+            this.textBox7.Visible = false;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(364, 84);
+            this.label8.Location = new System.Drawing.Point(125, 84);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(52, 20);
+            this.label8.Size = new System.Drawing.Size(87, 20);
             this.label8.TabIndex = 17;
-            this.label8.Text = "Sugar";
+            this.label8.Text = "Sugar [g]%";
             // 
             // txtSugar
             // 
-            this.txtSugar.Location = new System.Drawing.Point(364, 107);
+            this.txtSugar.Location = new System.Drawing.Point(125, 107);
             this.txtSugar.Name = "txtSugar";
             this.txtSugar.Size = new System.Drawing.Size(100, 26);
             this.txtSugar.TabIndex = 16;
@@ -252,7 +243,7 @@ namespace GlucoMan.Forms
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(245, 84);
+            this.label9.Location = new System.Drawing.Point(244, 27);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(111, 20);
             this.label9.TabIndex = 15;
@@ -260,7 +251,7 @@ namespace GlucoMan.Forms
             // 
             // txtSaturatedFats
             // 
-            this.txtSaturatedFats.Location = new System.Drawing.Point(245, 107);
+            this.txtSaturatedFats.Location = new System.Drawing.Point(244, 50);
             this.txtSaturatedFats.Name = "txtSaturatedFats";
             this.txtSaturatedFats.Size = new System.Drawing.Size(100, 26);
             this.txtSaturatedFats.TabIndex = 14;
@@ -268,15 +259,15 @@ namespace GlucoMan.Forms
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(125, 84);
+            this.label6.Location = new System.Drawing.Point(6, 145);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 20);
+            this.label6.Size = new System.Drawing.Size(102, 20);
             this.label6.TabIndex = 13;
-            this.label6.Text = "Proteins";
+            this.label6.Text = "Proteins [g]%";
             // 
             // txtProteins
             // 
-            this.txtProteins.Location = new System.Drawing.Point(125, 107);
+            this.txtProteins.Location = new System.Drawing.Point(6, 168);
             this.txtProteins.Name = "txtProteins";
             this.txtProteins.Size = new System.Drawing.Size(100, 26);
             this.txtProteins.TabIndex = 12;
@@ -284,15 +275,15 @@ namespace GlucoMan.Forms
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 84);
+            this.label7.Location = new System.Drawing.Point(125, 145);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(37, 20);
+            this.label7.Size = new System.Drawing.Size(72, 20);
             this.label7.TabIndex = 11;
-            this.label7.Text = "Salt";
+            this.label7.Text = "Salt [g]%";
             // 
             // txtSalt
             // 
-            this.txtSalt.Location = new System.Drawing.Point(6, 107);
+            this.txtSalt.Location = new System.Drawing.Point(125, 168);
             this.txtSalt.Name = "txtSalt";
             this.txtSalt.Size = new System.Drawing.Size(100, 26);
             this.txtSalt.TabIndex = 10;
@@ -300,15 +291,15 @@ namespace GlucoMan.Forms
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(365, 27);
+            this.label4.Location = new System.Drawing.Point(245, 84);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 20);
+            this.label4.Size = new System.Drawing.Size(88, 20);
             this.label4.TabIndex = 7;
-            this.label4.Text = "Fibers";
+            this.label4.Text = "Fibers [g]%";
             // 
             // txtFibers
             // 
-            this.txtFibers.Location = new System.Drawing.Point(365, 50);
+            this.txtFibers.Location = new System.Drawing.Point(245, 107);
             this.txtFibers.Name = "txtFibers";
             this.txtFibers.Size = new System.Drawing.Size(100, 26);
             this.txtFibers.TabIndex = 6;
@@ -369,6 +360,7 @@ namespace GlucoMan.Forms
             this.btnSave.TabIndex = 20;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnFatSecret
             // 
@@ -388,7 +380,6 @@ namespace GlucoMan.Forms
             this.btnManageFoods.TabIndex = 22;
             this.btnManageFoods.Text = "Manage Foods";
             this.btnManageFoods.UseVisualStyleBackColor = true;
-            this.btnManageFoods.Visible = false;
             this.btnManageFoods.Click += new System.EventHandler(this.btnManageFoods_Click);
             // 
             // btnNewFood
@@ -439,8 +430,6 @@ namespace GlucoMan.Forms
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtIdFood;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.Label label15;
@@ -464,10 +453,11 @@ namespace GlucoMan.Forms
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtFibers;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtMonoinsaturatedFats;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnFatSecret;
         private System.Windows.Forms.Button btnManageFoods;
         private System.Windows.Forms.Button btnNewFood;
+        private ToolTip toolTip1;
     }
 }

@@ -33,8 +33,7 @@ namespace GlucoMan.Forms
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            this.Text += " " + version;
+            this.Text += " " + Common.Version;
             txtHeaderText.Text = "GlucoMan will be a Glucose Manager program for diabetic persons." +
                 "\r\nCurrently it makes just a few calculations, but very useful to the diabetic person that has to make carbohydrate count." +
                 "\r\nI will expand the program in the future, including full management of insulin, carboihydrates, and possibly foods." +

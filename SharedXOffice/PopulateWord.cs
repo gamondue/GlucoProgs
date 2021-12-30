@@ -1,4 +1,5 @@
-﻿using NetOffice.WordApi.Enums;
+﻿using GlucoMan;
+using NetOffice.WordApi.Enums;
 using SharedData;
 using System;
 using System.Threading;
@@ -90,7 +91,7 @@ namespace Comuni.XOffice
             catch (Exception ex){
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -109,7 +110,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                Common.LogOfProgram.Error(err, ex);
                 return null;
             }
         }
@@ -124,7 +125,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                Common.LogOfProgram.Error(err, ex);
                 return null;
             }
         }
@@ -195,7 +196,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -210,7 +211,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                Common.LogOfProgram.Error(err, ex);
             }
             // NOTA; dopo l'inserzione in un bookmark, il bookmark sparisce
         }
@@ -265,7 +266,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }  
         }
 
@@ -312,7 +313,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -332,7 +333,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -364,7 +365,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord";
                 err += "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -386,7 +387,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord. Impossibile salvare il documento";
                 err += "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err,ex);
+                return Common.LogOfProgram.Error(err,ex);
             }
         }
 
@@ -411,7 +412,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -426,7 +427,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -465,7 +466,7 @@ namespace Comuni.XOffice
                     sVersion = "Too Old (or Too New)!";
                     break;
             }
-            CommonData.CommonObj.LogOfProgram.Error("MS office version: " + sVersion, null);
+            Common.LogOfProgram.Error("MS office version: " + sVersion, null);
             return null;
         }
     }

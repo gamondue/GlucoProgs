@@ -57,9 +57,11 @@ namespace GlucoMan.Mobile
             hypo.HypoGlucoseTarget.Text = txtGlucoseTarget.Text;
             hypo.GlucoseLast.Text = txtGlucoseLast.Text;
             hypo.GlucosePrevious.Text = txtGlucosePrevious.Text;
+
             hypo.HourLast.Text = txtHourLast.Text;
-            hypo.HourPrevious.Text = txtHourPrevious.Text;
             hypo.MinuteLast.Text = txtMinuteLast.Text;
+
+            hypo.HourPrevious.Text = txtHourPrevious.Text;
             hypo.MinutePrevious.Text = txtMinutePrevious.Text; 
         }
         private void btnNow_Click(object sender, EventArgs e)

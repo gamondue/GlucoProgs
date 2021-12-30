@@ -67,7 +67,7 @@
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
-            <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="viewMeasurements"/>
+            <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="gridMeasurements"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

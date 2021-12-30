@@ -3,18 +3,17 @@
   <PropertyGroup>
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>ed912c6e-ad4c-41d0-b73a-50222569c201</SharedGUID>
+    <SharedGUID>b8615262-a1a5-4508-a7a2-321c10ed81cc</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>GlucoMan</Import_RootNamespace>
+    <Import_RootNamespace>SharedGeneral</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)CommonObjects.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ImportData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeAndText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DoubleAndText.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImportData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IntAndText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TextFile.cs" />

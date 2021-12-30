@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SharedFunctions
+namespace GlucoMan
 {
-    internal static partial class CommonFunctions
+    internal static partial class Common
     {
-        internal static void NotifyError(string Error)
+        //internal static void PromptString(string PromptString)
+        //{
+        //    Console.Beep();
+        //    MessageBox.Show(PromptString);
+        //}
+        internal static void PlatformSpecificInitializations()
         {
-            Console.Beep(); 
-        }
-        internal static void Initializations()
-        {
-            MakeFolderIfDontExist(CommonData.PathConfigurationData);
-            MakeFolderIfDontExist(CommonData.PathProgramsData);
-            MakeFolderIfDontExist(CommonData.PathAndNameLogFile);
+
         }
     }
 }

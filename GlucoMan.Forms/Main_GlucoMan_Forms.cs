@@ -14,9 +14,8 @@ namespace GlucoMan.Forms
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            CommonData.CommonObj = new CommonObjects();
-            CommonData.CommonObj.LogOfProgram = new Logger(CommonData.PathProgramsData, true, "GlucoMan_log.txt",
-                CommonData.PathProgramsData, CommonData.PathProgramsData, null, null);
+            Common.GeneralInitializations();
+            Common.PlatformSpecificInitializations();
 
             Application.Run(new frmMain());
         }

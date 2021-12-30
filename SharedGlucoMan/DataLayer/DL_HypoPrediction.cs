@@ -1,5 +1,5 @@
 ﻿using SharedData;
-using SharedFunctions;
+using GlucoMan;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +26,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                CommonData.CommonObj.LogOfProgram.Error("DL_HypoPrediction | SaveHypoPrediction", ex);
+                Common.LogOfProgram.Error("DL_HypoPrediction | SaveHypoPrediction", ex);
             }
         }
         internal void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
@@ -46,7 +46,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonData.CommonObj.LogOfProgram.Error("DL_HypoPrediction | RestoreHypoPrediction" , ex);
+                    Common.LogOfProgram.Error("DL_HypoPrediction | RestoreHypoPrediction" , ex);
                 }
         }
     }

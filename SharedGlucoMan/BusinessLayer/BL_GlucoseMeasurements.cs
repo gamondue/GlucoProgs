@@ -29,5 +29,10 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.GetLastTwoGlucoseMeasurements(); 
         }
+
+        internal void SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
+        {
+            dl.SaveOneGlucoseMeasurement(GlucoseMeasurement); 
+        }
     }
 }

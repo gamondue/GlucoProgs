@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using SharedData;
-using SharedFunctions;
+using GlucoMan;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -72,7 +72,6 @@ namespace GlucoMan.BusinessLayer
         {
             TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double +
                 TypicalBolusEvening.Double + TypicalBolusNight.Double;
-
             InsulinCorrectionSensitivity.Double = FactorOfInsulinCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
         }
         internal void CalculateBolus()
@@ -80,25 +79,24 @@ namespace GlucoMan.BusinessLayer
             try
             {
                 // execute calculations
-                TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double + 
-                    TypicalBolusEvening.Double + TypicalBolusNight.Double; 
-                // insulin sensitivity is now calculated in a specific method
-                //InsulinCorrectionSensitivity.Double = FactorOfInsulinCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
+
+                // insulin sensitivity is now calculated in a specific method: CalculateInsulinCorrectionSensitivity()
+
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
                
                 switch (MealOfBolus.Type)
                 {
-                    case (Meal.TypeOfMeal.Breakfast):
+                    case (Common.TypeOfMeal.Breakfast):
                         BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioBreakfast.Double;
                         break; 
-                    case (Meal.TypeOfMeal.Lunch):
+                    case (Common.TypeOfMeal.Lunch):
                         BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioLunch.Double;
                         break;
-                    case (Meal.TypeOfMeal.Dinner):
-                        BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioBreakfast.Double;
+                    case (Common.TypeOfMeal.Dinner):
+                        BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioDinner.Double;
                         break;
-                    case (Meal.TypeOfMeal.Snack):
+                    case (Common.TypeOfMeal.Snack):
                         BolusInsulinDueToChoOfMeal.Double = 0; // snack has no insulin due to meal 
                         break;
                 }
@@ -106,7 +104,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception Ex)
             {
-                CommonData.CommonObj.LogOfProgram.Error("BL_BolusCalculations | CalculateBolus()", Ex);
+                Common.LogOfProgram.Error("BL_BolusCalculations | CalculateBolus()", Ex);
             }
         }
 
@@ -157,10 +155,11 @@ namespace GlucoMan.BusinessLayer
             try
             {
                 dl.SaveBolusCalculations(this);
+                // ???? !!!! substitute this: CommonFunctions.TestSaving(); 
             }
             catch (Exception ex)
             {
-                CommonData.CommonObj.LogOfProgram.Error("BL_BolusCalculations | SaveData()", ex);
+                Common.LogOfProgram.Error("BL_BolusCalculations | SaveData()", ex);
             }
         }
         internal void SaveLog()

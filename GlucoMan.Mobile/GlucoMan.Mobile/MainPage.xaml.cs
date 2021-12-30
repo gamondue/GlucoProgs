@@ -1,4 +1,4 @@
-﻿using SharedFunctions;
+﻿using GlucoMan;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,10 +15,10 @@ namespace GlucoMan.Mobile
         {
             InitializeComponent();
 
-            string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            lblAppName.Text += " " + version;
+            Common.GeneralInitializations();
+            Common.PlatformSpecificInitializations();
 
-            CommonFunctions.Initializations();
+            lblAppName.Text += " " + Common.Version;
         }
         private async void btnWeighFood_Clicked(object sender, EventArgs e)
         {

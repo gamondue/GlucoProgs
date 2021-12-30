@@ -13,9 +13,9 @@ namespace GlucoMan
         /// Apre il file passato come parametro.
         /// ATTENZIONE: lo lascia aperto
         /// </summary>
-        /// <param name="FileName">Path e nome del file da aprire</param>
-        /// <param name="Append">Indica se il file viene aperto in accodamento (append)</param>
-        /// <returns>Uno StreamWriter che servirà po per leggere e scrivere nel file</returns>
+        /// <param name="FileName">Path and filename of file to open </param>
+        /// <param name="Append">Tells if the file has to be opened in append mode</param>
+        /// <returns>Returns StreamWriter thah can be useful to read or write to the file</returns>
         internal static StreamWriter openFileOut(string FileName, bool Append)
         {
             if (!Directory.Exists(Path.GetDirectoryName(FileName)))
@@ -39,7 +39,7 @@ namespace GlucoMan
                 return (fOut);
             }
             catch (Exception e)
-            {	// il nome del file è sbagliato o non si riesce ad aprirlo
+            {	// il nome del file ï¿½ sbagliato o non si riesce ad aprirlo
                 //Console.WriteLine("Non si riesce ad aprire il file. Provo a crearlo" + FileName + "\r\nErrore:" + e.Message);
                 Console.WriteLine("Non si riesce ad aprire il file. Provo a crearlo" + FileName);
                 // lo apro creandolo
@@ -66,14 +66,14 @@ namespace GlucoMan
             fOut.Close();
         }
         /// <summary>
-        /// Scrive nel file indicato tutto il contenuto della stringa passata
+        /// Write a string as a text file
         /// </summary>
         /// <param name="FileName"></param>
         /// <param name="FileContent"></param>
         /// <param name="AppendToFile"></param>
         /// <returns>Vero se non ci sono stati errori nella </returns>
         internal static bool StringToFile(string FileName, string FileContent, bool AppendToFile)
-        {   // scrive una stringa in un file di testo
+        {   
             StreamWriter fileOut;
             fileOut = openFileOut(FileName, AppendToFile);
             try
@@ -91,6 +91,10 @@ namespace GlucoMan
         {
             try
             {
+                if (!File.Exists(FileName))
+                {
+                    File.CreateText(FileName);
+                }
                 using (var writer = File.CreateText(FileName))
                 {
                     await writer.WriteAsync(FileContent);
@@ -98,7 +102,7 @@ namespace GlucoMan
             }
             catch (Exception e)
             {
-                CommonData.CommonObj.LogOfProgram.Error("TextFile", e); 
+                Common.LogOfProgram.Error("TextFile", e); 
             }
         }
         /// <summary>
@@ -134,10 +138,10 @@ namespace GlucoMan
                 sr.Close();
             }
             catch (Exception e)
-            {	// il nome del file è sbagliato o non si riesce al leggerlo
+            {	// il nome del file ï¿½ sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non ï¿½ leggibile\r\nErrore:" + e.Message);
                 }
                 return null;
             }
@@ -171,7 +175,7 @@ namespace GlucoMan
         /// <param name="FileName"></param>
         /// <param name="FileContent"></param>
         /// <param name="Append"></param>
-        /// <returns>Vero se tutto è andato bene</returns>
+        /// <returns>Vero se tutto ï¿½ andato bene</returns>
         internal static bool ArrayToFile(string FileName, string[] FileContent, bool Append)
         {   // scrive riga per riga un array di stringhe in un file di testo
             StreamWriter fileOut;
@@ -196,7 +200,7 @@ namespace GlucoMan
         /// Legge riga per riga in un array di stringhe un file di testo
         /// </summary>
         /// <param name="FileName"></param>
-        /// <returns>Vettore di stringhe nel quale è stato letto il conetnuto del file</returns>
+        /// <returns>Vettore di stringhe nel quale ï¿½ stato letto il conetnuto del file</returns>
         internal static string[] FileToArray(string FileName)
         {
             int nLine = 0;
@@ -223,10 +227,10 @@ namespace GlucoMan
                 sr.Close();
             }
             catch (Exception e)
-            {	// il nome del file è sbagliato o non si riesce al leggerlo
+            {	// il nome del file ï¿½ sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non ï¿½ leggibile\r\nErrore:" + e.Message);
                 }
                 return null;
             }
@@ -252,10 +256,10 @@ namespace GlucoMan
                 sr.Close();
             }
             catch (Exception e)
-            {	// il nome del file è sbagliato o non si riesce al leggerlo
+            {	// il nome del file ï¿½ sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non ï¿½ leggibile\r\nErrore:" + e.Message);
                 }
                 return null;
             }
@@ -318,7 +322,7 @@ namespace GlucoMan
 
             catch (IOException e)
             {
-                // copia il file perchè è locked
+                // copia il file perchï¿½ ï¿½ locked
                 System.IO.File.Copy(FileName, "temp");
                 // ci riprovo con il file copiato
                 string[,] campi = FileToMatrix("temp", FieldSeparator);
@@ -330,15 +334,15 @@ namespace GlucoMan
 
             catch (Exception e)
             {
-                // guarda se non si può leggere perchè c'è un lock
+                // guarda se non si puï¿½ leggere perchï¿½ c'ï¿½ un lock
                 Console.WriteLine(e.GetType().ToString());
                 {
 
                 }
-                // il nome del file è sbagliato o non si riesce al leggerlo
+                // il nome del file ï¿½ sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non ï¿½ leggibile\r\nErrore:" + e.Message);
                 }
                 return (null);
             }
@@ -398,7 +402,7 @@ namespace GlucoMan
 
             catch (IOException e)
             {
-                // copia il file perchè è locked
+                // copia il file perchï¿½ ï¿½ locked
                 System.IO.File.Copy(FileName, "temp");
                 // ci riprovo con il file copiato
                 string[,] campi = FileToMatrix("temp", FieldSeparator);
@@ -410,15 +414,15 @@ namespace GlucoMan
 
             catch (Exception e)
             {
-                // guarda se non si può leggere perchè c'è un lock
+                // guarda se non si puï¿½ leggere perchï¿½ c'ï¿½ un lock
                 Console.WriteLine(e.GetType().ToString());
                 {
 
                 }
-                // il nome del file è sbagliato o non si riesce al leggerlo
+                // il nome del file ï¿½ sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non ï¿½ leggibile\r\nErrore:" + e.Message);
                 }
                 return (null);
             }
@@ -591,7 +595,7 @@ namespace GlucoMan
                     string[] campi = Line.Split(FieldSeparator);
                     for (int j = 0; j < campi.Length; j++)
                     {
-                        MatriceFile[nLine, j] = campi[j]; // OCCHIO, QUI SE C'è UN CAMPO NULL SI INCHIODA!!!
+                        MatriceFile[nLine, j] = campi[j]; // OCCHIO, QUI SE C'ï¿½ UN CAMPO NULL SI INCHIODA!!!
                     }
                     nLine++;
                 }
@@ -599,10 +603,10 @@ namespace GlucoMan
                 sr.Close();
             }
             catch (Exception e)
-            {	// il nome del file è sbagliato o non si riesce al leggerlo
+            {	// il nome del file ï¿½ sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non ï¿½ leggibile\r\nErrore:" + e.Message);
                 }
                 FirstRow = null;
                 return (null);
@@ -663,7 +667,7 @@ namespace GlucoMan
                     string[] campi = Line.Split(FieldSeparator);
                     for (int j = 0; j < campi.Length; j++)
                     {
-                        MatrixFromFile[nLine, j] = campi[j]; // OCCHIO, QUI SE C'è UN CAMPO NULL SI INCHIODA!!!
+                        MatrixFromFile[nLine, j] = campi[j]; // OCCHIO, QUI SE C'ï¿½ UN CAMPO NULL SI INCHIODA!!!
                     }
                     nLine++;
                 }
@@ -671,10 +675,10 @@ namespace GlucoMan
                 sr.Close();
             }
             catch (Exception e)
-            {	// il nome del file è sbagliato o non si riesce al leggerlo
+            {	// il nome del file ï¿½ sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non ï¿½ leggibile\r\nErrore:" + e.Message);
                 }
                 FirstRow = null;
                 SecondRow = null;
@@ -825,7 +829,7 @@ namespace GlucoMan
 
         //    catch (IOException e)
         //    {
-        //        // copia il file perchè è locked
+        //        // copia il file perchï¿½ ï¿½ locked
         //        System.IO.File.Copy(FileName, "temp");
         //        // ci riprovo con il file copiato
         //        List<List<string>> campi = FileToListOfLists("temp", FieldSeparator, StringDelimiter);
@@ -837,15 +841,15 @@ namespace GlucoMan
 
         //    catch (Exception e)
         //    {
-        //        // guarda se non si può leggere perchè c'è un lock
+        //        // guarda se non si puï¿½ leggere perchï¿½ c'ï¿½ un lock
         //        Console.WriteLine(e.GetType().ToString());
         //        {
 
         //        }
-        //        // il nome del file è sbagliato o non si riesce al leggerlo
+        //        // il nome del file ï¿½ sbagliato o non si riesce al leggerlo
         //        if (FileName != "")
         //        {
-        //            Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
+        //            Console.WriteLine("Il file " + FileName + " non ï¿½ leggibile\r\nErrore:" + e.Message);
         //        }
         //        return (null);
         //    }
@@ -886,7 +890,7 @@ namespace GlucoMan
             }
             catch (IOException e)
             {
-                // copia il file perchè è locked
+                // copia il file perchï¿½ ï¿½ locked
                 System.IO.File.Copy(FileName, "temp");
                 // ci riprovo con il file copiato
                 List<List<string>> campi = FileToListOfLists(".\\temp", FieldSeparator, StringDelimiter);
@@ -897,15 +901,15 @@ namespace GlucoMan
             }
             catch (Exception e)
             {
-                // guarda se non si può leggere perchè c'è un lock
+                // guarda se non si puï¿½ leggere perchï¿½ c'ï¿½ un lock
                 Console.WriteLine(e.GetType().ToString());
                 {
 
                 }
-                // il nome del file è sbagliato o non si riesce al leggerlo
+                // il nome del file ï¿½ sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non è leggibile\r\nErrore:" + e.Message);
+                    Console.WriteLine("Il file " + FileName + " non ï¿½ leggibile\r\nErrore:" + e.Message);
                 }
                 return (null);
             }
@@ -944,7 +948,7 @@ namespace GlucoMan
         /// <param name="FieldSeparator">Carattere che delimita i campi del file della stessa riga</param>
         /// <param name="FirstRow">Array di strignhe che viene scritto nella prima riga del file </param>
         /// <param name="Append">Se vero il metodo scrive in fondo al file esistente, se no lo crea daccapo</param>
-        /// <returns>Vero se tutto è andato bene</returns>     
+        /// <returns>Vero se tutto ï¿½ andato bene</returns>     
         internal static bool MatrixToFile(string FileName, string[,] Matrix, char FieldSeparator, string[] FirstRow, bool Append)
         {   /// scrive riga per riga un array di stringhe in un file di testo
             /// la prima riga viene gestita separatamente. Viene scritta la prima riga, poi il contenuto di tutta la matice. 

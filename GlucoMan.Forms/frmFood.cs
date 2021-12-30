@@ -6,47 +6,66 @@ namespace GlucoMan.Forms
 {
     public partial class frmFood : Form
     {
-        private Food currentFood = null;
+        private Food thisFood = null;
+        //////////BusinessLayer bl = new BusinessLayer(); 
 
-        public frmFood(Food Food)
+        internal frmFood(Food Food)
         {
             InitializeComponent();
 
-            currentFood = Food;
-
-            //bolusCalculation = new BL_BolusCalculation();
-            //glucoseMeasuremet = new BL_GlucoseMeasurements();
+            if (Food == null)
+            {
+                thisFood = new Food();
+                ////////Food.RestoreData();
+            }
+            else
+                thisFood = Food;
         }
         private void frmFood_Load(object sender, System.EventArgs e)
         {
-            //////////Food.RestoreData();
-            //bolusCalculation.MealOfBolus.SelectMealBasedOnTimeNow();
-
             FromClassToUi();
             //txtGlucoseBeforeMeal.Focus();
         }
 
         private void FromClassToUi()
         {
-            txtIdFood.Text = currentFood.IdFood.ToString();
+            txtIdFood.Text = thisFood.IdFood.Text;
 
-            txtFoodCarbohydrates.Text = currentFood.Carbohydrates.ToString();
-            txtCalories.Text = currentFood.Calories.ToString();
-            txtFibers.Text = currentFood.Fibers.ToString();
-            txtName.Text = currentFood.Name;
-            txtSalt.Text = currentFood.Salt.ToString();
-            txtProteins.Text = currentFood.Proteins.ToString();
-            txtSaturatedFats.Text = currentFood.SaturatedFats.ToString();
-            txtSugar.Text = currentFood.Sugar.ToString();
-            txtTotalFats.Text = currentFood.TotalFats.ToString(); 
+            txtFoodCarbohydrates.Text = thisFood.Carbohydrates.Text;
+            txtCalories.Text = thisFood.kCalories.Text;
+            txtFibers.Text = thisFood.Fibers.Text;
+            txtName.Text = thisFood.Name;
+            txtSalt.Text = thisFood.Salt.Text;
+            txtProteins.Text = thisFood.Proteins.Text;
+            txtSaturatedFats.Text = thisFood.SaturatedFats.Text;
+            txtSugar.Text = thisFood.Sugar.Text;
+            txtTotalFats.Text = thisFood.TotalFats.Text;
+        }
+        private void FromUiToClass()
+        {
+            thisFood.IdFood.Text = txtIdFood.Text;
 
-            txtQuantity.Text = currentFood.Quantity.ToString(); 
+            thisFood.Carbohydrates.Text = txtFoodCarbohydrates.Text;
+            thisFood.kCalories.Text = txtCalories.Text;
+            thisFood.Fibers.Text = txtFibers.Text;
+            thisFood.Name = txtName.Text;
+            thisFood.Salt.Text = txtSalt.Text;
+            thisFood.Proteins.Text = txtProteins.Text;
+            thisFood.SaturatedFats.Text = txtSaturatedFats.Text;
+            thisFood.Sugar.Text = txtSugar.Text;
+            thisFood.TotalFats.Text = txtTotalFats.Text;
         }
 
         private void btnManageFoods_Click(object sender, EventArgs e)
         {
             frmFoodManagement fm = new frmFoodManagement();
             fm.Show(); 
+        }
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
+            
+            // !!!! ????  is it right to have persistence throught the object ???? thisFood.Save(thisFood);
         }
     }
 }

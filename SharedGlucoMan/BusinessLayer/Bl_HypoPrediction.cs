@@ -1,6 +1,6 @@
 ﻿using System;
 using SharedData;
-using SharedFunctions;
+using GlucoMan;
 using SharedObjects;
 
 namespace GlucoMan.BusinessLayer
@@ -100,7 +100,7 @@ namespace GlucoMan.BusinessLayer
                 // check if the difference in time is too big or too little
                 if (secondsBetweenMeasurements > 3 * 60 * 60)
                 {
-                    CommonData.CommonObj.LogOfProgram.Error("Time between measurements too big", null);
+                    Common.LogOfProgram.Error("Time between measurements too big", null);
                     GlucoseSlope.Text = "----";
                     PredictedTime.Text = ">";
                     AlarmTime.Text = ">";
@@ -113,7 +113,7 @@ namespace GlucoMan.BusinessLayer
                 }
                 if (secondsBetweenMeasurements < 20 * 60)
                 {
-                    CommonData.CommonObj.LogOfProgram.Error("Time between measurements too short", null);
+                    Common.LogOfProgram.Error("Time between measurements too short", null);
                     GlucoseSlope.Text = "----";
                     PredictedTime.Text = "<";
                     AlarmTime.Text = "<";
@@ -205,7 +205,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                CommonData.CommonObj.LogOfProgram.Error("BL_HypoPrediction | PredictHypoTime()", ex); 
+                Common.LogOfProgram.Error("BL_HypoPrediction | PredictHypoTime()", ex); 
                 return; 
             }
         }
@@ -236,7 +236,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                CommonData.CommonObj.LogOfProgram.Error("BL_HypoPrediction | SaveData", ex);
+                Common.LogOfProgram.Error("BL_HypoPrediction | SaveData", ex);
             }
         }
         public void RestoreData()

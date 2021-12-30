@@ -1,5 +1,6 @@
 ﻿using GlucoMan;
 using GlucoMan.BusinessLayer;
+using SharedData;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -20,7 +21,7 @@ namespace GlucoMan.Forms
         private void frmInsulinCalc_Load(object sender, EventArgs e)
         {
             bolusCalculation.RestoreData();
-            bolusCalculation.MealOfBolus.SelectMealBasedOnTimeNow();
+            Common.SelectMealBasedOnTimeNow();
 
             FromClassToUi();
             txtGlucoseBeforeMeal.Focus();
@@ -60,16 +61,16 @@ namespace GlucoMan.Forms
             txtStatusBar.Text = bolusCalculation.StatusMessage; 
             switch (bolusCalculation.MealOfBolus.Type)
             {
-                case (Meal.TypeOfMeal.Breakfast):
+                case (Common.TypeOfMeal.Breakfast):
                     rdbIsBreakfast.Checked = true;
                     break;
-                case (Meal.TypeOfMeal.Dinner):
+                case (Common.TypeOfMeal.Dinner):
                     rdbIsDinner.Checked = true;
                     break;
-                case (Meal.TypeOfMeal.Lunch):
+                case (Common.TypeOfMeal.Lunch):
                     rdbIsLunch.Checked = true;
                     break;
-                case (Meal.TypeOfMeal.Snack):
+                case (Common.TypeOfMeal.Snack):
                     rdbIsSnack.Checked = true;
                     break;
             }
@@ -92,8 +93,6 @@ namespace GlucoMan.Forms
             bolusCalculation.TypicalBolusEvening.Text = txtTypicalBolusEvening.Text;
             bolusCalculation.TypicalBolusNight.Text = txtTypicalBolusNight.Text;
             bolusCalculation.TargetGlucose.Text = txtTargetGlucose.Text;
-
-
         }
 
         private void frmInsulinCalc_FormClosing(object sender, FormClosingEventArgs e)

@@ -1,6 +1,6 @@
 ﻿using GlucoMan;
 using SharedData;
-using SharedFunctions;
+using GlucoMan;
 using System;
 using System.IO;
 
@@ -31,7 +31,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                CommonData.CommonObj.LogOfProgram.Error("BL_FoodToHitTargetCarbs | SaveData", ex);
+                Common.LogOfProgram.Error("BL_FoodToHitTargetCarbs | SaveData", ex);
             }
         }
         internal void Calculations()

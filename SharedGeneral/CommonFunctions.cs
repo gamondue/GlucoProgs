@@ -4,9 +4,9 @@ using System.Security.Cryptography;
 using System.Reflection;
 using SharedData;
 
-namespace SharedFunctions
+namespace GlucoMan
 {
-    internal static partial class CommonFunctions
+    internal static partial class General
     {
         internal static string CalculateSHA1(string File)
         {
@@ -75,9 +75,15 @@ namespace SharedFunctions
         }
         internal static void MakeFolderIfDontExist(string PathOfFolder)
         {
-            string dir = Path.GetDirectoryName(PathOfFolder);
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
+            try
+            {
+                if (!Directory.Exists(PathOfFolder))
+                    Directory.CreateDirectory(PathOfFolder);
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("MakeFolderIfDontExist", ex); 
+            }
         }
         internal static string ConvertStringToFilename(string SubmittedName, bool SubstituteSpaces)
         {

@@ -5,15 +5,13 @@ using System.IO;
 using System.Text;
 using Xamarin.Forms.PlatformConfiguration;
 
-namespace SharedFunctions
+namespace GlucoMan
 {
-    internal static partial class CommonFunctions
+    internal static partial class Common
     {
-        internal static void Initializations()
+        internal static void PlatformSpecificInitializations()
         {
-            MakeFolderIfDontExist(CommonData.PathConfigurationData);
-            MakeFolderIfDontExist(CommonData.PathProgramsData);
-            MakeFolderIfDontExist(CommonData.PathAndNameLogFile);
+
         }
     }
 }

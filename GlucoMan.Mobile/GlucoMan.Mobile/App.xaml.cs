@@ -11,9 +11,9 @@ namespace GlucoMan.Mobile
         {
             InitializeComponent();
 
-            CommonData.CommonObj = new CommonObjects();
-            CommonData.CommonObj.LogOfProgram = new Logger(CommonData.PathProgramsData, true, "GlucoMan_log.txt",
-                CommonData.PathProgramsData, CommonData.PathProgramsData, null, null);
+            Common.LogOfProgram = new Logger(Common.PathProgramsData, true, @"logs\GlucoMan_log.txt",
+                @"logs\GlucoMan_errors.txt", @"logs\GlucoMan_debug.txt", @"logs\GlucoMan_prompts.txt",
+                @"logs\GlucoMan_data.txt");
 
             //MainPage = new NavigationPage(new LoginPage());
             MainPage = new NavigationPage(new AboutPage());

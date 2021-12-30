@@ -1,5 +1,5 @@
 ﻿using SharedData;
-using SharedFunctions;
+using GlucoMan;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +35,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonData.CommonObj.LogOfProgram.Error("DL_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
+                    Common.LogOfProgram.Error("DL_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
                 }
             return list; 
         }
@@ -52,7 +52,6 @@ namespace GlucoMan
                     file += rec.GlucoseString + "\t";
                     //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
                     file += rec.DeviceType + "\t";
-                    file += rec.DeviceType + "\t";
                     file += rec.DeviceId + "\t";
                     file += rec.Notes + "\t";
                     file += "\n";
@@ -62,7 +61,46 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                CommonData.CommonObj.LogOfProgram.Error("DL_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
+                Common.LogOfProgram.Error("DL_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
+            }
+        }
+        internal void SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
+        {
+            // save one single record using sequential access.. 
+            try
+            {
+                List<GlucoseRecord> List = ReadGlucoseMeasurements(null, null); 
+                string file = "";
+                foreach (GlucoseRecord rec in List)
+                {
+                    if (rec.Timestamp != GlucoseMeasurement.Timestamp)
+                    {
+                        file += rec.GlucoseValue + "\t";
+                        file += rec.Timestamp + "\t";
+                        file += rec.GlucoseString + "\t";
+                        //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
+                        file += rec.DeviceType + "\t";
+                        file += rec.DeviceId + "\t";
+                        file += rec.Notes + "\t";
+                        file += "\n";
+                    }
+                    else
+                    {
+                        file += GlucoseMeasurement.GlucoseValue + "\t";
+                        file += GlucoseMeasurement.Timestamp + "\t";
+                        file += GlucoseMeasurement.GlucoseString + "\t";
+                        //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
+                        file += GlucoseMeasurement.DeviceType + "\t";
+                        file += GlucoseMeasurement.DeviceId + "\t";
+                        file += GlucoseMeasurement.Notes + "\t";
+                        file += "\n";
+                    }
+                }
+                TextFile.StringToFileAsync(persistentGlucoseMeasurements, file);
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("DL_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
         internal List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
@@ -100,7 +138,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonData.CommonObj.LogOfProgram.Error("DL_GlucoseMeasurement | GetLastTwoGlucoseMeasurements", ex);
+                    Common.LogOfProgram.Error("DL_GlucoseMeasurement | GetLastTwoGlucoseMeasurements", ex);
                 }
             return list;
         }

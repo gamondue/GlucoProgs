@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using SharedData; 
+using SharedData;
+using GlucoMan;
 
 namespace Comuni.XOffice
 {
@@ -10,18 +11,18 @@ namespace Comuni.XOffice
     {
         public PopulateDummyRichText (string TemplateFile, string ResultFile) : base (TemplateFile, ResultFile)
         {
-            CommonData.CommonObj.LogOfProgram.Event("PopulateRichText|Costruttore 2:\n" + TemplateFile + "," + ResultFile);
+            Common.LogOfProgram.Event("PopulateRichText|Costruttore 2:\n" + TemplateFile + "," + ResultFile);
         }
 
         public  override string Close()
         {
-            CommonData.CommonObj.LogOfProgram.Event("PopulateRichText|Close():\n");
+            Common.LogOfProgram.Event("PopulateRichText|Close():\n");
             return "Close()"
 ;       }
 
         public  override void InsertInBookmark(string BookmarkName, string text)
         {
-            CommonData.CommonObj.LogOfProgram.Event("PopulateRichText|InsertInBookmark():\n" + BookmarkName + "," + text);
+            Common.LogOfProgram.Event("PopulateRichText|InsertInBookmark():\n" + BookmarkName + "," + text);
         }
         
         /// <summary>
@@ -33,25 +34,25 @@ namespace Comuni.XOffice
         public  override string ReplaceSquaredParenthesisTag(string Tag, string ReplacingString)
         {
             string s = "PopulateRichText|ReplaceSquaredParenthesisTag():\n" + Tag + "," + ReplacingString;
-            CommonData.CommonObj.LogOfProgram.Event(s);
+            Common.LogOfProgram.Event(s);
             return "ReplaceSquaredParenthesisTag()"; 
         }
 
         public override string ShowWindow()
         {
-            CommonData.CommonObj.LogOfProgram.Event("PopulateRichText|ShowWindow():\n");
+            Common.LogOfProgram.Event("PopulateRichText|ShowWindow():\n");
             return "ShowWindow()";
         }
 
         public override string SaveAsPdf()
         {
-            CommonData.CommonObj.LogOfProgram.Event("PopulateRichText|SaveAsPdf():\n");
+            Common.LogOfProgram.Event("PopulateRichText|SaveAsPdf():\n");
             return "Dummy SaveAsPdf";
         }
 
         public  override string Save()
         {
-            CommonData.CommonObj.LogOfProgram.Event("PopulateRichText|Save():\n");
+            Common.LogOfProgram.Event("PopulateRichText|Save():\n");
             return "Save()"; 
         }
 
@@ -60,19 +61,19 @@ namespace Comuni.XOffice
         {
             string s = "PopulateRichText|InsertTextInTable():\n" + TableNumber + "," +
                     RowNumber + "," + ColumnNumber + "," + CellText + "," + CreateNewRowAfter;
-            CommonData.CommonObj.LogOfProgram.Event (s);
+            Common.LogOfProgram.Event (s);
             return "InsertTextInTable()"; 
         }
 
         public  override string DeleteRowInTable(int TableNumber, int Row)
         {
-            CommonData.CommonObj.LogOfProgram.Event("PopulateRichText|DeleteRowInTable():\n" + TableNumber + "," + Row);
+            Common.LogOfProgram.Event("PopulateRichText|DeleteRowInTable():\n" + TableNumber + "," + Row);
             return "DeleteRowInTable()"; 
         }
 
         public override void ReplaceSquaredParenthesisTagAndNearCell(string Tag, string ReplacingString, string NearbyNote)
         {
-            CommonData.CommonObj.LogOfProgram.Event("PopulateRichText|ReplaceSquaredParenthesisTagAndNearCell():\n" +
+            Common.LogOfProgram.Event("PopulateRichText|ReplaceSquaredParenthesisTagAndNearCell():\n" +
                 String.Format("Tag {0}, ReplacingString {1}, NearbyNote: {2}", Tag, ReplacingString, NearbyNote));
         }
     }

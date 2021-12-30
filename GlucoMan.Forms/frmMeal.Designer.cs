@@ -30,7 +30,7 @@ namespace GlucoMan.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMeal));
-            this.viewFoods = new System.Windows.Forms.DataGridView();
+            this.gridFoods = new System.Windows.Forms.DataGridView();
             this.btnAddFood = new System.Windows.Forms.Button();
             this.btnRemoveFood = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -38,31 +38,33 @@ namespace GlucoMan.Forms
             this.rdbIsBreakfast = new System.Windows.Forms.RadioButton();
             this.rdbIsDinner = new System.Windows.Forms.RadioButton();
             this.rdbIsLunch = new System.Windows.Forms.RadioButton();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpMealTimeStart = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.dtpMealTimeFinish = new System.Windows.Forms.DateTimePicker();
             this.btnStartMeal = new System.Windows.Forms.Button();
             this.btnEndMeal = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.viewFoods)).BeginInit();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtChoOfMeal = new System.Windows.Forms.TextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.gridFoods)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // viewFoods
+            // gridFoods
             // 
-            this.viewFoods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.viewFoods.Location = new System.Drawing.Point(13, 205);
-            this.viewFoods.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.viewFoods.Name = "viewFoods";
-            this.viewFoods.Size = new System.Drawing.Size(379, 239);
-            this.viewFoods.TabIndex = 0;
-            this.viewFoods.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.viewFoods_CellClick);
-            this.viewFoods.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.viewFoods_CellContentClick);
+            this.gridFoods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridFoods.Location = new System.Drawing.Point(13, 205);
+            this.gridFoods.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gridFoods.Name = "gridFoods";
+            this.gridFoods.Size = new System.Drawing.Size(379, 239);
+            this.gridFoods.TabIndex = 0;
+            this.gridFoods.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellClick);
+            this.gridFoods.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellContentClick);
             // 
             // btnAddFood
             // 
-            this.btnAddFood.Location = new System.Drawing.Point(322, 154);
+            this.btnAddFood.Location = new System.Drawing.Point(323, 154);
             this.btnAddFood.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAddFood.Name = "btnAddFood";
             this.btnAddFood.Size = new System.Drawing.Size(69, 50);
@@ -138,14 +140,14 @@ namespace GlucoMan.Forms
             this.rdbIsLunch.Text = "lunch";
             this.rdbIsLunch.UseVisualStyleBackColor = true;
             // 
-            // dateTimePicker1
+            // dtpMealTimeStart
             // 
-            this.dateTimePicker1.CustomFormat = "yyyy:mm:dd HH:MM.ss";
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(17, 99);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(187, 26);
-            this.dateTimePicker1.TabIndex = 40;
+            this.dtpMealTimeStart.CustomFormat = "yyyy/mm/dd HH:MM.ss";
+            this.dtpMealTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpMealTimeStart.Location = new System.Drawing.Point(17, 99);
+            this.dtpMealTimeStart.Name = "dtpMealTimeStart";
+            this.dtpMealTimeStart.Size = new System.Drawing.Size(187, 26);
+            this.dtpMealTimeStart.TabIndex = 40;
             // 
             // label1
             // 
@@ -174,14 +176,14 @@ namespace GlucoMan.Forms
             this.label3.TabIndex = 44;
             this.label3.Text = "Meal finish";
             // 
-            // dateTimePicker2
+            // dtpMealTimeFinish
             // 
-            this.dateTimePicker2.CustomFormat = "yyyy:mm:dd HH:MM.ss";
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker2.Location = new System.Drawing.Point(210, 99);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(187, 26);
-            this.dateTimePicker2.TabIndex = 43;
+            this.dtpMealTimeFinish.CustomFormat = "yyyy/mm/dd HH:MM.ss";
+            this.dtpMealTimeFinish.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpMealTimeFinish.Location = new System.Drawing.Point(210, 99);
+            this.dtpMealTimeFinish.Name = "dtpMealTimeFinish";
+            this.dtpMealTimeFinish.Size = new System.Drawing.Size(187, 26);
+            this.dtpMealTimeFinish.TabIndex = 43;
             // 
             // btnStartMeal
             // 
@@ -191,6 +193,7 @@ namespace GlucoMan.Forms
             this.btnStartMeal.TabIndex = 45;
             this.btnStartMeal.Text = "Start";
             this.btnStartMeal.UseVisualStyleBackColor = true;
+            this.btnStartMeal.Click += new System.EventHandler(this.btnStartMeal_Click);
             // 
             // btnEndMeal
             // 
@@ -200,30 +203,54 @@ namespace GlucoMan.Forms
             this.btnEndMeal.TabIndex = 46;
             this.btnEndMeal.Text = "Finish";
             this.btnEndMeal.UseVisualStyleBackColor = true;
+            this.btnEndMeal.Click += new System.EventHandler(this.btnEndMeal_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(118, 154);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(83, 20);
+            this.label5.TabIndex = 48;
+            this.label5.Text = "Total CHO";
+            // 
+            // txtChoOfMeal
+            // 
+            this.txtChoOfMeal.BackColor = System.Drawing.Color.GreenYellow;
+            this.txtChoOfMeal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtChoOfMeal.Location = new System.Drawing.Point(125, 178);
+            this.txtChoOfMeal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtChoOfMeal.Name = "txtChoOfMeal";
+            this.txtChoOfMeal.Size = new System.Drawing.Size(68, 26);
+            this.txtChoOfMeal.TabIndex = 47;
+            this.txtChoOfMeal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // frmMeal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(405, 458);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtChoOfMeal);
             this.Controls.Add(this.btnEndMeal);
             this.Controls.Add(this.btnStartMeal);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.dateTimePicker2);
+            this.Controls.Add(this.dtpMealTimeFinish);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dtpMealTimeStart);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnRemoveFood);
             this.Controls.Add(this.btnAddFood);
-            this.Controls.Add(this.viewFoods);
+            this.Controls.Add(this.gridFoods);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmMeal";
             this.Text = "Sum the carbs to ingest";
             this.Load += new System.EventHandler(this.frmMeal_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.viewFoods)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridFoods)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -233,7 +260,7 @@ namespace GlucoMan.Forms
 
         #endregion
 
-        private System.Windows.Forms.DataGridView viewFoods;
+        private System.Windows.Forms.DataGridView gridFoods;
         private System.Windows.Forms.Button btnAddFood;
         private System.Windows.Forms.Button btnRemoveFood;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -241,12 +268,14 @@ namespace GlucoMan.Forms
         private System.Windows.Forms.RadioButton rdbIsBreakfast;
         private System.Windows.Forms.RadioButton rdbIsDinner;
         private System.Windows.Forms.RadioButton rdbIsLunch;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpMealTimeStart;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dtpMealTimeFinish;
         private System.Windows.Forms.Button btnStartMeal;
         private System.Windows.Forms.Button btnEndMeal;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtChoOfMeal;
     }
 }

@@ -44,7 +44,7 @@ namespace GlucoMan
                 }
                 catch
                 {
-                    intVal = -1;
+                    intVal = 0;
                 }
             }
         }

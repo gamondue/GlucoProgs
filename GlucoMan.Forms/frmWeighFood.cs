@@ -7,7 +7,7 @@ namespace GlucoMan.Forms
 {
     public partial class frmWeighFood : Form
     {
-        string persistentStorage = CommonData.PathConfigurationData + @"WeighFood.txt";
+        string persistentStorage = Common.PathConfigurationData + @"WeighFood.txt";
 
         BL_WeighFood food = new BL_WeighFood();
         BL_GrossTareAndNetWeight M0Raw;

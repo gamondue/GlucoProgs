@@ -17,10 +17,11 @@ namespace SharedData
         /// </summary>
         public Logger()
         {
-            eventLogFile = commonPath + eventLogFile;
-            dataLogFile = commonPath + dataLogFile;
-            errorFile = commonPath + errorFile;
-            debugFile = commonPath + debugFile;
+            eventLogFile = Path.Combine(commonPath , eventLogFile);
+            dataLogFile = Path.Combine(commonPath , dataLogFile);
+            errorFile = Path.Combine(commonPath , errorFile);
+            debugFile = Path.Combine(commonPath , debugFile);
+
             defaultProperties();
         }
         /// <summary>
@@ -36,19 +37,19 @@ namespace SharedData
         {
             defaultProperties();
 
-            LoggingEvents = (EventLogFile != "");
-            LoggingErrors = (ErrorFile != "");
-            LoggingDebug = (DebugFile != "");
-            LoggingPrompts = (PromptsFile != "");
-            LoggingEvents = (EventLogFile != "");
-            LoggingData = (DataLogFile != "") ;
+            LoggingEvents = (EventLogFile != "" && EventLogFile != null);
+            LoggingErrors = (ErrorFile != "" && ErrorFile != null);
+            LoggingDebug = (DebugFile != "" && DebugFile != null);
+            LoggingPrompts = (PromptsFile != "" && PromptsFile != null);
+            LoggingEvents = (EventLogFile != "" && EventLogFile != null);
+            LoggingData = (DataLogFile != "" && DataLogFile != null) ;
             
             commonPath = CommonPath;
-            eventLogFile = commonPath + EventLogFile;
-            errorFile = commonPath + ErrorFile;
-            debugFile = commonPath + DebugFile;
-            promptsFile = commonPath + PromptsFile;
-            dataLogFile = commonPath + DataLogFile;
+            eventLogFile = Path.Combine(commonPath , EventLogFile);
+            errorFile = Path.Combine(commonPath , ErrorFile);
+            debugFile = Path.Combine(commonPath , DebugFile);
+            promptsFile = Path.Combine(commonPath , PromptsFile);
+            dataLogFile = Path.Combine(commonPath , DataLogFile);
 
             if (ShowAll)
             {
@@ -79,7 +80,7 @@ namespace SharedData
             }
             if (ShowingEvents)
             { 
-                Console.WriteLine(testo); 
+                Console.Out.WriteLine(testo); 
             }
         }
 
@@ -95,7 +96,7 @@ namespace SharedData
             }
             if (ShowingData)
             {
-                Console.WriteLine(testo);
+                Console.Out.WriteLine(testo);
             }
         }
 
@@ -116,7 +117,7 @@ namespace SharedData
                 }
                 if (ShowingErrors)
                 {
-                    Console.WriteLine(ErrorText);
+                    Console.Out.WriteLine(ErrorText);
                 }
             }
             return ErrorText; 
@@ -133,12 +134,12 @@ namespace SharedData
             }
             if (ShowingDebug)
             {
-                Console.WriteLine(testo);
+                Console.Out.WriteLine(testo);
             }
         }
         public void Prompt(string testo)
         {
-            Console.WriteLine(testo); 
+            Console.Out.WriteLine(testo); 
             if (LoggingPrompts)
             {
                 using (StreamWriter sw = File.AppendText(promptsFile))
@@ -151,10 +152,21 @@ namespace SharedData
 
         private void LogToFile(string file,string testo)
         {
-            using (StreamWriter sw = File.AppendText(file))
+            try
             {
-                sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + testo);
-                sw.Close();
+                if(!File.Exists(file))
+                {
+                    File.CreateText(file);
+                }
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + testo);
+                    sw.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Out.WriteLine("Couldn't save log file");
             }
         }
 

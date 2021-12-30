@@ -1,6 +1,6 @@
 ﻿using GlucoMan.BusinessLayer;
 using SharedData;
-using SharedFunctions;
+using GlucoMan;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +23,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    CommonData.CommonObj.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
+                    Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
                 }
         }
 
@@ -41,7 +41,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                CommonData.CommonObj.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
+                Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
     }

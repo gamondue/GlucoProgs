@@ -4,6 +4,7 @@ using NetOffice.ExcelApi.Enums;
 using NetOffice.ExcelApi;
 using System.Threading;
 using SharedData;
+using GlucoMan;
 
 namespace Comuni.XOffice
 {
@@ -74,7 +75,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateExcel|Constructor()";
                 err += "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -125,7 +126,7 @@ namespace Comuni.XOffice
             catch (Exception ex){
                 string err = "PopulateExcel|Constructor():" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -169,7 +170,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateExcel " +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -231,7 +232,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateExcel|ReplaceSquaredParenthesisTag():" +
                  "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }  
         }
 
@@ -294,7 +295,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateExcel|ReplaceSquaredParenthesisTag():" +
                  "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -309,7 +310,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateExcel";
                 err += "\nMetodo:|ShowWindow() " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -326,7 +327,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateExcel|Save():" +
                  "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name; 
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
             return "OK";
         }
@@ -370,7 +371,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateExcel" +
                  "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
         internal override string InsertIntegerInCell(int SheetNumber, int RowNumber, int ColumnNumber, int value)
@@ -392,7 +393,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateExcel|InsertIntegerInCell():" +
                     "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
             /* EXAMPLE: some kind of numerics */
 
@@ -504,7 +505,7 @@ namespace Comuni.XOffice
             {
             	string err = "PopulateExcel|InsertDoubleInCell():";
                 err += "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                return Common.LogOfProgram.Error(err, ex);
             }
         }
         
@@ -519,7 +520,7 @@ namespace Comuni.XOffice
             {
                 string err = "PopulateWord" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                Common.LogOfProgram.Error(err, ex);
             }
         }
 
@@ -685,7 +686,7 @@ namespace Comuni.XOffice
                 {
                     string err = "PopulateExcel" +
                      "\nMetodo: " + System.Reflection.MethodBase.GetCurrentMethod().Name;
-                    return CommonData.CommonObj.LogOfProgram.Error(err, ex);
+                    return Common.LogOfProgram.Error(err, ex);
                 }
             }
             return "OK";
@@ -775,7 +776,7 @@ namespace Comuni.XOffice
                     sVersion = "Too Old!";
                     break;
             }
-            CommonData.CommonObj.LogOfProgram.Error("MS office version: " + sVersion, null);
+            Common.LogOfProgram.Error("MS office version: " + sVersion, null);
             return null;
         }
 

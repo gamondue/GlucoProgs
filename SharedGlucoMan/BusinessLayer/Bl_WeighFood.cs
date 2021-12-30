@@ -1,6 +1,6 @@
 ﻿using GlucoMan;
 using SharedData;
-using SharedFunctions;
+using GlucoMan;
 using System;
 using System.Drawing;
 using System.IO;

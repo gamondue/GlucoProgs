@@ -9,7 +9,7 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WeighFoodPage : ContentPage
     {
-        string persistentStorage = CommonData.PathConfigurationData + @"WeighFood.txt";
+        string persistentStorage = Common.PathConfigurationData + @"WeighFood.txt";
 
         BL_WeighFood food = new BL_WeighFood();
         BL_GrossTareAndNetWeight M0RawMain;
