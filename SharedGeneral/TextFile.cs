@@ -39,9 +39,9 @@ namespace GlucoMan
                 return (fOut);
             }
             catch (Exception e)
-            {	// il nome del file � sbagliato o non si riesce ad aprirlo
-                //Console.WriteLine("Non si riesce ad aprire il file. Provo a crearlo" + FileName + "\r\nErrore:" + e.Message);
-                Console.WriteLine("Non si riesce ad aprire il file. Provo a crearlo" + FileName);
+            {	// il nome del file è sbagliato o non si riesce ad aprirlo
+                //Console.Out.WriteLine("Non si riesce ad aprire il file. Provo a crearlo" + FileName + "\r\nErrore:" + e.Message);
+                Console.Out.WriteLine("Non si riesce ad aprire il file. Provo a crearlo" + FileName);
                 // lo apro creandolo
                 FileStream fsOut = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Read);
                 StreamWriter fOut = new StreamWriter(fsOut, fileEncoding);
@@ -138,10 +138,10 @@ namespace GlucoMan
                 sr.Close();
             }
             catch (Exception e)
-            {	// il nome del file � sbagliato o non si riesce al leggerlo
+            {	// il nome del file è sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
+                    Console.Out.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
                 }
                 return null;
             }
@@ -227,10 +227,10 @@ namespace GlucoMan
                 sr.Close();
             }
             catch (Exception e)
-            {	// il nome del file � sbagliato o non si riesce al leggerlo
+            {	// il nome del file è sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
+                    Console.Out.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
                 }
                 return null;
             }
@@ -256,10 +256,10 @@ namespace GlucoMan
                 sr.Close();
             }
             catch (Exception e)
-            {	// il nome del file � sbagliato o non si riesce al leggerlo
+            {	// il nome del file è sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
+                    Console.Out.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
                 }
                 return null;
             }
@@ -335,14 +335,14 @@ namespace GlucoMan
             catch (Exception e)
             {
                 // guarda se non si pu� leggere perch� c'� un lock
-                Console.WriteLine(e.GetType().ToString());
+                Console.Out.WriteLine(e.GetType().ToString());
                 {
 
                 }
-                // il nome del file � sbagliato o non si riesce al leggerlo
+                // il nome del file è sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
+                    Console.Out.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
                 }
                 return (null);
             }
@@ -415,14 +415,14 @@ namespace GlucoMan
             catch (Exception e)
             {
                 // guarda se non si pu� leggere perch� c'� un lock
-                Console.WriteLine(e.GetType().ToString());
+                Console.Out.WriteLine(e.GetType().ToString());
                 {
 
                 }
-                // il nome del file � sbagliato o non si riesce al leggerlo
+                // il nome del file è sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
+                    Console.Out.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
                 }
                 return (null);
             }
@@ -603,10 +603,10 @@ namespace GlucoMan
                 sr.Close();
             }
             catch (Exception e)
-            {	// il nome del file � sbagliato o non si riesce al leggerlo
+            {	// il nome del file è sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
+                    Console.Out.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
                 }
                 FirstRow = null;
                 return (null);
@@ -675,10 +675,10 @@ namespace GlucoMan
                 sr.Close();
             }
             catch (Exception e)
-            {	// il nome del file � sbagliato o non si riesce al leggerlo
+            {	// il nome del file è sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
+                    Console.Out.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
                 }
                 FirstRow = null;
                 SecondRow = null;
@@ -842,14 +842,14 @@ namespace GlucoMan
         //    catch (Exception e)
         //    {
         //        // guarda se non si pu� leggere perch� c'� un lock
-        //        Console.WriteLine(e.GetType().ToString());
+        //        Console.Out.WriteLine(e.GetType().ToString());
         //        {
 
         //        }
-        //        // il nome del file � sbagliato o non si riesce al leggerlo
+        //        // il nome del file è sbagliato o non si riesce al leggerlo
         //        if (FileName != "")
         //        {
-        //            Console.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
+        //            Console.Out.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
         //        }
         //        return (null);
         //    }
@@ -902,14 +902,14 @@ namespace GlucoMan
             catch (Exception e)
             {
                 // guarda se non si pu� leggere perch� c'� un lock
-                Console.WriteLine(e.GetType().ToString());
+                Console.Out.WriteLine(e.GetType().ToString());
                 {
 
                 }
-                // il nome del file � sbagliato o non si riesce al leggerlo
+                // il nome del file è sbagliato o non si riesce al leggerlo
                 if (FileName != "")
                 {
-                    Console.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
+                    Console.Out.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
                 }
                 return (null);
             }

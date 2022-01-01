@@ -43,6 +43,8 @@ namespace GlucoMan.Forms
             this.glucoseRecordBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnNow = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtIdGlucoseRecord = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridMeasurements)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.glucoseRecordBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -68,7 +70,7 @@ namespace GlucoMan.Forms
             // btnAddMeasurement
             // 
             this.btnAddMeasurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAddMeasurement.Location = new System.Drawing.Point(835, 90);
+            this.btnAddMeasurement.Location = new System.Drawing.Point(863, 87);
             this.btnAddMeasurement.Name = "btnAddMeasurement";
             this.btnAddMeasurement.Size = new System.Drawing.Size(46, 45);
             this.btnAddMeasurement.TabIndex = 3;
@@ -79,7 +81,7 @@ namespace GlucoMan.Forms
             // btnRemoveMeasurement
             // 
             this.btnRemoveMeasurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnRemoveMeasurement.Location = new System.Drawing.Point(835, 141);
+            this.btnRemoveMeasurement.Location = new System.Drawing.Point(863, 138);
             this.btnRemoveMeasurement.Name = "btnRemoveMeasurement";
             this.btnRemoveMeasurement.Size = new System.Drawing.Size(46, 45);
             this.btnRemoveMeasurement.TabIndex = 4;
@@ -138,14 +140,15 @@ namespace GlucoMan.Forms
             this.gridMeasurements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridMeasurements.Location = new System.Drawing.Point(12, 87);
             this.gridMeasurements.Name = "gridMeasurements";
-            this.gridMeasurements.Size = new System.Drawing.Size(817, 422);
+            this.gridMeasurements.Size = new System.Drawing.Size(846, 422);
             this.gridMeasurements.TabIndex = 10;
-            this.gridMeasurements.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeasurements_RowEnter);
+            this.gridMeasurements.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeasurements_CellContentClick);
+            this.gridMeasurements.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeasurements_RowEnter);
             // 
             // btnNow
             // 
             this.btnNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnNow.Location = new System.Drawing.Point(670, 37);
+            this.btnNow.Location = new System.Drawing.Point(750, 36);
             this.btnNow.Name = "btnNow";
             this.btnNow.Size = new System.Drawing.Size(79, 45);
             this.btnNow.TabIndex = 11;
@@ -156,7 +159,7 @@ namespace GlucoMan.Forms
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSave.Location = new System.Drawing.Point(750, 37);
+            this.btnSave.Location = new System.Drawing.Point(830, 36);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(79, 45);
             this.btnSave.TabIndex = 12;
@@ -164,11 +167,32 @@ namespace GlucoMan.Forms
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(670, 13);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(23, 20);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Id";
+            // 
+            // txtIdGlucoseRecord
+            // 
+            this.txtIdGlucoseRecord.Enabled = false;
+            this.txtIdGlucoseRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtIdGlucoseRecord.Location = new System.Drawing.Point(670, 36);
+            this.txtIdGlucoseRecord.Name = "txtIdGlucoseRecord";
+            this.txtIdGlucoseRecord.Size = new System.Drawing.Size(77, 45);
+            this.txtIdGlucoseRecord.TabIndex = 13;
+            this.txtIdGlucoseRecord.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // frmGlucose
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(887, 521);
+            this.ClientSize = new System.Drawing.Size(916, 521);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtIdGlucoseRecord);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnNow);
             this.Controls.Add(this.gridMeasurements);
@@ -206,5 +230,8 @@ namespace GlucoMan.Forms
         private System.Windows.Forms.DataGridView gridMeasurements;
         private Button btnNow;
         private Button btnSave;
+        private Label label3;
+        private TextBox textBox1;
+        private TextBox txtIdGlucoseRecord;
     }
 }

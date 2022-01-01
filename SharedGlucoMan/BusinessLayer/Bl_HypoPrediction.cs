@@ -84,7 +84,7 @@ namespace GlucoMan.BusinessLayer
                 else
                     minutePrevious = differenceMinutes;
 
-                // if the previous date is in day before, subtract it to 24
+                // if the previous date is in the day before, subtract it to 24
                 int differenceHours = hourLast - hourPrevious;
                 if (differenceHours < 0)
                     hourPrevious = 24 + differenceHours;
@@ -100,6 +100,7 @@ namespace GlucoMan.BusinessLayer
                 // check if the difference in time is too big or too little
                 if (secondsBetweenMeasurements > 3 * 60 * 60)
                 {
+                    //Console.Beep(200, 40);
                     Common.LogOfProgram.Error("Time between measurements too big", null);
                     GlucoseSlope.Text = "----";
                     PredictedTime.Text = ">";
@@ -113,6 +114,7 @@ namespace GlucoMan.BusinessLayer
                 }
                 if (secondsBetweenMeasurements < 20 * 60)
                 {
+                    //Console.Beep(200, 40);
                     Common.LogOfProgram.Error("Time between measurements too short", null);
                     GlucoseSlope.Text = "----";
                     PredictedTime.Text = "<";
@@ -129,6 +131,7 @@ namespace GlucoMan.BusinessLayer
                 if (glucoseDifference > 0) 
                 {
                     // if glucose increases, hypo is not possible 
+                    //Console.Beep(200, 40);
                     GlucoseSlope.Text = "----";
                     GlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
                     GlucoseSlope.Double = GlucoseSlope.Double * 60 * 60;
@@ -152,6 +155,7 @@ namespace GlucoMan.BusinessLayer
                 // if we should go back in time, we show an error condition
                 if (predictedIntervalSeconds < 0)
                 {
+                    //Console.Beep(200, 40);
                     GlucoseSlope.Text = "----";
                     PredictedTime.DateTime = DateTime.MaxValue;
                     AlarmTime.DateTime = DateTime.MaxValue;
@@ -173,12 +177,13 @@ namespace GlucoMan.BusinessLayer
                 if (PredictedTime.DateTime == DateTime.MinValue ||
                         AlarmTime.DateTime == DateTime.MinValue)
                 {
+                    // Console.Beep(200, 40);
                     GlucoseSlope.Text = "----";
-                    PredictedHour.Text = "----"; // put somethong better!!!!
+                    PredictedHour.Text = "----"; 
                     PredictedMinute.Text = "----"; ;
                     AlarmHour.Text = "----"; ;
                     AlarmMinute.Text = "----"; ;
-                    statusMessage = "----"; ;
+                    statusMessage = "----"; ; // put somethong better!!!!
                     return;
                 }
                 DateTime? finalTime = PredictedTime.DateTime;
@@ -193,14 +198,14 @@ namespace GlucoMan.BusinessLayer
                 }
                 else
                 {
-                    Console.Beep(200, 40);
-                    PredictedHour.Text = "----"; ; // put somethong better!!!!
+                    // Console.Beep(200, 40);
+                    PredictedHour.Text = "----"; ; // put something better!!!!
                     PredictedMinute.Text = "----";
                     AlarmHour.Text = "----";
                     AlarmMinute.Text = "----";
                     statusMessage = "----";
                 }
-                SaveData();
+                SaveDataHypo();
                 return;
             }
             catch (Exception ex)
@@ -209,12 +214,10 @@ namespace GlucoMan.BusinessLayer
                 return; 
             }
         }
-
         public void StopAlarm()
         {
             alarm.StopAlarm();
         }
-
         public void SetAlarm()
         {
             try
@@ -228,7 +231,7 @@ namespace GlucoMan.BusinessLayer
                 AlarmIsSet = false;
             }
         }
-        public void SaveData()
+        public void SaveDataHypo()
         {
             try
             {

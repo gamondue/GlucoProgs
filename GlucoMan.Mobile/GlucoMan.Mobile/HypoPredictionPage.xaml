@@ -85,7 +85,7 @@
                    YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
             <Button Grid.Row="11" IsVisible="false" Grid.Column="3" 
                     Clicked="btnAlarm_Click" Text="Alarm"></Button>
-            <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtStatusBar" Text="" FontSize="Large"
+            <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtStatusBar" Text="" FontSize="Small"
                    YAlign="Center" XAlign="Center"/>
         </Grid>
     </ContentPage.Content>

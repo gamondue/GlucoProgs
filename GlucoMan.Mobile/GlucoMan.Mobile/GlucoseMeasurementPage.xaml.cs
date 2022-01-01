@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace GlucoMan.Mobile
 {
@@ -14,89 +16,109 @@ namespace GlucoMan.Mobile
     public partial class GlucoseMeasurementPage : ContentPage
     {
         BL_GlucoseMeasurements bl = new BL_GlucoseMeasurements();
+        GlucoseRecord currentGlucose; 
+
         List<GlucoseRecord> glucoseReadings = new List<GlucoseRecord>();
         public GlucoseMeasurementPage()
         {
             InitializeComponent();
 
-            glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
-            glucoseReadings = glucoseReadings.OrderBy(n => n.Timestamp).ToList();
+            currentGlucose = new GlucoseRecord();   
 
-            gridMeasurements.ItemsSource = glucoseReadings; 
+            RefreshGrid();
         }
-        //gridMeasurements.AutoGenerateColumns = false;
-        //gridMeasurements.Columns.Clear();
-        //gridMeasurements.ColumnCount = 2;
-        //gridMeasurements.Columns[1].Name = "Glucose";
-        //gridMeasurements.Columns[1].DataPropertyName = "GlucoseValue";
-        //gridMeasurements.Columns[1].Width = 80;
-        //gridMeasurements.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        //gridMeasurements.Columns[0].Name = "Date and time";
-        //gridMeasurements.Columns[0].DataPropertyName = "Timestamp";
-        //gridMeasurements.Columns[0].Width = 180;
-        //gridMeasurements.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        private void RefreshGrid()
+        {
+            glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
+            glucoseReadings = glucoseReadings.OrderByDescending(n => n.Timestamp).ToList();
+            //ObservableCollection<GlucoseRecord> collection = new ObservableCollection<GlucoseRecord>(glucoseReadings);
+            //this.BindingContext = collection;
+            this.BindingContext = glucoseReadings;
+            //gridMeasurements.ItemsSource = glucoseReadings;
+        }
         public void btnAddMeasurement_Click(object sender, EventArgs e)
         {
-            double glucose = 0;
-            try
-            {
-                glucose = double.Parse(txtGlucose.Text);
-            }
-            catch (Exception Ex) 
-            {
-                Common.LogOfProgram.Error("Glucose value unreadable", Ex);
-                return;
-            }
             if (chkNowInAdd.IsChecked)
             {
                 dtpEventDate.Date = DateTime.Now;
                 dtpEventTime.Time = DateTime.Now.TimeOfDay;
             }
-            GlucoseRecord newReading = new GlucoseRecord();
-            newReading.GlucoseValue = glucose;
-            DateTime instant = dtpEventDate.Date;
-            instant.Add(dtpEventTime.Time); 
-            newReading.Timestamp = instant;
-            glucoseReadings.Add(newReading);
+            FromUiToClass();
+            glucoseReadings.Add(currentGlucose);
+            glucoseReadings = glucoseReadings.OrderByDescending(n => n.Timestamp).ToList();
+            // erase Id to save a new record
+            currentGlucose.IdGlucoseRecord = null; 
             if (chkAutosave.IsChecked)
                 bl.SaveGlucoseMeasurements(glucoseReadings);
-            gridMeasurements.ItemsSource = null;
-            gridMeasurements.ItemsSource = glucoseReadings;
+            glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
+            this.BindingContext = glucoseReadings;
+            RefreshGrid();
         }
-        private void btnRemoveMeasurement_Click(object sender, EventArgs e)
+        private async void btnRemoveMeasurement_Click(object sender, EventArgs e)
         {
-            //    if (gridMeasurements.SelectedRows.Count > 0)
-            //    {
-            //        int rowIndex = gridMeasurements.SelectedRows[0].Index;
-            //        if (MessageBox.Show(string.Format("Should I delete the measurement {0}, {1}",
-            //            glucoseReadings[rowIndex].GlucoseValue,
-            //            glucoseReadings[rowIndex].Timestamp), "",
-            //            MessageBoxButtons.YesNo) == DialogResult.Yes)
-            //        {
-            //            glucoseReadings.Remove(glucoseReadings[rowIndex]);
-            //            if (chkAutosave.Checked)
-            //                bl.SaveGlucoseMeasurements(glucoseReadings);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Choose a measurement to delete");
-            //        return;
-            //    }
-            //    //gridMeasurements.DataSource = null;
-            //    //gridMeasurements.DataSource = glucoseReadings;
+            GlucoseRecord gr = (GlucoseRecord)gridMeasurements.SelectedItem; 
+            if (gr != null)
+            {
+                bool remove = await DisplayAlert(String.Format("Should I delete the measurement {0}, {1}, Id {2}?",
+                    gr.GlucoseValue.ToString(),
+                    gr.Timestamp.ToString(),
+                    gr.IdGlucoseRecord.ToString()),
+                    "", "Yes", "No");
+                if (remove)
+                {
+                    glucoseReadings.Remove(gr);
+                    if (chkAutosave.IsChecked)
+                        bl.SaveGlucoseMeasurements(glucoseReadings);
+                }
+            }
+            else
+            {
+                await DisplayAlert("Saving not possible","Choose a measurement to delete", "Ok");
+                return;
+            }
+            RefreshGrid();
         }
-    //private void gridMeasurements_CellContentClick(object sender, DataGridViewCellEventArgs e)
-    //{
-
-    //}
-
-    //private void gridMeasurements_RowEnter(object sender, DataGridViewCellEventArgs e)
-    //{
-    //    gridMeasurements.Rows[e.RowIndex].Selected = true;
-    //    txtGlucose.Text = glucoseReadings[e.RowIndex].GlucoseValue.ToString();
-    //    if (glucoseReadings[e.RowIndex].Timestamp != null)
-    //        dtpEventInstant.Value = (DateTime)glucoseReadings[e.RowIndex].Timestamp;
-    //}
+        private void FromUiToClass()
+        {
+            double? glucose = SafeRead.Double(txtGlucose.Text);
+            if (glucose == null)
+            {
+                txtGlucose.Text = "";
+                //Console.Beep();
+                return;
+            }
+            currentGlucose = new GlucoseRecord();
+            currentGlucose.IdGlucoseRecord = SafeRead.Int(txtIdGlucoseRecord.Text);
+            currentGlucose.GlucoseValue = glucose;
+            DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
+                dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds); 
+            currentGlucose.Timestamp = instant;
+        }
+        private void FromClassToUi()
+        {
+            txtGlucose.Text = currentGlucose.GlucoseValue.ToString();  
+            dtpEventDate.Date = (DateTime)SafeRead.DateTime(currentGlucose.Timestamp);
+            dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;
+            txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
+        }
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
+            bl.SaveOneGlucoseMeasurement(currentGlucose);
+        }
+        private void btnNow_Click(object sender, EventArgs e)
+        {
+            dtpEventDate.Date = DateTime.Now;
+            dtpEventTime.Time = DateTime.Now.TimeOfDay;
+        }
+        void OnSelection(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                return;
+            }
+            currentGlucose = (GlucoseRecord)e.SelectedItem;
+            FromClassToUi();
+        }
     }
 }

@@ -26,13 +26,20 @@ namespace GlucoMan.Forms
             txtGlucoseLast.Text = hypo.GlucoseLast.Text;
             txtGlucosePrevious.Text = hypo.GlucosePrevious.Text;
             txtHourLast.Text = hypo.HourLast.Text;
+            
             txtHourPrevious.Text = hypo.HourPrevious.Text;
             txtMinuteLast.Text = hypo.MinuteLast.Text;
             txtMinutePrevious.Text = hypo.MinutePrevious.Text;
+            
             txtAlarmAdvanceTime.Text = hypo.AlarmAdvanceTime.TotalMinutes.ToString();
             txtGlucoseSlope.Text = hypo.GlucoseSlope.ToString();
             txtAlarmHour.Text = hypo.AlarmTime.DateTime.Hour.ToString();
-            txtAlarmMinute.Text = hypo.AlarmTime.DateTime.Minute.ToString(); 
+            txtAlarmMinute.Text = hypo.AlarmTime.DateTime.Minute.ToString();
+
+            txtPredictedHour.Text = hypo.PredictedHour.Text;
+            txtPredictedMinute.Text = hypo.PredictedMinute.Text;
+
+            txtStatusBar.Text = hypo.StatusMessage;
         }
         private void FromUiToClass()
         {
@@ -40,9 +47,11 @@ namespace GlucoMan.Forms
             hypo.HypoGlucoseTarget.Text = txtGlucoseTarget.Text;
             hypo.GlucoseLast.Text = txtGlucoseLast.Text;
             hypo.GlucosePrevious.Text = txtGlucosePrevious.Text;
+
             hypo.HourLast.Text = txtHourLast.Text;
-            hypo.HourPrevious.Text = txtHourPrevious.Text;
             hypo.MinuteLast.Text = txtMinuteLast.Text;
+
+            hypo.HourPrevious.Text = txtHourPrevious.Text;
             hypo.MinutePrevious.Text = txtMinutePrevious.Text;
         }
         private void btnNow_Click(object sender, EventArgs e)
@@ -65,7 +74,7 @@ namespace GlucoMan.Forms
             txtPredictedMinute.Text = hypo.PredictedMinute.Text;
             txtAlarmHour.Text = hypo.AlarmHour.Text;
             txtAlarmMinute.Text = hypo.AlarmMinute.Text;
-            txtStaturBar.Text = hypo.StatusMessage; 
+            txtStatusBar.Text = hypo.StatusMessage; 
         }
         private void frmPredictHypo_Load(object sender, EventArgs e)
         {
@@ -85,7 +94,7 @@ namespace GlucoMan.Forms
         private void frmPredictHypo_FormClosing(object sender, FormClosingEventArgs e)
         {
             FromUiToClass(); 
-            hypo.SaveData(); 
+            hypo.SaveDataHypo(); 
         }
         private void btnSetAlarm_Click(object sender, EventArgs e)
         {

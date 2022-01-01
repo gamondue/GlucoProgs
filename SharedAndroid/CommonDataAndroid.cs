@@ -7,9 +7,9 @@ namespace GlucoMan
 {
     internal static partial class Common
     {
-        internal static string PathUser = "/data/data/it.ingmonti.glucoman.mobile/files/GlucoMan";
+        //internal static string PathUser = "/data/data/it.ingmonti.glucoman.mobile/files/GlucoMan";
 
-        //internal static string PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
+        internal static string PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
         internal static string PathApplication = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         internal static string PathUsersDownload = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 

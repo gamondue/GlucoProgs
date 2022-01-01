@@ -33,26 +33,30 @@ namespace GlucoMan.Mobile
             txtGlucoseLast.Text = hypo.GlucoseLast.Text;
             txtGlucosePrevious.Text = hypo.GlucosePrevious.Text;
             txtHourLast.Text = hypo.HourLast.Text;
+           
             txtHourPrevious.Text = hypo.HourPrevious.Text;
             txtMinuteLast.Text = hypo.MinuteLast.Text;
             txtMinutePrevious.Text = hypo.MinutePrevious.Text;
+            
             txtAlarmAdvanceTime.Text = hypo.AlarmAdvanceTime.TotalMinutes.ToString();
-            txtGlucoseSlope.Text = hypo.GlucoseSlope.Text;
-            txtPredictedHour.Text = hypo.PredictedHour.Text;
-            txtPredictedMinute.Text = hypo.PredictedMinute.Text; 
+            txtGlucoseSlope.Text = hypo.GlucoseSlope.Text; 
             txtAlarmHour.Text = hypo.AlarmTime.DateTime.Hour.ToString();
             txtAlarmMinute.Text = hypo.AlarmTime.DateTime.Minute.ToString();
+
+            txtPredictedHour.Text = hypo.PredictedHour.Text;
+            txtPredictedMinute.Text = hypo.PredictedMinute.Text;
 
             txtStatusBar.Text = hypo.StatusMessage; 
         }
         private void FromUiToClass()
         {
-            hypo.GlucoseSlope.Text = txtGlucoseSlope.Text;
-            hypo.PredictedHour.Text = txtPredictedHour.Text;
-            hypo.PredictedMinute.Text = txtPredictedMinute.Text;
+            //hypo.GlucoseSlope.Text = txtGlucoseSlope.Text;
+            //hypo.PredictedHour.Text = txtPredictedHour.Text;
+            //hypo.PredictedMinute.Text = txtPredictedMinute.Text;
+            
             hypo.AlarmAdvanceTime = new TimeSpan(0,(int)SafeRead.Int(txtAlarmAdvanceTime.Text), 0);
-            hypo.AlarmHour.Text = txtAlarmHour.Text;
-            hypo.AlarmMinute.Text = txtAlarmMinute.Text;
+            //hypo.AlarmHour.Text = txtAlarmHour.Text;
+            //hypo.AlarmMinute.Text = txtAlarmMinute.Text;
 
             hypo.HypoGlucoseTarget.Text = txtGlucoseTarget.Text;
             hypo.GlucoseLast.Text = txtGlucoseLast.Text;
@@ -75,7 +79,12 @@ namespace GlucoMan.Mobile
         {
             FromUiToClass();
             hypo.PredictHypoTime();
-            FromClassToUi(); 
+            txtGlucoseSlope.Text = hypo.GlucoseSlope.Text;
+            txtPredictedHour.Text = hypo.PredictedHour.Text;
+            txtPredictedMinute.Text = hypo.PredictedMinute.Text;
+            txtAlarmHour.Text = hypo.AlarmHour.Text;
+            txtAlarmMinute.Text = hypo.AlarmMinute.Text;
+            txtStatusBar.Text = hypo.StatusMessage;
         }
         private void btnNext_Click(object sender, EventArgs e)
         {

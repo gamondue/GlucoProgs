@@ -27,7 +27,7 @@ namespace GlucoMan.BusinessLayer
         }
         internal List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
         {
-            return dl.GetLastTwoGlucoseMeasurements(); 
+            return dl.GetFirstTwoGlucoseMeasurements(); 
         }
 
         internal void SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)

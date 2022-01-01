@@ -11,7 +11,7 @@ namespace GlucoMan
 
         static void Main(string[] args)
         {
-            Console.WriteLine("ReadFreeStyleLibreData");
+            Console.Out.WriteLine("ReadFreeStyleLibreData");
             fileName = ".\\GabrieleMonti_glucose_4-7-2021.csv";
             List<GlucoseRecord> listGlucoseEvents = import.ImportDataFromFreeStyleLibre(fileName); 
             //inputContent.Count =

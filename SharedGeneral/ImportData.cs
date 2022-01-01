@@ -14,7 +14,7 @@ namespace GlucoMan
             {
                 FreeStyleLibreRecord grec = new FreeStyleLibreRecord();
                 grec.DeviceType = inputContent[i][0];
-                grec.DeviceId = inputContent[i][1];
+                grec.IdDevice = inputContent[i][1];
                 grec.Timestamp = SafeRead.DateTime(inputContent[i][2]);
                 grec.TypeOfDocument = SafeRead.Int(inputContent[i][3]);
                 grec.GlucoseHistoricValue = SafeRead.Double(inputContent[i][4]);

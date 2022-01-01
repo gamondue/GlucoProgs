@@ -3,13 +3,14 @@ using GlucoMan.BusinessLayer;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.IO;
 
 namespace GlucoMan.Mobile
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WeighFoodPage : ContentPage
     {
-        string persistentStorage = Common.PathConfigurationData + @"WeighFood.txt";
+        string persistentStorage = Path.Combine(Common.PathConfigurationData , @"WeighFood.txt");
 
         BL_WeighFood food = new BL_WeighFood();
         BL_GrossTareAndNetWeight M0RawMain;
