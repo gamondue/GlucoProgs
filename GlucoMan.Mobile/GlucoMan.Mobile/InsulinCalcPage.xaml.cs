@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Collections.Generic;
 
 namespace GlucoMan.Mobile
 {
@@ -27,7 +28,8 @@ namespace GlucoMan.Mobile
             FromClassToUi();
             txtGlucoseBeforeMeal.Focus();
 
-            //tempText.Text = CommonData.PathUsersDownload; 
+            bolusCalculation.TargetGlucose.Format = "0";
+            bolusCalculation.GlucoseBeforeMeal.Format = "0";
         }
         private void btnCalc_Click(object sender, EventArgs e)
         {
@@ -114,8 +116,8 @@ namespace GlucoMan.Mobile
         }
         private void btnReadGlucose_Click(object sender, EventArgs e)
         {
-            //////////////List<GlucoseRecord> list = glucoseMeasuremet.GetLastTwoGlucoseMeasurements();
-            //////////////txtGlucoseBeforeMeal.Text = list[0].GlucoseValue.ToString();
+            List<GlucoseRecord> list = glucoseMeasuremet.GetLastTwoGlucoseMeasurements();
+            txtGlucoseBeforeMeal.Text = list[0].GlucoseValue.ToString();
         }
         private void btnSaveBolus_Click(object sender, EventArgs e)
         {

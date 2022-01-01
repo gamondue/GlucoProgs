@@ -10,20 +10,23 @@
 
             <Label Text="Target carbohydrates (CHO) [g]" XAlign="Center" YAlign="End"/>
             <Entry x:Name="TxtTargetCho" Text="" Unfocused="TxtTargetCho_Leave"
-                   Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
+                   Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
+                   BackgroundColor="PaleGoldenrod" />
 
             <Label Text="Carbohydrates (CHO) already taken [g]" XAlign="Center" YAlign="End" />
             <Entry x:Name="TxtChoAlreadyTaken" Text="" Unfocused="TxtChoAlreadyTaken_Leave"
-                   Margin="30,0,30,0" Placeholder="[g]" 
-                   HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
+                   FontSize="Large" BackgroundColor="PaleGreen" />
             
             <Label Text="CHO % of food to eat [%]" XAlign="Center" YAlign="End"/>
             <Entry x:Name="TxtChoOfFood" Text="" Unfocused="TxtChoOfFood_Leave"
-                   Margin="30,0,30,0" Placeholder="%" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   Margin="30,0,30,0" Placeholder="%" HorizontalTextAlignment ="End" 
+                   FontSize="Large" BackgroundColor="PaleGreen" />
             
             <Label Text="Food to eat to hit target CHO [g]" XAlign="Center" YAlign="End"/>
             <Entry x:Name="TxtFoodToHitTarget" Text="" 
-                   Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" BackgroundColor="SkyBlue" />
+                   Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
+                   FontSize="Large" BackgroundColor="SkyBlue" />
             <Button x:Name="btnReadTarget" Text="Read Target CHO" 
                    Margin="30,0,30,0" Clicked="btnReadTarget_Click" />
         </StackLayout>

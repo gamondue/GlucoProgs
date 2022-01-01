@@ -18,7 +18,7 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition Height="25"/>
-                <RowDefinition />
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="25"/>
                 <RowDefinition />
                 <RowDefinition Height="20"/>
@@ -34,18 +34,24 @@
             <Label Grid.Row="1" Grid.Column="0" Text="Breakfast" XAlign="Center" YAlign="End" />
             <Label Grid.Row="1" Grid.Column="1" Text="Lunch" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="Dinner" XAlign="Center" YAlign="End"/>
+            
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" 
                    Placeholder="break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" 
                    Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" 
                    Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+            <Button Grid.Row="2" Grid.Column="3" x:Name="btnCalc" Text="Calc" 
+                   Clicked="btnCalc_Click" />
+            
             <Label Grid.Row="3" Grid.ColumnSpan="4" Text="Typical boluses made during a day [Ui]" 
                    XAlign="Center" YAlign="End"/>
+            
             <Label Grid.Row="4" Grid.Column="0" Text="morning" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="1" Text="midday" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="2" Text="evening" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="3" Text="night" XAlign="Center" YAlign="End"/>
+            
             <Entry Grid.Row="5" Grid.Column="0" x:Name="txtTypicalBolusMorning" Text="" 
                    Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="5" Grid.Column="1" x:Name="txtTypicalBolusMidday" Text="" 
@@ -54,9 +60,11 @@
                    Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="5" Grid.Column="3" x:Name="txtTypicalBolusNight" Text="" 
                    Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+            
             <Label Grid.Row="6" Grid.Column="0" Text="TDD" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="6" Grid.Column="1" Text="Sens.factor" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="6" Grid.Column="2" Text="Sens.to insul." XAlign="Center" YAlign="End"/>
+            
             <Label Grid.Row="7" Grid.Column="0" x:Name="txtTdd" Text="----" XAlign="Center" YAlign="Center"/>
             <Picker Grid.Row="7" Grid.Column="1" x:Name="cmbSensitivityFactor" Title="pick value">
                 <Picker.ItemsSource>
@@ -71,18 +79,19 @@
                    Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"/>
             <Button Grid.Row="7" Grid.Column="3" x:Name="btnInsulinSensitivityCalculation" Text="Calc"
                     Clicked="btnInsulinSensitivityCalculation_Click"/>
+            
             <Label Grid.Row="8" Grid.Column="0" Text="Premeal Gluc" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="8" Grid.Column="1" Text="Target Gluc" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="8" Grid.Column="2" Text="Gl. to correct" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="8" Grid.Column="3" Text="CHO to eat" XAlign="Center" YAlign="End"/>
-            
-            <Entry Grid.Row="9" Grid.Column="0" HorizontalTextAlignment ="End" x:Name="txtGlucoseBeforeMeal" Text="" 
+
+            <Entry Grid.Row="9" Grid.Column="0" HorizontalTextAlignment ="End" x:Name="txtGlucoseBeforeMeal" Text="" FontSize="Large" 
                    Placeholder="mg/dl" BackgroundColor="GreenYellow" />
             <Entry Grid.Row="9" Grid.Column="1" HorizontalTextAlignment ="End" x:Name="txtTargetGlucose" Text="mg/dl" 
                    Placeholder="" BackgroundColor="PaleGoldenrod" />
             <Label Grid.Row="9" Grid.Column="2" x:Name="txtGlucoseToBeCorrected" 
                    Text="----" XAlign="Center" YAlign="Center"/>
-                <Entry Grid.Row="9" Grid.Column="3" x:Name="txtChoToEat" Text="" 
+            <Entry Grid.Row="9" Grid.Column="3" x:Name="txtChoToEat" Text="" FontSize="Large" 
                    Placeholder="g" HorizontalTextAlignment ="End" BackgroundColor="GreenYellow" />
 
             <Button Grid.Row="10" Grid.Column="0"  Text="Read" 
@@ -102,16 +111,14 @@
             <Label Grid.Row="13" Grid.Column="0" Text="Corr.insulin" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="13" Grid.Column="1" Text="CHO ins." XAlign="Center" YAlign="End"/>
             <Label Grid.Row="13" Grid.Column="2" Text="Total bolus" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="13" Grid.Column="3" Text="dinner" XAlign="Center" YAlign="End"/>
+            
             <Label Grid.Row="14" Grid.Column="0" x:Name="txtCorrectionInsulin" Text="----" 
                    XAlign="Center" YAlign="Center" FontSize="Large" BackgroundColor="CadetBlue" />
             <Label Grid.Row="14" Grid.Column="1" x:Name="txtChoInsulinMeal" Text="----" 
-                   XAlign="Center" YAlign="Center" FontSize="Large" BackgroundColor="SkyBlue"/>
+                   XAlign="Center" YAlign="Center" FontSize="Medium" />
             <Label Grid.Row="14" Grid.Column="2" x:Name="txtTotalInsulin" 
                    Text="----" XAlign="Center" YAlign="Center" FontSize="Large" BackgroundColor="DeepSkyBlue"/>
-            <Button Grid.Row="14" Grid.Column="3" x:Name="btnCalc" Text="Calc" 
-                   Clicked="btnCalc_Click" />
-
+            
             <Label Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="3" x:Name="txtStatusBar" 
                    Text="" XAlign="Start" YAlign="Center" FontSize="Large"/>
         </Grid>

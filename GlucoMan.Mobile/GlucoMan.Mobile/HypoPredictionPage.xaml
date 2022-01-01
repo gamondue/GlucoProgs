@@ -7,7 +7,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition />
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="20"/>
@@ -50,21 +50,21 @@
             <Label Grid.Row="3" Grid.ColumnSpan="3" Text="Measurements of glucose and time" 
                     XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="0" Text="Glucose" XAlign="Center" YAlign="End"/>
-            <Entry Grid.Row="5" Grid.Column="0" x:Name="txtGlucoseLast" HorizontalTextAlignment ="End" Text="" 
-                       Placeholder="gluc.meas." BackgroundColor="LightGreen" />
+            <Entry Grid.Row="5" Grid.Column="0" x:Name="txtGlucoseLast" HorizontalTextAlignment ="End" 
+                   Text="" FontSize="Large" Placeholder="gluc.meas." BackgroundColor="LightGreen" />
             <Label Grid.Row="4" Grid.Column="1" Text="Hour" XAlign="Center" YAlign="End" />
             <Entry Grid.Row="5" Grid.Column="1" x:Name="txtHourLast" Placeholder="hour" 
-                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Label Grid.Row="4" Grid.Column="2" Text="Minute" XAlign="Center" YAlign="End" />
             <Entry Grid.Row="5" Grid.Column="2" x:Name="txtMinuteLast" Placeholder="minute" 
-                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Label Grid.Row="5" Grid.Column="3" Text="current measurement" XAlign="Center" YAlign="Center" />
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtGlucosePrevious" Text="" Placeholder="gluc.meas." 
-                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Entry Grid.Row="6" Grid.Column="1" x:Name="txtHourPrevious" Placeholder="hour" 
-                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Entry Grid.Row="6" Grid.Column="2" x:Name="txtMinutePrevious" Placeholder="minute" 
-                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Label Grid.Row="6" Grid.Column="3" Text="previous measurement" 
                    XAlign="Center" YAlign="center" />
             <Label Grid.Row="7" Grid.Column="1" x:Name="txtGlucoseSlope" Text="----" FontSize="Large"
@@ -84,9 +84,10 @@
             <Label Grid.Row="11" Grid.Column="2" x:Name="txtAlarmMinute" Text="----" FontSize="Large"
                    YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
             <Button Grid.Row="11" IsVisible="false" Grid.Column="3" 
-                    Clicked="btnAlarm_Click" Text="Alarm"></Button>
-            <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtStatusBar" Text="" FontSize="Small"
-                   YAlign="Center" XAlign="Center"/>
+                   Clicked="btnAlarm_Click" Text="Alarm"></Button>
+            <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="4"
+                    x:Name="txtStatusBar" Text="" FontSize="Medium" BackgroundColor="red" TextColor="Yellow" 
+                    YAlign="Center" XAlign="Center"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

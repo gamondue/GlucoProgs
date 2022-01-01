@@ -29,8 +29,9 @@ namespace GlucoMan
                 file += Bolus.TotalDailyDoseOfInsulin.Text + "\n";
 
                 //TextFile.StringToFile(persistentBolusCalculation, file, false);
-                Task task = TextFile.StringToFileAsync(persistentBolusCalculation, file);
-                task.Wait();
+                //Task task = TextFile.StringToFileAsync(persistentBolusCalculation, file);
+                //task.Wait();
+                await TextFile.StringToFileAsync(persistentBolusCalculation, file);
             }
             catch (Exception ex)
             {

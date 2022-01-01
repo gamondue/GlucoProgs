@@ -199,11 +199,11 @@ namespace GlucoMan.BusinessLayer
                 else
                 {
                     // Console.Beep(200, 40);
-                    PredictedHour.Text = "----"; ; // put something better!!!!
+                    PredictedHour.Text = "----"; ; 
                     PredictedMinute.Text = "----";
                     AlarmHour.Text = "----";
                     AlarmMinute.Text = "----";
-                    statusMessage = "----";
+                    statusMessage = "Wrong calculations"; 
                 }
                 SaveDataHypo();
                 return;
