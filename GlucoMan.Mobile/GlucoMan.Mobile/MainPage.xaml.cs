@@ -48,10 +48,6 @@ namespace GlucoMan.Mobile
         {
             // !!!! TODO 
         }
-        private async void btnInsulinCorrection_Clicked(object sender, EventArgs e)
-        {
-            // !!!! TODO 
-        }
         private async void btnAlarms_Clicked(object sender, EventArgs e)
         {
             // !!!! TODO 

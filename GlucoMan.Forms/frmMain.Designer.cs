@@ -39,7 +39,6 @@ namespace GlucoMan.Forms
             this.txtFooterText = new System.Windows.Forms.TextBox();
             this.btnChoCount = new System.Windows.Forms.Button();
             this.btnAlarms = new System.Windows.Forms.Button();
-            this.btnCorrectionBolusCalculation = new System.Windows.Forms.Button();
             this.btnGlucoseMeasurement = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -66,7 +65,6 @@ namespace GlucoMan.Forms
             this.btnWeighFood.TabIndex = 1;
             this.btnWeighFood.Text = "Weigh Food";
             this.btnWeighFood.UseVisualStyleBackColor = true;
-            this.btnWeighFood.Click += new System.EventHandler(this.btnWeighFood_Click);
             // 
             // btnInsulin
             // 
@@ -147,18 +145,6 @@ namespace GlucoMan.Forms
             this.btnAlarms.UseVisualStyleBackColor = true;
             this.btnAlarms.Click += new System.EventHandler(this.btnAlarms_Click);
             // 
-            // btnCorrectionBolusCalculation
-            // 
-            this.btnCorrectionBolusCalculation.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnCorrectionBolusCalculation.Location = new System.Drawing.Point(457, 170);
-            this.btnCorrectionBolusCalculation.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnCorrectionBolusCalculation.Name = "btnCorrectionBolusCalculation";
-            this.btnCorrectionBolusCalculation.Size = new System.Drawing.Size(104, 62);
-            this.btnCorrectionBolusCalculation.TabIndex = 1;
-            this.btnCorrectionBolusCalculation.Text = "Correction insulin";
-            this.btnCorrectionBolusCalculation.UseVisualStyleBackColor = true;
-            this.btnCorrectionBolusCalculation.Click += new System.EventHandler(this.btnWeighFood_Click);
-            // 
             // btnGlucoseMeasurement
             // 
             this.btnGlucoseMeasurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -176,7 +162,6 @@ namespace GlucoMan.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(910, 338);
-            this.Controls.Add(this.btnCorrectionBolusCalculation);
             this.Controls.Add(this.btnGlucoseMeasurement);
             this.Controls.Add(this.btnAlarms);
             this.Controls.Add(this.btnChoCount);
@@ -208,7 +193,6 @@ namespace GlucoMan.Forms
         private System.Windows.Forms.TextBox txtFooterText;
         private System.Windows.Forms.Button btnChoCount;
         private System.Windows.Forms.Button btnAlarms;
-        private System.Windows.Forms.Button btnCorrectionBolusCalculation;
         private System.Windows.Forms.Button btnGlucoseMeasurement;
     }
 }

@@ -69,7 +69,7 @@ namespace GlucoMan.Forms
         private void btnReadTarget_Click(object sender, EventArgs e)
         {
             BL_BolusCalculation bolus = new BL_BolusCalculation();
-            bolus.RestoreData(); // read data from BolusCalculation's file
+            bolus.RestoreBolusData(); // read data from BolusCalculation's file
             // set read data to local TargetCho
             foodToEat.TargetCho.Double = bolus.ChoToEat.Double;
             FromClassToUi(); 

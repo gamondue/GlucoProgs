@@ -39,6 +39,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="CorrectionParametersPage.xaml.cs">
+      <DependentUpon>CorrectionParametersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="FoodToHitTargetCarbsPage.xaml.cs">
       <DependentUpon>FoodToHitTargetCarbsPage.xaml</DependentUpon>
     </Compile>
@@ -48,12 +51,18 @@
     <Compile Update="HypoPredictionPage.xaml.cs">
       <DependentUpon>HypoPredictionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="InsulinCalcPage.xaml.cs">
-      <DependentUpon>InsulinCalcPage.xaml</DependentUpon>
+    <Compile Update="MealInsulinCalcPage.xaml.cs">
+      <DependentUpon>MealInsulinCalcPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="WeighFoodPage.xaml.cs">
       <DependentUpon>WeighFoodPage.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="CorrectionParametersPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <Import Project="..\..\SharedAndroid\SharedAndroid.projitems" Label="Shared" />

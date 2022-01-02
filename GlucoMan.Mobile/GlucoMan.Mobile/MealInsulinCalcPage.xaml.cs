@@ -1,7 +1,6 @@
 ﻿using GlucoMan;
 using GlucoMan.BusinessLayer;
 using SharedData;
-using GlucoMan;
 using System;
 using System.IO;
 using Xamarin.Forms;
@@ -22,43 +21,32 @@ namespace GlucoMan.Mobile
             bolusCalculation = new BL_BolusCalculation();
             glucoseMeasuremet = new BL_GlucoseMeasurements();
 
-            bolusCalculation.RestoreData();
+            bolusCalculation.RestoreBolusData();
+            bolusCalculation.RestoreInsulinParameters();
             bolusCalculation.MealOfBolus.Type = Common.SelectMealBasedOnTimeNow();
-
-            FromClassToUi();
-            txtGlucoseBeforeMeal.Focus();
 
             bolusCalculation.TargetGlucose.Format = "0";
             bolusCalculation.GlucoseBeforeMeal.Format = "0";
-        }
-        private void btnCalc_Click(object sender, EventArgs e)
-        {
-            FromUiToClass();
-            bolusCalculation.CalculateBolus();
-            bolusCalculation.SaveData();
-            bolusCalculation.SaveLog();
+
             FromClassToUi();
+            txtGlucoseBeforeMeal.Focus();
         }
         private void FromClassToUi()
         {
             txtChoToEat.Text = bolusCalculation.ChoToEat.Text;
             txtInsulinSensitivity.Text = bolusCalculation.InsulinCorrectionSensitivity.Text;
-            ////////cmbSensitivityFactor.SetValue (bolusCalculation.FactorOfInsulinCorrectionSensitivity.Double);
             txtTdd.Text = bolusCalculation.TotalDailyDoseOfInsulin.Text;
             txtGlucoseBeforeMeal.Text = bolusCalculation.GlucoseBeforeMeal.Text;
             txtGlucoseToBeCorrected.Text = bolusCalculation.GlucoseToBeCorrected.Text;
             txtCorrectionInsulin.Text = bolusCalculation.BolusInsulinDueToCorrectionOfGlucose.Text;
             txtChoInsulinMeal.Text = bolusCalculation.BolusInsulinDueToChoOfMeal.Text;
             txtTotalInsulin.Text = bolusCalculation.TotalInsulinForMeal.Text;
-            txtTypicalBolusMidday.Text = bolusCalculation.TypicalBolusMidday.Text;
-            txtTypicalBolusMorning.Text = bolusCalculation.TypicalBolusMorning.Text;
-            txtTypicalBolusEvening.Text = bolusCalculation.TypicalBolusEvening.Text;
-            txtTypicalBolusNight.Text = bolusCalculation.TypicalBolusNight.Text;
             txtTargetGlucose.Text = bolusCalculation.TargetGlucose.Text;
 
             txtChoInsulinRatioBreakfast.Text = bolusCalculation.ChoInsulinRatioBreakfast.Text;
             txtChoInsulinRatioLunch.Text = bolusCalculation.ChoInsulinRatioLunch.Text;
             txtChoInsulinRatioDinner.Text = bolusCalculation.ChoInsulinRatioDinner.Text;
+
             txtStatusBar.Text = bolusCalculation.StatusMessage;
             switch (bolusCalculation.MealOfBolus.Type)
             {
@@ -75,9 +63,6 @@ namespace GlucoMan.Mobile
                     rdbIsSnack.IsChecked = true;
                     break;
             }
-            txtChoInsulinRatioBreakfast.Text = bolusCalculation.ChoInsulinRatioBreakfast.Text;
-            txtChoInsulinRatioLunch.Text = bolusCalculation.ChoInsulinRatioLunch.Text;
-            txtChoInsulinRatioDinner.Text = bolusCalculation.ChoInsulinRatioDinner.Text;
         }
         private void FromUiToClass()
         {
@@ -87,15 +72,7 @@ namespace GlucoMan.Mobile
             bolusCalculation.ChoInsulinRatioDinner.Text = txtChoInsulinRatioDinner.Text.Replace(" ", "");
             bolusCalculation.ChoInsulinRatioBreakfast.Text = txtChoInsulinRatioBreakfast.Text.Replace(" ", "");
             bolusCalculation.ChoInsulinRatioLunch.Text = txtChoInsulinRatioLunch.Text.Replace(" ", "");
-
             bolusCalculation.GlucoseBeforeMeal.Text = txtGlucoseBeforeMeal.Text.Replace(" ", "");
-            if (cmbSensitivityFactor.SelectedItem != null)
-                bolusCalculation.FactorOfInsulinCorrectionSensitivity.Text = cmbSensitivityFactor.SelectedItem.ToString();
-
-            bolusCalculation.TypicalBolusMidday.Text = txtTypicalBolusMidday.Text.Replace(" ", "");
-            bolusCalculation.TypicalBolusMorning.Text = txtTypicalBolusMorning.Text.Replace(" ", "");
-            bolusCalculation.TypicalBolusEvening.Text = txtTypicalBolusEvening.Text.Replace(" ", "");
-            bolusCalculation.TypicalBolusNight.Text = txtTypicalBolusNight.Text.Replace(" ", "");
             bolusCalculation.TargetGlucose.Text = txtTargetGlucose.Text.Replace(" ", "");
 
             if (rdbIsBreakfast.IsChecked)
@@ -107,11 +84,29 @@ namespace GlucoMan.Mobile
             if (rdbIsSnack.IsChecked)
                 bolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Snack;
         }
+        private async void btnSetParameters_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
+            await Navigation.PushModalAsync(new CorrectionParametersPage());
+            // !!!! TODO: fix modal functioning of this page. Currently continues without 
+            // waitng the completion of the modal page 
+            bolusCalculation.RestoreInsulinParameters();
+            FromClassToUi();
+        }
+        private void btnBolusCalculations_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
+            bolusCalculation.CalculateBolus();
+            bolusCalculation.SaveInsulinParameters();
+            bolusCalculation.SaveBolusData();
+            bolusCalculation.SaveBolusLog();
+            FromClassToUi();
+        }
         private void btnRoundInsulin_Click(object sender, EventArgs e)
         {
             FromUiToClass();
             bolusCalculation.RoundInsulinToZeroDecimal();
-            bolusCalculation.SaveData();
+            bolusCalculation.SaveBolusData();
             FromClassToUi();
         }
         private void btnReadGlucose_Click(object sender, EventArgs e)
@@ -121,14 +116,7 @@ namespace GlucoMan.Mobile
         }
         private void btnSaveBolus_Click(object sender, EventArgs e)
         {
-            bolusCalculation.SaveData();
-        }
-        private void btnInsulinSensitivityCalculation_Click(object sender, EventArgs e)
-        {
-            FromUiToClass();
-            bolusCalculation.CalculateInsulinCorrectionSensitivity();
-            // we don't save here! 
-            FromClassToUi();
+            bolusCalculation.SaveBolusData();
         }
     }
 }

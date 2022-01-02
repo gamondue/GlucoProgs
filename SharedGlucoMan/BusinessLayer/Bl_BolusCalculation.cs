@@ -81,7 +81,6 @@ namespace GlucoMan.BusinessLayer
                 // execute calculations
 
                 // insulin sensitivity is now calculated in a specific method: CalculateInsulinCorrectionSensitivity()
-
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
                
@@ -107,7 +106,6 @@ namespace GlucoMan.BusinessLayer
                 Common.LogOfProgram.Error("BL_BolusCalculations | CalculateBolus()", Ex);
             }
         }
-
         internal void RoundInsulinToZeroDecimal()
         {
             // find target bolus and relative CHO with bisection algorithm 
@@ -150,25 +148,32 @@ namespace GlucoMan.BusinessLayer
                 iterationsCount++; 
             } while (Math.Abs(bolusCurrent - targetBolus) > 0.01 && iterationsCount < 20); 
         }
-        internal void SaveData()
+        internal void SaveInsulinParameters()
+        {
+            dl.SaveInsulinParameters(this);
+        }
+        internal void RestoreInsulinParameters()
+        {
+            dl.RestoreInsulinParameters(this);
+        }
+        internal void SaveBolusData()
         {
             try
             {
                 dl.SaveBolusCalculations(this);
-                // ???? !!!! substitute this: CommonFunctions.TestSaving(); 
             }
             catch (Exception ex)
             {
                 Common.LogOfProgram.Error("BL_BolusCalculations | SaveData()", ex);
             }
         }
-        internal void SaveLog()
+        internal void RestoreBolusData()
+        {
+            dl.RestoreBolusCalculations(this);
+        }
+        internal void SaveBolusLog()
         {
                 dl.SaveLogOfBoluses(this); 
-        }
-        internal void RestoreData()
-        {
-            dl.RestoreBolusCalculations(this); 
         }
     }
 }

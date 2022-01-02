@@ -15,8 +15,6 @@
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnInsulin" Text="Meal insulin" Clicked="btnInsulin_Clicked"
                 Margin="15,0,15,0"></Button>
-        <Button x:Name="btnInsulinCorrection" Text="Correction insulin" Clicked="btnInsulinCorrection_Clicked"
-                IsEnabled="False" Margin="15,0,15,0"></Button>
         <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to eat to reach wanted carbs" Clicked="btnFoodToHitTargetCarbs_Clicked"
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnHypoPrediction" Text="Hypoglicemia time prediction" Clicked="btnHypoPrediction_Clicked"

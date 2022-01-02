@@ -17,10 +17,12 @@ namespace GlucoMan
             if (!File.Exists(Path.Combine(Common.PathConfigurationData, @"BolusCalculation.txt")))
             {
                 File.Create(Path.Combine(Common.PathConfigurationData, @"BolusCalculation.txt"));
+                File.Create(Path.Combine(Common.PathConfigurationData, @"InsulinParameters.txt"));
                 File.Create(Path.Combine(Common.PathConfigurationData, @"GlucoseMeasurements.txt"));
                 File.Create(Path.Combine(Common.PathConfigurationData, @"FoodToHitTargetCarbs.txt"));
                 File.Create(Path.Combine(Common.PathConfigurationData, @"HypoPrediction.txt"));
                 File.Create(Path.Combine(Common.PathConfigurationData, @"WeighFood.txt"));
+                
                 File.Create(Path.Combine(Common.PathLogs, @"GlucoMan_log.txt"));
                 File.Create(Path.Combine(Common.PathLogs, @"GlucoMan_errors.txt"));
                 File.Create(Path.Combine(Common.PathLogs, @"GlucoMan_prompts.txt"));

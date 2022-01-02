@@ -12,25 +12,16 @@ namespace GlucoMan.Forms
         {
             InitializeComponent();
         }
-
         private void btnHypoPrediction_Click(object sender, EventArgs e)
         {
             frmPredictHypo f = new frmPredictHypo();
             f.Show(); 
         }
-
-        private void btnWeighFood_Click(object sender, EventArgs e)
-        {
-            frmCorrectionBolus f = new frmCorrectionBolus(); 
-            f.Show(); 
-        }
-
         private void btnInsulinCalc(object sender, EventArgs e)
         {
-            frmInsulinCalc f = new frmInsulinCalc();
+            frmMealInsulinCalc f = new frmMealInsulinCalc();
             f.Show(); 
         }
-
         private void frmMain_Load(object sender, EventArgs e)
         {
             this.Text += " " + Common.Version;
@@ -43,25 +34,21 @@ namespace GlucoMan.Forms
                 "\r\nIng.Gabriele Monti (gamon) - Forlì - Italia"+
                 "\r\nLicence: GPL v.2";
         }
-
         private void btnFoodToHitTargetCarbs_Click(object sender, EventArgs e)
         {
             frmFoodToHitTargetCarbs f = new frmFoodToHitTargetCarbs();
             f.Show(); 
         }
-
         private void btnChoCount_Click(object sender, EventArgs e)
         {
             frmMeal fc = new frmMeal();
             fc.Show(); 
         }
-
         private void btnAlarms_Click(object sender, EventArgs e)
         {
             frmAlarms fa = new frmAlarms();
             fa.Show(); 
         }
-
         private void btnGlucoseMeasurement_Click(object sender, EventArgs e)
         {
             frmGlucose fg = new frmGlucose();
