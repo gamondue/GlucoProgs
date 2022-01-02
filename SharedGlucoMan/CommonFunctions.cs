@@ -21,6 +21,8 @@ namespace GlucoMan
                 @"GlucoMan_Prompts.txt",
                 @"GlucoMan_Data.txt");
 
+            Common.Database = new DL_FlatText();
+
             Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         internal static TypeOfMeal SelectMealBasedOnTimeNow()

@@ -1,4 +1,5 @@
 ﻿using GlucoMan;
+using SharedData;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ namespace GlucoMan.BusinessLayer
 {
     internal class BL_GrossTareAndNetWeight
     {
-        DataLayer dl = new DataLayer();
+        DataLayer dl = Common.Database;
 
         private DoubleAndText gross;
         private DoubleAndText container;

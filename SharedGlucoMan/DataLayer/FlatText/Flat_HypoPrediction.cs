@@ -7,9 +7,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DataLayer
+    internal partial class DL_FlatText : DataLayer
     {
-        internal void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
+        internal override void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
         {
             try
             {
@@ -21,7 +21,6 @@ namespace GlucoMan
                 file += Hypo.MinuteLast.Text + "\n";
                 file += Hypo.MinutePrevious.Text + "\n";
                 file += Hypo.AlarmAdvanceTime.TotalMinutes;
-                //TextFile.StringToFile(persistentHypoPrediction, file, false);
                 TextFile.StringToFileAsync(persistentHypoPrediction, file);
             }
             catch (Exception ex)
@@ -29,7 +28,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("DL_HypoPrediction | SaveHypoPrediction", ex);
             }
         }
-        internal void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
+        internal override void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
         {
             if (File.Exists(persistentHypoPrediction))
                 try

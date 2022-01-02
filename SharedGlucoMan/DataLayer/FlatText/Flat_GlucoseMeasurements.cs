@@ -6,9 +6,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DataLayer
+    internal partial class DL_FlatText : DataLayer
     {
-        internal List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, 
+        internal override List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, 
             DateTime? FinalInstant)
         {
             // !!!! currently InitialInstant, DateTime FinalInstant are simply IGNORED 
@@ -38,7 +38,7 @@ namespace GlucoMan
                 }
             return list; 
         }
-        internal void SaveGlucoseMeasurements(List<GlucoseRecord> List)
+        internal override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("DL_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
-        private int FindNextIndex(List<GlucoseRecord> List)
+        internal override int FindNextIndex(List<GlucoseRecord> List)
         {
             // find next Id from list
             int? maxId = 0;
@@ -81,7 +81,7 @@ namespace GlucoMan
             }
             return (int)(maxId + 1); 
         }
-        internal void SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
+        internal override void SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
         {
             // save one single record using sequential access..
             try
@@ -142,7 +142,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("DL_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
-        internal List<GlucoseRecord> GetFirstTwoGlucoseMeasurements()
+        internal override List<GlucoseRecord> GetFirstTwoGlucoseMeasurements()
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>();
             if (File.Exists(persistentGlucoseMeasurements))

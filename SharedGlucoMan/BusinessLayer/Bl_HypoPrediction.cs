@@ -7,7 +7,7 @@ namespace GlucoMan.BusinessLayer
 {
     public class BL_HypoPrediction
     {
-        DataLayer dl = new DataLayer(); 
+        DataLayer dl = Common.Database;
 
         private DateTime timeLast;
         private DateTime timePrevious;

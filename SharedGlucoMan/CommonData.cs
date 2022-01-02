@@ -6,7 +6,11 @@ namespace GlucoMan
 {
     internal static partial class Common
     {
-        public static string Version { get; private set; }
+        internal static DataLayer Database;
+
+        internal static SharedData.Logger LogOfProgram;
+
+        internal static string Version { get; private set; }
 
         internal static int breakfastStartHour = 6;
         internal static int breakfastEndHour = 10;
@@ -26,9 +30,10 @@ namespace GlucoMan
         internal enum TypeOfGlucoseMeasurementDevice
         {
             NotSet,
-            Strip,
-            SensorIntermediateValue,
-            SensorScanValue
+            Injection,
+            UnderSkinSensor,
+            CGM,
+            ArtificialPancreas
         }
         internal enum ModelOfMeasurementSystem
         {
@@ -75,7 +80,5 @@ namespace GlucoMan
             Perfect
         }
         #endregion
-
-        internal static SharedData.Logger LogOfProgram;
     }
 }

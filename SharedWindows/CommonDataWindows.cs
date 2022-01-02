@@ -18,6 +18,8 @@ namespace GlucoMan
         internal static string PathProgramsData = Path.Combine(PathUser , @"GlucoMan\Data\");
         //internal static string PathUsersDownload = ; // !!!! TODO find how to save on the download folder of user; 
         internal static string PathLogs = Path.Combine(PathUser , @"GlucoMan\Logs\");
+        internal static string PathDatabase = Path.Combine(PathUser, @"GlucoMan\Data\");
+        internal static string PathAndFileDatabase = Path.Combine(PathDatabase, @"GlucoManData.sqlite");
 
         //internal static CommonObjects CommonObj;
     }

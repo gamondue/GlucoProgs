@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SharedData;
+using GlucoMan; 
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,8 +8,7 @@ namespace GlucoMan.BusinessLayer
 {
     class BL_GlucoseMeasurements
     {
-        DataLayer dl = new DataLayer();   
-            
+        DataLayer dl = Common.Database;
         internal IntAndText GlucoseMeasurement { get; set; }
         internal DateTimeAndText MeasurementTime { get; set; }
         internal BL_GlucoseMeasurements()
@@ -29,7 +30,6 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.GetFirstTwoGlucoseMeasurements(); 
         }
-
         internal void SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
         {
             dl.SaveOneGlucoseMeasurement(GlucoseMeasurement); 

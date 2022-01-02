@@ -30,6 +30,10 @@ namespace FoglioGlicemiaTerapia
             Common.LogOfProgram = new Logger(Common.PathProgramsData, true, @"logs\GlucoMan_log.txt",
                 @"logs\GlucoMan_errors.txt", @"logs\GlucoMan_debug.txt", @"logs\GlucoMan_prompts.txt",
                 @"logs\GlucoMan_data.txt");
+
+            Common.Database = new DL_FlatText();
+
+            //Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private void BtnGeneraFile_Click(object sender, RoutedEventArgs e)

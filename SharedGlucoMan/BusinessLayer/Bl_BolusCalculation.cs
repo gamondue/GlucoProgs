@@ -7,7 +7,8 @@ namespace GlucoMan.BusinessLayer
 {
     internal class BL_BolusCalculation
     {
-        DataLayer dl = new DataLayer();
+        DataLayer dl = Common.Database;
+
         private string statusMessage;
         internal DoubleAndText ChoToEat { get; set; }
         internal DoubleAndText TypicalBolusMorning { get; set; }

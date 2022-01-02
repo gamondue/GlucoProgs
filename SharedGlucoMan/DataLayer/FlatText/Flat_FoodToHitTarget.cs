@@ -8,9 +8,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DataLayer
+    internal partial class DL_FlatText : DataLayer
     {
-        internal void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
+        internal override void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
         {
             if (File.Exists(persistentFoodToEatTarget))
                 try
@@ -27,7 +27,7 @@ namespace GlucoMan
                 }
         }
 
-        internal void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
+        internal override void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
         {
             try
             {

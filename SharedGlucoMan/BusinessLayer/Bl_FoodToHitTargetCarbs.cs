@@ -8,7 +8,7 @@ namespace GlucoMan.BusinessLayer
 {
     class BL_FoodToHitTargetCarbs
     {
-        DataLayer dl = new DataLayer();
+        DataLayer dl = Common.Database;
 
         internal DoubleAndText ChoAlreadyTaken = new DoubleAndText();
         internal DoubleAndText ChoOfFood = new DoubleAndText();

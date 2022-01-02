@@ -1,6 +1,5 @@
 ﻿using GlucoMan;
 using SharedData;
-using GlucoMan;
 using System;
 using System.Drawing;
 using System.IO;
@@ -9,7 +8,7 @@ namespace GlucoMan.BusinessLayer
 {
     class BL_WeighFood
     {
-        DataLayer dl = new DataLayer();
+        DataLayer dl = Common.Database;
 
         Color inputColor = Color.PaleGreen;
         Color inputSlowChangingColor = Color.PaleGoldenrod;

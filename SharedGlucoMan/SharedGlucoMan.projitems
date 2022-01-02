@@ -26,13 +26,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\GlucoseRecord.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\SafeRead.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\WeighData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DataLayerConstructorsAndGeneral.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_BolusCalculations.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_FoodToHitTarget.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_GrossTareAndNetWeight.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_HypoPrediction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DataLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\FlatText\Flat_DataLayerConstructorsAndGeneral.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\FlatText\Flat_BolusCalculations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\FlatText\Flat_FoodToHitTarget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\FlatText\Flat_GrossTareAndNetWeight.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\FlatText\Flat_HypoPrediction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_ImportData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_WeighFood.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_GlucoseMeasurements.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\FlatText\Flat_WeighFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\FlatText\Flat_GlucoseMeasurements.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)DataLayer\FlatText\" />
+    <Folder Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\" />
   </ItemGroup>
 </Project>
