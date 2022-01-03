@@ -6,7 +6,7 @@ namespace GlucoMan
 {
     public class IntAndText
     {
-        private int intVal;
+        private int? intVal;
         private string text;
 
         public IntAndText()
@@ -17,7 +17,7 @@ namespace GlucoMan
         }
 
         public string Format { get; set; }
-        public int Int
+        public int? Int
         {
             get => intVal;
             set

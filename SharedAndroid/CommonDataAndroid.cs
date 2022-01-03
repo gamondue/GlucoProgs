@@ -20,7 +20,7 @@ namespace GlucoMan
         internal static string PathConfigurationData = Path.Combine(PathUser, @"Config");
         internal static string PathProgramsData = Path.Combine(PathUser, @"Data");
         internal static string PathLogs = Path.Combine(PathUser , @"Logs");
-        internal static string PathDatabase = Path.Combine(PathUsersDownload, @"Glucoman\Data");
-        internal static string PathAndFileDatabase = Path.Combine(PathDatabase, @"GlucoManData.sqlite");
+        internal static string PathDatabase = Path.Combine(PathUsersDownload, @"Glucoman/Data");
+        internal static string PathAndFileDatabase = Path.Combine(PathDatabase, @"GlucoManData.Sqlite");
     }
 }

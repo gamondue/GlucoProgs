@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GlucoMan;
+using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace SharedData
@@ -106,6 +108,7 @@ namespace SharedData
         /// <param name="ErrorText"></param>
         public string Error(string ErrorText, Exception Exception)
         {
+            // adds to the string passed othe diagnostic info 
             if (Exception != null)
             {
                 ErrorText += "\nMessage: " + Exception.Message +
@@ -120,6 +123,12 @@ namespace SharedData
                     Console.Out.WriteLine(ErrorText);
                 }
             }
+#if DEBUG
+            //Get call stack
+            StackTrace stackTrace = new StackTrace();
+            //Log calling method name
+            ErrorText += "\nMethod: " + stackTrace.GetFrame(1).GetMethod().Name;
+#endif
             return ErrorText; 
         }
         /// <summary>

@@ -6,18 +6,18 @@ namespace GlucoMan
 {
     public class DoubleAndText
     {
-        private double doubleVal;
+        private double? doubleVal;
         private string text;
 
         public DoubleAndText()
         {
             Format = "0.0";
-            doubleVal = 0;
-            text = ""; 
+            doubleVal = null;
+            text = "NaN"; 
         }
 
         public string Format { get; set; }
-        public double Double
+        public double? Double
         {
             get => doubleVal;
             set
@@ -29,7 +29,7 @@ namespace GlucoMan
                 }
                 catch
                 {
-                    text = "NaN";
+                    text = null;
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace GlucoMan
                 }
                 catch
                 {
-                    return "";
+                    return null;
                 }
             }
             set
@@ -55,7 +55,7 @@ namespace GlucoMan
                 }
                 catch
                 {
-                    doubleVal = double.NaN;
+                    doubleVal = null;
                 }
             }
         }

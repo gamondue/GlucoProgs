@@ -9,7 +9,7 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal abstract class DataLayer
+    internal abstract partial class DataLayer
     {
         internal string persistentBolusCalculation = Path.Combine(Common.PathConfigurationData, @"BolusCalculation.txt");
         internal string persistentInsulinParameters = Path.Combine(Common.PathConfigurationData, @"InsulinParameters.txt");

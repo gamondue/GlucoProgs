@@ -64,18 +64,18 @@ namespace GlucoMan.BusinessLayer
             {
                 statusMessage = ""; 
 
-                int hourLast = HourLast.Int;
-                int minuteLast = MinuteLast.Int;
+                int? hourLast = HourLast.Int;
+                int? minuteLast = MinuteLast.Int;
                 TimeLast = DateTime.Today;
-                TimeLast = TimeLast.AddHours(HourLast.Int);
-                TimeLast = TimeLast.AddMinutes(MinuteLast.Int);
+                TimeLast = TimeLast.AddHours((int)HourLast.Int);
+                TimeLast = TimeLast.AddMinutes((int)MinuteLast.Int);
 
-                int hourPrevious = HourPrevious.Int;
-                int minutePrevious = MinutePrevious.Int;
+                int? hourPrevious = HourPrevious.Int;
+                int? minutePrevious = MinutePrevious.Int;
 
                 // if the previous minute is in an hour before, subtract it to 60
                 // and subtract 1 hour to the hours
-                int differenceMinutes = MinuteLast.Int - MinutePrevious.Int;
+                int? differenceMinutes = MinuteLast.Int - MinutePrevious.Int;
                 if (differenceMinutes < 0)
                 {
                     minutePrevious = 60 + differenceMinutes;
@@ -85,13 +85,13 @@ namespace GlucoMan.BusinessLayer
                     minutePrevious = differenceMinutes;
 
                 // if the previous date is in the day before, subtract it to 24
-                int differenceHours = hourLast - hourPrevious;
+                int? differenceHours = hourLast - hourPrevious;
                 if (differenceHours < 0)
                     hourPrevious = 24 + differenceHours;
                 else
                     hourPrevious = differenceHours;
 
-                Interval = new TimeSpan(hourPrevious, minutePrevious, 0);
+                Interval = new TimeSpan((int)hourPrevious, (int)minutePrevious, 0);
 
                 timePrevious = TimeLast.Subtract(Interval);
 
@@ -126,7 +126,7 @@ namespace GlucoMan.BusinessLayer
                     statusMessage = "Time between measurements too short";
                     return;
                 }
-                int glucoseDifference = GlucoseLast.Int - GlucosePrevious.Int;
+                int? glucoseDifference = GlucoseLast.Int - GlucosePrevious.Int;
 
                 if (glucoseDifference > 0) 
                 {
@@ -150,7 +150,7 @@ namespace GlucoMan.BusinessLayer
 
                 // calculate the instant when target glucose will be reached;
                 // order of subtraction to achieve a positive number and to go forward in time 
-                double predictedIntervalSeconds = (HypoGlucoseTarget.Int - GlucoseLast.Int) / GlucoseSlope.Double; 
+                double? predictedIntervalSeconds = (HypoGlucoseTarget.Int - GlucoseLast.Int) / GlucoseSlope.Double; 
 
                 // if we should go back in time, we show an error condition
                 if (predictedIntervalSeconds < 0)

@@ -35,8 +35,9 @@ namespace GlucoMan.BusinessLayer
             // variations in gross and container, that change the net weight 
             // if gross or container have changed and container and gross are numbers
             // sets the new value for net weight
-            if ((!EqualWithNaN(gross.Double, oldGross.Double) || !EqualWithNaN(container.Double, oldContainer.Double)) 
-                && !Double.IsNaN(container.Double) && !Double.IsNaN(gross.Double))
+            if ((!EqualWithNaN((double)gross.Double, (double)oldGross.Double) || 
+                !EqualWithNaN((double)container.Double, (double)oldContainer.Double)) 
+                && !Double.IsNaN((double)container.Double) && !Double.IsNaN((double)gross.Double))
                net.Double = gross.Double - container.Double;
             else
                net.Double = double.NaN;
@@ -56,8 +57,8 @@ namespace GlucoMan.BusinessLayer
                 gross.Double = container.Double + net.Double;
 
             // if net has changed and is a number, the other two must be different from a number
-            if (!EqualWithNaN(net.Double, oldNet.Double)
-                && !Double.IsNaN(net.Double))
+            if (!EqualWithNaN((double)net.Double, (double)oldNet.Double)
+                && !Double.IsNaN((double)net.Double))
             {
                 gross.Double = double.NaN;
                 container.Double = double.NaN;

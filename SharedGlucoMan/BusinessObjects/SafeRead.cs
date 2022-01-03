@@ -6,7 +6,7 @@ using System.Text;
 namespace GlucoMan
 {
     /// <summary>
-    /// funzioni che prendono un campo di database e lo mettono nella destinazione senza inchiodarsi
+    /// Safe read of a database field to a string, managing nulls without stopping
     /// </summary>
     internal static class SafeRead
     {

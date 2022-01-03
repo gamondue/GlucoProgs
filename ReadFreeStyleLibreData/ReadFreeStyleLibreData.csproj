@@ -11,4 +11,9 @@
 
   <Import Project="..\SharedWindows\SharedWindows.projitems" Label="Shared" />
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.1" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.0.7" />
+  </ItemGroup>
+
 </Project>

@@ -114,21 +114,21 @@ namespace GlucoMan.BusinessLayer
             // calc bolus to determine target bolus
             CalculateBolus();
             // target bolus will be nearest integer 
-            double targetBolus = Math.Round(TotalInsulinForMeal.Double);
+            double targetBolus = Math.Round((double)TotalInsulinForMeal.Double);
             // calc the two CHO "Plus" and "Minus" initial values 
-            double initialCho = ChoToEat.Double;
-            double choPlus = initialCho + 15;
-            double choMinus = initialCho - 15;
+            double? initialCho = ChoToEat.Double;
+            double? choPlus = initialCho + 15;
+            double? choMinus = initialCho - 15;
             // calc bolus for the "Plus" initial value
             ChoToEat.Double = choPlus;  // ChoToEat.Double is the CHO 
             CalculateBolus();
-            double bolusPlus = TotalInsulinForMeal.Double;
+            double? bolusPlus = TotalInsulinForMeal.Double;
             // calc bolus for the "Minus" initial value
             ChoToEat.Double = choMinus;
             CalculateBolus();
-            double bolusMinus = TotalInsulinForMeal.Double;
+            double? bolusMinus = TotalInsulinForMeal.Double;
 
-            double bolusCurrent;
+            double? bolusCurrent;
             int iterationsCount = 0; 
             do
             {
@@ -147,7 +147,7 @@ namespace GlucoMan.BusinessLayer
                     bolusPlus = bolusCurrent;
                 }
                 iterationsCount++; 
-            } while (Math.Abs(bolusCurrent - targetBolus) > 0.01 && iterationsCount < 20); 
+            } while (Math.Abs((int)bolusCurrent - (int)targetBolus) > 0.01 && iterationsCount < 20); 
         }
         internal void SaveInsulinParameters()
         {

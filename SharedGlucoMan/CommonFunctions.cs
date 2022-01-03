@@ -13,6 +13,7 @@ namespace GlucoMan
             General.MakeFolderIfDontExist(Common.PathConfigurationData);
             General.MakeFolderIfDontExist(Common.PathProgramsData);
             General.MakeFolderIfDontExist(Common.PathLogs);
+            General.MakeFolderIfDontExist(Common.PathDatabase);
 
             Common.LogOfProgram = new Logger(Common.PathLogs, true,
                 @"GlucoMan_Log.txt",
@@ -21,7 +22,7 @@ namespace GlucoMan
                 @"GlucoMan_Prompts.txt",
                 @"GlucoMan_Data.txt");
 
-            Common.Database = new DL_FlatText();
+            Common.Database = new DL_Sqlite();
 
             Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
