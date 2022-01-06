@@ -95,14 +95,14 @@ namespace GlucoMan.Forms
                 return;
             }
             currentGlucose = new GlucoseRecord();
-            currentGlucose.IdGlucoseRecord = SafeRead.Int(txtIdGlucoseRecord.Text);
+            currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
             currentGlucose.GlucoseValue = glucose;
             currentGlucose.Timestamp = dtpEventInstant.Value;
         }
         private void FromClassToUi()
         {
             txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
-            dtpEventInstant.Value = (DateTime)SafeRead.DateTime(currentGlucose.Timestamp);
+            dtpEventInstant.Value = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
             txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
         }
         private void btnSave_Click(object sender, EventArgs e)

@@ -160,7 +160,7 @@ namespace GlucoMan
                             string[] fields = line.Split('\t');
                             recLast.IdGlucoseRecord = int.Parse(fields[0]);
                             recLast.GlucoseValue = double.Parse(fields[1]);
-                            recLast.Timestamp = SafeRead.DateTime(fields[2]);
+                            recLast.Timestamp = Safe.DateTime(fields[2]);
                             recLast.GlucoseString = fields[3];
                             recLast.DeviceType = fields[4];
                             recLast.IdDevice = fields[5];
@@ -169,7 +169,7 @@ namespace GlucoMan
                             fields = line.Split('\t');
                             recBeforeLast.IdGlucoseRecord = int.Parse(fields[0]);
                             recBeforeLast.GlucoseValue = double.Parse(fields[1]);
-                            recBeforeLast.Timestamp = SafeRead.DateTime(fields[2]);
+                            recBeforeLast.Timestamp = Safe.DateTime(fields[2]);
                             recBeforeLast.GlucoseString = fields[3];
                             recBeforeLast.DeviceType = fields[4];
                             recBeforeLast.IdDevice = fields[5];

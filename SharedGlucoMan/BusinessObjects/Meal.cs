@@ -1,28 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static GlucoMan.Common;
 
 namespace GlucoMan
 {
     internal class Meal
     {
         List<Food> foodsEaten;
-        DateTime timeBegin;
-        DateTime timeEnd;
-        Common.TypeOfMeal type;
+
+        DateTimeAndText timeBegin;
+        DateTimeAndText timeEnd;
+
+        TypeOfMeal TypeOfMeal;
         double accuracyOfChoEstimate;
 
 		internal int IdMeal { get; set; }
-        internal List<Food> FoodsEaten { get => foodsEaten; set => foodsEaten = value; }
-        internal DateTime TimeBegin { get => timeBegin; set => timeBegin = value; }
-        internal DateTime TimeEnd { get => timeEnd; set => timeEnd = value; }
-        internal Common.TypeOfMeal Type { get => type; set => type = value; }
+        internal TypeOfMeal Type { get => TypeOfMeal; set => TypeOfMeal = value; }
+        internal DateTimeAndText TimeBegin { get => timeBegin; set => timeBegin = value; }
+        internal DateTimeAndText TimeEnd { get => timeEnd; set => timeEnd = value; }
+        internal DoubleAndText Carbohydrates;
         internal double AccuracyOfChoEstimate { get => accuracyOfChoEstimate; set => accuracyOfChoEstimate = value; }
-        internal Common.QualitativeAccuracy QualitativeAccuracyOfChoEstimate { get; set; }
+        internal QualitativeAccuracy QualitativeAccuracyOfChoEstimate { get; set; }
+        internal int? IdGlucoseRecord;
+        internal int? IdBolusCalculation;
+        internal QualitativeAccuracy QualitativeAccuracyCHO;
+        internal TypeOfInsulinInjection InsulineInjection;
+
+        internal List<Food> FoodsEaten { get => foodsEaten; set => foodsEaten = value; }
+
         internal Meal()
         {
             // default type of meal is snack
-            type = Common.TypeOfMeal.Snack;
+            TypeOfMeal = Common.TypeOfMeal.Snack;
         }
     }
 }

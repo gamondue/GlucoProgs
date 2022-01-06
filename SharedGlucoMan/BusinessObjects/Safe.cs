@@ -8,7 +8,7 @@ namespace GlucoMan
     /// <summary>
     /// Safe read of a database field to a string, managing nulls without stopping
     /// </summary>
-    internal static class SafeRead
+    internal static class Safe
     {
         internal static int? Int(object Value)
         {

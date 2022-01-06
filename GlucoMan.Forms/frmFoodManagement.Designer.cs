@@ -54,7 +54,7 @@ namespace GlucoMan.Forms
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmFoodManagement";
-            this.Text = "frmFood";
+            this.Text = "Food management";
             this.Load += new System.EventHandler(this.frmFoodManagement_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridFoods)).EndInit();
             this.ResumeLayout(false);

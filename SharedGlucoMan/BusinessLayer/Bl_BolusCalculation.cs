@@ -149,14 +149,6 @@ namespace GlucoMan.BusinessLayer
                 iterationsCount++; 
             } while (Math.Abs((int)bolusCurrent - (int)targetBolus) > 0.01 && iterationsCount < 20); 
         }
-        internal void SaveInsulinParameters()
-        {
-            dl.SaveInsulinParameters(this);
-        }
-        internal void RestoreInsulinParameters()
-        {
-            dl.RestoreInsulinParameters(this);
-        }
         internal void SaveBolusData()
         {
             try

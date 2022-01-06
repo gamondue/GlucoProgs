@@ -1,4 +1,5 @@
 ﻿using SharedData;
+using SharedGlucoMan.BusinessLayer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +24,7 @@ namespace GlucoMan
                 @"GlucoMan_Data.txt");
 
             Common.Database = new DL_Sqlite();
-
+            Common.Bl = new BL_General(); 
             Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         internal static TypeOfMeal SelectMealBasedOnTimeNow()

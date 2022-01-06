@@ -61,7 +61,7 @@ namespace GlucoMan.Mobile
             //hypo.PredictedHour.Text = txtPredictedHour.Text;
             //hypo.PredictedMinute.Text = txtPredictedMinute.Text;
             
-            hypo.AlarmAdvanceTime = new TimeSpan(0,(int)SafeRead.Int(txtAlarmAdvanceTime.Text), 0);
+            hypo.AlarmAdvanceTime = new TimeSpan(0,(int)Safe.Int(txtAlarmAdvanceTime.Text), 0);
             //hypo.AlarmHour.Text = txtAlarmHour.Text;
             //hypo.AlarmMinute.Text = txtAlarmMinute.Text;
 

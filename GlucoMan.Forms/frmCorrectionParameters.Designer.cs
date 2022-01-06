@@ -42,10 +42,10 @@ namespace GlucoMan.Forms
             this.cmbSensitivityFactor = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.txtInsulinSensitivity = new System.Windows.Forms.TextBox();
+            this.txtInsulinCorrectionSensitivity = new System.Windows.Forms.TextBox();
             this.btnInsulinSensitivityCalculation = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtTdd = new System.Windows.Forms.TextBox();
+            this.txtTotalDailyDoseOfInsulin = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.txtChoInsulinRatioDinner = new System.Windows.Forms.TextBox();
             this.txtChoInsulinRatioLunch = new System.Windows.Forms.TextBox();
@@ -198,17 +198,17 @@ namespace GlucoMan.Forms
             this.label7.TabIndex = 108;
             this.label7.Text = "Sensitivity to insulin";
             // 
-            // txtInsulinSensitivity
+            // txtInsulinCorrectionSensitivity
             // 
-            this.txtInsulinSensitivity.BackColor = System.Drawing.Color.PaleGoldenrod;
-            this.txtInsulinSensitivity.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtInsulinSensitivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtInsulinSensitivity.Location = new System.Drawing.Point(204, 159);
-            this.txtInsulinSensitivity.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtInsulinSensitivity.Name = "txtInsulinSensitivity";
-            this.txtInsulinSensitivity.Size = new System.Drawing.Size(68, 26);
-            this.txtInsulinSensitivity.TabIndex = 107;
-            this.txtInsulinSensitivity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtInsulinCorrectionSensitivity.BackColor = System.Drawing.Color.PaleGoldenrod;
+            this.txtInsulinCorrectionSensitivity.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtInsulinCorrectionSensitivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtInsulinCorrectionSensitivity.Location = new System.Drawing.Point(204, 159);
+            this.txtInsulinCorrectionSensitivity.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtInsulinCorrectionSensitivity.Name = "txtInsulinCorrectionSensitivity";
+            this.txtInsulinCorrectionSensitivity.Size = new System.Drawing.Size(68, 26);
+            this.txtInsulinCorrectionSensitivity.TabIndex = 107;
+            this.txtInsulinCorrectionSensitivity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnInsulinSensitivityCalculation
             // 
@@ -230,19 +230,20 @@ namespace GlucoMan.Forms
             this.label6.TabIndex = 118;
             this.label6.Text = "TDD";
             // 
-            // txtTdd
+            // txtTotalDailyDoseOfInsulin
             // 
-            this.txtTdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtTdd.Location = new System.Drawing.Point(392, 78);
-            this.txtTdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtTdd.Name = "txtTdd";
-            this.txtTdd.ReadOnly = true;
-            this.txtTdd.Size = new System.Drawing.Size(68, 26);
-            this.txtTdd.TabIndex = 117;
-            this.txtTdd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTotalDailyDoseOfInsulin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtTotalDailyDoseOfInsulin.Location = new System.Drawing.Point(392, 78);
+            this.txtTotalDailyDoseOfInsulin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtTotalDailyDoseOfInsulin.Name = "txtTotalDailyDoseOfInsulin";
+            this.txtTotalDailyDoseOfInsulin.ReadOnly = true;
+            this.txtTotalDailyDoseOfInsulin.Size = new System.Drawing.Size(68, 26);
+            this.txtTotalDailyDoseOfInsulin.TabIndex = 117;
+            this.txtTotalDailyDoseOfInsulin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(392, 128);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 33);
@@ -343,10 +344,10 @@ namespace GlucoMan.Forms
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.groupBox4);
-            this.groupBox3.Controls.Add(this.txtInsulinSensitivity);
+            this.groupBox3.Controls.Add(this.txtInsulinCorrectionSensitivity);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.txtTdd);
+            this.groupBox3.Controls.Add(this.txtTotalDailyDoseOfInsulin);
             this.groupBox3.Controls.Add(this.cmbSensitivityFactor);
             this.groupBox3.Controls.Add(this.btnInsulinSensitivityCalculation);
             this.groupBox3.Controls.Add(this.label7);
@@ -394,10 +395,10 @@ namespace GlucoMan.Forms
         private ComboBox cmbSensitivityFactor;
         private Label label9;
         private Label label7;
-        private TextBox txtInsulinSensitivity;
+        private TextBox txtInsulinCorrectionSensitivity;
         private Button btnInsulinSensitivityCalculation;
         private Label label6;
-        private TextBox txtTdd;
+        private TextBox txtTotalDailyDoseOfInsulin;
         private Button button1;
         private TextBox txtChoInsulinRatioDinner;
         private TextBox txtChoInsulinRatioLunch;

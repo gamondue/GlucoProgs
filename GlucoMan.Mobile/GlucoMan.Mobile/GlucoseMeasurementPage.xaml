@@ -24,10 +24,11 @@
             <Label Grid.Row="0" Grid.Column="2" Text="Time" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="0" Grid.Column="3" Text="Id" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucose" Text="" FontSize="Large"
-                    HorizontalTextAlignment="End" BackgroundColor="Lime"
-                   IsEnabled="true"/>
-            <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate" BackgroundColor="PaleGreen" Format="yyyy-MM-dd HH:mm:ss"/>
-            <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpEventTime" BackgroundColor="PaleGreen" Format="HH:mm:ss"/>
+                    HorizontalTextAlignment="End" BackgroundColor="Lime" IsEnabled="true"/>
+            <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate" BackgroundColor="PaleGreen"
+                        FontSize="Small" Format="yyyy-MM-dd HH:mm:ss" HorizontalOptions="Center"/>
+            <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpEventTime" BackgroundColor="PaleGreen"
+                        FontSize="Small" Format="HH:mm:ss" HorizontalOptions="Center"/>
             <Label Grid.Row="1" Grid.Column="3" x:Name="txtIdGlucoseRecord" Text="" XAlign="Center" YAlign="Center"/>
             <!-- check box with associated label into a StackLayout -->
             <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">

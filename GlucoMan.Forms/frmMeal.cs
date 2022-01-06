@@ -26,9 +26,7 @@ namespace GlucoMan.Forms
         }
         private void btnAddFood_Click(object sender, EventArgs e)
         {
-            Food f = new Food(); 
-            frmFood fd = new frmFood(f);
-            fd.Show(); 
+
         }
         private void FromClassToUi()
         {
@@ -63,6 +61,29 @@ namespace GlucoMan.Forms
                     rdbIsSnack.Checked = true;
                     break;
             }
+        }
+        private void btnFoodDetail_Click(object sender, EventArgs e)
+        {
+            Food f = new Food();
+            frmFood fd = new frmFood(f);
+            fd.Show();
+        }
+
+        private void btnInsulin_Click(object sender, EventArgs e)
+        {
+            frmMealInsulinCalc f = new frmMealInsulinCalc();
+            f.Show();
+        }
+
+        private void btnGlucose_Click(object sender, EventArgs e)
+        {
+            frmGlucose frm = new frmGlucose();
+            frm.Show();
+        }
+
+        private void btnBolus_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

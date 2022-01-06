@@ -80,7 +80,7 @@ namespace GlucoMan.Mobile
         }
         private void FromUiToClass()
         {
-            double? glucose = SafeRead.Double(txtGlucose.Text);
+            double? glucose = Safe.Double(txtGlucose.Text);
             if (glucose == null)
             {
                 txtGlucose.Text = "";
@@ -88,7 +88,7 @@ namespace GlucoMan.Mobile
                 return;
             }
             currentGlucose = new GlucoseRecord();
-            currentGlucose.IdGlucoseRecord = SafeRead.Int(txtIdGlucoseRecord.Text);
+            currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
             currentGlucose.GlucoseValue = glucose;
             DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
                 dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds); 
@@ -97,7 +97,7 @@ namespace GlucoMan.Mobile
         private void FromClassToUi()
         {
             txtGlucose.Text = currentGlucose.GlucoseValue.ToString();  
-            dtpEventDate.Date = (DateTime)SafeRead.DateTime(currentGlucose.Timestamp);
+            dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
             dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;
             txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
         }

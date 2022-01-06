@@ -19,10 +19,6 @@ namespace GlucoMan.BusinessLayer
         {
             //FoodToHitTarget.Format = "0"; 
         }
-        internal void RestoreData()
-        {
-            dl.RestoreFoodToHitTargetCarbs(this);
-        }
         internal void SaveData()
         {
             try
@@ -33,6 +29,10 @@ namespace GlucoMan.BusinessLayer
             {
                 Common.LogOfProgram.Error("BL_FoodToHitTargetCarbs | SaveData", ex);
             }
+        }
+        internal void RestoreData()
+        {
+            dl.RestoreFoodToHitTargetCarbs(this);
         }
         internal void Calculations()
         {

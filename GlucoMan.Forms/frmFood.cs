@@ -7,7 +7,6 @@ namespace GlucoMan.Forms
     public partial class frmFood : Form
     {
         private Food thisFood = null;
-        //////////BusinessLayer bl = new BusinessLayer(); 
 
         internal frmFood(Food Food)
         {
@@ -29,10 +28,10 @@ namespace GlucoMan.Forms
 
         private void FromClassToUi()
         {
-            txtIdFood.Text = thisFood.IdFood.Text;
+            txtIdFood.Text = thisFood.IdFood.ToString();
 
             txtFoodCarbohydrates.Text = thisFood.Carbohydrates.Text;
-            txtCalories.Text = thisFood.kCalories.Text;
+            txtCalories.Text = thisFood.Energy.Text;
             txtFibers.Text = thisFood.Fibers.Text;
             txtName.Text = thisFood.Name;
             txtSalt.Text = thisFood.Salt.Text;
@@ -43,10 +42,10 @@ namespace GlucoMan.Forms
         }
         private void FromUiToClass()
         {
-            thisFood.IdFood.Text = txtIdFood.Text;
+            thisFood.IdFood = int.Parse(txtIdFood.Text);
 
             thisFood.Carbohydrates.Text = txtFoodCarbohydrates.Text;
-            thisFood.kCalories.Text = txtCalories.Text;
+            thisFood.Energy.Text = txtCalories.Text;
             thisFood.Fibers.Text = txtFibers.Text;
             thisFood.Name = txtName.Text;
             thisFood.Salt.Text = txtSalt.Text;

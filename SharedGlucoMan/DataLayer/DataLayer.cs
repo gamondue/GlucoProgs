@@ -36,5 +36,17 @@ namespace GlucoMan
         internal abstract void SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
         internal abstract void SaveWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood);
         internal abstract int FindNextIndex(List<GlucoseRecord> List);
+        /// <summary>
+        /// Saves the values of the parameters, passed as strings, in the fields whose name is passed
+        /// Saving on a table with possibly a single row, whose name is managed by the implementation 
+        /// Passing an optional key will save in the passed row. 
+        /// If no key il passed the row with maximum key will be used 
+        /// The method must take care of the types of the fields 
+        /// </summary>
+        /// <param name="Paramaters"></param>
+        /// <param name="Key"></param>
+        internal abstract int? SaveParameter(string FieldName, string FieldValue, int? Key = null); 
+        internal abstract string RestoreParameter(string FieldName, int? Key = null); 
+        internal abstract void PurgeDatabase(); 
     }
 }

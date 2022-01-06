@@ -15,23 +15,23 @@ namespace GlucoMan
                 FreeStyleLibreRecord grec = new FreeStyleLibreRecord();
                 grec.DeviceType = inputContent[i][0];
                 grec.IdDevice = inputContent[i][1];
-                grec.Timestamp = SafeRead.DateTime(inputContent[i][2]);
-                grec.TypeOfDocument = SafeRead.Int(inputContent[i][3]);
-                grec.GlucoseHistoricValue = SafeRead.Double(inputContent[i][4]);
-                grec.GlucoseScanValue = SafeRead.Double(inputContent[i][5]);
+                grec.Timestamp = Safe.DateTime(inputContent[i][2]);
+                grec.TypeOfDocument = Safe.Int(inputContent[i][3]);
+                grec.GlucoseHistoricValue = Safe.Double(inputContent[i][4]);
+                grec.GlucoseScanValue = Safe.Double(inputContent[i][5]);
                 grec.InsulinRapidActionString = inputContent[i][6];
-                grec.InsulinRapidActionValue = SafeRead.Double(inputContent[i][7]);
+                grec.InsulinRapidActionValue = Safe.Double(inputContent[i][7]);
                 grec.MealFoodString = inputContent[i][8];
-                grec.CarbohydratesValue_grams = SafeRead.Double(inputContent[i][9]);
+                grec.CarbohydratesValue_grams = Safe.Double(inputContent[i][9]);
                 grec.CarbohydratesString = inputContent[i][10];
                 grec.InsulinSlowActionString = inputContent[i][11];
-                grec.InsulinSlowActionValue = SafeRead.Double(inputContent[i][12]);
+                grec.InsulinSlowActionValue = Safe.Double(inputContent[i][12]);
                 grec.Notes = inputContent[i][13];
-                grec.GlucoseStripValue_mg_dL = SafeRead.Double(inputContent[i][14]);
-                grec.Chetons_mmol_L = SafeRead.Double(inputContent[i][15]);
-                grec.MealInsulin = SafeRead.Double(inputContent[i][16]);
-                grec.InsulinCorrection = SafeRead.Double(inputContent[i][17]);
-                grec.InsulinWithUsersModifications = SafeRead.Double(inputContent[i][18]);
+                grec.GlucoseStripValue_mg_dL = Safe.Double(inputContent[i][14]);
+                grec.Chetons_mmol_L = Safe.Double(inputContent[i][15]);
+                grec.MealInsulin = Safe.Double(inputContent[i][16]);
+                grec.InsulinCorrection = Safe.Double(inputContent[i][17]);
+                grec.InsulinWithUsersModifications = Safe.Double(inputContent[i][18]);
 
                 listFreeStyle.Add(grec);
             }

@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_BolusCalculation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_FoodToHitTargetCarbs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_General.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_MealAndFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_GlucoseMeasurements.cs" />
@@ -24,7 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Meal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Food.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\GlucoseRecord.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\SafeRead.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Safe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\WeighData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DataLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_SqlStringsGeneration.cs" />
@@ -42,6 +44,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_GlucoseMeasurements.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_GrossTareAndNetWeight.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_HypoPrediction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\Sqlite_SqlToCreateDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_WeighFood.cs" />
   </ItemGroup>
   <ItemGroup>

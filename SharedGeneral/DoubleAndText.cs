@@ -15,7 +15,6 @@ namespace GlucoMan
             doubleVal = null;
             text = "NaN"; 
         }
-
         public string Format { get; set; }
         public double? Double
         {

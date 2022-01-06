@@ -1,6 +1,7 @@
 ﻿using GlucoMan.BusinessLayer;
 using SharedData;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
 
@@ -8,6 +9,7 @@ namespace GlucoMan
 {
     internal partial class DL_Sqlite : DataLayer
     {
+        // !!!! TODO erase thid function 
         internal override void SaveBolusCalculations(BL_BolusCalculation Bolus)
         {
             try {
@@ -30,6 +32,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
+        // !!!! TODO erase thid function 
         internal override void RestoreBolusCalculations(BL_BolusCalculation Bolus)
         {
             try
@@ -44,9 +47,9 @@ namespace GlucoMan
                     dRead = cmd.ExecuteReader();
                     while (dRead.Read())
                     {
-                        Bolus.GlucoseBeforeMeal.Double = SafeRead.Double(dRead["GlucoseBeforeMeal"]);
-                        Bolus.TargetGlucose.Double = SafeRead.Double(dRead["TargetGlucose"]);
-                        Bolus.ChoToEat.Double = SafeRead.Double(dRead["ChoToEat"]);
+                        Bolus.GlucoseBeforeMeal.Double = Safe.Double(dRead["GlucoseBeforeMeal"]);
+                        Bolus.TargetGlucose.Double = Safe.Double(dRead["TargetGlucose"]);
+                        Bolus.ChoToEat.Double = Safe.Double(dRead["ChoToEat"]);
                     }
                 }
             }
@@ -55,6 +58,8 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
+
+        // !!!! TODO erase thid function 
         internal override void SaveInsulinParameters(BL_BolusCalculation Bolus)
         {
             try
@@ -87,6 +92,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_BolusCalculation | SaveInsulinParameters", ex);
             }
         }
+        // !!!! TODO erase thid function 
         internal override void RestoreInsulinParameters(BL_BolusCalculation Bolus)
         {
             try
@@ -104,16 +110,16 @@ namespace GlucoMan
                     dRead = cmd.ExecuteReader();
                     while (dRead.Read())
                     {
-                        Bolus.ChoInsulinRatioBreakfast.Double = SafeRead.Double(dRead["ChoInsulinRatioBreakfast"]);
-                        Bolus.ChoInsulinRatioLunch.Double = SafeRead.Double(dRead["ChoInsulinRatioLunch"]);
-                        Bolus.ChoInsulinRatioDinner.Double = SafeRead.Double(dRead["ChoInsulinRatioDinner"]);
-                        Bolus.TypicalBolusMorning.Double = SafeRead.Double(dRead["TypicalBolusMorning"]);
-                        Bolus.TypicalBolusMidday.Double = SafeRead.Double(dRead["TypicalBolusMidday"]);
-                        Bolus.TypicalBolusEvening.Double = SafeRead.Double(dRead["TypicalBolusEvening"]);
-                        Bolus.TypicalBolusNight.Double = SafeRead.Double(dRead["TypicalBolusNight"]);
-                        Bolus.TotalDailyDoseOfInsulin.Double = SafeRead.Double(dRead["TotalDailyDoseOfInsulin"]);
-                        Bolus.FactorOfInsulinCorrectionSensitivity.Double = SafeRead.Double(dRead["FactorOfInsulinCorrectionSensitivity"]);
-                        Bolus.InsulinCorrectionSensitivity.Double = SafeRead.Double(dRead["InsulinCorrectionSensitivity"]);
+                        Bolus.ChoInsulinRatioBreakfast.Double = Safe.Double(dRead["ChoInsulinRatioBreakfast"]);
+                        Bolus.ChoInsulinRatioLunch.Double = Safe.Double(dRead["ChoInsulinRatioLunch"]);
+                        Bolus.ChoInsulinRatioDinner.Double = Safe.Double(dRead["ChoInsulinRatioDinner"]);
+                        Bolus.TypicalBolusMorning.Double = Safe.Double(dRead["TypicalBolusMorning"]);
+                        Bolus.TypicalBolusMidday.Double = Safe.Double(dRead["TypicalBolusMidday"]);
+                        Bolus.TypicalBolusEvening.Double = Safe.Double(dRead["TypicalBolusEvening"]);
+                        Bolus.TypicalBolusNight.Double = Safe.Double(dRead["TypicalBolusNight"]);
+                        Bolus.TotalDailyDoseOfInsulin.Double = Safe.Double(dRead["TotalDailyDoseOfInsulin"]);
+                        Bolus.FactorOfInsulinCorrectionSensitivity.Double = Safe.Double(dRead["FactorOfInsulinCorrectionSensitivity"]);
+                        Bolus.InsulinCorrectionSensitivity.Double = Safe.Double(dRead["InsulinCorrectionSensitivity"]);
                     }
                 }
             }

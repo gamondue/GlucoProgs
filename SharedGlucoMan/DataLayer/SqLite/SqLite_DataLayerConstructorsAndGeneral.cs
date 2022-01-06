@@ -31,44 +31,6 @@ namespace GlucoMan
                 CreateNewDatabase(dbName);
             }
         }
-        private void CreateNewDatabase(string dbName)
-        {
-            // when the file does not exist 
-            // Microsoft.Data.Sqlite creates the file at first connection
-            Connect();
-
-            try
-            {
-                using (DbConnection conn = Connect())
-                {
-                    DbCommand cmd = conn.CreateCommand();
-                    string query = @"CREATE TABLE Parameters (" +
-                    "IdParameters INTEGER NOT NULL," +
-                    "TargetGlucose INTEGER," +
-                    "GlucoseBeforeMeal INTEGER," +
-                    "ChoToEat INTEGER," +
-                    "ChoInsulinRatioBreakfast DOUBLE," +
-                    "ChoInsulinRatioLunch DOUBLE," +
-                    "ChoInsulinRatioDinner DOUBLE," +
-                    "TypicalBolusMorning DOUBLE," +
-                    "TypicalBolusMidday DOUBLE," +
-                    "TypicalBolusEvening DOUBLE," +
-                    "TypicalBolusNight DOUBLE," +
-                    "TotalDailyDoseOfInsulin DOUBLE," +
-                    "FactorOfInsulinCorrectionSensitivity DOUBLE," +
-                    "InsulinCorrectionSensitivity DOUBLE," +
-                    "PRIMARY KEY(IdParameters AUTOINCREMENT)" +
-                    ");";
-                    cmd.CommandText = query;
-                    cmd.ExecuteNonQuery();
-                    cmd.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                Common.LogOfProgram.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
-            }
-        }
         /// <summary>
         /// Constructor of DataLayer class that get from outside the databases to use
         /// Assumes that the file exists.
@@ -258,7 +220,7 @@ namespace GlucoMan
                         for (int i = 0; i < dRead.FieldCount; i++)
                         {
                             fileContent += "\"" + dRead.GetName(i) + "\"\t";
-                            types += "\"" + SafeRead.String(dRead.GetDataTypeName(i)) + "\"\t";
+                            types += "\"" + Safe.String(dRead.GetDataTypeName(i)) + "\"\t";
                         }
                         fileContent = fileContent.Substring(0, fileContent.Length - 1) + "\r\n";
                         fileContent += types.Substring(0, types.Length - 1) + "\r\n";
@@ -270,7 +232,7 @@ namespace GlucoMan
                         Console.Write(dRead.GetValue(0));
                         for (int i = 0; i < dRead.FieldCount; i++)
                         {
-                            values += "\"" + SafeRead.String(dRead.GetValue(i).ToString()) + "\"\t";
+                            values += "\"" + Safe.String(dRead.GetValue(i).ToString()) + "\"\t";
                         }
                         fileContent += values.Substring(0, values.Length - 1) + "\r\n";
                     }
@@ -475,7 +437,7 @@ namespace GlucoMan
                                 };
                             case TypeCode.DateTime:
                                 {
-                                    DateTime? d = SafeRead.DateTime(row[c.ColumnName]);
+                                    DateTime? d = Safe.DateTime(row[c.ColumnName]);
                                     cmd.CommandText += "'" +
                                         ((DateTime)(d)).ToString("yyyy-MM-dd_HH.mm.ss") + "',";
                                     break;
@@ -501,223 +463,157 @@ namespace GlucoMan
                 cmd.Dispose();
             }
         }
-        internal void CreateDemoDatabase(string newDatabaseFullName)
+        //integrate the following three in Business layer, the test them 
+        internal override void PurgeDatabase()
         {
-            //    DbCommand cmd;
+            File.Delete(dbName);
+        }
+        internal override int? SaveParameter(string FieldName, string FieldValue, int? Key = null)
+        {
+            int? idOfRecord = null;
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    // read table Parameters, to see if it has rows
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "SELECT COUNT(*) FROM Parameters";
+                    cmd.CommandText = query;
+                    long count = (long)cmd.ExecuteScalar();
 
-            //    File.Copy(Common.PathAndFileDatabase, newDatabaseFullName);
+                    string whereClause = "";
+                    double dummy;
+                    if (FieldValue != null)
+                    {
+                        if (count == 0)
+                        {
+                            // make a new first row with IdParameters = 1
+                            query = "INSERT INTO Parameters (IdParameters,";
+                            query += FieldName;
+                            query += ")VALUES(1,";
+                            if (double.TryParse(FieldValue, out dummy))
+                            {
+                                query += SqlDouble(dummy);
+                            }
+                            else
+                            {
+                                query += FieldValue;
+                            }
+                            query += ");";
+                            idOfRecord = 1;
+                        }
+                        // count > 0 
+                        else
+                        {
+                            if (Key == null || Key == 0)
+                            {
+                                // no key given: we update the highest key already given 
+                                cmd.CommandText = "SELECT MAX(IdParameters) FROM Parameters;";
+                                int? maxKey = (int?)cmd.ExecuteScalar();
+                                whereClause = " WHERE IdParameters=" + maxKey;
+                                query = "UPDATE Parameters SET ";
+                                if (double.TryParse(FieldValue, out dummy))
+                                {
+                                    query += FieldName + "=" + SqlDouble(dummy);
+                                }
+                                else
+                                {
+                                    query += FieldName + "=" + FieldValue;
+                                }
+                                idOfRecord = maxKey; 
+                            }
+                            else
+                            {   // user provided a key, if the key already has a row we must use that 
+                                // we see if we already have a row with this id 
+                                cmd.CommandText = "SELECT IdParameters FROM Parameters;";
+                                int? index = (int?)cmd.ExecuteScalar();
+                                if (index == Key) // if the index il already given 
+                                {
+                                    // updating existing row
+                                    query = "UPDATE Parameters SET ";
+                                    if (double.TryParse(FieldValue, out dummy))
+                                    {
+                                        query += FieldName + "=" + SqlDouble(dummy);
+                                    }
+                                    else
+                                    {
+                                        query += FieldName + "=" + FieldValue;
+                                    }
+                                    whereClause = " WHERE IdParameters=" + Key;
 
-            //    // local instance of a DataLayer to operate on a second database 
-            //    DataLayer newDatabaseDl = new DataLayer(newDatabaseFullName);
+                                    idOfRecord = Key; 
+                                }
+                                else
+                                {
+                                    // making a new row with increased key
+                                    query = "INSERT INTO Parameters (IdParameters,";
+                                    query += FieldName;
+                                    query += ")VALUES(1,";
+                                    if (double.TryParse(FieldValue, out dummy))
+                                    {
+                                        query += SqlDouble(dummy);
+                                    }
+                                    else
+                                    {
+                                        query += FieldValue;
+                                    }
+                                    query += ");";
+                                    whereClause = " WHERE IdParameters=" + Key++;
+                                    idOfRecord = Key;
+                                }
+                                idOfRecord = null;
+                            }
+                            query += whereClause + ";";
+                        }
+                        cmd.ExecuteNonQuery();
+                        cmd.Dispose();
+                    }
+                    return idOfRecord;
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | RestoreParameters", ex);
+                return null;
+            }
+        }
+        internal override string RestoreParameter(string FieldName, int? Key = null)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    // read table Parameters, to see if it has rows
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "SELECT ";
+                    query += FieldName;
+                    query += " FROM Parameters";
 
-            //    // erase all the data of the students of other classes
-            //    using (DbConnection conn = newDatabaseDl.Connect()) // connect to the new database, just copied
-            //    {
-            //        cmd = conn.CreateCommand();
-
-            //        // erase all the other classes
-            //        cmd.CommandText = "DELETE FROM Classes" +
-            //        " WHERE idClass<>" + Class1.IdClass +
-            //        " AND idClass<>" + Class2.IdClass + ";";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the lessons of other classes
-            //        cmd.CommandText = "DELETE FROM Lessons" +
-            //            " WHERE idClass<>" + Class1.IdClass +
-            //            " AND idClass<>" + Class2.IdClass + ";";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the students of other classes from the link table
-            //        cmd.CommandText = "DELETE FROM Classes_Students" +
-            //         " WHERE idClass<>" + Class1.IdClass +
-            //         " AND idClass<>" + Class2.IdClass + ";";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the students of other classes 
-            //        cmd.CommandText = "DELETE FROM Students" +
-            //            " WHERE idStudent NOT IN" +
-            //            " (SELECT idStudent FROM Classes_Students" +
-            //            " WHERE idClass<>" + Class1.IdClass +
-            //            " OR idClass<>" + Class2.IdClass +
-            //            ");";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the annotation, of all classes
-            //        cmd.CommandText = "DELETE FROM StudentsAnnotations" +
-            //            ";";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the StartLinks of other classes
-            //        cmd.CommandText = "DELETE FROM Classes_StartLinks" +
-            //            " WHERE idClass<>" + Class1.IdClass +
-            //            " AND idClass<>" + Class2.IdClass +
-            //            ";";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the grades of other classes' students
-            //        cmd.CommandText = "DELETE FROM Grades" +
-            //            " WHERE idStudent NOT IN" +
-            //            " (SELECT idStudent FROM Classes_Students" +
-            //            " WHERE idClass<>" + Class1.IdClass +
-            //            " OR idClass<>" + Class2.IdClass +
-            //            ");";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the links to photos of other classes' students
-            //        cmd.CommandText = "DELETE FROM StudentsPhotos_Students" +
-            //            " WHERE idStudent NOT IN" +
-            //            " (SELECT idStudent FROM Classes_Students" +
-            //            " WHERE idClass<>" + Class1.IdClass +
-            //            " OR idClass<>" + Class2.IdClass +
-            //            ");";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the photos of other classes' students
-            //        cmd.CommandText = "DELETE FROM StudentsPhotos WHERE StudentsPhotos.idStudentsPhoto NOT IN" +
-            //            "(SELECT StudentsPhotos_Students.idStudentsPhoto" +
-            //            " FROM StudentsPhotos, StudentsPhotos_Students, Classes_Students" +
-            //            " WHERE StudentsPhotos_Students.idStudent = Classes_Students.idStudent" +
-            //            " AND StudentsPhotos.idStudentsPhoto = StudentsPhotos_Students.idStudentsPhoto" +
-            //            " AND (Classes_Students.idClass=" + Class1.IdClass +
-            //            " OR Classes_Students.idClass=" + Class2.IdClass + ")" +
-            //            ");";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the images of other classes
-            //        cmd.CommandText = "DELETE FROM Images WHERE Images.idImage NOT IN" +
-            //            "(SELECT DISTINCT Lessons_Images.idImage" +
-            //            " FROM Images, Lessons_Images, Lessons" +
-            //            " WHERE Lessons_Images.idImage = Images.idImage" +
-            //            " AND Lessons_Images.idLesson = Lessons.idLesson" +
-            //            " AND (Lessons.idClass=" + Class1.IdClass +
-            //            " OR Lessons.idClass=" + Class2.IdClass + ")" +
-            //            ");";
-            //        cmd.ExecuteNonQuery();
-
-            //        //erase all links to the images of other classes
-            //        cmd.CommandText = "DELETE FROM Lessons_Images WHERE Lessons_Images.idImage NOT IN" +
-            //            "(SELECT DISTINCT Lessons_Images.idImage" +
-            //            " FROM Images, Lessons_Images, Lessons" +
-            //            " WHERE Lessons_Images.idImage = Images.idImage" +
-            //            " AND Lessons_Images.idLesson = Lessons.idLesson" +
-            //            " AND (Lessons.idClass=" + Class1.IdClass +
-            //            " OR Lessons.idClass=" + Class2.IdClass + ")" +
-            //            ");";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the questions of the students of the other classes
-            //        // !! StudentsQuestions currently not used !!
-            //        cmd.CommandText = "DELETE FROM StudentsQuestions" +
-            //            " WHERE idStudent NOT IN" +
-            //            " (SELECT DISTINCT idStudent FROM Classes_Students" +
-            //            " WHERE idClass=" + Class1.IdClass +
-            //            " OR idClass=" + Class2.IdClass +
-            //            ");";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the answers  of the students of the other classes
-            //        // !! StudentsAnswers currently not used !!
-            //        cmd.CommandText = "DELETE FROM StudentsAnswers" +
-            //        " WHERE idStudent NOT IN" +
-            //        " (SELECT idStudent FROM Classes_Students" +
-            //            " WHERE idClass=" + Class1.IdClass +
-            //            " OR idClass=" + Class2.IdClass + ");";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the tests of students of the other classes
-            //        // !! StudentsTests currently not used !!
-            //        cmd.CommandText = "DELETE FROM StudentsTests" +
-            //        " WHERE idStudent NOT IN" +
-            //        " (SELECT idStudent FROM Classes_Students" +
-            //        " WHERE idClass=" + Class1.IdClass +
-            //            " OR idClass=" + Class2.IdClass +
-            //        ");";
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the topics of other classes' lessons
-            //        cmd.CommandText = "DELETE FROM Lessons_Topics" +
-            //            " WHERE idLesson NOT IN" +
-            //            " (SELECT idLesson from Lessons" +
-            //            " WHERE idClass=" + Class1.IdClass +
-            //            " OR idClass=" + Class2.IdClass +
-            //            ");";
-            //        cmd.ExecuteNonQuery();
-
-            //        // change the data of the classes
-            //        Class1.Abbreviation = "DEMO1";
-            //        Class1.Description = "SchoolGrades demo class 1";
-            //        // Class1.IdSchool = ""; // left the existing code 
-            //        Class1.PathRestrictedApplication = Common.PathExe + "\\demo1";
-            //        // Class1.SchoolYear = // !!!! shift the data to the destination school year, to be done when year's shifting will be managed!!!!
-            //        Class1.IdSchool = Common.IdSchool;
-            //        Class1.UriWebApp = ""; // ???? decide what to put here ????
-
-            //        // SaveClass Class1;
-            //        string query = "UPDATE Classes" +
-            //            " SET" +
-            //            " idClass=" + Class1.IdClass + "" +
-            //            ",idSchoolYear=" + SqlString(Class1.SchoolYear) + "" +
-            //            ",idSchool=" + SqlString(Class1.IdSchool) + "" +
-            //            ",abbreviation=" + SqlString(Class1.Abbreviation) + "" +
-            //            ",desc=" + SqlString(Class1.Description) + "" +
-            //            ",uriWebApp=" + Class1.UriWebApp + "" +
-            //            ",pathRestrictedApplication=" + SqlString(Class1.PathRestrictedApplication) + "" +
-            //            " WHERE idClass=" + Class1.IdClass +
-            //            ";";
-            //        cmd.CommandText = query;
-            //        cmd.ExecuteNonQuery();
-
-            //        Class2.Abbreviation = "DEMO2";
-            //        Class2.Description = "SchoolGrades demo class 2";
-            //        Class2.PathRestrictedApplication = Common.PathExe + "\\demo2";
-            //        // Class2.SchoolYear = !!!! shift the data to the destination school year !!!!
-            //        Class2.IdSchool = Common.IdSchool;
-            //        Class2.UriWebApp = ""; // ???? decide what to put here ????
-            //        // SaveClass Class2;
-            //        query = "UPDATE Classes" +
-            //            " SET" +
-            //            " idClass=" + Class2.IdClass + "" +
-            //            ",idSchoolYear=" + SqlString(Class2.SchoolYear) + "" +
-            //            ",idSchool=" + SqlString(Class2.IdSchool) + "" +
-            //            ",abbreviation=" + SqlString(Class2.Abbreviation) + "" +
-            //            ",desc=" + SqlString(Class2.Description) + "" +
-            //            ",uriWebApp=" + Class2.UriWebApp + "" +
-            //            ",pathRestrictedApplication=" + SqlString(Class2.PathRestrictedApplication) + "" +
-            //            " WHERE idClass=" + Class2.IdClass +
-            //            ";";
-            //        cmd.CommandText = query;
-            //        cmd.ExecuteNonQuery();
-
-            //        // erase all the users
-            //        cmd = conn.CreateCommand();
-            //        cmd.CommandText = "DELETE FROM Users" +
-            //            ";";
-            //        cmd.ExecuteNonQuery();
-
-            //        // rename every student left in the database according to the names found in the pictures' filenames
-            //        RenameStudentsNamesFromPictures(Class1, conn);
-            //        RenameStudentsNamesFromPictures(Class2, conn);
-
-            //        // change the paths of the images 
-            //        ChangeImagesPath(Class1, conn);
-            //        ChangeImagesPath(Class2, conn);
-
-            //        // randomly change all grades 
-            //        RandomizeGrades(conn);
-
-            //        // change the lesson dates to this school year (when we implement year shift!) 
-            //        // !!!! TODO !!!!
-
-            //        // change the school year in StudentsPhotos_Students (when we implement year shift!) 
-            //        // !!!! TODO !!!!
-
-            //        // compact the database 
-            //        cmd.CommandText = "VACUUM;";
-            //        cmd.ExecuteNonQuery();
-
-            //        cmd.Dispose();
-            //    }
-            //    return newDatabaseFullName;
+                    string whereClause;
+                    if (Key == null)
+                    {
+                        // no key: we use the highest key
+                        cmd.CommandText = "SELECT MAX(IdParameters) FROM Parameters;";
+                        int? maxKey = Safe.Int(cmd.ExecuteScalar());
+                        whereClause = " WHERE IdParameters=" + maxKey;
+                    }
+                    else
+                    {
+                        // the user passed a key; we use that
+                        whereClause = " WHERE IdParameters=" + Key;
+                    }
+                    query += whereClause + ";";
+                    cmd.CommandText = query;
+                    string result = Safe.String(cmd.ExecuteScalar());
+                    cmd.Dispose();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | RestoreParameters", ex);
+                return null;
+            }
         }
     }
 }
