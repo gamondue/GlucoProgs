@@ -3,6 +3,7 @@ using GlucoMan;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -28,7 +29,7 @@ namespace GlucoMan.BusinessLayer
         }
         internal List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
         {
-            return dl.GetFirstTwoGlucoseMeasurements(); 
+            return dl.GetLastTwoGlucoseMeasurements(); 
         }
         internal void SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
         {

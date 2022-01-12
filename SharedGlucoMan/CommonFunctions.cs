@@ -41,5 +41,13 @@ namespace GlucoMan
                 type = TypeOfMeal.Snack;
             return type;
         }
+        internal static double mgPerdL_To_mmolPerL(double BloodGlucose_mgPerdL)
+        {
+            return BloodGlucose_mgPerdL / 18; 
+        }
+        internal static double mmolPerL_To_mgPerdL(double BloodGlucose_mmolPerL)
+        {
+            return 18 * BloodGlucose_mmolPerL;
+        }
     }
 }

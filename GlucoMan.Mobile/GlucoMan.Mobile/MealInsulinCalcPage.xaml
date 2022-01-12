@@ -31,11 +31,11 @@
             <Label Grid.Row="1" Grid.Column="1" Text="Lunch" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="Dinner" XAlign="Center" YAlign="End"/>
             
-            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" 
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" IsReadOnly="True"
                    Placeholder="break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
-            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" 
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" IsReadOnly="True"
                    Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
-            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" 
+            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" IsReadOnly="True"
                    Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
             <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calc bolus" 
                    Clicked="btnBolusCalculations_Click" />
@@ -44,8 +44,8 @@
             <Label Grid.Row="3" Grid.Column="1" Text="Sens.to insul." XAlign="Center" YAlign="End"/>
             
             <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="----" XAlign="Center" YAlign="Center"/>
-            <Entry  Grid.Row="4" Grid.Column="1" x:Name="txtInsulinSensitivity" HorizontalTextAlignment ="End" Text="" 
-                   Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"/>
+            <Entry  Grid.Row="4" Grid.Column="1" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
+                   Placeholder="mg/dl" BackgroundColor="PaleGoldenrod" />
             <Button Grid.Row="4" Grid.Column="3" x:Name="btnSetParameters" Text="Calc. param."
                     Clicked="btnSetParameters_Click"/>
             

@@ -18,38 +18,38 @@ namespace GlucoMan.BusinessLayer
 
         public bool AlarmIsSet { get => alarmIsSet; set => alarmIsSet = value; }
         public string statusMessage; 
-        public DateTime TimeLast { get => timeLast; set => timeLast = value; }
-        public DateTime TimePrevious { get => timePrevious; }
-        public IntAndText GlucoseLast { get; set; }
-        public IntAndText GlucosePrevious { get; set; }
-        public IntAndText HypoGlucoseTarget { get; set; }
-        public DoubleAndText GlucoseSlope { get; }
+        public DateTime HypoTimeLast { get => timeLast; set => timeLast = value; }
+        public DateTime HypoTimePrevious { get => timePrevious; }
+        public IntAndText Hypo_GlucoseLast { get; set; }
+        public IntAndText Hypo_GlucosePrevious { get; set; }
+        public IntAndText Hypo_GlucoseTarget { get; set; }
+        public DoubleAndText HypoGlucoseSlope { get; }
         public TimeSpan Interval { get => interval; set => interval = value; }
-        public IntAndText HourLast { get; set; }
-        public IntAndText HourPrevious { get; set; }
-        public IntAndText MinuteLast { get; set; }
-        public IntAndText MinutePrevious { get; set; }
-        public DateTimeAndText PredictedTime { get; set; }
-        public DateTimeAndText AlarmTime { get; set; }
+        public IntAndText Hypo_HourLast { get; set; }
+        public IntAndText Hypo_HourPrevious { get; set; }
+        public IntAndText Hypo_MinuteLast { get; set; }
+        public IntAndText Hypo_MinutePrevious { get; set; }
+        public DateTimeAndText HypoPredictedTime { get; set; }
+        public DateTimeAndText HypoAlarmTime { get; set; }
         public IntAndText PredictedHour { get; set; }
         public IntAndText PredictedMinute { get; set; }
         public IntAndText AlarmHour { get; set; }
         public IntAndText AlarmMinute { get; set; }
-        public TimeSpan AlarmAdvanceTime { get; set; }
+        public TimeSpan Hypo_AlarmAdvanceTime { get; set; }
         public string StatusMessage { get => statusMessage; }
         public BL_HypoPrediction()
         {
-            GlucoseLast = new IntAndText(); 
-            GlucosePrevious= new IntAndText(); 
-            HypoGlucoseTarget= new IntAndText();
-            GlucoseSlope = new DoubleAndText();
-            GlucoseSlope.Format = "0.00"; 
-            HourLast= new IntAndText(); 
-            HourPrevious= new IntAndText(); 
-            MinuteLast= new IntAndText(); 
-            MinutePrevious= new IntAndText();
-            PredictedTime = new DateTimeAndText();
-            AlarmTime = new DateTimeAndText();
+            Hypo_GlucoseLast = new IntAndText(); 
+            Hypo_GlucosePrevious= new IntAndText(); 
+            Hypo_GlucoseTarget= new IntAndText();
+            HypoGlucoseSlope = new DoubleAndText();
+            HypoGlucoseSlope.Format = "0.00"; 
+            Hypo_HourLast= new IntAndText(); 
+            Hypo_HourPrevious= new IntAndText(); 
+            Hypo_MinuteLast= new IntAndText(); 
+            Hypo_MinutePrevious= new IntAndText();
+            HypoPredictedTime = new DateTimeAndText();
+            HypoAlarmTime = new DateTimeAndText();
             PredictedHour = new IntAndText();
             PredictedMinute = new IntAndText();
             AlarmHour = new IntAndText();
@@ -64,18 +64,18 @@ namespace GlucoMan.BusinessLayer
             {
                 statusMessage = ""; 
 
-                int? hourLast = HourLast.Int;
-                int? minuteLast = MinuteLast.Int;
-                TimeLast = DateTime.Today;
-                TimeLast = TimeLast.AddHours((int)HourLast.Int);
-                TimeLast = TimeLast.AddMinutes((int)MinuteLast.Int);
+                int? hourLast = Hypo_HourLast.Int;
+                int? minuteLast = Hypo_MinuteLast.Int;
+                HypoTimeLast = DateTime.Today;
+                HypoTimeLast = HypoTimeLast.AddHours((int)Hypo_HourLast.Int);
+                HypoTimeLast = HypoTimeLast.AddMinutes((int)Hypo_MinuteLast.Int);
 
-                int? hourPrevious = HourPrevious.Int;
-                int? minutePrevious = MinutePrevious.Int;
+                int? hourPrevious = Hypo_HourPrevious.Int;
+                int? minutePrevious = Hypo_MinutePrevious.Int;
 
                 // if the previous minute is in an hour before, subtract it to 60
                 // and subtract 1 hour to the hours
-                int? differenceMinutes = MinuteLast.Int - MinutePrevious.Int;
+                int? differenceMinutes = Hypo_MinuteLast.Int - Hypo_MinutePrevious.Int;
                 if (differenceMinutes < 0)
                 {
                     minutePrevious = 60 + differenceMinutes;
@@ -93,7 +93,7 @@ namespace GlucoMan.BusinessLayer
 
                 Interval = new TimeSpan((int)hourPrevious, (int)minutePrevious, 0);
 
-                timePrevious = TimeLast.Subtract(Interval);
+                timePrevious = HypoTimeLast.Subtract(Interval);
 
                 double secondsBetweenMeasurements = Interval.TotalSeconds;
 
@@ -102,9 +102,9 @@ namespace GlucoMan.BusinessLayer
                 {
                     //Console.Beep(200, 40);
                     Common.LogOfProgram.Error("Time between measurements too big", null);
-                    GlucoseSlope.Text = "----";
-                    PredictedTime.Text = ">";
-                    AlarmTime.Text = ">";
+                    HypoGlucoseSlope.Text = "----";
+                    HypoPredictedTime.Text = ">";
+                    HypoAlarmTime.Text = ">";
                     PredictedHour.Text = "> 3 h";
                     PredictedMinute.Text = ">";
                     AlarmHour.Text = ">";
@@ -116,9 +116,9 @@ namespace GlucoMan.BusinessLayer
                 {
                     //Console.Beep(200, 40);
                     Common.LogOfProgram.Error("Time between measurements too short", null);
-                    GlucoseSlope.Text = "----";
-                    PredictedTime.Text = "<";
-                    AlarmTime.Text = "<";
+                    HypoGlucoseSlope.Text = "----";
+                    HypoPredictedTime.Text = "<";
+                    HypoAlarmTime.Text = "<";
                     PredictedHour.Text = "< 20 min";
                     PredictedMinute.Text = "<";
                     AlarmHour.Text = "<";
@@ -126,19 +126,19 @@ namespace GlucoMan.BusinessLayer
                     statusMessage = "Time between measurements too short";
                     return;
                 }
-                int? glucoseDifference = GlucoseLast.Int - GlucosePrevious.Int;
+                int? glucoseDifference = Hypo_GlucoseLast.Int - Hypo_GlucosePrevious.Int;
 
                 if (glucoseDifference > 0) 
                 {
                     // if glucose increases, hypo is not possible 
                     //Console.Beep(200, 40);
-                    GlucoseSlope.Text = "----";
-                    GlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
-                    GlucoseSlope.Double = GlucoseSlope.Double * 60 * 60;
-                    PredictedTime.DateTime = DateTime.MinValue;
-                    AlarmTime.DateTime = DateTime.MinValue;
-                    PredictedTime.Text = "----";
-                    AlarmTime.Text = "----";
+                    HypoGlucoseSlope.Text = "----";
+                    HypoGlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
+                    HypoGlucoseSlope.Double = HypoGlucoseSlope.Double * 60 * 60;
+                    HypoPredictedTime.DateTime = DateTime.MinValue;
+                    HypoAlarmTime.DateTime = DateTime.MinValue;
+                    HypoPredictedTime.Text = "----";
+                    HypoAlarmTime.Text = "----";
                     PredictedHour.Text = "increas";
                     PredictedMinute.Text = "----";
                     AlarmHour.Text = "----";
@@ -146,21 +146,21 @@ namespace GlucoMan.BusinessLayer
                     statusMessage = "Glucose increasing, hypoglicemia not possible";
                     return;
                 }
-                GlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
+                HypoGlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
 
                 // calculate the instant when target glucose will be reached;
                 // order of subtraction to achieve a positive number and to go forward in time 
-                double? predictedIntervalSeconds = (HypoGlucoseTarget.Int - GlucoseLast.Int) / GlucoseSlope.Double; 
+                double? predictedIntervalSeconds = (Hypo_GlucoseTarget.Int - Hypo_GlucoseLast.Int) / HypoGlucoseSlope.Double; 
 
                 // if we should go back in time, we show an error condition
                 if (predictedIntervalSeconds < 0)
                 {
                     //Console.Beep(200, 40);
-                    GlucoseSlope.Text = "----";
-                    PredictedTime.DateTime = DateTime.MaxValue;
-                    AlarmTime.DateTime = DateTime.MaxValue;
-                    PredictedTime.Text = "----";
-                    AlarmTime.Text = "----";
+                    HypoGlucoseSlope.Text = "----";
+                    HypoPredictedTime.DateTime = DateTime.MaxValue;
+                    HypoAlarmTime.DateTime = DateTime.MaxValue;
+                    HypoPredictedTime.Text = "----";
+                    HypoAlarmTime.Text = "----";
                     PredictedHour.Text = "back";
                     PredictedMinute.Text = "----";
                     AlarmHour.Text = "----";
@@ -169,16 +169,16 @@ namespace GlucoMan.BusinessLayer
                     return;
                 }
                 // change seconds to hours in slope
-                GlucoseSlope.Double = GlucoseSlope.Double * 60 * 60;
+                HypoGlucoseSlope.Double = HypoGlucoseSlope.Double * 60 * 60;
 
-                PredictedTime.Format = "yyyy.MM.dd HH:mm:ss";
-                PredictedTime.DateTime = TimeLast.AddSeconds((int) predictedIntervalSeconds);
-                AlarmTime.DateTime = PredictedTime.DateTime.Subtract(AlarmAdvanceTime);
-                if (PredictedTime.DateTime == DateTime.MinValue ||
-                        AlarmTime.DateTime == DateTime.MinValue)
+                HypoPredictedTime.Format = "yyyy.MM.dd HH:mm:ss";
+                HypoPredictedTime.DateTime = HypoTimeLast.AddSeconds((int) predictedIntervalSeconds);
+                HypoAlarmTime.DateTime = HypoPredictedTime.DateTime.Subtract(Hypo_AlarmAdvanceTime);
+                if (HypoPredictedTime.DateTime == DateTime.MinValue ||
+                        HypoAlarmTime.DateTime == DateTime.MinValue)
                 {
                     // Console.Beep(200, 40);
-                    GlucoseSlope.Text = "----";
+                    HypoGlucoseSlope.Text = "----";
                     PredictedHour.Text = "----"; 
                     PredictedMinute.Text = "----"; ;
                     AlarmHour.Text = "----"; ;
@@ -186,8 +186,8 @@ namespace GlucoMan.BusinessLayer
                     statusMessage = "----"; ; // put somethong better!!!!
                     return;
                 }
-                DateTime? finalTime = PredictedTime.DateTime;
-                DateTime? alarmTime = AlarmTime.DateTime;
+                DateTime? finalTime = HypoPredictedTime.DateTime;
+                DateTime? alarmTime = HypoAlarmTime.DateTime;
 
                 if (finalTime != null)
                 {
@@ -222,7 +222,7 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
-                TimeSpan ts = AlarmTime.DateTime.Subtract(DateTime.Now);
+                TimeSpan ts = HypoAlarmTime.DateTime.Subtract(DateTime.Now);
                 alarm.SetAlarm(ts);
                 AlarmIsSet = true;
             }

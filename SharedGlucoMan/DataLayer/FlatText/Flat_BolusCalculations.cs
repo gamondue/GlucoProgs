@@ -7,7 +7,7 @@ namespace GlucoMan
 {
     internal partial class DL_FlatText : DataLayer
     {
-        internal override async void SaveBolusCalculations(BL_BolusCalculation Bolus)
+        internal override async void SaveBolusParameters(BL_BolusCalculation Bolus)
         {
             try {
                 string file = ""; 
@@ -23,65 +23,70 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
-        internal override void RestoreBolusCalculations(BL_BolusCalculation Bolus)
-        {
-            if (File.Exists(persistentBolusCalculation))
-                try
-                {
-                    string[] f = TextFile.FileToArray(persistentBolusCalculation);
-
-                    Bolus.GlucoseBeforeMeal.Text = f[0];
-                    Bolus.TargetGlucose.Text = f[1];
-                    Bolus.ChoToEat.Text = f[2];
-                }
-                catch (Exception ex)
-                {
-                    Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
-                }
-        }
-        internal override async void SaveInsulinParameters(BL_BolusCalculation Bolus)
-        {
-            try
-            {
-                string file = Bolus.ChoInsulinRatioBreakfast.Text + "\n";
-                file += Bolus.ChoInsulinRatioLunch.Text + "\n";
-                file += Bolus.ChoInsulinRatioDinner.Text + "\n";
-                file += Bolus.TypicalBolusMorning.Text + "\n";
-                file += Bolus.TypicalBolusMidday.Text + "\n";
-                file += Bolus.TypicalBolusEvening.Text + "\n";
-                file += Bolus.TypicalBolusNight.Text + "\n";
-                file += Bolus.TotalDailyDoseOfInsulin.Text + "\n";
-                file += Bolus.FactorOfInsulinCorrectionSensitivity.Text + "\n";
-                file += Bolus.InsulinCorrectionSensitivity.Text + "\n";
-
-                await TextFile.StringToFileAsync(persistentInsulinParameters, file);
-            }
-            catch (Exception ex)
-            {
-                Common.LogOfProgram.Error("DL_BolusCalculation | SaveInsulinParameters", ex);
-            }
-        }
-        internal override void RestoreInsulinParameters(BL_BolusCalculation Bolus)
+        internal override void RestoreBolusParameters(BL_BolusCalculation Parameters)
         {
             if (File.Exists(persistentInsulinParameters))
+            {
                 try
                 {
                     string[] f = TextFile.FileToArray(persistentInsulinParameters);
-                    Bolus.ChoInsulinRatioBreakfast.Text = f[0];
-                    Bolus.ChoInsulinRatioLunch.Text = f[1];
-                    Bolus.ChoInsulinRatioDinner.Text = f[2];
-                    Bolus.TypicalBolusMorning.Text = f[3];
-                    Bolus.TypicalBolusMidday.Text = f[4];
-                    Bolus.TypicalBolusEvening.Text = f[5];
-                    Bolus.TypicalBolusNight.Text = f[6];
-                    Bolus.TotalDailyDoseOfInsulin.Text = f[7];
-                    Bolus.FactorOfInsulinCorrectionSensitivity.Text = f[8];
-                    Bolus.InsulinCorrectionSensitivity.Text = f[9];
+                    Parameters.ChoInsulinRatioBreakfast.Text = f[0];
+                    Parameters.ChoInsulinRatioLunch.Text = f[1];
+                    Parameters.ChoInsulinRatioDinner.Text = f[2];
+                    Parameters.TypicalBolusMorning.Text = f[3];
+                    Parameters.TypicalBolusMidday.Text = f[4];
+                    Parameters.TypicalBolusEvening.Text = f[5];
+                    Parameters.TypicalBolusNight.Text = f[6];
+                    Parameters.TotalDailyDoseOfInsulin.Text = f[7];
+                    Parameters.FactorOfInsulinCorrectionSensitivity.Text = f[8];
+                    Parameters.InsulinCorrectionSensitivity.Text = f[9];
                 }
                 catch (Exception ex)
                 {
                     Common.LogOfProgram.Error("DL_BolusCalculation | RestoreInsulinParameters", ex);
                 }
+            }
+        }
+        internal override async void SaveInsulinCorrectionParameters(BL_BolusCalculation Bolus)
+        {
+            try
+            {
+                string file = "";
+
+                file += Bolus.GlucoseBeforeMeal.Text + "\n";
+                file += Bolus.TargetGlucose.Text + "\n";
+                file += Bolus.ChoToEat.Text + "\n";
+
+                await TextFile.StringToFileAsync(persistentBolusCalculation, file);
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
+            }
+        }
+        internal override void RestoreInsulinCorrectionParameters(BL_BolusCalculation Parameters)
+        {
+            if (File.Exists(persistentInsulinParameters))
+            {
+                try
+                {
+                    string[] f = TextFile.FileToArray(persistentInsulinParameters);
+                    Parameters.ChoInsulinRatioBreakfast.Text = f[0];
+                    Parameters.ChoInsulinRatioLunch.Text = f[1];
+                    Parameters.ChoInsulinRatioDinner.Text = f[2];
+                    Parameters.TypicalBolusMorning.Text = f[3];
+                    Parameters.TypicalBolusMidday.Text = f[4];
+                    Parameters.TypicalBolusEvening.Text = f[5];
+                    Parameters.TypicalBolusNight.Text = f[6];
+                    Parameters.TotalDailyDoseOfInsulin.Text = f[7];
+                    Parameters.FactorOfInsulinCorrectionSensitivity.Text = f[8];
+                    Parameters.InsulinCorrectionSensitivity.Text = f[9];
+                }
+                catch (Exception ex)
+                {
+                    Common.LogOfProgram.Error("DL_BolusCalculation | RestoreInsulinParameters", ex);
+                }
+            }
         }
         internal override async void SaveLogOfBoluses(BL_BolusCalculation Bolus)
         {

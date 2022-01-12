@@ -9,130 +9,60 @@ namespace GlucoMan
 {
     internal partial class DL_Sqlite : DataLayer
     {
-        // !!!! TODO erase thid function 
-        internal override void SaveBolusCalculations(BL_BolusCalculation Bolus)
+        internal override void SaveBolusParameters(BL_BolusCalculation Parameters)
         {
-            try {
-                using (DbConnection conn = Connect())
-                {
-                    DbCommand cmd = conn.CreateCommand();
-                    cmd.CommandText = "INSERT INTO Parameters " 
-                        + "(GlucoseBeforeMeal, TargetGlucose, ChoToEat)" +
-                        " Values(" +
-                        SqlDouble(Bolus.GlucoseBeforeMeal.Double) + "," +
-                        SqlDouble(Bolus.TargetGlucose.Double) + "," +
-                        SqlDouble(Bolus.ChoToEat.Double) +
-                        ");";
-                    cmd.ExecuteNonQuery();
-                    cmd.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                Common.LogOfProgram.Error("Sqlite_BolusCalculation | SaveBolusCalculations", ex);
-            }
+            SaveParameter("ChoInsulinRatioBreakfast", Parameters.ChoInsulinRatioBreakfast.Text);
+            SaveParameter("ChoInsulinRatioLunch", Parameters.ChoInsulinRatioLunch.Text);
+            SaveParameter("ChoInsulinRatioDinner", Parameters.ChoInsulinRatioDinner.Text);
+            SaveParameter("TargetGlucose", Parameters.TargetGlucose.Text);
+            SaveParameter("InsulinCorrectionSensitivity", Parameters.InsulinCorrectionSensitivity.Text);
+            SaveParameter("ChoInsulinRatioBreakfast", Parameters.ChoInsulinRatioBreakfast.Text);
+            SaveParameter("ChoInsulinRatioLunch", Parameters.ChoInsulinRatioLunch.Text);
+            SaveParameter("ChoInsulinRatioDinner", Parameters.ChoInsulinRatioDinner.Text);
+            SaveParameter("TotalDailyDoseOfInsulin", Parameters.TotalDailyDoseOfInsulin.Text);
+            SaveParameter("ChoToEat", Parameters.ChoToEat.Text);
         }
-        // !!!! TODO erase thid function 
-        internal override void RestoreBolusCalculations(BL_BolusCalculation Bolus)
+        internal override void RestoreBolusParameters(BL_BolusCalculation Parameters)
         {
-            try
-            {
-                using (DbConnection conn = Connect())
-                {
-                    DbDataReader dRead;
-                    DbCommand cmd = conn.CreateCommand();
-                    cmd.CommandText = "SELECT GlucoseBeforeMeal, TargetGlucose, ChoToEat" +
-                        " FROM Parameters" +
-                        ";";
-                    dRead = cmd.ExecuteReader();
-                    while (dRead.Read())
-                    {
-                        Bolus.GlucoseBeforeMeal.Double = Safe.Double(dRead["GlucoseBeforeMeal"]);
-                        Bolus.TargetGlucose.Double = Safe.Double(dRead["TargetGlucose"]);
-                        Bolus.ChoToEat.Double = Safe.Double(dRead["ChoToEat"]);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Common.LogOfProgram.Error("Sqlite_BolusCalculation | SaveBolusCalculations", ex);
-            }
+            Parameters.TargetGlucose.Text = RestoreParameter("TargetGlucose");
+            Parameters.InsulinCorrectionSensitivity.Text = RestoreParameter("InsulinCorrectionSensitivity");
+            Parameters.ChoInsulinRatioBreakfast.Text = RestoreParameter("ChoInsulinRatioBreakfast");
+            Parameters.ChoInsulinRatioLunch.Text = RestoreParameter("ChoInsulinRatioLunch");
+            Parameters.ChoInsulinRatioDinner.Text = RestoreParameter("ChoInsulinRatioDinner");
+            Parameters.TotalDailyDoseOfInsulin.Text = RestoreParameter("TotalDailyDoseOfInsulin");
         }
-
-        // !!!! TODO erase thid function 
-        internal override void SaveInsulinParameters(BL_BolusCalculation Bolus)
+        internal override void SaveInsulinCorrectionParameters(BL_BolusCalculation Parameters)
         {
-            try
-            {
-                using (DbConnection conn = Connect())
-                {
-                    DbCommand cmd = conn.CreateCommand();
-                    cmd.CommandText = "INSERT INTO Parameters "
-                        + "(ChoInsulinRatioBreakfast, ChoInsulinRatioLunch, ChoInsulinRatioDinner," +
-                        "TypicalBolusMorning, TypicalBolusMidday, TypicalBolusEvening, TypicalBolusNight," +
-                        "TotalDailyDoseOfInsulin, FactorOfInsulinCorrectionSensitivity, InsulinCorrectionSensitivity)" +
-                        " Values(" +
-                        SqlDouble(Bolus.ChoInsulinRatioBreakfast.Double) + "," +
-                        SqlDouble(Bolus.ChoInsulinRatioLunch.Double) + "," +
-                        SqlDouble(Bolus.ChoInsulinRatioDinner.Double) + "," +
-                        SqlDouble(Bolus.TypicalBolusMorning.Double) + "," +
-                        SqlDouble(Bolus.TypicalBolusMidday.Double) + "," +
-                        SqlDouble(Bolus.TypicalBolusEvening.Double) + "," +
-                        SqlDouble(Bolus.TypicalBolusNight.Double) + "," +
-                        SqlDouble(Bolus.TotalDailyDoseOfInsulin.Double) + "," +
-                        SqlDouble(Bolus.FactorOfInsulinCorrectionSensitivity.Double) + "," +
-                        SqlDouble(Bolus.InsulinCorrectionSensitivity.Double) +
-                        ");";
-                    cmd.ExecuteNonQuery();
-                    cmd.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                Common.LogOfProgram.Error("Sqlite_BolusCalculation | SaveInsulinParameters", ex);
-            }
+            SaveParameter("ChoInsulinRatioBreakfast", Parameters.ChoInsulinRatioBreakfast.Text);
+            SaveParameter("ChoInsulinRatioLunch", Parameters.ChoInsulinRatioLunch.Text);
+            SaveParameter("ChoInsulinRatioDinner", Parameters.ChoInsulinRatioDinner.Text);
+            SaveParameter("TypicalBolusMorning", Parameters.TypicalBolusMorning.Text);
+            SaveParameter("TypicalBolusMidday", Parameters.TypicalBolusMidday.Text);
+            SaveParameter("TypicalBolusEvening", Parameters.TypicalBolusEvening.Text);
+            SaveParameter("TypicalBolusNight", Parameters.TypicalBolusNight.Text);
+            SaveParameter("TotalDailyDoseOfInsulin", Parameters.TotalDailyDoseOfInsulin.Text);
+            SaveParameter("FactorOfInsulinCorrectionSensitivity", Parameters.FactorOfInsulinCorrectionSensitivity.Text);
+            SaveParameter("InsulinCorrectionSensitivity", Parameters.InsulinCorrectionSensitivity.Text);
         }
-        // !!!! TODO erase thid function 
-        internal override void RestoreInsulinParameters(BL_BolusCalculation Bolus)
+        internal override void RestoreInsulinCorrectionParameters(BL_BolusCalculation Parameters)
         {
-            try
-            {
-                using (DbConnection conn = Connect())
-                {
-                    DbDataReader dRead;
-                    DbCommand cmd = conn.CreateCommand();
-                    cmd.CommandText = "SELECT ChoInsulinRatioBreakfast,ChoInsulinRatioLunch," +
-                        "ChoInsulinRatioDinner,TypicalBolusMorning,TypicalBolusMidday,TypicalBolusEvening," +
-                        "TypicalBolusNight,TotalDailyDoseOfInsulin,FactorOfInsulinCorrectionSensitivity," +
-                        "InsulinCorrectionSensitivity" +
-                        " FROM Parameters" +
-                        ";";
-                    dRead = cmd.ExecuteReader();
-                    while (dRead.Read())
-                    {
-                        Bolus.ChoInsulinRatioBreakfast.Double = Safe.Double(dRead["ChoInsulinRatioBreakfast"]);
-                        Bolus.ChoInsulinRatioLunch.Double = Safe.Double(dRead["ChoInsulinRatioLunch"]);
-                        Bolus.ChoInsulinRatioDinner.Double = Safe.Double(dRead["ChoInsulinRatioDinner"]);
-                        Bolus.TypicalBolusMorning.Double = Safe.Double(dRead["TypicalBolusMorning"]);
-                        Bolus.TypicalBolusMidday.Double = Safe.Double(dRead["TypicalBolusMidday"]);
-                        Bolus.TypicalBolusEvening.Double = Safe.Double(dRead["TypicalBolusEvening"]);
-                        Bolus.TypicalBolusNight.Double = Safe.Double(dRead["TypicalBolusNight"]);
-                        Bolus.TotalDailyDoseOfInsulin.Double = Safe.Double(dRead["TotalDailyDoseOfInsulin"]);
-                        Bolus.FactorOfInsulinCorrectionSensitivity.Double = Safe.Double(dRead["FactorOfInsulinCorrectionSensitivity"]);
-                        Bolus.InsulinCorrectionSensitivity.Double = Safe.Double(dRead["InsulinCorrectionSensitivity"]);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Common.LogOfProgram.Error("Sqlite_BolusCalculation | RestoreInsulinParameters", ex);
-            }
+            Parameters.ChoInsulinRatioBreakfast.Text = Common.Bl.RestoreParameter("ChoInsulinRatioBreakfast");
+            Parameters.ChoInsulinRatioLunch.Text = Common.Bl.RestoreParameter("ChoInsulinRatioLunch");
+            Parameters.ChoInsulinRatioDinner.Text = Common.Bl.RestoreParameter("ChoInsulinRatioDinner");
+            Parameters.TypicalBolusMorning.Text = Common.Bl.RestoreParameter("TypicalBolusMorning");
+            Parameters.TypicalBolusMidday.Text = Common.Bl.RestoreParameter("TypicalBolusMidday");
+            Parameters.TypicalBolusEvening.Text = Common.Bl.RestoreParameter("TypicalBolusEvening");
+            Parameters.TypicalBolusNight.Text = Common.Bl.RestoreParameter("TypicalBolusNight");
+            Parameters.TotalDailyDoseOfInsulin.Text = Common.Bl.RestoreParameter("TotalDailyDoseOfInsulin");
+            Parameters.FactorOfInsulinCorrectionSensitivity.Text = Common.Bl.RestoreParameter("FactorOfInsulinCorrectionSensitivity");
+            Parameters.InsulinCorrectionSensitivity.Text = Common.Bl.RestoreParameter("InsulinCorrectionSensitivity");
         }
-        internal override async void SaveLogOfBoluses(BL_BolusCalculation Bolus)
+        internal override async void SaveLogOfBoluses(BL_BolusCalculation NewBolusToSave)
         {
+            // log is savedd in text file 
             string fileContent;
             try
-            { 
+            {
                 // create header of log file if it doesn't exist 
                 if (!System.IO.File.Exists(logBolusCalculationsFile))
                 {
@@ -149,20 +79,20 @@ namespace GlucoMan
                     fileContent = "";
 
                 fileContent += DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\t";
-                fileContent += Bolus.ChoInsulinRatioBreakfast.Text + "\t";
-                fileContent += Bolus.ChoInsulinRatioLunch.Text + "\t";
-                fileContent += Bolus.ChoInsulinRatioDinner.Text + "\t";
-                fileContent += Bolus.TypicalBolusMorning.Text + "\t";
-                fileContent += Bolus.TypicalBolusMidday.Text + "\t";
-                fileContent += Bolus.TypicalBolusEvening.Text + "\t";
-                fileContent += Bolus.TypicalBolusNight.Text + "\t";
-                fileContent += Bolus.FactorOfInsulinCorrectionSensitivity.Text + "\t";
-                fileContent += Bolus.GlucoseBeforeMeal.Text + "\t";
-                fileContent += Bolus.TargetGlucose.Text + "\t";
-                fileContent += Bolus.ChoToEat.Text + "\t";
-                fileContent += Bolus.BolusInsulinDueToCorrectionOfGlucose.Text + "\t";
-                fileContent += Bolus.BolusInsulinDueToChoOfMeal.Text + "\t";
-                fileContent += Bolus.TotalInsulinForMeal.Text + "\t";
+                fileContent += NewBolusToSave.ChoInsulinRatioBreakfast.Text + "\t";
+                fileContent += NewBolusToSave.ChoInsulinRatioLunch.Text + "\t";
+                fileContent += NewBolusToSave.ChoInsulinRatioDinner.Text + "\t";
+                fileContent += NewBolusToSave.TypicalBolusMorning.Text + "\t";
+                fileContent += NewBolusToSave.TypicalBolusMidday.Text + "\t";
+                fileContent += NewBolusToSave.TypicalBolusEvening.Text + "\t";
+                fileContent += NewBolusToSave.TypicalBolusNight.Text + "\t";
+                fileContent += NewBolusToSave.FactorOfInsulinCorrectionSensitivity.Text + "\t";
+                fileContent += NewBolusToSave.GlucoseBeforeMeal.Text + "\t";
+                fileContent += NewBolusToSave.TargetGlucose.Text + "\t";
+                fileContent += NewBolusToSave.ChoToEat.Text + "\t";
+                fileContent += NewBolusToSave.BolusInsulinDueToCorrectionOfGlucose.Text + "\t";
+                fileContent += NewBolusToSave.BolusInsulinDueToChoOfMeal.Text + "\t";
+                fileContent += NewBolusToSave.TotalInsulinForMeal.Text + "\t";
                 fileContent += "\r\n";
                 // TextFile.StringToFile(logBolusCalculationsFile, fileContent, true);
                 await TextFile.StringToFileAsync(logBolusCalculationsFile, fileContent);

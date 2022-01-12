@@ -1,6 +1,5 @@
 ﻿using GlucoMan.BusinessLayer;
 using System;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,7 +14,7 @@ namespace GlucoMan.Mobile
             InitializeComponent();
 
             bolusCalculation = new BL_BolusCalculation(); 
-            bolusCalculation.RestoreInsulinParameters();
+            bolusCalculation.RestoreBolusParameters();
             bolusCalculation.FactorOfInsulinCorrectionSensitivity.Format = "0";
             FromClassToUi();
         }
@@ -23,7 +22,7 @@ namespace GlucoMan.Mobile
         {
             FromUiToClass();
             bolusCalculation.CalculateBolus();
-            bolusCalculation.SaveBolusData();
+            bolusCalculation.SaveBolusParameters();
             bolusCalculation.SaveBolusLog();
             FromClassToUi();
         }
@@ -41,7 +40,6 @@ namespace GlucoMan.Mobile
             txtChoInsulinRatioLunch.Text = bolusCalculation.ChoInsulinRatioLunch.Text;
             txtChoInsulinRatioDinner.Text = bolusCalculation.ChoInsulinRatioDinner.Text;
         }
-
         private void FromUiToClass()
         {
             // since it is easy to mistakenly insert blanks during editing, we tear blanks off 
@@ -62,13 +60,18 @@ namespace GlucoMan.Mobile
         {
             FromUiToClass();
             bolusCalculation.CalculateInsulinCorrectionSensitivity();
-            bolusCalculation.SaveInsulinParameters();
+            bolusCalculation.SaveBolusParameters();
             FromClassToUi();
         }
         private void btnYYYY_Click(object sender, EventArgs e)
         {
             // !!!! TODO !!!! ready to host the code to calculate the sensitivenesses
             // (when I will have an algorithm!!)
-        }    
+        }  
+        private void btnPhysicalActivityCalculation_Click(object sender, EventArgs e)
+        {
+            // !!!! TODO !!!! ready to host the code to calculate the sensitivenesses
+            // (when I will have an algorithm!!)
+        }
     }
 }

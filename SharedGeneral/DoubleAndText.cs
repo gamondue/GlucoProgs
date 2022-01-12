@@ -36,6 +36,8 @@ namespace GlucoMan
         {
             get
             {
+                if (doubleVal == null)
+                    return null; 
                 try
                 {
                     return ((double)doubleVal).ToString(Format);

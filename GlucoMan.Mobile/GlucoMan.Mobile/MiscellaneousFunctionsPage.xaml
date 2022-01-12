@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Mobile.MiscellaneousFunctionsPage">
+    <ContentPage.Content>
+        <Grid Padding="8,0,8,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Blood glucose unit conversion"
+                   FontSize="Large" Font="Bold"  XAlign="Center" YAlign="End"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Text="mg/dL" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="1" Grid.Column="1" Text="mmol/L" XAlign="Center" YAlign="End"/>
+
+            <Entry  Grid.Row="2" Grid.Column="0" x:Name="txt_mgPerdL" HorizontalTextAlignment ="End" Text="" 
+                   Placeholder="mg/dl" BackgroundColor="GreenYellow" TextChanged="txt_mgPerdL_TextChanged"/>
+            <Entry  Grid.Row="2" Grid.Column="1" x:Name="txt_mmolPerL" HorizontalTextAlignment ="End" Text="" 
+                   Placeholder="mmol/L" BackgroundColor="GreenYellow" TextChanged="txt_mmolPerL_TextChanged"/>
+            
+            <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Text="Reset database" Margin="100,10,100,10"
+                    BackgroundColor="Red" TextColor="Yellow"
+                        x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

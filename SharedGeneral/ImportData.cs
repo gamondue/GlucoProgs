@@ -13,7 +13,7 @@ namespace GlucoMan
             for (int i = 2; i < inputContent.Count; i++)
             {
                 FreeStyleLibreRecord grec = new FreeStyleLibreRecord();
-                grec.DeviceType = inputContent[i][0];
+                grec.IdDeviceType = inputContent[i][0];
                 grec.IdDevice = inputContent[i][1];
                 grec.Timestamp = Safe.DateTime(inputContent[i][2]);
                 grec.TypeOfDocument = Safe.Int(inputContent[i][3]);

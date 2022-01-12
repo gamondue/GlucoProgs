@@ -13,14 +13,14 @@ namespace GlucoMan
         {
             try
             {
-                string file = Hypo.HypoGlucoseTarget.Text + "\n";
-                file += Hypo.GlucoseLast.Text + "\n";
-                file += Hypo.GlucosePrevious.Text + "\n";
-                file += Hypo.HourLast.Text + "\n";
-                file += Hypo.HourPrevious.Text + "\n";
-                file += Hypo.MinuteLast.Text + "\n";
-                file += Hypo.MinutePrevious.Text + "\n";
-                file += Hypo.AlarmAdvanceTime.TotalMinutes;
+                string file = Hypo.Hypo_GlucoseTarget.Text + "\n";
+                file += Hypo.Hypo_GlucoseLast.Text + "\n";
+                file += Hypo.Hypo_GlucosePrevious.Text + "\n";
+                file += Hypo.Hypo_HourLast.Text + "\n";
+                file += Hypo.Hypo_HourPrevious.Text + "\n";
+                file += Hypo.Hypo_MinuteLast.Text + "\n";
+                file += Hypo.Hypo_MinutePrevious.Text + "\n";
+                file += Hypo.Hypo_AlarmAdvanceTime.TotalMinutes;
                 TextFile.StringToFileAsync(persistentHypoPrediction, file);
             }
             catch (Exception ex)
@@ -34,14 +34,14 @@ namespace GlucoMan
                 try
                 {
                     string[] f = TextFile.FileToArray(persistentHypoPrediction);
-                    Hypo.HypoGlucoseTarget.Text = f[0];
-                    Hypo.GlucoseLast.Text = f[1];
-                    Hypo.GlucosePrevious.Text = f[2];
-                    Hypo.HourLast.Text = f[3];
-                    Hypo.HourPrevious.Text = f[4];
-                    Hypo.MinuteLast.Text = f[5];
-                    Hypo.MinutePrevious.Text = f[6];
-                    Hypo.AlarmAdvanceTime = new TimeSpan(0, int.Parse(f[7]), 0);
+                    Hypo.Hypo_GlucoseTarget.Text = f[0];
+                    Hypo.Hypo_GlucoseLast.Text = f[1];
+                    Hypo.Hypo_GlucosePrevious.Text = f[2];
+                    Hypo.Hypo_HourLast.Text = f[3];
+                    Hypo.Hypo_HourPrevious.Text = f[4];
+                    Hypo.Hypo_MinuteLast.Text = f[5];
+                    Hypo.Hypo_MinutePrevious.Text = f[6];
+                    Hypo.Hypo_AlarmAdvanceTime = new TimeSpan(0, int.Parse(f[7]), 0);
                 }
                 catch (Exception ex)
                 {

@@ -1,6 +1,10 @@
-﻿using SharedData;
+﻿using Microsoft.Data.Sqlite;
+using SharedData;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.Common;
 using System.IO;
 using System.Text;
 
@@ -8,28 +12,38 @@ namespace GlucoMan
 {
     internal partial class DL_Sqlite : DataLayer
     {
-        internal override List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant,
-            DateTime? FinalInstant)
+        internal override int FindNextIndex()
         {
-            // !!!! currently InitialInstant, DateTime FinalInstant are simply IGNORED 
+            return GetNextTablePrimaryKey("GlucoseRecords", "IdGlucoseRecord");
+        }
+        internal override List<GlucoseRecord> ReadGlucoseMeasurements(
+            DateTime? InitialInstant, DateTime? FinalInstant)
+        {
             List<GlucoseRecord> list = new List<GlucoseRecord>(); 
-            if (File.Exists(persistentGlucoseMeasurements))
                 try
                 {
-                    string[,] f = TextFile.FileToMatrix(persistentGlucoseMeasurements, '\t');
-                    for (int i = 0; i < f.GetLength(0); i++)
+                    DbDataReader dRead;
+                    DbCommand cmd;
+                    using (DbConnection conn = Connect())
                     {
-                        GlucoseRecord rec = new GlucoseRecord();
-                        rec.IdGlucoseRecord = int.Parse(f[i, 0]);
-                        rec.GlucoseValue = double.Parse(f[i, 1]);
-                        rec.Timestamp = DateTime.Parse(f[i, 2]);
-                        rec.GlucoseString = f[i, 3];
-                        rec.DeviceType = f[i, 4];
-                        rec.IdDevice = f[i, 5];
-                        rec.Notes = f[i, 6];
-                        //rec.GlucoseAccuracy = f[i, 3]; // convert the enum to string 
-
-                        list.Add(rec); 
+                        string query = "SELECT *" +
+                            " FROM GlucoseRecords ";
+                        if (InitialInstant != null && FinalInstant != null)
+                        {   // add WHERE clause
+                            query += " WHERE Timestamp BETWEEN " + ((DateTime)InitialInstant).ToString("YYYY-MM-DD") +
+                                " AND " + ((DateTime)FinalInstant).ToString("YYYY-MM-DD"); 
+                        }
+                        query += " ORDER BY Timestamp DESC";
+                        cmd = new SqliteCommand(query);
+                        cmd.Connection = conn;
+                        dRead = cmd.ExecuteReader();
+                        while (dRead.Read())
+                        {
+                            GlucoseRecord g = GetGlucoseRecordFromRow(dRead);
+                            list.Add(g);
+                        }
+                        dRead.Dispose();
+                        cmd.Dispose();
                     }
                 }
                 catch (Exception ex)
@@ -38,152 +52,142 @@ namespace GlucoMan
                 }
             return list; 
         }
+        internal override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
+        {
+            List<GlucoseRecord> list = new List<GlucoseRecord>();
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
+                {
+                    string query = "SELECT *" +
+                        " FROM GlucoseRecords";
+                    query += " ORDER BY Timestamp DESC LIMIT 2";
+                    cmd = new SqliteCommand(query);
+                    cmd.Connection = conn;
+                    dRead = cmd.ExecuteReader();
+                    while (dRead.Read())
+                    {
+                        GlucoseRecord g = GetGlucoseRecordFromRow(dRead);
+                        list.Add(g);
+                    }
+                    dRead.Dispose();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
+            }
+            return list;
+        }
+        private GlucoseRecord GetGlucoseRecordFromRow(DbDataReader Row)
+        {
+            GlucoseRecord gr = new GlucoseRecord();
+            gr.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
+            gr.GlucoseValue = Safe.Double(Row["GlucoseValue"]);
+            gr.Timestamp = Safe.DateTime(Row["Timestamp"]);
+            gr.GlucoseString = Safe.String(Row["GlucoseString"]);
+            gr.IdDevice = Safe.String(Row["IdDevice"]);
+            gr.IdDeviceType = Safe.String(Row["IdDeviceType"]);
+            gr.Notes = Safe.String(Row["Notes"]); 
+            return gr;
+        }
         internal override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
         {
             try
             {
-                string file = "";
-                int? nextIndex = FindNextIndex(List); 
                 foreach (GlucoseRecord rec in List)
                 {
-                    if (rec.IdGlucoseRecord == null || rec.IdGlucoseRecord == 0)
-                    {
-                        rec.IdGlucoseRecord = nextIndex++; 
-                    }
-                    file += rec.IdGlucoseRecord + "\t";
-                    file += rec.GlucoseValue + "\t";
-                    file += rec.Timestamp + "\t";
-                    file += rec.GlucoseString + "\t";
-                    file += rec.DeviceType + "\t";
-                    file += rec.IdDevice + "\t";
-                    file += rec.Notes + "\t";
-                    //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
-                    file += "\n";
+                    SaveOneGlucoseMeasurement(rec);
                 }
-                //TextFile.StringToFile(persistentGlucoseMeasurements, file, false);
-                TextFile.StringToFileAsync(persistentGlucoseMeasurements, file);
             }
             catch (Exception ex)
             {
                 Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
-        internal override int FindNextIndex(List<GlucoseRecord> List)
+        internal override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
         {
-            // find next Id from list
-            int? maxId = 0;
-            foreach (GlucoseRecord rec in List)
-            {
-                if (rec.IdGlucoseRecord != null && rec.IdGlucoseRecord > maxId)
-                {
-                    maxId = rec.IdGlucoseRecord;
-                }
-            }
-            return (int)(maxId + 1); 
-        }
-        internal override void SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
-        {
-            // save one single record using sequential access..
             try
             {
-                List<GlucoseRecord> List = ReadGlucoseMeasurements(null, null);
                 if (GlucoseMeasurement.IdGlucoseRecord == null || GlucoseMeasurement.IdGlucoseRecord == 0)
                 {
-                    GlucoseMeasurement.IdGlucoseRecord = FindNextIndex(List);
-                    // append new record to the file 
-                    string addedRecord = GlucoseMeasurement.IdGlucoseRecord + "\t";
-                    addedRecord += GlucoseMeasurement.GlucoseValue + "\t";
-                    addedRecord += GlucoseMeasurement.Timestamp + "\t";
-                    addedRecord += GlucoseMeasurement.GlucoseString + "\t";
-                    addedRecord += GlucoseMeasurement.DeviceType + "\t";
-                    addedRecord += GlucoseMeasurement.IdDevice + "\t";
-                    addedRecord += GlucoseMeasurement.Notes + "\t";
-                    //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
-                    addedRecord += "\n";
-                    TextFile.StringToFile(persistentGlucoseMeasurements, addedRecord, true);
-                    return;
+                    GlucoseMeasurement.IdGlucoseRecord = FindNextIndex();
+                    // INSERT new record in the table
+                    InsertIntoGlucoseMeasurement(GlucoseMeasurement);                         
                 }
                 else
                 {   // GlucoseMeasurement.IdGlucoseRecord exists
-                    string fileContent = "";
-                    foreach (GlucoseRecord rec in List)
-                    {
-                        if (rec.IdGlucoseRecord != GlucoseMeasurement.IdGlucoseRecord)
-                        {
-                            fileContent += rec.IdGlucoseRecord + "\t";
-                            fileContent += rec.GlucoseValue + "\t";
-                            fileContent += rec.Timestamp + "\t";
-                            fileContent += rec.GlucoseString + "\t";
-                            fileContent += rec.DeviceType + "\t";
-                            fileContent += rec.IdDevice + "\t";
-                            fileContent += rec.Notes + "\t";
-                            //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
-                            fileContent += "\n";
-                        }
-                        else
-                        {
-                            fileContent += GlucoseMeasurement.IdGlucoseRecord + "\t";
-                            fileContent += GlucoseMeasurement.GlucoseValue + "\t";
-                            fileContent += GlucoseMeasurement.Timestamp + "\t";
-                            fileContent += GlucoseMeasurement.GlucoseString + "\t";
-                            fileContent += GlucoseMeasurement.DeviceType + "\t";
-                            fileContent += GlucoseMeasurement.IdDevice + "\t";
-                            fileContent += GlucoseMeasurement.Notes + "\t";
-                            //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
-                            fileContent += "\n";
-                        }
-                    }
-                    TextFile.StringToFileAsync(persistentGlucoseMeasurements, fileContent);
-                    return;
+                    UpdateGlucoseMeasurement(GlucoseMeasurement); 
                 }
+                return GlucoseMeasurement.IdGlucoseRecord;
             }
             catch (Exception ex)
             {
                 Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
+                return null; 
             }
         }
-        internal override List<GlucoseRecord> GetFirstTwoGlucoseMeasurements()
+        private long? UpdateGlucoseMeasurement(GlucoseRecord Measurement)
         {
-            List<GlucoseRecord> list = new List<GlucoseRecord>();
-            if (File.Exists(persistentGlucoseMeasurements))
-                try
+            try { 
+                using (DbConnection conn = Connect())
                 {
-                    GlucoseRecord recLast = new GlucoseRecord(); 
-                    GlucoseRecord recBeforeLast = new GlucoseRecord();
-
-                    // open file
-                    using (FileStream fsIn = File.OpenRead(persistentGlucoseMeasurements))
-                    {
-                        using (StreamReader sr = new StreamReader(fsIn))
-                        {
-                            string line = sr.ReadLine();
-                            string[] fields = line.Split('\t');
-                            recLast.IdGlucoseRecord = int.Parse(fields[0]);
-                            recLast.GlucoseValue = double.Parse(fields[1]);
-                            recLast.Timestamp = Safe.DateTime(fields[2]);
-                            recLast.GlucoseString = fields[3];
-                            recLast.DeviceType = fields[4];
-                            recLast.IdDevice = fields[5];
-                            recLast.Notes = fields[6];
-                            line = sr.ReadLine();
-                            fields = line.Split('\t');
-                            recBeforeLast.IdGlucoseRecord = int.Parse(fields[0]);
-                            recBeforeLast.GlucoseValue = double.Parse(fields[1]);
-                            recBeforeLast.Timestamp = Safe.DateTime(fields[2]);
-                            recBeforeLast.GlucoseString = fields[3];
-                            recBeforeLast.DeviceType = fields[4];
-                            recBeforeLast.IdDevice = fields[5];
-                            recBeforeLast.Notes = fields[6];
-                        }
-                    }
-                    list.Add(recLast);
-                    list.Add(recBeforeLast);
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "UPDATE GlucoseRecords SET " +
+                    "GlucoseValue=" + SqlDouble(Measurement.GlucoseValue) + "," +
+                    "Timestamp=" + SqlDate(Measurement.Timestamp) + "," +
+                    "GlucoseString=" + SqlString(Measurement.GlucoseString) + "," +
+                    "IdDevice=" + SqlString(Measurement.IdDevice) + "," +
+                    "IdDeviceType=" + SqlString(Measurement.IdDeviceType) + "," +
+                    "Notes=" + SqlString(Measurement.Notes) + ""; 
+                    query += " WHERE IdGlucoseRecord=" + SqlInt(Measurement.IdGlucoseRecord);
+                    query += ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
                 }
-                catch (Exception ex)
+                return Measurement.IdGlucoseRecord;
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
+                return null;
+            }
+        }
+        private long? InsertIntoGlucoseMeasurement(GlucoseRecord Measurement)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
                 {
-                    Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | GetLastTwoGlucoseMeasurements", ex);
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "INSERT INTO GlucoseRecords" +
+                    "(" +
+                    "IdGlucoseRecord,GlucoseValue,Timestamp,GlucoseString," +
+                    "IdDevice,IdDeviceType,Notes";
+                    query += ")VALUES (" +
+                    SqlInt(Measurement.IdGlucoseRecord) + "," +
+                    SqlDouble(Measurement.GlucoseValue) + "," +
+                    SqlDate(Measurement.Timestamp) + "," +
+                    SqlString(Measurement.GlucoseString) + "," +
+                    SqlString(Measurement.IdDevice) + "," +
+                    SqlString(Measurement.IdDeviceType) + "," +
+                    SqlString(Measurement.Notes) + ")";
+                    query += ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
                 }
-            return list;
+                return Measurement.IdGlucoseRecord;
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | InsertIntoGlucoseMeasurement", ex);
+                return null;
+            }
         }
     }
 }

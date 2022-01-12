@@ -47,17 +47,17 @@ CREATE TABLE 'Foods' (
 	'Potassium'	DOUBLE,
 	'GlycemicIndex'	DOUBLE,
 	'AccuracyOfChoEstimate'	DOUBLE,
-	'QualitativeAccuracyOfChoEstimate'	INT,
+	'QualitativeAccuracyOfChoEstimate'	INTEGER,
 	PRIMARY KEY('IdFood' AUTOINCREMENT)
 );
 
 CREATE TABLE 'FoodsInMeals' (
 	'IdMeal'	INTEGER NOT NULL,
-	'IdFood'	INT,
+	'IdFood'	INTEGER,
 	'Quantity'	DOUBLE,
 	'Carbohydrates'	DOUBLE,
 	'AccuracyOfChoEstimate'	DOUBLE,
-	'QualitativeAccuracy' INT,
+	'QualitativeAccuracy' INTEGER,
 	PRIMARY KEY('IdMeal' AUTOINCREMENT)
 );
 
@@ -66,13 +66,15 @@ CREATE TABLE 'GlucoseRecords' (
 	'Timestamp'	DATETIME,
 	'GlucoseValue'	DOUBLE,
 	'InsulinDrugName'	VARCHAR(45),
-	'IdTypeOfGlucoseMeasurement'	INT,
-	'IdTypeOfGlucoseMeasurementDevice'	INT,
-	'IdModelOfMeasurementSystem'	INT,
-	'DeviceId'	VARCHAR(45),
-	'IdDocumentType'	INT,
+	'IdTypeOfGlucoseMeasurement'	INTEGER,
+	'IdTypeOfGlucoseMeasurementDevice'	INTEGER,
+	'IdModelOfMeasurementSystem'	INTEGER,
+	'IdDevice'	VARCHAR(45),
+	'IdDeviceType'	VARCHAR(45),
+	'IdDocumentType'	INTEGER,
 	'GlucoseString'	VARCHAR(45),
-	'TypeOfGlucoseMeasurement'	INT,
+	'TypeOfGlucoseMeasurement'	INTEGER,
+	'Notes'	VARCHAR(255),
 	PRIMARY KEY('IdGlucoseRecord' AUTOINCREMENT)
 );
 
@@ -81,7 +83,7 @@ CREATE TABLE 'HypoPredictions' (
 	'PredictedTime'	DATETIME,
 	'AlarmTime'	DATETIME,
 	'GlucoseSlope'	DOUBLE,
-	'HypoGlucoseTarget'	INT,
+	'HypoGlucoseTarget'	INTEGER,
 	'GlucoseLast'	DOUBLE,
 	'GlucosePrevious'	DOUBLE,
 	'Interval'	VARCHAR(10),
@@ -95,31 +97,31 @@ CREATE TABLE 'InsulineInjections' (
 	'IdInsulineInjection'	INTEGER NOT NULL,
 	'Timestamp'	VARCHAR(45),
 	'InsulinValue'	DOUBLE,
-	'InjectionPositionX'	INT,
-	'InjectionPositionY'	INT,
-	'IdTypeOfInjection'	INT,
-	'IdTypeOfInsulinSpeed'	INT,
-	'IdTypeOfInsulinInjection'	INT,
+	'InjectionPositionX'	INTEGER,
+	'InjectionPositionY'	INTEGER,
+	'IdTypeOfInjection'	INTEGER,
+	'IdTypeOfInsulinSpeed'	INTEGER,
+	'IdTypeOfInsulinInjection'	INTEGER,
 	'InsulinString'	VARCHAR(45),
 	PRIMARY KEY('IdInsulineInjection' AUTOINCREMENT)
 );
 
 CREATE TABLE 'Meals' (
 	'IdMeal'	INTEGER NOT NULL,
-	'IdTypeOfMeal'	INT,
+	'IdTypeOfMeal'	INTEGER,
 	'TimeBegin'	DATETIME,
 	'TimeEnd'	DATETIME,
 	'Carbohydrates'	DOUBLE,
 	'AccuracyOfChoEstimate'	DOUBLE,
-	'IdBolusCalculation'	INT,
-	'IdGlucoseRecord'	INT,
-	'IdQualitativeAccuracyCHO'	INT,
-	'IdInsulineInjection'	INT,
+	'IdBolusCalculation'	INTEGER,
+	'IdGlucoseRecord'	INTEGER,
+	'IdQualitativeAccuracyCHO'	INTEGER,
+	'IdInsulineInjection'	INTEGER,
 	PRIMARY KEY('IdMeal' AUTOINCREMENT)
 );
 
 CREATE TABLE 'ModelsOfMeasurementSystem' (
-	'IdModelOfMeasurementSystem'	INT NOT NULL,
+	'IdModelOfMeasurementSystem'	INTEGER NOT NULL,
 	'Name'	VARCHAR(45),
 	PRIMARY KEY('IdModelOfMeasurementSystem')
 );
@@ -139,6 +141,17 @@ CREATE TABLE 'Parameters' (
 	'TotalDailyDoseOfInsulin'	DOUBLE,
 	'FactorOfInsulinCorrectionSensitivity'	DOUBLE,
 	'InsulinCorrectionSensitivity'	DOUBLE,
+	'Hypo_GlucoseTarget' DOUBLE,
+	'Hypo_GlucoseLast' DOUBLE,
+	'Hypo_GlucosePrevious' DOUBLE,
+	'Hypo_HourLast' INTEGER,
+	'Hypo_HourPrevious' INTEGER,
+	'Hypo_MinuteLast' INTEGER,
+	'Hypo_MinutePrevious' INTEGER,
+	'Hypo_AlarmAdvanceTime' DATETIME,
+	'Hit_ChoAlreadyTaken' DOUBLE,
+	'Hit_ChoOfFood' DOUBLE,
+	'Hit_TargetCho' INTEGER,
 	PRIMARY KEY('IdParameters')
 );
 
@@ -161,25 +174,42 @@ CREATE TABLE 'TypesOfGlucoseMeasurementDevice' (
 );
 
 CREATE TABLE 'TypesOfInsulinInjection' (
-	'IdTypeOfInsulinInjection'	INT NOT NULL,
+	'IdTypeOfInsulinInjection'	INTEGER NOT NULL,
 	'Name'	VARCHAR(255) NOT NULL,
 	PRIMARY KEY('IdTypeOfInsulinInjection')
 );
 
 CREATE TABLE 'TypesOfInsulinSpeed' (
-	'IdTypeOfInsulinSpeed'	INTEGER NOT NULL,
+	'IdTypeOfInsulinSpeed' INTEGER NOT NULL,
 	'Name'	VARCHAR(45),
 	PRIMARY KEY('IdTypeOfInsulinSpeed' AUTOINCREMENT)
 );
 
 CREATE TABLE 'TypesOfMeal' (
-	'IdTypeOfMeal'	INTEGER NOT NULL,
+	'IdTypeOfMeal' INTEGER NOT NULL,
 	'Name'	VARCHAR(45),
 	PRIMARY KEY('IdTypeOfMeal' AUTOINCREMENT)
+);
+
+CREATE TABLE 'FoodsInRecipes' (
+  'IdRecipe' INTEGER NOT NULL,
+  'IdFood' INTEGER NOT NULL,
+  'Quantity' DOUBLE NULL,
+  'Carbohydrates' DOUBLE NULL,
+  'AccuracyOfChoEstimate' DOUBLE NULL,
+  'QualitativeAccuracy' INTEGER NULL,
+  PRIMARY KEY ('IdRecipe', 'IdFood')
+);
+
+CREATE TABLE 'Recipes' (
+  'IdRecipe' INTEGER NOT NULL,
+  'Name' VARCHAR(45) NULL,
+  'Description' VARCHAR(255) NULL,
+  PRIMARY KEY ('IdRecipe')
 );";
 		private void CreateNewDatabase(string dbName)
 		{
-			// making new means erasing existent
+			// making new, means erasing existent! 
 			if (File.Exists(dbName))
 				File.Delete(dbName); 
 

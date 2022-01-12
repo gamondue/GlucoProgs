@@ -9,44 +9,30 @@ namespace GlucoMan
 {
     internal partial class DL_Sqlite : DataLayer
     {
-        internal override void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
+        internal override void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Parameters)
         {
-            try
-            {
-                string file = Hypo.HypoGlucoseTarget.Text + "\n";
-                file += Hypo.GlucoseLast.Text + "\n";
-                file += Hypo.GlucosePrevious.Text + "\n";
-                file += Hypo.HourLast.Text + "\n";
-                file += Hypo.HourPrevious.Text + "\n";
-                file += Hypo.MinuteLast.Text + "\n";
-                file += Hypo.MinutePrevious.Text + "\n";
-                file += Hypo.AlarmAdvanceTime.TotalMinutes;
-                TextFile.StringToFileAsync(persistentHypoPrediction, file);
-            }
-            catch (Exception ex)
-            {
-                Common.LogOfProgram.Error("Sqlite_HypoPrediction | SaveHypoPrediction", ex);
-            }
+            SaveParameter("Hypo_GlucoseTarget", Parameters.Hypo_GlucoseTarget.Text);
+            SaveParameter("Hypo_GlucoseLast", Parameters.Hypo_GlucoseLast.Text);
+            SaveParameter("Hypo_GlucosePrevious", Parameters.Hypo_GlucosePrevious.Text); 
+            SaveParameter("Hypo_HourLast", Parameters.Hypo_HourLast.Text);
+            SaveParameter("Hypo_HourPrevious", Parameters.Hypo_HourPrevious.Text);
+            SaveParameter("Hypo_MinuteLast", Parameters.Hypo_MinuteLast.Text);
+            SaveParameter("Hypo_MinutePrevious", Parameters.Hypo_MinutePrevious.Text);
+            SaveParameter("Hypo_AlarmAdvanceTime", Parameters.Hypo_AlarmAdvanceTime.ToString());
         }
-        internal override void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
+        internal override void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Parameters)
         {
-            if (File.Exists(persistentHypoPrediction))
-                try
-                {
-                    string[] f = TextFile.FileToArray(persistentHypoPrediction);
-                    Hypo.HypoGlucoseTarget.Text = f[0];
-                    Hypo.GlucoseLast.Text = f[1];
-                    Hypo.GlucosePrevious.Text = f[2];
-                    Hypo.HourLast.Text = f[3];
-                    Hypo.HourPrevious.Text = f[4];
-                    Hypo.MinuteLast.Text = f[5];
-                    Hypo.MinutePrevious.Text = f[6];
-                    Hypo.AlarmAdvanceTime = new TimeSpan(0, int.Parse(f[7]), 0);
-                }
-                catch (Exception ex)
-                {
-                    Common.LogOfProgram.Error("Sqlite_HypoPrediction | RestoreHypoPrediction", ex);
-                }
+            Parameters.Hypo_GlucoseTarget.Text = RestoreParameter("Hypo_GlucoseTarget");
+            Parameters.Hypo_GlucoseLast.Text = RestoreParameter("Hypo_GlucoseLast");
+            Parameters.Hypo_GlucosePrevious.Text = RestoreParameter("Hypo_GlucosePrevious");
+            Parameters.Hypo_HourLast.Text = RestoreParameter("Hypo_HourLast");
+            Parameters.Hypo_HourPrevious.Text = RestoreParameter("Hypo_HourPrevious");
+            Parameters.Hypo_MinuteLast.Text = RestoreParameter("Hypo_MinuteLast");
+            Parameters.Hypo_MinutePrevious.Text = RestoreParameter("Hypo_MinutePrevious");
+            int? i = Safe.Int(RestoreParameter("Hypo_AlarmAdvanceTime"));
+            if (i == null)
+                i = 0;
+            Parameters.Hypo_AlarmAdvanceTime = new TimeSpan(0, (int)i, 0); 
         }
     }
 }

@@ -55,11 +55,16 @@ namespace GlucoMan.Forms
             this.label20 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnPhysicalActivityCalc = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox4
@@ -161,7 +166,7 @@ namespace GlucoMan.Forms
             this.txtTypicalBolusNight.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTypicalBolusNight.Name = "txtTypicalBolusNight";
             this.txtTypicalBolusNight.Size = new System.Drawing.Size(68, 26);
-            this.txtTypicalBolusNight.TabIndex = 34;
+            this.txtTypicalBolusNight.TabIndex = 20;
             this.txtTypicalBolusNight.Tag = "18";
             this.txtTypicalBolusNight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -172,16 +177,16 @@ namespace GlucoMan.Forms
             "1800",
             "1700",
             "1500"});
-            this.cmbSensitivityFactor.Location = new System.Drawing.Point(55, 157);
+            this.cmbSensitivityFactor.Location = new System.Drawing.Point(374, 78);
             this.cmbSensitivityFactor.Name = "cmbSensitivityFactor";
             this.cmbSensitivityFactor.Size = new System.Drawing.Size(68, 28);
-            this.cmbSensitivityFactor.TabIndex = 106;
+            this.cmbSensitivityFactor.TabIndex = 25;
             this.cmbSensitivityFactor.Text = "1800";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(25, 134);
+            this.label9.Location = new System.Drawing.Point(344, 55);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(128, 20);
@@ -191,7 +196,7 @@ namespace GlucoMan.Forms
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(161, 134);
+            this.label7.Location = new System.Drawing.Point(134, 134);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(145, 20);
@@ -203,7 +208,7 @@ namespace GlucoMan.Forms
             this.txtInsulinCorrectionSensitivity.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.txtInsulinCorrectionSensitivity.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtInsulinCorrectionSensitivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtInsulinCorrectionSensitivity.Location = new System.Drawing.Point(204, 159);
+            this.txtInsulinCorrectionSensitivity.Location = new System.Drawing.Point(177, 159);
             this.txtInsulinCorrectionSensitivity.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtInsulinCorrectionSensitivity.Name = "txtInsulinCorrectionSensitivity";
             this.txtInsulinCorrectionSensitivity.Size = new System.Drawing.Size(68, 26);
@@ -223,7 +228,7 @@ namespace GlucoMan.Forms
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(405, 53);
+            this.label6.Location = new System.Drawing.Point(39, 134);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(42, 20);
@@ -233,7 +238,7 @@ namespace GlucoMan.Forms
             // txtTotalDailyDoseOfInsulin
             // 
             this.txtTotalDailyDoseOfInsulin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtTotalDailyDoseOfInsulin.Location = new System.Drawing.Point(392, 78);
+            this.txtTotalDailyDoseOfInsulin.Location = new System.Drawing.Point(26, 159);
             this.txtTotalDailyDoseOfInsulin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTotalDailyDoseOfInsulin.Name = "txtTotalDailyDoseOfInsulin";
             this.txtTotalDailyDoseOfInsulin.ReadOnly = true;
@@ -332,14 +337,26 @@ namespace GlucoMan.Forms
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(11, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(490, 179);
-            this.groupBox1.TabIndex = 120;
+            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Calculation of RatioCHO/insulin (better if calculated from dietist)";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Red;
+            this.label1.ForeColor = System.Drawing.Color.Yellow;
+            this.label1.Location = new System.Drawing.Point(132, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(222, 20);
+            this.label1.TabIndex = 122;
+            this.label1.Text = "Calculation to be implemented";
             // 
             // groupBox3
             // 
@@ -354,15 +371,48 @@ namespace GlucoMan.Forms
             this.groupBox3.Location = new System.Drawing.Point(12, 197);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(490, 217);
-            this.groupBox3.TabIndex = 121;
+            this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Calculation of insulin sensitivity";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.label2);
+            this.groupBox5.Controls.Add(this.btnPhysicalActivityCalc);
+            this.groupBox5.Location = new System.Drawing.Point(11, 420);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(490, 179);
+            this.groupBox5.TabIndex = 3;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Physical Activity parameters";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Red;
+            this.label2.ForeColor = System.Drawing.Color.Yellow;
+            this.label2.Location = new System.Drawing.Point(132, 65);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(222, 20);
+            this.label2.TabIndex = 120;
+            this.label2.Text = "Calculation to be implemented";
+            // 
+            // btnPhysicalActivityCalc
+            // 
+            this.btnPhysicalActivityCalc.Enabled = false;
+            this.btnPhysicalActivityCalc.Location = new System.Drawing.Point(392, 128);
+            this.btnPhysicalActivityCalc.Name = "btnPhysicalActivityCalc";
+            this.btnPhysicalActivityCalc.Size = new System.Drawing.Size(75, 33);
+            this.btnPhysicalActivityCalc.TabIndex = 119;
+            this.btnPhysicalActivityCalc.Text = "Calc";
+            this.btnPhysicalActivityCalc.UseVisualStyleBackColor = true;
             // 
             // frmCorrectionParameters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(513, 424);
+            this.ClientSize = new System.Drawing.Size(513, 602);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -376,8 +426,11 @@ namespace GlucoMan.Forms
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -409,5 +462,9 @@ namespace GlucoMan.Forms
         private GroupBox groupBox2;
         private GroupBox groupBox1;
         private GroupBox groupBox3;
+        private GroupBox groupBox5;
+        private Label label2;
+        private Button btnPhysicalActivityCalc;
+        private Label label1;
     }
 }

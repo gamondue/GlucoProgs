@@ -13,13 +13,16 @@
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnWeighFood" Text="Weigh Food" Clicked="btnWeighFood_Clicked" IsEnabled="False"
                 Margin="15,0,15,0"></Button>
-        <Button x:Name="btnInsulin" Text="Meal insulin" Clicked="btnInsulin_Clicked"
+        <Button x:Name="btnInsulinCalc" Text="Meal insulin" Clicked="btnInsulinCalc_Clicked"
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to eat to reach wanted carbs" Clicked="btnFoodToHitTargetCarbs_Clicked"
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnHypoPrediction" Text="Hypoglicemia time prediction" Clicked="btnHypoPrediction_Clicked"
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnAlarms" Text="Alarm" Clicked="btnAlarms_Clicked" IsEnabled="False"
+                Margin="15,0,15,0"></Button>
+        <Button x:Name="btnMiscellaneousFunctions" Text="Miscellaneous functions" 
+                Clicked="btnMiscellaneousFunctions_Clicked"
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnAbout" Text="About" Clicked="btnAbout_Clicked"
                 Margin="15,0,15,0"></Button>

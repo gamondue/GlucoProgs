@@ -16,23 +16,12 @@ namespace GlucoMan.Forms
         {
             InitializeComponent();
 
-            string prova = "";
-
             currentBolusCalculation = new BL_BolusCalculation();
             currentGlucoseMeasurement = new BL_GlucoseMeasurements();
         }
         private void frmInsulinCalc_Load(object sender, EventArgs e)
         {
-            BL_BolusCalculation dummyBolus = new BL_BolusCalculation();
-
-            //txtGlucoseBeforeMeal.Text = Common.Bl.RestoreParameter("GlucoseBeforeMeal");
-            txtGlucoseBeforeMeal.Text = Common.Bl.RestoreParameter("TargetGlucose");
-            txtTargetGlucose.Text = Common.Bl.RestoreParameter("TargetGlucose");
-            txtChoInsulinRatioBreakfast.Text = Common.Bl.RestoreParameter("ChoInsulinRatioBreakfast");
-            txtChoInsulinRatioLunch.Text = Common.Bl.RestoreParameter("ChoInsulinRatioLunch");
-            txtChoInsulinRatioDinner.Text = Common.Bl.RestoreParameter("ChoInsulinRatioDinner");
-            txtTotalDailyDoseOfInsulin.Text = Common.Bl.RestoreParameter("TotalDailyDoseOfInsulin");
-            txtInsulinCorrectionSensitivity.Text = Common.Bl.RestoreParameter("InsulinCorrectionSensitivity");
+            currentBolusCalculation.RestoreBolusParameters(); 
 
             Common.SelectMealBasedOnTimeNow();
             switch (currentBolusCalculation.MealOfBolus.Type)
@@ -53,8 +42,7 @@ namespace GlucoMan.Forms
             currentBolusCalculation.TargetGlucose.Format = "0";
             currentBolusCalculation.GlucoseBeforeMeal.Format = "0";
 
-            //FromClassToUi();
-
+            FromClassToUi();
             txtGlucoseBeforeMeal.Focus();
         }
         private void FromClassToUi()
@@ -98,6 +86,7 @@ namespace GlucoMan.Forms
             currentBolusCalculation.ChoToEat.Text = txtChoToEat.Text;            
             currentBolusCalculation.GlucoseBeforeMeal.Text = txtGlucoseBeforeMeal.Text;
             currentBolusCalculation.TargetGlucose.Text = txtTargetGlucose.Text;
+            currentBolusCalculation.InsulinCorrectionSensitivity.Text = txtInsulinCorrectionSensitivity.Text;
 
             if (rdbIsBreakfast.Checked)
                 currentBolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Breakfast;
@@ -111,7 +100,7 @@ namespace GlucoMan.Forms
         private void frmInsulinCalc_FormClosing(object sender, FormClosingEventArgs e)
         {
             FromUiToClass();
-            currentBolusCalculation.SaveBolusData();
+            currentBolusCalculation.SaveBolusParameters();
         }
         private void txt_Leave(object sender, EventArgs e)
         {
@@ -120,22 +109,15 @@ namespace GlucoMan.Forms
         private void btnSetParameters_Click(object sender, EventArgs e)
         {
             frmCorrectionParameters f = new frmCorrectionParameters();
-            f.ShowDialog();
+            f.ShowDialog(); // modal form 
+            currentBolusCalculation.RestoreBolusParameters();
             FromClassToUi();
         }
         private void btnBolusCalculations_Click(object sender, EventArgs e)
         {
             FromUiToClass();
             currentBolusCalculation.CalculateBolus();
-
-            Common.Bl.SaveParameter("TargetGlucose", currentBolusCalculation.TargetGlucose.Text);
-            Common.Bl.SaveParameter("ChoInsulinRatioBreakfast", currentBolusCalculation.ChoInsulinRatioBreakfast.Text);
-            Common.Bl.SaveParameter("ChoInsulinRatioLunch", currentBolusCalculation.ChoInsulinRatioLunch.Text);
-            Common.Bl.SaveParameter("ChoInsulinRatioDinner", currentBolusCalculation.ChoInsulinRatioDinner.Text);
-            Common.Bl.SaveParameter("TotalDailyDoseOfInsulin", currentBolusCalculation.TotalDailyDoseOfInsulin.Text);
-            Common.Bl.SaveParameter("InsulinCorrectionSensitivity", currentBolusCalculation.InsulinCorrectionSensitivity.Text);
-
-            currentBolusCalculation.SaveBolusData();
+            currentBolusCalculation.SaveBolusParameters(); 
             currentBolusCalculation.SaveBolusLog();
             FromClassToUi();
         }
@@ -143,7 +125,7 @@ namespace GlucoMan.Forms
         {
             FromUiToClass();
             currentBolusCalculation.RoundInsulinToZeroDecimal();
-            currentBolusCalculation.SaveBolusData();
+            currentBolusCalculation.SaveBolusParameters();
             FromClassToUi();
         }
         private void btnReadGlucose_Click(object sender, EventArgs e)
@@ -153,9 +135,9 @@ namespace GlucoMan.Forms
         }
         private void btnSaveBolus_Click(object sender, EventArgs e)
         {
-            currentBolusCalculation.SaveBolusData();
+            currentBolusCalculation.SaveBolusParameters();
         }
-
+        // !!!! TODO put the following into Xamarin project
         private void btnOpenGlucose_Click(object sender, EventArgs e)
         {
             frmGlucose frm = new frmGlucose();  

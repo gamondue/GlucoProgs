@@ -7,7 +7,7 @@ namespace GlucoMan
         private DateTime? timestamp;
         private string idDevice;
         private int? accessoryIndex;
-        private string deviceType;
+        private string idDeviceType;
         private int? idDocumentType;
 
         private Common.TypeOfInsulinSpeed insulinSpeed;
@@ -33,12 +33,12 @@ namespace GlucoMan
         // properties directly mapped to database GlucoseRecordings table 
         // !!!! TODO visually separate when done with database tables !!!!
         internal int? IdGlucoseRecord { get ; set ; }
-        internal DateTime? Timestamp { get => timestamp; set => timestamp = value; }
-        internal string IdDevice { get => idDevice; set => idDevice = value; }
-        internal string DeviceType { get => deviceType; set => deviceType = value; }
-        internal int? IdDocumentType { get => idDocumentType; set => idDocumentType = value; }
         internal double? GlucoseValue { get => glucoseValue; set => glucoseValue = value; }  // in mg/l
+        internal DateTime? Timestamp { get => timestamp; set => timestamp = value; }
         internal string GlucoseString { get => glucoseString; set => glucoseString = value; }
+        internal string IdDevice { get => idDevice; set => idDevice = value; }
+        internal string IdDeviceType { get => idDeviceType; set => idDeviceType = value; }
+        internal int? IdDocumentType { get => idDocumentType; set => idDocumentType = value; }
         internal Common.TypeOfGlucoseMeasurement GlucoseMeasurementType { get => glucoseMeasurementType; set => glucoseMeasurementType = value; }
         internal Common.QualitativeAccuracy GlucoseQualitativeAccuracy { get => glucoseQualitativeAccuracy; set => glucoseQualitativeAccuracy = value; }
         internal string Notes { get => notes; set => notes = value; }
@@ -47,8 +47,8 @@ namespace GlucoMan
         // !!!! TODO visually separate better, when done with database tables !!!!
         internal double? InsulinValue { get => insulinValue; set => insulinValue = value; }
         internal string InsulinString { get => insulinString; set => insulinString = value; }
-        internal Common.TypeOfInsulinInjection InsulinInjection { get => insulinInjection; set => insulinInjection = value; }
         internal string InsulinDrugName { get => insulinDrugName; set => insulinDrugName = value; }
+        internal Common.TypeOfInsulinInjection InsulinInjection { get => insulinInjection; set => insulinInjection = value; }
         internal Common.TypeOfInsulinSpeed InsulinSpeed { get => insulinSpeed; set => insulinSpeed = value; }
         internal Common.QualitativeAccuracy InsulinAccuracy { get => insulinAccuracy; set => insulinAccuracy = value; }
         internal Common.QualitativeAccuracy CarbohydratesAccuracy { get => carbohydratesAccuracy; set => carbohydratesAccuracy = value; }

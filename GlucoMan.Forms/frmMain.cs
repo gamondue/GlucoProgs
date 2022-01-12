@@ -12,16 +12,6 @@ namespace GlucoMan.Forms
         {
             InitializeComponent();
         }
-        private void btnHypoPrediction_Click(object sender, EventArgs e)
-        {
-            frmPredictHypo f = new frmPredictHypo();
-            f.Show(); 
-        }
-        private void btnInsulinCalc(object sender, EventArgs e)
-        {
-            frmMealInsulinCalc f = new frmMealInsulinCalc();
-            f.Show(); 
-        }
         private void frmMain_Load(object sender, EventArgs e)
         {
             this.Text += " " + Common.Version;
@@ -31,28 +21,47 @@ namespace GlucoMan.Forms
                 "\r\nDistribution at: https://ingmonti.it/GlucoMan/" +
                 "\r\nThe first functionalities I implemented are those enabled in the following buttons:";
             txtFooterText.Text = "GlucoMan is Free Software by:" +
-                "\r\nIng.Gabriele Monti (gamon) - Forlì - Italia"+
+                "\r\nIng.Gabriele Monti (gamon) - Forlì - Italia" +
                 "\r\nLicence: GPL v.2";
         }
-        private void btnFoodToHitTargetCarbs_Click(object sender, EventArgs e)
+        private void btnGlucoseMeasurement_Click(object sender, EventArgs e)
         {
-            frmFoodToHitTargetCarbs f = new frmFoodToHitTargetCarbs();
-            f.Show(); 
+            frmGlucose fg = new frmGlucose();
+            fg.Show();
         }
         private void btnChoCount_Click(object sender, EventArgs e)
         {
             frmMeal fc = new frmMeal();
-            fc.Show(); 
+            fc.Show();
+        }
+        private void btnWeighFood_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void btnInsulinCalc(object sender, EventArgs e)
+        {
+            frmMealInsulinCalc f = new frmMealInsulinCalc();
+            f.Show();
+        }
+        private void btnFoodToHitTargetCarbs_Click(object sender, EventArgs e)
+        {
+            frmFoodToHitTargetCarbs f = new frmFoodToHitTargetCarbs();
+            f.Show();
+        }
+        private void btnHypoPrediction_Click(object sender, EventArgs e)
+        {
+            frmPredictHypo f = new frmPredictHypo();
+            f.Show(); 
         }
         private void btnAlarms_Click(object sender, EventArgs e)
         {
             frmAlarms fa = new frmAlarms();
             fa.Show(); 
         }
-        private void btnGlucoseMeasurement_Click(object sender, EventArgs e)
+        private void bntMiscellaneous_Click(object sender, EventArgs e)
         {
-            frmGlucose fg = new frmGlucose();
-            fg.Show(); 
+            frmMiscellaneous f = new frmMiscellaneous();
+            f.Show(); 
         }
     }
 }

@@ -19,40 +19,60 @@ namespace GlucoMan.Forms
 
             hypo.RestoreData();
             FromClassToUi();
+
+            txtGlucoseSlope.Text = "----";
+            txtGlucoseLast.Focus();
+
+            txtStatusBar.Visible = false;
+        }
+        private void frmPredictHypo_Load(object sender, EventArgs e)
+        {
+            txtGlucoseLast.Focus();
+        }
+        private void frmPredictHypo_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            FromUiToClass();
+            hypo.SaveDataHypo();
         }
         private void FromClassToUi()
         {
-            txtGlucoseTarget.Text = hypo.HypoGlucoseTarget.Text;
-            txtGlucoseLast.Text = hypo.GlucoseLast.Text;
-            txtGlucosePrevious.Text = hypo.GlucosePrevious.Text;
-            txtHourLast.Text = hypo.HourLast.Text;
+            txtGlucoseTarget.Text = hypo.Hypo_GlucoseTarget.Text;
+            txtGlucoseLast.Text = hypo.Hypo_GlucoseLast.Text;
+            txtGlucosePrevious.Text = hypo.Hypo_GlucosePrevious.Text;
+            txtHourLast.Text = hypo.Hypo_HourLast.Text;
             
-            txtHourPrevious.Text = hypo.HourPrevious.Text;
-            txtMinuteLast.Text = hypo.MinuteLast.Text;
-            txtMinutePrevious.Text = hypo.MinutePrevious.Text;
+            txtHourPrevious.Text = hypo.Hypo_HourPrevious.Text;
+            txtMinuteLast.Text = hypo.Hypo_MinuteLast.Text;
+            txtMinutePrevious.Text = hypo.Hypo_MinutePrevious.Text;
             
-            txtAlarmAdvanceTime.Text = hypo.AlarmAdvanceTime.TotalMinutes.ToString();
-            txtGlucoseSlope.Text = hypo.GlucoseSlope.ToString();
-            txtAlarmHour.Text = hypo.AlarmTime.DateTime.Hour.ToString();
-            txtAlarmMinute.Text = hypo.AlarmTime.DateTime.Minute.ToString();
+            txtAlarmAdvanceTime.Text = hypo.Hypo_AlarmAdvanceTime.TotalMinutes.ToString();
+            txtGlucoseSlope.Text = hypo.HypoGlucoseSlope.ToString();
+            txtAlarmHour.Text = hypo.HypoAlarmTime.DateTime.Hour.ToString();
+            txtAlarmMinute.Text = hypo.HypoAlarmTime.DateTime.Minute.ToString();
 
             txtPredictedHour.Text = hypo.PredictedHour.Text;
             txtPredictedMinute.Text = hypo.PredictedMinute.Text;
 
-            txtStatusBar.Text = hypo.StatusMessage;
+            if (hypo.StatusMessage != null && hypo.StatusMessage != "")
+            {
+                txtStatusBar.Visible = true;
+                txtStatusBar.Text = hypo.StatusMessage;
+            }
+            else
+                txtStatusBar.Visible = false;
         }
         private void FromUiToClass()
         {
-            hypo.AlarmAdvanceTime = new TimeSpan(0, int.Parse(txtAlarmAdvanceTime.Text), 0);
-            hypo.HypoGlucoseTarget.Text = txtGlucoseTarget.Text;
-            hypo.GlucoseLast.Text = txtGlucoseLast.Text;
-            hypo.GlucosePrevious.Text = txtGlucosePrevious.Text;
+            hypo.Hypo_AlarmAdvanceTime = new TimeSpan(0, int.Parse(txtAlarmAdvanceTime.Text), 0);
+            hypo.Hypo_GlucoseTarget.Text = txtGlucoseTarget.Text;
+            hypo.Hypo_GlucoseLast.Text = txtGlucoseLast.Text;
+            hypo.Hypo_GlucosePrevious.Text = txtGlucosePrevious.Text;
 
-            hypo.HourLast.Text = txtHourLast.Text;
-            hypo.MinuteLast.Text = txtMinuteLast.Text;
+            hypo.Hypo_HourLast.Text = txtHourLast.Text;
+            hypo.Hypo_MinuteLast.Text = txtMinuteLast.Text;
 
-            hypo.HourPrevious.Text = txtHourPrevious.Text;
-            hypo.MinutePrevious.Text = txtMinutePrevious.Text;
+            hypo.Hypo_HourPrevious.Text = txtHourPrevious.Text;
+            hypo.Hypo_MinutePrevious.Text = txtMinutePrevious.Text;
         }
         private void btnNow_Click(object sender, EventArgs e)
         {
@@ -61,24 +81,17 @@ namespace GlucoMan.Forms
             txtMinuteLast.Text = now.Minute.ToString();
             txtGlucosePrevious.Focus();
         }
-        private void txtGlucoseLast_Leave(object sender, EventArgs e)
-        {
-            btnNow_Click(null, null); 
-        }
         private void btnPredict_Click(object sender, EventArgs e)
         {
             FromUiToClass();
             hypo.PredictHypoTime();
-            txtGlucoseSlope.Text = hypo.GlucoseSlope.Text; 
-            txtPredictedHour.Text = hypo.PredictedHour.Text;
-            txtPredictedMinute.Text = hypo.PredictedMinute.Text;
-            txtAlarmHour.Text = hypo.AlarmHour.Text;
-            txtAlarmMinute.Text = hypo.AlarmMinute.Text;
-            txtStatusBar.Text = hypo.StatusMessage; 
-        }
-        private void frmPredictHypo_Load(object sender, EventArgs e)
-        {
-            txtGlucoseLast.Focus(); 
+            FromClassToUi();
+            //txtGlucoseSlope.Text = hypo.HypoGlucoseSlope.Text; 
+            //txtPredictedHour.Text = hypo.PredictedHour.Text;
+            //txtPredictedMinute.Text = hypo.PredictedMinute.Text;
+            //txtAlarmHour.Text = hypo.AlarmHour.Text;
+            //txtAlarmMinute.Text = hypo.AlarmMinute.Text;
+            //txtStatusBar.Text = hypo.StatusMessage; 
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
@@ -90,11 +103,6 @@ namespace GlucoMan.Forms
             btnNow_Click(null,null);
             
             txtGlucoseLast.Focus();
-        }
-        private void frmPredictHypo_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            FromUiToClass(); 
-            hypo.SaveDataHypo(); 
         }
         private void btnSetAlarm_Click(object sender, EventArgs e)
         {
@@ -120,7 +128,6 @@ namespace GlucoMan.Forms
             //////catch (Exception ex)
             //////{ }
         }
-
         private void btnReadGlucose_Click(object sender, EventArgs e)
         {
             List<GlucoseRecord> list = blMeasurements.GetLastTwoGlucoseMeasurements();
@@ -130,6 +137,10 @@ namespace GlucoMan.Forms
             txtHourPrevious.Text = list[1].Timestamp.Value.Hour.ToString();
             txtMinuteLast.Text = list[0].Timestamp.Value.Minute.ToString();
             txtMinutePrevious.Text = list[1].Timestamp.Value.Minute.ToString();
+        }
+        private void txtGlucoseLast_Leave(object sender, EventArgs e)
+        {
+            btnNow_Click(null, null);
         }
     }
 }

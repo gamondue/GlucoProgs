@@ -7,17 +7,20 @@
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
                 <RowDefinition Height="35"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="20"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="60"/>
-                <RowDefinition Height="70"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="60"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
@@ -27,13 +30,13 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.ColumnSpan="4" Text="" 
+            <Label Grid.Row="0" Grid.ColumnSpan="4" Text="Calculation of RatioCHO/insulin" 
                    XAlign="Center" YAlign="End" FontSize="Large"/>
-            <Label Grid.Row="1" Grid.ColumnSpan="4" Text="Calculation of RatioCHO/insulin" 
-                   XAlign="Center" YAlign="End" FontSize="Large"/>
-            <Label Grid.Row="2" Grid.ColumnSpan="4" Text="(better if calculated from dietist)" 
+            <Label Grid.Row="1" Grid.ColumnSpan="4" Text="(better if calculated from dietist)" 
                    XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="3" Grid.ColumnSpan="4" Text="Ratio CHO / insulin (from dietist)" 
+            <Label Grid.Row="2" Grid.ColumnSpan="4" Text="Calculation to be implemented yet" 
+                    FontSize="Medium" XAlign="Center" YAlign="End" BackgroundColor="Red" TextColor="Yellow"/>
+            <Label Grid.Row="3" Grid.ColumnSpan="4" Text="Ratio CHO / insulin" 
                     FontSize="Medium" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="0" Text="Breakfast" XAlign="Center" YAlign="End" />
             <Label Grid.Row="4" Grid.Column="1" Text="Lunch" XAlign="Center" YAlign="End"/>
@@ -88,6 +91,13 @@
                    Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"/>
             <Button Grid.Row="12" Grid.Column="3" x:Name="btnInsulinSensitivityCalculation" Text="Calc"
                     Clicked="btnInsulinSensitivityCalculation_Click"/>
+
+            <Label Grid.Row="13" Grid.ColumnSpan="4" Text="Physical Activity parameters" 
+                   XAlign="Center" YAlign="End" FontSize="Large"/>
+            <Label Grid.Row="14" Grid.ColumnSpan="4" Text="Calculation to be implemented yet" 
+                    FontSize="Medium" XAlign="Center" YAlign="End" BackgroundColor="Red" TextColor="Yellow"/>
+            <Button Grid.Row="15" Grid.Column="3" x:Name="btnPhysicalActivityCalculation" Text="Calc"
+                    Clicked="btnPhysicalActivityCalculation_Click" IsEnabled="False"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

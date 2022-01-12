@@ -1,7 +1,6 @@
 ﻿using GlucoMan;
 using GlucoMan.BusinessLayer;
 using SharedData;
-using GlucoMan;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace GlucoMan.Mobile
 {
@@ -16,9 +16,9 @@ namespace GlucoMan.Mobile
     public partial class GlucoseMeasurementPage : ContentPage
     {
         BL_GlucoseMeasurements bl = new BL_GlucoseMeasurements();
-        GlucoseRecord currentGlucose; 
-
+        GlucoseRecord currentGlucose;
         List<GlucoseRecord> glucoseReadings = new List<GlucoseRecord>();
+
         public GlucoseMeasurementPage()
         {
             InitializeComponent();
@@ -30,10 +30,7 @@ namespace GlucoMan.Mobile
         private void RefreshGrid()
         {
             glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
-            glucoseReadings = glucoseReadings.OrderByDescending(n => n.Timestamp).ToList();
-            //ObservableCollection<GlucoseRecord> collection = new ObservableCollection<GlucoseRecord>(glucoseReadings);
-            //this.BindingContext = collection;
-            this.BindingContext = glucoseReadings;
+            this.BindingContext = glucoseReadings; 
             //gridMeasurements.ItemsSource = glucoseReadings;
         }
         public void btnAddMeasurement_Click(object sender, EventArgs e)
@@ -45,13 +42,10 @@ namespace GlucoMan.Mobile
             }
             FromUiToClass();
             glucoseReadings.Add(currentGlucose);
-            glucoseReadings = glucoseReadings.OrderByDescending(n => n.Timestamp).ToList();
             // erase Id to save a new record
             currentGlucose.IdGlucoseRecord = null; 
             if (chkAutosave.IsChecked)
                 bl.SaveGlucoseMeasurements(glucoseReadings);
-            glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
-            this.BindingContext = glucoseReadings;
             RefreshGrid();
         }
         private async void btnRemoveMeasurement_Click(object sender, EventArgs e)
@@ -105,6 +99,7 @@ namespace GlucoMan.Mobile
         {
             FromUiToClass();
             bl.SaveOneGlucoseMeasurement(currentGlucose);
+            RefreshGrid();
         }
         private void btnNow_Click(object sender, EventArgs e)
         {
@@ -117,6 +112,7 @@ namespace GlucoMan.Mobile
             {
                 return;
             }
+                // make the tapped row current
             currentGlucose = (GlucoseRecord)e.SelectedItem;
             FromClassToUi();
         }

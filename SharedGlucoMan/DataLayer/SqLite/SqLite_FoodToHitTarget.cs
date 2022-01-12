@@ -10,39 +10,17 @@ namespace GlucoMan
 {
     internal partial class DL_Sqlite : DataLayer
     {
-        internal override void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
+        internal override void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs Parameters)
         {
-            if (File.Exists(persistentFoodToEatTarget))
-                try
-                {
-                    string[] f = TextFile.FileToArray(persistentFoodToEatTarget);
-                    CalculationsOfChoMassToHitTarget.ChoAlreadyTaken.Text = f[0];
-                    CalculationsOfChoMassToHitTarget.ChoOfFood.Text = f[1];
-                    CalculationsOfChoMassToHitTarget.TargetCho.Text = f[2];
-                    //FoodToHitTarget.Text = f[3];
-                }
-                catch (Exception ex)
-                {
-                    Common.LogOfProgram.Error("Sqlite_BolusCalculation | SaveBolusCalculations", ex);
-                }
+            SaveParameter("Hit_ChoAlreadyTaken", Parameters.Hit_ChoAlreadyTaken.Text);
+            SaveParameter("Hit_ChoOfFood", Parameters.Hit_ChoOfFood.Text);
+            SaveParameter("Hit_TargetCho", Parameters.Hit_TargetCho.Text);
         }
-
-        internal override void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
+        internal override void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs Parameters)
         {
-            try
-            {
-                string file = CalculationsOfChoMassToHitTarget.ChoAlreadyTaken.Text + "\n";
-                file += CalculationsOfChoMassToHitTarget.ChoOfFood.Text + "\n";
-                file += CalculationsOfChoMassToHitTarget.TargetCho.Text + "\n";
-                file += CalculationsOfChoMassToHitTarget.TargetCho.Text + "\n";
-
-                //TextFile.StringToFile(persistentFoodToEatTarget, file, false);
-                TextFile.StringToFileAsync(persistentFoodToEatTarget, file);
-            }
-            catch (Exception ex)
-            {
-                Common.LogOfProgram.Error("Sqlite_BolusCalculation | SaveBolusCalculations", ex);
-            }
+            Parameters.Hit_ChoAlreadyTaken.Text = RestoreParameter("Hit_ChoAlreadyTaken");
+            Parameters.Hit_ChoOfFood.Text = RestoreParameter("Hit_ChoOfFood");
+            Parameters.Hit_TargetCho.Text = RestoreParameter("Hit_TargetCho");
         }
     }
 }

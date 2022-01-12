@@ -6,7 +6,7 @@
     <AssemblyName>GlucoMan</AssemblyName>
     <ApplicationIcon>Current_Icon_White.ico</ApplicationIcon>
     <PackageId>GlucoMan</PackageId>
-    <Version>0.5.0.1</Version>
+    <Version>0.6.0.0</Version>
     <NeutralLanguage>en-150</NeutralLanguage>
     <PackageLicenseExpression>GPL-2.0-only</PackageLicenseExpression>
     <Authors>Ing.Gabriele MONTI - Forlì - Italia</Authors>
@@ -55,6 +55,9 @@
     <Compile Update="MealInsulinCalcPage.xaml.cs">
       <DependentUpon>MealInsulinCalcPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="MiscellaneousFunctionsPage.xaml.cs">
+      <DependentUpon>MiscellaneousFunctionsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="WeighFoodPage.xaml.cs">
       <DependentUpon>WeighFoodPage.xaml</DependentUpon>
     </Compile>
@@ -62,6 +65,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="CorrectionParametersPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MiscellaneousFunctionsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

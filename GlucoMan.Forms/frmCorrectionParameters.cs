@@ -22,17 +22,11 @@ namespace GlucoMan.Forms
         }
         private void frmCorrectionParameters_Load(object sender, EventArgs e)
         {
-            txtChoInsulinRatioBreakfast.Text = Common.Bl.RestoreParameter("ChoInsulinRatioBreakfast");
-            txtChoInsulinRatioLunch.Text = Common.Bl.RestoreParameter("ChoInsulinRatioLunch");
-            txtChoInsulinRatioDinner.Text = Common.Bl.RestoreParameter("ChoInsulinRatioDinner");
-            txtTypicalBolusMorning.Text = Common.Bl.RestoreParameter("TypicalBolusMorning");
-            txtTypicalBolusMidday.Text = Common.Bl.RestoreParameter("TypicalBolusMidday");
-            txtTypicalBolusEvening.Text = Common.Bl.RestoreParameter("TypicalBolusEvening");
-            txtTypicalBolusNight.Text = Common.Bl.RestoreParameter("TypicalBolusNight");
-            txtTotalDailyDoseOfInsulin.Text = Common.Bl.RestoreParameter("TotalDailyDoseOfInsulin");
-            cmbSensitivityFactor.Text = Common.Bl.RestoreParameter("FactorOfInsulinCorrectionSensitivity");
-            txtInsulinCorrectionSensitivity.Text = Common.Bl.RestoreParameter("InsulinCorrectionSensitivity");
-            currentBolusCalculation.FactorOfInsulinCorrectionSensitivity.Format = "0"; 
+            currentBolusCalculation.RestoreInsulinCorrectionParameters();
+
+            currentBolusCalculation.FactorOfInsulinCorrectionSensitivity.Format = "0";
+
+            FromClassToUi(); 
         }
         private void FromClassToUi()
         {
@@ -61,19 +55,10 @@ namespace GlucoMan.Forms
 
         private void btnInsulinSensitivityCalculation_Click(object sender, EventArgs e)
         {
-            //FromUiToClass();
+            FromUiToClass();
             currentBolusCalculation.CalculateInsulinCorrectionSensitivity();
+            currentBolusCalculation.SaveInsulinCorrectionParameters();
             FromClassToUi();
-            Common.Bl.SaveParameter("ChoInsulinRatioBreakfast", currentBolusCalculation.ChoInsulinRatioBreakfast.Text);
-            Common.Bl.SaveParameter("ChoInsulinRatioLunch", currentBolusCalculation.ChoInsulinRatioLunch.Text);
-            Common.Bl.SaveParameter("ChoInsulinRatioDinner", currentBolusCalculation.ChoInsulinRatioDinner.Text);
-            Common.Bl.SaveParameter("TypicalBolusMorning", currentBolusCalculation.TypicalBolusMorning.Text);
-            Common.Bl.SaveParameter("TypicalBolusMidday", currentBolusCalculation.TypicalBolusMidday.Text);
-            Common.Bl.SaveParameter("TypicalBolusEvening", currentBolusCalculation.TypicalBolusEvening.Text);
-            Common.Bl.SaveParameter("TypicalBolusNight", currentBolusCalculation.TypicalBolusNight.Text);
-            Common.Bl.SaveParameter("TotalDailyDoseOfInsulin", currentBolusCalculation.TotalDailyDoseOfInsulin.Text);
-            Common.Bl.SaveParameter("FactorOfInsulinCorrectionSensitivity", currentBolusCalculation.FactorOfInsulinCorrectionSensitivity.Text);
-            Common.Bl.SaveParameter("InsulinCorrectionSensitivity", currentBolusCalculation.InsulinCorrectionSensitivity.Text);
         }
     }
 }

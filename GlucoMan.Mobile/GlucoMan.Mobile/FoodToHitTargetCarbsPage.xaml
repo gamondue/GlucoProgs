@@ -17,6 +17,11 @@
             <Entry x:Name="TxtChoAlreadyTaken" Text="" Unfocused="TxtChoAlreadyTaken_Leave"
                    Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="PaleGreen" />
+
+            <Label Text="CHO left to take" XAlign="Center" YAlign="End"/>
+            <Entry x:Name="TxtChoLeftToTake" Text="" Unfocused="TxtChoOfFood_Leave"
+                   Margin="30,0,30,0" Placeholder="%" HorizontalTextAlignment ="End" 
+                   FontSize="Large" BackgroundColor="White" />
             
             <Label Text="CHO % of food to eat [%]" XAlign="Center" YAlign="End"/>
             <Entry x:Name="TxtChoOfFood" Text="" Unfocused="TxtChoOfFood_Leave"

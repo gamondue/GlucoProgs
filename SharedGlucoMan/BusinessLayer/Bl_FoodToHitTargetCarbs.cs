@@ -1,6 +1,5 @@
 ﻿using GlucoMan;
 using SharedData;
-using GlucoMan;
 using System;
 using System.IO;
 
@@ -10,9 +9,10 @@ namespace GlucoMan.BusinessLayer
     {
         DataLayer dl = Common.Database;
 
-        internal DoubleAndText ChoAlreadyTaken = new DoubleAndText();
-        internal DoubleAndText ChoOfFood = new DoubleAndText();
-        internal DoubleAndText TargetCho = new DoubleAndText();
+        internal DoubleAndText Hit_ChoAlreadyTaken = new DoubleAndText();
+        internal DoubleAndText Hit_ChoOfFood = new DoubleAndText();
+        internal DoubleAndText Hit_TargetCho = new DoubleAndText();
+        internal DoubleAndText ChoLeftToTake = new DoubleAndText();
         internal DoubleAndText FoodToHitTarget = new DoubleAndText();
 
         internal BL_FoodToHitTargetCarbs()
@@ -36,8 +36,8 @@ namespace GlucoMan.BusinessLayer
         }
         internal void Calculations()
         {
-            FoodToHitTarget.Double = (TargetCho.Double - ChoAlreadyTaken.Double) *
-                100 / ChoOfFood.Double;
+            ChoLeftToTake.Double = (Hit_TargetCho.Double - Hit_ChoAlreadyTaken.Double);
+            FoodToHitTarget.Double = ChoLeftToTake.Double * 100 / Hit_ChoOfFood.Double;
             SaveData(); 
         }
     }

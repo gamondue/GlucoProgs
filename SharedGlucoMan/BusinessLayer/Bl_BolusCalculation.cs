@@ -147,26 +147,28 @@ namespace GlucoMan.BusinessLayer
                     bolusPlus = bolusCurrent;
                 }
                 iterationsCount++; 
-            } while (Math.Abs((int)bolusCurrent - (int)targetBolus) > 0.01 && iterationsCount < 20); 
-        }
-        internal void SaveBolusData()
-        {
-            try
-            {
-                dl.SaveBolusCalculations(this);
-            }
-            catch (Exception ex)
-            {
-                Common.LogOfProgram.Error("BL_BolusCalculations | SaveData()", ex);
-            }
-        }
-        internal void RestoreBolusData()
-        {
-            dl.RestoreBolusCalculations(this);
+            } while (Math.Abs((double)bolusCurrent - (double)targetBolus) > 0.01 && iterationsCount < 20); 
         }
         internal void SaveBolusLog()
         {
                 dl.SaveLogOfBoluses(this); 
         }
+        internal void RestoreBolusParameters()
+        {
+             dl.RestoreBolusParameters(this);
+        }
+        internal void SaveBolusParameters()
+        {
+            dl.SaveBolusParameters(this);
+        }
+        internal void SaveInsulinCorrectionParameters()
+        {
+            dl.SaveInsulinCorrectionParameters(this);
+        }
+        internal void RestoreInsulinCorrectionParameters()
+        {
+            dl.RestoreInsulinCorrectionParameters(this);
+        }
     }
 }
+  

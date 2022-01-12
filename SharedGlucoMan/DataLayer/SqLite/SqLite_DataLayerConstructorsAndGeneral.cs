@@ -101,7 +101,7 @@ namespace GlucoMan
             }
             //Application.Exit();
         }
-        internal int NextKey(string Table, string KeyName)
+        internal int GetNextTablePrimaryKey(string Table, string KeyName)
         {
             int nextId;
             using (DbConnection conn = Connect())
@@ -165,7 +165,7 @@ namespace GlucoMan
             }
             return fieldExists;
         }
-        internal void BackupAllStudentsDataTsv()
+        internal void BackupAllDataToTsv()
         {
             BackupTableTsv("Students");
             BackupTableTsv("StudentsPhotos");
@@ -173,7 +173,7 @@ namespace GlucoMan
             BackupTableTsv("Classes_Students");
             BackupTableTsv("Grades");
         }
-        internal void BackupAllStudentsDataXml()
+        internal void BackupAllDataToXml()
         {
             BackupTableXml("Students");
             BackupTableXml("StudentsPhotos");
@@ -181,7 +181,7 @@ namespace GlucoMan
             BackupTableXml("Classes_Students");
             BackupTableXml("Grades");
         }
-        internal void RestoreAllStudentsDataTsv(bool MustErase)
+        internal void RestoreAllDataFromTsv(bool MustErase)
         {
             RestoreTableTsv("Students", MustErase);
             RestoreTableTsv("StudentsPhotos", MustErase);
@@ -189,7 +189,7 @@ namespace GlucoMan
             RestoreTableTsv("Classes_Students", MustErase);
             RestoreTableTsv("Grades", MustErase);
         }
-        internal void RestoreAllStudentsDataXml(bool MustErase)
+        internal void RestoreAllDataFromXml(bool MustErase)
         {
             RestoreTableXml("Students", MustErase);
             RestoreTableXml("StudentsPhotos", MustErase);
@@ -463,14 +463,20 @@ namespace GlucoMan
                 cmd.Dispose();
             }
         }
-        //integrate the following three in Business layer, the test them 
         internal override void PurgeDatabase()
         {
+            try
+            {
             File.Delete(dbName);
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | SaveParameter", ex);
+            }
         }
-        internal override int? SaveParameter(string FieldName, string FieldValue, int? Key = null)
+        internal override long? SaveParameter(string FieldName, string FieldValue, int? Key = null)
         {
-            int? idOfRecord = null;
+            long? idOfRecord = null;
             try
             {
                 using (DbConnection conn = Connect())
@@ -509,8 +515,8 @@ namespace GlucoMan
                             {
                                 // no key given: we update the highest key already given 
                                 cmd.CommandText = "SELECT MAX(IdParameters) FROM Parameters;";
-                                int? maxKey = (int?)cmd.ExecuteScalar();
-                                whereClause = " WHERE IdParameters=" + maxKey;
+                                long? maxKey = (long?)cmd.ExecuteScalar();
+                                whereClause = " WHERE IdParameters=" + maxKey.ToString();
                                 query = "UPDATE Parameters SET ";
                                 if (double.TryParse(FieldValue, out dummy))
                                 {
@@ -565,6 +571,7 @@ namespace GlucoMan
                             }
                             query += whereClause + ";";
                         }
+                        cmd.CommandText = query;
                         cmd.ExecuteNonQuery();
                         cmd.Dispose();
                     }
@@ -573,7 +580,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | RestoreParameters", ex);
+                Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | SaveParameter", ex);
                 return null;
             }
         }
@@ -592,9 +599,10 @@ namespace GlucoMan
                     string whereClause;
                     if (Key == null)
                     {
-                        // no key: we use the highest key
+                        // no key between parameter: we use the highest key
                         cmd.CommandText = "SELECT MAX(IdParameters) FROM Parameters;";
                         int? maxKey = Safe.Int(cmd.ExecuteScalar());
+                        //int? maxKey = NextKey("Parameters", "IdParameters");
                         whereClause = " WHERE IdParameters=" + maxKey;
                     }
                     else
@@ -611,7 +619,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | RestoreParameters", ex);
+                Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | RestoreParameter", ex);
                 return null;
             }
         }

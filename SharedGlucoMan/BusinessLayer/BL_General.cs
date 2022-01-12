@@ -1,4 +1,5 @@
 ﻿using GlucoMan;
+using GlucoMan.BusinessLayer;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +11,9 @@ namespace SharedGlucoMan.BusinessLayer
     internal class BL_General
     {
         DataLayer dl = Common.Database;
-        internal void SaveParameter(string FieldName, string FieldValue)
+        internal long? SaveParameter(string FieldName, string FieldValue)
         {
-            dl.SaveParameter(FieldName, FieldValue);
+            return dl.SaveParameter(FieldName, FieldValue);
         }
         internal string RestoreParameter(string FieldName)
         {

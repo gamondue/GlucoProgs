@@ -12,7 +12,7 @@ namespace GlucoMan
         {
             throw new NotImplementedException();
         }
-        internal override int? SaveParameter(string FieldName, string FieldValue, int? Key = null)
+        internal override long? SaveParameter(string FieldName, string FieldValue, int? Key = null)
         {
             throw new NotImplementedException();
         }
