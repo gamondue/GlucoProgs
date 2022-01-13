@@ -14,7 +14,7 @@ namespace GlucoMan.Mobile
             InitializeComponent();
 
             bolusCalculation = new BL_BolusCalculation(); 
-            bolusCalculation.RestoreBolusParameters();
+            bolusCalculation.RestoreInsulinCorrectionParameters();
             bolusCalculation.FactorOfInsulinCorrectionSensitivity.Format = "0";
             FromClassToUi();
         }
@@ -22,7 +22,7 @@ namespace GlucoMan.Mobile
         {
             FromUiToClass();
             bolusCalculation.CalculateBolus();
-            bolusCalculation.SaveBolusParameters();
+            bolusCalculation.SaveInsulinCorrectionParameters();
             bolusCalculation.SaveBolusLog();
             FromClassToUi();
         }
@@ -60,7 +60,7 @@ namespace GlucoMan.Mobile
         {
             FromUiToClass();
             bolusCalculation.CalculateInsulinCorrectionSensitivity();
-            bolusCalculation.SaveBolusParameters();
+            bolusCalculation.SaveInsulinCorrectionParameters();
             FromClassToUi();
         }
         private void btnYYYY_Click(object sender, EventArgs e)

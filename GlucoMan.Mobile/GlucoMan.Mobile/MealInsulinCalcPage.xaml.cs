@@ -120,7 +120,8 @@ namespace GlucoMan.Mobile
         private void btnReadGlucose_Click(object sender, EventArgs e)
         {
             List<GlucoseRecord> list = currentGlucoseMeasuremet.GetLastTwoGlucoseMeasurements();
-            txtGlucoseBeforeMeal.Text = list[0].GlucoseValue.ToString();
+            if (list.Count > 0)
+                txtGlucoseBeforeMeal.Text = list[0].GlucoseValue.ToString();
         }
         private void btnSaveBolus_Click(object sender, EventArgs e)
         {

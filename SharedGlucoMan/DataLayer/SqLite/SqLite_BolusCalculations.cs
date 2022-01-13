@@ -21,6 +21,7 @@ namespace GlucoMan
             SaveParameter("ChoInsulinRatioDinner", Parameters.ChoInsulinRatioDinner.Text);
             SaveParameter("TotalDailyDoseOfInsulin", Parameters.TotalDailyDoseOfInsulin.Text);
             SaveParameter("ChoToEat", Parameters.ChoToEat.Text);
+            SaveParameter("GlucoseBeforeMeal", Parameters.GlucoseBeforeMeal.Text);
         }
         internal override void RestoreBolusParameters(BL_BolusCalculation Parameters)
         {
@@ -30,6 +31,8 @@ namespace GlucoMan
             Parameters.ChoInsulinRatioLunch.Text = RestoreParameter("ChoInsulinRatioLunch");
             Parameters.ChoInsulinRatioDinner.Text = RestoreParameter("ChoInsulinRatioDinner");
             Parameters.TotalDailyDoseOfInsulin.Text = RestoreParameter("TotalDailyDoseOfInsulin");
+            Parameters.ChoToEat.Text = RestoreParameter("ChoToEat");
+            Parameters.GlucoseBeforeMeal.Text = RestoreParameter("GlucoseBeforeMeal");
         }
         internal override void SaveInsulinCorrectionParameters(BL_BolusCalculation Parameters)
         {

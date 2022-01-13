@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "GlucoMan/0.6.0.0": {
+      "GlucoMan/0.6.0.1": {
         "dependencies": {
           "Microsoft.Data.Sqlite.Core": "6.0.1",
           "NETStandard.Library": "2.0.3",
@@ -139,7 +139,7 @@
     }
   },
   "libraries": {
-    "GlucoMan/0.6.0.0": {
+    "GlucoMan/0.6.0.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -154,7 +154,7 @@
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-lp+dryodyd+n8+/MdpTPYz6uBLR1fEIfQhc8Rv+hRDX58YqVKNK7fSx1ZafhFAzJZItAYheIcy2fuR1RCrQ+JA==",
+      "sha512": "sha512-ihUqBl6HNXERkIWAjhwPl9+kH1OCaeJ44ZG2qzcyeAxItS7X2YQ9H0IecUZH1ITqy80POo7xK1sHRyW9uOko/w==",
       "path": "microsoft.netcore.platforms/1.1.0",
       "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
     },
