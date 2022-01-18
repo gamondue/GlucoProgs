@@ -6,17 +6,20 @@ namespace GlucoMan
 {
     public class DateTimeAndText
     {
+        public string Format { get; set; }
+
         private DateTime dateTimeVal;
         private string text;
 
         public DateTimeAndText()
         {
-            Format = "yyyy.MM.dd hh:mm:ss";
-            dateTimeVal = DateTime.MinValue;
+            // default Format
+            Format = "yyyy-MM-dd HH:mm:ss";
+            // default values 
+            dateTimeVal = Common.DateNull;
             text = "";
         }
 
-        public string Format { get; set; }
         public DateTime DateTime
         {
             get => dateTimeVal;
@@ -29,7 +32,7 @@ namespace GlucoMan
                 }
                 catch
                 {
-                    text = null;
+                    text = "";
                 }
             }
         }

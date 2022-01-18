@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace GlucoMan
 {
+    [Browsable(false)]
     public class DoubleAndText
     {
         private double? doubleVal;
@@ -54,7 +56,7 @@ namespace GlucoMan
                 {
                     doubleVal = double.Parse(value);
                 }
-                catch
+                catch (Exception ex)
                 {
                     doubleVal = null;
                 }

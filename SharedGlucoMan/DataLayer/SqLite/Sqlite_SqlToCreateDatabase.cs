@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DL_Sqlite : DataLayer
+    public  partial class DL_Sqlite : DataLayer
     {
 		string creationScript = @"
 CREATE TABLE 'BolusCalculations' (
@@ -52,14 +52,20 @@ CREATE TABLE 'Foods' (
 );
 
 CREATE TABLE 'FoodsInMeals' (
-	'IdMeal'	INTEGER NOT NULL,
-	'IdFood'	INTEGER,
-	'Quantity'	DOUBLE,
-	'Carbohydrates'	DOUBLE,
-	'AccuracyOfChoEstimate'	DOUBLE,
-	'QualitativeAccuracy' INTEGER,
-	PRIMARY KEY('IdMeal' AUTOINCREMENT)
-);
+	'IdFoodInMeal' INT NOT NULL,
+	'IdMeal' INT NOT NULL,
+	'IdFood' INT NULL,
+	'Quantity' DOUBLE NULL,
+	'CarbohydratesGrams' DOUBLE NULL,
+	'CarbohydratesPercent' DOUBLE NULL,
+	'Name'	VARCHAR(15),
+	'Description'	VARCHAR(256),
+	'SugarPercent' DOUBLE NULL,
+	'FiberPercent' DOUBLE NULL,
+	'AccuracyOfChoEstimate' DOUBLE NULL,
+	'QualitativeAccuracy' INT NULL,
+	PRIMARY KEY('IdFoodInMeal')
+)
 
 CREATE TABLE 'GlucoseRecords' (
 	'IdGlucoseRecord'	INTEGER NOT NULL,
@@ -207,7 +213,7 @@ CREATE TABLE 'Recipes' (
   'Description' VARCHAR(255) NULL,
   PRIMARY KEY ('IdRecipe')
 );";
-		private void CreateNewDatabase(string dbName)
+        private void CreateNewDatabase(string dbName)
 		{
 			// making new, means erasing existent! 
 			if (File.Exists(dbName))

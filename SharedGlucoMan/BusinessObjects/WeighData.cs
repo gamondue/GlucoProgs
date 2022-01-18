@@ -30,7 +30,7 @@ namespace GlucoMan
         public DoubleAndText M1pS1CourseCookedPlusSauce = new DoubleAndText();
         public DoubleAndText ACookRatio = new DoubleAndText();
         public DoubleAndText MppSpPortionOfCoursePlusSauce = new DoubleAndText();
-        public DoubleAndText PPercPercentageOfPortion = new DoubleAndText();
+        public DoubleAndText PPercPercentOfPortion = new DoubleAndText();
         public DoubleAndText SpPortionOfSauceInGrams = new DoubleAndText();
         public DoubleAndText Mp1PortionCooked = new DoubleAndText();
         public DoubleAndText Mp0PortionReportedToRaw = new DoubleAndText();

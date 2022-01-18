@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GlucoMan.Mobile.GlucoseMeasurementPage"
-             Title="Glucose measurements">
+             x:Class="GlucoMan.Mobile.MealsPage">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -67,13 +66,13 @@
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
-            <Button Grid.Row="3" Grid.Column="0" Text="+" x:Name="btnAddMeasurement" Clicked="btnAddMeasurement_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="1" Text="-" x:Name="btnRemoveMeasurement" Clicked="btnRemoveMeasurement_Click"></Button>
+            <Button Grid.Row="3" Grid.Column="0" Text="+" x:Name="btnAddFood" Clicked="btnAddFood_Click"></Button>
+            <Button Grid.Row="3" Grid.Column="1" Text="-" x:Name="btnRemoveFood" Clicked="btnRemoveFood_Click"></Button>
             <Button Grid.Row="3" Grid.Column="2" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
             <Button Grid.Row="3" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_Click"></Button>
             <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Text="Glucose" XAlign="Center" YAlign="End"/>
-            <ListView Grid.Row="5" Grid.ColumnSpan="4" x:Name="gridMeasurements" ItemsSource="{Binding}"
+            <ListView Grid.Row="5" Grid.ColumnSpan="4" x:Name="gridMeals" ItemsSource="{Binding}"
                       ItemSelected="OnSelection" >
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
@@ -84,8 +83,10 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="18"/>
                                     </Grid.RowDefinitions>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding GlucoseValue}"/>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding Timestamp}"/>
+                                    <Label Grid.Column="0" Text="Time:" />
+                                    <Label Grid.Column="1" Text="{Binding Timestamp}"/>
+                                    <Label Grid.Column="2" Text="Glucose:"/>
+                                    <Label Grid.Column="0" Text="{Binding GlucoseValue}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>
@@ -93,7 +94,6 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+
     </ContentPage.Content>
 </ContentPage>
-
-    

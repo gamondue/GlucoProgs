@@ -4,9 +4,9 @@ using System.Text;
 
 namespace GlucoMan.BusinessLayer
 {
-    internal class ImportData
+    public  class ImportData
     {
-        internal List<GlucoseRecord> ImportDataFromFreeStyleLibre(List<List<string>> InputList)
+        public  List<GlucoseRecord> ImportDataFromFreeStyleLibre(List<List<string>> InputList)
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>();
             GlucoseRecord grec = new GlucoseRecord(); 

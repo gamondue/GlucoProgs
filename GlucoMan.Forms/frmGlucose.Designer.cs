@@ -42,6 +42,7 @@
             this.btnAddMeasurement = new System.Windows.Forms.Button();
             this.btnRemoveMeasurement = new System.Windows.Forms.Button();
             this.gridMeasurements = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridMeasurements)).BeginInit();
             this.SuspendLayout();
             // 
@@ -182,11 +183,22 @@
             this.gridMeasurements.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeasurements_CellContentClick);
             this.gridMeasurements.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeasurements_RowEnter);
             // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button1.Location = new System.Drawing.Point(858, 218);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(56, 56);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "Meal";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // frmGlucose
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(926, 630);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.gridMeasurements);
             this.Controls.Add(this.btnRemoveMeasurement);
             this.Controls.Add(this.btnAddMeasurement);
@@ -227,5 +239,6 @@
         private Button btnAddMeasurement;
         private Button btnRemoveMeasurement;
         private DataGridView gridMeasurements;
+        private Button button1;
     }
 }

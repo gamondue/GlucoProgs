@@ -8,15 +8,15 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DL_Sqlite : DataLayer
+    public  partial class DL_Sqlite : DataLayer
     {
-        internal override void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs Parameters)
+        public  override void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs Parameters)
         {
             SaveParameter("Hit_ChoAlreadyTaken", Parameters.Hit_ChoAlreadyTaken.Text);
             SaveParameter("Hit_ChoOfFood", Parameters.Hit_ChoOfFood.Text);
             SaveParameter("Hit_TargetCho", Parameters.Hit_TargetCho.Text);
         }
-        internal override void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs Parameters)
+        public  override void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs Parameters)
         {
             Parameters.Hit_ChoAlreadyTaken.Text = RestoreParameter("Hit_ChoAlreadyTaken");
             Parameters.Hit_ChoOfFood.Text = RestoreParameter("Hit_ChoOfFood");

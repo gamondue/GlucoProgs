@@ -29,10 +29,10 @@ namespace GlucoMan.Forms
             frmGlucose fg = new frmGlucose();
             fg.Show();
         }
-        private void btnChoCount_Click(object sender, EventArgs e)
+        private void btnMeals_Click(object sender, EventArgs e)
         {
-            frmMeal fc = new frmMeal();
-            fc.Show();
+            frmMeals mm = new frmMeals();
+            mm.Show();
         }
         private void btnWeighFood_Click(object sender, EventArgs e)
         {
@@ -40,7 +40,7 @@ namespace GlucoMan.Forms
         }
         private void btnInsulinCalc(object sender, EventArgs e)
         {
-            frmMealInsulinCalc f = new frmMealInsulinCalc();
+            frmInsulinCalc f = new frmInsulinCalc();
             f.Show();
         }
         private void btnFoodToHitTargetCarbs_Click(object sender, EventArgs e)

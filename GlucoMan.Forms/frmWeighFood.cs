@@ -58,7 +58,7 @@ namespace GlucoMan.Forms
             ////////food.SpPortionOfSauceInGrams.Text = TxtSpPortionOfSauceInGrams.Text;
             ////////food.M1pS1CourseCookedPlusSauce.Text = TxtM1pS1CourseAndSauceCooked.Text;
             ////////food.MppSpPortionOfCoursePlusSauce.Text = TxtMppSpPortionOfCoursePlusSauce.Text;
-            ////////food.PPercPercentageOfPortion.Text = TxtPPercPercentageOfPortion.Text;
+            ////////food.PPercpercentOfPortion.Text = TxtPPercpercentOfPortion.Text;
             ////////food.ChoSaucePercent.Text = TxtChoSaucePercent.Text;
             ////////food.ChoMainfoodPercent.Text = TxtChoMainfoodPercent.Text;
             ////////food.ChoTotalMainfood.Text = TxtChoTotalMainfood.Text;
@@ -90,7 +90,7 @@ namespace GlucoMan.Forms
             ////////TxtSpPortionOfSauceInGrams.Text = food.SpPortionOfSauceInGrams.Text;
             ////////TxtM1pS1CourseAndSauceCooked.Text = food.M1pS1CourseCookedPlusSauce.Text;
             ////////TxtMppSpPortionOfCoursePlusSauce.Text = food.MppSpPortionOfCoursePlusSauce.Text;
-            ////////TxtPPercPercentageOfPortion.Text = food.PPercPercentageOfPortion.Text;
+            ////////TxtPPercpercentOfPortion.Text = food.PPercpercentOfPortion.Text;
             ////////TxtChoSaucePercent.Text = food.ChoSaucePercent.Text;
             ////////TxtChoMainfoodPercent.Text = food.ChoMainfoodPercent.Text;
             ////////TxtChoTotalMainfood.Text = food.ChoTotalMainfood.Text;

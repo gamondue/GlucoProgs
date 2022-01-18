@@ -7,9 +7,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal static partial class Common
+    public static partial class Common
     {
-        internal static void GeneralInitializations()
+        public static void GeneralInitializations()
         {
             General.MakeFolderIfDontExist(Common.PathConfigurationData);
             General.MakeFolderIfDontExist(Common.PathProgramsData);
@@ -27,7 +27,7 @@ namespace GlucoMan
             Common.Bl = new BL_General(); 
             Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
-        internal static TypeOfMeal SelectMealBasedOnTimeNow()
+        public static TypeOfMeal SelectMealBasedOnTimeNow()
         {
             TypeOfMeal type;
             int hour = DateTime.Now.Hour;
@@ -41,11 +41,11 @@ namespace GlucoMan
                 type = TypeOfMeal.Snack;
             return type;
         }
-        internal static double mgPerdL_To_mmolPerL(double BloodGlucose_mgPerdL)
+        public static double mgPerdL_To_mmolPerL(double BloodGlucose_mgPerdL)
         {
             return BloodGlucose_mgPerdL / 18; 
         }
-        internal static double mmolPerL_To_mgPerdL(double BloodGlucose_mmolPerL)
+        public static double mmolPerL_To_mgPerdL(double BloodGlucose_mmolPerL)
         {
             return 18 * BloodGlucose_mmolPerL;
         }

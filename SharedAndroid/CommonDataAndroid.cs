@@ -5,22 +5,22 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal static partial class Common
+    public static partial class Common
     {
-        internal static string PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
-        internal static string PathApplication = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        internal static string PathUsersDownload = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        public static string PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
+        public static string PathApplication = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public static string PathUsersDownload = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         // fix the former using some hints from here: 
         // https://stackoverflow.com/questions/54591881/xamarin-forms-platform-android-does-not-exist-after-xamarin-update-from-2-5-to-3
 
-        //internal static string PathConfigurationData = Path.Combine(PathApplication, @"Config");
-        //internal static string PathProgramsData = Path.Combine(PathApplication, @"Data");
-        //internal static string PathLogs = Path.Combine(PathApplication , @"Logs");
-        internal static string PathConfigurationData = Path.Combine(PathUser, @"Config");
-        internal static string PathProgramsData = Path.Combine(PathUser, @"Data");
-        internal static string PathLogs = Path.Combine(PathUser , @"Logs");
-        internal static string PathDatabase = Path.Combine(PathUsersDownload, @"Glucoman/Data");
-        internal static string PathAndFileDatabase = Path.Combine(PathDatabase, @"GlucoManData.Sqlite");
+        //public static string PathConfigurationData = Path.Combine(PathApplication, @"Config");
+        //public static string PathProgramsData = Path.Combine(PathApplication, @"Data");
+        //public static string PathLogs = Path.Combine(PathApplication , @"Logs");
+        public static string PathConfigurationData = Path.Combine(PathUser, @"Config");
+        public static string PathProgramsData = Path.Combine(PathUser, @"Data");
+        public static string PathLogs = Path.Combine(PathUser , @"Logs");
+        public static string PathDatabase = Path.Combine(PathUsersDownload, @"Glucoman/Data");
+        public static string PathAndFileDatabase = Path.Combine(PathDatabase, @"GlucoManData.Sqlite");
     }
 }

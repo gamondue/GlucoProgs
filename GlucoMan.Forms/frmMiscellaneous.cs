@@ -52,8 +52,8 @@ namespace GlucoMan.Forms
         }
         private void btnResetDatabase_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("ATTENZIONE: devo cancellare TUTTO il database?\n(Tutti i dati verranno persi!)", 
-                "CANCELLAZIONE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2)
+            if(MessageBox.Show("ATTENTION: should I delete the WHOLE database? All data will be lost!", 
+                "ERASING DATABASE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2)
                 == DialogResult.Yes)
             {
                 BL_General b = new SharedGlucoMan.BusinessLayer.BL_General();

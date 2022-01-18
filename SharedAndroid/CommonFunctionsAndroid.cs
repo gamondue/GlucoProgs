@@ -8,9 +8,9 @@ using Xamarin;
 
 namespace GlucoMan
 {
-    internal static partial class Common
+    public static partial class Common
     {
-        internal static void PlatformSpecificInitializations()
+        public static void PlatformSpecificInitializations()
         {
             // create the files that will be useful
             // (so they will not give problems of sharing violations when created on need)

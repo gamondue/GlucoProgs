@@ -7,9 +7,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DL_FlatText : DataLayer
+    public partial class DL_FlatText : DataLayer
     {
-        internal override List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, 
+        public  override List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, 
             DateTime? FinalInstant)
         {
             // !!!! currently InitialInstant, DateTime FinalInstant are simply IGNORED 
@@ -39,7 +39,7 @@ namespace GlucoMan
                 }
             return list; 
         }
-        internal override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
+        public  override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
         {
             try
             {
@@ -69,8 +69,8 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("DL_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
-        //internal override int FindNextIndex(List<GlucoseRecord> List)
-        internal override int FindNextIndex()
+        //public  override int FindNextIndex(List<GlucoseRecord> List)
+        public  override int GetNextPrimaryKey()
         {
             // !! We were passing a List to this method. If we ever re-establish the flat text
             // !! DataLayer we wuold have to solve the problem of this List passing
@@ -87,7 +87,7 @@ namespace GlucoMan
             //return (int)(maxId + 1);
             return 0; //!!
         }
-        internal override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
+        public  override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
         {
             // save one single record using sequential access..
             try
@@ -96,7 +96,7 @@ namespace GlucoMan
                 if (GlucoseMeasurement.IdGlucoseRecord == null || GlucoseMeasurement.IdGlucoseRecord == 0)
                 {
                     //GlucoseMeasurement.IdGlucoseRecord = FindNextIndex(List);
-                    GlucoseMeasurement.IdGlucoseRecord = FindNextIndex();
+                    GlucoseMeasurement.IdGlucoseRecord = GetNextPrimaryKey();
                     // append new record to the file 
                     string addedRecord = GlucoseMeasurement.IdGlucoseRecord + "\t";
                     addedRecord += GlucoseMeasurement.GlucoseValue + "\t";
@@ -150,7 +150,7 @@ namespace GlucoMan
                 return GlucoseMeasurement.IdGlucoseRecord;
             }
         }
-        internal override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
+        public  override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>();
             if (File.Exists(persistentGlucoseMeasurements))

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace GlucoMan.BusinessLayer
 {
-    class BL_WeighFood
+    public class BL_WeighFood
     {
         DataLayer dl = Common.Database;
 
@@ -17,40 +17,40 @@ namespace GlucoMan.BusinessLayer
         Color calculatedNonImportantColor = Color.White;
         Color programsResult = Color.SkyBlue;
 
-        internal DoubleAndText M0RawGross = new DoubleAndText();
-        internal DoubleAndText M0RawTare = new DoubleAndText();
-        internal DoubleAndText M0RawNet = new DoubleAndText();
+        public  DoubleAndText M0RawGross = new DoubleAndText();
+        public  DoubleAndText M0RawTare = new DoubleAndText();
+        public  DoubleAndText M0RawNet = new DoubleAndText();
 
-        internal DoubleAndText S1SauceGross = new DoubleAndText();
-        internal DoubleAndText S1SauceTare = new DoubleAndText();
-        internal DoubleAndText S1SauceNet = new DoubleAndText();
+        public  DoubleAndText S1SauceGross = new DoubleAndText();
+        public  DoubleAndText S1SauceTare = new DoubleAndText();
+        public  DoubleAndText S1SauceNet = new DoubleAndText();
 
-        internal DoubleAndText T0RawGross = new DoubleAndText();
-        internal DoubleAndText T0RawTare = new DoubleAndText();
-        internal DoubleAndText T0RawNet = new DoubleAndText();
-        internal DoubleAndText T0SaucePlusTare = new DoubleAndText();
+        public  DoubleAndText T0RawGross = new DoubleAndText();
+        public  DoubleAndText T0RawTare = new DoubleAndText();
+        public  DoubleAndText T0RawNet = new DoubleAndText();
+        public  DoubleAndText T0SaucePlusTare = new DoubleAndText();
 
-        internal DoubleAndText S1pPotSaucePlusPot = new DoubleAndText(); // eliminare !!
-        internal DoubleAndText DiDish = new DoubleAndText();
-        internal DoubleAndText T1CookedGross = new DoubleAndText();
-        internal DoubleAndText T1CookedTare = new DoubleAndText();
-        internal DoubleAndText T1CookedNet = new DoubleAndText();
-        internal DoubleAndText TpPortionWithAll = new DoubleAndText();
-        internal DoubleAndText M0pS1pPeRawFoodAndSauce = new DoubleAndText();
-        internal DoubleAndText M1MainfoodCooked = new DoubleAndText();
-        internal DoubleAndText M1pS1CourseCookedPlusSauce = new DoubleAndText();
-        internal DoubleAndText ACookRatio = new DoubleAndText();
-        internal DoubleAndText MppSpPortionOfCoursePlusSauce = new DoubleAndText();
-        internal DoubleAndText PPercPercentageOfPortion = new DoubleAndText();
-        internal DoubleAndText SpPortionOfSauceInGrams = new DoubleAndText();
-        internal DoubleAndText Mp1PortionCooked = new DoubleAndText();
-        internal DoubleAndText Mp0PortionReportedToRaw = new DoubleAndText(); 
-        internal DoubleAndText ChoSaucePercent = new DoubleAndText();
-        internal DoubleAndText ChoMainfoodPercent = new DoubleAndText();
-        internal DoubleAndText ChoTotalMainfood = new DoubleAndText();
-        internal DoubleAndText ChoTotalSauce = new DoubleAndText();
+        public  DoubleAndText S1pPotSaucePlusPot = new DoubleAndText(); // eliminare !!
+        public  DoubleAndText DiDish = new DoubleAndText();
+        public  DoubleAndText T1CookedGross = new DoubleAndText();
+        public  DoubleAndText T1CookedTare = new DoubleAndText();
+        public  DoubleAndText T1CookedNet = new DoubleAndText();
+        public  DoubleAndText TpPortionWithAll = new DoubleAndText();
+        public  DoubleAndText M0pS1pPeRawFoodAndSauce = new DoubleAndText();
+        public  DoubleAndText M1MainfoodCooked = new DoubleAndText();
+        public  DoubleAndText M1pS1CourseCookedPlusSauce = new DoubleAndText();
+        public  DoubleAndText ACookRatio = new DoubleAndText();
+        public  DoubleAndText MppSpPortionOfCoursePlusSauce = new DoubleAndText();
+        public  DoubleAndText PPercPercentafPortion = new DoubleAndText();
+        public  DoubleAndText SpPortionOfSauceInGrams = new DoubleAndText();
+        public  DoubleAndText Mp1PortionCooked = new DoubleAndText();
+        public  DoubleAndText Mp0PortionReportedToRaw = new DoubleAndText(); 
+        public  DoubleAndText ChoSaucePercent = new DoubleAndText();
+        public  DoubleAndText ChoMainfoodPercent = new DoubleAndText();
+        public  DoubleAndText ChoTotalMainfood = new DoubleAndText();
+        public  DoubleAndText ChoTotalSauce = new DoubleAndText();
 
-        internal void CalcUnknownData()
+        public  void CalcUnknownData()
         {
         ////////    T0RawGross.Double = T0RawGross.Double + 
         ////////        S1SauceNet.Double + T0RawTare.Double;
@@ -59,10 +59,10 @@ namespace GlucoMan.BusinessLayer
         ////////    M1pS1CourseCookedPlusSauce.Double = M1MainfoodCooked.Double + S1SauceNet.Double; 
         ////////    ACookRatio.Double = M1MainfoodCooked.Double / T0RawGross.Double;
         ////////    MppSpPortionOfCoursePlusSauce.Double = Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double;
-        ////////    PPercPercentageOfPortion.Double = (Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double) /
+        ////////    PPercpercentOfPortion.Double = (Mp1PortionCooked.Double + SpPortionOfSauceInGrams.Double) /
         ////////        (M1MainfoodCooked.Double + S1SauceNet.Double) * 100;
         ////////    SpPortionOfSauceInGrams.Double = S1SauceNet.Double * 
-        ////////        PPercPercentageOfPortion.Double / 100;
+        ////////        PPercpercentOfPortion.Double / 100;
         ////////    Mp0PortionReportedToRaw.Double = Mp1PortionCooked.Double / ACookRatio.Double; 
         ////////    Mp1PortionCooked.Double = TpPortionWithAll.Double - 
         ////////        SpPortionOfSauceInGrams.Double - DiDish.Double;
@@ -70,11 +70,11 @@ namespace GlucoMan.BusinessLayer
         ////////    ChoTotalSauce.Double = SpPortionOfSauceInGrams.Double * ChoSaucePercent.Double / 100;
         ////////
         }
-        internal void SaveData()
+        public  void SaveData()
         {
             dl.SaveWeighFood(this); 
         }
-        internal void RestoreData()
+        public  void RestoreData()
         {
             dl.RestoreWeighFood(this); 
         }

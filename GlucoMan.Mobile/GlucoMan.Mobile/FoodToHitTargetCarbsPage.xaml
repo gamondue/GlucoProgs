@@ -4,36 +4,61 @@
              x:Class="GlucoMan.Mobile.FoodToHitTargetCarbsPage"
              Title="Calculation of food to reach CHO">
     <ContentPage.Content>
-        <StackLayout>
-            <Button x:Name="btnCalc" Text="Calc" 
-                   Margin="30,0,30,0" Clicked="btnCalc_Click" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition />
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition />
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="4" Grid.Column="1" x:Name="btnCalc" Text="Calc Target Food" 
+                   Margin="10,0,10,0" Clicked="btnCalc_Click" />
 
-            <Label Text="Target carbohydrates (CHO) [g]" XAlign="Center" YAlign="End"/>
-            <Entry x:Name="TxtTargetCho" Text="" Unfocused="TxtTargetCho_Leave"
-                   Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
+            <Label Grid.Row="1" Grid.Column="0" Text="Target CHO [g]" XAlign="Center" YAlign="End"/>
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="TxtTargetCho" Text="" Unfocused="TxtTargetCho_Leave"
+                   Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    BackgroundColor="PaleGoldenrod" />
+            <Button Grid.Row="3" Grid.Column="0" x:Name="btnReadTarget" Text="Read Target" 
+                   Margin="10,5,10,5" Clicked="btnReadTarget_Click" />
 
-            <Label Text="Carbohydrates (CHO) already taken [g]" XAlign="Center" YAlign="End" />
-            <Entry x:Name="TxtChoAlreadyTaken" Text="" Unfocused="TxtChoAlreadyTaken_Leave"
-                   Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
+            <Label Grid.Row="1" Grid.Column="1" Text="CHO already taken [g]" 
+                   XAlign="Center" YAlign="End" />
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="TxtChoAlreadyTaken" Text="" Unfocused="TxtChoAlreadyTaken_Leave"
+                   Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="PaleGreen" />
+            <Button Grid.Row="3" Grid.Column="1" x:Name="btnReadChoTaken" Text="Read taken" 
+                   Margin="10,5,10,5" Clicked="btnReadChoTaken_Click" />
 
-            <Label Text="CHO left to take" XAlign="Center" YAlign="End"/>
-            <Entry x:Name="TxtChoLeftToTake" Text="" Unfocused="TxtChoOfFood_Leave"
-                   Margin="30,0,30,0" Placeholder="%" HorizontalTextAlignment ="End" 
+            <Label Grid.Row="1" Grid.Column="2" Text="CHO food to eat [%]" XAlign="Center" YAlign="End"/>
+            <Entry Grid.Row="2" Grid.Column="2" x:Name="TxtChoOfFood" Text="" Unfocused="TxtChoOfFood_Leave"
+                   Margin="25,0,25,0" Placeholder="%" HorizontalTextAlignment ="End" 
+                   FontSize="Large" BackgroundColor="PaleGreen" />
+            <Button Grid.Row="3" Grid.Column="2" x:Name="btnReadFood" Text="Read Food" 
+                   Margin="10,5,10,5" Clicked="btnReadFood_Click" />
+
+            <Label Grid.Row="5" Grid.Column="0" Text="CHO left to take" XAlign="Center" YAlign="End"/>
+            <Entry Grid.Row="6" Grid.Column="0" x:Name="TxtChoLeftToTake" Text="" Unfocused="TxtChoOfFood_Leave"
+                   Margin="25,0,25,0" Placeholder="%" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="White" />
-            
-            <Label Text="CHO % of food to eat [%]" XAlign="Center" YAlign="End"/>
-            <Entry x:Name="TxtChoOfFood" Text="" Unfocused="TxtChoOfFood_Leave"
-                   Margin="30,0,30,0" Placeholder="%" HorizontalTextAlignment ="End" 
-                   FontSize="Large" BackgroundColor="PaleGreen" />
-            
-            <Label Text="Food to eat to hit target CHO [g]" XAlign="Center" YAlign="End"/>
-            <Entry x:Name="TxtFoodToHitTarget" Text="" 
-                   Margin="30,0,30,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
+
+            <Button Grid.Row="0" Grid.Column="1" x:Name="btnReadAll" Text="Read All" 
+                   Margin="10,0,10,0" Clicked="btnReadAll_Click" />
+
+
+            <Label Grid.Row="5" Grid.Column="2" Text="Food to eat to hit target CHO [g]" XAlign="Center" YAlign="End"/>
+            <Entry Grid.Row="6" Grid.Column="2" x:Name="TxtFoodToHitTarget" Text="" 
+                   Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="SkyBlue" />
-            <Button x:Name="btnReadTarget" Text="Read Target CHO" 
-                   Margin="30,0,30,0" Clicked="btnReadTarget_Click" />
-        </StackLayout>
+
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

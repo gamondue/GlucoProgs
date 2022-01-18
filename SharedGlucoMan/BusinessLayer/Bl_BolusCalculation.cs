@@ -5,30 +5,30 @@ using GlucoMan;
 
 namespace GlucoMan.BusinessLayer
 {
-    internal class BL_BolusCalculation
+    public  class BL_BolusCalculation
     {
         DataLayer dl = Common.Database;
 
         private string statusMessage;
-        internal DoubleAndText ChoToEat { get; set; }
-        internal DoubleAndText TypicalBolusMorning { get; set; }
-        internal DoubleAndText TypicalBolusMidday { get; set; }
-        internal DoubleAndText TypicalBolusEvening { get; set; }
-        internal DoubleAndText TypicalBolusNight { get; set; }
-        internal DoubleAndText ChoInsulinRatioLunch { get; set; }
-        internal DoubleAndText ChoInsulinRatioDinner { get; set; }
-        internal DoubleAndText ChoInsulinRatioBreakfast { get; set; }
-        internal DoubleAndText TotalDailyDoseOfInsulin { get; set; }
-        internal DoubleAndText GlucoseBeforeMeal { get; set; }
-        internal DoubleAndText GlucoseToBeCorrected { get; set; }
-        internal DoubleAndText TargetGlucose { get; set; }
-        internal DoubleAndText FactorOfInsulinCorrectionSensitivity { get; set; }
-        internal DoubleAndText InsulinCorrectionSensitivity { get; }
-        internal DoubleAndText BolusInsulinDueToCorrectionOfGlucose { get; set; }
-        internal DoubleAndText BolusInsulinDueToChoOfMeal { get; }
-        internal DoubleAndText TotalInsulinForMeal { get; set; }
-        internal string StatusMessage { get => statusMessage; }
-        internal Meal MealOfBolus { get; set; }
+        public  DoubleAndText ChoToEat { get; set; }
+        public  DoubleAndText TypicalBolusMorning { get; set; }
+        public  DoubleAndText TypicalBolusMidday { get; set; }
+        public  DoubleAndText TypicalBolusEvening { get; set; }
+        public  DoubleAndText TypicalBolusNight { get; set; }
+        public  DoubleAndText ChoInsulinRatioLunch { get; set; }
+        public  DoubleAndText ChoInsulinRatioDinner { get; set; }
+        public  DoubleAndText ChoInsulinRatioBreakfast { get; set; }
+        public  DoubleAndText TotalDailyDoseOfInsulin { get; set; }
+        public  DoubleAndText GlucoseBeforeMeal { get; set; }
+        public  DoubleAndText GlucoseToBeCorrected { get; set; }
+        public  DoubleAndText TargetGlucose { get; set; }
+        public  DoubleAndText FactorOfInsulinCorrectionSensitivity { get; set; }
+        public  DoubleAndText InsulinCorrectionSensitivity { get; }
+        public  DoubleAndText BolusInsulinDueToCorrectionOfGlucose { get; set; }
+        public  DoubleAndText BolusInsulinDueToChoOfMeal { get; }
+        public  DoubleAndText TotalInsulinForMeal { get; set; }
+        public  string StatusMessage { get => statusMessage; }
+        public  Meal MealOfBolus { get; set; }
 
         private DateTime initialBreakfastPeriod;
         private DateTime finalBreakfastPeriod;
@@ -36,7 +36,7 @@ namespace GlucoMan.BusinessLayer
         private DateTime finalLunchPeriod;
         private DateTime initialDinnerPeriod;
         private DateTime finalDinnerPeriod;
-        internal BL_BolusCalculation()
+        public  BL_BolusCalculation()
         { 
             ChoToEat = new DoubleAndText(); 
             TypicalBolusMorning = new DoubleAndText(); 
@@ -69,13 +69,13 @@ namespace GlucoMan.BusinessLayer
 
             MealOfBolus = new Meal(); 
         }
-        internal void CalculateInsulinCorrectionSensitivity()
+        public  void CalculateInsulinCorrectionSensitivity()
         {
             TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double +
                 TypicalBolusEvening.Double + TypicalBolusNight.Double;
             InsulinCorrectionSensitivity.Double = FactorOfInsulinCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
         }
-        internal void CalculateBolus()
+        public  void CalculateBolus()
         {
             try
             {
@@ -85,7 +85,7 @@ namespace GlucoMan.BusinessLayer
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
                
-                switch (MealOfBolus.Type)
+                switch (MealOfBolus.TypeOfMeal)
                 {
                     case (Common.TypeOfMeal.Breakfast):
                         BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioBreakfast.Double;
@@ -107,7 +107,7 @@ namespace GlucoMan.BusinessLayer
                 Common.LogOfProgram.Error("BL_BolusCalculations | CalculateBolus()", Ex);
             }
         }
-        internal void RoundInsulinToZeroDecimal()
+        public  void RoundInsulinToZeroDecimal()
         {
             // find target bolus and relative CHO with bisection algorithm 
             
@@ -149,23 +149,23 @@ namespace GlucoMan.BusinessLayer
                 iterationsCount++; 
             } while (Math.Abs((double)bolusCurrent - (double)targetBolus) > 0.01 && iterationsCount < 20); 
         }
-        internal void SaveBolusLog()
+        public  void SaveBolusLog()
         {
                 dl.SaveLogOfBoluses(this); 
         }
-        internal void RestoreBolusParameters()
+        public  void RestoreBolusParameters()
         {
              dl.RestoreBolusParameters(this);
         }
-        internal void SaveBolusParameters()
+        public  void SaveBolusParameters()
         {
             dl.SaveBolusParameters(this);
         }
-        internal void SaveInsulinCorrectionParameters()
+        public  void SaveInsulinCorrectionParameters()
         {
             dl.SaveInsulinCorrectionParameters(this);
         }
-        internal void RestoreInsulinCorrectionParameters()
+        public  void RestoreInsulinCorrectionParameters()
         {
             dl.RestoreInsulinCorrectionParameters(this);
         }

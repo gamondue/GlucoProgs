@@ -110,7 +110,7 @@ namespace GlucoMan.Forms
             this.TxtMppSpPortionOfCoursePlusSauce = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.TxtPPercPercentageOfPortion = new System.Windows.Forms.TextBox();
+            this.TxtPPercpercentOfPortion = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.TxtChoSaucePercent = new System.Windows.Forms.TextBox();
@@ -1112,19 +1112,19 @@ namespace GlucoMan.Forms
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(115, 40);
             this.label15.TabIndex = 158;
-            this.label15.Text = "percentage of \r\nportion on total";
+            this.label15.Text = "percent of \r\nportion on total";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // TxtPPercPercentageOfPortion
+            // TxtPPercpercentOfPortion
             // 
-            this.TxtPPercPercentageOfPortion.BackColor = System.Drawing.Color.Yellow;
-            this.TxtPPercPercentageOfPortion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TxtPPercPercentageOfPortion.Location = new System.Drawing.Point(415, 650);
-            this.TxtPPercPercentageOfPortion.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.TxtPPercPercentageOfPortion.Name = "TxtPPercPercentageOfPortion";
-            this.TxtPPercPercentageOfPortion.Size = new System.Drawing.Size(68, 26);
-            this.TxtPPercPercentageOfPortion.TabIndex = 80;
-            this.TxtPPercPercentageOfPortion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtPPercpercentOfPortion.BackColor = System.Drawing.Color.Yellow;
+            this.TxtPPercpercentOfPortion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtPPercpercentOfPortion.Location = new System.Drawing.Point(415, 650);
+            this.TxtPPercpercentOfPortion.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TxtPPercpercentOfPortion.Name = "TxtPPercpercentOfPortion";
+            this.TxtPPercpercentOfPortion.Size = new System.Drawing.Size(68, 26);
+            this.TxtPPercpercentOfPortion.TabIndex = 80;
+            this.TxtPPercpercentOfPortion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label16
             // 
@@ -2100,7 +2100,7 @@ namespace GlucoMan.Forms
             this.Controls.Add(this.TxtM1pS1CourseCookedPlusSauce);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label15);
-            this.Controls.Add(this.TxtPPercPercentageOfPortion);
+            this.Controls.Add(this.TxtPPercpercentOfPortion);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.TxtMppSpPortionOfCoursePlusSauce);
             this.Controls.Add(this.TxtMp0PortionReportedToRaw);
@@ -2193,7 +2193,7 @@ namespace GlucoMan.Forms
         private System.Windows.Forms.TextBox TxtMppSpPortionOfCoursePlusSauce;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox TxtPPercPercentageOfPortion;
+        private System.Windows.Forms.TextBox TxtPPercpercentOfPortion;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox TxtChoSaucePercent;

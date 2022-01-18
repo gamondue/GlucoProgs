@@ -9,7 +9,7 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DL_Sqlite : DataLayer
+    public  partial class DL_Sqlite : DataLayer
     {
         /// <summary>
         /// Data Access Layer: abstracts the access to dbms using to transfer data 
@@ -22,7 +22,7 @@ namespace GlucoMan
         /// Constructor of DataLayer class that uses the default database of the program
         /// Assumes that the file exists.
         /// </summary>
-        internal DL_Sqlite()
+        public  DL_Sqlite()
         {
             dbName = Common.PathAndFileDatabase;
             if (!System.IO.File.Exists(Common.PathAndFileDatabase))
@@ -35,7 +35,7 @@ namespace GlucoMan
         /// Constructor of DataLayer class that get from outside the databases to use
         /// Assumes that the file exists.
         /// </summary>
-        internal DL_Sqlite(string PathAndFile)
+        public  DL_Sqlite(string PathAndFile)
         {
             // ???? is next if useful ????
             if (!System.IO.File.Exists(PathAndFile))
@@ -48,13 +48,13 @@ namespace GlucoMan
         }
         #endregion
         #region properties
-        internal string NameAndPathDatabase
+        public  string NameAndPathDatabase
         {
             get { return dbName; }
             //set { nomeEPathDatabase = value; }
         }
         #endregion
-        internal SqliteConnection Connect()
+        public  SqliteConnection Connect()
         {
             SqliteConnection connection;
 
@@ -89,7 +89,7 @@ namespace GlucoMan
             }
             return -1;
         }
-        internal void CompactDatabase()
+        public  void CompactDatabase()
         {
             using (DbConnection conn = Connect())
             {
@@ -101,7 +101,7 @@ namespace GlucoMan
             }
             //Application.Exit();
         }
-        internal int GetNextTablePrimaryKey(string Table, string KeyName)
+        public  int GetNextTablePrimaryKey(string Table, string KeyName)
         {
             int nextId;
             using (DbConnection conn = Connect())
@@ -121,7 +121,7 @@ namespace GlucoMan
             }
             return nextId;
         }
-        internal bool CheckKeyExistence
+        public  bool CheckKeyExistence
             (string TableName, string KeyName, string KeyValue)
         {
             using (DbConnection conn = Connect())
@@ -165,7 +165,7 @@ namespace GlucoMan
             }
             return fieldExists;
         }
-        internal void BackupAllDataToTsv()
+        public  void BackupAllDataToTsv()
         {
             BackupTableTsv("Students");
             BackupTableTsv("StudentsPhotos");
@@ -173,7 +173,7 @@ namespace GlucoMan
             BackupTableTsv("Classes_Students");
             BackupTableTsv("Grades");
         }
-        internal void BackupAllDataToXml()
+        public  void BackupAllDataToXml()
         {
             BackupTableXml("Students");
             BackupTableXml("StudentsPhotos");
@@ -181,7 +181,7 @@ namespace GlucoMan
             BackupTableXml("Classes_Students");
             BackupTableXml("Grades");
         }
-        internal void RestoreAllDataFromTsv(bool MustErase)
+        public  void RestoreAllDataFromTsv(bool MustErase)
         {
             RestoreTableTsv("Students", MustErase);
             RestoreTableTsv("StudentsPhotos", MustErase);
@@ -189,7 +189,7 @@ namespace GlucoMan
             RestoreTableTsv("Classes_Students", MustErase);
             RestoreTableTsv("Grades", MustErase);
         }
-        internal void RestoreAllDataFromXml(bool MustErase)
+        public  void RestoreAllDataFromXml(bool MustErase)
         {
             RestoreTableXml("Students", MustErase);
             RestoreTableXml("StudentsPhotos", MustErase);
@@ -197,7 +197,7 @@ namespace GlucoMan
             RestoreTableXml("Classes_Students", MustErase);
             RestoreTableXml("Grades", MustErase);
         }
-        internal void BackupTableTsv(string TableName)
+        public  void BackupTableTsv(string TableName)
         {
             DbDataReader dRead;
             DbCommand cmd;
@@ -247,7 +247,7 @@ namespace GlucoMan
                 cmd.Dispose();
             }
         }
-        internal void BackupTableXml(string TableName)
+        public  void BackupTableXml(string TableName)
         {
             DataAdapter dAdapt;
             DataSet dSet = new DataSet();
@@ -271,7 +271,7 @@ namespace GlucoMan
                 //dSet.Dispose();
             }
         }
-        internal void RestoreTableTsv(string TableName, bool EraseBefore)
+        public  void RestoreTableTsv(string TableName, bool EraseBefore)
         {
             List<string> fieldNames;
             List<string> fieldTypes = new List<string>();
@@ -395,7 +395,7 @@ namespace GlucoMan
                 //cmd.Dispose();
             }
         }
-        internal void RestoreTableXml(string TableName, bool EraseBefore)
+        public  void RestoreTableXml(string TableName, bool EraseBefore)
         {
             DataSet dSet = new DataSet();
             DataTable t = null;
@@ -463,18 +463,18 @@ namespace GlucoMan
                 cmd.Dispose();
             }
         }
-        internal override void PurgeDatabase()
+        public  override void PurgeDatabase()
         {
             try
             {
-            File.Delete(dbName);
+                File.Delete(dbName);
             }
             catch (Exception ex)
             {
                 Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | SaveParameter", ex);
             }
         }
-        internal override long? SaveParameter(string FieldName, string FieldValue, int? Key = null)
+        public  override long? SaveParameter(string FieldName, string FieldValue, int? Key = null)
         {
             long? idOfRecord = null;
             try
@@ -584,7 +584,7 @@ namespace GlucoMan
                 return null;
             }
         }
-        internal override string RestoreParameter(string FieldName, int? Key = null)
+        public  override string RestoreParameter(string FieldName, int? Key = null)
         {
             try
             {

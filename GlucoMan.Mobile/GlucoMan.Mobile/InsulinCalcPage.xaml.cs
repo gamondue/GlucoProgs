@@ -22,7 +22,7 @@ namespace GlucoMan.Mobile
             currentGlucoseMeasuremet = new BL_GlucoseMeasurements();
 
             currentBolusCalculation.RestoreBolusParameters();
-            currentBolusCalculation.MealOfBolus.Type = Common.SelectMealBasedOnTimeNow();
+            currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.SelectMealBasedOnTimeNow();
 
             currentBolusCalculation.TargetGlucose.Format = "0";
             currentBolusCalculation.GlucoseBeforeMeal.Format = "0";
@@ -47,7 +47,7 @@ namespace GlucoMan.Mobile
             txtChoInsulinRatioDinner.Text = currentBolusCalculation.ChoInsulinRatioDinner.Text;
 
             txtStatusBar.Text = currentBolusCalculation.StatusMessage;
-            switch (currentBolusCalculation.MealOfBolus.Type)
+            switch (currentBolusCalculation.MealOfBolus.TypeOfMeal)
             {
                 case (Common.TypeOfMeal.Breakfast):
                     rdbIsBreakfast.IsChecked = true;
@@ -76,13 +76,13 @@ namespace GlucoMan.Mobile
             currentBolusCalculation.InsulinCorrectionSensitivity.Text = NoBlank(txtInsulinCorrectionSensitivity.Text);
 
             if (rdbIsBreakfast.IsChecked)
-                currentBolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Breakfast;
+                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Breakfast;
             if (rdbIsLunch.IsChecked)
-                currentBolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Lunch;
+                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Lunch;
             if (rdbIsDinner.IsChecked)
-                currentBolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Dinner;
+                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Dinner;
             if (rdbIsSnack.IsChecked)
-                currentBolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Snack;
+                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Snack;
         }
         private string NoBlank(string Text)
         {

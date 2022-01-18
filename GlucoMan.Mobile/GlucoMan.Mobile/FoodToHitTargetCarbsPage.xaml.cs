@@ -70,5 +70,14 @@ namespace GlucoMan.Mobile
             foodToEat.Calculations();
             FromClassToUi();
         }
+        private void btnReadChoTaken_Click(object sender, EventArgs e)
+        {
+        }
+        private void btnReadFood_Click(object sender, EventArgs e)
+        {
+        }
+        private void btnReadAll_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

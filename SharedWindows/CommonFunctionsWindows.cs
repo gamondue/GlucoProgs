@@ -6,14 +6,14 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal static partial class Common
+    public static partial class Common
     {
-        //internal static void PromptString(string PromptString)
+        //public static void PromptString(string PromptString)
         //{
         //    Console.Beep();
         //    MessageBox.Show(PromptString);
         //}
-        internal static void PlatformSpecificInitializations()
+        public static void PlatformSpecificInitializations()
         {
 
         }

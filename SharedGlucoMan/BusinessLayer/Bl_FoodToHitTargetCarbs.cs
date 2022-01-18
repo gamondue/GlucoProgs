@@ -5,21 +5,21 @@ using System.IO;
 
 namespace GlucoMan.BusinessLayer
 {
-    class BL_FoodToHitTargetCarbs
+    public class BL_FoodToHitTargetCarbs
     {
         DataLayer dl = Common.Database;
 
-        internal DoubleAndText Hit_ChoAlreadyTaken = new DoubleAndText();
-        internal DoubleAndText Hit_ChoOfFood = new DoubleAndText();
-        internal DoubleAndText Hit_TargetCho = new DoubleAndText();
-        internal DoubleAndText ChoLeftToTake = new DoubleAndText();
-        internal DoubleAndText FoodToHitTarget = new DoubleAndText();
+        public  DoubleAndText Hit_ChoAlreadyTaken = new DoubleAndText();
+        public  DoubleAndText Hit_ChoOfFood = new DoubleAndText();
+        public  DoubleAndText Hit_TargetCho = new DoubleAndText();
+        public  DoubleAndText ChoLeftToTake = new DoubleAndText();
+        public  DoubleAndText FoodToHitTarget = new DoubleAndText();
 
-        internal BL_FoodToHitTargetCarbs()
+        public  BL_FoodToHitTargetCarbs()
         {
             //FoodToHitTarget.Format = "0"; 
         }
-        internal void SaveData()
+        public  void SaveData()
         {
             try
             {
@@ -30,11 +30,11 @@ namespace GlucoMan.BusinessLayer
                 Common.LogOfProgram.Error("BL_FoodToHitTargetCarbs | SaveData", ex);
             }
         }
-        internal void RestoreData()
+        public  void RestoreData()
         {
             dl.RestoreFoodToHitTargetCarbs(this);
         }
-        internal void Calculations()
+        public  void Calculations()
         {
             ChoLeftToTake.Double = (Hit_TargetCho.Double - Hit_ChoAlreadyTaken.Double);
             FoodToHitTarget.Double = ChoLeftToTake.Double * 100 / Hit_ChoOfFood.Double;

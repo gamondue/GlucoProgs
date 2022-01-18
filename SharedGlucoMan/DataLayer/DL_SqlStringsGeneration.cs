@@ -4,10 +4,10 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal abstract partial class DataLayer
+    public abstract partial class DataLayer
     {
         #region functions that prepare the value of a variable to be used in a SQL statement 
-        internal string SqlString(string String)
+        public string SqlString(string String)
         {
             if (String == null) return "null";
             string temp;
@@ -24,7 +24,7 @@ namespace GlucoMan
             temp = "'" + temp + "'";
             return temp;
         }
-        internal string SqlString(string String, int MaxLenght)
+        public string SqlString(string String, int MaxLenght)
         {
             if (String == null) return "null";
             string temp;
@@ -43,7 +43,7 @@ namespace GlucoMan
             temp = "'" + temp + "'";
             return temp;
         }
-        internal string SqlStringLike(string String)
+        public string SqlStringLike(string String)
         {
             if (String == null) return "null";
             string temp;
@@ -60,7 +60,7 @@ namespace GlucoMan
             temp = "LIKE '%" + temp + "%'";
             return temp;
         }
-        internal string SqlBool(object Value)
+        public string SqlBool(object Value)
         {
             if (Value == null)
                 return "null";
@@ -73,7 +73,7 @@ namespace GlucoMan
                 return "1";
             }
         }
-        internal string SqlDouble(string Number)
+        public string SqlDouble(string Number)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace GlucoMan
                 return "null";
             }
         }
-        internal string SqlDouble(object Number)
+        public string SqlDouble(object Number)
         {
             if (Number == null)
                 return "null"; 
@@ -101,7 +101,7 @@ namespace GlucoMan
                 return "null"; 
             }
         }
-        internal string SqlFloat(float Number)
+        public string SqlFloat(float Number)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace GlucoMan
                 return "null"; 
             }
         }
-        internal string SqlFloat(string Number)
+        public string SqlFloat(string Number)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace GlucoMan
                 return "null"; 
             }
         }
-        internal string SqlInt(string Number)
+        public string SqlInt(string Number)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace GlucoMan
                 return "null";
             }
         }
-        internal string SqlInt(int? Number)
+        public string SqlInt(int? Number)
         {
             if (Number == null) return "null";
             try
@@ -149,7 +149,7 @@ namespace GlucoMan
                 return "null";
             }
         }
-        internal string SqlDate(string Date)
+        public string SqlDate(string Date)
         {
             if (Date is null)
                 return "null";
@@ -159,14 +159,14 @@ namespace GlucoMan
             DateTime? d = System.DateTime.Parse(Date);
             return ("datetime('" + ((DateTime)d).ToString("yyyy-MM-dd HH:mm:ss").Replace('.', ':') + "')");
         }
-        internal string SqlDate(DateTime? Date)
+        public string SqlDate(DateTime? Date)
         {
             if (Date != null)
                 return ("datetime('" + ((DateTime)Date).ToString("yyyy-MM-dd HH:mm:ss").Replace('.', ':') + "')");
             else
                 return "null";
         }
-        internal string CleanStringForQuery(string Query)
+        public string CleanStringForQuery(string Query)
         {
             // pulisce la stringa dalle andate a capo e dai tab 
             Query = Query.Replace("\t", " ");

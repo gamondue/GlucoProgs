@@ -8,18 +8,18 @@ using static GlucoMan.DataLayer;
 namespace SharedGlucoMan.BusinessLayer
 {
     // Business Layer, general part
-    internal class BL_General
+    public  class BL_General
     {
         DataLayer dl = Common.Database;
-        internal long? SaveParameter(string FieldName, string FieldValue)
+        public  long? SaveParameter(string FieldName, string FieldValue)
         {
             return dl.SaveParameter(FieldName, FieldValue);
         }
-        internal string RestoreParameter(string FieldName)
+        public  string RestoreParameter(string FieldName)
         {
             return dl.RestoreParameter(FieldName);
         }
-        internal void PurgeDatabase()
+        public  void PurgeDatabase()
         {
             dl.PurgeDatabase();
         }

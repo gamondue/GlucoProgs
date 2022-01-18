@@ -10,49 +10,49 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DL_Sqlite : DataLayer
+    public  partial class DL_Sqlite : DataLayer
     {
-        internal override int FindNextIndex()
+        public  override int GetNextPrimaryKey()
         {
-            return GetNextTablePrimaryKey("GlucoseRecords", "IdGlucoseRecord");
+            return GetNextTablePrimaryKey("FoodsInMeals", "IdFoodInMeal");
         }
-        internal override List<GlucoseRecord> ReadGlucoseMeasurements(
+        public  override List<GlucoseRecord> ReadGlucoseMeasurements(
             DateTime? InitialInstant, DateTime? FinalInstant)
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>(); 
-                try
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
                 {
-                    DbDataReader dRead;
-                    DbCommand cmd;
-                    using (DbConnection conn = Connect())
-                    {
-                        string query = "SELECT *" +
-                            " FROM GlucoseRecords ";
-                        if (InitialInstant != null && FinalInstant != null)
-                        {   // add WHERE clause
-                            query += " WHERE Timestamp BETWEEN " + ((DateTime)InitialInstant).ToString("YYYY-MM-DD") +
-                                " AND " + ((DateTime)FinalInstant).ToString("YYYY-MM-DD"); 
-                        }
-                        query += " ORDER BY Timestamp DESC";
-                        cmd = new SqliteCommand(query);
-                        cmd.Connection = conn;
-                        dRead = cmd.ExecuteReader();
-                        while (dRead.Read())
-                        {
-                            GlucoseRecord g = GetGlucoseRecordFromRow(dRead);
-                            list.Add(g);
-                        }
-                        dRead.Dispose();
-                        cmd.Dispose();
+                    string query = "SELECT *" +
+                        " FROM GlucoseRecords ";
+                    if (InitialInstant != null && FinalInstant != null)
+                    {   // add WHERE clause
+                        query += " WHERE Timestamp BETWEEN " + ((DateTime)InitialInstant).ToString("YYYY-MM-DD") +
+                            " AND " + ((DateTime)FinalInstant).ToString("YYYY-MM-DD"); 
                     }
+                    query += " ORDER BY Timestamp DESC";
+                    cmd = new SqliteCommand(query);
+                    cmd.Connection = conn;
+                    dRead = cmd.ExecuteReader();
+                    while (dRead.Read())
+                    {
+                        GlucoseRecord g = GetGlucoseRecordFromRow(dRead);
+                        list.Add(g);
+                    }
+                    dRead.Dispose();
+                    cmd.Dispose();
                 }
-                catch (Exception ex)
-                {
-                    Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
+            }
             return list; 
         }
-        internal override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
+        public  override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>();
             try
@@ -85,16 +85,23 @@ namespace GlucoMan
         private GlucoseRecord GetGlucoseRecordFromRow(DbDataReader Row)
         {
             GlucoseRecord gr = new GlucoseRecord();
-            gr.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
-            gr.GlucoseValue = Safe.Double(Row["GlucoseValue"]);
-            gr.Timestamp = Safe.DateTime(Row["Timestamp"]);
-            gr.GlucoseString = Safe.String(Row["GlucoseString"]);
-            gr.IdDevice = Safe.String(Row["IdDevice"]);
-            gr.IdDeviceType = Safe.String(Row["IdDeviceType"]);
-            gr.Notes = Safe.String(Row["Notes"]); 
+            try
+            {
+                gr.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
+                gr.GlucoseValue = Safe.Double(Row["GlucoseValue"]);
+                gr.Timestamp = Safe.DateTime(Row["Timestamp"]);
+                gr.GlucoseString = Safe.String(Row["GlucoseString"]);
+                gr.IdDevice = Safe.String(Row["IdDevice"]);
+                gr.IdDeviceType = Safe.String(Row["IdDeviceType"]);
+                gr.Notes = Safe.String(Row["Notes"]);
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | GetGlucoseRecordFromRow", ex);
+            }
             return gr;
         }
-        internal override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
+        public  override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
         {
             try
             {
@@ -108,13 +115,13 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
-        internal override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
+        public  override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
         {
             try
             {
                 if (GlucoseMeasurement.IdGlucoseRecord == null || GlucoseMeasurement.IdGlucoseRecord == 0)
                 {
-                    GlucoseMeasurement.IdGlucoseRecord = FindNextIndex();
+                    GlucoseMeasurement.IdGlucoseRecord = GetNextPrimaryKey();
                     // INSERT new record in the table
                     InsertIntoGlucoseMeasurement(GlucoseMeasurement);                         
                 }

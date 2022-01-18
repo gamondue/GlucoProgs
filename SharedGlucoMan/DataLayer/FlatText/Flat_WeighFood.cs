@@ -7,9 +7,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class DL_FlatText : DataLayer
+    public partial class DL_FlatText : DataLayer
     {
-        internal override void RestoreWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
+        public  override void RestoreWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
         {
             if (File.Exists(persistentWeighFood))
                 try
@@ -26,7 +26,7 @@ namespace GlucoMan
                     WeighFood.M1pS1CourseCookedPlusSauce.Text = f[8];
                     WeighFood.ACookRatio.Text = f[9];
                     WeighFood.MppSpPortionOfCoursePlusSauce.Text = f[10];
-                    WeighFood.PPercPercentageOfPortion.Text = f[11];
+                    WeighFood.PPercPercentafPortion.Text = f[11];
                     WeighFood.SpPortionOfSauceInGrams.Text = f[12];
                     WeighFood.Mp0PortionReportedToRaw.Text = f[13];
                     WeighFood.Mp1PortionCooked.Text = f[14];
@@ -43,7 +43,7 @@ namespace GlucoMan
                     Common.LogOfProgram.Error("DL_WeighFood | RestoreWeighFood()", ex);
                 }
         }
-        internal override void SaveWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
+        public  override void SaveWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace GlucoMan
                 file += WeighFood.M1pS1CourseCookedPlusSauce.Text + "\n";
                 file += WeighFood.ACookRatio.Text + "\n";
                 file += WeighFood.MppSpPortionOfCoursePlusSauce.Text + "\n";
-                file += WeighFood.PPercPercentageOfPortion.Text + "\n";
+                file += WeighFood.PPercPercentafPortion.Text + "\n";
                 file += WeighFood.SpPortionOfSauceInGrams.Text + "\n";
                 file += WeighFood.Mp0PortionReportedToRaw.Text + "\n";
                 file += WeighFood.Mp1PortionCooked.Text + "\n";

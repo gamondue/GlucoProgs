@@ -9,7 +9,7 @@
         </Frame>
         <Button x:Name="btnGlucoseMeasurement" Text="Glucose" Clicked="btnGlucoseMeasurement_Clicked"
                 Margin="15,0,15,0"></Button>
-        <Button x:Name="btnChoCount" Text="Meal" Clicked="btnChoCount_Clicked" IsEnabled="False"
+        <Button x:Name="btnMeals" Text="Meals" Clicked="btnMeals_Clicked" IsEnabled="True"
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnWeighFood" Text="Weigh Food" Clicked="btnWeighFood_Clicked" IsEnabled="False"
                 Margin="15,0,15,0"></Button>

@@ -10,31 +10,22 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal abstract partial class DataLayer
+    public abstract partial class DataLayer
     {
-        internal string persistentBolusCalculation = Path.Combine(Common.PathConfigurationData, @"BolusCalculation.txt");
-        internal string persistentInsulinParameters = Path.Combine(Common.PathConfigurationData, @"InsulinParameters.txt");
-        internal string persistentGlucoseMeasurements = Path.Combine(Common.PathConfigurationData, @"GlucoseMeasurements.txt");
-        internal string persistentFoodToEatTarget = Path.Combine(Common.PathConfigurationData, @"FoodToHitTargetCarbs.txt");
-        internal string persistentHypoPrediction = Path.Combine(Common.PathConfigurationData, @"HypoPrediction.txt");
+        public string persistentBolusCalculation = Path.Combine(Common.PathConfigurationData, @"BolusCalculation.txt");
+        public string persistentInsulinParameters = Path.Combine(Common.PathConfigurationData, @"InsulinParameters.txt");
+        public string persistentGlucoseMeasurements = Path.Combine(Common.PathConfigurationData, @"GlucoseMeasurements.txt");
+        public string persistentFoodToEatTarget = Path.Combine(Common.PathConfigurationData, @"FoodToHitTargetCarbs.txt");
+        public string persistentHypoPrediction = Path.Combine(Common.PathConfigurationData, @"HypoPrediction.txt");
+        public string persistentWeighFood = Path.Combine(Common.PathConfigurationData, @"WeighFood.txt");
 
-        internal string persistentWeighFood = Path.Combine(Common.PathConfigurationData, @"WeighFood.txt");
-        internal string logBolusCalculationsFile = Path.Combine(Common.PathConfigurationData, @"LogOfBolusCalculations.tsv");
-        internal abstract List<GlucoseRecord> GetLastTwoGlucoseMeasurements();
-        internal abstract List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, DateTime? FinalInstant);
-        internal abstract void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
-        internal abstract void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo);
-        internal abstract void SaveBolusParameters(BL_BolusCalculation Parameters);
-        internal abstract void RestoreBolusParameters(BL_BolusCalculation Parameters);
-        internal abstract void SaveInsulinCorrectionParameters(BL_BolusCalculation Parameters); 
-        internal abstract void RestoreWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood);
-        internal abstract void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
-        internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);
-        internal abstract void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo);
-        internal abstract void SaveLogOfBoluses(BL_BolusCalculation Bolus);
-        internal abstract long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
-        internal abstract void SaveWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood);
-        internal abstract int FindNextIndex();
+        public string logBolusCalculationsFile = Path.Combine(Common.PathConfigurationData, @"LogOfBolusCalculations.tsv");
+
+        #region General
+        public abstract void PurgeDatabase();
+        public abstract int GetNextPrimaryKey();
+        #endregion
+
         /// <summary>
         /// Saves the values of the parameters, passed as strings, in the fields whose name is passed
         /// Saving on a table with possibly a single row, whose name is managed by the implementation 
@@ -44,9 +35,40 @@ namespace GlucoMan
         /// </summary>
         /// <param name="Paramaters"></param>
         /// <param name="Key"></param>
-        internal abstract long? SaveParameter(string FieldName, string FieldValue, int? Key = null); 
-        internal abstract string RestoreParameter(string FieldName, int? Key = null); 
-        internal abstract void PurgeDatabase();
-        internal abstract void RestoreInsulinCorrectionParameters(BL_BolusCalculation bL_BolusCalculation);
+        #region Save and restore of program's parameters
+        public abstract long? SaveParameter(string FieldName, string FieldValue, int? Key = null);
+        public abstract string RestoreParameter(string FieldName, int? Key = null);
+        public abstract void RestoreInsulinCorrectionParameters(BL_BolusCalculation bL_BolusCalculation);
+        public abstract void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
+        public abstract void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo);
+        public abstract void SaveBolusParameters(BL_BolusCalculation Parameters);
+        public abstract void RestoreBolusParameters(BL_BolusCalculation Parameters);
+        public abstract void SaveInsulinCorrectionParameters(BL_BolusCalculation Parameters);
+        #endregion
+
+        #region Glucose 
+        public abstract List<GlucoseRecord> GetLastTwoGlucoseMeasurements();
+        public abstract List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, DateTime? FinalInstant);
+        public abstract void RestoreWeighFood(BL_WeighFood WeighFood);
+        public abstract void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
+        public abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);
+        public abstract void SaveHypoPrediction(BL_HypoPrediction Hypo);
+        public abstract void SaveLogOfBoluses(BL_BolusCalculation Bolus);
+        public abstract long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
+        public abstract void SaveWeighFood(BL_WeighFood WeighFood);
+        #endregion
+
+        #region Meals and Food in Meals
+        public abstract void SaveMeals(List<Meal> List);
+        public abstract long? SaveOneMeal(Meal Meal);
+        public void ReadMeal(BL_MealAndFood bL_MealAndFood)
+        {
+            throw new NotImplementedException();
+        }
+        public abstract List<Meal> ReadMeals(DateTime? initialTime, DateTime? finalTime);
+        public abstract void SaveFoodsInMeal(List<FoodInMeal> list);
+        public abstract List<FoodInMeal> ReadFoodsInMeal(int? IdMeal);
+        public abstract int? SaveOneFoodInMeal(FoodInMeal FoodToSave); 
+        #endregion
     }
 }

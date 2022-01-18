@@ -2,7 +2,7 @@
 
 namespace GlucoMan
 {
-    internal class GlucoseRecord
+    public class GlucoseRecord
     {
         private DateTime? timestamp;
         private string idDevice;
@@ -32,35 +32,35 @@ namespace GlucoMan
 
         // properties directly mapped to database GlucoseRecordings table 
         // !!!! TODO visually separate when done with database tables !!!!
-        internal int? IdGlucoseRecord { get ; set ; }
-        internal double? GlucoseValue { get => glucoseValue; set => glucoseValue = value; }  // in mg/l
-        internal DateTime? Timestamp { get => timestamp; set => timestamp = value; }
-        internal string GlucoseString { get => glucoseString; set => glucoseString = value; }
-        internal string IdDevice { get => idDevice; set => idDevice = value; }
-        internal string IdDeviceType { get => idDeviceType; set => idDeviceType = value; }
-        internal int? IdDocumentType { get => idDocumentType; set => idDocumentType = value; }
-        internal Common.TypeOfGlucoseMeasurement GlucoseMeasurementType { get => glucoseMeasurementType; set => glucoseMeasurementType = value; }
-        internal Common.QualitativeAccuracy GlucoseQualitativeAccuracy { get => glucoseQualitativeAccuracy; set => glucoseQualitativeAccuracy = value; }
-        internal string Notes { get => notes; set => notes = value; }
+        public int? IdGlucoseRecord { get ; set ; }
+        public double? GlucoseValue { get => glucoseValue; set => glucoseValue = value; }  // in mg/l
+        public DateTime? Timestamp { get => timestamp; set => timestamp = value; }
+        public string GlucoseString { get => glucoseString; set => glucoseString = value; }
+        public string IdDevice { get => idDevice; set => idDevice = value; }
+        public string IdDeviceType { get => idDeviceType; set => idDeviceType = value; }
+        public int? IdDocumentType { get => idDocumentType; set => idDocumentType = value; }
+        public Common.TypeOfGlucoseMeasurement GlucoseMeasurementType { get => glucoseMeasurementType; set => glucoseMeasurementType = value; }
+        public Common.QualitativeAccuracy  GlucoseQualitativeAccuracy { get => glucoseQualitativeAccuracy; set => glucoseQualitativeAccuracy = value; }
+        public string Notes { get => notes; set => notes = value; }
 
         // properties taken from other tables of database 
         // !!!! TODO visually separate better, when done with database tables !!!!
-        internal double? InsulinValue { get => insulinValue; set => insulinValue = value; }
-        internal string InsulinString { get => insulinString; set => insulinString = value; }
-        internal string InsulinDrugName { get => insulinDrugName; set => insulinDrugName = value; }
-        internal Common.TypeOfInsulinInjection InsulinInjection { get => insulinInjection; set => insulinInjection = value; }
-        internal Common.TypeOfInsulinSpeed InsulinSpeed { get => insulinSpeed; set => insulinSpeed = value; }
-        internal Common.QualitativeAccuracy InsulinAccuracy { get => insulinAccuracy; set => insulinAccuracy = value; }
-        internal Common.QualitativeAccuracy CarbohydratesAccuracy { get => carbohydratesAccuracy; set => carbohydratesAccuracy = value; }
-        internal Common.TypeOfMeal TypeOfMeal { get => typeOfMeal; set => typeOfMeal = value; }
-        internal double? CarbohydratesValue_grams { get => carbohydratesValue; set => carbohydratesValue = value; }
-        internal string CarbohydratesString { get => carbohydratesString; set => carbohydratesString = value; }
-        internal string MealFoodString { get => mealFoodString; set => mealFoodString = value; }
-        internal int? AccessoryIndex { get => accessoryIndex; set => accessoryIndex = value; }
-        internal double? BodyWeight { get; set; }
-        internal double? BloodPressure { get; set; }
-        internal double? PhysicalActivity { get; set; }
-        internal int? Photo { get; set; }
+        public double? InsulinValue { get => insulinValue; set => insulinValue = value; }
+        public string InsulinString { get => insulinString; set => insulinString = value; }
+        public string InsulinDrugName { get => insulinDrugName; set => insulinDrugName = value; }
+        public Common.TypeOfInsulinInjection InsulinInjection { get => insulinInjection; set => insulinInjection = value; }
+        public Common.TypeOfInsulinSpeed InsulinSpeed { get => insulinSpeed; set => insulinSpeed = value; }
+        public Common.QualitativeAccuracy InsulinAccuracy { get => insulinAccuracy; set => insulinAccuracy = value; }
+        public Common.QualitativeAccuracy CarbohydratesAccuracy { get => carbohydratesAccuracy; set => carbohydratesAccuracy = value; }
+        public Common.TypeOfMeal TypeOfMeal { get => typeOfMeal; set => typeOfMeal = value; }
+        public double? CarbohydratesValue_grams { get => carbohydratesValue; set => carbohydratesValue = value; }
+        public string CarbohydratesString { get => carbohydratesString; set => carbohydratesString = value; }
+        public string MealFoodString { get => mealFoodString; set => mealFoodString = value; }
+        public int? AccessoryIndex { get => accessoryIndex; set => accessoryIndex = value; }
+        public double? BodyWeight { get; set; }
+        public double? BloodPressure { get; set; }
+        public double? PhysicalActivity { get; set; }
+        public int? Photo { get; set; }
         public override string ToString()
         {
             return Timestamp?.ToString("yyyy-MM-dd HH:mm:ss"); 

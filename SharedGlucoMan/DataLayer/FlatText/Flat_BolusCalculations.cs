@@ -5,9 +5,9 @@ using System.IO;
 
 namespace GlucoMan
 {
-    internal partial class DL_FlatText : DataLayer
+    public partial class DL_FlatText : DataLayer
     {
-        internal override async void SaveBolusParameters(BL_BolusCalculation Bolus)
+        public override async void SaveBolusParameters(BL_BolusCalculation Bolus)
         {
             try {
                 string file = ""; 
@@ -23,7 +23,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
-        internal override void RestoreBolusParameters(BL_BolusCalculation Parameters)
+        public override void RestoreBolusParameters(BL_BolusCalculation Parameters)
         {
             if (File.Exists(persistentInsulinParameters))
             {
@@ -47,7 +47,7 @@ namespace GlucoMan
                 }
             }
         }
-        internal override async void SaveInsulinCorrectionParameters(BL_BolusCalculation Bolus)
+        public override async void SaveInsulinCorrectionParameters(BL_BolusCalculation Bolus)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
             }
         }
-        internal override void RestoreInsulinCorrectionParameters(BL_BolusCalculation Parameters)
+        public override void RestoreInsulinCorrectionParameters(BL_BolusCalculation Parameters)
         {
             if (File.Exists(persistentInsulinParameters))
             {
@@ -88,7 +88,7 @@ namespace GlucoMan
                 }
             }
         }
-        internal override async void SaveLogOfBoluses(BL_BolusCalculation Bolus)
+        public override async void SaveLogOfBoluses(BL_BolusCalculation Bolus)
         {
             string fileContent;
             try

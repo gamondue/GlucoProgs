@@ -24,7 +24,7 @@ namespace GlucoMan.Mobile
         {
             await Navigation.PushAsync(new GlucoseMeasurementPage());
         }
-        private async void btnChoCount_Clicked(object sender, EventArgs e)
+        private async void btnMeals_Clicked(object sender, EventArgs e)
         {
             // !!!! TODO 
         }

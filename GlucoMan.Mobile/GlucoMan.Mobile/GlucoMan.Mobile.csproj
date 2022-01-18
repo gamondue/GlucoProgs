@@ -52,8 +52,11 @@
     <Compile Update="HypoPredictionPage.xaml.cs">
       <DependentUpon>HypoPredictionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="MealInsulinCalcPage.xaml.cs">
-      <DependentUpon>MealInsulinCalcPage.xaml</DependentUpon>
+    <Compile Update="InsulinCalcPage.xaml.cs">
+      <DependentUpon>InsulinCalcPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MealsPage.xaml.cs">
+      <DependentUpon>MealsPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="MiscellaneousFunctionsPage.xaml.cs">
       <DependentUpon>MiscellaneousFunctionsPage.xaml</DependentUpon>
@@ -65,6 +68,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="CorrectionParametersPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MealsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MiscellaneousFunctionsPage.xaml">

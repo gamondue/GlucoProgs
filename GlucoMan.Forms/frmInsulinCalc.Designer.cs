@@ -1,7 +1,7 @@
 ﻿
 namespace GlucoMan.Forms
 {
-    partial class frmMealInsulinCalc
+    partial class frmInsulinCalc
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace GlucoMan.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMealInsulinCalc));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInsulinCalc));
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -127,12 +127,12 @@ namespace GlucoMan.Forms
             // 
             // btnSetParameters
             // 
-            this.btnSetParameters.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnSetParameters.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnSetParameters.Location = new System.Drawing.Point(276, 97);
             this.btnSetParameters.Name = "btnSetParameters";
-            this.btnSetParameters.Size = new System.Drawing.Size(92, 38);
+            this.btnSetParameters.Size = new System.Drawing.Size(92, 50);
             this.btnSetParameters.TabIndex = 100;
-            this.btnSetParameters.Text = "Calc. parameters";
+            this.btnSetParameters.Text = "Calc parameters";
             this.btnSetParameters.UseVisualStyleBackColor = true;
             this.btnSetParameters.Click += new System.EventHandler(this.btnSetParameters_Click);
             // 
@@ -495,7 +495,7 @@ namespace GlucoMan.Forms
             this.txtChoInsulinRatioDinner.TabIndex = 9;
             this.txtChoInsulinRatioDinner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // frmMealInsulinCalc
+            // frmInsulinCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -530,7 +530,7 @@ namespace GlucoMan.Forms
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "frmMealInsulinCalc";
+            this.Name = "frmInsulinCalc";
             this.Text = "Calculation of insulin meal bolus, with corrections";
             this.Load += new System.EventHandler(this.frmInsulinCalc_Load);
             this.groupBox1.ResumeLayout(false);

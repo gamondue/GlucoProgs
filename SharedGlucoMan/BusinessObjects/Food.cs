@@ -7,7 +7,7 @@ namespace GlucoMan
 {
     public class Food
     {
-        internal int IdFood { get; set; }
+        internal int? IdFood { get; set; }
         internal string Name { get; set; }
         internal string Description;
         internal DoubleAndText Energy { get; set; }    // [kcal]  

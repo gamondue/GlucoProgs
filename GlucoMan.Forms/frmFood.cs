@@ -62,9 +62,13 @@ namespace GlucoMan.Forms
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
+            FromUiToClass();            
+        }
+
+        private void btnChoose_Click(object sender, EventArgs e)
+        {
             FromUiToClass();
-            
-            // !!!! ????  is it right to have persistence throught the object ???? thisFood.Save(thisFood);
+            this.Close(); 
         }
     }
 }

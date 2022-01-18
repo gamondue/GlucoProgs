@@ -8,11 +8,11 @@ using static GlucoMan.DataLayer;
 
 namespace GlucoMan.Forms
 {
-    public partial class frmMealInsulinCalc : Form
+    public partial class frmInsulinCalc : Form
     {
         BL_BolusCalculation currentBolusCalculation;
         BL_GlucoseMeasurements currentGlucoseMeasurement;
-        public frmMealInsulinCalc()
+        public frmInsulinCalc()
         {
             InitializeComponent();
 
@@ -24,7 +24,7 @@ namespace GlucoMan.Forms
             currentBolusCalculation.RestoreBolusParameters(); 
 
             Common.SelectMealBasedOnTimeNow();
-            switch (currentBolusCalculation.MealOfBolus.Type)
+            switch (currentBolusCalculation.MealOfBolus.TypeOfMeal)
             {
                 case (Common.TypeOfMeal.Breakfast):
                     rdbIsBreakfast.Checked = true;
@@ -62,7 +62,7 @@ namespace GlucoMan.Forms
             txtChoInsulinRatioDinner.Text = currentBolusCalculation.ChoInsulinRatioDinner.Text;
 
             txtStatusBar.Text = currentBolusCalculation.StatusMessage; 
-            switch (currentBolusCalculation.MealOfBolus.Type)
+            switch (currentBolusCalculation.MealOfBolus.TypeOfMeal)
             {
                 case (Common.TypeOfMeal.Breakfast):
                     rdbIsBreakfast.Checked = true;
@@ -89,13 +89,13 @@ namespace GlucoMan.Forms
             currentBolusCalculation.InsulinCorrectionSensitivity.Text = txtInsulinCorrectionSensitivity.Text;
 
             if (rdbIsBreakfast.Checked)
-                currentBolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Breakfast;
+                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Breakfast;
             if (rdbIsLunch.Checked)
-                currentBolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Lunch;
+                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Lunch;
             if (rdbIsDinner.Checked)
-                currentBolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Dinner;
+                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Dinner;
             if (rdbIsSnack.Checked)
-                currentBolusCalculation.MealOfBolus.Type = Common.TypeOfMeal.Snack;
+                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Snack;
         }
         private void frmInsulinCalc_FormClosing(object sender, FormClosingEventArgs e)
         {

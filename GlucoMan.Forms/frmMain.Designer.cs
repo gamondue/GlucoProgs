@@ -37,7 +37,7 @@ namespace GlucoMan.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.txtHeaderText = new System.Windows.Forms.TextBox();
             this.txtFooterText = new System.Windows.Forms.TextBox();
-            this.btnChoCount = new System.Windows.Forms.Button();
+            this.btnMeals = new System.Windows.Forms.Button();
             this.btnAlarms = new System.Windows.Forms.Button();
             this.btnGlucoseMeasurement = new System.Windows.Forms.Button();
             this.bntMiscellaneous = new System.Windows.Forms.Button();
@@ -122,17 +122,17 @@ namespace GlucoMan.Forms
             this.txtFooterText.Size = new System.Drawing.Size(879, 82);
             this.txtFooterText.TabIndex = 6;
             // 
-            // btnChoCount
+            // btnMeals
             // 
-            this.btnChoCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnChoCount.Location = new System.Drawing.Point(125, 172);
-            this.btnChoCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnChoCount.Name = "btnChoCount";
-            this.btnChoCount.Size = new System.Drawing.Size(104, 62);
-            this.btnChoCount.TabIndex = 7;
-            this.btnChoCount.Text = "Meal";
-            this.btnChoCount.UseVisualStyleBackColor = true;
-            this.btnChoCount.Click += new System.EventHandler(this.btnChoCount_Click);
+            this.btnMeals.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnMeals.Location = new System.Drawing.Point(125, 172);
+            this.btnMeals.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnMeals.Name = "btnMeals";
+            this.btnMeals.Size = new System.Drawing.Size(104, 62);
+            this.btnMeals.TabIndex = 7;
+            this.btnMeals.Text = "Meals";
+            this.btnMeals.UseVisualStyleBackColor = true;
+            this.btnMeals.Click += new System.EventHandler(this.btnMeals_Click);
             // 
             // btnAlarms
             // 
@@ -179,7 +179,7 @@ namespace GlucoMan.Forms
             this.Controls.Add(this.bntMiscellaneous);
             this.Controls.Add(this.btnGlucoseMeasurement);
             this.Controls.Add(this.btnAlarms);
-            this.Controls.Add(this.btnChoCount);
+            this.Controls.Add(this.btnMeals);
             this.Controls.Add(this.txtFooterText);
             this.Controls.Add(this.txtHeaderText);
             this.Controls.Add(this.label1);
@@ -206,7 +206,7 @@ namespace GlucoMan.Forms
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtHeaderText;
         private System.Windows.Forms.TextBox txtFooterText;
-        private System.Windows.Forms.Button btnChoCount;
+        private System.Windows.Forms.Button btnMeals;
         private System.Windows.Forms.Button btnAlarms;
         private System.Windows.Forms.Button btnGlucoseMeasurement;
         private Button bntMiscellaneous;
