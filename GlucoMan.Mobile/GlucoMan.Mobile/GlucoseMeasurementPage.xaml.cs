@@ -27,6 +27,30 @@ namespace GlucoMan.Mobile
 
             RefreshGrid();
         }
+
+        private void FromUiToClass()
+        {
+            double? glucose = Safe.Double(txtGlucose.Text);
+            if (glucose == null)
+            {
+                txtGlucose.Text = "";
+                //Console.Beep();
+                return;
+            }
+            currentGlucose = new GlucoseRecord();
+            currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
+            currentGlucose.GlucoseValue = glucose;
+            DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
+                dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds);
+            currentGlucose.Timestamp = instant;
+        }
+        private void FromClassToUi()
+        {
+            txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
+            dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
+            dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;
+            txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
+        }
         private void RefreshGrid()
         {
             glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
@@ -71,29 +95,6 @@ namespace GlucoMan.Mobile
                 return;
             }
             RefreshGrid();
-        }
-        private void FromUiToClass()
-        {
-            double? glucose = Safe.Double(txtGlucose.Text);
-            if (glucose == null)
-            {
-                txtGlucose.Text = "";
-                //Console.Beep();
-                return;
-            }
-            currentGlucose = new GlucoseRecord();
-            currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
-            currentGlucose.GlucoseValue = glucose;
-            DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
-                dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds); 
-            currentGlucose.Timestamp = instant;
-        }
-        private void FromClassToUi()
-        {
-            txtGlucose.Text = currentGlucose.GlucoseValue.ToString();  
-            dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
-            dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;
-            txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
         }
         private void btnSave_Click(object sender, EventArgs e)
         {

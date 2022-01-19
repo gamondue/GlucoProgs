@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GlucoMan.Mobile.MealsPage">
+             x:Class="GlucoMan.Mobile.MealsPage"
+             Title="Meals">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -18,54 +19,23 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Text="Glucose" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="0" Grid.Column="1" Text="Date" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="0" Grid.Column="2" Text="Time" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="0" Grid.Column="3" Text="Id" XAlign="Center" YAlign="End"/>
-            <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucose" Text="" FontSize="Large"
-                    HorizontalTextAlignment="End" BackgroundColor="Lime" IsEnabled="true"/>
-            <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate" BackgroundColor="PaleGreen"
-                        FontSize="Small" Format="yyyy-MM-dd HH:mm:ss" HorizontalOptions="Center"/>
-            <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpEventTime" BackgroundColor="PaleGreen"
-                        FontSize="Small" Format="HH:mm:ss" HorizontalOptions="Center"/>
-            <Label Grid.Row="1" Grid.Column="3" x:Name="txtIdGlucoseRecord" Text="" XAlign="Center" YAlign="Center"/>
-            <!-- check box with associated label into a StackLayout -->
-            <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
-                    <CheckBox.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS" Value="0,-10,0,0" />
-                            <On Platform="Android, WinPhone, Windows" Value="0,-5,0,0" />
-                        </OnPlatform>
-                    </CheckBox.Margin>
-                </CheckBox>
-                <Label VerticalTextAlignment="Center" VerticalOptions="Start" Text="Add with Now as time">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer>
-
-                        </TapGestureRecognizer>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
-            <!-- another check box .. -->
-            <StackLayout Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <CheckBox VerticalOptions="Start" x:Name="chkAutosave" IsChecked="True">
-                    <CheckBox.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS" Value="0,-10,0,0" />
-                            <On Platform="Android, WinPhone, Windows" Value="0,-5,0,0" />
-                        </OnPlatform>
-                    </CheckBox.Margin>
-                </CheckBox>
-                <Label VerticalTextAlignment="Center" VerticalOptions="Start"
-                    Text="Autosave">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer>
-
-                        </TapGestureRecognizer>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
+            <Label Grid.Row="0" Grid.Column="0" Text="IdMeal" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="0" Grid.Column="1" Text="Type of Meal" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="0" Grid.Column="2" Text="Accuracy" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="0" Grid.Column="3" Text="" XAlign="Center" YAlign="End"/>
+            
+            <Entry Grid.Row="1" Grid.Column="0" x:Name="txtIdMeal" Text="" FontSize="Medium"
+                    HorizontalTextAlignment="Center" BackgroundColor="White" IsReadOnly="true"/>
+            <Picker Grid.Row="1" Grid.Column="1" 
+                    Title="Type of Meal" 
+                    ItemsSource="{Binding TypesOfMeal}" 
+                    SelectedItem="{Binding Snack, Mode=TwoWay}"
+                    x:Name="cmbTypeOfMeal" BackgroundColor="PaleGoldenrod"
+                        FontSize="Small" HorizontalOptions="Center"/>
+            <Entry Grid.Row="1" Grid.Column="2" x:Name="txtAccuracyOfChoMeal" BackgroundColor="PaleGoldenrod"
+                        FontSize="Small" HorizontalOptions="Center"/>
+            <Picker Grid.Row="1" Grid.Column="3" x:Name="cmbAccuracyMeal"/>
+            
             <Button Grid.Row="3" Grid.Column="0" Text="+" x:Name="btnAddFood" Clicked="btnAddFood_Click"></Button>
             <Button Grid.Row="3" Grid.Column="1" Text="-" x:Name="btnRemoveFood" Clicked="btnRemoveFood_Click"></Button>
             <Button Grid.Row="3" Grid.Column="2" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
@@ -83,10 +53,8 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="18"/>
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Column="0" Text="Time:" />
-                                    <Label Grid.Column="1" Text="{Binding Timestamp}"/>
-                                    <Label Grid.Column="2" Text="Glucose:"/>
-                                    <Label Grid.Column="0" Text="{Binding GlucoseValue}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding GlucoseValue}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding Timestamp}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>
@@ -94,6 +62,5 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-
     </ContentPage.Content>
 </ContentPage>

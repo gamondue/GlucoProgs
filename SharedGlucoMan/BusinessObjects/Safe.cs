@@ -71,8 +71,8 @@ namespace GlucoMan
             }
             catch
             {
-                //return Comuni.DateNull;
-                return null;
+                return Common.DateNull;
+                //return null;
             }
         }
         internal static Nullable<DateTime> DateTime(string Date)

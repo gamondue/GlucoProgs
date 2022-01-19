@@ -26,7 +26,7 @@ namespace GlucoMan.Mobile
         }
         private async void btnMeals_Clicked(object sender, EventArgs e)
         {
-            // !!!! TODO 
+            await Navigation.PushAsync(new MealsPage());
         }
         private async void btnWeighFood_Clicked(object sender, EventArgs e)
         {

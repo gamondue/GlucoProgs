@@ -20,6 +20,8 @@ namespace GlucoMan
         public static int dinnerStartHour = 17;
         public static int dinnerEndHour = 21;
 
+        public static DateTime DateNull = new DateTime(1, 1, 1, 0, 0, 0, 0);
+
         #region enums
         public enum TypeOfGlucoseMeasurement
         {

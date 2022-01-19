@@ -8,7 +8,6 @@ namespace GlucoMan.Forms
         private BL_MealAndFood bl = new BL_MealAndFood();
         private List<Meal> meals;
         private Meal currentMeal;
-
         public frmMeals()
         {
             InitializeComponent();

@@ -21,7 +21,6 @@ namespace GlucoMan
         public static string PathDatabase = Path.Combine(PathUser, @"GlucoMan\Data\");
         public static string PathAndFileDatabase = Path.Combine(PathDatabase, @"GlucoManData.Sqlite");
 
-        internal static DateTime DateNull = new DateTime(1, 1, 1, 0, 0, 0, 0);
         //public static CommonObjects CommonObj;
     }
 }
