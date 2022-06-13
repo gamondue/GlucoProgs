@@ -1,11 +1,7 @@
 ﻿using GlucoMan.BusinessLayer;
-using static GlucoMan.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,65 +11,113 @@ namespace GlucoMan.Mobile
     public partial class MealsPage : ContentPage
     {
         private BL_MealAndFood bl = new BL_MealAndFood();
-        private List<Meal> meals;
-        private Meal currentMeal;
+
         public MealsPage()
         {
             InitializeComponent();
             
-            currentMeal = new Meal();
+            bl.Meal = new Meal();
 
             RefreshGrid();
         }
         private void FromUiToClass()
         {
-            //double? glucose = Safe.Double(txtGlucose.Text);
-            //if (glucose == null)
-            //{
-            //    txtGlucose.Text = "";
-            //    //Console.Beep();
-            //    return;
-            //}
-            //currentGlucose = new GlucoseRecord();
-            //currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
-            //currentGlucose.GlucoseValue = glucose;
-            //DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
-            //    dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds);
-            //currentGlucose.Timestamp = instant;
+            bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
+            bl.Meal.Carbohydrates.Text = txtChoOfMeal.Text;
+            DateTime instant = new DateTime(dtpMealDateStart.Date.Year, dtpMealDateStart.Date.Month, dtpMealDateStart.Date.Day,
+                dtpMealTimeStart.Time.Hours, dtpMealTimeStart.Time.Minutes, dtpMealTimeStart.Time.Seconds);
+            bl.Meal.TimeStart.DateTime = instant;
+            bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text);
         }
         private void FromClassToUi()
         {
-            //txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
-            //dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
-            //dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;
-            //txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
+            txtIdMeal.Text = bl.Meal.IdMeal.ToString();
+            txtChoOfMeal.Text = Safe.String(bl.Meal.Carbohydrates.Text);
+            if (bl.Meal.TimeStart.DateTime != Common.DateNull)
+            {
+                dtpMealDateStart.Date = (DateTime)Safe.DateTime(bl.Meal.TimeStart.DateTime);
+                dtpMealTimeStart.Time = (DateTime)bl.Meal.TimeStart.DateTime - dtpMealDateStart.Date;
+            }
+            txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.ToString();
+            ////////cmbTypeOfMeal.Text = bl.Meal.TypeOfMeal.ToString();
         }
         private void RefreshGrid()
         {
-            meals = bl.ReadMeals(null, null);
-            gridMeals.BindingContext = meals;
+            bl.ReadMeals(null, null);
+            gridMeals.BindingContext = bl.Meals;
         }
-        private void btnAddFood_Click(object sender, EventArgs e)
+        private async void btnAddMeal_Click(object sender, EventArgs e)
         {
-        }
-        private void btnRemoveFood_Click(object sender, EventArgs e)
-        {
-        }
-        private void btnNow_Click(object sender, EventArgs e)
-        {
-        }
-        private void btnSave_Click(object sender, EventArgs e)
-        {
+            // !!!! make modal !!!!
+            //////await Navigation.PushAsync(new MealPage());
+
+            FromUiToClass();
+            // force creation of a new record 
+            bl.Meal.IdMeal = null;
+            bl.Meal.TimeStart.DateTime = DateTime.Now; 
+            bl.SaveOneMeal();
+            RefreshGrid();  
+            FromClassToUi();
         }
         void OnSelection(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
             {
+                //MessageBox.Show("Choose a meal in the grid");
                 return;
             }
             // make the tapped row current
-            currentMeal = (Meal)e.SelectedItem;
+            bl.Meal = (Meal)e.SelectedItem;
             FromClassToUi();
         }
+        private void btnRemoveMeal_Click(object sender, EventArgs e)
+        {
+            btnRemoveMeal_ClickAsync(sender, e);
+        }
+        private async Task btnRemoveMeal_ClickAsync(object sender, EventArgs e)
+        {
+            if (txtIdMeal.Text == "")
+            {
+                await DisplayAlert("Deletion not possible", "Choose the meal to delete", "Ok");
+                return;
+            }
+            FromUiToClass();
+            bl.DeleteOneMeal(bl.Meal);
+            RefreshGrid();
+        }
+        private async Task btnShowThisMeal_ClickAsync(object sender, EventArgs e)
+        {
+            if (txtIdMeal.Text == "")
+            {
+                //////MessageBox.Show("Choose a meal in the grid");
+                return;
+            }
+            await Navigation.PushAsync(new MealPage());
+        }
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            btnSave_ClickAsync(sender, e); 
+        }
+        private async Task btnSave_ClickAsync(object sender, EventArgs e)
+        {
+            if (txtIdMeal.Text == "")
+            {
+                await DisplayAlert("Saving not possible", "Choose the meal to modify", "Ok");
+                return;
+            }
+            FromUiToClass();
+            bl.SaveOneMeal();
+            RefreshGrid(); 
+        }
+        //private void txtAccuracyOfChoMeal_TextChanged(object sender, EventArgs e)
+        //{
+        //    bl.Meal.AccuracyOfChoEstimate = Safe.Double(txtAccuracyOfChoMeal.Text);
+        //    bl.NumericalAccuracyChanged(bl.Meal.AccuracyOfChoEstimate.Value);
+        //}
+        //private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    bl.Meal.AccuracyOfChoEstimate =
+        //        bl.QualitativeAccuracyChanged(((QualitativeAccuracy)cmbAccuracyMeal.SelectedItem));
+        //}
     }
 }

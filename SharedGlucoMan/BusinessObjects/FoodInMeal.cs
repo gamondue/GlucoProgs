@@ -18,6 +18,7 @@ namespace GlucoMan
         public DoubleAndText SugarPercent { get; set; }        // [g/100]
         public DoubleAndText FibersPercent { get; set; }       // [g/100]
         public string Name { get; set; }
+        public QualitativeAccuracy QualitativeAccuracy { get; internal set; }
 
         public string Description;
 
@@ -30,6 +31,10 @@ namespace GlucoMan
             FibersPercent = new DoubleAndText();        // [%]
             AccuracyOfChoEstimate = new DoubleAndText();
             //QualitativeAccuracyOfCho = QualitativeAccuracy.Perfect;
+
+            CarbohydratesGrams.Format = "0.0";
+            Quantity.Format = "0";
+            CarbohydratesPercent.Format = "0.0";
         }
     }
 }

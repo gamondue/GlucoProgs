@@ -15,6 +15,8 @@ namespace GlucoMan.Mobile
 
             bolusCalculation = new BL_BolusCalculation(); 
             bolusCalculation.RestoreInsulinCorrectionParameters();
+            bolusCalculation.RestoreRatioCHOInsulinParameters();
+
             bolusCalculation.FactorOfInsulinCorrectionSensitivity.Format = "0";
             FromClassToUi();
         }
@@ -30,12 +32,11 @@ namespace GlucoMan.Mobile
         {
             txtInsulinSensitivity.Text = bolusCalculation.InsulinCorrectionSensitivity.Text;
             cmbSensitivityFactor.SelectedItem = bolusCalculation.FactorOfInsulinCorrectionSensitivity.Text; 
-            txtTdd.Text = bolusCalculation.TotalDailyDoseOfInsulin.Text;
+            txtTotalDailyDoseOfInsulin.Text = bolusCalculation.TotalDailyDoseOfInsulin.Text;
             txtTypicalBolusMidday.Text = bolusCalculation.TypicalBolusMidday.Text;
             txtTypicalBolusMorning.Text = bolusCalculation.TypicalBolusMorning.Text;
             txtTypicalBolusEvening.Text = bolusCalculation.TypicalBolusEvening.Text;
             txtTypicalBolusNight.Text = bolusCalculation.TypicalBolusNight.Text;
-
             txtChoInsulinRatioBreakfast.Text = bolusCalculation.ChoInsulinRatioBreakfast.Text;
             txtChoInsulinRatioLunch.Text = bolusCalculation.ChoInsulinRatioLunch.Text;
             txtChoInsulinRatioDinner.Text = bolusCalculation.ChoInsulinRatioDinner.Text;
@@ -60,13 +61,19 @@ namespace GlucoMan.Mobile
         {
             FromUiToClass();
             bolusCalculation.CalculateInsulinCorrectionSensitivity();
+            FromClassToUi();
+        }
+        private void btnSaveInsulinSensitivity_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
             bolusCalculation.SaveInsulinCorrectionParameters();
             FromClassToUi();
         }
-        private void btnYYYY_Click(object sender, EventArgs e)
+        private void btnSaveRatioCHOInsulin_Click(object sender, EventArgs e)
         {
-            // !!!! TODO !!!! ready to host the code to calculate the sensitivenesses
-            // (when I will have an algorithm!!)
+            FromUiToClass();
+            bolusCalculation.SaveRatioCHOInsulinParameters();
+            FromClassToUi();
         }  
         private void btnPhysicalActivityCalculation_Click(object sender, EventArgs e)
         {

@@ -7,9 +7,9 @@ using System.IO;
 
 namespace GlucoMan
 {
-    public  partial class DL_Sqlite : DataLayer
+    internal  partial class DL_Sqlite : DataLayer
     {
-        public  override void SaveBolusParameters(BL_BolusCalculation Parameters)
+        internal  override void SaveBolusParameters(BL_BolusCalculation Parameters)
         {
             SaveParameter("ChoInsulinRatioBreakfast", Parameters.ChoInsulinRatioBreakfast.Text);
             SaveParameter("ChoInsulinRatioLunch", Parameters.ChoInsulinRatioLunch.Text);
@@ -23,7 +23,7 @@ namespace GlucoMan
             SaveParameter("ChoToEat", Parameters.ChoToEat.Text);
             SaveParameter("GlucoseBeforeMeal", Parameters.GlucoseBeforeMeal.Text);
         }
-        public  override void RestoreBolusParameters(BL_BolusCalculation Parameters)
+        internal  override void RestoreBolusParameters(BL_BolusCalculation Parameters)
         {
             Parameters.TargetGlucose.Text = RestoreParameter("TargetGlucose");
             Parameters.InsulinCorrectionSensitivity.Text = RestoreParameter("InsulinCorrectionSensitivity");
@@ -34,11 +34,8 @@ namespace GlucoMan
             Parameters.ChoToEat.Text = RestoreParameter("ChoToEat");
             Parameters.GlucoseBeforeMeal.Text = RestoreParameter("GlucoseBeforeMeal");
         }
-        public  override void SaveInsulinCorrectionParameters(BL_BolusCalculation Parameters)
+        internal  override void SaveInsulinCorrectionParameters(BL_BolusCalculation Parameters)
         {
-            SaveParameter("ChoInsulinRatioBreakfast", Parameters.ChoInsulinRatioBreakfast.Text);
-            SaveParameter("ChoInsulinRatioLunch", Parameters.ChoInsulinRatioLunch.Text);
-            SaveParameter("ChoInsulinRatioDinner", Parameters.ChoInsulinRatioDinner.Text);
             SaveParameter("TypicalBolusMorning", Parameters.TypicalBolusMorning.Text);
             SaveParameter("TypicalBolusMidday", Parameters.TypicalBolusMidday.Text);
             SaveParameter("TypicalBolusEvening", Parameters.TypicalBolusEvening.Text);
@@ -47,11 +44,8 @@ namespace GlucoMan
             SaveParameter("FactorOfInsulinCorrectionSensitivity", Parameters.FactorOfInsulinCorrectionSensitivity.Text);
             SaveParameter("InsulinCorrectionSensitivity", Parameters.InsulinCorrectionSensitivity.Text);
         }
-        public  override void RestoreInsulinCorrectionParameters(BL_BolusCalculation Parameters)
+        internal override void RestoreInsulinCorrectionParameters(BL_BolusCalculation Parameters)
         {
-            Parameters.ChoInsulinRatioBreakfast.Text = Common.Bl.RestoreParameter("ChoInsulinRatioBreakfast");
-            Parameters.ChoInsulinRatioLunch.Text = Common.Bl.RestoreParameter("ChoInsulinRatioLunch");
-            Parameters.ChoInsulinRatioDinner.Text = Common.Bl.RestoreParameter("ChoInsulinRatioDinner");
             Parameters.TypicalBolusMorning.Text = Common.Bl.RestoreParameter("TypicalBolusMorning");
             Parameters.TypicalBolusMidday.Text = Common.Bl.RestoreParameter("TypicalBolusMidday");
             Parameters.TypicalBolusEvening.Text = Common.Bl.RestoreParameter("TypicalBolusEvening");
@@ -60,7 +54,19 @@ namespace GlucoMan
             Parameters.FactorOfInsulinCorrectionSensitivity.Text = Common.Bl.RestoreParameter("FactorOfInsulinCorrectionSensitivity");
             Parameters.InsulinCorrectionSensitivity.Text = Common.Bl.RestoreParameter("InsulinCorrectionSensitivity");
         }
-        public  override async void SaveLogOfBoluses(BL_BolusCalculation NewBolusToSave)
+        internal override void SaveRatioChoInsulinParameters(BL_BolusCalculation Parameters)
+        {
+            SaveParameter("ChoInsulinRatioBreakfast", Parameters.ChoInsulinRatioBreakfast.Text);
+            SaveParameter("ChoInsulinRatioLunch", Parameters.ChoInsulinRatioLunch.Text);
+            SaveParameter("ChoInsulinRatioDinner", Parameters.ChoInsulinRatioDinner.Text);
+        }
+        internal override void RestoreRatioChoInsulinParameters(BL_BolusCalculation Parameters)
+        {
+            Parameters.ChoInsulinRatioBreakfast.Text = Common.Bl.RestoreParameter("ChoInsulinRatioBreakfast");
+            Parameters.ChoInsulinRatioLunch.Text = Common.Bl.RestoreParameter("ChoInsulinRatioLunch");
+            Parameters.ChoInsulinRatioDinner.Text = Common.Bl.RestoreParameter("ChoInsulinRatioDinner");
+        }
+        internal  override async void SaveLogOfBoluses(BL_BolusCalculation NewBolusToSave)
         {
             // log is savedd in text file 
             string fileContent;

@@ -7,7 +7,7 @@ namespace GlucoMan
 {
     public static partial class Common
     {
-        public static DataLayer Database;
+        internal static DataLayer Database;
         public static BL_General Bl; 
         public static SharedData.Logger LogOfProgram;
 
@@ -66,15 +66,15 @@ namespace GlucoMan
         public enum TypeOfInsulinSpeed
         {
             NotSet = 0,
-            QuickActionInsulin = 10,
-            SlowActionInsulin = 20
+            QuickAction = 10,
+            SlowAction = 20
         }
         public enum TypeOfInsulinInjection
         {
             NotSet = 0,
-            CarbBolus = 10,
+            CarbohydratesBolus = 10,
             CorrectionBolus = 20,
-            ExtendedBolus = 30,
+            ExtendedEffectBolus = 30,
             BasalBolus = 40
         }
         public enum QualitativeAccuracy

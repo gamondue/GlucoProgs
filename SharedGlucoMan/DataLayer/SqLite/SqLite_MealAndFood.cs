@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using GlucoMan.BusinessLayer;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -7,9 +8,9 @@ using static GlucoMan.Common;
 
 namespace GlucoMan
 {
-    public  partial class DL_Sqlite : DataLayer
+    internal  partial class DL_Sqlite : DataLayer
     {
-        public  override List<Meal> ReadMeals(DateTime? InitialInstant, DateTime? FinalInstant)
+        internal  override List<Meal> ReadMeals(DateTime? InitialInstant, DateTime? FinalInstant)
         {
             List<Meal> list = new List<Meal>();
             try
@@ -44,7 +45,11 @@ namespace GlucoMan
             }
             return list;
         }
-        public  override void SaveMeals(List<Meal> List)
+        internal override Meal ReadOneMeal(long? IdMeal)
+        {
+            throw new NotImplementedException();
+        }
+        internal  override void SaveMeals(List<Meal> List)
         {
             try
             {
@@ -58,7 +63,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_MealAndFood | SaveMeals", ex);
             }
         }
-        public  override long? SaveOneMeal(Meal Meal)
+        internal  override int? SaveOneMeal(Meal Meal)
         {
             try
             {
@@ -74,7 +79,7 @@ namespace GlucoMan
                 {   // GlucoseMeasurement.IdGlucoseRecord exists
                     UpdateMeal(Meal);
                 }
-                return Meal.IdGlucoseRecord;
+                return Meal.IdMeal;
             }
             catch (Exception ex)
             {
@@ -82,7 +87,27 @@ namespace GlucoMan
                 return null;
             }
         }
-        private Meal GetMealFromRow(DbDataReader Row)
+        internal override void DeleteOneMeal(Meal Meal)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "DELETE FROM Meals" +
+                    " WHERE IdMeal=" + Meal.IdMeal; 
+                    query += ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_MealAndFood | DeleteOneMeal", ex);
+            }
+        }
+        internal Meal GetMealFromRow(DbDataReader Row)
         {
             Meal m = new Meal();
             GlucoseRecord gr = new GlucoseRecord();
@@ -90,14 +115,14 @@ namespace GlucoMan
             {
                 m.IdMeal = Safe.Int(Row["IdMeal"]);
                 m.TypeOfMeal = (TypeOfMeal) Safe.Int(Row["TypeOfMeal"]);
-                m.Carbohydrates.Double = Safe.Double(Row["Carbohydrates"]);
                 m.TimeStart.DateTime = (DateTime) Safe.DateTime(Row["TimeBegin"]);
-                m.TimeEnd.Text = Safe.String(Row["TimeEnd"]);
-                m.AccuracyOfChoEstimate = (double)Safe.Double(Row["AccuracyOfChoEstimate"]);
+                m.Carbohydrates.Double = Safe.Double(Row["Carbohydrates"]);
+                m.TimeFinish.Text = Safe.String(Row["TimeEnd"]);
+                m.AccuracyOfChoEstimate.Double = (double)Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
                 m.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
                 m.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy) Safe.Int(Row["IdQualitativeAccuracyCHO"]);
-                m.IdInsulineInjection = Safe.Int(Row["IdInsulineInjection"]);
+                //m.IdInsulineInjection = Safe.Int(Row["IdInsulineInjection"]);
                 //m = Safe(Row["xxxx"]);
             }
             catch (Exception ex)
@@ -106,7 +131,7 @@ namespace GlucoMan
             }
             return m;
         }
-        private long? UpdateMeal(Meal Meal)
+        internal int? UpdateMeal(Meal Meal)
         {
             try
             {
@@ -116,12 +141,12 @@ namespace GlucoMan
                     string query = "UPDATE Meals SET " +
                     "Carbohydrates=" + SqlDouble(Meal.Carbohydrates.Text) + "," +
                     "TimeBegin=" + SqlDate(Meal.TimeStart.DateTime) + "," +
-                    "TimeEnd=" + SqlDate(Meal.TimeEnd.DateTime) + "," +
-                    "AccuracyOfChoEstimate=" + SqlDouble(Meal.AccuracyOfChoEstimate) + "," +
+                    "TimeEnd=" + SqlDate(Meal.TimeFinish.DateTime) + "," +
+                    "AccuracyOfChoEstimate=" + SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     "IdBolusCalculation=" + SqlInt(Meal.IdBolusCalculation) + "," +
                     "IdGlucoseRecord=" + SqlInt(Meal.IdGlucoseRecord) + "," +
-                    //"IdQualitativeAccuracyCho=" + SqlString(Meal.IdQualitativeAccuracyCho) + "," +
-                    "IdInsulineInjection=" + SqlInt(Meal.IdInsulineInjection) + "" +
+                    "IdQualitativeAccuracyCho=" + SqlInt((int)Meal.QualitativeAccuracyOfChoEstimate) + "," +
+                    //"IdInsulineInjection=" + SqlInt(Meal.IdInsulineInjection) + "" +
                     // "XXXXX=" + SqlString(Meal.) + "," +
                     " WHERE IdMeal=" + SqlInt(Meal.IdMeal) + 
                     ";";
@@ -129,7 +154,7 @@ namespace GlucoMan
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
-                return Meal.IdGlucoseRecord;
+                return Meal.IdMeal;
             }
             catch (Exception ex)
             {
@@ -137,7 +162,7 @@ namespace GlucoMan
                 return null;
             }
         }
-        private long? InsertMeal(Meal Meal)
+        internal int? InsertMeal(Meal Meal)
         {
             try
             {
@@ -148,17 +173,19 @@ namespace GlucoMan
                     "(" +
                     "IdMeal,Carbohydrates,TimeBegin,TimeEnd,AccuracyOfChoEstimate," +
                     "IdBolusCalculation,IdGlucoseRecord," +
-                    "IdInsulineInjection";
+                    "IdQualitativeAccuracyCho";
+                    //"IdInsulineInjection";
                     //"XXXX,XXXX,XXXX" +
                     query += ")VALUES(" +
                     SqlInt(Meal.IdMeal) + "," +
-                    SqlDouble(Meal.Carbohydrates) + "," +
+                    SqlDouble(Meal.Carbohydrates.Double) + "," +
                     SqlDate(Meal.TimeStart.DateTime) + "," +
-                    SqlDate(Meal.TimeEnd.DateTime) + "," +
-                    SqlDouble(Meal.AccuracyOfChoEstimate) + "," +
+                    SqlDate(Meal.TimeFinish.DateTime) + "," +
+                    SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     SqlDouble(Meal.IdBolusCalculation) + "," +
                     SqlInt(Meal.IdGlucoseRecord) + "," +
-                    SqlInt(Meal.IdInsulineInjection);
+                    SqlInt((int)Meal.QualitativeAccuracyOfChoEstimate);
+                    //SqlInt(Meal.IdInsulineInjection);
                     // SqlString(Meal.) + "," +
                     query += ");";
                     cmd.CommandText = query;
@@ -173,11 +200,11 @@ namespace GlucoMan
                 return null;
             }
         }
-        public  override void SaveFoodsInMeal(List<FoodInMeal> Meal)
+        internal  override void SaveFoodsInMeal(List<FoodInMeal> Meal)
         {
 
         }
-        public  override List<FoodInMeal> ReadFoodsInMeal(int? IdMeal)
+        internal  override List<FoodInMeal> ReadFoodsInMeal(int? IdMeal)
         {
             if (IdMeal != null)
             {
@@ -190,7 +217,6 @@ namespace GlucoMan
                     {
                         string query = "SELECT *" +
                             " FROM FoodsInMeals" +
-                            //" JOIN Meals ON Meals.IdMeal=FoodsInMeals.IdMeal" +
                             " WHERE FoodsInMeals.IdMeal=" + IdMeal +
                             ";";
                         // query += " ORDER BY Timestamp DESC";
@@ -215,7 +241,7 @@ namespace GlucoMan
             }
             return null;
         }
-        private FoodInMeal GetFoodInMealFromRow(DbDataReader Row)
+        internal FoodInMeal GetFoodInMealFromRow(DbDataReader Row)
         {
             FoodInMeal f = new FoodInMeal();
             GlucoseRecord gr = new GlucoseRecord();
@@ -232,6 +258,9 @@ namespace GlucoMan
                 f.FibersPercent.Double = Safe.Double(Row["FibersPercent"]);
                 f.Name = Safe.String(Row["Name"]);
                 f.Description = Safe.String(Row["Description"]);
+                int? dummy = Safe.Int(Row["QualitativeAccuracy"]);
+                if (dummy != null)
+                    f.QualitativeAccuracy = (QualitativeAccuracy)(dummy);
                 //f. = Safe(Row["XXXXX"]);
             }
             catch (Exception ex)
@@ -240,7 +269,7 @@ namespace GlucoMan
             }
             return f;
         }
-        public  override int? SaveOneFoodInMeal(FoodInMeal FoodToSave)
+        internal  override int? SaveOneFoodInMeal(FoodInMeal FoodToSave)
         {
             try
             {
@@ -271,25 +300,26 @@ namespace GlucoMan
                 return null;
             }
         }
-        private int? UpdateFoodInMeal(FoodInMeal FoodToSave)
+        internal int? UpdateFoodInMeal(FoodInMeal FoodToSave)
         {
             try
             {
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "UPDATE Meals SET " +
-                    "IdFood=" + SqlDouble(FoodToSave.IdFood) + "," +
-                    "Quantity=" + SqlDouble(FoodToSave.Quantity) + "," +
-                    "CarbohydratesGrams=" + SqlDouble(FoodToSave.CarbohydratesGrams) + "," +
-                    "CarbohydratesPercent=" + SqlDouble(FoodToSave.CarbohydratesPercent) + "," +
-                    "AccuracyOfChoEstimate=" + SqlDouble(FoodToSave.AccuracyOfChoEstimate) + "," +
-                    "SugarPercent=" + SqlDouble(FoodToSave.SugarPercent) + "," +
-                    "FibersPercent=" + SqlDouble(FoodToSave.FibersPercent) + "," +
+                    string query = "UPDATE FoodsInMeals SET " +
+                    "IdMeal=" + SqlInt(FoodToSave.IdMeal) + "," +
+                    "IdFood=" + SqlInt(FoodToSave.IdFood) + "," +
+                    "Quantity=" + SqlDouble(FoodToSave.Quantity.Double) + "," +
+                    "CarbohydratesGrams=" + SqlDouble(FoodToSave.CarbohydratesGrams.Double) + "," +
+                    "CarbohydratesPercent=" + SqlDouble(FoodToSave.CarbohydratesPercent.Double) + "," +
+                    "AccuracyOfChoEstimate=" + SqlDouble(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
+                    "SugarPercent=" + SqlDouble(FoodToSave.SugarPercent.Double) + "," +
+                    "FibersPercent=" + SqlDouble(FoodToSave.FibersPercent.Double) + "," +
+                    "QualitativeAccuracy=" + SqlInt((int)FoodToSave.QualitativeAccuracy) + "," +
                     "Name=" + SqlString(FoodToSave.Name) + "," +
-                    "Description=" + SqlString(FoodToSave.Description) + "," +
-                    // "XXXXX=" + SqlString(FoodToSave) + "," +
-                    " WHERE IdMeal=" + SqlInt(FoodToSave.IdFoodInMeal) + 
+                    "Description=" + SqlString(FoodToSave.Description) + "" +
+                    " WHERE IdFoodInMeal=" + SqlInt(FoodToSave.IdFoodInMeal) + 
                     ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -299,11 +329,11 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_MealAndFood | UpdateMeal", ex);
+                Common.LogOfProgram.Error("Sqlite_MealAndFood | UpdateFoodInMeal", ex);
                 return null;
             }
         }
-        private int? InsertFoodInMeal(FoodInMeal FoodToSave)
+        internal int? InsertFoodInMeal(FoodInMeal FoodToSave)
         {
             try
             {
@@ -313,7 +343,7 @@ namespace GlucoMan
                     string query = "INSERT INTO FoodsInMeals" +
                     "(" +
                     "IdFoodInMeal,IdMeal,IdFood,Quantity,CarbohydratesGrams,CarbohydratesPercent," +
-                    "AccuracyOfChoEstimate,SugarPercent,FibersPercent," +
+                    "AccuracyOfChoEstimate,SugarPercent,FibersPercent,QualitativeAccuracy" +
                     "Name,Description";
                     query += ")VALUES(" +
                     SqlInt(FoodToSave.IdFoodInMeal) + "," +
@@ -325,6 +355,7 @@ namespace GlucoMan
                     SqlDouble(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
                     SqlDouble(FoodToSave.SugarPercent.Double) + "," +
                     SqlDouble(FoodToSave.FibersPercent.Double) + "," +
+                    SqlInt((int)FoodToSave.QualitativeAccuracy) + "," +
                     SqlString(FoodToSave.Name) + "," +
                     SqlString(FoodToSave.Description);
 
@@ -341,7 +372,7 @@ namespace GlucoMan
                 return null;
             }
         }
-        private Food GetFoodFromRow(DbDataReader Row)
+        internal Food GetFoodFromRow(DbDataReader Row)
         {
             Food f = new Food();
             GlucoseRecord gr = new GlucoseRecord();
@@ -364,6 +395,58 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_MealAndFood | GetFoodFromRow", ex);
             }
             return f;
+        }
+        internal override void DeleteOneFoodInMeal(FoodInMeal Food)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "DELETE FROM FoodsInMeals" +
+                    " WHERE IdFoodInMeal=" + Food.IdFoodInMeal;
+                    query += ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_MealAndFood | DeleteOneFoodInMeal", ex);
+            }
+        }
+        internal override List<Food> SearchFood(Food Food)
+        {
+            List<Food> list = new List<Food>();
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
+                {
+                    string query = "SELECT *" +
+                        " FROM Foods ";
+                    query += " WHERE Name LIKE '%" + Food.Name + "%'" +
+                            " AND Description LIKE '%" + Food.Description + "%'";
+                    query += " ORDER BY Name, Description";
+                    cmd = new SqliteCommand(query);
+                    cmd.Connection = conn;
+                    dRead = cmd.ExecuteReader();
+                    while (dRead.Read())
+                    {
+                        Food f = GetFoodFromRow(dRead);
+                        list.Add(f);
+                    }
+                    dRead.Dispose();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_MealAndFood | SearchFood", ex);
+            }
+            return list;
         }
     }
 }

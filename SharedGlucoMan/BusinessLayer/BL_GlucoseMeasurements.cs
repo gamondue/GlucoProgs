@@ -35,5 +35,9 @@ namespace GlucoMan.BusinessLayer
         {
             dl.SaveOneGlucoseMeasurement(GlucoseMeasurement); 
         }
+        internal void DeleteOneGlucoseMeasurement(GlucoseRecord gr)
+        {
+            dl.DeleteOneGlucoseMeasurement(gr); 
+        }
     }
 }

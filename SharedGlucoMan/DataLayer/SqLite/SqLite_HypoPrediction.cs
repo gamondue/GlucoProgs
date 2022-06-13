@@ -7,9 +7,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    public  partial class DL_Sqlite : DataLayer
+    internal  partial class DL_Sqlite : DataLayer
     {
-        public  override void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Parameters)
+        internal  override void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Parameters)
         {
             SaveParameter("Hypo_GlucoseTarget", Parameters.Hypo_GlucoseTarget.Text);
             SaveParameter("Hypo_GlucoseLast", Parameters.Hypo_GlucoseLast.Text);
@@ -20,7 +20,7 @@ namespace GlucoMan
             SaveParameter("Hypo_MinutePrevious", Parameters.Hypo_MinutePrevious.Text);
             SaveParameter("Hypo_AlarmAdvanceTime", Parameters.Hypo_AlarmAdvanceTime.ToString());
         }
-        public  override void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Parameters)
+        internal  override void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Parameters)
         {
             Parameters.Hypo_GlucoseTarget.Text = RestoreParameter("Hypo_GlucoseTarget");
             Parameters.Hypo_GlucoseLast.Text = RestoreParameter("Hypo_GlucoseLast");

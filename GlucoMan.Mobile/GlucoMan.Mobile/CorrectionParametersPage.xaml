@@ -30,26 +30,26 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.ColumnSpan="4" Text="Calculation of RatioCHO/insulin" 
+            <Label Grid.Row="0" Grid.ColumnSpan="4" Text="Calculation of Ratio CHO/insulin" 
                    XAlign="Center" YAlign="End" FontSize="Large" FontAttributes="Bold"/>
             <Label Grid.Row="1" Grid.ColumnSpan="4" Text="(better if calculated from dietist)" 
                    XAlign="Center" YAlign="End"/>
             <Label Grid.Row="2" Grid.ColumnSpan="4" Text="Calculation to be implemented yet" 
                     FontSize="Medium" XAlign="Center" YAlign="End" BackgroundColor="Red" TextColor="Yellow"/>
-            
-            <Label Grid.Row="3" Grid.ColumnSpan="4" Text="Ratio CHO / insulin" 
+
+            <Label Grid.Row="3" Grid.ColumnSpan="4" Text="Ratio CHO/insulin" 
                     FontSize="Medium" XAlign="Center" YAlign="End" />
             <Label Grid.Row="4" Grid.Column="0" Text="Breakfast" XAlign="Center" YAlign="End" />
             <Label Grid.Row="4" Grid.Column="1" Text="Lunch" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="2" Text="Dinner" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="5" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" 
-                   Placeholder="break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   Placeholder="Break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="5" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" 
                    Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="5" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" 
                    Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
-            <Button Grid.Row="5" Grid.Column="3" x:Name="btnYYYY" Text="Calc"
-                    Clicked="btnYYYY_Click" IsEnabled="False"/>
+            <Button Grid.Row="5" Grid.Column="3" x:Name="btnSaveRatioCHOInsulin" Text="Save"
+                    Clicked="btnSaveRatioCHOInsulin_Click" />
             
             <Label Grid.Row="6" Grid.ColumnSpan="4" Text="" 
                    XAlign="Center" YAlign="End" FontSize="Large"/>
@@ -77,7 +77,7 @@
             <Label Grid.Row="11" Grid.Column="1" Text="Sens.factor" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="11" Grid.Column="2" Text="Sens.to insul." XAlign="Center" YAlign="End"/>
 
-            <Label Grid.Row="12" Grid.Column="0" x:Name="txtTdd" Text="----" XAlign="Center" YAlign="Center"/>
+            <Label Grid.Row="12" Grid.Column="0" x:Name="txtTotalDailyDoseOfInsulin" Text="----" XAlign="Center" YAlign="Center"/>
             <Picker Grid.Row="12" Grid.Column="1" x:Name="cmbSensitivityFactor" Title="pick value">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
@@ -89,14 +89,26 @@
             </Picker>
             <Entry  Grid.Row="12" Grid.Column="2" x:Name="txtInsulinSensitivity" HorizontalTextAlignment ="End" Text="" 
                    Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"/>
-            <Button Grid.Row="12" Grid.Column="3" x:Name="btnInsulinSensitivityCalculation" Text="Calc"
-                    Clicked="btnInsulinSensitivityCalculation_Click"/>
+            <Grid Grid.Row="12" Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" x:Name="btnCalculateInsulinSensitivity" Text="Calc."
+                     Margin="0,0,0,0" Clicked="btnSaveInsulinSensitivity_Click"/>
+                <Button Grid.Row="1" Grid.Column="0" x:Name="btnSaveInsulinSensitivity" Text="Save"
+                    Margin="0,0,0,0" Clicked="btnSaveRatioCHOInsulin_Click"/>
+            </Grid>
+
 
             <Label Grid.Row="13" Grid.ColumnSpan="4" Text="Physical Activity parameters" 
                    XAlign="Center" YAlign="End" FontSize="Large" FontAttributes="Bold"/>
             <Label Grid.Row="14" Grid.ColumnSpan="4" Text="Calculation to be implemented yet" 
                     FontSize="Medium" XAlign="Center" YAlign="End" BackgroundColor="Red" TextColor="Yellow"/>
-            <Button Grid.Row="15" Grid.Column="3" x:Name="btnPhysicalActivityCalculation" Text="Calc"
+            <Button Grid.Row="15" Grid.Column="3" x:Name="btnPhysicalActivityCalculation" Text="Save"
                     Clicked="btnPhysicalActivityCalculation_Click" IsEnabled="False"/>
         </Grid>
     </ContentPage.Content>

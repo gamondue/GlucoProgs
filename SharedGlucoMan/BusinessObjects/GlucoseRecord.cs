@@ -48,12 +48,12 @@ namespace GlucoMan
         public double? InsulinValue { get => insulinValue; set => insulinValue = value; }
         public string InsulinString { get => insulinString; set => insulinString = value; }
         public string InsulinDrugName { get => insulinDrugName; set => insulinDrugName = value; }
-        public Common.TypeOfInsulinInjection InsulinInjection { get => insulinInjection; set => insulinInjection = value; }
+        public Common.TypeOfInsulinInjection InsulinInjectionType { get => insulinInjection; set => insulinInjection = value; }
         public Common.TypeOfInsulinSpeed InsulinSpeed { get => insulinSpeed; set => insulinSpeed = value; }
         public Common.QualitativeAccuracy InsulinAccuracy { get => insulinAccuracy; set => insulinAccuracy = value; }
         public Common.QualitativeAccuracy CarbohydratesAccuracy { get => carbohydratesAccuracy; set => carbohydratesAccuracy = value; }
         public Common.TypeOfMeal TypeOfMeal { get => typeOfMeal; set => typeOfMeal = value; }
-        public double? CarbohydratesValue_grams { get => carbohydratesValue; set => carbohydratesValue = value; }
+        public double? CarbohydratesValue_g { get => carbohydratesValue; set => carbohydratesValue = value; }
         public string CarbohydratesString { get => carbohydratesString; set => carbohydratesString = value; }
         public string MealFoodString { get => mealFoodString; set => mealFoodString = value; }
         public int? AccessoryIndex { get => accessoryIndex; set => accessoryIndex = value; }

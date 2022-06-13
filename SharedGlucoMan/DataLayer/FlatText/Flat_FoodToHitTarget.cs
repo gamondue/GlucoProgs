@@ -8,9 +8,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    public partial class DL_FlatText : DataLayer
+    internal partial class DL_FlatText : DataLayer
     {
-        public  override void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
+        internal  override void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
         {
             if (File.Exists(persistentFoodToEatTarget))
                 try
@@ -26,8 +26,7 @@ namespace GlucoMan
                     Common.LogOfProgram.Error("DL_BolusCalculation | SaveBolusCalculations", ex);
                 }
         }
-
-        public  override void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
+        internal  override void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget)
         {
             try
             {

@@ -3,6 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Reflection;
 using SharedData;
+using System.Text.RegularExpressions;
 
 namespace GlucoMan
 {
@@ -116,8 +117,7 @@ namespace GlucoMan
             Type t = o.GetType();
             PropertyInfo[] properties = t.GetProperties();
 
-            Object p = t.InvokeMember("", System.Reflection.
-                BindingFlags.CreateInstance, null, o, null);
+            Object p = t.InvokeMember("", System.Reflection.BindingFlags.CreateInstance, null, o, null);
 
             foreach (PropertyInfo pi in properties)
             {
@@ -127,6 +127,18 @@ namespace GlucoMan
                 }
             }
             return p;
+        }
+        public static string SplitCamelCase(this string str)
+        {
+            return Regex.Replace(
+                Regex.Replace(
+                    str,
+                    @"(\P{Ll})(\P{Ll}\p{Ll})",
+                    "$1 $2"
+                ),
+                @"(\p{Ll})(\P{Ll})",
+                "$1 $2"
+            );
         }
     }
 }

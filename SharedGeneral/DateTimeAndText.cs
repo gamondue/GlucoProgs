@@ -10,7 +10,6 @@ namespace GlucoMan
 
         private DateTime dateTimeVal;
         private string text;
-
         public DateTimeAndText()
         {
             // default Format
@@ -19,7 +18,6 @@ namespace GlucoMan
             dateTimeVal = Common.DateNull;
             text = "";
         }
-
         public DateTime DateTime
         {
             get => dateTimeVal;
@@ -47,9 +45,13 @@ namespace GlucoMan
                 }
                 catch
                 {
-                    dateTimeVal = DateTime.MinValue;
+                    dateTimeVal = Common.DateNull;
                 }
             }
+        }
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }

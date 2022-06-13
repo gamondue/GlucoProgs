@@ -39,14 +39,14 @@ namespace GlucoMan
             get
             {
                 if (doubleVal == null)
-                    return null; 
+                    return ""; 
                 try
                 {
                     return ((double)doubleVal).ToString(Format);
                 }
                 catch
                 {
-                    return null;
+                    return "";
                 }
             }
             set
@@ -56,11 +56,15 @@ namespace GlucoMan
                 {
                     doubleVal = double.Parse(value);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     doubleVal = null;
                 }
             }
+        }
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }

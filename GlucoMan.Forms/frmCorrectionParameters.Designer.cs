@@ -43,10 +43,10 @@ namespace GlucoMan.Forms
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.txtInsulinCorrectionSensitivity = new System.Windows.Forms.TextBox();
-            this.btnInsulinSensitivityCalculation = new System.Windows.Forms.Button();
+            this.btnCalculateInsulinSensitivity = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.txtTotalDailyDoseOfInsulin = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnSaveRatioCHOInsulin = new System.Windows.Forms.Button();
             this.txtChoInsulinRatioDinner = new System.Windows.Forms.TextBox();
             this.txtChoInsulinRatioLunch = new System.Windows.Forms.TextBox();
             this.txtChoInsulinRatioBreakfast = new System.Windows.Forms.TextBox();
@@ -57,9 +57,10 @@ namespace GlucoMan.Forms
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnSaveInsulinSensitivity = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnSavePhysicalActivityParameters = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnPhysicalActivityCalc = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -215,15 +216,15 @@ namespace GlucoMan.Forms
             this.txtInsulinCorrectionSensitivity.TabIndex = 107;
             this.txtInsulinCorrectionSensitivity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btnInsulinSensitivityCalculation
+            // btnCalculateInsulinSensitivity
             // 
-            this.btnInsulinSensitivityCalculation.Location = new System.Drawing.Point(392, 152);
-            this.btnInsulinSensitivityCalculation.Name = "btnInsulinSensitivityCalculation";
-            this.btnInsulinSensitivityCalculation.Size = new System.Drawing.Size(75, 33);
-            this.btnInsulinSensitivityCalculation.TabIndex = 116;
-            this.btnInsulinSensitivityCalculation.Text = "Calc";
-            this.btnInsulinSensitivityCalculation.UseVisualStyleBackColor = true;
-            this.btnInsulinSensitivityCalculation.Click += new System.EventHandler(this.btnInsulinSensitivityCalculation_Click);
+            this.btnCalculateInsulinSensitivity.Location = new System.Drawing.Point(301, 152);
+            this.btnCalculateInsulinSensitivity.Name = "btnCalculateInsulinSensitivity";
+            this.btnCalculateInsulinSensitivity.Size = new System.Drawing.Size(75, 33);
+            this.btnCalculateInsulinSensitivity.TabIndex = 116;
+            this.btnCalculateInsulinSensitivity.Text = "Calc";
+            this.btnCalculateInsulinSensitivity.UseVisualStyleBackColor = true;
+            this.btnCalculateInsulinSensitivity.Click += new System.EventHandler(this.btnCalculateInsulinSensitivity_Click);
             // 
             // label6
             // 
@@ -246,15 +247,15 @@ namespace GlucoMan.Forms
             this.txtTotalDailyDoseOfInsulin.TabIndex = 117;
             this.txtTotalDailyDoseOfInsulin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // button1
+            // btnSaveRatioCHOInsulin
             // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(392, 128);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 33);
-            this.button1.TabIndex = 119;
-            this.button1.Text = "Calc";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnSaveRatioCHOInsulin.Location = new System.Drawing.Point(392, 128);
+            this.btnSaveRatioCHOInsulin.Name = "btnSaveRatioCHOInsulin";
+            this.btnSaveRatioCHOInsulin.Size = new System.Drawing.Size(75, 33);
+            this.btnSaveRatioCHOInsulin.TabIndex = 119;
+            this.btnSaveRatioCHOInsulin.Text = "Save";
+            this.btnSaveRatioCHOInsulin.UseVisualStyleBackColor = true;
+            this.btnSaveRatioCHOInsulin.Click += new System.EventHandler(this.btnSaveRatioCHOInsulin_Click);
             // 
             // txtChoInsulinRatioDinner
             // 
@@ -339,7 +340,7 @@ namespace GlucoMan.Forms
             // 
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.btnSaveRatioCHOInsulin);
             this.groupBox1.Location = new System.Drawing.Point(11, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(490, 179);
@@ -360,13 +361,14 @@ namespace GlucoMan.Forms
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnSaveInsulinSensitivity);
             this.groupBox3.Controls.Add(this.groupBox4);
             this.groupBox3.Controls.Add(this.txtInsulinCorrectionSensitivity);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.txtTotalDailyDoseOfInsulin);
             this.groupBox3.Controls.Add(this.cmbSensitivityFactor);
-            this.groupBox3.Controls.Add(this.btnInsulinSensitivityCalculation);
+            this.groupBox3.Controls.Add(this.btnCalculateInsulinSensitivity);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Location = new System.Drawing.Point(12, 197);
             this.groupBox3.Name = "groupBox3";
@@ -375,43 +377,54 @@ namespace GlucoMan.Forms
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Calculation of insulin sensitivity";
             // 
+            // btnSaveInsulinSensitivity
+            // 
+            this.btnSaveInsulinSensitivity.Location = new System.Drawing.Point(391, 152);
+            this.btnSaveInsulinSensitivity.Name = "btnSaveInsulinSensitivity";
+            this.btnSaveInsulinSensitivity.Size = new System.Drawing.Size(75, 33);
+            this.btnSaveInsulinSensitivity.TabIndex = 119;
+            this.btnSaveInsulinSensitivity.Text = "Save";
+            this.btnSaveInsulinSensitivity.UseVisualStyleBackColor = true;
+            this.btnSaveInsulinSensitivity.Click += new System.EventHandler(this.btnSaveInsulinSensitivity_Click);
+            // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.btnSavePhysicalActivityParameters);
             this.groupBox5.Controls.Add(this.label2);
-            this.groupBox5.Controls.Add(this.btnPhysicalActivityCalc);
             this.groupBox5.Location = new System.Drawing.Point(11, 420);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(490, 179);
+            this.groupBox5.Size = new System.Drawing.Size(490, 86);
             this.groupBox5.TabIndex = 3;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Physical Activity parameters";
+            // 
+            // btnSavePhysicalActivityParameters
+            // 
+            this.btnSavePhysicalActivityParameters.Enabled = false;
+            this.btnSavePhysicalActivityParameters.Location = new System.Drawing.Point(392, 39);
+            this.btnSavePhysicalActivityParameters.Name = "btnSavePhysicalActivityParameters";
+            this.btnSavePhysicalActivityParameters.Size = new System.Drawing.Size(75, 33);
+            this.btnSavePhysicalActivityParameters.TabIndex = 120;
+            this.btnSavePhysicalActivityParameters.Text = "Save";
+            this.btnSavePhysicalActivityParameters.UseVisualStyleBackColor = true;
+            this.btnSavePhysicalActivityParameters.Click += new System.EventHandler(this.btnSavePhysicalActivity_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Red;
             this.label2.ForeColor = System.Drawing.Color.Yellow;
-            this.label2.Location = new System.Drawing.Point(132, 65);
+            this.label2.Location = new System.Drawing.Point(112, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(222, 20);
             this.label2.TabIndex = 120;
             this.label2.Text = "Calculation to be implemented";
             // 
-            // btnPhysicalActivityCalc
-            // 
-            this.btnPhysicalActivityCalc.Enabled = false;
-            this.btnPhysicalActivityCalc.Location = new System.Drawing.Point(392, 128);
-            this.btnPhysicalActivityCalc.Name = "btnPhysicalActivityCalc";
-            this.btnPhysicalActivityCalc.Size = new System.Drawing.Size(75, 33);
-            this.btnPhysicalActivityCalc.TabIndex = 119;
-            this.btnPhysicalActivityCalc.Text = "Calc";
-            this.btnPhysicalActivityCalc.UseVisualStyleBackColor = true;
-            // 
             // frmCorrectionParameters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(513, 602);
+            this.ClientSize = new System.Drawing.Size(513, 516);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
@@ -449,10 +462,10 @@ namespace GlucoMan.Forms
         private Label label9;
         private Label label7;
         private TextBox txtInsulinCorrectionSensitivity;
-        private Button btnInsulinSensitivityCalculation;
+        private Button btnCalculateInsulinSensitivity;
         private Label label6;
         private TextBox txtTotalDailyDoseOfInsulin;
-        private Button button1;
+        private Button btnSaveRatioCHOInsulin;
         private TextBox txtChoInsulinRatioDinner;
         private TextBox txtChoInsulinRatioLunch;
         private TextBox txtChoInsulinRatioBreakfast;
@@ -464,7 +477,8 @@ namespace GlucoMan.Forms
         private GroupBox groupBox3;
         private GroupBox groupBox5;
         private Label label2;
-        private Button btnPhysicalActivityCalc;
         private Label label1;
+        private Button btnSaveInsulinSensitivity;
+        private Button btnSavePhysicalActivityParameters;
     }
 }

@@ -43,10 +43,12 @@ namespace GlucoMan.Mobile
             DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
                 dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds);
             currentGlucose.Timestamp = instant;
+            //currentGlucose.Timestamp = dtpEventDate.Date;
         }
         private void FromClassToUi()
         {
             txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
+            //dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
             dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
             dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;
             txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
@@ -65,12 +67,14 @@ namespace GlucoMan.Mobile
                 dtpEventTime.Time = DateTime.Now.TimeOfDay;
             }
             FromUiToClass();
-            glucoseReadings.Add(currentGlucose);
+            //glucoseReadings.Add(currentGlucose);
             // erase Id to save a new record
-            currentGlucose.IdGlucoseRecord = null; 
+            currentGlucose.IdGlucoseRecord = null;
             if (chkAutosave.IsChecked)
-                bl.SaveGlucoseMeasurements(glucoseReadings);
-            RefreshGrid();
+            {
+                bl.SaveOneGlucoseMeasurement(currentGlucose);
+                RefreshGrid();
+            }
         }
         private async void btnRemoveMeasurement_Click(object sender, EventArgs e)
         {
@@ -84,9 +88,8 @@ namespace GlucoMan.Mobile
                     "", "Yes", "No");
                 if (remove)
                 {
-                    glucoseReadings.Remove(gr);
-                    if (chkAutosave.IsChecked)
-                        bl.SaveGlucoseMeasurements(glucoseReadings);
+                    bl.DeleteOneGlucoseMeasurement(gr);
+                    RefreshGrid();
                 }
             }
             else

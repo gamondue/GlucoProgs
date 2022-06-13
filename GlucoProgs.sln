@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoglioGlicemiaTerapia", "Fo
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedXOffice", "SharedXOffice\SharedXOffice.shproj", "{EEB0680E-E0D0-4485-8C9A-F7AA98DA1B90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadFreeStyleLibreData", "ReadFreeStyleLibreData\ReadFreeStyleLibreData.csproj", "{8F5A9522-5D17-4292-B91D-198BB27D1DEF}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedGeneral", "SharedGeneral\SharedGeneral.shproj", "{B8615262-A1A5-4508-A7A2-321C10ED81CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConciliateData", "ConciliateData\ConciliateData.csproj", "{8F34C065-5170-40AB-9810-84DBE3CB862E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -39,9 +39,9 @@ Global
 		SharedWindows\SharedWindows.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
 		SharedXOffice\SharedXOffice.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
 		SharedAndroid\SharedAndroid.projitems*{7abe1f51-c287-42f5-9da8-8dc734cda12b}*SharedItemsImports = 13
-		SharedGeneral\SharedGeneral.projitems*{8f5a9522-5d17-4292-b91d-198bb27d1def}*SharedItemsImports = 5
-		SharedGlucoMan\SharedGlucoMan.projitems*{8f5a9522-5d17-4292-b91d-198bb27d1def}*SharedItemsImports = 5
-		SharedWindows\SharedWindows.projitems*{8f5a9522-5d17-4292-b91d-198bb27d1def}*SharedItemsImports = 5
+		SharedGeneral\SharedGeneral.projitems*{8f34c065-5170-40ab-9810-84dbe3cb862e}*SharedItemsImports = 5
+		SharedGlucoMan\SharedGlucoMan.projitems*{8f34c065-5170-40ab-9810-84dbe3cb862e}*SharedItemsImports = 5
+		SharedWindows\SharedWindows.projitems*{8f34c065-5170-40ab-9810-84dbe3cb862e}*SharedItemsImports = 5
 		SharedAndroid\SharedAndroid.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
 		SharedGeneral\SharedGeneral.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
 		SharedGlucoMan\SharedGlucoMan.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
@@ -137,18 +137,18 @@ Global
 		{5DA71B44-3CA7-47AD-B840-86D0168A09A6}.Release|iPhone.Build.0 = Release|Any CPU
 		{5DA71B44-3CA7-47AD-B840-86D0168A09A6}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{5DA71B44-3CA7-47AD-B840-86D0168A09A6}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Release|iPhone.Build.0 = Release|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{8F5A9522-5D17-4292-B91D-198BB27D1DEF}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Release|iPhone.Build.0 = Release|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -55,12 +55,14 @@ namespace GlucoMan.Forms
             if (chkNowInAdd.Checked)
                 dtpEventInstant.Value = DateTime.Now;
             FromUiToClass();
-            glucoseReadings.Add(currentGlucose);
+            //glucoseReadings.Add(currentGlucose);
             // erase Id to save a new record
             currentGlucose.IdGlucoseRecord = null;
             if (chkAutosave.Checked)
-                bl.SaveGlucoseMeasurements(glucoseReadings);
-            RefreshGrid();
+            {
+                bl.SaveOneGlucoseMeasurement(currentGlucose);
+                RefreshGrid();
+            }
         }
         private void btnRemoveMeasurement_Click(object sender, EventArgs e)
         {
@@ -74,9 +76,8 @@ namespace GlucoMan.Forms
                     gr.IdGlucoseRecord), "",
                     MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    glucoseReadings.Remove(gr);
-                    if (chkAutosave.Checked)
-                        bl.SaveGlucoseMeasurements(glucoseReadings);
+                    bl.DeleteOneGlucoseMeasurement(gr);
+                    RefreshGrid();
                 }
             }
             else

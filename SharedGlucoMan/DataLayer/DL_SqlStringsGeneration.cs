@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GlucoMan
 {
-    public abstract partial class DataLayer
+    internal abstract partial class DataLayer
     {
         #region functions that prepare the value of a variable to be used in a SQL statement 
         public string SqlString(string String)

@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMeals));
             this.gridMeals = new System.Windows.Forms.DataGridView();
-            this.btnRemoveFood = new System.Windows.Forms.Button();
+            this.btnRemoveMeal = new System.Windows.Forms.Button();
             this.btnAddMeal = new System.Windows.Forms.Button();
             this.btnShowThisMeal = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -59,30 +59,31 @@
             this.gridMeals.Location = new System.Drawing.Point(7, 119);
             this.gridMeals.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.gridMeals.Name = "gridMeals";
-            this.gridMeals.Size = new System.Drawing.Size(579, 198);
+            this.gridMeals.Size = new System.Drawing.Size(616, 211);
             this.gridMeals.TabIndex = 11;
             this.gridMeals.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellClick);
             this.gridMeals.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellContentClick);
             this.gridMeals.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellDoubleClick);
+            this.gridMeals.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_RowEnter);
             // 
-            // btnRemoveFood
+            // btnRemoveMeal
             // 
-            this.btnRemoveFood.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveFood.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnRemoveFood.Location = new System.Drawing.Point(540, 70);
-            this.btnRemoveFood.Margin = new System.Windows.Forms.Padding(2);
-            this.btnRemoveFood.Name = "btnRemoveFood";
-            this.btnRemoveFood.Size = new System.Drawing.Size(46, 46);
-            this.btnRemoveFood.TabIndex = 13;
-            this.btnRemoveFood.Text = "- Food";
-            this.btnRemoveFood.UseVisualStyleBackColor = true;
-            this.btnRemoveFood.Click += new System.EventHandler(this.btnRemoveFood_Click);
+            this.btnRemoveMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemoveMeal.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnRemoveMeal.Location = new System.Drawing.Point(577, 70);
+            this.btnRemoveMeal.Margin = new System.Windows.Forms.Padding(2);
+            this.btnRemoveMeal.Name = "btnRemoveMeal";
+            this.btnRemoveMeal.Size = new System.Drawing.Size(46, 46);
+            this.btnRemoveMeal.TabIndex = 13;
+            this.btnRemoveMeal.Text = "- Food";
+            this.btnRemoveMeal.UseVisualStyleBackColor = true;
+            this.btnRemoveMeal.Click += new System.EventHandler(this.btnRemoveMeal_Click);
             // 
             // btnAddMeal
             // 
             this.btnAddMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddMeal.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAddMeal.Location = new System.Drawing.Point(490, 70);
+            this.btnAddMeal.Location = new System.Drawing.Point(527, 70);
             this.btnAddMeal.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddMeal.Name = "btnAddMeal";
             this.btnAddMeal.Size = new System.Drawing.Size(46, 46);
@@ -95,7 +96,7 @@
             // 
             this.btnShowThisMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnShowThisMeal.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnShowThisMeal.Location = new System.Drawing.Point(504, 20);
+            this.btnShowThisMeal.Location = new System.Drawing.Point(541, 20);
             this.btnShowThisMeal.Margin = new System.Windows.Forms.Padding(2);
             this.btnShowThisMeal.Name = "btnShowThisMeal";
             this.btnShowThisMeal.Size = new System.Drawing.Size(82, 46);
@@ -143,7 +144,7 @@
             // 
             this.btnSaveMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveMeal.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSaveMeal.Location = new System.Drawing.Point(407, 20);
+            this.btnSaveMeal.Location = new System.Drawing.Point(444, 20);
             this.btnSaveMeal.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveMeal.Name = "btnSaveMeal";
             this.btnSaveMeal.Size = new System.Drawing.Size(82, 46);
@@ -240,7 +241,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(592, 327);
+            this.ClientSize = new System.Drawing.Size(629, 340);
             this.Controls.Add(this.txtChoOfMeal);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
@@ -256,7 +257,7 @@
             this.Controls.Add(this.dtpMealTimeStart);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnShowThisMeal);
-            this.Controls.Add(this.btnRemoveFood);
+            this.Controls.Add(this.btnRemoveMeal);
             this.Controls.Add(this.btnAddMeal);
             this.Controls.Add(this.gridMeals);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -295,5 +296,6 @@
         private Label label3;
         private TextBox txtChoOfMeal;
         private Label label5;
+        private Button btnRemoveMeal;
     }
 }

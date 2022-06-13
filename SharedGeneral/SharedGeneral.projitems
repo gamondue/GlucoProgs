@@ -10,10 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ColorConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CommonFunctions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GeneralFunctions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeAndText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DoubleAndText.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ImportData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IntAndText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TextFile.cs" />

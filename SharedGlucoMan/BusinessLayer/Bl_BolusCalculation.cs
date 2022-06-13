@@ -169,6 +169,14 @@ namespace GlucoMan.BusinessLayer
         {
             dl.RestoreInsulinCorrectionParameters(this);
         }
+        public void SaveRatioCHOInsulinParameters()
+        {
+            dl.SaveRatioChoInsulinParameters(this);
+        }
+        public void RestoreRatioCHOInsulinParameters()
+        {
+            dl.RestoreRatioChoInsulinParameters(this);
+        }
     }
 }
   

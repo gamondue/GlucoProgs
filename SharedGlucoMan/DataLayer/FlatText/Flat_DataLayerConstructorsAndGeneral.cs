@@ -1,4 +1,5 @@
-﻿using SharedData;
+﻿using GlucoMan.BusinessLayer;
+using SharedData;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,46 +7,76 @@ using System.Text;
 
 namespace GlucoMan
 {
-    public partial class DL_FlatText : DataLayer
+    internal partial class DL_FlatText : DataLayer
     {
-        public  override void PurgeDatabase()
+        internal  override void PurgeDatabase()
         {
             throw new NotImplementedException();
         }
-        public  override long? SaveParameter(string FieldName, string FieldValue, int? Key = null)
+        internal  override long? SaveParameter(string FieldName, string FieldValue, int? Key = null)
         {
             throw new NotImplementedException();
         }
-        public  override string RestoreParameter(string FieldName, int? Key = null)
+        internal  override string RestoreParameter(string FieldName, int? Key = null)
         {
             throw new NotImplementedException();
         }
-        //public override string? ToString()
+        //internal override string? ToString()
         //{
         //    return base.ToString();
         //}
         #region Meals and Foods
-        public  override List<Meal> ReadMeals(DateTime? initialTime, DateTime? finalTime)
+        internal  override List<Meal> ReadMeals(DateTime? initialTime, DateTime? finalTime)
         {
             throw new NotImplementedException();
         }
-        public  override void SaveMeals(List<Meal> List)
+        internal  override void SaveMeals(List<Meal> List)
         {
             throw new NotImplementedException();
         }
-        public  override long? SaveOneMeal(Meal Meal)
+        internal  override int? SaveOneMeal(Meal Meal)
         {
             throw new NotImplementedException();
         }
-        public  override List<FoodInMeal> ReadFoodsInMeal(int? IdMeal)
+        internal  override List<FoodInMeal> ReadFoodsInMeal(int? IdMeal)
         {
             throw new NotImplementedException();
         }
-        public  override int? SaveOneFoodInMeal(FoodInMeal FoodToSave)
+        internal  override int? SaveOneFoodInMeal(FoodInMeal FoodToSave)
         {
             throw new NotImplementedException();
         }
-        public  override void SaveFoodsInMeal(List<FoodInMeal> List)
+        internal  override void SaveFoodsInMeal(List<FoodInMeal> List)
+        {
+            throw new NotImplementedException();
+        }
+        internal override Meal ReadOneMeal(long? IdMeal)
+        {
+            throw new NotImplementedException();
+        }
+        internal override void DeleteOneMeal(Meal meal)
+        {
+            throw new NotImplementedException();
+        }
+        internal override void DeleteOneFoodInMeal(FoodInMeal Food)
+        {
+            throw new NotImplementedException();
+        }
+        internal override void SaveRatioChoInsulinParameters(BL_BolusCalculation Parameters)
+        {
+            throw new NotImplementedException();
+        }
+        internal override void RestoreRatioChoInsulinParameters(BL_BolusCalculation Parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override List<Food> SearchFood(Food Food)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override void DeleteOneGlucoseMeasurement(GlucoseRecord gr)
         {
             throw new NotImplementedException();
         }

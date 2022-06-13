@@ -15,7 +15,7 @@
 
   <Import Project="..\SharedWindows\SharedWindows.projitems" Label="Shared" />
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.3" />
     <PackageReference Include="NetOfficeFw.Core" Version="1.8.1" />
     <PackageReference Include="NetOfficeFw.Excel" Version="1.8.1" />
     <PackageReference Include="NetOfficeFw.Word" Version="1.8.1" />

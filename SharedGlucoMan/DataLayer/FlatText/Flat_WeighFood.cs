@@ -7,9 +7,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    public partial class DL_FlatText : DataLayer
+    internal partial class DL_FlatText : DataLayer
     {
-        public  override void RestoreWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
+        internal  override void RestoreWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
         {
             if (File.Exists(persistentWeighFood))
                 try
@@ -43,7 +43,7 @@ namespace GlucoMan
                     Common.LogOfProgram.Error("DL_WeighFood | RestoreWeighFood()", ex);
                 }
         }
-        public  override void SaveWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
+        internal  override void SaveWeighFood(GlucoMan.BusinessLayer.BL_WeighFood WeighFood)
         {
             try
             {

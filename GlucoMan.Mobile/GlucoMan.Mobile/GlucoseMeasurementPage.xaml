@@ -21,12 +21,11 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Text="Glucose" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="0" Grid.Column="1" Text="Date" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="0" Grid.Column="2" Text="Time" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="0" Grid.Column="3" Text="Id" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucose" Text="" FontSize="Large"
                     HorizontalTextAlignment="End" BackgroundColor="Lime" IsEnabled="true"/>
             <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate" BackgroundColor="PaleGreen"
-                        FontSize="Small" Format="yyyy-MM-dd HH:mm:ss" HorizontalOptions="Center"/>
+                        FontSize="Small" Format="yyyy-MM-dd" HorizontalOptions="Center"/>
             <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpEventTime" BackgroundColor="PaleGreen"
                         FontSize="Small" Format="HH:mm:ss" HorizontalOptions="Center"/>
             <Label Grid.Row="1" Grid.Column="3" x:Name="txtIdGlucoseRecord" Text="" XAlign="Center" YAlign="Center"/>
@@ -84,8 +83,8 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="18"/>
                                     </Grid.RowDefinitions>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding GlucoseValue}"/>
                                     <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding Timestamp}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding GlucoseValue}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

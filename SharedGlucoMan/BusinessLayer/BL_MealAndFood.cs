@@ -5,51 +5,68 @@ using static GlucoMan.Common;
 
 namespace GlucoMan.BusinessLayer
 {
-    public  class BL_MealAndFood
+    public class BL_MealAndFood
     {
         DataLayer dl = Common.Database;
-        List<Meal> mealsList;
 
-        public  DoubleAndText FoodChoGrams = new DoubleAndText();
-        public  DoubleAndText FoodQuantityGrams = new DoubleAndText();
-        public  DoubleAndText FoodChoPercent = new DoubleAndText(); 
+        List<Meal> currentMeals;
+        Meal currentMeal;
+        List<FoodInMeal> currentFoodsInMeal;
+        FoodInMeal currentFoodInMeal;
 
-        public  BL_MealAndFood()
+        public Meal Meal { get => currentMeal; set => currentMeal = value; }
+        public List<FoodInMeal> Foods { get => currentFoodsInMeal; set => currentFoodsInMeal = value; }
+        public FoodInMeal FoodInMeal { get => currentFoodInMeal; set => currentFoodInMeal = value; }
+
+        internal List<Food> SearchFoods(Food FoodToSearch)
         {
-            FoodChoGrams.Format = "0.0";
-            FoodQuantityGrams.Format = "0";
-            FoodChoPercent.Format = "0.0";
+            return dl.SearchFood(FoodToSearch); 
         }
-        public  void CalculateChoOfFoodGrams()
+
+        public List<Meal> Meals { get => currentMeals; set => currentMeals = value; }
+
+        public BL_MealAndFood()
         {
-            FoodChoGrams.Double = FoodChoPercent.Double / 100 * FoodQuantityGrams.Double;
+            currentMeals = new List<Meal>();
+            currentMeal = new Meal();
+            currentFoodsInMeal = new List<FoodInMeal>();
+            currentFoodInMeal = new FoodInMeal();
         }
-        public  void CalculateChoOfMeal()
+        public void CalculateChoOfFoodGrams(FoodInMeal Food)
+        {
+            Food.CarbohydratesGrams.Double = Food.CarbohydratesPercent.Double / 100 * 
+                Food.Quantity.Double;
+        }
+        public void CalculateChoOfMeal()
         {
             Common.LogOfProgram.Error("Sqlite_MealAndFood | RestoreFoodsInMeal", 
-                new NotImplementedException());
+                new Exception());
         }
-        public  List<Meal> ReadMeals(DateTime? InitialTime, DateTime? FinalTime)
+        public void ReadMeals(DateTime? InitialTime, DateTime? FinalTime)
         {
-            return dl.ReadMeals(InitialTime, FinalTime);
+            currentMeals = dl.ReadMeals(InitialTime, FinalTime);
         }
-        public  void ReadMeal()
+        public void ReadMeal(int? IdMeal)
         {
-            dl.ReadMeal(this);
+            currentMeal = dl.ReadOneMeal(IdMeal);
         }
-        public  void SaveOneMeal(Meal ThisMeal)
+        public int? SaveOneMeal()
         {
-            dl.SaveOneMeal(ThisMeal);
+            return dl.SaveOneMeal(currentMeal);
         }
-        public  List<FoodInMeal> ReadFoodsInMeal(int? IdMeal)
+        internal void DeleteOneMeal(Meal Meal)
         {
-            return dl.ReadFoodsInMeal(IdMeal);
+            dl.DeleteOneMeal(Meal);
         }
-        public  void SaveFoodsInMeal(List<FoodInMeal> List)
+        public void ReadFoodsInMeal(int? IdMeal)
+        {
+            currentFoodsInMeal = dl.ReadFoodsInMeal(IdMeal);
+        }
+        public void SaveFoodsInMeal(List<FoodInMeal> List)
         {
             dl.SaveFoodsInMeal(List);
         }
-        public  int? SaveOneFoodInMeal(FoodInMeal FoodToSave)
+        public int? SaveOneFoodInMeal(FoodInMeal FoodToSave)
         {
             return dl.SaveOneFoodInMeal(FoodToSave);
         }
@@ -57,6 +74,10 @@ namespace GlucoMan.BusinessLayer
         /// Changes numerical accuracy when qualitative accuracy changes
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
+        internal void DeleteOneFoodInMeal(FoodInMeal Food)
+        {
+            dl.DeleteOneFoodInMeal(Food);
+        }
         internal double QualitativeAccuracyChanged(QualitativeAccuracy QualitativeAccuracy)
         {
             return (double)QualitativeAccuracy;
@@ -66,7 +87,7 @@ namespace GlucoMan.BusinessLayer
         /// </summary>
         /// <param name="currentMeal"></param>
         /// <exception cref="NotImplementedException"></exception>
-        internal QualitativeAccuracy NumericalAccuracyChanged(double NumericalAccuracy)
+        internal QualitativeAccuracy NumericalAccuracyChanged(double? NumericalAccuracy)
         {
             if (NumericalAccuracy < 0)
                 return QualitativeAccuracy.NotSet;
@@ -92,6 +113,55 @@ namespace GlucoMan.BusinessLayer
                 return QualitativeAccuracy.Outstanding;
             else 
                 return QualitativeAccuracy.Perfect;
+        }
+        internal double? RecalcTotalCho()
+        {
+            double? total = 0;
+            foreach (FoodInMeal f in currentFoodsInMeal)
+            {
+                if (f.CarbohydratesGrams.Double != null)
+                    // we don't sum the record that we are currently editing 
+                    if (f.IdFoodInMeal != FoodInMeal.IdFoodInMeal)
+                        total += f.CarbohydratesGrams.Double;
+            }
+            // we add the current editing value of CHO
+            total += currentFoodInMeal.CarbohydratesGrams.Double; 
+            currentMeal.Carbohydrates.Double = total; 
+            return total; 
+        }
+        /// <summary>
+        /// Calculate accuracy from single food accuracies
+        /// </summary>
+        /// <returns>Weighted quadratic average. Also modifies Meal. </returns>
+        internal double? RecalcTotalAccuracy()
+        {
+            // calculate weighted quadratic sum 
+            double sumOfWeights = 0;
+            double sumOfSquaredWeightedValues = 0;
+            foreach (FoodInMeal f in currentFoodsInMeal)
+            {
+                if (f.CarbohydratesGrams == null)
+                    f.CarbohydratesGrams.Double = 0;
+                sumOfWeights += (double) f.CarbohydratesGrams.Double; 
+                if (f.AccuracyOfChoEstimate.Double != null)
+                {
+                    // we don't sum the record that we are currently editing 
+                    if (f.IdFoodInMeal != FoodInMeal.IdFoodInMeal)
+                        sumOfSquaredWeightedValues +=
+                          Math.Pow((double) f.AccuracyOfChoEstimate.Double, 2) * (double) f.CarbohydratesGrams.Double;
+                }
+                else
+                {
+                    // if we have a null, we sum 0 
+                }
+            }
+            // we add the food that is currently editing 
+            sumOfSquaredWeightedValues +=
+                Math.Pow((double) FoodInMeal.AccuracyOfChoEstimate.Double, 2) * (double)FoodInMeal.CarbohydratesGrams.Double;
+            // square of the weighted quadratic average
+            double? WeightedQuadraticAverage = Math.Sqrt(sumOfSquaredWeightedValues / sumOfWeights);
+            currentMeal.AccuracyOfChoEstimate.Double = WeightedQuadraticAverage;
+            return WeightedQuadraticAverage;
         }
     }
 }

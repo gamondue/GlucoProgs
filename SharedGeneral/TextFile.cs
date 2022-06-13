@@ -49,7 +49,6 @@ namespace GlucoMan
                 return (fOut);
             }
         }
-
         /// <summary>
         /// Crea il file indicato e che scrive la stringa passata
         /// </summary>
@@ -265,7 +264,6 @@ namespace GlucoMan
             }
             return (buffer);
         }
-
         /// <summary>
         /// Reads from a text file a string matrix. 
         /// If some of the strings are delimited by a specific character, it shoud be give as the optional parameter
@@ -430,12 +428,13 @@ namespace GlucoMan
         }
         private enum ParserStatus
         {
-            CheckDelimiterFirst,
+            StratDelimitedString,
+            CheckIfDelimited,
             UnDelimitedString,
-            StartDelimitedString,
             DelimitedString,
-            FinalBlanks,
-            LineFinished
+            FindNext, 
+            LineFinished,
+            CheckIfDelimiterIsDouble
         }
         /// <summary>
         /// 
@@ -446,7 +445,7 @@ namespace GlucoMan
         /// <returns></returns>
         private static List<string> ParseLine(string LineToParse, char FieldSeparator, char StringDelimiter)
         {
-            ParserStatus status = ParserStatus.CheckDelimiterFirst;
+            ParserStatus status = ParserStatus.CheckIfDelimited;
             List<string> lineContent = new List<string>();
             int currentPositionInString = 0;
             char currentChar = LineToParse[currentPositionInString];
@@ -458,7 +457,7 @@ namespace GlucoMan
                 // finite states automa 
                 switch (status)
                 {
-                    case ParserStatus.CheckDelimiterFirst:
+                    case ParserStatus.CheckIfDelimited:
                         {
                             if (currentChar == StringDelimiter)
                             {
@@ -468,21 +467,14 @@ namespace GlucoMan
                             }
                             if (currentChar == FieldSeparator)
                             {
-                                //currentField += currentChar;  // adds the character to the field
                                 // found a new field, the other is finished
-                                status = ParserStatus.CheckDelimiterFirst; // same status, but saves a new field 
+                                status = ParserStatus.FindNext; // same status, but saves a new field 
                                 // adds the field to the list of fields 
                                 lineContent.Add(currentField);
                                 currentField = "";
                                 break;
                             }
-                            if (currentChar != space)
-                            {
-                                // if it is not a blank, the blank is not the first; string is undelimited 
-                                status = ParserStatus.UnDelimitedString;
-                                currentField += currentChar;  // adds the character to the field
-                                // undelimited string starts from there.. (after the comma)
-                            }
+                            currentField += currentChar;  // adds the character to the field
                             break;
                         }
                     case ParserStatus.UnDelimitedString:
@@ -490,7 +482,7 @@ namespace GlucoMan
                             if (currentChar == FieldSeparator)
                             {
                                 // found a new field 
-                                status = ParserStatus.CheckDelimiterFirst;
+                                status = ParserStatus.FindNext;
                                 // adds the field to the list of fields 
                                 lineContent.Add(currentField);
                                 currentField = "";
@@ -505,22 +497,21 @@ namespace GlucoMan
                             if (currentChar == StringDelimiter)
                             {
                                 // delimited string finished
-                                status = ParserStatus.FinalBlanks;
+                                status = ParserStatus.FindNext;
                                 // adds the field to the list of fields 
                                 lineContent.Add(currentField);
                                 currentField = "";
                             }
                             break;
                         }
-                    case ParserStatus.FinalBlanks:
+                    case ParserStatus.FindNext:
                         {
                             // voids all characters after end of delimited string
                             // doesn't add any character to the field
-
                             if (currentChar == FieldSeparator)
                             {
                                 // found a new field 
-                                status = ParserStatus.CheckDelimiterFirst;
+                                status = ParserStatus.CheckIfDelimited;
                                 // adds the field to the list of fields 
                                 lineContent.Add(currentField);
                                 currentField = "";
@@ -546,7 +537,6 @@ namespace GlucoMan
             }
             return lineContent;
         }
-
         /// <summary>
         /// Legge riga per riga in un array di stringhe un file di testo. La prima riga viene separata dal resto del file e scritta nel vettore primaRiga[].
         /// </summary>
@@ -890,7 +880,7 @@ namespace GlucoMan
             }
             catch (IOException e)
             {
-                // copia il file perch� � locked
+                // copy the file (if it was locked..) 
                 System.IO.File.Copy(FileName, "temp");
                 // ci riprovo con il file copiato
                 List<List<string>> campi = FileToListOfLists(".\\temp", FieldSeparator, StringDelimiter);
@@ -913,6 +903,170 @@ namespace GlucoMan
                 }
                 return (null);
             }
+        }
+        internal static List<List<string>> FileToListOfLists_GlobalParse(string FileName, char FieldSeparator, 
+            char StringDelimiter, char NewLine)
+        {
+            int nLine = 0;
+            List<List<string>> ListOfLists = new List<List<string>>();
+            try
+            {
+                // read all the file in one string 
+                string allFile = File.ReadAllText(FileName);
+
+                // creazione della matrice
+                ListOfLists = ParseString(allFile, FieldSeparator, StringDelimiter, NewLine);
+
+                return ListOfLists;
+            }
+            catch (IOException e)
+            {
+                // copy the file (if it was locked..) 
+                System.IO.File.Copy(FileName, "temp");
+                // ci riprovo con il file copiato
+                List<List<string>> campi = FileToListOfLists(".\\temp", FieldSeparator, StringDelimiter);
+                // cancello il file appena letto
+                System.IO.File.Delete("temp");
+                // restituisco quello che ho letto
+                return ListOfLists;
+            }
+            catch (Exception e)
+            {
+                // guarda se non si pu� leggere perch� c'� un lock
+                Console.Out.WriteLine(e.GetType().ToString());
+                {
+
+                }
+                // il nome del file è sbagliato o non si riesce al leggerlo
+                if (FileName != "")
+                {
+                    Console.Out.WriteLine("Il file " + FileName + " non � leggibile\r\nErrore:" + e.Message);
+                }
+                return (null);
+            }
+        }
+        private static List<List<string>> ParseString(string FileToParse, char FieldSeparator, char StringDelimiter, char NewLine)
+        {
+            List<string> lineContent = new List<string>();
+            List <List<string>> matrix = new List<List<string>>();
+
+            int currentPositionInString = 0;
+            char space = ' ';
+            string currentField = "";
+            ParserStatus status = ParserStatus.CheckIfDelimited;
+            for (int i = 0; i < FileToParse.Length; i++)
+            {
+                char currentChar = FileToParse[i]; 
+                // finite states automa 
+                switch (status)
+                {
+                    // we looki for a string delimiter, while adding characters to the field 
+                    // (if we don't find any delimiter, then the string was undelimented, and
+                    // we have already recovered it)  
+                    case ParserStatus.CheckIfDelimited:
+                        {
+                            if (currentChar == StringDelimiter)
+                            {
+                                // delimited string started
+                                status = ParserStatus.DelimitedString;
+                                // delimited string starts from the character after the delimiter
+                                currentField = ""; 
+                                break;
+                            }
+                            if (currentChar == FieldSeparator)
+                            {
+                                // found a new field, the other was undelimited and is finished
+                                // adds the field to the list of fields 
+                                lineContent.Add(currentField);
+                                // prepare for the next field 
+                                currentField = "";
+                                // the state remains the same, we are still looking for a 
+                                // string delimiter, adding characters to the field 
+                                break;
+                            }
+                            if (currentChar == NewLine)
+                            {
+                                // the line is finished, we put the last string
+                                // into the row and the new row into the list 
+                                lineContent.Add(currentField);
+                                currentField = "";
+                                // add the line to the matrix 
+                                matrix.Add(lineContent);
+                                // prepare for the new line
+                                lineContent = new List<string>();
+                                break; 
+                            }
+                            // if this is not a special character, we add it to the field
+                            currentField += currentChar;
+                            break;
+                        }
+                    case ParserStatus.DelimitedString:
+                        {
+                            if (currentChar == StringDelimiter)
+                            {
+                                // delimited string is finishing? 
+                                status = ParserStatus.CheckIfDelimiterIsDouble;
+                            } else
+                                currentField += currentChar; // adds the character to the field
+                            break;
+                        }
+                    case ParserStatus.CheckIfDelimiterIsDouble:
+                        {
+                            if (currentChar == StringDelimiter)
+                            {
+                                // double delimiter means that I simply want to put a delimiter character
+                                // into the field. So we continue to look for the finishing delimeter
+                                status = ParserStatus.DelimitedString;
+                                // adds the character (delimiter) to the field
+                                currentField += currentChar; 
+                            }
+                            else
+                            {
+                                // 
+                                // the end of the delimiters means that the string that we accumulated
+                                // is the currentField 
+                                lineContent.Add(currentField);
+                                currentField = "";
+                                // drop all the characters that could be after the
+                                // delimited string is finished 
+                                status = ParserStatus.FindNext;
+                                // we went one step beoynd to check if the quote
+                                // was double, but it is another character that 
+                                // we have to parse. We go back to parse it
+                                i--;
+                            }
+                            break;
+                        }
+                    case ParserStatus.FindNext:
+                        {
+                            // voids all characters after the end of delimited string
+                            // doesn't add any character to the field
+                            if (currentChar == FieldSeparator)
+                            {
+                                // found the beginning a new field 
+                                status = ParserStatus.CheckIfDelimited;
+                                break; 
+                            }
+                            // if a new line comes here, it is the "real" new line
+                            // it is NOT part of a string! 
+                            if (currentChar == NewLine)
+                            {
+                                lineContent.Add(currentField);
+                                currentField = "";
+                                matrix.Add(lineContent);
+                                lineContent = new List<string>();
+                                status = ParserStatus.CheckIfDelimited;
+                                currentField = "";
+                            }
+                            break;
+                        }
+                }
+            }
+            // end of the file, add the last field to the row 
+            lineContent.Add(currentField);
+            // add the row to the matrix 
+            matrix.Add(lineContent);
+            return matrix;
         }
         internal static bool MatrixToFile(string FileName, string[,] Matrix, char FieldSeparator, bool Append)
         {   /// scrive riga per riga un array di stringhe in un file di testo

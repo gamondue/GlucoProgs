@@ -7,9 +7,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    public partial class DL_FlatText : DataLayer
+    internal partial class DL_FlatText : DataLayer
     {
-        public  override void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
+        internal  override void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("DL_HypoPrediction | SaveHypoPrediction", ex);
             }
         }
-        public  override void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
+        internal  override void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo)
         {
             if (File.Exists(persistentHypoPrediction))
                 try

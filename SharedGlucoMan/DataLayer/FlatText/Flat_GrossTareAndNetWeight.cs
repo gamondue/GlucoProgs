@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GlucoMan
 {
-    public partial class DL_FlatText : DataLayer
+    internal partial class DL_FlatText : DataLayer
     {
 
     }

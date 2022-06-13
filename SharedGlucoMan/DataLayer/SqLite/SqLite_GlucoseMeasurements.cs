@@ -10,13 +10,13 @@ using System.Text;
 
 namespace GlucoMan
 {
-    public  partial class DL_Sqlite : DataLayer
+    internal  partial class DL_Sqlite : DataLayer
     {
-        public  override int GetNextPrimaryKey()
+        internal  override int GetNextPrimaryKey()
         {
-            return GetNextTablePrimaryKey("FoodsInMeals", "IdFoodInMeal");
+            return GetNextTablePrimaryKey("GlucoseRecords", "IdGlucoseRecord");
         }
-        public  override List<GlucoseRecord> ReadGlucoseMeasurements(
+        internal  override List<GlucoseRecord> ReadGlucoseMeasurements(
             DateTime? InitialInstant, DateTime? FinalInstant)
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>(); 
@@ -27,7 +27,7 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     string query = "SELECT *" +
-                        " FROM GlucoseRecords ";
+                        " FROM GlucoseRecords";
                     if (InitialInstant != null && FinalInstant != null)
                     {   // add WHERE clause
                         query += " WHERE Timestamp BETWEEN " + ((DateTime)InitialInstant).ToString("YYYY-MM-DD") +
@@ -52,7 +52,7 @@ namespace GlucoMan
             }
             return list; 
         }
-        public  override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
+        internal  override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>();
             try
@@ -82,7 +82,7 @@ namespace GlucoMan
             }
             return list;
         }
-        private GlucoseRecord GetGlucoseRecordFromRow(DbDataReader Row)
+        internal GlucoseRecord GetGlucoseRecordFromRow(DbDataReader Row)
         {
             GlucoseRecord gr = new GlucoseRecord();
             try
@@ -101,7 +101,7 @@ namespace GlucoMan
             }
             return gr;
         }
-        public  override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
+        internal  override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
-        public  override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
+        internal  override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
         {
             try
             {
@@ -194,6 +194,26 @@ namespace GlucoMan
             {
                 Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | InsertIntoGlucoseMeasurement", ex);
                 return null;
+            }
+        }
+        internal override void DeleteOneGlucoseMeasurement(GlucoseRecord gr)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "DELETE FROM GlucoseRecords" +
+                    " WHERE IdGlucoseRecord=" + gr.IdGlucoseRecord;  
+                    query += ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | DeleteOneGlucoseMeasurement", ex);
             }
         }
     }

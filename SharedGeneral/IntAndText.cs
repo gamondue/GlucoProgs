@@ -8,14 +8,12 @@ namespace GlucoMan
     {
         private int? intVal;
         private string text;
-
         public IntAndText()
         {
             Format = "";
             intVal = 0;
             text = "";
         }
-
         public string Format { get; set; }
         public int? Int
         {
@@ -47,6 +45,10 @@ namespace GlucoMan
                     intVal = 0;
                 }
             }
+        }
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }

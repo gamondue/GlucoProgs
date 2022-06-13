@@ -7,9 +7,9 @@ using System.Text;
 
 namespace GlucoMan
 {
-    public partial class DL_FlatText : DataLayer
+    internal partial class DL_FlatText : DataLayer
     {
-        public  override List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, 
+        internal override List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, 
             DateTime? FinalInstant)
         {
             // !!!! currently InitialInstant, DateTime FinalInstant are simply IGNORED 
@@ -39,7 +39,7 @@ namespace GlucoMan
                 }
             return list; 
         }
-        public  override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
+        internal override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
         {
             try
             {
@@ -69,8 +69,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("DL_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
-        //public  override int FindNextIndex(List<GlucoseRecord> List)
-        public  override int GetNextPrimaryKey()
+        internal override int GetNextPrimaryKey()
         {
             // !! We were passing a List to this method. If we ever re-establish the flat text
             // !! DataLayer we wuold have to solve the problem of this List passing
@@ -87,7 +86,7 @@ namespace GlucoMan
             //return (int)(maxId + 1);
             return 0; //!!
         }
-        public  override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
+        internal override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
         {
             // save one single record using sequential access..
             try
@@ -150,7 +149,7 @@ namespace GlucoMan
                 return GlucoseMeasurement.IdGlucoseRecord;
             }
         }
-        public  override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
+        internal override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>();
             if (File.Exists(persistentGlucoseMeasurements))
