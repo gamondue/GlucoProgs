@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Mobile.MainPage">
-
     <StackLayout>
         <Frame BackgroundColor="#2196F3" Padding="0" CornerRadius="0" Margin="0,0,0,30">
             <Label x:Name="lblAppName" Text="GlucoMan " HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
@@ -19,7 +18,8 @@
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnHypoPrediction" Text="Hypoglicemia time prediction" Clicked="btnHypoPrediction_Clicked"
                 Margin="15,0,15,0"></Button>
-        <Button x:Name="btnAlarms" Text="Alarm" Clicked="btnAlarms_Clicked" IsEnabled="False"
+        <Button x:Name="btnAlarms" Text="Alarm" IsEnabled="False"
+                Clicked="btnAlarms_Clicked" 
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnMiscellaneousFunctions" Text="Miscellaneous functions" 
                 Clicked="btnMiscellaneousFunctions_Clicked"

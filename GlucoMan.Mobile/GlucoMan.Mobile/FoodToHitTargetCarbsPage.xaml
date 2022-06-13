@@ -47,7 +47,7 @@
 
             <Label Grid.Row="5" Grid.Column="0" Text="CHO left to take" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="6" Grid.Column="0" x:Name="TxtChoLeftToTake" Text="" Unfocused="TxtChoOfFood_Leave"
-                   Margin="25,0,25,0" Placeholder="%" HorizontalTextAlignment ="End" 
+                   Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="White" />
 
             <Button Grid.Row="0" Grid.Column="1" x:Name="btnReadAll" Text="Read All" 

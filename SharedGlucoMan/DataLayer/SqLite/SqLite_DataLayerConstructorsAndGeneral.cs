@@ -486,7 +486,7 @@ namespace GlucoMan
                     DbCommand cmd = conn.CreateCommand();
                     string query = "SELECT COUNT(*) FROM Parameters";
                     cmd.CommandText = query;
-                    long count = (long)cmd.ExecuteScalar();
+                    long? count = (long)cmd.ExecuteScalar();
 
                     string whereClause = "";
                     double dummy;
