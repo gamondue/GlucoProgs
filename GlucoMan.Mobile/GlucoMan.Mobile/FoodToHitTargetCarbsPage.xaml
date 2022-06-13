@@ -45,7 +45,7 @@
             <Button Grid.Row="3" Grid.Column="2" x:Name="btnReadFood" Text="Read Food" 
                    Margin="10,5,10,5" Clicked="btnReadFood_Click" />
 
-            <Label Grid.Row="5" Grid.Column="0" Text="CHO left to take" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="5" Grid.Column="0" Text="CHO left to take [g]" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="6" Grid.Column="0" x:Name="TxtChoLeftToTake" Text="" Unfocused="TxtChoOfFood_Leave"
                    Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="White" />
