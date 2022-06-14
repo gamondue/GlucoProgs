@@ -53,12 +53,10 @@
             <Button Grid.Row="0" Grid.Column="1" x:Name="btnReadAll" Text="Read All" 
                    Margin="10,0,10,0" Clicked="btnReadAll_Click" />
 
-
             <Label Grid.Row="5" Grid.Column="2" Text="Food to eat to hit target CHO [g]" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="6" Grid.Column="2" x:Name="TxtFoodToHitTarget" Text="" 
                    Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="SkyBlue" />
-
         </Grid>
     </ContentPage.Content>
 </ContentPage>

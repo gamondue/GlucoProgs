@@ -31,27 +31,38 @@ namespace GlucoMan.Forms
         }
         private void FromClassToUi()
         {
-            txtInsulinCorrectionSensitivity.Text = bolusCalculation.InsulinCorrectionSensitivity.Text;
+            txtChoInsulinRatioDinner.Text = bolusCalculation.ChoInsulinRatioDinner.Text;
+            txtChoInsulinRatioBreakfast.Text = bolusCalculation.ChoInsulinRatioBreakfast.Text;
+            txtChoInsulinRatioLunch.Text = bolusCalculation.ChoInsulinRatioLunch.Text;
+
             cmbSensitivityFactor.Text = bolusCalculation.FactorOfInsulinCorrectionSensitivity.Text;
-            txtTotalDailyDoseOfInsulin.Text = bolusCalculation.TotalDailyDoseOfInsulin.Text;
+
             txtTypicalBolusMidday.Text = bolusCalculation.TypicalBolusMidday.Text;
             txtTypicalBolusMorning.Text = bolusCalculation.TypicalBolusMorning.Text;
             txtTypicalBolusEvening.Text = bolusCalculation.TypicalBolusEvening.Text;
             txtTypicalBolusNight.Text = bolusCalculation.TypicalBolusNight.Text;
-            txtChoInsulinRatioBreakfast.Text = bolusCalculation.ChoInsulinRatioBreakfast.Text;
-            txtChoInsulinRatioLunch.Text = bolusCalculation.ChoInsulinRatioLunch.Text;
-            txtChoInsulinRatioDinner.Text = bolusCalculation.ChoInsulinRatioDinner.Text;
+
+            txtInsulinCorrectionSensitivity.Text = bolusCalculation.InsulinCorrectionSensitivity.Text;
+
+            // Total Daily Dose Of Insulin is always calculated by bolusCalculation and shown here
+            txtTotalDailyDoseOfInsulin.Text = bolusCalculation.TotalDailyDoseOfInsulin.Text;
         }
         private void FromUiToClass()
         {
             bolusCalculation.ChoInsulinRatioDinner.Text = txtChoInsulinRatioDinner.Text;
             bolusCalculation.ChoInsulinRatioBreakfast.Text = txtChoInsulinRatioBreakfast.Text;
             bolusCalculation.ChoInsulinRatioLunch.Text = txtChoInsulinRatioLunch.Text;
+            
             bolusCalculation.FactorOfInsulinCorrectionSensitivity.Text = cmbSensitivityFactor.Text;
+            
             bolusCalculation.TypicalBolusMidday.Text = txtTypicalBolusMidday.Text;
             bolusCalculation.TypicalBolusMorning.Text = txtTypicalBolusMorning.Text;
             bolusCalculation.TypicalBolusEvening.Text = txtTypicalBolusEvening.Text;
             bolusCalculation.TypicalBolusNight.Text = txtTypicalBolusNight.Text;
+
+            bolusCalculation.InsulinCorrectionSensitivity.Text = txtInsulinCorrectionSensitivity.Text;
+
+            // user has no action on Total Daily Dose Of Insulin: we do nothing 
         }
         private void btnCalculateInsulinSensitivity_Click(object sender, EventArgs e)
         {
