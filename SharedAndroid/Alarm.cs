@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharedObjects
+namespace GlucoMan
 {
     // Doing nothing Alarm
     // !!!! TODO find out how to make and alarm in Android
     // and implement it here 
-    internal class Alarm
+    internal partial class Alarm
     {
+        // Android dependant part of the Alarm class
         private System.Timers.Timer alarm;
+
         internal void InitAlarm()
         {
             alarm = new System.Timers.Timer();

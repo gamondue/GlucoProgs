@@ -119,5 +119,40 @@ namespace GlucoMan
             else
                 return false;
         }
+        internal static bool? Bool(object field)
+        {
+            if (field == null)
+                return null; 
+            else
+                try 
+                {
+                    return Convert.ToBoolean(field); 
+                }
+                catch { 
+                    return null;
+                }
+        }
+        internal static TimeSpan? TimeSpanFromSeconds(object field)
+        {
+            try
+            {
+                return TimeSpan.FromSeconds((double)field);
+            }
+            catch
+            {
+                return null; 
+            }
+        }
+        internal static TimeSpan? TimeSpanFromMinutes(object field)
+        {
+            try
+            {
+                return TimeSpan.FromMinutes((double)field);
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

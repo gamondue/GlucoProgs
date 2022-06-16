@@ -2,12 +2,11 @@
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `mydb` ;
 
 -- -----------------------------------------------------
 -- Schema mydb
@@ -18,8 +17,6 @@ USE `mydb` ;
 -- -----------------------------------------------------
 -- Table `mydb`.`Meals`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Meals` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`Meals` (
   `IdMeal` INT NOT NULL,
   `IdTypeOfMeal` INT NULL,
@@ -32,6 +29,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Meals` (
   `IdQualitativeAccuracyCHO` INT NULL,
   `IdInsulineInjection` INT NULL,
   PRIMARY KEY (`IdMeal`),
+  INDEX `fk_Meals_GlucoseRecords1_idx` (`IdGlucoseRecord` ASC),
+  INDEX `fk_Meals_QualitativeAccuracies1_idx` (`IdQualitativeAccuracyCHO` ASC),
+  INDEX `fk_Meals_TypesOfMeal1_idx` (`IdTypeOfMeal` ASC),
+  INDEX `fk_Meals_InsulineInjections1_idx` (`IdInsulineInjection` ASC),
+  INDEX `fk_Meals_BolusCalculations1_idx` (`IdBolusCalculation` ASC),
   CONSTRAINT `fk_Meals_GlucoseRecords1`
     FOREIGN KEY (`IdGlucoseRecord`)
     REFERENCES `mydb`.`GlucoseRecords` (`IdGlucoseRecord`)
@@ -63,8 +65,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`Foods`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Foods` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`Foods` (
   `IdFood` INT NOT NULL,
   `Name` VARCHAR(15) NULL,
@@ -88,8 +88,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`Parameters`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Parameters` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`Parameters` (
 )
 ENGINE = InnoDB;
@@ -98,8 +96,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`InsulinInjection`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`InsulinInjection` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`InsulinInjection` (
   `idInsulinInjection` INT NOT NULL,
   `descInsulinInjection` VARCHAR(45) NULL,
@@ -111,8 +107,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`TypesOfGlucoseMeasurementDevice`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`TypesOfGlucoseMeasurementDevice` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`TypesOfGlucoseMeasurementDevice` (
   `IdTypeOfGlucoseMeasurementDevice` INT NOT NULL,
   `Name` VARCHAR(45) NULL,
@@ -123,8 +117,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`TypesOfGlucoseMeasurement`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`TypesOfGlucoseMeasurement` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`TypesOfGlucoseMeasurement` (
   `IdTypeOfGlucoseMeasurement` INT NOT NULL,
   `Name` VARCHAR(45) NULL,
@@ -135,8 +127,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`ModelsOfMeasurementSystem`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`ModelsOfMeasurementSystem` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`ModelsOfMeasurementSystem` (
   `IdModelOfMeasurementSystem` INT NOT NULL,
   `Name` VARCHAR(45) NULL,
@@ -147,8 +137,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`GlucoseRecords`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`GlucoseRecords` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`GlucoseRecords` (
   `IdGlucoseRecord` INT NOT NULL,
   `Timestamp` DATETIME NULL,
@@ -157,11 +145,13 @@ CREATE TABLE IF NOT EXISTS `mydb`.`GlucoseRecords` (
   `IdTypeOfGlucoseMeasurement` INT NULL,
   `IdTypeOfGlucoseMeasurementDevice` INT NULL,
   `IdModelOfMeasurementSystem` INT NULL,
-  `DeviceId` VARCHAR(45) NULL,
+  `IdDevice` VARCHAR(45) NULL,
   `IdDocumentType` INT NULL,
   `GlucoseString` VARCHAR(45) NULL,
-  `TypeOfGlucoseMeasurement` INT NULL,
   PRIMARY KEY (`IdGlucoseRecord`),
+  INDEX `fk_GlucoseRecords_TypesOfGlucoseMeasurementDevice1_idx` (`IdTypeOfGlucoseMeasurementDevice` ASC),
+  INDEX `fk_GlucoseRecords_TypesOfGlucoseMeasurement1_idx` (`IdTypeOfGlucoseMeasurement` ASC),
+  INDEX `fk_GlucoseRecords_ModelsOfMeasurementSystem1_idx` (`IdModelOfMeasurementSystem` ASC),
   CONSTRAINT `fk_GlucoseRecords_TypesOfGlucoseMeasurementDevice1`
     FOREIGN KEY (`IdTypeOfGlucoseMeasurementDevice`)
     REFERENCES `mydb`.`TypesOfGlucoseMeasurementDevice` (`IdTypeOfGlucoseMeasurementDevice`)
@@ -179,29 +169,20 @@ CREATE TABLE IF NOT EXISTS `mydb`.`GlucoseRecords` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_GlucoseRecords_TypesOfGlucoseMeasurementDevice1_idx` ON `mydb`.`GlucoseRecords` (`IdTypeOfGlucoseMeasurementDevice` ASC) VISIBLE;
-
-CREATE INDEX `fk_GlucoseRecords_TypesOfGlucoseMeasurement1_idx` ON `mydb`.`GlucoseRecords` (`IdTypeOfGlucoseMeasurement` ASC) VISIBLE;
-
-CREATE INDEX `fk_GlucoseRecords_ModelsOfMeasurementSystem1_idx` ON `mydb`.`GlucoseRecords` (`IdModelOfMeasurementSystem` ASC) VISIBLE;
-
 
 -- -----------------------------------------------------
 -- Table `mydb`.`QualitativeAccuracies`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`QualitativeAccuracies` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`QualitativeAccuracies` (
   `IdQualitativeAccuracy` INT NOT NULL,
   `name` VARCHAR(255) NOT NULL,
+  `QuantitativeAccuracy` DOUBLE NULL COMMENT 'Quantitative accuracy associated with this qualitative accuracy',
   PRIMARY KEY (`IdQualitativeAccuracy`));
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`TypesOfMeal`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`TypesOfMeal` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`TypesOfMeal` (
   `IdTypeOfMeal` INT NOT NULL,
   `Name` VARCHAR(45) NULL,
@@ -210,22 +191,8 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`TypesOfInjection`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`TypesOfInjection` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`TypesOfInjection` (
-  `IdTypeOfInjection` INT NOT NULL,
-  `Name` VARCHAR(45) NULL,
-  PRIMARY KEY (`IdTypeOfInjection`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `mydb`.`TypesOfInsulinSpeed`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`TypesOfInsulinSpeed` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`TypesOfInsulinSpeed` (
   `IdTypeOfInsulinSpeed` INT NOT NULL,
   `Name` VARCHAR(45) NULL,
@@ -236,8 +203,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`TypesOfInsulinInjection`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`TypesOfInsulinInjection` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`TypesOfInsulinInjection` (
   `IdTypeOfInsulinInjection` INT NOT NULL,
   `Name` VARCHAR(255) NOT NULL,
@@ -247,8 +212,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`TypesOfInsulinInjection` (
 -- -----------------------------------------------------
 -- Table `mydb`.`InsulineInjections`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`InsulineInjections` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`InsulineInjections` (
   `IdInsulineInjection` INT NOT NULL AUTO_INCREMENT,
   `Timestamp` VARCHAR(45) NULL,
@@ -259,10 +222,15 @@ CREATE TABLE IF NOT EXISTS `mydb`.`InsulineInjections` (
   `IdTypeOfInsulinSpeed` INT NULL,
   `IdTypeOfInsulinInjection` INT NULL,
   `InsulinString` VARCHAR(45) NULL,
-  PRIMARY KEY (`IdInsulineInjection`),
+  `TypesOfGlucoseMeasurement_IdTypeOfGlucoseMeasurement` INT NOT NULL,
+  PRIMARY KEY (`IdInsulineInjection`, `TypesOfGlucoseMeasurement_IdTypeOfGlucoseMeasurement`),
+  INDEX `fk_InsulineInjections_TypesOfInjection1_idx` (`IdTypeOfInjection` ASC),
+  INDEX `fk_InsulineInjections_TypesOfInsulinSpeed1_idx` (`IdTypeOfInsulinSpeed` ASC),
+  INDEX `fk_InsulineInjections_TypesOfInsulinInjection1_idx` (`IdTypeOfInsulinInjection` ASC),
+  INDEX `fk_InsulineInjections_TypesOfGlucoseMeasurement1_idx` (`TypesOfGlucoseMeasurement_IdTypeOfGlucoseMeasurement` ASC),
   CONSTRAINT `fk_InsulineInjections_TypesOfInjection1`
     FOREIGN KEY (`IdTypeOfInjection`)
-    REFERENCES `mydb`.`TypesOfInjection` (`IdTypeOfInjection`)
+    REFERENCES `mydb`.`TypesOfInsulinInjection` (`IdTypeOfInsulinInjection`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_InsulineInjections_TypesOfInsulinSpeed1`
@@ -274,21 +242,18 @@ CREATE TABLE IF NOT EXISTS `mydb`.`InsulineInjections` (
     FOREIGN KEY (`IdTypeOfInsulinInjection`)
     REFERENCES `mydb`.`TypesOfInsulinInjection` (`IdTypeOfInsulinInjection`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_InsulineInjections_TypesOfGlucoseMeasurement1`
+    FOREIGN KEY (`TypesOfGlucoseMeasurement_IdTypeOfGlucoseMeasurement`)
+    REFERENCES `mydb`.`TypesOfGlucoseMeasurement` (`IdTypeOfGlucoseMeasurement`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_InsulineInjections_TypesOfInjection1_idx` ON `mydb`.`InsulineInjections` (`IdTypeOfInjection` ASC) VISIBLE;
-
-CREATE INDEX `fk_InsulineInjections_TypesOfInsulinSpeed1_idx` ON `mydb`.`InsulineInjections` (`IdTypeOfInsulinSpeed` ASC) VISIBLE;
-
-CREATE INDEX `fk_InsulineInjections_TypesOfInsulinInjection1_idx` ON `mydb`.`InsulineInjections` (`IdTypeOfInsulinInjection` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`BolusCalculations`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`BolusCalculations` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`BolusCalculations` (
   `IdBolusCalculation` INT NOT NULL,
   `Timestamp` DATETIME NULL,
@@ -316,8 +281,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`Meals`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Meals` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`Meals` (
   `IdMeal` INT NOT NULL,
   `IdTypeOfMeal` INT NULL,
@@ -330,6 +293,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Meals` (
   `IdQualitativeAccuracyCHO` INT NULL,
   `IdInsulineInjection` INT NULL,
   PRIMARY KEY (`IdMeal`),
+  INDEX `fk_Meals_GlucoseRecords1_idx` (`IdGlucoseRecord` ASC),
+  INDEX `fk_Meals_QualitativeAccuracies1_idx` (`IdQualitativeAccuracyCHO` ASC),
+  INDEX `fk_Meals_TypesOfMeal1_idx` (`IdTypeOfMeal` ASC),
+  INDEX `fk_Meals_InsulineInjections1_idx` (`IdInsulineInjection` ASC),
+  INDEX `fk_Meals_BolusCalculations1_idx` (`IdBolusCalculation` ASC),
   CONSTRAINT `fk_Meals_GlucoseRecords1`
     FOREIGN KEY (`IdGlucoseRecord`)
     REFERENCES `mydb`.`GlucoseRecords` (`IdGlucoseRecord`)
@@ -357,31 +325,23 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Meals` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Meals_GlucoseRecords1_idx` ON `mydb`.`Meals` (`IdGlucoseRecord` ASC) VISIBLE;
-
-CREATE INDEX `fk_Meals_QualitativeAccuracies1_idx` ON `mydb`.`Meals` (`IdQualitativeAccuracyCHO` ASC) VISIBLE;
-
-CREATE INDEX `fk_Meals_TypesOfMeal1_idx` ON `mydb`.`Meals` (`IdTypeOfMeal` ASC) VISIBLE;
-
-CREATE INDEX `fk_Meals_InsulineInjections1_idx` ON `mydb`.`Meals` (`IdInsulineInjection` ASC) VISIBLE;
-
-CREATE INDEX `fk_Meals_BolusCalculations1_idx` ON `mydb`.`Meals` (`IdBolusCalculation` ASC) VISIBLE;
-
 
 -- -----------------------------------------------------
 -- Table `mydb`.`FoodsInMeals`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`FoodsInMeals` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`FoodsInMeals` (
+  `IdFoodInMeal` INT NOT NULL,
   `IdMeal` INT NOT NULL,
   `IdFood` INT NULL,
   `Quantity` DOUBLE NULL COMMENT 'grams of this food eaten in this meal',
   `Carbohydrates` DOUBLE NULL COMMENT '[g]: grams of this foood eaten in this meal',
   `AccuracyOfChoEstimate` DOUBLE NULL COMMENT '0 .. 1.1 = perfect! ',
-  PRIMARY KEY (`IdMeal`),
+  `QualitativeAccuracy` INT NULL,
+  PRIMARY KEY (`IdFoodInMeal`),
+  INDEX `fk_Meals_has_Foods_Foods1_idx` (`IdFood` ASC),
+  INDEX `fk_Meals_has_Foods_Meals_idx` (`IdFoodInMeal` ASC),
   CONSTRAINT `fk_Meals_has_Foods_Meals`
-    FOREIGN KEY (`IdMeal`)
+    FOREIGN KEY (`IdFoodInMeal`)
     REFERENCES `mydb`.`Meals` (`IdMeal`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -392,16 +352,10 @@ CREATE TABLE IF NOT EXISTS `mydb`.`FoodsInMeals` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Meals_has_Foods_Foods1_idx` ON `mydb`.`FoodsInMeals` (`IdFood` ASC) VISIBLE;
-
-CREATE INDEX `fk_Meals_has_Foods_Meals_idx` ON `mydb`.`FoodsInMeals` (`IdMeal` ASC) VISIBLE;
-
 
 -- -----------------------------------------------------
 -- Table `mydb`.`HypoPredictions`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`HypoPredictions` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`HypoPredictions` (
   `IdHypoPrediction` INT NOT NULL,
   `PredictedTime` DATETIME NULL,
@@ -421,10 +375,59 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`WeightsOfFoods`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`WeightsOfFoods` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`WeightsOfFoods` (
 )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Recipes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Recipes` (
+  `IdRecipe` INT NOT NULL,
+  `Name` VARCHAR(45) NULL,
+  `Description` VARCHAR(255) NULL,
+  PRIMARY KEY (`IdRecipe`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`FoodsInRecipes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`FoodsInRecipes` (
+  `IdRecipe` INT NOT NULL,
+  `IdFood` INT NOT NULL,
+  `Quantity` DOUBLE NULL COMMENT 'grams of this food eaten in this meal',
+  `Carbohydrates` DOUBLE NULL COMMENT '[g]: grams of this foood eaten in this meal',
+  `AccuracyOfChoEstimate` DOUBLE NULL COMMENT '0 .. 1.1 = perfect! ',
+  `QualitativeAccuracy` INT NULL,
+  PRIMARY KEY (`IdRecipe`, `IdFood`),
+  INDEX `fk_FoodsInRecipes_Foods1_idx` (`IdFood` ASC),
+  CONSTRAINT `fk_FoodsInRecipes_Recipes1`
+    FOREIGN KEY (`IdRecipe`)
+    REFERENCES `mydb`.`Recipes` (`IdRecipe`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_FoodsInRecipes_Foods1`
+    FOREIGN KEY (`IdFood`)
+    REFERENCES `mydb`.`Foods` (`IdFood`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Alarms`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Alarms` (
+  `idAlarm` INT NOT NULL,
+  `TimeStart` DATETIME NULL,
+  `TimeAlarm` DATETIME NULL,
+  `Interval` DOUBLE,
+  `Duration` DOUBLE,
+  `IsRepeated` TINYINT NULL,
+  `IsEnabled` TINYINT NULL,
+  PRIMARY KEY (`idAlarm`))
 ENGINE = InnoDB;
 
 

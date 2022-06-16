@@ -123,7 +123,7 @@ namespace GlucoMan
                 {
                     GlucoseMeasurement.IdGlucoseRecord = GetNextPrimaryKey();
                     // INSERT new record in the table
-                    InsertIntoGlucoseMeasurement(GlucoseMeasurement);                         
+                    InsertGlucoseMeasurement(GlucoseMeasurement);                         
                 }
                 else
                 {   // GlucoseMeasurement.IdGlucoseRecord exists
@@ -164,7 +164,7 @@ namespace GlucoMan
                 return null;
             }
         }
-        private long? InsertIntoGlucoseMeasurement(GlucoseRecord Measurement)
+        private long? InsertGlucoseMeasurement(GlucoseRecord Measurement)
         {
             try
             {

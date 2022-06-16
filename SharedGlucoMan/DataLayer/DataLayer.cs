@@ -75,5 +75,10 @@ namespace GlucoMan
         internal abstract void DeleteOneFoodInMeal(FoodInMeal Food);
         internal abstract List<Food> SearchFood(Food Food);
         #endregion
+
+        #region Alarms
+        internal abstract int? SaveOneAlarm(Alarm currentAlarm);
+        internal abstract List<Alarm> ReadAllAlarms();
+        #endregion
     }
 }

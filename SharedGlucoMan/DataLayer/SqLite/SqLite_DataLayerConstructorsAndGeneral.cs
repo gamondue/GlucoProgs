@@ -59,13 +59,6 @@ namespace GlucoMan
         {
             SqliteConnection connection;
 
-            //string baseConnectionString = "Data Source=" + dbName + " Cache = Shared";
-            //var connectionString = new SqliteConnectionStringBuilder(baseConnectionString)
-            //{
-            //    Mode = SqliteOpenMode.ReadWriteCreate,
-            //    //Password = password
-            //}.ToString();
-
             string connectionString = "Data Source=\"" + dbName + "\"; Cache = Shared; Mode = ReadWriteCreate";
             try
             {

@@ -45,9 +45,9 @@ namespace GlucoMan.Forms
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
             txtChoOfMeal.Text = Safe.String(bl.Meal.Carbohydrates.Text);
             if (bl.Meal.TimeStart.DateTime != Common.DateNull)
-                dtpMealTimeStart.Value = bl.Meal.TimeStart.DateTime;
+                dtpMealTimeStart.Value = (DateTime)bl.Meal.TimeStart.DateTime;
             if (bl.Meal.TimeFinish.DateTime != Common.DateNull)
-                dtpMealTimeEnd.Value = bl.Meal.TimeFinish.DateTime;
+                dtpMealTimeEnd.Value = (DateTime)bl.Meal.TimeFinish.DateTime;
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.ToString();
             cmbTypeOfMeal.Text = bl.Meal.TypeOfMeal.ToString();
         }

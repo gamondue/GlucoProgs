@@ -31,134 +31,264 @@ namespace GlucoMan.Forms
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAlarms));
             this.btnSetAlarm = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.dtpStartDate = new System.Windows.Forms.DateTimePicker();
+            this.dgwAlarms = new System.Windows.Forms.DataGridView();
+            this.btnAddTime = new System.Windows.Forms.Button();
+            this.btnAddAlarm = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dtpAlarmDate = new System.Windows.Forms.DateTimePicker();
+            this.updDay = new System.Windows.Forms.NumericUpDown();
+            this.updHour = new System.Windows.Forms.NumericUpDown();
+            this.updMinute = new System.Windows.Forms.NumericUpDown();
+            this.dtpStartTime = new System.Windows.Forms.DateTimePicker();
+            this.dtpAlarmTime = new System.Windows.Forms.DateTimePicker();
+            this.chkIsRepeated = new System.Windows.Forms.CheckBox();
+            this.chkIsEnabled = new System.Windows.Forms.CheckBox();
+            this.txtDurationInMinutes = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnDeleteAlarm = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwAlarms)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.updDay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.updHour)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.updMinute)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSetAlarm
             // 
-            this.btnSetAlarm.Location = new System.Drawing.Point(292, 111);
+            this.btnSetAlarm.Location = new System.Drawing.Point(295, 197);
             this.btnSetAlarm.Margin = new System.Windows.Forms.Padding(4);
             this.btnSetAlarm.Name = "btnSetAlarm";
-            this.btnSetAlarm.Size = new System.Drawing.Size(96, 64);
+            this.btnSetAlarm.Size = new System.Drawing.Size(96, 46);
             this.btnSetAlarm.TabIndex = 0;
             this.btnSetAlarm.Text = "Set alarm";
             this.btnSetAlarm.UseVisualStyleBackColor = true;
             // 
-            // dateTimePicker1
+            // dtpStartDate
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(28, 12);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(300, 39);
-            this.dateTimePicker1.TabIndex = 7;
+            this.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpStartDate.Location = new System.Drawing.Point(12, 30);
+            this.dtpStartDate.Name = "dtpStartDate";
+            this.dtpStartDate.Size = new System.Drawing.Size(122, 29);
+            this.dtpStartDate.TabIndex = 7;
             // 
-            // dataGridView1
+            // dgwAlarms
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(30, 252);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 62;
-            this.dataGridView1.Size = new System.Drawing.Size(360, 264);
-            this.dataGridView1.TabIndex = 8;
+            this.dgwAlarms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgwAlarms.Location = new System.Drawing.Point(12, 250);
+            this.dgwAlarms.Name = "dgwAlarms";
+            this.dgwAlarms.RowHeadersWidth = 62;
+            this.dgwAlarms.Size = new System.Drawing.Size(379, 205);
+            this.dgwAlarms.TabIndex = 8;
             // 
-            // button1
+            // btnAddTime
             // 
-            this.button1.Location = new System.Drawing.Point(28, 111);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(96, 64);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "+";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnAddTime.Location = new System.Drawing.Point(12, 197);
+            this.btnAddTime.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddTime.Name = "btnAddTime";
+            this.btnAddTime.Size = new System.Drawing.Size(76, 46);
+            this.btnAddTime.TabIndex = 9;
+            this.btnAddTime.Text = "+time";
+            this.btnAddTime.UseVisualStyleBackColor = true;
+            this.btnAddTime.Click += new System.EventHandler(this.btnAddTime_Click);
             // 
-            // button2
+            // btnAddAlarm
             // 
-            this.button2.Location = new System.Drawing.Point(132, 111);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(96, 64);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "-";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(30, 60);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(69, 39);
-            this.textBox1.TabIndex = 11;
-            this.textBox1.Text = "0";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.btnAddAlarm.Location = new System.Drawing.Point(116, 197);
+            this.btnAddAlarm.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddAlarm.Name = "btnAddAlarm";
+            this.btnAddAlarm.Size = new System.Drawing.Size(76, 46);
+            this.btnAddAlarm.TabIndex = 10;
+            this.btnAddAlarm.Text = "+ alarm";
+            this.btnAddAlarm.UseVisualStyleBackColor = true;
+            this.btnAddAlarm.Click += new System.EventHandler(this.btnAddAlarm_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(105, 63);
+            this.label1.Location = new System.Drawing.Point(69, 93);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(28, 32);
+            this.label1.Size = new System.Drawing.Size(35, 21);
             this.label1.TabIndex = 12;
-            this.label1.Text = "d";
+            this.label1.Text = "day";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(214, 63);
+            this.label2.Location = new System.Drawing.Point(167, 93);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(28, 32);
+            this.label2.Size = new System.Drawing.Size(43, 21);
             this.label2.TabIndex = 14;
-            this.label2.Text = "h";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(139, 60);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(69, 39);
-            this.textBox2.TabIndex = 13;
-            this.textBox2.Text = "2";
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.label2.Text = "hour";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(334, 63);
+            this.label3.Location = new System.Drawing.Point(335, 156);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 32);
+            this.label3.Size = new System.Drawing.Size(37, 21);
             this.label3.TabIndex = 16;
             this.label3.Text = "min";
             // 
-            // textBox3
+            // label5
             // 
-            this.textBox3.Location = new System.Drawing.Point(259, 60);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(69, 39);
-            this.textBox3.TabIndex = 15;
-            this.textBox3.Text = "0";
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(11, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 21);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "Start time";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 65);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(124, 21);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Interval of alarm";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(11, 130);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(87, 21);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Alarm time";
+            // 
+            // dtpAlarmDate
+            // 
+            this.dtpAlarmDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpAlarmDate.Location = new System.Drawing.Point(12, 153);
+            this.dtpAlarmDate.Name = "dtpAlarmDate";
+            this.dtpAlarmDate.Size = new System.Drawing.Size(122, 29);
+            this.dtpAlarmDate.TabIndex = 21;
+            // 
+            // updDay
+            // 
+            this.updDay.Location = new System.Drawing.Point(12, 89);
+            this.updDay.Name = "updDay";
+            this.updDay.Size = new System.Drawing.Size(51, 29);
+            this.updDay.TabIndex = 23;
+            this.updDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // updHour
+            // 
+            this.updHour.Location = new System.Drawing.Point(110, 89);
+            this.updHour.Name = "updHour";
+            this.updHour.Size = new System.Drawing.Size(51, 29);
+            this.updHour.TabIndex = 24;
+            this.updHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.updHour.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // updMinute
+            // 
+            this.updMinute.Location = new System.Drawing.Point(216, 89);
+            this.updMinute.Name = "updMinute";
+            this.updMinute.Size = new System.Drawing.Size(51, 29);
+            this.updMinute.TabIndex = 25;
+            this.updMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // dtpStartTime
+            // 
+            this.dtpStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpStartTime.Location = new System.Drawing.Point(145, 30);
+            this.dtpStartTime.Name = "dtpStartTime";
+            this.dtpStartTime.Size = new System.Drawing.Size(101, 29);
+            this.dtpStartTime.TabIndex = 26;
+            // 
+            // dtpAlarmTime
+            // 
+            this.dtpAlarmTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpAlarmTime.Location = new System.Drawing.Point(145, 153);
+            this.dtpAlarmTime.Name = "dtpAlarmTime";
+            this.dtpAlarmTime.Size = new System.Drawing.Size(101, 29);
+            this.dtpAlarmTime.TabIndex = 27;
+            // 
+            // chkIsRepeated
+            // 
+            this.chkIsRepeated.AutoSize = true;
+            this.chkIsRepeated.Location = new System.Drawing.Point(276, 52);
+            this.chkIsRepeated.Name = "chkIsRepeated";
+            this.chkIsRepeated.Size = new System.Drawing.Size(94, 25);
+            this.chkIsRepeated.TabIndex = 28;
+            this.chkIsRepeated.Text = "Repeated";
+            this.chkIsRepeated.UseVisualStyleBackColor = true;
+            // 
+            // chkIsEnabled
+            // 
+            this.chkIsEnabled.AutoSize = true;
+            this.chkIsEnabled.Checked = true;
+            this.chkIsEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkIsEnabled.Location = new System.Drawing.Point(276, 21);
+            this.chkIsEnabled.Name = "chkIsEnabled";
+            this.chkIsEnabled.Size = new System.Drawing.Size(84, 25);
+            this.chkIsEnabled.TabIndex = 29;
+            this.chkIsEnabled.Text = "Enabled";
+            this.chkIsEnabled.UseVisualStyleBackColor = true;
+            // 
+            // txtDurationInMinutes
+            // 
+            this.txtDurationInMinutes.Location = new System.Drawing.Point(276, 153);
+            this.txtDurationInMinutes.Name = "txtDurationInMinutes";
+            this.txtDurationInMinutes.Size = new System.Drawing.Size(53, 29);
+            this.txtDurationInMinutes.TabIndex = 30;
+            this.txtDurationInMinutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(270, 129);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(133, 21);
+            this.label7.TabIndex = 31;
+            this.label7.Text = "Duration of alarm";
+            // 
+            // btnDeleteAlarm
+            // 
+            this.btnDeleteAlarm.Location = new System.Drawing.Point(192, 197);
+            this.btnDeleteAlarm.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeleteAlarm.Name = "btnDeleteAlarm";
+            this.btnDeleteAlarm.Size = new System.Drawing.Size(76, 46);
+            this.btnDeleteAlarm.TabIndex = 32;
+            this.btnDeleteAlarm.Text = "- alarm";
+            this.btnDeleteAlarm.UseVisualStyleBackColor = true;
             // 
             // frmAlarms
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(414, 528);
+            this.ClientSize = new System.Drawing.Size(403, 466);
+            this.Controls.Add(this.btnDeleteAlarm);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.txtDurationInMinutes);
+            this.Controls.Add(this.chkIsEnabled);
+            this.Controls.Add(this.chkIsRepeated);
+            this.Controls.Add(this.dtpAlarmTime);
+            this.Controls.Add(this.dtpStartTime);
+            this.Controls.Add(this.updMinute);
+            this.Controls.Add(this.updHour);
+            this.Controls.Add(this.updDay);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.dtpAlarmDate);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.btnAddAlarm);
+            this.Controls.Add(this.btnAddTime);
+            this.Controls.Add(this.dgwAlarms);
+            this.Controls.Add(this.dtpStartDate);
             this.Controls.Add(this.btnSetAlarm);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -166,7 +296,10 @@ namespace GlucoMan.Forms
             this.Name = "frmAlarms";
             this.Text = "Alarms";
             this.Load += new System.EventHandler(this.frmAlarms_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwAlarms)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.updDay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.updHour)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.updMinute)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,15 +308,26 @@ namespace GlucoMan.Forms
         #endregion
 
         private Button btnSetAlarm;
-        private DateTimePicker dateTimePicker1;
-        private DataGridView dataGridView1;
-        private Button button1;
-        private Button button2;
-        private TextBox textBox1;
+        private DateTimePicker dtpStartDate;
+        private DataGridView dgwAlarms;
+        private Button btnAddTime;
+        private Button btnAddAlarm;
         private Label label1;
         private Label label2;
-        private TextBox textBox2;
         private Label label3;
-        private TextBox textBox3;
+        private Label label5;
+        private Label label6;
+        private Label label4;
+        private DateTimePicker dtpAlarmDate;
+        private NumericUpDown updDay;
+        private NumericUpDown updHour;
+        private NumericUpDown updMinute;
+        private DateTimePicker dtpStartTime;
+        private DateTimePicker dtpAlarmTime;
+        private CheckBox chkIsRepeated;
+        private CheckBox chkIsEnabled;
+        private TextBox txtDurationInMinutes;
+        private Label label7;
+        private Button btnDeleteAlarm;
     }
 }

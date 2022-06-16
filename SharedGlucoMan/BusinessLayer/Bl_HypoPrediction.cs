@@ -1,7 +1,6 @@
 ﻿using System;
 using SharedData;
 using GlucoMan;
-using SharedObjects;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -173,7 +172,8 @@ namespace GlucoMan.BusinessLayer
 
                 HypoPredictedTime.Format = "yyyy.MM.dd HH:mm:ss";
                 HypoPredictedTime.DateTime = HypoTimeLast.AddSeconds((int) predictedIntervalSeconds);
-                HypoAlarmTime.DateTime = HypoPredictedTime.DateTime.Subtract(Hypo_AlarmAdvanceTime);
+                DateTime dummy = (DateTime)HypoPredictedTime.DateTime;
+                HypoAlarmTime.DateTime = dummy.Subtract(Hypo_AlarmAdvanceTime);
                 if (HypoPredictedTime.DateTime == DateTime.MinValue ||
                         HypoAlarmTime.DateTime == DateTime.MinValue)
                 {
@@ -222,7 +222,8 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
-                TimeSpan ts = HypoAlarmTime.DateTime.Subtract(DateTime.Now);
+                DateTime dummy = (DateTime)HypoAlarmTime.DateTime; 
+                TimeSpan ts = dummy.Subtract(DateTime.Now);
                 alarm.SetAlarm(ts);
                 AlarmIsSet = true;
             }

@@ -9,7 +9,7 @@ namespace GlucoMan
 {
     internal  partial class DL_Sqlite : DataLayer
     {
-        internal  override void SaveBolusParameters(BL_BolusCalculation Parameters)
+        internal override void SaveBolusParameters(BL_BolusCalculation Parameters)
         {
             SaveParameter("ChoInsulinRatioBreakfast", Parameters.ChoInsulinRatioBreakfast.Text);
             SaveParameter("ChoInsulinRatioLunch", Parameters.ChoInsulinRatioLunch.Text);
@@ -23,7 +23,7 @@ namespace GlucoMan
             SaveParameter("ChoToEat", Parameters.ChoToEat.Text);
             SaveParameter("GlucoseBeforeMeal", Parameters.GlucoseBeforeMeal.Text);
         }
-        internal  override void RestoreBolusParameters(BL_BolusCalculation Parameters)
+        internal override void RestoreBolusParameters(BL_BolusCalculation Parameters)
         {
             Parameters.TargetGlucose.Text = RestoreParameter("TargetGlucose");
             Parameters.InsulinCorrectionSensitivity.Text = RestoreParameter("InsulinCorrectionSensitivity");

@@ -80,6 +80,16 @@ namespace GlucoMan
         {
             throw new NotImplementedException();
         }
+
+        internal override int? SaveOneAlarm(Alarm currentAlarm)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override List<Alarm> ReadAllAlarms()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

@@ -47,8 +47,9 @@ namespace GlucoMan.Forms
             
             txtAlarmAdvanceTime.Text = hypo.Hypo_AlarmAdvanceTime.TotalMinutes.ToString();
             txtGlucoseSlope.Text = hypo.HypoGlucoseSlope.ToString();
-            txtAlarmHour.Text = hypo.HypoAlarmTime.DateTime.Hour.ToString();
-            txtAlarmMinute.Text = hypo.HypoAlarmTime.DateTime.Minute.ToString();
+            DateTime dummy = (DateTime)hypo.HypoAlarmTime.DateTime; 
+            txtAlarmHour.Text = dummy.Hour.ToString();
+            txtAlarmMinute.Text = dummy.Minute.ToString();
 
             txtPredictedHour.Text = hypo.PredictedHour.Text;
             txtPredictedMinute.Text = hypo.PredictedMinute.Text;

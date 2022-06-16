@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharedObjects
+namespace GlucoMan
 {
-    internal class Alarm
+    internal partial class Alarm
     {
-        static System.Timers.Timer alarm;
+        // Windows dependant part of the Alarm class
+        static System.Timers.Timer? alarm;
         // find a general way to trigger alarm
-        ////////static System.Media.SoundPlayer player;
+        static System.Media.SoundPlayer player;
+
         private bool playing;
         internal void InitAlarm()
         {
@@ -26,9 +28,9 @@ namespace SharedObjects
             try
             {
                 // find a general way to trigger alarm
-                ////////player = new System.Media.SoundPlayer();
-                ////////player.SoundLocation = @"C:\Windows\Media\Alarm03.wav";
-                ////////player.PlayLooping();
+                player = new System.Media.SoundPlayer();
+                player.SoundLocation = @"C:\Windows\Media\Alarm03.wav";
+                player.PlayLooping();
                 playing = true;
             }
             catch (Exception ex)
@@ -40,7 +42,7 @@ namespace SharedObjects
         {
             if (playing)
             {
-                //////player.Stop();
+                player.Stop();
                 playing = false;
             }
             else

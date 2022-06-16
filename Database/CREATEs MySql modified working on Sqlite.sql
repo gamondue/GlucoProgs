@@ -243,11 +243,12 @@ CREATE TABLE HypoPredictions(
   `HypoPredictionscol` VARCHAR(45) NULL,
   PRIMARY KEY (`IdHypoPrediction`));
 
--- -----------------------------------------------------
--- Table WeightsOfFoods
--- -----------------------------------------------------
-DROP TABLE IF EXISTS WeightsOfFoods;
-
-CREATE TABLE WeightsOfFoods(
-);
-
+CREATE TABLE IF NOT EXISTS `Alarms` (
+  `idAlarm` INT NOT NULL,
+  `TimeStart` DATETIME NULL,
+  `TimeAlarm` DATETIME NULL,
+  `Interval` DOUBLE,
+  `Duration` DOUBLE,
+  `IsRepeated` TINYINT NULL,
+  `IsEnabled` TINYINT NULL,
+  PRIMARY KEY (`idAlarm`))

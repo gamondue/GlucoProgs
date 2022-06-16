@@ -7,8 +7,7 @@ namespace GlucoMan
     public class DateTimeAndText
     {
         public string Format { get; set; }
-
-        private DateTime dateTimeVal;
+        private DateTime? dateTimeVal;
         private string text;
         public DateTimeAndText()
         {
@@ -18,7 +17,7 @@ namespace GlucoMan
             dateTimeVal = Common.DateNull;
             text = "";
         }
-        public DateTime DateTime
+        public DateTime? DateTime
         {
             get => dateTimeVal;
             set
@@ -41,7 +40,7 @@ namespace GlucoMan
                 text = value;
                 try
                 {
-                    dateTimeVal = DateTime.Parse(value);
+                    dateTimeVal = System.DateTime.Parse(value);
                 }
                 catch
                 {
