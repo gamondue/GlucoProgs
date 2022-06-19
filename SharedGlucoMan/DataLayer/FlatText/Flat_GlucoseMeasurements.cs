@@ -25,7 +25,7 @@ namespace GlucoMan
                         rec.GlucoseValue = double.Parse(f[i, 1]);
                         rec.Timestamp = DateTime.Parse(f[i, 2]);
                         rec.GlucoseString = f[i, 3];
-                        rec.IdDeviceType = f[i, 4];
+                        rec.IdTypeOfGlucoseMeasurementDevice = f[i, 4];
                         rec.IdDevice = f[i, 5];
                         rec.Notes = f[i, 6];
                         //rec.GlucoseAccuracy = f[i, 3]; // convert the enum to string 
@@ -101,7 +101,7 @@ namespace GlucoMan
                     addedRecord += GlucoseMeasurement.GlucoseValue + "\t";
                     addedRecord += GlucoseMeasurement.Timestamp + "\t";
                     addedRecord += GlucoseMeasurement.GlucoseString + "\t";
-                    addedRecord += GlucoseMeasurement.IdDeviceType + "\t";
+                    addedRecord += GlucoseMeasurement.IdTypeOfGlucoseMeasurementDevice + "\t";
                     addedRecord += GlucoseMeasurement.IdDevice + "\t";
                     addedRecord += GlucoseMeasurement.Notes + "\t";
                     //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
@@ -120,7 +120,7 @@ namespace GlucoMan
                             fileContent += rec.GlucoseValue + "\t";
                             fileContent += rec.Timestamp + "\t";
                             fileContent += rec.GlucoseString + "\t";
-                            fileContent += rec.IdDeviceType + "\t";
+                            fileContent += rec.IdTypeOfGlucoseMeasurementDevice + "\t";
                             fileContent += rec.IdDevice + "\t";
                             fileContent += rec.Notes + "\t";
                             //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
@@ -132,7 +132,7 @@ namespace GlucoMan
                             fileContent += GlucoseMeasurement.GlucoseValue + "\t";
                             fileContent += GlucoseMeasurement.Timestamp + "\t";
                             fileContent += GlucoseMeasurement.GlucoseString + "\t";
-                            fileContent += GlucoseMeasurement.IdDeviceType + "\t";
+                            fileContent += GlucoseMeasurement.IdTypeOfGlucoseMeasurementDevice + "\t";
                             fileContent += GlucoseMeasurement.IdDevice + "\t";
                             fileContent += GlucoseMeasurement.Notes + "\t";
                             //file += rec.GlucoseAccuracy + "\t"; // convert to string the enum
@@ -169,7 +169,7 @@ namespace GlucoMan
                             recLast.GlucoseValue = double.Parse(fields[1]);
                             recLast.Timestamp = Safe.DateTime(fields[2]);
                             recLast.GlucoseString = fields[3];
-                            recLast.IdDeviceType = fields[4];
+                            recLast.IdTypeOfGlucoseMeasurementDevice = fields[4];
                             recLast.IdDevice = fields[5];
                             recLast.Notes = fields[6];
                             line = sr.ReadLine();
@@ -178,7 +178,7 @@ namespace GlucoMan
                             recBeforeLast.GlucoseValue = double.Parse(fields[1]);
                             recBeforeLast.Timestamp = Safe.DateTime(fields[2]);
                             recBeforeLast.GlucoseString = fields[3];
-                            recBeforeLast.IdDeviceType = fields[4];
+                            recBeforeLast.IdTypeOfGlucoseMeasurementDevice = fields[4];
                             recBeforeLast.IdDevice = fields[5];
                             recBeforeLast.Notes = fields[6];
                         }

@@ -4,13 +4,16 @@ namespace GlucoMan.Forms
     public partial class frmCalculator : Form
     {
         private string nextOperator;
+        private double firstOperand;
 
-        public double? Result { get; internal set; }
+        public double Result { get; internal set; }
+        public bool ClosedWithOk { get; private set; }
 
-        public frmCalculator(double? InitialValue)
+        public frmCalculator(double InitialValue)
         {
             InitializeComponent();
 
+            ClosedWithOk = false; 
             if (InitialValue != null)
                 Result = InitialValue;
             else
@@ -35,27 +38,35 @@ namespace GlucoMan.Forms
         }
         private void btnMinus_Click(object sender, EventArgs e)
         {
-            Operation(txtDisplay.Text);
             nextOperator = "-";
+            getOperand();
         }
         private void btnPlus_Click(object sender, EventArgs e)
         {
-            Operation(txtDisplay.Text);
             nextOperator = "+";
+            getOperand();
         }
         private void btnDivision_Click(object sender, EventArgs e)
         {
-            Operation(txtDisplay.Text);
             nextOperator = "/";
+            getOperand(); 
         }
         private void btnMultiplication_Click(object sender, EventArgs e)
         {
-            Operation(txtDisplay.Text);
             nextOperator = "*";
+            getOperand();
         }
         private void btnEqual_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Operation(txtDisplay.Text); 
+        }
+        private void getOperand()
+        {
+            if (txtDisplay.Text != "")
+            {
+                double.TryParse(txtDisplay.Text, out firstOperand);
+                txtDisplay.Text = ""; 
+            }
         }
         private void Operation(string text)
         {
@@ -65,19 +76,19 @@ namespace GlucoMan.Forms
                 switch (nextOperator)
                 {
                     case "-":
-                        Result = Result - value;
+                        Result = firstOperand - value;
                         break;
                     case "+":
-                        Result = Result + value;
+                        Result = firstOperand + value;
                         break;
                     case "*":
-                        Result = Result * value;
+                        Result = firstOperand * value;
                         break;
                     case "/":
-                        Result = Result / value;
+                        Result = firstOperand / value;
                         break;
                     default:
-                        Result = Result;
+                        Result = firstOperand;
                         break; 
                 }
             }
@@ -85,12 +96,18 @@ namespace GlucoMan.Forms
             {
                 txtDisplay.Text = "";
             }
-            //txtDisplay.Text = "";
-            txtDisplay.Text = Result.ToString();
+            txtDisplay.Text = Result.ToString("#.########");
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            firstOperand = 0; 
+            Result = 0; 
             txtDisplay.Text = "0"; 
+        }
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            ClosedWithOk = true; 
+            this.Close();
         }
     }
 }

@@ -63,5 +63,15 @@ namespace GlucoMan.Forms
             frmMiscellaneous f = new frmMiscellaneous();
             f.Show(); 
         }
+        private void btnInjectionSites_Click(object sender, EventArgs e)
+        {
+            frmInjectionSite f = new frmInjectionSite();
+            f.Show();
+        }
+        private void btnFoods_Click(object sender, EventArgs e)
+        {
+            frmFoods f = new frmFoods();
+            f.Show(); 
+        }
     }
 }

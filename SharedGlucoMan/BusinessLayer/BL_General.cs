@@ -19,9 +19,9 @@ namespace SharedGlucoMan.BusinessLayer
         {
             return dl.RestoreParameter(FieldName);
         }
-        public  void PurgeDatabase()
+        public  void DeleteDatabase()
         {
-            dl.PurgeDatabase();
+            dl.DeleteDatabase();
         }
     }
 }

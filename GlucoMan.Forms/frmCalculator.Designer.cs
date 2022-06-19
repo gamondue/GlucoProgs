@@ -47,6 +47,7 @@
             this.btn0 = new System.Windows.Forms.Button();
             this.btnPoint = new System.Windows.Forms.Button();
             this.btnMinus = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtDisplay
@@ -255,11 +256,23 @@
             this.btnMinus.UseVisualStyleBackColor = true;
             this.btnMinus.Click += new System.EventHandler(this.btnMinus_Click);
             // 
+            // btnOK
+            // 
+            this.btnOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnOK.Location = new System.Drawing.Point(7, 442);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(285, 63);
+            this.btnOK.TabIndex = 18;
+            this.btnOK.Text = "OK";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            // 
             // frmCalculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(301, 447);
+            this.ClientSize = new System.Drawing.Size(301, 512);
+            this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnMinus);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnDivision);
@@ -309,5 +322,6 @@
         private Button btn0;
         private Button btnPoint;
         private Button btnMinus;
+        private Button btnOK;
     }
 }

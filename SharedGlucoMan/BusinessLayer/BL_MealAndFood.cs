@@ -16,15 +16,18 @@ namespace GlucoMan.BusinessLayer
 
         public Meal Meal { get => currentMeal; set => currentMeal = value; }
         public List<FoodInMeal> Foods { get => currentFoodsInMeal; set => currentFoodsInMeal = value; }
-        public FoodInMeal FoodInMeal { get => currentFoodInMeal; set => currentFoodInMeal = value; }
-
         internal List<Food> SearchFoods(Food FoodToSearch)
         {
-            return dl.SearchFood(FoodToSearch); 
+            return dl.SearchFood(FoodToSearch);
         }
 
-        public List<Meal> Meals { get => currentMeals; set => currentMeals = value; }
+        internal List<Food> ReadFoods()
+        {
+            return dl.ReadFoods();
+        }
 
+        public FoodInMeal FoodInMeal { get => currentFoodInMeal; set => currentFoodInMeal = value; }
+        public List<Meal> Meals { get => currentMeals; set => currentMeals = value; }
         public BL_MealAndFood()
         {
             currentMeals = new List<Meal>();
@@ -36,31 +39,40 @@ namespace GlucoMan.BusinessLayer
         {
             Food.CarbohydratesGrams.Double = Food.CarbohydratesPercent.Double / 100 * 
                 Food.Quantity.Double;
+            RecalcTotalCho();
+            RecalcTotalAccuracy(); 
         }
-        public void CalculateChoOfMeal()
+        internal string[] GetAllTypesOfMeal()
         {
-            Common.LogOfProgram.Error("Sqlite_MealAndFood | RestoreFoodsInMeal", 
-                new Exception());
+            return Enum.GetNames(typeof(Common.TypeOfMeal));
         }
-        public void ReadMeals(DateTime? InitialTime, DateTime? FinalTime)
+        internal string[] GetAllAccuracies()
+        {
+            return Enum.GetNames(typeof(Common.QualitativeAccuracy));
+        }
+        public List<Meal> ReadMeals(DateTime? InitialTime, DateTime? FinalTime)
         {
             currentMeals = dl.ReadMeals(InitialTime, FinalTime);
+            return currentMeals; 
         }
-        public void ReadMeal(int? IdMeal)
+        public Meal ReadMeal(int? IdMeal)
         {
             currentMeal = dl.ReadOneMeal(IdMeal);
+            return currentMeal; 
         }
-        public int? SaveOneMeal()
+        public int? SaveOneMeal(Meal meal)
         {
+            currentMeal = meal; 
             return dl.SaveOneMeal(currentMeal);
         }
         internal void DeleteOneMeal(Meal Meal)
         {
             dl.DeleteOneMeal(Meal);
         }
-        public void ReadFoodsInMeal(int? IdMeal)
+        public List<FoodInMeal> ReadFoodsInMeal(int? IdMeal)
         {
             currentFoodsInMeal = dl.ReadFoodsInMeal(IdMeal);
+            return currentFoodsInMeal; 
         }
         public void SaveFoodsInMeal(List<FoodInMeal> List)
         {
@@ -117,16 +129,19 @@ namespace GlucoMan.BusinessLayer
         internal double? RecalcTotalCho()
         {
             double? total = 0;
-            foreach (FoodInMeal f in currentFoodsInMeal)
+            if (currentFoodsInMeal != null)
             {
-                if (f.CarbohydratesGrams.Double != null)
-                    // we don't sum the record that we are currently editing 
-                    if (f.IdFoodInMeal != FoodInMeal.IdFoodInMeal)
-                        total += f.CarbohydratesGrams.Double;
+                foreach (FoodInMeal f in currentFoodsInMeal)
+                {
+                    if (f.CarbohydratesGrams.Double != null)
+                        // we don't sum the record that we are currently editing 
+                        if (f.IdFoodInMeal != FoodInMeal.IdFoodInMeal)
+                            total += f.CarbohydratesGrams.Double;
+                }
+                // we add the current editing value of CHO
+                total += currentFoodInMeal.CarbohydratesGrams.Double;
+                currentMeal.CarbohydratesGrams.Double = total;
             }
-            // we add the current editing value of CHO
-            total += currentFoodInMeal.CarbohydratesGrams.Double; 
-            currentMeal.Carbohydrates.Double = total; 
             return total; 
         }
         /// <summary>
@@ -138,30 +153,61 @@ namespace GlucoMan.BusinessLayer
             // calculate weighted quadratic sum 
             double sumOfWeights = 0;
             double sumOfSquaredWeightedValues = 0;
-            foreach (FoodInMeal f in currentFoodsInMeal)
+            double? WeightedQuadraticAverage = 0; 
+            if (currentFoodsInMeal != null && currentFoodsInMeal.Count > 0)
             {
-                if (f.CarbohydratesGrams == null)
-                    f.CarbohydratesGrams.Double = 0;
-                sumOfWeights += (double) f.CarbohydratesGrams.Double; 
-                if (f.AccuracyOfChoEstimate.Double != null)
+                foreach (FoodInMeal f in currentFoodsInMeal)
                 {
-                    // we don't sum the record that we are currently editing 
-                    if (f.IdFoodInMeal != FoodInMeal.IdFoodInMeal)
-                        sumOfSquaredWeightedValues +=
-                          Math.Pow((double) f.AccuracyOfChoEstimate.Double, 2) * (double) f.CarbohydratesGrams.Double;
+                    if (f.CarbohydratesGrams == null)
+                        f.CarbohydratesGrams.Double = 0;
+                    sumOfWeights += (double)f.CarbohydratesGrams.Double;
+                    if (f.AccuracyOfChoEstimate.Double != null)
+                    {
+                        // we don't sum the record that we are currently editing 
+                        if (f.IdFoodInMeal != FoodInMeal.IdFoodInMeal)
+                            sumOfSquaredWeightedValues +=
+                              Math.Pow((double)f.AccuracyOfChoEstimate.Double, 2) * (double)f.CarbohydratesGrams.Double;
+                    }
+                    else
+                    {
+                        // if we have a null, we sum 0 
+                    }
                 }
+                // we add the food that is currently edited
+                if (FoodInMeal.AccuracyOfChoEstimate.Double != null && FoodInMeal.CarbohydratesGrams.Double != null)
+                    sumOfSquaredWeightedValues +=
+                    Math.Pow((double)FoodInMeal.AccuracyOfChoEstimate.Double, 2) * (double)FoodInMeal.CarbohydratesGrams.Double;
                 else
-                {
-                    // if we have a null, we sum 0 
-                }
+                    // since we haven' enough data, the accuracy cannot be evaluated 
+                    sumOfSquaredWeightedValues = double.MaxValue; 
+                // square of the weighted quadratic average
+                WeightedQuadraticAverage = Math.Sqrt(sumOfSquaredWeightedValues / sumOfWeights);
+                currentMeal.AccuracyOfChoEstimate.Double = WeightedQuadraticAverage;
             }
-            // we add the food that is currently editing 
-            sumOfSquaredWeightedValues +=
-                Math.Pow((double) FoodInMeal.AccuracyOfChoEstimate.Double, 2) * (double)FoodInMeal.CarbohydratesGrams.Double;
-            // square of the weighted quadratic average
-            double? WeightedQuadraticAverage = Math.Sqrt(sumOfSquaredWeightedValues / sumOfWeights);
-            currentMeal.AccuracyOfChoEstimate.Double = WeightedQuadraticAverage;
             return WeightedQuadraticAverage;
+        }
+        internal int? SaveOneFood(Food food)
+        {
+            return dl.SaveOneFood(food); 
+        }
+        internal void DeleteOneFood(Food food)
+        {
+            // !!!! verify if  the row to delete has been used somewhere else in the database
+            // !!!! if it is the case, don't delete and give notice to the caller 
+            dl.DeleteOneFood(food);
+        }
+        internal Food ReadOneFood(int? idFood)
+        {
+            // !!!! verify if  the row to delete has been used somewhere else in the database
+            // !!!! if it is the case, don't delete and give notice to the caller 
+            return dl.ReadOneFood(idFood);
+        }
+        internal void SaveAllFoodsInMeal(FoodInMeal foodInMeal)
+        {
+            foreach (FoodInMeal food in currentFoodsInMeal)
+            {
+                dl.SaveOneFoodInMeal(food); 
+            }
         }
     }
 }

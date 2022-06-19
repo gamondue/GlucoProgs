@@ -31,20 +31,19 @@ namespace GlucoMan
         private string notes;
 
         // properties directly mapped to database GlucoseRecordings table 
-        // !!!! TODO visually separate when done with database tables !!!!
         public int? IdGlucoseRecord { get ; set ; }
         public double? GlucoseValue { get => glucoseValue; set => glucoseValue = value; }  // in mg/l
         public DateTime? Timestamp { get => timestamp; set => timestamp = value; }
         public string GlucoseString { get => glucoseString; set => glucoseString = value; }
+        public string IdTypeOfGlucoseMeasurement { get; internal set; }
+        public string IdTypeOfGlucoseMeasurementDevice { get; internal set; }
+        public string IdModelOfMeasurementSystem { get; internal set; }
         public string IdDevice { get => idDevice; set => idDevice = value; }
-        public string IdDeviceType { get => idDeviceType; set => idDeviceType = value; }
         public int? IdDocumentType { get => idDocumentType; set => idDocumentType = value; }
-        public Common.TypeOfGlucoseMeasurement GlucoseMeasurementType { get => glucoseMeasurementType; set => glucoseMeasurementType = value; }
-        public Common.QualitativeAccuracy  GlucoseQualitativeAccuracy { get => glucoseQualitativeAccuracy; set => glucoseQualitativeAccuracy = value; }
-        public string Notes { get => notes; set => notes = value; }
+         public string Notes { get => notes; set => notes = value; }
 
-        // properties taken from other tables of database 
-        // !!!! TODO visually separate better, when done with database tables !!!!
+        // properties taken from other tables of database. Most are unuseful
+        // !!!! TODO decide if they are useful and delete those not useful!!!!
         public double? InsulinValue { get => insulinValue; set => insulinValue = value; }
         public string InsulinString { get => insulinString; set => insulinString = value; }
         public string InsulinDrugName { get => insulinDrugName; set => insulinDrugName = value; }
@@ -61,6 +60,8 @@ namespace GlucoMan
         public double? BloodPressure { get; set; }
         public double? PhysicalActivity { get; set; }
         public int? Photo { get; set; }
+        public Common.TypeOfGlucoseMeasurement GlucoseMeasurementType { get => glucoseMeasurementType; set => glucoseMeasurementType = value; }
+        public Common.QualitativeAccuracy GlucoseQualitativeAccuracy { get => glucoseQualitativeAccuracy; set => glucoseQualitativeAccuracy = value; }
         public override string ToString()
         {
             return Timestamp?.ToString("yyyy-MM-dd HH:mm:ss"); 

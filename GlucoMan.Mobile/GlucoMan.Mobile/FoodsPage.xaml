@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Mobile.FoodsPage">
+    <ContentPage.Content>
+        <Grid>
+            <RadioButton Grid.Row="9" Grid.Column="0" Content="b.fast" x:Name="rdbIsBreakfast" />
+            <RadioButton Grid.Row="9" Grid.Column="1" Content="lunch" x:Name="rdbIsLunch" />
+            <RadioButton Grid.Row="9" Grid.Column="2" Content="dinner" x:Name="rdbIsDinner" />
+            <RadioButton Grid.Row="9" Grid.Column="3" Content="snack" x:Name="rdbIsSnack" />
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

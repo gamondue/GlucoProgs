@@ -24,7 +24,7 @@ namespace GlucoMan
         internal string logBolusCalculationsFile = Path.Combine(Common.PathConfigurationData, @"LogOfBolusCalculations.tsv");
 
         #region General
-        internal abstract void PurgeDatabase();
+        internal abstract void DeleteDatabase();
         internal abstract int GetNextPrimaryKey();
         internal abstract void DeleteOneGlucoseMeasurement(GlucoseRecord gr);
 
@@ -74,6 +74,10 @@ namespace GlucoMan
         internal abstract int? SaveOneFoodInMeal(FoodInMeal FoodToSave);
         internal abstract void DeleteOneFoodInMeal(FoodInMeal Food);
         internal abstract List<Food> SearchFood(Food Food);
+        internal abstract int? SaveOneFood(Food currentFood);
+        internal abstract void DeleteOneFood(Food food);
+        internal abstract Food ReadOneFood(int? IdFood);
+        internal abstract List<Food> ReadFoods();
         #endregion
 
         #region Alarms

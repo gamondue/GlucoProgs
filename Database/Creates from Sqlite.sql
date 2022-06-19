@@ -1,5 +1,33 @@
-CREATE TABLE 'BolusCalculations' (
-	'IdBolusCalculation'	INTEGER NOT NULL,
+BEGIN TRANSACTION;
+DROP TABLE IF EXISTS 'InsulinInjection';
+CREATE TABLE IF NOT EXISTS 'InsulinInjection' (
+	'idInsulinInjection'	INT NOT NULL,
+	'descInsulinInjection'	VARCHAR(45),
+	'amount'	VARCHAR(45),
+	PRIMARY KEY('idInsulinInjection')
+);
+DROP TABLE IF EXISTS 'ModelsOfMeasurementSystem';
+CREATE TABLE IF NOT EXISTS 'ModelsOfMeasurementSystem' (
+	'IdModelOfMeasurementSystem'	INT NOT NULL,
+	'Name'	VARCHAR(45),
+	PRIMARY KEY('IdModelOfMeasurementSystem')
+);
+DROP TABLE IF EXISTS 'InsulineInjections';
+CREATE TABLE IF NOT EXISTS 'InsulineInjections' (
+	'IdInsulineInjection'	INT NOT NULL,
+	'Timestamp'	VARCHAR(45),
+	'InsulinValue'	DOUBLE,
+	'InjectionPositionX'	INT,
+	'InjectionPositionY'	INT,
+	'IdTypeOfInjection'	INT,
+	'IdTypeOfInsulinSpeed'	INT,
+	'IdTypeOfInsulinInjection'	INT,
+	'InsulinString'	VARCHAR(45),
+	PRIMARY KEY('IdInsulineInjection')
+);
+DROP TABLE IF EXISTS 'BolusCalculations';
+CREATE TABLE IF NOT EXISTS 'BolusCalculations' (
+	'IdBolusCalculation'	INT NOT NULL,
 	'Timestamp'	DATETIME,
 	'TotalInsulinForMeal'	DOUBLE,
 	'CalculatedChoToEat'	DOUBLE,
@@ -18,54 +46,11 @@ CREATE TABLE 'BolusCalculations' (
 	'GlucoseBeforeMeal'	DOUBLE,
 	'GlucoseToBeCorrected'	DOUBLE,
 	'FactorOfInsulinCorrectionSensitivity'	DOUBLE,
-	PRIMARY KEY('IdBolusCalculation' AUTOINCREMENT)
+	PRIMARY KEY('IdBolusCalculation')
 );
-
-CREATE TABLE 'Foods' (
-	'IdFood'	INTEGER NOT NULL,
-	'Name'	VARCHAR(15),
-	'Description'	VARCHAR(256),
-	'Energy'	DOUBLE,
-	'TotalFats'	DOUBLE,
-	'SaturatedFats'	DOUBLE,
-	'Carbohydrates'	DOUBLE NOT NULL,
-	'Sugar'	DOUBLE,
-	'Fibers'	DOUBLE,
-	'Proteins'	DOUBLE,
-	'Salt'	DOUBLE,
-	'Potassium'	DOUBLE,
-	'GlycemicIndex'	DOUBLE,
-	'AccuracyOfChoEstimate'	DOUBLE,
-	'QualitativeAccuracyOfChoEstimate'	INT,
-	PRIMARY KEY('IdFood' AUTOINCREMENT)
-);
-
-CREATE TABLE 'FoodsInMeals' (
-	'IdMeal'	INTEGER NOT NULL,
-	'IdFood'	INT,
-	'Quantity'	DOUBLE,
-	'Carbohydrates'	DOUBLE,
-	'AccuracyOfChoEstimate'	DOUBLE,
-	PRIMARY KEY('IdMeal' AUTOINCREMENT)
-);
-
-CREATE TABLE 'GlucoseRecords' (
-	'IdGlucoseRecord'	INTEGER NOT NULL,
-	'Timestamp'	DATETIME,
-	'GlucoseValue'	DOUBLE,
-	'InsulinDrugName'	VARCHAR(45),
-	'IdTypeOfGlucoseMeasurement'	INT,
-	'IdTypeOfGlucoseMeasurementDevice'	INT,
-	'IdModelOfMeasurementSystem'	INT,
-	'DeviceId'	VARCHAR(45),
-	'IdDocumentType'	INT,
-	'GlucoseString'	VARCHAR(45),
-	'TypeOfGlucoseMeasurement'	INT,
-	PRIMARY KEY('IdGlucoseRecord' AUTOINCREMENT)
-);
-
-CREATE TABLE 'HypoPredictions' (
-	'IdHypoPrediction'	INTEGER NOT NULL,
+DROP TABLE IF EXISTS 'HypoPredictions';
+CREATE TABLE IF NOT EXISTS 'HypoPredictions' (
+	'IdHypoPrediction'	INT NOT NULL,
 	'PredictedTime'	DATETIME,
 	'AlarmTime'	DATETIME,
 	'GlucoseSlope'	DOUBLE,
@@ -76,43 +61,86 @@ CREATE TABLE 'HypoPredictions' (
 	'DatetimeLast'	DATETIME,
 	'DatetimePrevious'	DATETIME,
 	'HypoPredictionscol'	VARCHAR(45),
-	PRIMARY KEY('IdHypoPrediction' AUTOINCREMENT)
+	PRIMARY KEY('IdHypoPrediction')
 );
-
-CREATE TABLE 'InsulineInjections' (
-	'IdInsulineInjection'	INTEGER NOT NULL,
-	'Timestamp'	VARCHAR(45),
-	'InsulinValue'	DOUBLE,
-	'InjectionPositionX'	INT,
-	'InjectionPositionY'	INT,
-	'IdTypeOfInjection'	INT,
-	'IdTypeOfInsulinSpeed'	INT,
-	'IdTypeOfInsulinInjection'	INT,
-	'InsulinString'	VARCHAR(45),
-	PRIMARY KEY('IdInsulineInjection' AUTOINCREMENT)
+DROP TABLE IF EXISTS 'Alarms';
+CREATE TABLE IF NOT EXISTS 'Alarms' (
+	'idAlarm'	INT NOT NULL,
+	'TimeStart'	DATETIME,
+	'TimeAlarm'	DATETIME,
+	'Interval'	DOUBLE,
+	'Duration'	DOUBLE,
+	'IsRepeated'	TINYINT,
+	'IsEnabled'	TINYINT,
+	PRIMARY KEY('idAlarm')
 );
-
-CREATE TABLE 'Meals' (
-	'IdMeal'	INTEGER NOT NULL,
+DROP TABLE IF EXISTS 'GlucoseRecords';
+CREATE TABLE IF NOT EXISTS 'GlucoseRecords' (
+	'IdGlucoseRecord'	INT NOT NULL,
+	'GlucoseValue'	DOUBLE,
+	'Timestamp'	DATETIME,
+	'GlucoseString'	VARCHAR(45),
+	'IdTypeOfGlucoseMeasurement'	INT,
+	'IdTypeOfGlucoseMeasurementDevice'	INT,
+	'IdModelOfMeasurementSystem'	INT,
+	'IdDevice'	VARCHAR(45),
+	'IdDocumentType'	INT,
+	'Notes'	VARCHAR(255),
+	PRIMARY KEY('IdGlucoseRecord')
+);
+DROP TABLE IF EXISTS 'Meals';
+CREATE TABLE IF NOT EXISTS 'Meals' (
+	'IdMeal'	INT NOT NULL,
 	'IdTypeOfMeal'	INT,
 	'TimeBegin'	DATETIME,
 	'TimeEnd'	DATETIME,
 	'Carbohydrates'	DOUBLE,
 	'AccuracyOfChoEstimate'	DOUBLE,
-	'IdBolusCalculation'	INT,
+	'IdBolusCalculation'	TEXT,
 	'IdGlucoseRecord'	INT,
 	'IdQualitativeAccuracyCHO'	INT,
-	'IdInsulineInjection'	INT,
-	PRIMARY KEY('IdMeal' AUTOINCREMENT)
+	PRIMARY KEY('IdMeal')
 );
-
-CREATE TABLE 'ModelsOfMeasurementSystem' (
-	'IdModelOfMeasurementSystem'	INT NOT NULL,
-	'Name'	VARCHAR(45),
-	PRIMARY KEY('IdModelOfMeasurementSystem' AUTOINCREMENT)
+DROP TABLE IF EXISTS 'FoodsInMeals';
+CREATE TABLE IF NOT EXISTS 'FoodsInMeals' (
+	'IdFoodInMeal'	INT NOT NULL,
+	'IdMeal'	INT,
+	'IdFood'	INT,
+	'CarbohydratesGrams'	DOUBLE,
+	'CarbohydratesPercent'	INTEGER,
+	'Quantity'	DOUBLE,
+	'AccuracyOfChoEstimate'	DOUBLE,
+	'QualitativeAccuracy'	INT,
+	'Name'	TEXT,
+	'Field10'	INTEGER,
+	PRIMARY KEY('IdFoodInMeal')
 );
-
-CREATE TABLE 'Parameters' (
+DROP TABLE IF EXISTS 'Foods';
+CREATE TABLE IF NOT EXISTS 'Foods' (
+	'IdFood'	INT NOT NULL,
+	'Name'	VARCHAR(15),
+	'Description'	VARCHAR(256),
+	'Energy'	DOUBLE,
+	'TotalFats'	DOUBLE,
+	'SaturatedFats'	DOUBLE,
+	'Carbohydrates'	DOUBLE NOT NULL,
+	'Sugar'	DOUBLE,
+	'Fibers'	INTEGER,
+	'Proteins'	INTEGER,
+	'Salt'	DOUBLE,
+	'Potassium'	DOUBLE,
+	'GlycemicIndex'	DOUBLE,
+	PRIMARY KEY('IdFood')
+);
+DROP TABLE IF EXISTS 'InsulinDrugs';
+CREATE TABLE IF NOT EXISTS 'InsulinDrugs' (
+	'IdInsulinDrugs'	INTEGER NOT NULL,
+	'Name'	VARCHAR(30),
+	'InsulinSpeed'	DOUBLE,
+	PRIMARY KEY('IdInsulinDrugs')
+);
+DROP TABLE IF EXISTS 'Parameters';
+CREATE TABLE IF NOT EXISTS 'Parameters' (
 	'IdParameters'	INTEGER NOT NULL,
 	'TargetGlucose'	INTEGER,
 	'GlucoseBeforeMeal'	INTEGER,
@@ -127,42 +155,17 @@ CREATE TABLE 'Parameters' (
 	'TotalDailyDoseOfInsulin'	DOUBLE,
 	'FactorOfInsulinCorrectionSensitivity'	DOUBLE,
 	'InsulinCorrectionSensitivity'	DOUBLE,
+	'Hypo_GlucoseTarget'	DOUBLE,
+	'Hypo_GlucoseLast'	DOUBLE,
+	'Hypo_GlucosePrevious'	DOUBLE,
+	'Hypo_HourLast'	DOUBLE,
+	'Hypo_HourPrevious'	DOUBLE,
+	'Hypo_MinuteLast'	DOUBLE,
+	'Hypo_MinutePrevious'	DOUBLE,
+	'Hypo_AlarmAdvanceTime'	DOUBLE,
+	'Hit_ChoAlreadyTaken'	DOUBLE,
+	'Hit_ChoOfFood'	DOUBLE,
+	'Hit_TargetCho'	DOUBLE,
 	PRIMARY KEY('IdParameters' AUTOINCREMENT)
 );
-
-CREATE TABLE 'QualitativeAccuracies' (
-	'IdQualitativeAccuracy'	INTEGER NOT NULL,
-	'name'	VARCHAR(255) NOT NULL,
-	PRIMARY KEY('IdQualitativeAccuracy' AUTOINCREMENT)
-);
-
-CREATE TABLE 'TypesOfGlucoseMeasurement' (
-	'IdTypeOfGlucoseMeasurement'	INTEGER NOT NULL,
-	'Name'	VARCHAR(45),
-	PRIMARY KEY('IdTypeOfGlucoseMeasurement' AUTOINCREMENT)
-);
-
-CREATE TABLE 'TypesOfGlucoseMeasurementDevice' (
-	'IdTypeOfGlucoseMeasurementDevice'	INTEGER NOT NULL,
-	'Name'	VARCHAR(45),
-	PRIMARY KEY('IdTypeOfGlucoseMeasurementDevice' AUTOINCREMENT)
-);
-
-CREATE TABLE 'TypesOfInsulinInjection' (
-	'IdTypeOfInsulinInjection'	INT NOT NULL,
-	'Name'	VARCHAR(255) NOT NULL,
-	PRIMARY KEY('IdTypeOfInsulinInjection')
-);
-
-CREATE TABLE 'TypesOfInsulinSpeed' (
-	'IdTypeOfInsulinSpeed'	INTEGER NOT NULL,
-	'Name'	VARCHAR(45),
-	PRIMARY KEY('IdTypeOfInsulinSpeed' AUTOINCREMENT)
-);
-
-CREATE TABLE 'TypesOfMeal' (
-	'IdTypeOfMeal'	INT NOT NULL,
-	'Name'	VARCHAR(45),
-	PRIMARY KEY('IdTypeOfMeal')
-);
-
+COMMIT;

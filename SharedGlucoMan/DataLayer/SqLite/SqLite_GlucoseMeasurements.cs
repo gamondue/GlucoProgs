@@ -14,7 +14,7 @@ namespace GlucoMan
     {
         internal  override int GetNextPrimaryKey()
         {
-            return GetNextTablePrimaryKey("GlucoseRecords", "IdGlucoseRecord");
+            return GetNextTablePrimaryKey("FoodsInMeals", "IdFoodInMeal");
         }
         internal  override List<GlucoseRecord> ReadGlucoseMeasurements(
             DateTime? InitialInstant, DateTime? FinalInstant)
@@ -92,7 +92,7 @@ namespace GlucoMan
                 gr.Timestamp = Safe.DateTime(Row["Timestamp"]);
                 gr.GlucoseString = Safe.String(Row["GlucoseString"]);
                 gr.IdDevice = Safe.String(Row["IdDevice"]);
-                gr.IdDeviceType = Safe.String(Row["IdDeviceType"]);
+                gr.IdTypeOfGlucoseMeasurementDevice = Safe.String(Row["IdDeviceType"]);
                 gr.Notes = Safe.String(Row["Notes"]);
             }
             catch (Exception ex)
@@ -147,8 +147,11 @@ namespace GlucoMan
                     "GlucoseValue=" + SqlDouble(Measurement.GlucoseValue) + "," +
                     "Timestamp=" + SqlDate(Measurement.Timestamp) + "," +
                     "GlucoseString=" + SqlString(Measurement.GlucoseString) + "," +
+                    "IdTypeOfGlucoseMeasurement=" + SqlString(Measurement.IdTypeOfGlucoseMeasurement) + "," +
+                    "IdTypeOfGlucoseMeasurementDevice=" + SqlString(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
+                    "IdModelOfMeasurementSystem=" + SqlString(Measurement.IdModelOfMeasurementSystem) + "," +
                     "IdDevice=" + SqlString(Measurement.IdDevice) + "," +
-                    "IdDeviceType=" + SqlString(Measurement.IdDeviceType) + "," +
+                    "IdDocumentType=" + SqlInt(Measurement.IdDocumentType) + "," +
                     "Notes=" + SqlString(Measurement.Notes) + ""; 
                     query += " WHERE IdGlucoseRecord=" + SqlInt(Measurement.IdGlucoseRecord);
                     query += ";";
@@ -174,14 +177,18 @@ namespace GlucoMan
                     string query = "INSERT INTO GlucoseRecords" +
                     "(" +
                     "IdGlucoseRecord,GlucoseValue,Timestamp,GlucoseString," +
-                    "IdDevice,IdDeviceType,Notes";
+                    "IdTypeOfGlucoseMeasurement,IdTypeOfGlucoseMeasurementDevice,IdModelOfMeasurementSystem," +
+                    "IdDevice,IdDocumentType,Notes";
                     query += ")VALUES (" +
                     SqlInt(Measurement.IdGlucoseRecord) + "," +
                     SqlDouble(Measurement.GlucoseValue) + "," +
                     SqlDate(Measurement.Timestamp) + "," +
                     SqlString(Measurement.GlucoseString) + "," +
+                    SqlString(Measurement.IdTypeOfGlucoseMeasurement) + "," +
+                    SqlString(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
+                    SqlString(Measurement.IdModelOfMeasurementSystem) + "," +
                     SqlString(Measurement.IdDevice) + "," +
-                    SqlString(Measurement.IdDeviceType) + "," +
+                    SqlInt(Measurement.IdDocumentType) + "," +
                     SqlString(Measurement.Notes) + ")";
                     query += ";";
                     cmd.CommandText = query;

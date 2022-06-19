@@ -36,7 +36,7 @@ namespace GlucoMan
                 //listFreeStyle[j].InsulinWithUsersModifications = Safe.Double(inputContent[i][18]);
 
                 FreeStyleLibreRecord grec = new FreeStyleLibreRecord();
-                grec.IdDeviceType = inputContent[i][0];
+                grec.IdTypeOfGlucoseMeasurementDevice = inputContent[i][0];
                 grec.IdDevice = inputContent[i][1];
                 grec.Timestamp = Safe.DateTime(inputContent[i][2]);
                 grec.TypeOfDocument = Safe.Int(inputContent[i][3]);

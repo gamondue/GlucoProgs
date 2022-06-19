@@ -9,6 +9,8 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="80"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -24,11 +26,17 @@
                    Placeholder="mg/dl" BackgroundColor="GreenYellow" TextChanged="txt_mgPerdL_TextChanged"/>
             <Entry  Grid.Row="2" Grid.Column="1" x:Name="txt_mmolPerL" HorizontalTextAlignment ="End" Text="" 
                    Placeholder="mmol/L" BackgroundColor="GreenYellow" TextChanged="txt_mmolPerL_TextChanged"/>
-            
+
             <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
                     Text="Reset database" Margin="100,10,100,10"
                     BackgroundColor="Red" TextColor="Yellow"
-                        x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
+                    x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
+            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Text="Copy database" Margin="100,10,100,10"
+                    x:Name="btnCopyDatabase" Clicked="btnCopyDatabase_Click" />
+            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Text="Stop application" Margin="100,10,100,10"
+                    x:Name="btnStopApplication" Clicked="btnStopApplication_Click" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

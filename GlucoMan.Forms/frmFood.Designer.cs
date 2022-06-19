@@ -51,6 +51,8 @@ namespace GlucoMan.Forms
             this.label9 = new System.Windows.Forms.Label();
             this.txtSaturatedFats = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.txtIdFood = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.txtProteins = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtSalt = new System.Windows.Forms.TextBox();
@@ -58,16 +60,11 @@ namespace GlucoMan.Forms
             this.txtFibers = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.txtQuantity = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtIdFood = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnFatSecret = new System.Windows.Forms.Button();
             this.btnManageFoods = new System.Windows.Forms.Button();
             this.btnNewFood = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.cmbAccuracy = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.btnChoose = new System.Windows.Forms.Button();
@@ -139,7 +136,7 @@ namespace GlucoMan.Forms
             this.groupBox1.Controls.Add(this.txtFibers);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtCalories);
-            this.groupBox1.Location = new System.Drawing.Point(12, 186);
+            this.groupBox1.Location = new System.Drawing.Point(12, 142);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(599, 219);
             this.groupBox1.TabIndex = 4;
@@ -276,6 +273,23 @@ namespace GlucoMan.Forms
             this.label6.TabIndex = 13;
             this.label6.Text = "Proteins [g]%";
             // 
+            // txtIdFood
+            // 
+            this.txtIdFood.Location = new System.Drawing.Point(518, 168);
+            this.txtIdFood.Name = "txtIdFood";
+            this.txtIdFood.ReadOnly = true;
+            this.txtIdFood.Size = new System.Drawing.Size(64, 26);
+            this.txtIdFood.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(518, 145);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 20);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Id Food";
+            // 
             // txtProteins
             // 
             this.txtProteins.Location = new System.Drawing.Point(6, 168);
@@ -318,6 +332,7 @@ namespace GlucoMan.Forms
             // label11
             // 
             this.label11.AutoSize = true;
+            this.label11.Enabled = false;
             this.label11.Location = new System.Drawing.Point(98, 16);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(89, 20);
@@ -327,31 +342,15 @@ namespace GlucoMan.Forms
             // txtQuantity
             // 
             this.txtQuantity.BackColor = System.Drawing.Color.GreenYellow;
+            this.txtQuantity.Enabled = false;
             this.txtQuantity.Location = new System.Drawing.Point(101, 39);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(83, 26);
             this.txtQuantity.TabIndex = 1;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(518, 145);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 20);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Id Food";
-            // 
-            // txtIdFood
-            // 
-            this.txtIdFood.Location = new System.Drawing.Point(518, 168);
-            this.txtIdFood.Name = "txtIdFood";
-            this.txtIdFood.ReadOnly = true;
-            this.txtIdFood.Size = new System.Drawing.Size(64, 26);
-            this.txtIdFood.TabIndex = 4;
-            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(537, 25);
+            this.btnSave.Location = new System.Drawing.Point(507, 25);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 55);
             this.btnSave.TabIndex = 20;
@@ -362,7 +361,7 @@ namespace GlucoMan.Forms
             // btnFatSecret
             // 
             this.btnFatSecret.Enabled = false;
-            this.btnFatSecret.Location = new System.Drawing.Point(287, 25);
+            this.btnFatSecret.Location = new System.Drawing.Point(257, 25);
             this.btnFatSecret.Name = "btnFatSecret";
             this.btnFatSecret.Size = new System.Drawing.Size(75, 55);
             this.btnFatSecret.TabIndex = 21;
@@ -372,7 +371,7 @@ namespace GlucoMan.Forms
             // 
             // btnManageFoods
             // 
-            this.btnManageFoods.Location = new System.Drawing.Point(456, 25);
+            this.btnManageFoods.Location = new System.Drawing.Point(426, 25);
             this.btnManageFoods.Name = "btnManageFoods";
             this.btnManageFoods.Size = new System.Drawing.Size(75, 55);
             this.btnManageFoods.TabIndex = 22;
@@ -382,40 +381,13 @@ namespace GlucoMan.Forms
             // 
             // btnNewFood
             // 
-            this.btnNewFood.Location = new System.Drawing.Point(375, 25);
+            this.btnNewFood.Location = new System.Drawing.Point(345, 25);
             this.btnNewFood.Name = "btnNewFood";
             this.btnNewFood.Size = new System.Drawing.Size(75, 55);
             this.btnNewFood.TabIndex = 23;
             this.btnNewFood.Text = "New Food";
             this.btnNewFood.UseVisualStyleBackColor = true;
             this.btnNewFood.Visible = false;
-            // 
-            // cmbAccuracy
-            // 
-            this.cmbAccuracy.FormattingEnabled = true;
-            this.cmbAccuracy.Location = new System.Drawing.Point(84, 152);
-            this.cmbAccuracy.Name = "cmbAccuracy";
-            this.cmbAccuracy.Size = new System.Drawing.Size(104, 28);
-            this.cmbAccuracy.TabIndex = 57;
-            this.toolTip1.SetToolTip(this.cmbAccuracy, "Qualitative indication of accuracy of CHO");
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(12, 154);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(60, 26);
-            this.textBox1.TabIndex = 56;
-            this.toolTip1.SetToolTip(this.textBox1, "Accuracy of carbohydrates measurement");
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(5, 129);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(74, 20);
-            this.label13.TabIndex = 55;
-            this.label13.Text = "Accuracy";
             // 
             // textBox2
             // 
@@ -437,7 +409,7 @@ namespace GlucoMan.Forms
             // btnChoose
             // 
             this.btnChoose.Enabled = false;
-            this.btnChoose.Location = new System.Drawing.Point(536, 132);
+            this.btnChoose.Location = new System.Drawing.Point(588, 25);
             this.btnChoose.Name = "btnChoose";
             this.btnChoose.Size = new System.Drawing.Size(75, 55);
             this.btnChoose.TabIndex = 60;
@@ -459,7 +431,7 @@ namespace GlucoMan.Forms
             // 
             this.txtDescription.Location = new System.Drawing.Point(173, 98);
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(439, 26);
+            this.txtDescription.Size = new System.Drawing.Size(490, 26);
             this.txtDescription.TabIndex = 79;
             // 
             // label19
@@ -476,14 +448,14 @@ namespace GlucoMan.Forms
             this.txtName.BackColor = System.Drawing.Color.LightGreen;
             this.txtName.Location = new System.Drawing.Point(12, 98);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(155, 26);
+            this.txtName.Size = new System.Drawing.Size(206, 26);
             this.txtName.TabIndex = 77;
             // 
             // frmFood
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(623, 417);
+            this.ClientSize = new System.Drawing.Size(678, 373);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.label19);
@@ -491,9 +463,6 @@ namespace GlucoMan.Forms
             this.Controls.Add(this.btnChoose);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label17);
-            this.Controls.Add(this.cmbAccuracy);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label13);
             this.Controls.Add(this.btnNewFood);
             this.Controls.Add(this.btnManageFoods);
             this.Controls.Add(this.btnFatSecret);
@@ -550,9 +519,6 @@ namespace GlucoMan.Forms
         private System.Windows.Forms.Button btnManageFoods;
         private System.Windows.Forms.Button btnNewFood;
         private ToolTip toolTip1;
-        private ComboBox cmbAccuracy;
-        private TextBox textBox1;
-        private Label label13;
         private TextBox textBox2;
         private Label label17;
         private Button btnChoose;

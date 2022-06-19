@@ -9,7 +9,7 @@ namespace GlucoMan
 {
     internal partial class DL_FlatText : DataLayer
     {
-        internal  override void PurgeDatabase()
+        internal  override void DeleteDatabase()
         {
             throw new NotImplementedException();
         }
@@ -70,23 +70,35 @@ namespace GlucoMan
         {
             throw new NotImplementedException();
         }
-
         internal override List<Food> SearchFood(Food Food)
         {
             throw new NotImplementedException();
         }
-
         internal override void DeleteOneGlucoseMeasurement(GlucoseRecord gr)
         {
             throw new NotImplementedException();
         }
-
         internal override int? SaveOneAlarm(Alarm currentAlarm)
         {
             throw new NotImplementedException();
         }
-
         internal override List<Alarm> ReadAllAlarms()
+        {
+            throw new NotImplementedException();
+        }
+        internal override int? SaveOneFood(Food currentFood)
+        {
+            throw new NotImplementedException();
+        }
+        internal override void DeleteOneFood(Food food)
+        {
+            throw new NotImplementedException();
+        }
+        internal override Food ReadOneFood(int? IdFood)
+        {
+            throw new NotImplementedException();
+        }
+        internal override List<Food> ReadFoods()
         {
             throw new NotImplementedException();
         }

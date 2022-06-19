@@ -19,10 +19,7 @@ namespace GlucoMan
         internal DoubleAndText Proteins { get; set; }     // [g/100]
         internal DoubleAndText Salt { get; set; }         // [g/100]
         internal DoubleAndText Potassium { get; set; }    // [g/100]  
-        internal DoubleAndText GlicemicIndex { get; set; } // [n]  
-        internal DoubleAndText AccuracyOfChoEstimate { get; set; } // [0..1]
-        internal QualitativeAccuracy QualitativeAccuracyOfCho; 
-
+        internal DoubleAndText GlycemicIndex { get; set; } // [n]
         public Food()
         {
             Energy = new DoubleAndText();      // [kcal]  
@@ -31,18 +28,11 @@ namespace GlucoMan
             Fibers = new DoubleAndText();        // [g]
             Carbohydrates = new DoubleAndText(); // [g]
             Sugar = new DoubleAndText();         // [g]
+            Fibers = new DoubleAndText();      // [g]
             Proteins = new DoubleAndText();      // [g]
             Salt = new DoubleAndText();          // [g]
             Potassium = new DoubleAndText();     // [g]  
-            QualitativeAccuracyOfCho = QualitativeAccuracy.Perfect;
+            GlycemicIndex = new DoubleAndText(); // [n]  
         }
-        //public void Save(Food FoodToSave)
-        //{
-        //    dl.SaveSingleFood(FoodToSave); 
-        //}
-        // public List<Food> ReadAllFoods()
-        //{
-        //    return dl.ReadAllFoods(); 
-        //}
     }
 }

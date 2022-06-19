@@ -56,5 +56,13 @@ namespace GlucoMan.Mobile
         {
             await Navigation.PushAsync(new AboutPage());
         }
+        private async void btnInjectionSites_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new InjectionSitePage());
+        }
+        private async void btnFoods_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FoodsPage());
+        }
     }
 }

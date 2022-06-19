@@ -6,7 +6,7 @@ using static GlucoMan.Common;
 
 namespace GlucoMan
 {
-    public  class Meal
+    public class Meal
     {
         List<Food> foodsEaten;
 
@@ -18,7 +18,6 @@ namespace GlucoMan
         DateTimeAndText timeEnd;
 
         TypeOfMeal typeOfMeal;
-        //double? accuracyOfChoEstimate;
         
         [DisplayName("Meal Code")]
         public int? IdMeal { get; set; }
@@ -30,16 +29,13 @@ namespace GlucoMan
         public TypeOfMeal TypeOfMeal { get => typeOfMeal; set => typeOfMeal = value; }
 
         [DisplayName("CHO of meal")]
-        public DoubleAndText Carbohydrates { get => carbohydrates; set => carbohydrates = value; }
+        public DoubleAndText CarbohydratesGrams { get => carbohydrates; set => carbohydrates = value; }
 
         [DisplayName("Accuracy of CHO")]
         public DoubleAndText AccuracyOfChoEstimate { get; set; }
 
         [DisplayName("Qualitative accuracy")]
         public QualitativeAccuracy QualitativeAccuracyOfChoEstimate { get; set; }
-
-        [DisplayName("Type Of Insulin")]
-        public TypeOfInsulinInjection TypeOfInsulineInjection { get; set; }
 
         [DisplayName("End time")]
         public DateTimeAndText TimeFinish { get => timeEnd; set => timeEnd = value; }
@@ -55,7 +51,7 @@ namespace GlucoMan
             TimeStart = new DateTimeAndText();
             TimeFinish = new DateTimeAndText();
 
-            Carbohydrates = new DoubleAndText();
+            CarbohydratesGrams = new DoubleAndText();
             AccuracyOfChoEstimate = new DoubleAndText(); 
         }
     }

@@ -457,7 +457,7 @@ namespace GlucoMan
                 cmd.Dispose();
             }
         }
-        internal  override void PurgeDatabase()
+        internal  override void DeleteDatabase()
         {
             try
             {
@@ -465,7 +465,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | SaveParameter", ex);
+                Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | DeleteDatabase", ex);
             }
         }
         internal  override long? SaveParameter(string FieldName, string FieldValue, int? Key = null)

@@ -56,9 +56,15 @@ namespace GlucoMan.Forms
                 "ERASING DATABASE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2)
                 == DialogResult.Yes)
             {
-                BL_General b = new SharedGlucoMan.BusinessLayer.BL_General();
-                b.PurgeDatabase(); 
+                BL_General bl = new SharedGlucoMan.BusinessLayer.BL_General();
+                // deleting the file will result automatically in a reset of the database 
+                bl.DeleteDatabase(); 
             }
+        }
+        private void btnCopyDatabase_Click(object sender, EventArgs e)
+        {
+            string oneDrivePath = Common.PathUser.Substring(0, Common.PathUser.LastIndexOf(@"\")); 
+            File.Copy(Common.PathAndFileDatabase, Path.Combine(oneDrivePath, @"OneDrive\GlucoMan\", Common.NameDatabase)); 
         }
     }
 }

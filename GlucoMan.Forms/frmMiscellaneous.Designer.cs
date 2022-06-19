@@ -35,6 +35,7 @@
             this.txt_mgPerdL = new System.Windows.Forms.TextBox();
             this.txt_mmolPerL = new System.Windows.Forms.TextBox();
             this.btnResetDatabase = new System.Windows.Forms.Button();
+            this.btnCopyDatabase = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,11 +100,22 @@
             this.btnResetDatabase.UseVisualStyleBackColor = false;
             this.btnResetDatabase.Click += new System.EventHandler(this.btnResetDatabase_Click);
             // 
+            // btnCopyDatabase
+            // 
+            this.btnCopyDatabase.Location = new System.Drawing.Point(92, 188);
+            this.btnCopyDatabase.Name = "btnCopyDatabase";
+            this.btnCopyDatabase.Size = new System.Drawing.Size(100, 63);
+            this.btnCopyDatabase.TabIndex = 4;
+            this.btnCopyDatabase.Text = "Copy database";
+            this.btnCopyDatabase.UseVisualStyleBackColor = true;
+            this.btnCopyDatabase.Click += new System.EventHandler(this.btnCopyDatabase_Click);
+            // 
             // frmMiscellaneous
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(293, 194);
+            this.ClientSize = new System.Drawing.Size(293, 278);
+            this.Controls.Add(this.btnCopyDatabase);
             this.Controls.Add(this.btnResetDatabase);
             this.Controls.Add(this.txt_mmolPerL);
             this.Controls.Add(this.groupBox1);
@@ -128,5 +140,6 @@
         private TextBox txt_mgPerdL;
         private TextBox txt_mmolPerL;
         private Button btnResetDatabase;
+        private Button btnCopyDatabase;
     }
 }

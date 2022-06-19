@@ -55,7 +55,6 @@ namespace GlucoMan.Forms
             if (chkNowInAdd.Checked)
                 dtpEventInstant.Value = DateTime.Now;
             FromUiToClass();
-            //glucoseReadings.Add(currentGlucose);
             // erase Id to save a new record
             currentGlucose.IdGlucoseRecord = null;
             if (chkAutosave.Checked)
@@ -99,8 +98,7 @@ namespace GlucoMan.Forms
                 return;
             }
             currentGlucose = new GlucoseRecord();
-            // don't read the primary key (the new record must be different from the last read)
-            //currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
+            currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
             currentGlucose.GlucoseValue = glucose;
             currentGlucose.Timestamp = dtpEventInstant.Value;
         }
@@ -113,6 +111,11 @@ namespace GlucoMan.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            if (currentGlucose.IdGlucoseRecord == null)
+            {
+                MessageBox.Show("Choose the glucose measurement to modify");
+                return; 
+            }
             FromUiToClass();
             bl.SaveOneGlucoseMeasurement(currentGlucose);
             RefreshGrid();

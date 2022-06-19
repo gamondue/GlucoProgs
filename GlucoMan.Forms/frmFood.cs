@@ -57,7 +57,7 @@ namespace GlucoMan.Forms
 
         private void btnManageFoods_Click(object sender, EventArgs e)
         {
-            frmFoodManagement fm = new frmFoodManagement();
+            frmFoods fm = new frmFoods();
             fm.Show(); 
         }
         private void btnSave_Click(object sender, EventArgs e)

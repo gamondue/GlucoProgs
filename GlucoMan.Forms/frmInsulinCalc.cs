@@ -131,7 +131,8 @@ namespace GlucoMan.Forms
         private void btnReadGlucose_Click(object sender, EventArgs e)
         {
             List<GlucoseRecord> list = currentGlucoseMeasurement.GetLastTwoGlucoseMeasurements();
-            txtGlucoseBeforeMeal.Text =  list[0].GlucoseValue.ToString();
+            if (list.Count > 1)
+                txtGlucoseBeforeMeal.Text =  list[0].GlucoseValue.ToString();
         }
         private void btnSaveBolus_Click(object sender, EventArgs e)
         {

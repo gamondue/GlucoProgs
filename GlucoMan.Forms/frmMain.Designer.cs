@@ -41,12 +41,14 @@ namespace GlucoMan.Forms
             this.btnAlarms = new System.Windows.Forms.Button();
             this.btnGlucoseMeasurement = new System.Windows.Forms.Button();
             this.bntMiscellaneous = new System.Windows.Forms.Button();
+            this.btnInjectionSites = new System.Windows.Forms.Button();
+            this.btnFoods = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnHypoPrediction
             // 
             this.btnHypoPrediction.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnHypoPrediction.Location = new System.Drawing.Point(732, 241);
+            this.btnHypoPrediction.Location = new System.Drawing.Point(305, 288);
             this.btnHypoPrediction.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnHypoPrediction.Name = "btnHypoPrediction";
             this.btnHypoPrediction.Size = new System.Drawing.Size(134, 87);
@@ -59,7 +61,7 @@ namespace GlucoMan.Forms
             // 
             this.btnWeighFood.Enabled = false;
             this.btnWeighFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnWeighFood.Location = new System.Drawing.Point(303, 241);
+            this.btnWeighFood.Location = new System.Drawing.Point(446, 189);
             this.btnWeighFood.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnWeighFood.Name = "btnWeighFood";
             this.btnWeighFood.Size = new System.Drawing.Size(134, 87);
@@ -71,7 +73,7 @@ namespace GlucoMan.Forms
             // btnInsulin
             // 
             this.btnInsulin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnInsulin.Location = new System.Drawing.Point(445, 241);
+            this.btnInsulin.Location = new System.Drawing.Point(588, 189);
             this.btnInsulin.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnInsulin.Name = "btnInsulin";
             this.btnInsulin.Size = new System.Drawing.Size(134, 87);
@@ -83,7 +85,7 @@ namespace GlucoMan.Forms
             // btnFoodToHitTargetCarbs
             // 
             this.btnFoodToHitTargetCarbs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnFoodToHitTargetCarbs.Location = new System.Drawing.Point(589, 241);
+            this.btnFoodToHitTargetCarbs.Location = new System.Drawing.Point(162, 288);
             this.btnFoodToHitTargetCarbs.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnFoodToHitTargetCarbs.Name = "btnFoodToHitTargetCarbs";
             this.btnFoodToHitTargetCarbs.Size = new System.Drawing.Size(134, 87);
@@ -109,23 +111,23 @@ namespace GlucoMan.Forms
             this.txtHeaderText.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.txtHeaderText.Multiline = true;
             this.txtHeaderText.Name = "txtHeaderText";
-            this.txtHeaderText.Size = new System.Drawing.Size(1129, 207);
+            this.txtHeaderText.Size = new System.Drawing.Size(703, 161);
             this.txtHeaderText.TabIndex = 5;
             // 
             // txtFooterText
             // 
             this.txtFooterText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtFooterText.Location = new System.Drawing.Point(18, 336);
+            this.txtFooterText.Location = new System.Drawing.Point(14, 382);
             this.txtFooterText.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.txtFooterText.Multiline = true;
             this.txtFooterText.Name = "txtFooterText";
-            this.txtFooterText.Size = new System.Drawing.Size(1129, 113);
+            this.txtFooterText.Size = new System.Drawing.Size(707, 113);
             this.txtFooterText.TabIndex = 6;
             // 
             // btnMeals
             // 
             this.btnMeals.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnMeals.Location = new System.Drawing.Point(161, 241);
+            this.btnMeals.Location = new System.Drawing.Point(161, 189);
             this.btnMeals.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnMeals.Name = "btnMeals";
             this.btnMeals.Size = new System.Drawing.Size(134, 87);
@@ -137,7 +139,7 @@ namespace GlucoMan.Forms
             // btnAlarms
             // 
             this.btnAlarms.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAlarms.Location = new System.Drawing.Point(874, 241);
+            this.btnAlarms.Location = new System.Drawing.Point(447, 288);
             this.btnAlarms.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnAlarms.Name = "btnAlarms";
             this.btnAlarms.Size = new System.Drawing.Size(134, 87);
@@ -149,7 +151,7 @@ namespace GlucoMan.Forms
             // btnGlucoseMeasurement
             // 
             this.btnGlucoseMeasurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnGlucoseMeasurement.Location = new System.Drawing.Point(18, 241);
+            this.btnGlucoseMeasurement.Location = new System.Drawing.Point(18, 189);
             this.btnGlucoseMeasurement.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnGlucoseMeasurement.Name = "btnGlucoseMeasurement";
             this.btnGlucoseMeasurement.Size = new System.Drawing.Size(134, 87);
@@ -161,7 +163,7 @@ namespace GlucoMan.Forms
             // bntMiscellaneous
             // 
             this.bntMiscellaneous.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.bntMiscellaneous.Location = new System.Drawing.Point(1014, 241);
+            this.bntMiscellaneous.Location = new System.Drawing.Point(587, 288);
             this.bntMiscellaneous.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.bntMiscellaneous.Name = "bntMiscellaneous";
             this.bntMiscellaneous.Size = new System.Drawing.Size(134, 87);
@@ -170,11 +172,38 @@ namespace GlucoMan.Forms
             this.bntMiscellaneous.UseVisualStyleBackColor = true;
             this.bntMiscellaneous.Click += new System.EventHandler(this.bntMiscellaneous_Click);
             // 
+            // btnInjectionSites
+            // 
+            this.btnInjectionSites.Enabled = false;
+            this.btnInjectionSites.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnInjectionSites.Location = new System.Drawing.Point(18, 287);
+            this.btnInjectionSites.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.btnInjectionSites.Name = "btnInjectionSites";
+            this.btnInjectionSites.Size = new System.Drawing.Size(134, 87);
+            this.btnInjectionSites.TabIndex = 11;
+            this.btnInjectionSites.Text = "Injection sites";
+            this.btnInjectionSites.UseVisualStyleBackColor = true;
+            this.btnInjectionSites.Click += new System.EventHandler(this.btnInjectionSites_Click);
+            // 
+            // btnFoods
+            // 
+            this.btnFoods.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnFoods.Location = new System.Drawing.Point(302, 189);
+            this.btnFoods.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.btnFoods.Name = "btnFoods";
+            this.btnFoods.Size = new System.Drawing.Size(134, 87);
+            this.btnFoods.TabIndex = 12;
+            this.btnFoods.Text = "Foods";
+            this.btnFoods.UseVisualStyleBackColor = true;
+            this.btnFoods.Click += new System.EventHandler(this.btnFoods_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1170, 473);
+            this.ClientSize = new System.Drawing.Size(732, 500);
+            this.Controls.Add(this.btnFoods);
+            this.Controls.Add(this.btnInjectionSites);
             this.Controls.Add(this.bntMiscellaneous);
             this.Controls.Add(this.btnGlucoseMeasurement);
             this.Controls.Add(this.btnAlarms);
@@ -210,5 +239,7 @@ namespace GlucoMan.Forms
         private System.Windows.Forms.Button btnAlarms;
         private System.Windows.Forms.Button btnGlucoseMeasurement;
         private Button bntMiscellaneous;
+        private Button btnInjectionSites;
+        private Button btnFoods;
     }
 }

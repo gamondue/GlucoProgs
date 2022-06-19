@@ -50,7 +50,7 @@ namespace GlucoMan
         }
         public override string ToString()
         {
-            return Text;
+            return text;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace GlucoMan.Mobile
         private void FromUiToClass()
         {
             bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
-            bl.Meal.Carbohydrates.Text = txtChoOfMeal.Text;
+            bl.Meal.CarbohydratesGrams.Text = txtChoOfMeal.Text;
             DateTime instant = new DateTime(dtpMealDateStart.Date.Year, dtpMealDateStart.Date.Month, dtpMealDateStart.Date.Day,
                 dtpMealTimeStart.Time.Hours, dtpMealTimeStart.Time.Minutes, dtpMealTimeStart.Time.Seconds);
             bl.Meal.TimeStart.DateTime = instant;
@@ -32,7 +32,7 @@ namespace GlucoMan.Mobile
         private void FromClassToUi()
         {
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-            txtChoOfMeal.Text = Safe.String(bl.Meal.Carbohydrates.Text);
+            txtChoOfMeal.Text = Safe.String(bl.Meal.CarbohydratesGrams.Text);
             if (bl.Meal.TimeStart.DateTime != Common.DateNull)
             {
                 dtpMealDateStart.Date = (DateTime)Safe.DateTime(bl.Meal.TimeStart.DateTime);
@@ -55,7 +55,7 @@ namespace GlucoMan.Mobile
             // force creation of a new record 
             bl.Meal.IdMeal = null;
             bl.Meal.TimeStart.DateTime = DateTime.Now; 
-            bl.SaveOneMeal();
+            ////////bl.SaveOneMeal();
             RefreshGrid();  
             FromClassToUi();
         }
@@ -106,7 +106,7 @@ namespace GlucoMan.Mobile
                 return;
             }
             FromUiToClass();
-            bl.SaveOneMeal();
+            //////bl.SaveOneMeal();
             RefreshGrid(); 
         }
         //private void txtAccuracyOfChoMeal_TextChanged(object sender, EventArgs e)
