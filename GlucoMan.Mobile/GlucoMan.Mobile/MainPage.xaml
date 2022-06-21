@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Mobile.MainPage">
     <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="0" CornerRadius="0" Margin="0,0,0,30">
+        <Frame BackgroundColor="#2196F3" Padding="0" CornerRadius="0" Margin="0,0,0,0">
             <Label x:Name="lblAppName" Text="GlucoMan " HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
         </Frame>
         <Button x:Name="btnGlucoseMeasurement" Text="Glucose" Clicked="btnGlucoseMeasurement_Clicked"
@@ -16,8 +16,10 @@
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnInsulinCalc" Text="Meal insulin" Clicked="btnInsulinCalc_Clicked"
                 Margin="15,0,15,0"></Button>
+        <!--
         <Button x:Name="btnInjectionSites" Text="Injection sites" 
                 Clicked="btnInjectionSites_Clicked" IsEnabled="False" Margin="15,0,15,0"></Button>
+        -->
         <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to reach target carbs" 
                 Clicked="btnFoodToHitTargetCarbs_Clicked"
                 Margin="15,0,15,0"></Button>
