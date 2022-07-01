@@ -20,17 +20,17 @@ namespace GlucoMan.Forms
         }
         private void FromClassToUi()
         {
-            TxtChoAlreadyTaken.Text = foodToEat.Hit_ChoAlreadyTaken.Text;
-            TxtChoOfFood.Text = foodToEat.Hit_ChoOfFood.Text;
-            TxtTargetCho.Text = foodToEat.Hit_TargetCho.Text;
+            TxtChoAlreadyTaken.Text = foodToEat.ChoAlreadyTaken.Text;
+            TxtChoOfFood.Text = foodToEat.ChoOfFood.Text;
+            TxtTargetCho.Text = foodToEat.TargetCho.Text;
             TxtChoLeftToTake.Text = foodToEat.ChoLeftToTake.Text;
             TxtFoodToHitTarget.Text = foodToEat.FoodToHitTarget.Text;
         }
         internal void FromUiToClass()
         {
-            foodToEat.Hit_ChoAlreadyTaken.Text = TxtChoAlreadyTaken.Text;
-            foodToEat.Hit_ChoOfFood.Text = TxtChoOfFood.Text;
-            foodToEat.Hit_TargetCho.Text = TxtTargetCho.Text;
+            foodToEat.ChoAlreadyTaken.Text = TxtChoAlreadyTaken.Text;
+            foodToEat.ChoOfFood.Text = TxtChoOfFood.Text;
+            foodToEat.TargetCho.Text = TxtTargetCho.Text;
             foodToEat.ChoLeftToTake.Text = TxtChoLeftToTake.Text; 
             foodToEat.FoodToHitTarget.Text = TxtFoodToHitTarget.Text; 
         }
@@ -40,7 +40,7 @@ namespace GlucoMan.Forms
         }
         private void TxtChoAlreadyTaken_Leave(object sender, EventArgs e)
         {
-            foodToEat.Hit_ChoAlreadyTaken.Text = TxtChoAlreadyTaken.Text;
+            foodToEat.ChoAlreadyTaken.Text = TxtChoAlreadyTaken.Text;
             foodToEat.Calculations();
 
             FromClassToUi();
@@ -51,7 +51,7 @@ namespace GlucoMan.Forms
         }
         private void TxtChoOfFood_Leave(object sender, EventArgs e)
         {
-            foodToEat.Hit_ChoOfFood.Text = TxtChoOfFood.Text;
+            foodToEat.ChoOfFood.Text = TxtChoOfFood.Text;
             foodToEat.Calculations();
 
             FromClassToUi();
@@ -62,21 +62,35 @@ namespace GlucoMan.Forms
         }
         private void TxtTargetCho_Leave(object sender, EventArgs e)
         {
-            foodToEat.Hit_TargetCho.Text = TxtTargetCho.Text;
+            foodToEat.TargetCho.Text = TxtTargetCho.Text;
             foodToEat.Calculations(); 
             FromClassToUi();
-        }
-        private void btnReadTarget_Click(object sender, EventArgs e)
-        {
-            BL_General bl = new BL_General();
-            foodToEat.Hit_TargetCho.Double = Safe.Double(bl.RestoreParameter("ChoToEat"));
-            FromClassToUi(); 
         }
         private void btnCalculateGrams_Click(object sender, EventArgs e)
         {
             FromUiToClass();
             foodToEat.Calculations();
             FromClassToUi();
+        }
+        private void btnReadTarget_Click(object sender, EventArgs e)
+        {
+            BL_General bl = new BL_General();
+            foodToEat.TargetCho.Double = Safe.Double(bl.RestoreParameter("ChoToEat"));
+            FromClassToUi();
+        }
+        private void btnReadAll_Click(object sender, EventArgs e)
+        {
+            BL_General bl = new BL_General();
+            foodToEat.TargetCho.Double = Safe.Double(bl.RestoreParameter("ChoToEat"));
+            FromClassToUi();
+        }
+        private void btnReadChoTaken_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void btnReadFood_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

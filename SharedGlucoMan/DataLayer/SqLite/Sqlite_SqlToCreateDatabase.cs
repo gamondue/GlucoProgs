@@ -59,21 +59,6 @@ CREATE TABLE IF NOT EXISTS 'BolusCalculations' (
 	'FactorOfInsulinCorrectionSensitivity'	DOUBLE,
 	PRIMARY KEY('IdBolusCalculation')
 );
-DROP TABLE IF EXISTS 'HypoPredictions';
-CREATE TABLE IF NOT EXISTS 'HypoPredictions' (
-	'IdHypoPrediction'	INT NOT NULL,
-	'PredictedTime'	DATETIME,
-	'AlarmTime'	DATETIME,
-	'GlucoseSlope'	DOUBLE,
-	'HypoGlucoseTarget'	INT,
-	'GlucoseLast'	DOUBLE,
-	'GlucosePrevious'	DOUBLE,
-	'Interval'	VARCHAR(10),
-	'DatetimeLast'	DATETIME,
-	'DatetimePrevious'	DATETIME,
-	'HypoPredictionscol'	VARCHAR(45),
-	PRIMARY KEY('IdHypoPrediction')
-);
 DROP TABLE IF EXISTS 'Alarms';
 CREATE TABLE IF NOT EXISTS 'Alarms' (
 	'idAlarm'	INT NOT NULL,
@@ -150,6 +135,20 @@ CREATE TABLE IF NOT EXISTS 'InsulinDrugs' (
 	'InsulinSpeed'	DOUBLE,
 	PRIMARY KEY('IdInsulinDrugs')
 );
+DROP TABLE IF EXISTS 'HypoPredictions';
+CREATE TABLE IF NOT EXISTS 'HypoPredictions' (
+	'IdHypoPrediction'	INT NOT NULL,
+	'PredictedTime'	DATETIME,
+	'AlarmTime'	DATETIME,
+	'GlucoseSlope'	DOUBLE,
+	'HypoGlucoseTarget'	INT,
+	'GlucoseLast'	DOUBLE,
+	'GlucosePrevious'	DOUBLE,
+	'Interval'	VARCHAR(10),
+	'DatetimeLast'	DATETIME,
+	'DatetimePrevious'	DATETIME,
+	PRIMARY KEY('IdHypoPrediction')
+);
 DROP TABLE IF EXISTS 'Parameters';
 CREATE TABLE IF NOT EXISTS 'Parameters' (
 	'IdParameters'	INTEGER NOT NULL,
@@ -174,6 +173,7 @@ CREATE TABLE IF NOT EXISTS 'Parameters' (
 	'Hypo_MinuteLast'	DOUBLE,
 	'Hypo_MinutePrevious'	DOUBLE,
 	'Hypo_AlarmAdvanceTime'	DOUBLE,
+	'Hypo_FutureSpanMinutes'	DOUBLE,
 	'Hit_ChoAlreadyTaken'	DOUBLE,
 	'Hit_ChoOfFood'	DOUBLE,
 	'Hit_TargetCho'	DOUBLE,

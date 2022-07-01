@@ -11,28 +11,30 @@ namespace GlucoMan
     {
         internal  override void SaveHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Parameters)
         {
-            SaveParameter("Hypo_GlucoseTarget", Parameters.Hypo_GlucoseTarget.Text);
-            SaveParameter("Hypo_GlucoseLast", Parameters.Hypo_GlucoseLast.Text);
-            SaveParameter("Hypo_GlucosePrevious", Parameters.Hypo_GlucosePrevious.Text); 
-            SaveParameter("Hypo_HourLast", Parameters.Hypo_HourLast.Text);
-            SaveParameter("Hypo_HourPrevious", Parameters.Hypo_HourPrevious.Text);
-            SaveParameter("Hypo_MinuteLast", Parameters.Hypo_MinuteLast.Text);
-            SaveParameter("Hypo_MinutePrevious", Parameters.Hypo_MinutePrevious.Text);
-            SaveParameter("Hypo_AlarmAdvanceTime", Parameters.Hypo_AlarmAdvanceTime.ToString());
+            SaveParameter("Hypo_GlucoseTarget", Parameters.GlucoseTarget.Text);
+            SaveParameter("Hypo_GlucoseLast", Parameters.GlucoseLast.Text);
+            SaveParameter("Hypo_GlucosePrevious", Parameters.GlucosePrevious.Text); 
+            SaveParameter("Hypo_HourLast", Parameters.HourLast.Text);
+            SaveParameter("Hypo_HourPrevious", Parameters.HourPrevious.Text);
+            SaveParameter("Hypo_MinuteLast", Parameters.MinuteLast.Text);
+            SaveParameter("Hypo_MinutePrevious", Parameters.MinutePrevious.Text);
+            SaveParameter("Hypo_AlarmAdvanceTime", Parameters.AlarmAdvanceTime.Text);
+            SaveParameter("Hypo_FutureSpanMinutes", Parameters.FutureSpanMinutes.Text);
         }
         internal  override void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Parameters)
         {
-            Parameters.Hypo_GlucoseTarget.Text = RestoreParameter("Hypo_GlucoseTarget");
-            Parameters.Hypo_GlucoseLast.Text = RestoreParameter("Hypo_GlucoseLast");
-            Parameters.Hypo_GlucosePrevious.Text = RestoreParameter("Hypo_GlucosePrevious");
-            Parameters.Hypo_HourLast.Text = RestoreParameter("Hypo_HourLast");
-            Parameters.Hypo_HourPrevious.Text = RestoreParameter("Hypo_HourPrevious");
-            Parameters.Hypo_MinuteLast.Text = RestoreParameter("Hypo_MinuteLast");
-            Parameters.Hypo_MinutePrevious.Text = RestoreParameter("Hypo_MinutePrevious");
-            int? i = Safe.Int(RestoreParameter("Hypo_AlarmAdvanceTime"));
-            if (i == null)
-                i = 0;
-            Parameters.Hypo_AlarmAdvanceTime = new TimeSpan(0, (int)i, 0); 
+            Parameters.GlucoseTarget.Text = RestoreParameter("Hypo_GlucoseTarget");
+            Parameters.GlucoseLast.Text = RestoreParameter("Hypo_GlucoseLast");
+            Parameters.GlucosePrevious.Text = RestoreParameter("Hypo_GlucosePrevious");
+            Parameters.HourLast.Text = RestoreParameter("Hypo_HourLast");
+            Parameters.HourPrevious.Text = RestoreParameter("Hypo_HourPrevious");
+            Parameters.MinuteLast.Text = RestoreParameter("Hypo_MinuteLast");
+            Parameters.MinutePrevious.Text = RestoreParameter("Hypo_MinutePrevious");
+            int? minutes = Safe.Int(RestoreParameter("Hypo_AlarmAdvanceTime"));
+            if (minutes == null)
+                minutes = 0;
+            Parameters.AlarmAdvanceTime.Text = RestoreParameter("Hypo_AlarmAdvanceTime");
+            Parameters.FutureSpanMinutes.Text = RestoreParameter("Hypo_FutureSpanMinutes");  
         }
     }
 }

@@ -9,9 +9,9 @@ namespace GlucoMan.BusinessLayer
     {
         DataLayer dl = Common.Database;
 
-        public  DoubleAndText Hit_ChoAlreadyTaken = new DoubleAndText();
-        public  DoubleAndText Hit_ChoOfFood = new DoubleAndText();
-        public  DoubleAndText Hit_TargetCho = new DoubleAndText();
+        public  DoubleAndText ChoAlreadyTaken = new DoubleAndText();
+        public  DoubleAndText ChoOfFood = new DoubleAndText();
+        public  DoubleAndText TargetCho = new DoubleAndText();
         public  DoubleAndText ChoLeftToTake = new DoubleAndText();
         public  DoubleAndText FoodToHitTarget = new DoubleAndText();
 
@@ -36,8 +36,8 @@ namespace GlucoMan.BusinessLayer
         }
         public  void Calculations()
         {
-            ChoLeftToTake.Double = (Hit_TargetCho.Double - Hit_ChoAlreadyTaken.Double);
-            FoodToHitTarget.Double = ChoLeftToTake.Double * 100 / Hit_ChoOfFood.Double;
+            ChoLeftToTake.Double = (TargetCho.Double - ChoAlreadyTaken.Double);
+            FoodToHitTarget.Double = ChoLeftToTake.Double * 100 / ChoOfFood.Double;
             SaveData(); 
         }
     }

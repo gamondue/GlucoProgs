@@ -50,7 +50,7 @@ namespace GlucoMan.Forms
         }
         private void btnHypoPrediction_Click(object sender, EventArgs e)
         {
-            frmPredictHypo f = new frmPredictHypo();
+            frmHypoTimePrediction f = new frmHypoTimePrediction();
             f.Show(); 
         }
         private void btnAlarms_Click(object sender, EventArgs e)

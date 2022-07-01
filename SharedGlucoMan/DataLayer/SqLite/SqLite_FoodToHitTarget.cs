@@ -12,15 +12,15 @@ namespace GlucoMan
     {
         internal  override void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs Parameters)
         {
-            SaveParameter("Hit_ChoAlreadyTaken", Parameters.Hit_ChoAlreadyTaken.Text);
-            SaveParameter("Hit_ChoOfFood", Parameters.Hit_ChoOfFood.Text);
-            SaveParameter("Hit_TargetCho", Parameters.Hit_TargetCho.Text);
+            SaveParameter("Hit_ChoAlreadyTaken", Parameters.ChoAlreadyTaken.Text);
+            SaveParameter("Hit_ChoOfFood", Parameters.ChoOfFood.Text);
+            SaveParameter("Hit_TargetCho", Parameters.TargetCho.Text);
         }
         internal  override void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs Parameters)
         {
-            Parameters.Hit_ChoAlreadyTaken.Text = RestoreParameter("Hit_ChoAlreadyTaken");
-            Parameters.Hit_ChoOfFood.Text = RestoreParameter("Hit_ChoOfFood");
-            Parameters.Hit_TargetCho.Text = RestoreParameter("Hit_TargetCho");
+            Parameters.ChoAlreadyTaken.Text = RestoreParameter("Hit_ChoAlreadyTaken");
+            Parameters.ChoOfFood.Text = RestoreParameter("Hit_ChoOfFood");
+            Parameters.TargetCho.Text = RestoreParameter("Hit_TargetCho");
         }
     }
 }

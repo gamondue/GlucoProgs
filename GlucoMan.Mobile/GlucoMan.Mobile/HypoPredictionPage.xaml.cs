@@ -31,21 +31,27 @@ namespace GlucoMan.Mobile
         }
         private void FromClassToUi()
         {
-            txtGlucoseTarget.Text = hypo.Hypo_GlucoseTarget.Text;
-            txtGlucoseLast.Text = hypo.Hypo_GlucoseLast.Text;
-            txtGlucosePrevious.Text = hypo.Hypo_GlucosePrevious.Text;
-            txtHourLast.Text = hypo.Hypo_HourLast.Text;
+            txtGlucoseTarget.Text = hypo.GlucoseTarget.Text;
+            txtGlucoseLast.Text = hypo.GlucoseLast.Text;
+            txtGlucosePrevious.Text = hypo.GlucosePrevious.Text;
+            txtHourLast.Text = hypo.HourLast.Text;
 
-            txtHourPrevious.Text = hypo.Hypo_HourPrevious.Text;
-            txtMinuteLast.Text = hypo.Hypo_MinuteLast.Text;
-            txtMinutePrevious.Text = hypo.Hypo_MinutePrevious.Text;
+            txtHourPrevious.Text = hypo.HourPrevious.Text;
+            txtMinuteLast.Text = hypo.MinuteLast.Text;
+            txtMinutePrevious.Text = hypo.MinutePrevious.Text;
 
-            txtAlarmAdvanceTime.Text = hypo.Hypo_AlarmAdvanceTime.TotalMinutes.ToString();
-            txtGlucoseSlope.Text = hypo.HypoGlucoseSlope.Text;
-            DateTime dummy = (DateTime)hypo.HypoAlarmTime.DateTime; 
+            txtAlarmAdvanceTime.Text = hypo.AlarmAdvanceTime.Text;
+            txtGlucoseSlope.Text = hypo.GlucoseSlope.Text;
+            DateTime dummy = (DateTime)hypo.AlarmTime.DateTime; 
             txtAlarmHour.Text = dummy.Hour.ToString();
             txtAlarmMinute.Text = dummy.Minute.ToString();
 
+            if (hypo.FutureTime.DateTime != null && hypo.FutureTime.DateTime !=
+                    new DateTime(0001, 01, 01))
+            {
+                dtpTimeFutureDate.Date = (DateTime)hypo.FutureTime.DateTime;
+                dtpTimeFutureTime.Time = ((DateTime)hypo.FutureTime.DateTime).TimeOfDay; 
+            }
             txtPredictedHour.Text = hypo.PredictedHour.Text;
             txtPredictedMinute.Text = hypo.PredictedMinute.Text;
             if (hypo.StatusMessage != null && hypo.StatusMessage != "")
@@ -55,19 +61,26 @@ namespace GlucoMan.Mobile
             }
             else
                 txtStatusBar.IsVisible = false;
+
+            txtFutureTimeMinutes.Text = hypo.FutureSpanMinutes.Text;
+            txtFutureGlucose.Text = hypo.PredictedGlucose.Text;
         }
         private void FromUiToClass()
         {
-            hypo.Hypo_AlarmAdvanceTime = new TimeSpan(0,(int)Safe.Int(txtAlarmAdvanceTime.Text), 0);
-            hypo.Hypo_GlucoseTarget.Text = txtGlucoseTarget.Text;
-            hypo.Hypo_GlucoseLast.Text = txtGlucoseLast.Text;
-            hypo.Hypo_GlucosePrevious.Text = txtGlucosePrevious.Text;
+            hypo.AlarmAdvanceTime.Text = txtGlucoseTarget.Text;
+            hypo.GlucoseTarget.Text = txtGlucoseTarget.Text;
+            hypo.GlucoseLast.Text = txtGlucoseLast.Text;
+            hypo.GlucosePrevious.Text = txtGlucosePrevious.Text;
 
-            hypo.Hypo_HourLast.Text = txtHourLast.Text;
-            hypo.Hypo_MinuteLast.Text = txtMinuteLast.Text;
+            hypo.HourLast.Text = txtHourLast.Text;
+            hypo.MinuteLast.Text = txtMinuteLast.Text;
 
-            hypo.Hypo_HourPrevious.Text = txtHourPrevious.Text;
-            hypo.Hypo_MinutePrevious.Text = txtMinutePrevious.Text; 
+            hypo.HourPrevious.Text = txtHourPrevious.Text;
+            hypo.MinutePrevious.Text = txtMinutePrevious.Text;
+
+            hypo.AlarmAdvanceTime.Text = txtAlarmAdvanceTime.Text;
+
+            hypo.FutureSpanMinutes.Text = txtFutureTimeMinutes.Text;
         }
         private void btnNow_Click(object sender, EventArgs e)
         {
@@ -81,12 +94,6 @@ namespace GlucoMan.Mobile
             FromUiToClass();
             hypo.PredictHypoTime();
             FromClassToUi();
-            //txtGlucoseSlope.Text = hypo.GlucoseSlope.Text;
-            //txtPredictedHour.Text = hypo.PredictedHour.Text;
-            //txtPredictedMinute.Text = hypo.PredictedMinute.Text;
-            //txtAlarmHour.Text = hypo.AlarmHour.Text;
-            //txtAlarmMinute.Text = hypo.AlarmMinute.Text;
-            //txtStatusBar.Text = hypo.StatusMessage;
         }
         private void btnNext_Click(object sender, EventArgs e)
         {
@@ -102,16 +109,6 @@ namespace GlucoMan.Mobile
         {
               
         }
-        private void btnPaste_Click(object sender, EventArgs e)
-        {
-            //Control c = SharedWinForms.Methods.FindFocusedControl(this);
-            //try
-            //{
-            //    c.Text = Clipboard.GetText();
-            //}
-            //catch (Exception ex)
-            //{ }
-        }
         private void btnReadGlucose_Click(object sender, EventArgs e)
         {
             List<GlucoseRecord> list = blMeasurements.GetLastTwoGlucoseMeasurements();
@@ -124,6 +121,13 @@ namespace GlucoMan.Mobile
                 txtMinuteLast.Text = list[0].Timestamp.Value.Minute.ToString();
                 txtMinutePrevious.Text = list[1].Timestamp.Value.Minute.ToString();
             }
+        }
+        private void btnCalcFutureGlucose_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
+            hypo.PredictHypoTime();
+            hypo.PredictGlucose();
+            FromClassToUi();
         }
     }
 }

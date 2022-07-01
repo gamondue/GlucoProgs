@@ -72,9 +72,10 @@ namespace GlucoMan.Mobile
             {
                 Console.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
             }
-            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            //string documentsPath = @"/data/user/";
-            string localFilename = Common.PathAndFileDatabase; 
+            //string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            string documentsPath = @"/data/user/";
+            ////string localFilename = Common.PathAndFileDatabase;
+            //string localFilename = Path.Combine(documentsPath, Common.FileDatabase); 
             File.Copy(Common.PathAndFileDatabase, documentsPath);
         }
         private async void btnStopApplication_Click(object sender, EventArgs e)

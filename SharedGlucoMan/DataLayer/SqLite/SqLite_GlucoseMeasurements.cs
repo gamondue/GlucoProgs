@@ -1,12 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
-using SharedData;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.Common;
-using System.IO;
-using System.Text;
 
 namespace GlucoMan
 {
@@ -14,7 +9,7 @@ namespace GlucoMan
     {
         internal  override int GetNextPrimaryKey()
         {
-            return GetNextTablePrimaryKey("FoodsInMeals", "IdFoodInMeal");
+            return GetNextTablePrimaryKey("GlucoseRecords", "IdGlucoseRecord");
         }
         internal  override List<GlucoseRecord> ReadGlucoseMeasurements(
             DateTime? InitialInstant, DateTime? FinalInstant)

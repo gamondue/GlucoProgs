@@ -7,6 +7,8 @@ namespace GlucoMan
 {
     public static partial class Common
     {
+        public static string FileDatabase = @"GlucoManData.Sqlite"; 
+        
         internal static DataLayer Database;
         public static BL_General Bl; 
         public static SharedData.Logger LogOfProgram;

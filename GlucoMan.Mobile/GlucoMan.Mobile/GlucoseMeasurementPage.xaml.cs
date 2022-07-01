@@ -70,11 +70,8 @@ namespace GlucoMan.Mobile
             //glucoseReadings.Add(currentGlucose);
             // erase Id to save a new record
             currentGlucose.IdGlucoseRecord = null;
-            if (chkAutosave.IsChecked)
-            {
-                bl.SaveOneGlucoseMeasurement(currentGlucose);
-                RefreshGrid();
-            }
+            bl.SaveOneGlucoseMeasurement(currentGlucose);
+            RefreshGrid();
         }
         private async void btnRemoveMeasurement_Click(object sender, EventArgs e)
         {

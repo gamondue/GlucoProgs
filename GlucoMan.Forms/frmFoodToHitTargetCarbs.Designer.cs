@@ -46,12 +46,12 @@ namespace GlucoMan.Forms
             this.btnReadTarget = new System.Windows.Forms.Button();
             this.btnCalculateGrams = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label7 = new System.Windows.Forms.Label();
-            this.TxtChoLeftToTake = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.btnReadChoTaken = new System.Windows.Forms.Button();
             this.btnReadFood = new System.Windows.Forms.Button();
             this.btnReadAll = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.TxtChoLeftToTake = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // TxtChoAlreadyTaken
@@ -213,6 +213,44 @@ namespace GlucoMan.Forms
             this.btnCalculateGrams.UseVisualStyleBackColor = true;
             this.btnCalculateGrams.Click += new System.EventHandler(this.btnCalculateGrams_Click);
             // 
+            // btnReadChoTaken
+            // 
+            this.btnReadChoTaken.Enabled = false;
+            this.btnReadChoTaken.ForeColor = System.Drawing.Color.Black;
+            this.btnReadChoTaken.Location = new System.Drawing.Point(201, 135);
+            this.btnReadChoTaken.Name = "btnReadChoTaken";
+            this.btnReadChoTaken.Size = new System.Drawing.Size(75, 50);
+            this.btnReadChoTaken.TabIndex = 163;
+            this.btnReadChoTaken.Text = "Read Taken";
+            this.toolTip1.SetToolTip(this.btnReadChoTaken, "Read target CHO from bolus calculation window");
+            this.btnReadChoTaken.UseVisualStyleBackColor = true;
+            this.btnReadChoTaken.Click += new System.EventHandler(this.btnReadChoTaken_Click);
+            // 
+            // btnReadFood
+            // 
+            this.btnReadFood.Enabled = false;
+            this.btnReadFood.ForeColor = System.Drawing.Color.Black;
+            this.btnReadFood.Location = new System.Drawing.Point(367, 135);
+            this.btnReadFood.Name = "btnReadFood";
+            this.btnReadFood.Size = new System.Drawing.Size(75, 50);
+            this.btnReadFood.TabIndex = 164;
+            this.btnReadFood.Text = "Read Food";
+            this.toolTip1.SetToolTip(this.btnReadFood, "Read target CHO from bolus calculation window");
+            this.btnReadFood.UseVisualStyleBackColor = true;
+            this.btnReadFood.Click += new System.EventHandler(this.btnReadFood_Click);
+            // 
+            // btnReadAll
+            // 
+            this.btnReadAll.ForeColor = System.Drawing.Color.Black;
+            this.btnReadAll.Location = new System.Drawing.Point(201, 12);
+            this.btnReadAll.Name = "btnReadAll";
+            this.btnReadAll.Size = new System.Drawing.Size(75, 50);
+            this.btnReadAll.TabIndex = 165;
+            this.btnReadAll.Text = "Read All";
+            this.toolTip1.SetToolTip(this.btnReadAll, "Calculate grams of food to get target grams of CHO");
+            this.btnReadAll.UseVisualStyleBackColor = true;
+            this.btnReadAll.Click += new System.EventHandler(this.btnReadAll_Click);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -244,39 +282,6 @@ namespace GlucoMan.Forms
             this.label8.Size = new System.Drawing.Size(18, 20);
             this.label8.TabIndex = 161;
             this.label8.Text = "g";
-            // 
-            // btnReadChoTaken
-            // 
-            this.btnReadChoTaken.ForeColor = System.Drawing.Color.Black;
-            this.btnReadChoTaken.Location = new System.Drawing.Point(201, 135);
-            this.btnReadChoTaken.Name = "btnReadChoTaken";
-            this.btnReadChoTaken.Size = new System.Drawing.Size(75, 50);
-            this.btnReadChoTaken.TabIndex = 163;
-            this.btnReadChoTaken.Text = "Read Taken";
-            this.toolTip1.SetToolTip(this.btnReadChoTaken, "Read target CHO from bolus calculation window");
-            this.btnReadChoTaken.UseVisualStyleBackColor = true;
-            // 
-            // btnReadFood
-            // 
-            this.btnReadFood.ForeColor = System.Drawing.Color.Black;
-            this.btnReadFood.Location = new System.Drawing.Point(367, 135);
-            this.btnReadFood.Name = "btnReadFood";
-            this.btnReadFood.Size = new System.Drawing.Size(75, 50);
-            this.btnReadFood.TabIndex = 164;
-            this.btnReadFood.Text = "Read Food";
-            this.toolTip1.SetToolTip(this.btnReadFood, "Read target CHO from bolus calculation window");
-            this.btnReadFood.UseVisualStyleBackColor = true;
-            // 
-            // btnReadAll
-            // 
-            this.btnReadAll.ForeColor = System.Drawing.Color.Black;
-            this.btnReadAll.Location = new System.Drawing.Point(201, 12);
-            this.btnReadAll.Name = "btnReadAll";
-            this.btnReadAll.Size = new System.Drawing.Size(75, 50);
-            this.btnReadAll.TabIndex = 165;
-            this.btnReadAll.Text = "Read All";
-            this.toolTip1.SetToolTip(this.btnReadAll, "Calculate grams of food to get target grams of CHO");
-            this.btnReadAll.UseVisualStyleBackColor = true;
             // 
             // frmFoodToHitTargetCarbs
             // 

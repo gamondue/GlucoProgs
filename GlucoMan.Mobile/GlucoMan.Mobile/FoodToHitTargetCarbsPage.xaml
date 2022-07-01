@@ -15,13 +15,17 @@
                 <RowDefinition Height="60"/>
                 <RowDefinition />
                 <RowDefinition Height="60"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Grid.Row="4" Grid.Column="1" x:Name="btnCalc" Text="Calc Target Food" 
-                   Margin="10,0,10,0" Clicked="btnCalc_Click" />
+
+            <Button Grid.Row="0" Grid.Column="1" x:Name="btnReadAll" Text="Read All" 
+                   Margin="10,0,10,0" Clicked="btnReadAll_Click" />
 
             <Label Grid.Row="1" Grid.Column="0" Text="Target CHO [g]" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="2" Grid.Column="0" x:Name="TxtTargetCho" Text="" Unfocused="TxtTargetCho_Leave"
@@ -43,15 +47,15 @@
                    Margin="25,0,25,0" Placeholder="%" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="PaleGreen" />
             <Button Grid.Row="3" Grid.Column="2" x:Name="btnReadFood" Text="Read Food" 
-                   Margin="10,5,10,5" Clicked="btnReadFood_Click" />
+                   IsEnabled="False" Margin="10,5,10,5" Clicked="btnReadFood_Click" />
 
+            <Button Grid.Row="4" Grid.Column="1" x:Name="btnCalc" Text="Calc Target Food" 
+                   IsEnabled="False" Margin="10,0,10,0" Clicked="btnCalc_Click" />
+            
             <Label Grid.Row="5" Grid.Column="0" Text="CHO left to take [g]" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="6" Grid.Column="0" x:Name="TxtChoLeftToTake" Text="" Unfocused="TxtChoOfFood_Leave"
                    Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="White" />
-
-            <Button Grid.Row="0" Grid.Column="1" x:Name="btnReadAll" Text="Read All" 
-                   Margin="10,0,10,0" Clicked="btnReadAll_Click" />
 
             <Label Grid.Row="5" Grid.Column="2" Text="Food to eat to hit target CHO [g]" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="6" Grid.Column="2" x:Name="TxtFoodToHitTarget" Text="" 

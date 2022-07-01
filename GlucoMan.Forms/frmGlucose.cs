@@ -57,11 +57,8 @@ namespace GlucoMan.Forms
             FromUiToClass();
             // erase Id to save a new record
             currentGlucose.IdGlucoseRecord = null;
-            if (chkAutosave.Checked)
-            {
-                bl.SaveOneGlucoseMeasurement(currentGlucose);
-                RefreshGrid();
-            }
+            bl.SaveOneGlucoseMeasurement(currentGlucose);
+            RefreshGrid();
         }
         private void btnRemoveMeasurement_Click(object sender, EventArgs e)
         {

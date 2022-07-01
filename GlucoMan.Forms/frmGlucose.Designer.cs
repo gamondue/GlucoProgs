@@ -34,7 +34,6 @@
             this.txtGlucose = new System.Windows.Forms.TextBox();
             this.dtpEventInstant = new System.Windows.Forms.DateTimePicker();
             this.chkNowInAdd = new System.Windows.Forms.CheckBox();
-            this.chkAutosave = new System.Windows.Forms.CheckBox();
             this.txtIdGlucoseRecord = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnNow = new System.Windows.Forms.Button();
@@ -94,18 +93,6 @@
             this.chkNowInAdd.TabIndex = 4;
             this.chkNowInAdd.Text = "New has Now as time";
             this.chkNowInAdd.UseVisualStyleBackColor = true;
-            // 
-            // chkAutosave
-            // 
-            this.chkAutosave.AutoSize = true;
-            this.chkAutosave.Checked = true;
-            this.chkAutosave.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAutosave.Location = new System.Drawing.Point(445, 63);
-            this.chkAutosave.Name = "chkAutosave";
-            this.chkAutosave.Size = new System.Drawing.Size(93, 25);
-            this.chkAutosave.TabIndex = 5;
-            this.chkAutosave.Text = "Autosave";
-            this.chkAutosave.UseVisualStyleBackColor = true;
             // 
             // txtIdGlucoseRecord
             // 
@@ -206,7 +193,6 @@
             this.Controls.Add(this.btnNow);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtIdGlucoseRecord);
-            this.Controls.Add(this.chkAutosave);
             this.Controls.Add(this.chkNowInAdd);
             this.Controls.Add(this.dtpEventInstant);
             this.Controls.Add(this.txtGlucose);
@@ -231,7 +217,6 @@
         private TextBox txtGlucose;
         private DateTimePicker dtpEventInstant;
         private CheckBox chkNowInAdd;
-        private CheckBox chkAutosave;
         private TextBox txtIdGlucoseRecord;
         private Label label3;
         private Button btnNow;

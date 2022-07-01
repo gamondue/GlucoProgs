@@ -47,25 +47,6 @@
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
-            <!-- another check box .. -->
-            <StackLayout Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <CheckBox VerticalOptions="Start" x:Name="chkAutosave" IsChecked="True">
-                    <CheckBox.Margin>
-                        <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS" Value="0,-10,0,0" />
-                            <On Platform="Android, WinPhone, Windows" Value="0,-5,0,0" />
-                        </OnPlatform>
-                    </CheckBox.Margin>
-                </CheckBox>
-                <Label VerticalTextAlignment="Center" VerticalOptions="Start"
-                    Text="Autosave">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer>
-
-                        </TapGestureRecognizer>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
             <Button Grid.Row="3" Grid.Column="0" Text="+" x:Name="btnAddMeasurement" Clicked="btnAddMeasurement_Click"></Button>
             <Button Grid.Row="3" Grid.Column="1" Text="-" x:Name="btnRemoveMeasurement" Clicked="btnRemoveMeasurement_Click"></Button>
             <Button Grid.Row="3" Grid.Column="2" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
