@@ -8,9 +8,9 @@ namespace SharedData
     public class Logger
     {
         private string commonPath = "./";
-        private string eventLogFile = "logger.txt";
+        private string eventsLogFile = "logger.txt";
         private string dataLogFile = "logger.txt";
-        private string errorFile = "logger.txt";
+        private string errorsFile = "logger.txt";
         private string debugFile = "logger.txt";
         private string promptsFile = "logger.txt";
          
@@ -19,13 +19,30 @@ namespace SharedData
         /// </summary>
         public Logger()
         {
-            eventLogFile = Path.Combine(commonPath , eventLogFile);
+            eventsLogFile = Path.Combine(commonPath , eventsLogFile);
             dataLogFile = Path.Combine(commonPath , dataLogFile);
-            errorFile = Path.Combine(commonPath , errorFile);
+            errorsFile = Path.Combine(commonPath , errorsFile);
             debugFile = Path.Combine(commonPath , debugFile);
 
             defaultProperties();
         }
+        #region Properties
+        public string EventsLogFile { get => eventsLogFile;}
+        public string DataLogFile { get => dataLogFile;}
+        public string ErrorsFile { get => errorsFile;}
+        public string DebugFile { get => debugFile;}
+        public string PromptsFile { get => promptsFile;}
+        public bool ShowingEvents { get; set; }
+        public bool ShowingData { get; set; }
+        public bool ShowingErrors { get; set; }
+        public bool ShowingDebug { get; set; }
+        public bool ShowingPrompts { get; set; }
+        public bool LoggingEvents { get; set; }
+        public bool LoggingData { get; set; }
+        public bool LoggingErrors { get; set; }
+        public bool LoggingDebug { get; set; }
+        public bool LoggingPrompts { get; set; }
+        #endregion
         /// <summary>
         /// Constructor 
         /// </summary>
@@ -47,8 +64,8 @@ namespace SharedData
             LoggingData = (DataLogFile != "" && DataLogFile != null) ;
             
             commonPath = CommonPath;
-            eventLogFile = Path.Combine(commonPath , EventLogFile);
-            errorFile = Path.Combine(commonPath , ErrorFile);
+            eventsLogFile = Path.Combine(commonPath , EventLogFile);
+            errorsFile = Path.Combine(commonPath , ErrorFile);
             debugFile = Path.Combine(commonPath , DebugFile);
             promptsFile = Path.Combine(commonPath , PromptsFile);
             dataLogFile = Path.Combine(commonPath , DataLogFile);
@@ -69,7 +86,6 @@ namespace SharedData
             ShowingErrors = true;
             ShowingDebug = false;
         }
-
         /// <summary>
         /// Logs significative events
         /// </summary>
@@ -78,14 +94,13 @@ namespace SharedData
         {
             if (LoggingEvents)
             {
-                LogToFile(eventLogFile, testo);
+                LogToFile(EventsLogFile, testo);
             }
             if (ShowingEvents)
             { 
                 Console.Out.WriteLine(testo); 
             }
         }
-
         public void Data(string testo)
         {
             if (LoggingData)
@@ -101,7 +116,6 @@ namespace SharedData
                 Console.Out.WriteLine(testo);
             }
         }
-
         /// <summary>
         /// Realizza il log degli errori
         /// </summary>
@@ -116,7 +130,7 @@ namespace SharedData
                 "\nError: " + Exception.ToString() + "\n";
                 if (LoggingErrors)
                 {
-                    LogToFile(errorFile, ErrorText);
+                    LogToFile(errorsFile, ErrorText);
                 }
                 if (ShowingErrors)
                 {
@@ -158,7 +172,6 @@ namespace SharedData
                 }
             }
         }
-
         private void LogToFile(string file,string testo)
         {
             try
@@ -178,23 +191,5 @@ namespace SharedData
                 Console.Out.WriteLine("Couldn't save log file");
             }
         }
-
-        public bool LoggingEvents { get; set; }
-
-        public bool ShowingEvents { get; set; }
-
-        public bool LoggingErrors { get; set; }
-
-        public bool ShowingErrors { get; set; }
-
-        public bool LoggingDebug { get; set; }
-
-        public bool ShowingDebug { get; set; }
-    
-        public  bool LoggingPrompts { get; set; }
-
-        public bool ShowingData { get; set; }
-
-        public bool LoggingData { get; set; }
     }
 }

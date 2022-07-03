@@ -36,6 +36,8 @@
             this.txt_mmolPerL = new System.Windows.Forms.TextBox();
             this.btnResetDatabase = new System.Windows.Forms.Button();
             this.btnCopyDatabase = new System.Windows.Forms.Button();
+            this.btnShowErrorLog = new System.Windows.Forms.Button();
+            this.btnDeleteErrorLog = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -110,11 +112,33 @@
             this.btnCopyDatabase.UseVisualStyleBackColor = true;
             this.btnCopyDatabase.Click += new System.EventHandler(this.btnCopyDatabase_Click);
             // 
+            // btnShowErrorLog
+            // 
+            this.btnShowErrorLog.Location = new System.Drawing.Point(29, 257);
+            this.btnShowErrorLog.Name = "btnShowErrorLog";
+            this.btnShowErrorLog.Size = new System.Drawing.Size(100, 63);
+            this.btnShowErrorLog.TabIndex = 5;
+            this.btnShowErrorLog.Text = "Show error log";
+            this.btnShowErrorLog.UseVisualStyleBackColor = true;
+            this.btnShowErrorLog.Click += new System.EventHandler(this.btnShowErrorLog_Click);
+            // 
+            // btnDeleteErrorLog
+            // 
+            this.btnDeleteErrorLog.Location = new System.Drawing.Point(149, 257);
+            this.btnDeleteErrorLog.Name = "btnDeleteErrorLog";
+            this.btnDeleteErrorLog.Size = new System.Drawing.Size(100, 63);
+            this.btnDeleteErrorLog.TabIndex = 6;
+            this.btnDeleteErrorLog.Text = "Delete error log";
+            this.btnDeleteErrorLog.UseVisualStyleBackColor = true;
+            this.btnDeleteErrorLog.Click += new System.EventHandler(this.btnDeleteErrorLog_Click);
+            // 
             // frmMiscellaneous
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(293, 278);
+            this.ClientSize = new System.Drawing.Size(293, 389);
+            this.Controls.Add(this.btnDeleteErrorLog);
+            this.Controls.Add(this.btnShowErrorLog);
             this.Controls.Add(this.btnCopyDatabase);
             this.Controls.Add(this.btnResetDatabase);
             this.Controls.Add(this.txt_mmolPerL);
@@ -141,5 +165,7 @@
         private TextBox txt_mmolPerL;
         private Button btnResetDatabase;
         private Button btnCopyDatabase;
+        private Button btnShowErrorLog;
+        private Button btnDeleteErrorLog;
     }
 }

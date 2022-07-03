@@ -12,7 +12,7 @@ namespace GlucoMan
     {
         internal static int? Int(object Value)
         {
-            if (Value == null)
+            if (Value == null || Value is DBNull)
                 return null; 
             try
             {

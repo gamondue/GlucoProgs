@@ -54,7 +54,7 @@
             <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Text="Glucose" XAlign="Center" YAlign="End"/>
             <ListView Grid.Row="5" Grid.ColumnSpan="4" x:Name="gridMeasurements" ItemsSource="{Binding}"
-                      ItemSelected="OnSelection" >
+                      ItemSelected="OnGridSelection" >
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>

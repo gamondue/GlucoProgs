@@ -83,5 +83,22 @@ namespace GlucoMan.Mobile
             Process.GetCurrentProcess().CloseMainWindow();
             Process.GetCurrentProcess().Close();
         }
+        private async void btnShowErrorLog_ClickAsync(object sender, EventArgs e)
+        {
+            try
+            {
+                string fileContent = File.ReadAllText(Common.LogOfProgram.ErrorsFile);
+                await Navigation.PushAsync(new ShowTextPage(fileContent));
+            }
+            catch
+            {
+                await DisplayAlert("Reading not possible", "File not existing or not accessible", "Ok");
+            }
+        }
+        private async void btnDeleteErrorLog_ClickAsync(object sender, EventArgs e)
+        {
+            File.Delete(Common.LogOfProgram.ErrorsFile);
+            await DisplayAlert("", "Done!", "Ok");
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace GlucoMan
         //    return base.ToString();
         //}
         #region Meals and Foods
-        internal  override List<Meal> ReadMeals(DateTime? initialTime, DateTime? finalTime)
+        internal  override List<Meal> GetMeals(DateTime? initialTime, DateTime? finalTime)
         {
             throw new NotImplementedException();
         }
@@ -38,7 +38,7 @@ namespace GlucoMan
         {
             throw new NotImplementedException();
         }
-        internal  override List<FoodInMeal> ReadFoodsInMeal(int? IdMeal)
+        internal  override List<FoodInMeal> GetFoodsInMeal(int? IdMeal)
         {
             throw new NotImplementedException();
         }
@@ -50,7 +50,7 @@ namespace GlucoMan
         {
             throw new NotImplementedException();
         }
-        internal override Meal ReadOneMeal(long? IdMeal)
+        internal override Meal GetOneMeal(int? IdMeal)
         {
             throw new NotImplementedException();
         }
@@ -94,11 +94,11 @@ namespace GlucoMan
         {
             throw new NotImplementedException();
         }
-        internal override Food ReadOneFood(int? IdFood)
+        internal override Food GetOneFood(int? IdFood)
         {
             throw new NotImplementedException();
         }
-        internal override List<Food> ReadFoods()
+        internal override List<Food> GetFoods()
         {
             throw new NotImplementedException();
         }

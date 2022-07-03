@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static GlucoMan.Common;
 
 namespace GlucoMan.Mobile
 {
@@ -11,70 +12,101 @@ namespace GlucoMan.Mobile
     public partial class MealsPage : ContentPage
     {
         private BL_MealAndFood bl = new BL_MealAndFood();
+        //Accuracy accuracyClass;
+
+        private List<Meal> allTheMeals;
 
         public MealsPage()
         {
             InitializeComponent();
-            
-            bl.Meal = new Meal();
 
-            RefreshGrid();
-        }
-        private void FromUiToClass()
-        {
-            bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
-            bl.Meal.CarbohydratesGrams.Text = txtChoOfMeal.Text;
-            DateTime instant = new DateTime(dtpMealDateStart.Date.Year, dtpMealDateStart.Date.Month, dtpMealDateStart.Date.Day,
-                dtpMealTimeStart.Time.Hours, dtpMealTimeStart.Time.Minutes, dtpMealTimeStart.Time.Seconds);
-            bl.Meal.TimeStart.DateTime = instant;
-            bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text);
+            cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
+            cmbTypeOfMeal.ItemsSource = Enum.GetValues(typeof(TypeOfMeal));
+
+            //accuracyClass = new Accuracy(this, txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
+
+            RefreshUi();
         }
         private void FromClassToUi()
         {
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
             txtChoOfMeal.Text = Safe.String(bl.Meal.CarbohydratesGrams.Text);
-            if (bl.Meal.TimeStart.DateTime != Common.DateNull)
+            if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
             {
-                dtpMealDateStart.Date = (DateTime)Safe.DateTime(bl.Meal.TimeStart.DateTime);
-                dtpMealTimeStart.Time = (DateTime)bl.Meal.TimeStart.DateTime - dtpMealDateStart.Date;
+                dtpMealDateBegin.Date = (DateTime)Safe.DateTime(bl.Meal.TimeBegin.DateTime);
+                dtpMealTimeBegin.Time = ((DateTime)bl.Meal.TimeBegin.DateTime).TimeOfDay;  // - dtpMealDateBegin.Date;
             }
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.ToString();
-            ////////cmbTypeOfMeal.Text = bl.Meal.TypeOfMeal.ToString();
-        }
-        private void RefreshGrid()
-        {
-            bl.ReadMeals(null, null);
-            gridMeals.BindingContext = bl.Meals;
-        }
-        private async void btnAddMeal_Click(object sender, EventArgs e)
-        {
-            // !!!! make modal !!!!
-            //////await Navigation.PushAsync(new MealPage());
+            cmbAccuracyMeal.SelectedItem = bl.Meal.QualitativeAccuracyOfChoEstimate;
 
+            cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
+            cmbAccuracyMeal.SelectedItem = bl.Meal.QualitativeAccuracyOfChoEstimate;
+            SetCorrectRadioButtons(); 
+        }
+
+        private void SetCorrectRadioButtons()
+        {
+            rdbIsBreakfast.IsChecked = false;
+            rdbIsSnack.IsChecked = false;
+            rdbIsLunch.IsChecked = false;
+            rdbIsDinner.IsChecked = false;
+
+            if (bl.Meal.IdTypeOfMeal == TypeOfMeal.Breakfast)
+                rdbIsBreakfast.IsChecked = true;
+            else if (bl.Meal.IdTypeOfMeal == TypeOfMeal.Snack)
+                rdbIsSnack.IsChecked = true;
+            else if (bl.Meal.IdTypeOfMeal != TypeOfMeal.Lunch)
+                rdbIsLunch.IsChecked = true;
+            else if (bl.Meal.IdTypeOfMeal == TypeOfMeal.Dinner)
+                rdbIsDinner.IsChecked = true;
+        }
+
+        private void FromUiToClass()
+        {
+            bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
+            bl.Meal.CarbohydratesGrams.Text = Safe.Double(txtChoOfMeal.Text).ToString();
+            DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
+                dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
+            bl.Meal.TimeBegin.DateTime = instant;
+            bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text);
+
+            bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
+            bl.Meal.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
+            if (cmbTypeOfMeal.SelectedItem != null)
+                bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
+            else
+                bl.Meal.IdTypeOfMeal = TypeOfMeal.NotSet;
+            
+            if (cmbAccuracyMeal.SelectedItem != null)
+                bl.Meal.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
+            else
+                bl.Meal.QualitativeAccuracyOfChoEstimate = QualitativeAccuracy.NotSet;
+        }
+        private void RefreshUi()
+        {
+            FromClassToUi();
+            allTheMeals = bl.GetMeals(dtpMealDateBegin.Date.Subtract(new TimeSpan(60, 00, 0, 0)),
+                dtpMealDateBegin.Date.AddDays(1));
+            gridMeals.BindingContext = allTheMeals;
+        }
+        private async void btnAddMeal_ClickAsync(object sender, EventArgs e)
+        {
             FromUiToClass();
-            // force creation of a new record 
+            // erase Id to create a new meal
             bl.Meal.IdMeal = null;
-            bl.Meal.TimeStart.DateTime = DateTime.Now; 
-            ////////bl.SaveOneMeal();
-            RefreshGrid();  
-            FromClassToUi();
-        }
-        void OnSelection(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (e.SelectedItem == null)
+
+            if (chkNowInAdd.IsChecked)
             {
-                //MessageBox.Show("Choose a meal in the grid");
-                return;
+                DateTime now = DateTime.Now;
+                bl.Meal.TimeBegin.DateTime = now;
+                bl.Meal.TimeEnd.DateTime = now;
             }
-            // make the tapped row current
-            bl.Meal = (Meal)e.SelectedItem;
-            FromClassToUi();
+            // ???? make modal ????
+            txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString(); 
+            await Navigation.PushAsync(new MealPage(bl.Meal)); 
+            RefreshUi();
         }
-        private void btnRemoveMeal_Click(object sender, EventArgs e)
-        {
-            btnRemoveMeal_ClickAsync(sender, e);
-        }
-        private async Task btnRemoveMeal_ClickAsync(object sender, EventArgs e)
+        private async void btnRemoveMeal_ClickAsync(object sender, EventArgs e)
         {
             if (txtIdMeal.Text == "")
             {
@@ -83,41 +115,55 @@ namespace GlucoMan.Mobile
             }
             FromUiToClass();
             bl.DeleteOneMeal(bl.Meal);
-            RefreshGrid();
+            RefreshUi();
         }
-        private async Task btnShowThisMeal_ClickAsync(object sender, EventArgs e)
+        private async Task btnSaveMeal_ClickAsync(object sender, EventArgs e)
         {
             if (txtIdMeal.Text == "")
             {
-                //////MessageBox.Show("Choose a meal in the grid");
-                return;
-            }
-            await Navigation.PushAsync(new MealPage());
-        }
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            btnSave_ClickAsync(sender, e); 
-        }
-        private async Task btnSave_ClickAsync(object sender, EventArgs e)
-        {
-            if (txtIdMeal.Text == "")
-            {
-                await DisplayAlert("Saving not possible", "Choose the meal to modify", "Ok");
+                await DisplayAlert("Select one meal from the list", "Choose a meal to save", "Ok");
+
                 return;
             }
             FromUiToClass();
-            //////bl.SaveOneMeal();
-            RefreshGrid(); 
+            bl.SaveOneMeal(bl.Meal);
+            RefreshUi();
         }
-        //private void txtAccuracyOfChoMeal_TextChanged(object sender, EventArgs e)
-        //{
-        //    bl.Meal.AccuracyOfChoEstimate = Safe.Double(txtAccuracyOfChoMeal.Text);
-        //    bl.NumericalAccuracyChanged(bl.Meal.AccuracyOfChoEstimate.Value);
-        //}
-        //private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    bl.Meal.AccuracyOfChoEstimate =
-        //        bl.QualitativeAccuracyChanged(((QualitativeAccuracy)cmbAccuracyMeal.SelectedItem));
-        //}
+        private async void btnShowThisMeal_ClickAsync(object sender, EventArgs e)
+        {
+            if (txtIdMeal.Text == "")
+            {
+                await DisplayAlert("", "Choose a meal in the grid", "Ok");
+                return;
+            }
+            await Navigation.PushAsync(new MealPage(bl.Meal));
+        }
+        private void btnNowBegin_Click(object sender, EventArgs e)
+        {
+            DateTime now = DateTime.Now;
+            dtpMealDateBegin.Date = now;
+            dtpMealTimeBegin.Time = now.TimeOfDay;
+        }
+        private void btnSaveMeal_Click(object sender, EventArgs e)
+        {
+            btnSaveMeal_ClickAsync(sender, e); 
+        }
+        private void btnDefault_Click(object sender, EventArgs e)
+        {
+            bl.NewDefaults(); 
+            RefreshUi(); 
+        }
+        private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                //await DisplayAlert("XXXX", "YYYY", "Ok");
+                return;
+            }
+            //make the tapped row the current meal 
+            bl.Meal = (Meal)e.SelectedItem;
+            FromClassToUi();
+        }
+
     }
 }

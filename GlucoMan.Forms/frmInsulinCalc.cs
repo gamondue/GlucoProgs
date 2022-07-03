@@ -24,7 +24,7 @@ namespace GlucoMan.Forms
             currentBolusCalculation.RestoreBolusParameters(); 
 
             Common.SelectMealBasedOnTimeNow();
-            switch (currentBolusCalculation.MealOfBolus.TypeOfMeal)
+            switch (currentBolusCalculation.MealOfBolus.IdTypeOfMeal)
             {
                 case (Common.TypeOfMeal.Breakfast):
                     rdbIsBreakfast.Checked = true;
@@ -62,7 +62,7 @@ namespace GlucoMan.Forms
             txtChoInsulinRatioDinner.Text = currentBolusCalculation.ChoInsulinRatioDinner.Text;
 
             txtStatusBar.Text = currentBolusCalculation.StatusMessage; 
-            switch (currentBolusCalculation.MealOfBolus.TypeOfMeal)
+            switch (currentBolusCalculation.MealOfBolus.IdTypeOfMeal)
             {
                 case (Common.TypeOfMeal.Breakfast):
                     rdbIsBreakfast.Checked = true;
@@ -89,13 +89,13 @@ namespace GlucoMan.Forms
             currentBolusCalculation.InsulinCorrectionSensitivity.Text = txtInsulinCorrectionSensitivity.Text;
 
             if (rdbIsBreakfast.Checked)
-                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Breakfast;
+                currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Breakfast;
             if (rdbIsLunch.Checked)
-                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Lunch;
+                currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Lunch;
             if (rdbIsDinner.Checked)
-                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Dinner;
+                currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Dinner;
             if (rdbIsSnack.Checked)
-                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Snack;
+                currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Snack;
         }
         private void frmInsulinCalc_FormClosing(object sender, FormClosingEventArgs e)
         {

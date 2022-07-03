@@ -6,8 +6,8 @@ namespace GlucoMan.Forms
     public partial class frmMeals : Form
     {
         private BL_MealAndFood bl = new BL_MealAndFood();
+        Accuracy accuracyClass; 
 
-        private Meal currentMeal = new Meal(); 
         private List<Meal> allTheMeals;
 
         public frmMeals()
@@ -19,48 +19,99 @@ namespace GlucoMan.Forms
             cmbAccuracyMeal.DataSource = Enum.GetValues(typeof(QualitativeAccuracy));
             cmbTypeOfMeal.DataSource = Enum.GetValues(typeof(TypeOfMeal));
 
-            RefreshGrid();
+            accuracyClass = new Accuracy(this, txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
+
+            RefreshUi();
         }
-        private void RefreshGrid()
+        public void FromClassToUi()
         {
-            allTheMeals = bl.ReadMeals(dtpMealTimeStart.Value.Subtract(new TimeSpan(60,00,0,0)), dtpMealTimeStart.Value.AddDays(1));
-            gridMeals.DataSource = allTheMeals;
+            txtIdMeal.Text = bl.Meal.IdMeal.ToString();
+            txtChoOfMeal.Text = Safe.String(bl.Meal.CarbohydratesGrams.Text);
+
+            if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
+                dtpMealTimeBegin.Value = (DateTime)bl.Meal.TimeBegin.DateTime;
+            if (bl.Meal.TimeEnd.DateTime != Common.DateNull)
+                dtpMealTimeEnd.Value = (DateTime)bl.Meal.TimeEnd.DateTime;
+
+            txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
+            cmbAccuracyMeal.SelectedItem = bl.Meal.QualitativeAccuracyOfChoEstimate;
+
+            cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
         }
         private void FromUiToClass()
         {
-            currentMeal.IdMeal = Safe.Int(txtIdMeal.Text);
-            currentMeal.CarbohydratesGrams.Text = Safe.Double(txtChoOfMeal.Text).ToString();
-            currentMeal.TimeStart.DateTime = dtpMealTimeStart.Value;
-            currentMeal.TimeFinish.DateTime = dtpMealTimeFinish.Value;
-            currentMeal.AccuracyOfChoEstimate.Double = (double?)Safe.Double(txtAccuracyOfChoMeal.Text);
+            bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
+            bl.Meal.CarbohydratesGrams.Text = Safe.Double(txtChoOfMeal.Text).ToString();
+            bl.Meal.TimeBegin.DateTime = dtpMealTimeBegin.Value;
+            bl.Meal.TimeEnd.DateTime = dtpMealTimeEnd.Value;
+            bl.Meal.AccuracyOfChoEstimate.Double = (double?)Safe.Double(txtAccuracyOfChoMeal.Text);
 
-            currentMeal.TypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
-            currentMeal.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
+            bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
+            bl.Meal.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
         }
-        private void FromClassToUi()
+        private void RefreshUi()
         {
-            txtIdMeal.Text = currentMeal.IdMeal.ToString();
-            txtChoOfMeal.Text = Safe.String(currentMeal.CarbohydratesGrams.Text);
-            
-            if (currentMeal.TimeStart.DateTime != Common.DateNull)
-                dtpMealTimeStart.Value = (DateTime)currentMeal.TimeStart.DateTime;
-            if (currentMeal.TimeFinish.DateTime != Common.DateNull)
-                dtpMealTimeFinish.Value = (DateTime)currentMeal.TimeFinish.DateTime;
-
-            txtAccuracyOfChoMeal.Text = currentMeal.AccuracyOfChoEstimate.Text;
-            cmbAccuracyMeal.SelectedItem = currentMeal.QualitativeAccuracyOfChoEstimate;
-
-            cmbTypeOfMeal.SelectedItem = currentMeal.TypeOfMeal;
+            FromClassToUi();
+            allTheMeals = bl.GetMeals(dtpMealTimeBegin.Value.Subtract(new TimeSpan(60, 00, 0, 0)), 
+                dtpMealTimeBegin.Value.AddDays(1));
+            gridMeals.DataSource = allTheMeals;
         }
         private void btnAddMeal_Click(object sender, EventArgs e)
         {
-            FromUiToClass(); 
-            txtIdMeal.Text = bl.SaveOneMeal(currentMeal).ToString();   
-            frmMeal m = new frmMeal(currentMeal); 
-            m.ShowDialog(); 
+            FromUiToClass();
+            // erase Id to create a new meal
+            bl.Meal.IdMeal = null; 
+            if (chkNowInAdd.Checked)
+            {
+                DateTime now = DateTime.Now;
+                bl.Meal.TimeBegin.DateTime = now;
+                bl.Meal.TimeEnd.DateTime = now;
+            }
+            txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString();   
+            frmMeal m = new frmMeal(bl.Meal); 
+            m.ShowDialog();
+            RefreshUi(); 
         }
-        private void gridMeals_CellContentClick(object sender, DataGridViewCellEventArgs e) {}
-        private void gridMeals_CellClick(object sender, DataGridViewCellEventArgs e)        
+        private void btnRemoveMeal_Click(object sender, EventArgs e) 
+        {
+            bl.DeleteOneMeal(bl.Meal);
+            RefreshUi();  
+        }
+        private void btnSaveMeal_Click(object sender, EventArgs e)
+        {
+            if (txtIdMeal.Text == "")
+            {
+                MessageBox.Show("Select one meal from the grid"); 
+                return ;    
+            }
+            FromUiToClass();
+            bl.SaveOneMeal(bl.Meal);
+            RefreshUi(); 
+        }
+        private void btnShowThisMeal_Click(object sender, EventArgs e)
+        {
+            if (txtIdMeal.Text == "")
+            {
+                MessageBox.Show("Choose a meal in the grid");
+                return;
+            }
+            FromUiToClass();
+            frmMeal m = new frmMeal(bl.Meal);
+            m.ShowDialog();
+            RefreshUi();
+        }
+        private void btnNowStart_Click(object sender, EventArgs e)
+        {
+            DateTime now = DateTime.Now;
+            dtpMealTimeBegin.Value = now;
+            dtpMealTimeEnd.Value = now;
+        }
+        private void btnNowEnd_Click(object sender, EventArgs e)
+        {
+            dtpMealTimeEnd.Value = DateTime.Now;
+        }
+        private void gridMeals_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void gridMeals_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
@@ -74,7 +125,7 @@ namespace GlucoMan.Forms
             {
                 gridMeals.Rows[e.RowIndex].Selected = true;
                 FromUiToClass();
-                frmMeal m = new frmMeal(currentMeal);
+                frmMeal m = new frmMeal(bl.Meal);
                 m.ShowDialog();
             }
         }
@@ -82,55 +133,10 @@ namespace GlucoMan.Forms
         {
             if (e.RowIndex > -1)
             {
-                currentMeal = allTheMeals[e.RowIndex];
+                bl.Meal = allTheMeals[e.RowIndex];
                 gridMeals.Rows[e.RowIndex].Selected = true;
                 FromClassToUi();
             }
-        }
-        private void btnShowThisMeal_Click(object sender, EventArgs e)
-        {
-            if (txtIdMeal.Text == "")
-            {
-                MessageBox.Show("Choose a meal in the grid");
-                return;
-            }
-            FromUiToClass();
-            frmMeal m = new frmMeal(currentMeal);
-            m.ShowDialog();
-        }
-        private void btnRemoveMeal_Click(object sender, EventArgs e) 
-        {
-            bl.DeleteOneMeal(currentMeal);
-            RefreshGrid();  
-        }
-        private void btnSaveMeal_Click(object sender, EventArgs e)
-        {
-            if (gridMeals.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Select one meal from the grid"); 
-                return ;    
-            }
-            FromUiToClass();
-            bl.SaveOneMeal(currentMeal);
-            RefreshGrid(); 
-        }
-        private void txtAccuracyOfChoMeal_TextChanged(object sender, EventArgs e)
-        {
-            currentMeal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text); 
-            bl.NumericalAccuracyChanged(currentMeal.AccuracyOfChoEstimate.Double); 
-        }
-        private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //////////currentMeal.AccuracyOfChoEstimate =
-            //////////    bl.QualitativeAccuracyChanged((QualitativeAccuracy)cmbAccuracyMeal.SelectedItem);
-        }
-        private void btnNowStart_Click(object sender, EventArgs e)
-        {
-            dtpMealTimeStart.Value = DateTime.Now;
-        }
-        private void btnNowFinish_Click(object sender, EventArgs e)
-        {
-            dtpMealTimeFinish.Value = DateTime.Now;
         }
     }
 }

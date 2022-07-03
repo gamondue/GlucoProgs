@@ -14,10 +14,8 @@ namespace GlucoMan.Mobile
         public MainPage()
         {
             InitializeComponent();
-
             Common.GeneralInitializations();
             Common.PlatformSpecificInitializations();
-
             lblAppName.Text += " " + Common.Version;
         }
         private async void btnGlucoseMeasurement_Clicked(object sender, EventArgs e)

@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GlucoMan.Mobile.MiscellaneousFunctionsPage">
+             x:Class="GlucoMan.Mobile.MiscellaneousFunctionsPage"
+             Title="Miscellaneous functions">
     <ContentPage.Content>
         <Grid Padding="8,0,8,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="60"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
@@ -28,15 +30,24 @@
                    Placeholder="mmol/L" BackgroundColor="GreenYellow" TextChanged="txt_mmolPerL_TextChanged"/>
 
             <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="Reset database" Margin="100,10,100,10"
+                    Text="Reset database" Margin="100,0,100,0"
                     BackgroundColor="Red" TextColor="Yellow"
                     x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
+            
             <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="Copy database" Margin="100,10,100,10"
+                    Text="Copy database" Margin="100,0,100,0"
                     x:Name="btnCopyDatabase" Clicked="btnCopyDatabase_Click" />
+            
             <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="Stop application" Margin="100,10,100,10"
+                    Text="Stop application" Margin="100,0,100,0"
                     x:Name="btnStopApplication" Clicked="btnStopApplication_Click" />
+
+            <Button Grid.Row="6" Grid.Column="0"
+                    Text="Show error log" 
+                    x:Name="btnShowErrorLog" Clicked="btnShowErrorLog_ClickAsync" />
+            <Button Grid.Row="6" Grid.Column="1"
+                    Text="Delete error log" 
+                    x:Name="btnDeleteErrorLog" Clicked="btnDeleteErrorLog_ClickAsync" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

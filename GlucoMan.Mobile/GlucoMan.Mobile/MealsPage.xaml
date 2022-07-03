@@ -9,8 +9,10 @@
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
@@ -27,19 +29,20 @@
 
             <Label Grid.Row="1" Grid.Column="0" Text="IdMeal" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="1" Grid.Column="1" Text="Type of Meal" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="1" Grid.Column="2" Text="Accuracy" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Text="Accuracy" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="1" Grid.Column="3" Text="" XAlign="Center" YAlign="End"/>
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtIdMeal" BackgroundColor="White" 
-                   FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
+                   FontSize="Medium" HorizontalTextAlignment="End" IsReadOnly="true"/>
             <Picker Grid.Row="2" Grid.Column="1" x:Name="cmbTypeOfMeal"  
                     Title="Type of Meal" 
+                    HorizontalTextAlignment="End"
                     ItemsSource="{Binding Common.TypeOfMeal}" 
-                    SelectedItem="{Binding Snack, Mode=TwoWay}"
                     BackgroundColor="PaleGoldenrod"
                     FontSize="Small" />
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAccuracyOfChoMeal" 
-                   BackgroundColor="PaleGoldenrod" FontSize="Medium" />
+                   BackgroundColor="PaleGoldenrod" HorizontalTextAlignment="End"
+                   FontSize="Medium" />
             <Picker Grid.Row="2" Grid.Column="3" x:Name="cmbAccuracyMeal"
                     Title="Accuracy" HorizontalTextAlignment="End"
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
@@ -47,16 +50,14 @@
                     BackgroundColor="PaleGoldenrod" FontSize="Small"/>
             
             <Label Grid.Row="3" Grid.Column="0" Text="Meal CHO" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="3" Grid.Column="1" Text="Meal Start" XAlign="Center" YAlign="End"/>
-            <Button Grid.Row="3" Grid.Column="2" Text="Save" x:Name="btnSave" Clicked="btnSave_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="3" Text="Details" x:Name="btnShowThisMeal" ></Button>
-            
+            <Label Grid.Row="3" Grid.Column="1" Text="Meal begin" XAlign="Center" YAlign="End"/>
+
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtChoOfMeal" BackgroundColor="Aqua"
                         FontSize="Medium" HorizontalTextAlignment="End"/>
-            <DatePicker Grid.Row="4" Grid.Column="1" x:Name="dtpMealDateStart" 
+            <DatePicker Grid.Row="4" Grid.Column="1" x:Name="dtpMealDateBegin" 
                         BackgroundColor="PaleGreen" FontSize="Small" Format="yyyy-MM-dd" 
                         HorizontalOptions="Center" />
-            <TimePicker Grid.Row="4" Grid.Column="2" x:Name="dtpMealTimeStart" 
+            <TimePicker Grid.Row="4" Grid.Column="2" x:Name="dtpMealTimeBegin" 
                         BackgroundColor="PaleGreen" FontSize="Small" Format="HH:mm:ss" 
                         HorizontalOptions="Center" />
             <Grid Grid.Row="4" Grid.Column="3">
@@ -67,15 +68,37 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddMeal" Clicked="btnAddMeal_Click"></Button>
-                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveMeal" Clicked="btnRemoveMeal_Click"></Button>
+                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddMeal" Clicked="btnAddMeal_ClickAsync"></Button>
+                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveMeal" Clicked="btnRemoveMeal_ClickAsync"></Button>
             </Grid>
-
-            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Text="Carbohydrates" XAlign="Center" YAlign="End"/>
+            <Button Grid.Row="5" Grid.Column="0" Text="Save" x:Name="btnSave" Clicked="btnSaveMeal_Click"></Button>
+            <Button Grid.Row="5" Grid.Column="1" Text="Now" x:Name="btnNowBegin" Clicked="btnNowBegin_Click"></Button>
+            <Button Grid.Row="5" Grid.Column="2" Text="Defaults" x:Name="btnDefaults" Clicked="btnDefault_Click"></Button>
+            <Button Grid.Row="5" Grid.Column="3" Text="Details" x:Name="btnShowThisMeal" Clicked="btnShowThisMeal_ClickAsync"></Button>
             
-            <ListView Grid.Row="6" Grid.ColumnSpan="4" x:Name="gridMeals" ItemsSource="{Binding}"
-                      ItemSelected="OnSelection" >
+            <StackLayout Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
+                    <CheckBox.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="0,-10,0,0" />
+                            <On Platform="Android, WinPhone, Windows" Value="0,-5,0,0" />
+                        </OnPlatform>
+                    </CheckBox.Margin>
+                </CheckBox>
+                <Label VerticalTextAlignment="Center" VerticalOptions="Start" Text="Add with Now as time">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer>
+
+                        </TapGestureRecognizer>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            
+            <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" Text="Carbohydrates" XAlign="Center" YAlign="End"/>
+            
+            <ListView Grid.Row="8" Grid.ColumnSpan="4" x:Name="gridMeals" ItemsSource="{Binding}"
+                      ItemSelected="OnGridSelectionAsync" >
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -86,7 +109,7 @@
                                         <RowDefinition Height="18"/>
                                     </Grid.RowDefinitions>
                                     <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding TimeBegin.DateTime}"/>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding Carbohydrates.Double}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

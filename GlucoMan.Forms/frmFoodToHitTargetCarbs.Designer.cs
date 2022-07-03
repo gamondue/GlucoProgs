@@ -204,7 +204,7 @@ namespace GlucoMan.Forms
             // btnCalculateGrams
             // 
             this.btnCalculateGrams.ForeColor = System.Drawing.Color.Black;
-            this.btnCalculateGrams.Location = new System.Drawing.Point(201, 231);
+            this.btnCalculateGrams.Location = new System.Drawing.Point(201, 12);
             this.btnCalculateGrams.Name = "btnCalculateGrams";
             this.btnCalculateGrams.Size = new System.Drawing.Size(75, 50);
             this.btnCalculateGrams.TabIndex = 159;
@@ -242,7 +242,7 @@ namespace GlucoMan.Forms
             // btnReadAll
             // 
             this.btnReadAll.ForeColor = System.Drawing.Color.Black;
-            this.btnReadAll.Location = new System.Drawing.Point(201, 12);
+            this.btnReadAll.Location = new System.Drawing.Point(201, 191);
             this.btnReadAll.Name = "btnReadAll";
             this.btnReadAll.Size = new System.Drawing.Size(75, 50);
             this.btnReadAll.TabIndex = 165;

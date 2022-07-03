@@ -20,5 +20,8 @@
     <PackageReference Include="NetOfficeFw.Word" Version="1.8.1" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GlucoMan.Forms\GlucoMan.Forms.csproj" />
+  </ItemGroup>
 
 </Project>

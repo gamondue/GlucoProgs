@@ -1,11 +1,8 @@
 ﻿using Comuni.XOffice;
 using System.IO;
 using System.Windows;
-using NetOffice.ExcelApi;
-using NetOffice.ExcelApi.Enums;
 using System;
 using GlucoMan;
-using System.Diagnostics;
 using SharedData;
 
 namespace FoglioGlicemiaTerapia

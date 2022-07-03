@@ -1,13 +1,4 @@
 ﻿using SharedGlucoMan.BusinessLayer;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GlucoMan.Forms
 {
@@ -65,6 +56,23 @@ namespace GlucoMan.Forms
         {
             string oneDrivePath = Common.PathUser.Substring(0, Common.PathUser.LastIndexOf(@"\")); 
             File.Copy(Common.PathAndFileDatabase, Path.Combine(oneDrivePath, @"OneDrive\GlucoMan\", Common.FileDatabase)); 
+        }
+        private void btnShowErrorLog_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string fileContent = File.ReadAllText(Common.LogOfProgram.ErrorsFile);
+                frmShowText f = new frmShowText(fileContent);
+                f.Show();
+            } catch
+            {
+                MessageBox.Show("File not existing or not accessible."); 
+            }
+        }
+        private void btnDeleteErrorLog_Click(object sender, EventArgs e)
+        {
+            File.Delete(Common.LogOfProgram.ErrorsFile);
+            MessageBox.Show("Done!"); 
         }
     }
 }

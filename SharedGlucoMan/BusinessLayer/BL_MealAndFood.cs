@@ -10,24 +10,13 @@ namespace GlucoMan.BusinessLayer
         DataLayer dl = Common.Database;
 
         List<Meal> currentMeals;
+        public List<Meal> Meals { get => currentMeals; set => currentMeals = value; }
+        
         Meal currentMeal;
         List<FoodInMeal> currentFoodsInMeal;
         FoodInMeal currentFoodInMeal;
-
         public Meal Meal { get => currentMeal; set => currentMeal = value; }
         public List<FoodInMeal> Foods { get => currentFoodsInMeal; set => currentFoodsInMeal = value; }
-        internal List<Food> SearchFoods(Food FoodToSearch)
-        {
-            return dl.SearchFood(FoodToSearch);
-        }
-
-        internal List<Food> ReadFoods()
-        {
-            return dl.ReadFoods();
-        }
-
-        public FoodInMeal FoodInMeal { get => currentFoodInMeal; set => currentFoodInMeal = value; }
-        public List<Meal> Meals { get => currentMeals; set => currentMeals = value; }
         public BL_MealAndFood()
         {
             currentMeals = new List<Meal>();
@@ -35,44 +24,39 @@ namespace GlucoMan.BusinessLayer
             currentFoodsInMeal = new List<FoodInMeal>();
             currentFoodInMeal = new FoodInMeal();
         }
-        public void CalculateChoOfFoodGrams(FoodInMeal Food)
+        #region Meals
+        public Meal GetOneMeal(int? IdMeal)
         {
-            Food.CarbohydratesGrams.Double = Food.CarbohydratesPercent.Double / 100 * 
-                Food.Quantity.Double;
-            RecalcTotalCho();
-            RecalcTotalAccuracy(); 
+            currentMeal = dl.GetOneMeal(IdMeal);
+            return currentMeal;
         }
-        internal string[] GetAllTypesOfMeal()
+        public List<Meal> GetMeals(DateTime? InitialTime, DateTime? FinalTime)
         {
-            return Enum.GetNames(typeof(Common.TypeOfMeal));
+            currentMeals = dl.GetMeals(InitialTime, FinalTime);
+            return currentMeals;
         }
-        internal string[] GetAllAccuracies()
+        public int? SaveOneMeal(Meal Meal)
         {
-            return Enum.GetNames(typeof(Common.QualitativeAccuracy));
-        }
-        public List<Meal> ReadMeals(DateTime? InitialTime, DateTime? FinalTime)
-        {
-            currentMeals = dl.ReadMeals(InitialTime, FinalTime);
-            return currentMeals; 
-        }
-        public Meal ReadMeal(int? IdMeal)
-        {
-            currentMeal = dl.ReadOneMeal(IdMeal);
-            return currentMeal; 
-        }
-        public int? SaveOneMeal(Meal meal)
-        {
-            currentMeal = meal; 
+            currentMeal = Meal;
             return dl.SaveOneMeal(currentMeal);
         }
         internal void DeleteOneMeal(Meal Meal)
         {
             dl.DeleteOneMeal(Meal);
         }
-        public List<FoodInMeal> ReadFoodsInMeal(int? IdMeal)
+        internal string[] GetAllTypesOfMeal()
         {
-            currentFoodsInMeal = dl.ReadFoodsInMeal(IdMeal);
-            return currentFoodsInMeal; 
+            return Enum.GetNames(typeof(Common.TypeOfMeal));
+        }
+
+        #endregion
+        #region FoodsInMeals
+
+        public FoodInMeal FoodInMeal { get => currentFoodInMeal; set => currentFoodInMeal = value; }
+        public List<FoodInMeal> GetFoodsInMeal(int? IdMeal)
+        {
+            currentFoodsInMeal = dl.GetFoodsInMeal(IdMeal);
+            return currentFoodsInMeal;
         }
         public void SaveFoodsInMeal(List<FoodInMeal> List)
         {
@@ -82,6 +66,13 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.SaveOneFoodInMeal(FoodToSave);
         }
+        internal void SaveAllFoodsInMeal(FoodInMeal foodInMeal)
+        {
+            foreach (FoodInMeal food in currentFoodsInMeal)
+            {
+                dl.SaveOneFoodInMeal(food);
+            }
+        }
         /// <summary>
         /// Changes numerical accuracy when qualitative accuracy changes
         /// </summary>
@@ -90,41 +81,43 @@ namespace GlucoMan.BusinessLayer
         {
             dl.DeleteOneFoodInMeal(Food);
         }
-        internal double QualitativeAccuracyChanged(QualitativeAccuracy QualitativeAccuracy)
+        #endregion
+        #region Foods
+        internal int? SaveOneFood(Food food)
         {
-            return (double)QualitativeAccuracy;
+            return dl.SaveOneFood(food);
         }
-        /// <summary>
-        /// Changes qualitative accuracy when numerical accuracy changes
-        /// </summary>
-        /// <param name="currentMeal"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        internal QualitativeAccuracy NumericalAccuracyChanged(double? NumericalAccuracy)
+        internal void DeleteOneFood(Food food)
         {
-            if (NumericalAccuracy < 0)
-                return QualitativeAccuracy.NotSet;
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.VeryBad)
-                return QualitativeAccuracy.Null;
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Bad)
-                return QualitativeAccuracy.VeryBad;
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Poor)
-                return QualitativeAccuracy.Bad;
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.AlmostSufficient)
-                return QualitativeAccuracy.Poor;
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Sufficient)
-                return QualitativeAccuracy.AlmostSufficient;
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Satisfactory)
-                return QualitativeAccuracy.Sufficient;
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Good)
-                return QualitativeAccuracy.Satisfactory;
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.VeryGood)
-                return QualitativeAccuracy.Good;
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Outstanding)
-                return QualitativeAccuracy.VeryGood;
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Perfect)
-                return QualitativeAccuracy.Outstanding;
-            else 
-                return QualitativeAccuracy.Perfect;
+            // !!!! verify if  the row to delete has been used somewhere else in the database
+            // !!!! if it is the case, don't delete and give notice to the caller 
+            dl.DeleteOneFood(food);
+        }
+        internal Food GetOneFood(int? idFood)
+        {
+            // !!!! verify if  the row to delete has been used somewhere else in the database
+            // !!!! if it is the case, don't delete and give notice to the caller 
+            return dl.GetOneFood(idFood);
+        }
+        internal List<Food> SearchFoods(Food FoodToSearch)
+        {
+            return dl.SearchFood(FoodToSearch);
+        }
+        internal List<Food> ReadFoods()
+        {
+            return dl.GetFoods();
+        }
+        public void CalculateChoOfFoodGrams(FoodInMeal Food)
+        {
+            Food.CarbohydratesGrams.Double = Food.CarbohydratesPercent.Double / 100 *
+                Food.Quantity.Double;
+            RecalcTotalCho();
+            RecalcTotalAccuracy();
+        }
+        #endregion
+        internal string[] GetAllAccuracies()
+        {
+            return Enum.GetNames(typeof(Common.QualitativeAccuracy));
         }
         internal double? RecalcTotalCho()
         {
@@ -186,28 +179,29 @@ namespace GlucoMan.BusinessLayer
             }
             return WeightedQuadraticAverage;
         }
-        internal int? SaveOneFood(Food food)
+        internal TypeOfMeal SetTypeOfMealBasedOnTime()
         {
-            return dl.SaveOneFood(food); 
+            TypeOfMeal type = TypeOfMeal.NotSet; 
+            DateTime now = DateTime.Now;
+            if (now.Hour > 6 && now.Hour < 9)
+                currentMeal.IdTypeOfMeal = TypeOfMeal.Breakfast;
+            else if (now.Hour > 12 && now.Hour < 14)
+                currentMeal.IdTypeOfMeal = TypeOfMeal.Lunch;
+            else if (now.Hour > 19 && now.Hour < 21)
+                currentMeal.IdTypeOfMeal = TypeOfMeal.Dinner;
+            else
+                currentMeal.IdTypeOfMeal = TypeOfMeal.Snack;
+            return currentMeal.IdTypeOfMeal; 
         }
-        internal void DeleteOneFood(Food food)
+        internal void NewDefaults()
         {
-            // !!!! verify if  the row to delete has been used somewhere else in the database
-            // !!!! if it is the case, don't delete and give notice to the caller 
-            dl.DeleteOneFood(food);
-        }
-        internal Food ReadOneFood(int? idFood)
-        {
-            // !!!! verify if  the row to delete has been used somewhere else in the database
-            // !!!! if it is the case, don't delete and give notice to the caller 
-            return dl.ReadOneFood(idFood);
-        }
-        internal void SaveAllFoodsInMeal(FoodInMeal foodInMeal)
-        {
-            foreach (FoodInMeal food in currentFoodsInMeal)
-            {
-                dl.SaveOneFoodInMeal(food); 
-            }
+            currentMeal = new Meal();
+            DateTime now = DateTime.Now;
+            currentMeal.TimeBegin.DateTime = now;
+            currentMeal.TimeEnd.DateTime = now;
+            currentMeal.AccuracyOfChoEstimate.Double = 0;
+            currentMeal.QualitativeAccuracyOfChoEstimate = QualitativeAccuracy.NotSet;
+            currentMeal.IdTypeOfMeal = SetTypeOfMealBasedOnTime(); 
         }
     }
 }

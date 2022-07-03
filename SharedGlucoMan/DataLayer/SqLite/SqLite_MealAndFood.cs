@@ -10,7 +10,7 @@ namespace GlucoMan
 {
     internal  partial class DL_Sqlite : DataLayer
     {
-        internal override List<Meal> ReadMeals(DateTime? InitialInstant, DateTime? FinalInstant)
+        internal override List<Meal> GetMeals(DateTime? InitialInstant, DateTime? FinalInstant)
         {
             List<Meal> list = new List<Meal>();
             try
@@ -26,7 +26,7 @@ namespace GlucoMan
                         query += " WHERE TimeBegin BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd") +
                             "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd 23:59:29") + "'";
                     }
-                    query += " ORDER BY TimeBegin DESC;";
+                    query += " ORDER BY TimeBegin DESC, IdMeal;";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
                     dRead = cmd.ExecuteReader();
@@ -45,9 +45,33 @@ namespace GlucoMan
             }
             return list;
         }
-        internal override Meal ReadOneMeal(long? IdMeal)
+        internal override Meal GetOneMeal(int? IdMeal)
         {
-            throw new NotImplementedException();
+            Meal food = new Meal();
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
+                {
+                    string query = "SELECT *" +
+                        " FROM Meals" +
+                        " WHERE IdMeal=" + IdMeal;
+                    query += ";";
+                    cmd = new SqliteCommand(query);
+                    cmd.Connection = conn;
+                    dRead = cmd.ExecuteReader();
+                    dRead.Read();
+                    food = GetMealFromRow(dRead);
+                    dRead.Dispose();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_MealAndFood | GetOneMeal", ex);
+            }
+            return food;
         }
         internal override void SaveMeals(List<Meal> List)
         {
@@ -70,7 +94,7 @@ namespace GlucoMan
                 if (Meal.IdMeal == null || Meal.IdMeal == 0)
                 {
                     Meal.IdMeal = GetNextTablePrimaryKey("Meals", "IdMeal"); 
-                    Meal.TimeStart.DateTime = DateTime.Now;
+                    Meal.TimeBegin.DateTime = DateTime.Now;
                     //Meal.TimeEnd.DateTime =  DateTime.Now;
                     // INSERT new record in the table
                     InsertMeal(Meal);
@@ -114,11 +138,14 @@ namespace GlucoMan
             try
             {
                 m.IdMeal = Safe.Int(Row["IdMeal"]);
-                m.TypeOfMeal = (TypeOfMeal) Safe.Int(Row["IdTypeOfMeal"]);
-                m.TimeStart.DateTime = (DateTime) Safe.DateTime(Row["TimeBegin"]);
+                if (Row["IdTypeOfMeal"] is DBNull)
+                    m.IdTypeOfMeal = 0; 
+                else
+                    m.IdTypeOfMeal = (TypeOfMeal)Safe.Int(Row["IdTypeOfMeal"]);
+                m.TimeBegin.DateTime = Safe.DateTime(Row["TimeBegin"]);
                 m.CarbohydratesGrams.Double = Safe.Double(Row["Carbohydrates"]);
-                m.TimeFinish.Text = Safe.String(Row["TimeEnd"]);
-                m.AccuracyOfChoEstimate.Double = (double?)Safe.Double(Row["AccuracyOfChoEstimate"]);
+                m.TimeEnd.DateTime = Safe.DateTime(Row["TimeEnd"]);
+                m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
                 m.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
                 m.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy) Safe.Int(Row["IdQualitativeAccuracyCHO"]);
@@ -137,15 +164,14 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE Meals SET " +
+                    "IdTypeOfMeal=" + SqlInt((int)Meal.IdTypeOfMeal) + "," +
+                    "TimeBegin=" + SqlDate(Meal.TimeBegin.DateTime) + "," +
+                    "TimeEnd=" + SqlDate(Meal.TimeEnd.DateTime) + "," +
                     "Carbohydrates=" + SqlDouble(Meal.CarbohydratesGrams.Text) + "," +
-                    "TimeBegin=" + SqlDate(Meal.TimeStart.DateTime) + "," +
-                    "TimeEnd=" + SqlDate(Meal.TimeFinish.DateTime) + "," +
                     "AccuracyOfChoEstimate=" + SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     "IdBolusCalculation=" + SqlInt(Meal.IdBolusCalculation) + "," +
                     "IdGlucoseRecord=" + SqlInt(Meal.IdGlucoseRecord) + "," +
-                    "IdQualitativeAccuracyCho=" + SqlInt((int)Meal.QualitativeAccuracyOfChoEstimate) + "" +
-                    //"IdInsulineInjection=" + SqlInt(Meal.IdInsulineInjection) + "" +
-                    // "XXXXX=" + SqlString(Meal.) + "," +
+                    "IdQualitativeAccuracyCHO=" + SqlInt((int)Meal.QualitativeAccuracyOfChoEstimate) + "" +
                     " WHERE IdMeal=" + SqlInt(Meal.IdMeal) + 
                     ";";
                     cmd.CommandText = query;
@@ -172,19 +198,15 @@ namespace GlucoMan
                     "IdMeal,Carbohydrates,TimeBegin,TimeEnd,AccuracyOfChoEstimate," +
                     "IdBolusCalculation,IdGlucoseRecord," +
                     "IdQualitativeAccuracyCho";
-                    //"IdInsulineInjection";
-                    //"XXXX,XXXX,XXXX" +
                     query += ")VALUES(" +
                     SqlInt(Meal.IdMeal) + "," +
                     SqlDouble(Meal.CarbohydratesGrams.Double) + "," +
-                    SqlDate(Meal.TimeStart.DateTime) + "," +
-                    SqlDate(Meal.TimeFinish.DateTime) + "," +
+                    SqlDate(Meal.TimeBegin.DateTime) + "," +
+                    SqlDate(Meal.TimeEnd.DateTime) + "," +
                     SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     SqlDouble(Meal.IdBolusCalculation) + "," +
                     SqlInt(Meal.IdGlucoseRecord) + "," +
                     SqlInt((int)Meal.QualitativeAccuracyOfChoEstimate);
-                    //SqlInt(Meal.IdInsulineInjection);
-                    // SqlString(Meal.) + "," +
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -202,7 +224,7 @@ namespace GlucoMan
         {
             throw new NotImplementedException();
         }
-        internal override List<FoodInMeal> ReadFoodsInMeal(int? IdMeal)
+        internal override List<FoodInMeal> GetFoodsInMeal(int? IdMeal)
         {
             if (IdMeal != null)
             {
@@ -553,7 +575,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_MealAndFood | UpdateMeal", ex);
             }
         }
-        internal override Food ReadOneFood(int? IdFood)
+        internal override Food GetOneFood(int? IdFood)
         {
             Food food = new Food(); 
             try
@@ -563,6 +585,7 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     string query = "SELECT *" +
+                        " FROM Foods" + 
                         " WHERE IdFood=" + IdFood;
                     query += ";";
                     cmd = new SqliteCommand(query);
@@ -580,7 +603,7 @@ namespace GlucoMan
             }
             return food;
         }
-        internal override List<Food> ReadFoods()
+        internal override List<Food> GetFoods()
         {
             List<Food> list = new List<Food>();
             try

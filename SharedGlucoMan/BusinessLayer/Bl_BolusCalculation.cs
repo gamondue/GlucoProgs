@@ -85,7 +85,7 @@ namespace GlucoMan.BusinessLayer
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
                
-                switch (MealOfBolus.TypeOfMeal)
+                switch (MealOfBolus.IdTypeOfMeal)
                 {
                     case (Common.TypeOfMeal.Breakfast):
                         BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioBreakfast.Double;

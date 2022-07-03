@@ -78,7 +78,12 @@ namespace GlucoMan
             try
             {
                 if (Number != null)
+                {
+                    double dummy = double.Parse(Number);
+                    if (Double.IsNaN(dummy) || Double.IsInfinity(dummy))
+                        return "null";
                     return double.Parse(Number).ToString().Replace(",", ".");
+                }
                 else
                     return "null";
             }
@@ -94,6 +99,9 @@ namespace GlucoMan
             // restituisce null se dà errore, perchè viene usato con double? 
             try
             {
+                double dummy = (double)Number; 
+                if (Double.IsNaN(dummy) || Double.IsInfinity(dummy))
+                    return "null"; 
                 return Number.ToString().Replace(",", ".");
             }
             catch
@@ -105,6 +113,9 @@ namespace GlucoMan
         {
             try
             {
+                float dummy = (float)Number;
+                if (Double.IsNaN(dummy) || Double.IsInfinity(dummy))
+                    return "null";
                 return Number.ToString().Replace(",", ".");
             }
             catch
@@ -116,6 +127,9 @@ namespace GlucoMan
         {
             try
             {
+                float dummy = float.Parse(Number);
+                if (Double.IsNaN(dummy) || Double.IsInfinity(dummy))
+                    return "null";
                 return float.Parse(Number).ToString().Replace(",", ".");
             }
             catch

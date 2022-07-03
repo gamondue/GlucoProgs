@@ -91,7 +91,7 @@ namespace GlucoMan.Mobile
             }
             else
             {
-                await DisplayAlert("Saving not possible","Choose a measurement to delete", "Ok");
+                await DisplayAlert("Saving not possible", "Choose a measurement to delete", "Ok");
                 return;
             }
             RefreshGrid();
@@ -107,7 +107,7 @@ namespace GlucoMan.Mobile
             dtpEventDate.Date = DateTime.Now;
             dtpEventTime.Time = DateTime.Now.TimeOfDay;
         }
-        void OnSelection(object sender, SelectedItemChangedEventArgs e)
+        void OnGridSelection(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
             {

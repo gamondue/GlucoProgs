@@ -64,20 +64,20 @@ namespace GlucoMan
         #endregion
 
         #region Meals and Food in Meals
-        internal abstract Meal ReadOneMeal(long? IdMeal);
-        internal abstract List<Meal> ReadMeals(DateTime? initialTime, DateTime? finalTime);
+        internal abstract Meal GetOneMeal(int? IdMeal);
+        internal abstract List<Meal> GetMeals(DateTime? initialTime, DateTime? finalTime);
         internal abstract void SaveMeals(List<Meal> List);
         internal abstract int? SaveOneMeal(Meal Meal);
         internal abstract void DeleteOneMeal(Meal meal);
         internal abstract void SaveFoodsInMeal(List<FoodInMeal> list);
-        internal abstract List<FoodInMeal> ReadFoodsInMeal(int? IdMeal);
+        internal abstract List<FoodInMeal> GetFoodsInMeal(int? IdMeal);
         internal abstract int? SaveOneFoodInMeal(FoodInMeal FoodToSave);
         internal abstract void DeleteOneFoodInMeal(FoodInMeal Food);
         internal abstract List<Food> SearchFood(Food Food);
         internal abstract int? SaveOneFood(Food currentFood);
         internal abstract void DeleteOneFood(Food food);
-        internal abstract Food ReadOneFood(int? IdFood);
-        internal abstract List<Food> ReadFoods();
+        internal abstract Food GetOneFood(int? IdFood);
+        internal abstract List<Food> GetFoods();
         #endregion
 
         #region Alarms

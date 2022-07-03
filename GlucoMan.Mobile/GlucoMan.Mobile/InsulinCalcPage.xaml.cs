@@ -22,7 +22,7 @@ namespace GlucoMan.Mobile
             currentGlucoseMeasuremet = new BL_GlucoseMeasurements();
 
             currentBolusCalculation.RestoreBolusParameters();
-            currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.SelectMealBasedOnTimeNow();
+            currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.SelectMealBasedOnTimeNow();
 
             currentBolusCalculation.TargetGlucose.Format = "0";
             currentBolusCalculation.GlucoseBeforeMeal.Format = "0";
@@ -47,7 +47,7 @@ namespace GlucoMan.Mobile
             txtChoInsulinRatioDinner.Text = currentBolusCalculation.ChoInsulinRatioDinner.Text;
 
             txtStatusBar.Text = currentBolusCalculation.StatusMessage;
-            switch (currentBolusCalculation.MealOfBolus.TypeOfMeal)
+            switch (currentBolusCalculation.MealOfBolus.IdTypeOfMeal)
             {
                 case (Common.TypeOfMeal.Breakfast):
                     rdbIsBreakfast.IsChecked = true;
@@ -76,13 +76,13 @@ namespace GlucoMan.Mobile
             currentBolusCalculation.InsulinCorrectionSensitivity.Text = NoBlank(txtInsulinCorrectionSensitivity.Text);
 
             if (rdbIsBreakfast.IsChecked)
-                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Breakfast;
+                currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Breakfast;
             if (rdbIsLunch.IsChecked)
-                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Lunch;
+                currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Lunch;
             if (rdbIsDinner.IsChecked)
-                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Dinner;
+                currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Dinner;
             if (rdbIsSnack.IsChecked)
-                currentBolusCalculation.MealOfBolus.TypeOfMeal = Common.TypeOfMeal.Snack;
+                currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Snack;
         }
         private string NoBlank(string Text)
         {

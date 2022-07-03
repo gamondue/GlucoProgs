@@ -14,50 +14,48 @@ namespace GlucoMan.Mobile
     public partial class MealPage : ContentPage
     {
         private BL_MealAndFood bl = new BL_MealAndFood();
-        public MealPage()
+        public MealPage(Meal Meal)
         {
             InitializeComponent();
-
-            bl.Meal = new Meal();
-
+            bl.Meal = Meal; 
             RefreshGrid();
         }
         private void FromUiToClass()
         {
+            //////cmbTypeOfMeal.
             bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
             bl.Meal.CarbohydratesGrams.Text = txtChoOfMeal.Text;
             DateTime instant = new DateTime(dtpMealDateStart.Date.Year, dtpMealDateStart.Date.Month, dtpMealDateStart.Date.Day,
                 dtpMealTimeStart.Time.Hours, dtpMealTimeStart.Time.Minutes, dtpMealTimeStart.Time.Seconds);
-            bl.Meal.TimeStart.DateTime = instant;
+            bl.Meal.TimeBegin.DateTime = instant;
             bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text);
         }
         private void FromClassToUi()
         {
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
             txtChoOfMeal.Text = Safe.String(bl.Meal.CarbohydratesGrams.Text);
-            if (bl.Meal.TimeStart.DateTime != Common.DateNull)
+            if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
             {
-                dtpMealDateStart.Date = (DateTime)Safe.DateTime(bl.Meal.TimeStart.DateTime);
-                dtpMealTimeStart.Time = (DateTime)bl.Meal.TimeStart.DateTime - dtpMealDateStart.Date;
+                dtpMealDateStart.Date = (DateTime)Safe.DateTime(bl.Meal.TimeBegin.DateTime);
+                dtpMealTimeStart.Time = (DateTime)bl.Meal.TimeBegin.DateTime - dtpMealDateStart.Date;
             }
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.ToString();
             ////////cmbTypeOfMeal.Text = bl.Meal.TypeOfMeal.ToString();
         }
         private void RefreshGrid()
         {
-            bl.ReadMeals(null, null);
+            bl.GetMeals(null, null);
             gridMeals.BindingContext = bl.Meals;
         }
-        private async void btnAddMeal_Click(object sender, EventArgs e)
+        private async void btnAddMeal_ClickAsync(object sender, EventArgs e)
         {
-            // !!!! make modal !!!!
-            //////await Navigation.PushAsync(new MealPage());
-
             FromUiToClass();
             // force creation of a new record 
             bl.Meal.IdMeal = null;
-            bl.Meal.TimeStart.DateTime = DateTime.Now;
-            ////////bl.SaveOneMeal();
+            bl.Meal.TimeBegin.DateTime = DateTime.Now;
+            bl.SaveOneMeal(bl.Meal);
+            // ???? make modal ????
+            await Navigation.PushAsync(new MealPage(bl.Meal));
             RefreshGrid();
             FromClassToUi();
         }
@@ -91,10 +89,9 @@ namespace GlucoMan.Mobile
         {
             if (txtIdMeal.Text == "")
             {
-                //////MessageBox.Show("Choose a meal in the grid");
                 return;
             }
-            await Navigation.PushAsync(new MealPage());
+            await Navigation.PushAsync(new MealPage(bl.Meal));
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -108,18 +105,8 @@ namespace GlucoMan.Mobile
                 return;
             }
             FromUiToClass();
-            ////////bl.SaveOneMeal();
+            bl.SaveOneMeal(bl.Meal);
             RefreshGrid();
         }
-        //private void txtAccuracyOfChoMeal_TextChanged(object sender, EventArgs e)
-        //{
-        //    bl.Meal.AccuracyOfChoEstimate = Safe.Double(txtAccuracyOfChoMeal.Text);
-        //    bl.NumericalAccuracyChanged(bl.Meal.AccuracyOfChoEstimate.Value);
-        //}
-        //private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    bl.Meal.AccuracyOfChoEstimate =
-        //        bl.QualitativeAccuracyChanged(((QualitativeAccuracy)cmbAccuracyMeal.SelectedItem));
-        //}
     }
 }

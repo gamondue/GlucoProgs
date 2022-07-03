@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Mobile.ShowTextPage"
+             Title="Show file content">
+    <ContentPage.Content>
+        <ScrollView>
+            <Label
+                   x:Name="txtText"
+                   TextColor="Black"
+                VerticalOptions="StartAndExpand" 
+                HorizontalOptions="StartAndExpand" />
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

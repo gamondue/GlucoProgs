@@ -23,10 +23,10 @@ namespace GlucoMan
         public int? IdMeal { get; set; }
 
         [DisplayName("Start time")]
-        public DateTimeAndText TimeStart { get => timeBegin; set => timeBegin = value; }
+        public DateTimeAndText TimeBegin { get => timeBegin; set => timeBegin = value; }
 
         [DisplayName("Type of meal")]
-        public TypeOfMeal TypeOfMeal { get => typeOfMeal; set => typeOfMeal = value; }
+        public TypeOfMeal IdTypeOfMeal { get => typeOfMeal; set => typeOfMeal = value; }
 
         [DisplayName("CHO of meal")]
         public DoubleAndText CarbohydratesGrams { get => carbohydrates; set => carbohydrates = value; }
@@ -38,7 +38,7 @@ namespace GlucoMan
         public QualitativeAccuracy QualitativeAccuracyOfChoEstimate { get; set; }
 
         [DisplayName("End time")]
-        public DateTimeAndText TimeFinish { get => timeEnd; set => timeEnd = value; }
+        public DateTimeAndText TimeEnd { get => timeEnd; set => timeEnd = value; }
 
         public  List<Food> FoodsEaten { get => foodsEaten; set => foodsEaten = value; }
         //[DisplayName("Food Code")]
@@ -47,9 +47,9 @@ namespace GlucoMan
         public  Meal()
         {
             // default type of meal is snack
-            TypeOfMeal = Common.TypeOfMeal.Snack;
-            TimeStart = new DateTimeAndText();
-            TimeFinish = new DateTimeAndText();
+            IdTypeOfMeal = Common.TypeOfMeal.Snack;
+            TimeBegin = new DateTimeAndText();
+            TimeEnd = new DateTimeAndText();
 
             CarbohydratesGrams = new DoubleAndText();
             AccuracyOfChoEstimate = new DoubleAndText(); 
