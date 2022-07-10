@@ -41,7 +41,7 @@
                     BackgroundColor="PaleGoldenrod"
                     FontSize="Small" />
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAccuracyOfChoMeal" 
-                   BackgroundColor="PaleGoldenrod" HorizontalTextAlignment="End"
+                   Keyboard="Numeric" BackgroundColor="PaleGoldenrod" HorizontalTextAlignment="End"
                    FontSize="Medium" />
             <Picker Grid.Row="2" Grid.Column="3" x:Name="cmbAccuracyMeal"
                     Title="Accuracy" HorizontalTextAlignment="End"
@@ -50,10 +50,10 @@
                     BackgroundColor="PaleGoldenrod" FontSize="Small"/>
             
             <Label Grid.Row="3" Grid.Column="0" Text="Meal CHO" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="3" Grid.Column="1" Text="Meal begin" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Meal begin instant"  XAlign="Center" YAlign="End"/>
 
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtChoOfMeal" BackgroundColor="Aqua"
-                        FontSize="Medium" HorizontalTextAlignment="End"/>
+                   Keyboard="Numeric"  FontSize="Medium" HorizontalTextAlignment="End"/>
             <DatePicker Grid.Row="4" Grid.Column="1" x:Name="dtpMealDateBegin" 
                         BackgroundColor="PaleGreen" FontSize="Small" Format="yyyy-MM-dd" 
                         HorizontalOptions="Center" />

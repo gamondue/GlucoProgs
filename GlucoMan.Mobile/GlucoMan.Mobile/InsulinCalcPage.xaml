@@ -32,9 +32,9 @@
             <Label Grid.Row="1" Grid.Column="2" Text="Dinner" XAlign="Center" YAlign="End"/>
             
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" IsReadOnly="True"
-                   Placeholder="break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
+                   Keyboard="Numeric" Placeholder="break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" IsReadOnly="True"
-                   Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
+                   Keyboard="Numeric" Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" IsReadOnly="True"
                    Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
             <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calc bolus" 
@@ -44,8 +44,8 @@
             <Label Grid.Row="3" Grid.Column="1" Text="Sens.to insul." XAlign="Center" YAlign="End"/>
             
             <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="----" XAlign="Center" YAlign="Center"/>
-            <Entry  Grid.Row="4" Grid.Column="1" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
-                   Placeholder="mg/dl" BackgroundColor="PaleGoldenrod" />
+            <Entry Grid.Row="4" Grid.Column="1" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
+                   Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod" />
             <Button Grid.Row="4" Grid.Column="3" x:Name="btnSetParameters" Text="Calc. param."
                     Clicked="btnSetParameters_Click"/>
             
@@ -55,15 +55,15 @@
             <Label Grid.Row="5" Grid.Column="3" Text="CHO to eat" XAlign="Center" YAlign="End"/>
 
             <Entry Grid.Row="6" Grid.Column="0" HorizontalTextAlignment ="End" 
-                   x:Name="txtGlucoseBeforeMeal" Text="" FontSize="Large" 
+                   Keyboard="Numeric" x:Name="txtGlucoseBeforeMeal" Text="" FontSize="Large" 
                    Placeholder="mg/dl" BackgroundColor="GreenYellow" />
             <Entry Grid.Row="6" Grid.Column="1" HorizontalTextAlignment ="End" 
-                   x:Name="txtTargetGlucose" Text="mg/dl" 
+                   Keyboard="Numeric" x:Name="txtTargetGlucose" Text="mg/dl" 
                    Placeholder="" BackgroundColor="PaleGoldenrod" />
             <Label Grid.Row="6" Grid.Column="2" x:Name="txtGlucoseToBeCorrected" 
                    Text="----" XAlign="Center" YAlign="Center"/>
             <Entry Grid.Row="6" Grid.Column="3" x:Name="txtChoToEat" Text="" FontSize="Large" 
-                   Placeholder="g" HorizontalTextAlignment ="End" BackgroundColor="GreenYellow" />
+                   Keyboard="Numeric" Placeholder="g" HorizontalTextAlignment ="End" BackgroundColor="GreenYellow" />
 
             <Button Grid.Row="7" Grid.Column="0"  Text="Read" 
                         x:Name="btnReadGlucose" Clicked="btnReadGlucose_Click" />

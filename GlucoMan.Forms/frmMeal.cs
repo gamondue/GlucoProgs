@@ -6,6 +6,9 @@ namespace GlucoMan.Forms
     public partial class frmMeal : Form
     {
         BL_MealAndFood bl = new BL_MealAndFood();
+        
+        FoodInMeal currentFoodInMeal;
+
         Accuracy accuracyMeal;
         Accuracy accuracyFood;
 
@@ -21,13 +24,13 @@ namespace GlucoMan.Forms
             //accuracyMeal = new Accuracy(this, txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
             //accuracyFood = new Accuracy(this, txtAccuracyOfChoFoodInMeal, cmbAccuracyFoodInMeal, bl);
 
-            gridFoods.AutoGenerateColumns = true;
+            gridFoodsInMeal.AutoGenerateColumns = true;
         }
         private void frmMeal_Load(object sender, EventArgs e)
         {
             if (bl.Meal.IdTypeOfMeal == TypeOfMeal.NotSet)
             {
-                bl.Meal.IdTypeOfMeal = Common.SelectMealBasedOnTimeNow();
+                bl.Meal.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
             }
             FromClassToUi();
             RefreshGrid();
@@ -35,14 +38,14 @@ namespace GlucoMan.Forms
         }
         private void RefreshGrid()
         {
-            bl.Foods = bl.GetFoodsInMeal(bl.Meal.IdMeal); 
-            gridFoods.DataSource = bl.Foods;
-            gridFoods.Refresh();
+            bl.FoodsInMeal = bl.GetFoodsInMeal(bl.Meal.IdMeal); 
+            gridFoodsInMeal.DataSource = bl.FoodsInMeal;
+            gridFoodsInMeal.Refresh();
         }
         private void FromUiToClass()
         {
             bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
-            bl.Meal.CarbohydratesGrams.Text = txtChoOfMeal.Text;
+            bl.Meal.ChoGrams.Text = txtChoOfMeal.Text;
             bl.Meal.TimeBegin.DateTime = dtpMealTimeStart.Value;
             bl.Meal.TimeEnd.DateTime = dtpMealTimeFinish.Value;
 
@@ -54,15 +57,15 @@ namespace GlucoMan.Forms
             bl.FoodInMeal.IdFoodInMeal = Safe.Int(txtIdMealInFood.Text);
             bl.FoodInMeal.IdMeal = Safe.Int(txtIdMeal.Text);
             bl.FoodInMeal.IdFood = Safe.Int(txtIdFood.Text);
-            bl.FoodInMeal.Quantity.Text = txtFoodQuantityGrams.Text; // [g]
-            bl.FoodInMeal.CarbohydratesPercent.Text = txtFoodChoPercent.Text;
-            bl.FoodInMeal.CarbohydratesGrams.Text = txtFoodChoGrams.Text;
+            bl.FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text; // [g]
+            bl.FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text;
+            bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
             bl.FoodInMeal.Name = txtName.Text;
         }
         internal void FromClassToUi()
         {
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-            txtChoOfMeal.Text = bl.Meal.CarbohydratesGrams.Text;
+            txtChoOfMeal.Text = bl.Meal.ChoGrams.Text;
 
             SetTypeOfMealRadiobutton(bl.Meal.IdTypeOfMeal);
 
@@ -78,9 +81,9 @@ namespace GlucoMan.Forms
             cmbAccuracyMeal.SelectedItem = bl.Meal.QualitativeAccuracyOfChoEstimate;
 
             txtIdMealInFood.Text = bl.FoodInMeal.IdFoodInMeal.ToString();
-            txtFoodChoPercent.Text = bl.FoodInMeal.CarbohydratesPercent.Text;
-            txtFoodQuantityGrams.Text = bl.FoodInMeal.Quantity.Text;
-            txtFoodChoGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
+            txtFoodChoPercent.Text = bl.FoodInMeal.ChoPercent.Text;
+            txtFoodQuantityGrams.Text = bl.FoodInMeal.QuantityGrams.Text;
+            txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
             txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;
             // the value contaied in the combo is updated when txtAccuracy is modified 
             // we don't have to modify it here! 
@@ -150,8 +153,13 @@ namespace GlucoMan.Forms
         }
         private void btnFoodDetail_Click(object sender, EventArgs e)
         {
-            frmFoods fd = new frmFoods();
-            fd.Show();
+            FromUiToClass();
+            frmFoods fd = new frmFoods(bl.FoodInMeal);
+            fd.ShowDialog();
+            if (fd.FoodIsChosen)
+            {
+                currentFoodInMeal = bl.FromFoodToFoodInMeal(fd.CurrentFood); 
+            }
         }
         private void btnInsulin_Click(object sender, EventArgs e)
         {
@@ -195,29 +203,9 @@ namespace GlucoMan.Forms
             bl.RecalcTotalAccuracy();
             bl.RecalcTotalCho();
         }
-        private void gridFoods_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void gridFoods_CellClick(object sender, DataGridViewCellEventArgs e) { }
-        private void gridFoods_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex > -1)
-            {
-                bl.FoodInMeal = bl.Foods[e.RowIndex];
-                gridFoods.Rows[e.RowIndex].Selected = true;
-                FromClassToUi();
-            }
-        }
-        private void gridFoods_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            //if (e.RowIndex > -1)
-            //{
-            //    bl.FoodInMeal.Rows[e.RowIndex].Selected = true;
-            //    txtIdMeal.Text = bl.FoodInMeal.IdMeal.ToString();
-            //    dtpMealTimeStart.Value = bl.FoodInMeal.TimeBegin.DateTime;
-            //}
-        }
         private void btnSaveFood_Click(object sender, EventArgs e)
         {
-            if (gridFoods.SelectedRows.Count == 0)
+            if (gridFoodsInMeal.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Choose a food to save");
                 return; 
@@ -249,7 +237,7 @@ namespace GlucoMan.Forms
             txtIdMealInFood.Text = "";
             txtIdFood.Text = "";
             txtName.Text = "";
-            bl.Meal.IdTypeOfMeal = Common.SelectMealBasedOnTimeNow();
+            bl.Meal.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
             SetTypeOfMealRadiobutton(bl.Meal.IdTypeOfMeal);
         }
         private void btnSumCho_Click(object sender, EventArgs e)
@@ -287,7 +275,7 @@ namespace GlucoMan.Forms
         {
             FromUiToClass();
             txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString();
-            bl.SaveAllFoodsInMeal(bl.FoodInMeal);
+            bl.SaveAllFoodsInMeal();
             bl.RecalcTotalAccuracy();
             bl.RecalcTotalCho();
             FromClassToUi();
@@ -300,6 +288,25 @@ namespace GlucoMan.Forms
             bl.RecalcTotalCho();
             FromClassToUi();
             RefreshGrid();
+        }
+        private void gridFoodsInMeal_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void gridFoodsInMeal_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                bl.FoodInMeal = bl.FoodsInMeal[e.RowIndex];
+                gridFoodsInMeal.Rows[e.RowIndex].Selected = true;
+                FromClassToUi();
+            }
+        }
+        private void gridFoodsInMeal_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //if (e.RowIndex > -1)
+            //{
+            //    bl.FoodInMeal.Rows[e.RowIndex].Selected = true;
+            //    txtIdMeal.Text = bl.FoodInMeal.IdMeal.ToString();
+            //    dtpMealTimeStart.Value = bl.FoodInMeal.TimeBegin.DateTime;
+            //}
         }
     }
 }

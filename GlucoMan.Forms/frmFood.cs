@@ -15,7 +15,6 @@ namespace GlucoMan.Forms
             if (Food == null)
             {
                 thisFood = new Food();
-                ////////Food.RestoreData();
             }
             else
                 thisFood = Food;
@@ -23,14 +22,13 @@ namespace GlucoMan.Forms
         private void frmFood_Load(object sender, System.EventArgs e)
         {
             FromClassToUi();
-            //txtGlucoseBeforeMeal.Focus();
         }
 
         private void FromClassToUi()
         {
             txtIdFood.Text = thisFood.IdFood.ToString();
 
-            txtFoodCarbohydrates.Text = thisFood.Carbohydrates.Text;
+            txtFoodCarbohydrates.Text = thisFood.Cho.Text;
             txtCalories.Text = thisFood.Energy.Text;
             txtFibers.Text = thisFood.Fibers.Text;
             txtName.Text = thisFood.Name;
@@ -44,7 +42,7 @@ namespace GlucoMan.Forms
         {
             thisFood.IdFood = int.Parse(txtIdFood.Text);
 
-            thisFood.Carbohydrates.Text = txtFoodCarbohydrates.Text;
+            thisFood.Cho.Text = txtFoodCarbohydrates.Text;
             thisFood.Energy.Text = txtCalories.Text;
             thisFood.Fibers.Text = txtFibers.Text;
             thisFood.Name = txtName.Text;
@@ -57,8 +55,8 @@ namespace GlucoMan.Forms
 
         private void btnManageFoods_Click(object sender, EventArgs e)
         {
-            frmFoods fm = new frmFoods();
-            fm.Show(); 
+            ////////frmFoodsPersistent fm = new frmFoodsPersistent();
+            ////////fm.Show(); 
         }
         private void btnSave_Click(object sender, EventArgs e)
         {

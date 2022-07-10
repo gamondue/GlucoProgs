@@ -10,31 +10,31 @@ namespace GlucoMan
         public int? IdFoodInMeal { get; set; }
         public int? IdFood { get; set; }
         public int? IdMeal { get; set; }
-        public DoubleAndText Quantity { get; set; }// [g/100]
-        public DoubleAndText CarbohydratesGrams { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
-        public DoubleAndText CarbohydratesPercent { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
+        public DoubleAndText QuantityGrams { get; set; }// [g/100]
+        public DoubleAndText ChoGrams { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
+        public DoubleAndText ChoPercent { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
         public DoubleAndText AccuracyOfChoEstimate { get; set; } // [0..1]
         //public QualitativeAccuracy QualitativeAccuracyOfCho;
         public DoubleAndText SugarPercent { get; set; }        // [g/100]
         public DoubleAndText FibersPercent { get; set; }       // [g/100]
         public string Name { get; set; }
-        public QualitativeAccuracy QualitativeAccuracy { get; internal set; }
+        public QualitativeAccuracy QualitativeAccuracyOfCho { get; internal set; }
 
         public string Description;
 
         public FoodInMeal()
         {
-            Quantity = new DoubleAndText(); // [g]
-            CarbohydratesGrams = new DoubleAndText();   // [g]
-            CarbohydratesPercent = new DoubleAndText(); // [%]
+            QuantityGrams = new DoubleAndText(); // [g]
+            ChoGrams = new DoubleAndText();   // [g]
+            ChoPercent = new DoubleAndText(); // [%]
             SugarPercent = new DoubleAndText();         // [%]
             FibersPercent = new DoubleAndText();        // [%]
             AccuracyOfChoEstimate = new DoubleAndText();
             //QualitativeAccuracyOfCho = QualitativeAccuracy.Perfect;
 
-            CarbohydratesGrams.Format = "0.0";
-            Quantity.Format = "0";
-            CarbohydratesPercent.Format = "0.0";
+            ChoGrams.Format = "0.0";
+            QuantityGrams.Format = "0";
+            ChoPercent.Format = "0.0";
         }
     }
 }

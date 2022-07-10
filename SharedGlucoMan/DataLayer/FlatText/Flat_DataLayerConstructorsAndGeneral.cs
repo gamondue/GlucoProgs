@@ -70,7 +70,7 @@ namespace GlucoMan
         {
             throw new NotImplementedException();
         }
-        internal override List<Food> SearchFood(Food Food)
+        internal override List<Food> SearchFood(string Name, string Description)
         {
             throw new NotImplementedException();
         }

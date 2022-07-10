@@ -41,14 +41,14 @@
             <Label Grid.Row="4" Grid.Column="0" Text="Gross weight" 
                    XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="5" Grid.Column="0" x:Name="TxtM0RawGross" 
-                   HorizontalTextAlignment ="End" Text="" 
+                   Keyboard="Numeric" HorizontalTextAlignment ="End" Text="" 
                    Unfocused="TxtM0RawGross_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
             <Label Grid.Row="4" Grid.Column="1" Text="Container weight" XAlign="Center" YAlign="End" />
             <Entry Grid.Row="5" Grid.Column="1" x:Name="TxtM0RawTare" HorizontalTextAlignment ="End" Text="" 
-                       Unfocused="TxtM0RawTare_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
+                   Keyboard="Numeric" Unfocused="TxtM0RawTare_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
             <Label Grid.Row="4" Grid.Column="2" Text="Net weight" XAlign="Center" YAlign="End" />
             <Entry Grid.Row="5" Grid.Column="2" x:Name="TxtM0RawNet" HorizontalTextAlignment ="End" Text="" 
-                       Unfocused="TxtM0RawNet_Leave"  Placeholder="[g]" BackgroundColor="PaleGreen" />
+                   Keyboard="Numeric" Unfocused="TxtM0RawNet_Leave"  Placeholder="[g]" BackgroundColor="PaleGreen" />
 
             <Label Grid.Row="6" Grid.ColumnSpan="5" Text="Sauce (ALL already cooked)" 
                     XAlign="Center" YAlign="End"/>
@@ -57,10 +57,10 @@
                        Unfocused="TxtS1SauceGross_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
             <Label Grid.Row="7" Grid.Column="1" Text="Tare" XAlign="Center" YAlign="End" />
             <Entry Grid.Row="8" Grid.Column="1" x:Name="TxtS1SauceTare" HorizontalTextAlignment ="End" Text="" 
-                       Unfocused="TxtS1SauceTare_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
+                   Keyboard="Numeric" Unfocused="TxtS1SauceTare_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
             <Label Grid.Row="7" Grid.Column="2" Text="Net weight" XAlign="Center" YAlign="End" />
             <Entry Grid.Row="8" Grid.Column="2" x:Name="TxtS1SauceNet" HorizontalTextAlignment ="End" Text="" 
-                       Unfocused="TxtS1SauceNet_Leave" Placeholder="[g]" BackgroundColor="PaleGreen" />
+                   Keyboard="Numeric" Unfocused="TxtS1SauceNet_Leave" Placeholder="[g]" BackgroundColor="PaleGreen" />
 
             <Label Grid.Row="9" Grid.ColumnSpan="5" Text="Total course before cooking" 
                     XAlign="Center" YAlign="End"/>

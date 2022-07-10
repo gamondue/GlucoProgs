@@ -44,29 +44,29 @@
             <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Text="Alarm advance time [min]" 
                     XAlign="Center" YAlign="Center"/>
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtGlucoseTarget" Text="80" 
-                    HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod"
+                   Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod"
                    IsEnabled="true"/>
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAlarmAdvanceTime" Text="80" 
-                    HorizontalTextAlignment="End" BackgroundColor="DarkSeaGreen"
+                   Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="DarkSeaGreen"
                    IsEnabled="true"/>
             <Label Grid.Row="3" Grid.ColumnSpan="3" Text="Measurements of glucose and time" 
                     XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="0" Text="Glucose" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="5" Grid.Column="0" x:Name="txtGlucoseLast" HorizontalTextAlignment ="End" 
-                   Text="" FontSize="Large" Placeholder="gluc.meas." BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" Text="" FontSize="Large" Placeholder="gluc.meas." BackgroundColor="LightGreen" />
             <Label Grid.Row="4" Grid.Column="1" Text="Hour" XAlign="Center" YAlign="End" />
             <Entry Grid.Row="5" Grid.Column="1" x:Name="txtHourLast" Placeholder="hour" 
-                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Label Grid.Row="4" Grid.Column="2" Text="Minute" XAlign="Center" YAlign="End" />
             <Entry Grid.Row="5" Grid.Column="2" x:Name="txtMinuteLast" Placeholder="minute" 
-                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Label Grid.Row="5" Grid.Column="3" Text="current measurement" XAlign="Center" YAlign="Center" />
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtGlucosePrevious" Text="" Placeholder="gluc.meas." 
-                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Entry Grid.Row="6" Grid.Column="1" x:Name="txtHourPrevious" Placeholder="hour" 
-                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Entry Grid.Row="6" Grid.Column="2" x:Name="txtMinutePrevious" Placeholder="minute" 
-                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Label Grid.Row="6" Grid.Column="3" Text="previous measurement" 
                    XAlign="Center" YAlign="center" />
             <Label Grid.Row="7" Grid.Column="1" x:Name="txtGlucoseSlope" Text="----" FontSize="Large"
@@ -98,13 +98,13 @@
             <Label Grid.Row="13" Grid.Column="3" Text="Future gluc" XAlign="Center" />
 
             <Entry Grid.Row="14" Grid.Column="0" x:Name="txtFutureTimeMinutes" Placeholder="min" 
-                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="DarkSeaGreen" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="DarkSeaGreen" />
             <DatePicker Grid.Row="14" Grid.Column="1" x:Name="dtpTimeFutureDate" BackgroundColor="White"
                         FontSize="Small" Format="yyyy-MM-dd" HorizontalOptions="Center"/>
             <TimePicker Grid.Row="14" Grid.Column="2" x:Name="dtpTimeFutureTime" BackgroundColor="White"
                         FontSize="Small" Format="HH:mm:ss" HorizontalOptions="Center" />
             <Entry Grid.Row="14" Grid.Column="3" x:Name="txtFutureGlucose" Placeholder="gluc" 
-                   FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="SkyBlue" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="SkyBlue" />
 
             <Label Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="4"
                     x:Name="txtStatusBar" Text="" FontSize="Medium" 

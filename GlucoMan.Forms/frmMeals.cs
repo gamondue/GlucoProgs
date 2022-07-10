@@ -26,7 +26,7 @@ namespace GlucoMan.Forms
         public void FromClassToUi()
         {
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-            txtChoOfMeal.Text = Safe.String(bl.Meal.CarbohydratesGrams.Text);
+            txtChoOfMeal.Text = Safe.String(bl.Meal.ChoGrams.Text);
 
             if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
                 dtpMealTimeBegin.Value = (DateTime)bl.Meal.TimeBegin.DateTime;
@@ -37,17 +37,52 @@ namespace GlucoMan.Forms
             cmbAccuracyMeal.SelectedItem = bl.Meal.QualitativeAccuracyOfChoEstimate;
 
             cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
+            SetCorrectRadioButtons();
+        }
+        private void SetCorrectRadioButtons()
+        {
+            // un-check all
+            rdbIsBreakfast.Checked = false;
+            rdbIsSnack.Checked = false;
+            rdbIsLunch.Checked = false;
+            rdbIsDinner.Checked = false;
+
+            // check the correct (if any!) 
+            if (bl.Meal.IdTypeOfMeal == Common.TypeOfMeal.Breakfast)
+                rdbIsBreakfast.Checked = true;
+            else if (bl.Meal.IdTypeOfMeal == Common.TypeOfMeal.Snack)
+                rdbIsSnack.Checked = true;
+            else if (bl.Meal.IdTypeOfMeal == Common.TypeOfMeal.Lunch)
+                rdbIsLunch.Checked = true;
+            else if (bl.Meal.IdTypeOfMeal == Common.TypeOfMeal.Dinner)
+                rdbIsDinner.Checked = true;
         }
         private void FromUiToClass()
         {
             bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
-            bl.Meal.CarbohydratesGrams.Text = Safe.Double(txtChoOfMeal.Text).ToString();
+            bl.Meal.ChoGrams.Text = Safe.Double(txtChoOfMeal.Text).ToString();
             bl.Meal.TimeBegin.DateTime = dtpMealTimeBegin.Value;
             bl.Meal.TimeEnd.DateTime = dtpMealTimeEnd.Value;
             bl.Meal.AccuracyOfChoEstimate.Double = (double?)Safe.Double(txtAccuracyOfChoMeal.Text);
 
             bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
             bl.Meal.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
+
+            // since the combo has more options, it gets the priority 
+            // over the radiobuttons, but if the combo is in one of the 
+            // states represented by radiobutton, the radiobutton gets the priority
+            if ((TypeOfMeal)cmbTypeOfMeal.SelectedItem != Common.TypeOfMeal.Other
+                && (TypeOfMeal)cmbTypeOfMeal.SelectedItem != Common.TypeOfMeal.NotSet)
+            {
+                if (rdbIsBreakfast.Checked)
+                    bl.Meal.IdTypeOfMeal = Common.TypeOfMeal.Breakfast;
+                else if (rdbIsSnack.Checked)
+                    bl.Meal.IdTypeOfMeal = Common.TypeOfMeal.Snack;
+                else if (rdbIsLunch.Checked)
+                    bl.Meal.IdTypeOfMeal = Common.TypeOfMeal.Lunch;
+                else if (rdbIsDinner.Checked)
+                    bl.Meal.IdTypeOfMeal = Common.TypeOfMeal.Dinner;
+            }
         }
         private void RefreshUi()
         {
@@ -74,14 +109,25 @@ namespace GlucoMan.Forms
         }
         private void btnRemoveMeal_Click(object sender, EventArgs e) 
         {
-            bl.DeleteOneMeal(bl.Meal);
-            RefreshUi();  
+            if (txtIdMeal.Text == "")
+            {
+                MessageBox.Show("Select one meal from the grid");
+                return;
+            }
+            if (MessageBox.Show(string.Format ("Should we delete meal at {0}, Id {1}", 
+                    bl.Meal.TimeBegin.Text, 
+                    bl.Meal.IdMeal), "",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+            { 
+                bl.DeleteOneMeal(bl.Meal);
+                RefreshUi();
+            }
         }
         private void btnSaveMeal_Click(object sender, EventArgs e)
         {
             if (txtIdMeal.Text == "")
             {
-                MessageBox.Show("Select one meal from the grid"); 
+                MessageBox.Show("Select one meal from the grid or save a new meal"); 
                 return ;    
             }
             FromUiToClass();
@@ -137,6 +183,11 @@ namespace GlucoMan.Forms
                 gridMeals.Rows[e.RowIndex].Selected = true;
                 FromClassToUi();
             }
+        }
+        private void btnDefaults_Click(object sender, EventArgs e)
+        {
+            bl.NewDefaults();
+            FromClassToUi();
         }
     }
 }

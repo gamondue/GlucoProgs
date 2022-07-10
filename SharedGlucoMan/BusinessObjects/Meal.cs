@@ -29,7 +29,7 @@ namespace GlucoMan
         public TypeOfMeal IdTypeOfMeal { get => typeOfMeal; set => typeOfMeal = value; }
 
         [DisplayName("CHO of meal")]
-        public DoubleAndText CarbohydratesGrams { get => carbohydrates; set => carbohydrates = value; }
+        public DoubleAndText ChoGrams { get => carbohydrates; set => carbohydrates = value; }
 
         [DisplayName("Accuracy of CHO")]
         public DoubleAndText AccuracyOfChoEstimate { get; set; }
@@ -51,7 +51,7 @@ namespace GlucoMan
             TimeBegin = new DateTimeAndText();
             TimeEnd = new DateTimeAndText();
 
-            CarbohydratesGrams = new DoubleAndText();
+            ChoGrams = new DoubleAndText();
             AccuracyOfChoEstimate = new DoubleAndText(); 
         }
     }

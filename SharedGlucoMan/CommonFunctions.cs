@@ -27,7 +27,7 @@ namespace GlucoMan
             Common.Bl = new BL_General(); 
             Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
-        public static TypeOfMeal SelectMealBasedOnTimeNow()
+        public static TypeOfMeal SelectTypeOfMealBasedOnTimeNow()
         {
             TypeOfMeal type;
             int hour = DateTime.Now.Hour;

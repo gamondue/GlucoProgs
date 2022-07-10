@@ -22,7 +22,7 @@ namespace GlucoMan.Mobile
             currentGlucoseMeasuremet = new BL_GlucoseMeasurements();
 
             currentBolusCalculation.RestoreBolusParameters();
-            currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.SelectMealBasedOnTimeNow();
+            currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
 
             currentBolusCalculation.TargetGlucose.Format = "0";
             currentBolusCalculation.GlucoseBeforeMeal.Format = "0";

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFoods));
             this.btnNewFood = new System.Windows.Forms.Button();
             this.btnFatSecret = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
@@ -57,10 +58,9 @@
             this.label19 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtFoodCarbohydrates = new System.Windows.Forms.TextBox();
             this.txtSaturatedFats = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.txtProteins = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtSalt = new System.Windows.Forms.TextBox();
@@ -68,8 +68,9 @@
             this.txtFibers = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.txtCalories = new System.Windows.Forms.TextBox();
-            this.txtFoodCarbohydrates = new System.Windows.Forms.TextBox();
             this.gridFoods = new System.Windows.Forms.DataGridView();
+            this.btnDetails = new System.Windows.Forms.Button();
+            this.btnDeleteFood = new System.Windows.Forms.Button();
             this.grpFood.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridFoods)).BeginInit();
@@ -77,23 +78,26 @@
             // 
             // btnNewFood
             // 
-            this.btnNewFood.Location = new System.Drawing.Point(213, 28);
+            this.btnNewFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnNewFood.Location = new System.Drawing.Point(97, 305);
             this.btnNewFood.Name = "btnNewFood";
-            this.btnNewFood.Size = new System.Drawing.Size(75, 58);
+            this.btnNewFood.Size = new System.Drawing.Size(75, 44);
             this.btnNewFood.TabIndex = 90;
-            this.btnNewFood.Text = "New Food";
+            this.btnNewFood.Text = "+";
             this.btnNewFood.UseVisualStyleBackColor = true;
             this.btnNewFood.Click += new System.EventHandler(this.btnNewFood_Click);
             // 
             // btnFatSecret
             // 
             this.btnFatSecret.Enabled = false;
-            this.btnFatSecret.Location = new System.Drawing.Point(539, 28);
+            this.btnFatSecret.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnFatSecret.Location = new System.Drawing.Point(587, 306);
             this.btnFatSecret.Name = "btnFatSecret";
-            this.btnFatSecret.Size = new System.Drawing.Size(75, 58);
+            this.btnFatSecret.Size = new System.Drawing.Size(85, 44);
             this.btnFatSecret.TabIndex = 89;
             this.btnFatSecret.Text = "Fat Secret";
             this.btnFatSecret.UseVisualStyleBackColor = true;
+            this.btnFatSecret.Click += new System.EventHandler(this.btnFatSecret_Click);
             // 
             // label16
             // 
@@ -108,7 +112,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 124);
+            this.label1.Location = new System.Drawing.Point(6, 329);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 21);
             this.label1.TabIndex = 75;
@@ -119,15 +123,16 @@
             this.txtMonoinsaturatedFats.Location = new System.Drawing.Point(354, 50);
             this.txtMonoinsaturatedFats.Name = "txtMonoinsaturatedFats";
             this.txtMonoinsaturatedFats.Size = new System.Drawing.Size(100, 29);
-            this.txtMonoinsaturatedFats.TabIndex = 30;
+            this.txtMonoinsaturatedFats.TabIndex = 12;
             this.txtMonoinsaturatedFats.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtMonoinsaturatedFats.Visible = false;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(294, 28);
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnSave.Location = new System.Drawing.Point(257, 306);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 58);
+            this.btnSave.Size = new System.Drawing.Size(75, 44);
             this.btnSave.TabIndex = 88;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -147,7 +152,7 @@
             // 
             this.btnSaveFood.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSaveFood.Location = new System.Drawing.Point(1357, 89);
+            this.btnSaveFood.Location = new System.Drawing.Point(1402, 89);
             this.btnSaveFood.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSaveFood.Name = "btnSaveFood";
             this.btnSaveFood.Size = new System.Drawing.Size(83, 41);
@@ -158,13 +163,14 @@
             // btnSearchFood
             // 
             this.btnSearchFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSearchFood.Location = new System.Drawing.Point(375, 28);
+            this.btnSearchFood.Location = new System.Drawing.Point(338, 306);
             this.btnSearchFood.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSearchFood.Name = "btnSearchFood";
-            this.btnSearchFood.Size = new System.Drawing.Size(76, 58);
+            this.btnSearchFood.Size = new System.Drawing.Size(76, 44);
             this.btnSearchFood.TabIndex = 81;
             this.btnSearchFood.Text = "Search";
             this.btnSearchFood.UseVisualStyleBackColor = true;
+            this.btnSearchFood.Click += new System.EventHandler(this.btnSearchFood_Click);
             // 
             // lblIdFood
             // 
@@ -179,6 +185,7 @@
             // 
             this.txtIdFood.Location = new System.Drawing.Point(6, 47);
             this.txtIdFood.Name = "txtIdFood";
+            this.txtIdFood.ReadOnly = true;
             this.txtIdFood.Size = new System.Drawing.Size(50, 29);
             this.txtIdFood.TabIndex = 71;
             this.txtIdFood.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -188,7 +195,7 @@
             this.textBox11.Location = new System.Drawing.Point(364, 168);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(100, 29);
-            this.textBox11.TabIndex = 26;
+            this.textBox11.TabIndex = 36;
             this.textBox11.Visible = false;
             // 
             // label15
@@ -206,7 +213,7 @@
             this.textBox12.Location = new System.Drawing.Point(245, 168);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(100, 29);
-            this.textBox12.TabIndex = 24;
+            this.textBox12.TabIndex = 33;
             this.textBox12.Visible = false;
             // 
             // label12
@@ -223,7 +230,7 @@
             this.txtTotalFats.Location = new System.Drawing.Point(125, 50);
             this.txtTotalFats.Name = "txtTotalFats";
             this.txtTotalFats.Size = new System.Drawing.Size(100, 29);
-            this.txtTotalFats.TabIndex = 22;
+            this.txtTotalFats.TabIndex = 7;
             this.txtTotalFats.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label10
@@ -241,7 +248,7 @@
             this.txtPolinsaturatedFats.Location = new System.Drawing.Point(482, 50);
             this.txtPolinsaturatedFats.Name = "txtPolinsaturatedFats";
             this.txtPolinsaturatedFats.Size = new System.Drawing.Size(100, 29);
-            this.txtPolinsaturatedFats.TabIndex = 20;
+            this.txtPolinsaturatedFats.TabIndex = 15;
             this.txtPolinsaturatedFats.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPolinsaturatedFats.Visible = false;
             // 
@@ -259,24 +266,25 @@
             this.txtSugar.Location = new System.Drawing.Point(125, 107);
             this.txtSugar.Name = "txtSugar";
             this.txtSugar.Size = new System.Drawing.Size(100, 29);
-            this.txtSugar.TabIndex = 16;
+            this.txtSugar.TabIndex = 21;
             this.txtSugar.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnChoose
             // 
             this.btnChoose.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnChoose.Location = new System.Drawing.Point(457, 28);
+            this.btnChoose.Location = new System.Drawing.Point(420, 306);
             this.btnChoose.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnChoose.Name = "btnChoose";
-            this.btnChoose.Size = new System.Drawing.Size(76, 58);
+            this.btnChoose.Size = new System.Drawing.Size(76, 44);
             this.btnChoose.TabIndex = 83;
             this.btnChoose.Text = "Choose";
             this.btnChoose.UseVisualStyleBackColor = true;
+            this.btnChoose.Click += new System.EventHandler(this.btnChoose_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(86, 22);
+            this.label3.Location = new System.Drawing.Point(6, 82);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 21);
             this.label3.TabIndex = 1;
@@ -298,19 +306,12 @@
             this.grpFood.Controls.Add(this.label19);
             this.grpFood.Controls.Add(this.txtName);
             this.grpFood.Controls.Add(this.groupBox1);
-            this.grpFood.Controls.Add(this.btnNewFood);
-            this.grpFood.Controls.Add(this.btnFatSecret);
-            this.grpFood.Controls.Add(this.btnSave);
-            this.grpFood.Controls.Add(this.btnChoose);
             this.grpFood.Controls.Add(this.btnSaveFood);
-            this.grpFood.Controls.Add(this.btnSearchFood);
             this.grpFood.Controls.Add(this.lblIdFood);
             this.grpFood.Controls.Add(this.txtIdFood);
-            this.grpFood.Controls.Add(this.txtFoodCarbohydrates);
-            this.grpFood.Controls.Add(this.label3);
             this.grpFood.Location = new System.Drawing.Point(0, 1);
             this.grpFood.Name = "grpFood";
-            this.grpFood.Size = new System.Drawing.Size(627, 303);
+            this.grpFood.Size = new System.Drawing.Size(672, 303);
             this.grpFood.TabIndex = 79;
             this.grpFood.TabStop = false;
             this.grpFood.Text = "Calculator";
@@ -318,7 +319,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(167, 96);
+            this.label18.Location = new System.Drawing.Point(209, 25);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(89, 21);
             this.label18.TabIndex = 95;
@@ -326,15 +327,15 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(167, 119);
+            this.txtDescription.Location = new System.Drawing.Point(209, 48);
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(450, 29);
-            this.txtDescription.TabIndex = 94;
+            this.txtDescription.TabIndex = 3;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(6, 96);
+            this.label19.Location = new System.Drawing.Point(62, 25);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(52, 21);
             this.label19.TabIndex = 93;
@@ -343,21 +344,22 @@
             // txtName
             // 
             this.txtName.BackColor = System.Drawing.Color.LightGreen;
-            this.txtName.Location = new System.Drawing.Point(6, 119);
+            this.txtName.Location = new System.Drawing.Point(62, 48);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(155, 29);
-            this.txtName.TabIndex = 92;
+            this.txtName.Size = new System.Drawing.Size(141, 29);
+            this.txtName.TabIndex = 1;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtMonoinsaturatedFats);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.textBox11);
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.textBox12);
             this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.txtFoodCarbohydrates);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtTotalFats);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.txtPolinsaturatedFats);
@@ -366,8 +368,6 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtSaturatedFats);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtProteins);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.txtSalt);
@@ -375,19 +375,28 @@
             this.groupBox1.Controls.Add(this.txtFibers);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.txtCalories);
-            this.groupBox1.Location = new System.Drawing.Point(0, 154);
+            this.groupBox1.Location = new System.Drawing.Point(6, 83);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(621, 172);
+            this.groupBox1.Size = new System.Drawing.Size(666, 213);
             this.groupBox1.TabIndex = 91;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Food nutrition data";
+            // 
+            // txtFoodCarbohydrates
+            // 
+            this.txtFoodCarbohydrates.BackColor = System.Drawing.Color.GreenYellow;
+            this.txtFoodCarbohydrates.Location = new System.Drawing.Point(6, 107);
+            this.txtFoodCarbohydrates.Name = "txtFoodCarbohydrates";
+            this.txtFoodCarbohydrates.Size = new System.Drawing.Size(100, 29);
+            this.txtFoodCarbohydrates.TabIndex = 18;
+            this.txtFoodCarbohydrates.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtSaturatedFats
             // 
             this.txtSaturatedFats.Location = new System.Drawing.Point(244, 50);
             this.txtSaturatedFats.Name = "txtSaturatedFats";
             this.txtSaturatedFats.Size = new System.Drawing.Size(100, 29);
-            this.txtSaturatedFats.TabIndex = 14;
+            this.txtSaturatedFats.TabIndex = 9;
             this.txtSaturatedFats.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label6
@@ -399,29 +408,12 @@
             this.label6.TabIndex = 13;
             this.label6.Text = "Proteins [g]%";
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(518, 168);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(64, 29);
-            this.textBox1.TabIndex = 4;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(518, 145);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(62, 21);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Id Food";
-            // 
             // txtProteins
             // 
             this.txtProteins.Location = new System.Drawing.Point(6, 168);
             this.txtProteins.Name = "txtProteins";
             this.txtProteins.Size = new System.Drawing.Size(100, 29);
-            this.txtProteins.TabIndex = 12;
+            this.txtProteins.TabIndex = 27;
             // 
             // label7
             // 
@@ -437,7 +429,7 @@
             this.txtSalt.Location = new System.Drawing.Point(125, 168);
             this.txtSalt.Name = "txtSalt";
             this.txtSalt.Size = new System.Drawing.Size(100, 29);
-            this.txtSalt.TabIndex = 10;
+            this.txtSalt.TabIndex = 30;
             // 
             // label5
             // 
@@ -453,7 +445,7 @@
             this.txtFibers.Location = new System.Drawing.Point(245, 107);
             this.txtFibers.Name = "txtFibers";
             this.txtFibers.Size = new System.Drawing.Size(100, 29);
-            this.txtFibers.TabIndex = 6;
+            this.txtFibers.TabIndex = 24;
             this.txtFibers.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label11
@@ -470,17 +462,8 @@
             this.txtCalories.Location = new System.Drawing.Point(6, 50);
             this.txtCalories.Name = "txtCalories";
             this.txtCalories.Size = new System.Drawing.Size(100, 29);
-            this.txtCalories.TabIndex = 2;
+            this.txtCalories.TabIndex = 5;
             this.txtCalories.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtFoodCarbohydrates
-            // 
-            this.txtFoodCarbohydrates.BackColor = System.Drawing.Color.GreenYellow;
-            this.txtFoodCarbohydrates.Location = new System.Drawing.Point(86, 47);
-            this.txtFoodCarbohydrates.Name = "txtFoodCarbohydrates";
-            this.txtFoodCarbohydrates.Size = new System.Drawing.Size(71, 29);
-            this.txtFoodCarbohydrates.TabIndex = 0;
-            this.txtFoodCarbohydrates.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // gridFoods
             // 
@@ -488,23 +471,53 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridFoods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridFoods.Location = new System.Drawing.Point(6, 305);
+            this.gridFoods.Location = new System.Drawing.Point(5, 355);
             this.gridFoods.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gridFoods.Name = "gridFoods";
-            this.gridFoods.Size = new System.Drawing.Size(621, 237);
+            this.gridFoods.Size = new System.Drawing.Size(667, 263);
             this.gridFoods.TabIndex = 78;
             this.gridFoods.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellClick);
             this.gridFoods.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellContentClick);
             this.gridFoods.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellDoubleClick);
             // 
+            // btnDetails
+            // 
+            this.btnDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnDetails.Location = new System.Drawing.Point(504, 306);
+            this.btnDetails.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnDetails.Name = "btnDetails";
+            this.btnDetails.Size = new System.Drawing.Size(76, 44);
+            this.btnDetails.TabIndex = 91;
+            this.btnDetails.Text = "Details";
+            this.btnDetails.UseVisualStyleBackColor = true;
+            // 
+            // btnDeleteFood
+            // 
+            this.btnDeleteFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnDeleteFood.Location = new System.Drawing.Point(178, 305);
+            this.btnDeleteFood.Name = "btnDeleteFood";
+            this.btnDeleteFood.Size = new System.Drawing.Size(75, 44);
+            this.btnDeleteFood.TabIndex = 92;
+            this.btnDeleteFood.Text = "-";
+            this.btnDeleteFood.UseVisualStyleBackColor = true;
+            // 
             // frmFoods
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(632, 547);
+            this.ClientSize = new System.Drawing.Size(678, 623);
+            this.Controls.Add(this.btnDeleteFood);
+            this.Controls.Add(this.btnDetails);
+            this.Controls.Add(this.btnNewFood);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnSearchFood);
+            this.Controls.Add(this.btnChoose);
+            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnFatSecret);
             this.Controls.Add(this.grpFood);
             this.Controls.Add(this.gridFoods);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmFoods";
             this.Text = "Foods";
@@ -515,6 +528,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridFoods)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -551,8 +565,6 @@
         private GroupBox groupBox1;
         private TextBox txtSaturatedFats;
         private Label label6;
-        private TextBox textBox1;
-        private Label label4;
         private TextBox txtProteins;
         private Label label7;
         private TextBox txtSalt;
@@ -562,5 +574,7 @@
         private TextBox txtCalories;
         private TextBox txtFoodCarbohydrates;
         private DataGridView gridFoods;
+        private Button btnDetails;
+        private Button btnDeleteFood;
     }
 }

@@ -51,14 +51,19 @@
             this.gridMeals = new System.Windows.Forms.DataGridView();
             this.chkNowInAdd = new System.Windows.Forms.CheckBox();
             this.btnDefaults = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rdbIsSnack = new System.Windows.Forms.RadioButton();
+            this.rdbIsBreakfast = new System.Windows.Forms.RadioButton();
+            this.rdbIsDinner = new System.Windows.Forms.RadioButton();
+            this.rdbIsLunch = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridMeals)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnRemoveMeal
             // 
-            this.btnRemoveMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemoveMeal.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnRemoveMeal.Location = new System.Drawing.Point(768, 74);
+            this.btnRemoveMeal.Location = new System.Drawing.Point(718, 74);
             this.btnRemoveMeal.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemoveMeal.Name = "btnRemoveMeal";
             this.btnRemoveMeal.Size = new System.Drawing.Size(46, 46);
@@ -69,9 +74,8 @@
             // 
             // btnAddMeal
             // 
-            this.btnAddMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddMeal.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAddMeal.Location = new System.Drawing.Point(718, 74);
+            this.btnAddMeal.Location = new System.Drawing.Point(668, 74);
             this.btnAddMeal.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddMeal.Name = "btnAddMeal";
             this.btnAddMeal.Size = new System.Drawing.Size(46, 46);
@@ -82,9 +86,8 @@
             // 
             // btnShowThisMeal
             // 
-            this.btnShowThisMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnShowThisMeal.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnShowThisMeal.Location = new System.Drawing.Point(732, 17);
+            this.btnShowThisMeal.Location = new System.Drawing.Point(565, 136);
             this.btnShowThisMeal.Margin = new System.Windows.Forms.Padding(2);
             this.btnShowThisMeal.Name = "btnShowThisMeal";
             this.btnShowThisMeal.Size = new System.Drawing.Size(82, 46);
@@ -96,7 +99,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 3);
+            this.label4.Location = new System.Drawing.Point(6, 8);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 21);
             this.label4.TabIndex = 54;
@@ -104,7 +107,7 @@
             // 
             // txtIdMeal
             // 
-            this.txtIdMeal.Location = new System.Drawing.Point(7, 26);
+            this.txtIdMeal.Location = new System.Drawing.Point(6, 31);
             this.txtIdMeal.Name = "txtIdMeal";
             this.txtIdMeal.ReadOnly = true;
             this.txtIdMeal.Size = new System.Drawing.Size(50, 29);
@@ -115,7 +118,7 @@
             // 
             this.dtpMealTimeBegin.CustomFormat = "yyyy.MM.dd HH:mm:ss";
             this.dtpMealTimeBegin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpMealTimeBegin.Location = new System.Drawing.Point(91, 87);
+            this.dtpMealTimeBegin.Location = new System.Drawing.Point(6, 149);
             this.dtpMealTimeBegin.Name = "dtpMealTimeBegin";
             this.dtpMealTimeBegin.Size = new System.Drawing.Size(179, 29);
             this.dtpMealTimeBegin.TabIndex = 51;
@@ -123,7 +126,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(91, 63);
+            this.label2.Location = new System.Drawing.Point(6, 125);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 21);
             this.label2.TabIndex = 52;
@@ -131,9 +134,8 @@
             // 
             // btnSaveMeal
             // 
-            this.btnSaveMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveMeal.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSaveMeal.Location = new System.Drawing.Point(632, 17);
+            this.btnSaveMeal.Location = new System.Drawing.Point(469, 74);
             this.btnSaveMeal.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveMeal.Name = "btnSaveMeal";
             this.btnSaveMeal.Size = new System.Drawing.Size(82, 46);
@@ -146,7 +148,7 @@
             // 
             this.dtpMealTimeEnd.CustomFormat = "yyyy.MM.dd HH:mm:ss";
             this.dtpMealTimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpMealTimeEnd.Location = new System.Drawing.Point(362, 87);
+            this.dtpMealTimeEnd.Location = new System.Drawing.Point(277, 149);
             this.dtpMealTimeEnd.Name = "dtpMealTimeEnd";
             this.dtpMealTimeEnd.Size = new System.Drawing.Size(179, 29);
             this.dtpMealTimeEnd.TabIndex = 56;
@@ -154,7 +156,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(362, 63);
+            this.label1.Location = new System.Drawing.Point(277, 125);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 21);
             this.label1.TabIndex = 57;
@@ -163,14 +165,14 @@
             // cmbAccuracyMeal
             // 
             this.cmbAccuracyMeal.FormattingEnabled = true;
-            this.cmbAccuracyMeal.Location = new System.Drawing.Point(242, 26);
+            this.cmbAccuracyMeal.Location = new System.Drawing.Point(618, 31);
             this.cmbAccuracyMeal.Name = "cmbAccuracyMeal";
             this.cmbAccuracyMeal.Size = new System.Drawing.Size(145, 29);
             this.cmbAccuracyMeal.TabIndex = 72;
             // 
             // txtAccuracyOfChoMeal
             // 
-            this.txtAccuracyOfChoMeal.Location = new System.Drawing.Point(176, 26);
+            this.txtAccuracyOfChoMeal.Location = new System.Drawing.Point(552, 31);
             this.txtAccuracyOfChoMeal.Name = "txtAccuracyOfChoMeal";
             this.txtAccuracyOfChoMeal.Size = new System.Drawing.Size(60, 29);
             this.txtAccuracyOfChoMeal.TabIndex = 71;
@@ -179,7 +181,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(176, 3);
+            this.label13.Location = new System.Drawing.Point(590, 8);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(72, 21);
@@ -189,7 +191,7 @@
             // cmbTypeOfMeal
             // 
             this.cmbTypeOfMeal.FormattingEnabled = true;
-            this.cmbTypeOfMeal.Location = new System.Drawing.Point(63, 26);
+            this.cmbTypeOfMeal.Location = new System.Drawing.Point(439, 31);
             this.cmbTypeOfMeal.Name = "cmbTypeOfMeal";
             this.cmbTypeOfMeal.Size = new System.Drawing.Size(107, 29);
             this.cmbTypeOfMeal.TabIndex = 73;
@@ -197,7 +199,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(63, 3);
+            this.label3.Location = new System.Drawing.Point(439, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 21);
             this.label3.TabIndex = 74;
@@ -207,7 +209,7 @@
             // 
             this.txtChoOfMeal.BackColor = System.Drawing.Color.Aqua;
             this.txtChoOfMeal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtChoOfMeal.Location = new System.Drawing.Point(7, 90);
+            this.txtChoOfMeal.Location = new System.Drawing.Point(6, 94);
             this.txtChoOfMeal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtChoOfMeal.Name = "txtChoOfMeal";
             this.txtChoOfMeal.Size = new System.Drawing.Size(68, 26);
@@ -217,7 +219,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(0, 63);
+            this.label5.Location = new System.Drawing.Point(6, 67);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(81, 21);
@@ -227,7 +229,7 @@
             // btnNowEnd
             // 
             this.btnNowEnd.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnNowEnd.Location = new System.Drawing.Point(546, 74);
+            this.btnNowEnd.Location = new System.Drawing.Point(470, 136);
             this.btnNowEnd.Margin = new System.Windows.Forms.Padding(2);
             this.btnNowEnd.Name = "btnNowEnd";
             this.btnNowEnd.Size = new System.Drawing.Size(82, 46);
@@ -239,7 +241,7 @@
             // btnNowBegin
             // 
             this.btnNowBegin.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnNowBegin.Location = new System.Drawing.Point(275, 74);
+            this.btnNowBegin.Location = new System.Drawing.Point(190, 136);
             this.btnNowBegin.Margin = new System.Windows.Forms.Padding(2);
             this.btnNowBegin.Name = "btnNowBegin";
             this.btnNowBegin.Size = new System.Drawing.Size(82, 46);
@@ -253,10 +255,10 @@
             this.gridMeals.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridMeals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridMeals.Location = new System.Drawing.Point(6, 122);
+            this.gridMeals.Location = new System.Drawing.Point(6, 187);
             this.gridMeals.Name = "gridMeals";
             this.gridMeals.RowTemplate.Height = 25;
-            this.gridMeals.Size = new System.Drawing.Size(808, 269);
+            this.gridMeals.Size = new System.Drawing.Size(756, 204);
             this.gridMeals.TabIndex = 79;
             this.gridMeals.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellContentClick);
             this.gridMeals.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellDoubleClick);
@@ -268,7 +270,7 @@
             this.chkNowInAdd.AutoSize = true;
             this.chkNowInAdd.Checked = true;
             this.chkNowInAdd.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkNowInAdd.Location = new System.Drawing.Point(393, 28);
+            this.chkNowInAdd.Location = new System.Drawing.Point(276, 85);
             this.chkNowInAdd.Name = "chkNowInAdd";
             this.chkNowInAdd.Size = new System.Drawing.Size(180, 25);
             this.chkNowInAdd.TabIndex = 80;
@@ -278,19 +280,78 @@
             // btnDefaults
             // 
             this.btnDefaults.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnDefaults.Location = new System.Drawing.Point(632, 74);
+            this.btnDefaults.Location = new System.Drawing.Point(565, 73);
             this.btnDefaults.Margin = new System.Windows.Forms.Padding(2);
             this.btnDefaults.Name = "btnDefaults";
             this.btnDefaults.Size = new System.Drawing.Size(82, 46);
             this.btnDefaults.TabIndex = 81;
             this.btnDefaults.Text = "Defaults";
             this.btnDefaults.UseVisualStyleBackColor = true;
+            this.btnDefaults.Click += new System.EventHandler(this.btnDefaults_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rdbIsSnack);
+            this.groupBox1.Controls.Add(this.rdbIsBreakfast);
+            this.groupBox1.Controls.Add(this.rdbIsDinner);
+            this.groupBox1.Controls.Add(this.rdbIsLunch);
+            this.groupBox1.Location = new System.Drawing.Point(92, 8);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(322, 56);
+            this.groupBox1.TabIndex = 82;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Type of meal";
+            // 
+            // rdbIsSnack
+            // 
+            this.rdbIsSnack.AutoSize = true;
+            this.rdbIsSnack.Location = new System.Drawing.Point(248, 25);
+            this.rdbIsSnack.Name = "rdbIsSnack";
+            this.rdbIsSnack.Size = new System.Drawing.Size(67, 25);
+            this.rdbIsSnack.TabIndex = 109;
+            this.rdbIsSnack.TabStop = true;
+            this.rdbIsSnack.Text = "snack";
+            this.rdbIsSnack.UseVisualStyleBackColor = true;
+            // 
+            // rdbIsBreakfast
+            // 
+            this.rdbIsBreakfast.AutoSize = true;
+            this.rdbIsBreakfast.Location = new System.Drawing.Point(6, 25);
+            this.rdbIsBreakfast.Name = "rdbIsBreakfast";
+            this.rdbIsBreakfast.Size = new System.Drawing.Size(92, 25);
+            this.rdbIsBreakfast.TabIndex = 106;
+            this.rdbIsBreakfast.TabStop = true;
+            this.rdbIsBreakfast.Text = "breakfast";
+            this.rdbIsBreakfast.UseVisualStyleBackColor = true;
+            // 
+            // rdbIsDinner
+            // 
+            this.rdbIsDinner.AutoSize = true;
+            this.rdbIsDinner.Location = new System.Drawing.Point(173, 25);
+            this.rdbIsDinner.Name = "rdbIsDinner";
+            this.rdbIsDinner.Size = new System.Drawing.Size(73, 25);
+            this.rdbIsDinner.TabIndex = 108;
+            this.rdbIsDinner.TabStop = true;
+            this.rdbIsDinner.Text = "dinner";
+            this.rdbIsDinner.UseVisualStyleBackColor = true;
+            // 
+            // rdbIsLunch
+            // 
+            this.rdbIsLunch.AutoSize = true;
+            this.rdbIsLunch.Location = new System.Drawing.Point(104, 25);
+            this.rdbIsLunch.Name = "rdbIsLunch";
+            this.rdbIsLunch.Size = new System.Drawing.Size(66, 25);
+            this.rdbIsLunch.TabIndex = 107;
+            this.rdbIsLunch.TabStop = true;
+            this.rdbIsLunch.Text = "lunch";
+            this.rdbIsLunch.UseVisualStyleBackColor = true;
             // 
             // frmMeals
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(820, 395);
+            this.ClientSize = new System.Drawing.Size(768, 395);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnDefaults);
             this.Controls.Add(this.chkNowInAdd);
             this.Controls.Add(this.gridMeals);
@@ -320,6 +381,8 @@
             this.Text = "Meals management";
             this.Load += new System.EventHandler(this.frmMeals_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridMeals)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -355,5 +418,10 @@
         private Button btnNowEnd;
         private Button btnNowBegin;
         private Button btnDefaults;
+        private GroupBox groupBox1;
+        private RadioButton rdbIsSnack;
+        private RadioButton rdbIsBreakfast;
+        private RadioButton rdbIsDinner;
+        private RadioButton rdbIsLunch;
     }
 }

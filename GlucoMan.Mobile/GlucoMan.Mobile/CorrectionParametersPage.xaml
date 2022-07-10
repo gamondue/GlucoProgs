@@ -43,11 +43,11 @@
             <Label Grid.Row="4" Grid.Column="1" Text="Lunch" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="2" Text="Dinner" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="5" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" 
-                   Placeholder="Break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   Keyboard="Numeric" Placeholder="Break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="5" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" 
-                   Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   Keyboard="Numeric" Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="5" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" 
-                   Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   Keyboard="Numeric" Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Button Grid.Row="5" Grid.Column="3" x:Name="btnSaveRatioCHOInsulin" Text="Save"
                     Clicked="btnSaveRatioCHOInsulin_Click" />
             
@@ -65,13 +65,13 @@
             <Label Grid.Row="9" Grid.Column="3" Text="night" XAlign="Center" YAlign="End"/>
 
             <Entry Grid.Row="10" Grid.Column="0" x:Name="txtTypicalBolusMorning" Text="" 
-                   Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="10" Grid.Column="1" x:Name="txtTypicalBolusMidday" Text="" 
-                   Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="10" Grid.Column="2" x:Name="txtTypicalBolusEvening" Text="" 
-                   Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="10" Grid.Column="3" x:Name="txtTypicalBolusNight" Text="" 
-                   Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
 
             <Label Grid.Row="11" Grid.Column="0" Text="TDD" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="11" Grid.Column="1" Text="Sens.factor" XAlign="Center" YAlign="End"/>
@@ -87,8 +87,8 @@
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
-            <Entry  Grid.Row="12" Grid.Column="2" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
-                   Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"/>
+            <Entry Grid.Row="12" Grid.Column="2" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
+                   Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"/>
             <Grid Grid.Row="12" Grid.Column="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>

@@ -143,7 +143,7 @@ namespace GlucoMan
                 else
                     m.IdTypeOfMeal = (TypeOfMeal)Safe.Int(Row["IdTypeOfMeal"]);
                 m.TimeBegin.DateTime = Safe.DateTime(Row["TimeBegin"]);
-                m.CarbohydratesGrams.Double = Safe.Double(Row["Carbohydrates"]);
+                m.ChoGrams.Double = Safe.Double(Row["Carbohydrates"]);
                 m.TimeEnd.DateTime = Safe.DateTime(Row["TimeEnd"]);
                 m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
@@ -167,7 +167,7 @@ namespace GlucoMan
                     "IdTypeOfMeal=" + SqlInt((int)Meal.IdTypeOfMeal) + "," +
                     "TimeBegin=" + SqlDate(Meal.TimeBegin.DateTime) + "," +
                     "TimeEnd=" + SqlDate(Meal.TimeEnd.DateTime) + "," +
-                    "Carbohydrates=" + SqlDouble(Meal.CarbohydratesGrams.Text) + "," +
+                    "Carbohydrates=" + SqlDouble(Meal.ChoGrams.Text) + "," +
                     "AccuracyOfChoEstimate=" + SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     "IdBolusCalculation=" + SqlInt(Meal.IdBolusCalculation) + "," +
                     "IdGlucoseRecord=" + SqlInt(Meal.IdGlucoseRecord) + "," +
@@ -200,7 +200,7 @@ namespace GlucoMan
                     "IdQualitativeAccuracyCho";
                     query += ")VALUES(" +
                     SqlInt(Meal.IdMeal) + "," +
-                    SqlDouble(Meal.CarbohydratesGrams.Double) + "," +
+                    SqlDouble(Meal.ChoGrams.Double) + "," +
                     SqlDate(Meal.TimeBegin.DateTime) + "," +
                     SqlDate(Meal.TimeEnd.DateTime) + "," +
                     SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
@@ -245,8 +245,7 @@ namespace GlucoMan
                         dRead = cmd.ExecuteReader();
                         while (dRead.Read())
                         {
-                            FoodInMeal f= new FoodInMeal();
-                            f = GetFoodInMealFromRow(dRead);
+                            FoodInMeal f = GetFoodInMealFromRow(dRead);
                             FoodsInMeal.Add(f);
                         }
                         dRead.Dispose();
@@ -255,7 +254,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    Common.LogOfProgram.Error("Sqlite_MealAndFood | RestoreFoodsInMeal", ex);
+                    Common.LogOfProgram.Error("Sqlite_MealAndFood | GetFoodsInMeal", ex);
                 }
                 return FoodsInMeal;
             }
@@ -264,24 +263,23 @@ namespace GlucoMan
         internal FoodInMeal GetFoodInMealFromRow(DbDataReader Row)
         {
             FoodInMeal f = new FoodInMeal();
-            GlucoseRecord gr = new GlucoseRecord();
             try
             {
                 f.IdFoodInMeal = Safe.Int(Row["IdFoodInMeal"]);
                 f.IdMeal = Safe.Int(Row["IdMeal"]);
                 f.IdFood = Safe.Int(Row["IdFood"]);
-                f.CarbohydratesGrams.Double = Safe.Double(Row["CarbohydratesGrams"]);
-                f.CarbohydratesPercent.Double = Safe.Double(Row["CarbohydratesPercent"]);
-                f.Quantity.Double = Safe.Double(Row["Quantity"]);
+                f.ChoGrams.Double = Safe.Double(Row["CarbohydratesGrams"]);
+                f.ChoPercent.Double = Safe.Double(Row["CarbohydratesPercent"]);
+                f.QuantityGrams.Double = Safe.Double(Row["Quantity"]);
                 f.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 f.Name = Safe.String(Row["Name"]);
                 int? dummy = Safe.Int(Row["QualitativeAccuracy"]);
                 if (dummy != null)
-                    f.QualitativeAccuracy = (QualitativeAccuracy)(dummy);
+                    f.QualitativeAccuracyOfCho = (QualitativeAccuracy)(dummy);
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_MealAndFood | GetFoodFromRow", ex);
+                Common.LogOfProgram.Error("Sqlite_MealAndFood | GetFoodInMealFromRow", ex);
             }
             return f;
         }
@@ -293,7 +291,7 @@ namespace GlucoMan
                 {
                     if (FoodToSave.IdFoodInMeal == null || FoodToSave.IdFoodInMeal == 0)
                     {
-                        FoodToSave.IdFoodInMeal = GetNextPrimaryKey();
+                        FoodToSave.IdFoodInMeal = GetNextTablePrimaryKey("FoodsInMeals", "IdFoodInMeal");
                         // INSERT new record in the table
                         InsertFoodInMeal(FoodToSave);
                     }
@@ -316,6 +314,7 @@ namespace GlucoMan
                 return null;
             }
         }
+
         internal int? UpdateFoodInMeal(FoodInMeal FoodToSave)
         {
             try
@@ -326,11 +325,11 @@ namespace GlucoMan
                     string query = "UPDATE FoodsInMeals SET " +
                     "IdMeal=" + SqlInt(FoodToSave.IdMeal) + "," +
                     "IdFood=" + SqlInt(FoodToSave.IdFood) + "," +
-                    "CarbohydratesGrams=" + SqlDouble(FoodToSave.CarbohydratesGrams.Double) + "," +
-                    "Quantity=" + SqlDouble(FoodToSave.Quantity.Double) + "," +
-                    "CarbohydratesPercent=" + SqlDouble(FoodToSave.CarbohydratesGrams.Double) + "," +
+                    "CarbohydratesGrams=" + SqlDouble(FoodToSave.ChoGrams.Double) + "," +
+                    "Quantity=" + SqlDouble(FoodToSave.QuantityGrams.Double) + "," +
+                    "CarbohydratesPercent=" + SqlDouble(FoodToSave.ChoPercent.Double) + "," +
                     "AccuracyOfChoEstimate=" + SqlDouble(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
-                    "QualitativeAccuracy=" + SqlInt((int)FoodToSave.QualitativeAccuracy) + "," +
+                    "QualitativeAccuracy=" + SqlInt((int)FoodToSave.QualitativeAccuracyOfCho) + "," +
                     "Name=" + SqlString(FoodToSave.Name) + "" +
                     " WHERE IdFoodInMeal=" + SqlInt(FoodToSave.IdFoodInMeal) + 
                     ";";
@@ -362,11 +361,11 @@ namespace GlucoMan
                     SqlInt(FoodToSave.IdFoodInMeal) + "," +
                     SqlInt(FoodToSave.IdMeal) + "," +
                     SqlInt(FoodToSave.IdFood) + "," +
-                    SqlDouble(FoodToSave.Quantity.Double) + "," +
-                    SqlDouble(FoodToSave.CarbohydratesGrams.Double) + "," +
-                    SqlDouble(FoodToSave.CarbohydratesPercent.Double) + "," +
+                    SqlDouble(FoodToSave.QuantityGrams.Double) + "," +
+                    SqlDouble(FoodToSave.ChoGrams.Double) + "," +
+                    SqlDouble(FoodToSave.ChoPercent.Double) + "," +
                     SqlDouble(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
-                    SqlInt((int)FoodToSave.QualitativeAccuracy) + "," +
+                    SqlInt((int)FoodToSave.QualitativeAccuracyOfCho) + "," +
                     SqlString(FoodToSave.Name) + ""; 
 
                     query += ");";
@@ -394,7 +393,7 @@ namespace GlucoMan
                 f.Energy.Double = Safe.Double(Row["Energy"]);
                 f.TotalFats.Double = Safe.Double(Row["TotalFats"]);
                 f.SaturatedFats.Double = Safe.Double(Row["SaturatedFats"]);
-                f.Carbohydrates.Double = Safe.Double(Row["Carbohydrates"]);
+                f.Cho.Double = Safe.Double(Row["Carbohydrates"]);
                 f.Sugar.Double = Safe.Double(Row["Sugar"]);
                 f.Fibers.Double = Safe.Double(Row["Fibers"]);
                 f.Proteins.Double = Safe.Double(Row["Proteins"]);
@@ -428,7 +427,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_MealAndFood | DeleteOneFoodInMeal", ex);
             }
         }
-        internal override List<Food> SearchFood(Food Food)
+        internal override List<Food> SearchFood(string Name, string Description)
         {
             List<Food> list = new List<Food>();
             try
@@ -439,12 +438,12 @@ namespace GlucoMan
                 {
                     string query = "SELECT *" +
                         " FROM Foods ";
-                    if (Food.Name != "" && Food.Name != null)
+                    if (Name != "" && Name != null)
                     {
-                        query += " WHERE Name LIKE '%" + Food.Name + "%'" +
-                                " AND Description LIKE '%" + Food.Description + "%'";
+                        query += " WHERE Name LIKE '%" + Name + "%'" +
+                                " AND Description LIKE '%" + Description + "%'";
                     }
-                    query += " ORDER BY Name, Description";
+                    query += " ORDER BY Name, Description;";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
                     dRead = cmd.ExecuteReader();
@@ -515,10 +514,10 @@ namespace GlucoMan
                     string query = "UPDATE Foods SET " +
                     "Name=" + SqlString(food.Name) + "," +
                     "Description=" + SqlString(food.Description) + "," +
-                    "Energy=" + SqlDouble(food.Energy) + "," +
-                    "TotalFats=" + SqlDouble(food.TotalFats) + "," +
-                    "SaturatedFats=" + food.SaturatedFats.Double + "," +
-                    "Carbohydrates=" + food.Carbohydrates.Double + "," +
+                    "Energy=" + SqlDouble(food.Energy.Double) + "," +
+                    "TotalFats=" + SqlDouble(food.TotalFats.Double) + "," +
+                    "SaturatedFats=" + SqlDouble(food.SaturatedFats.Double) + "," +
+                    "Carbohydrates=" + SqlDouble(food.Cho.Double) + "," +
                     "Sugar=" + SqlDouble(food.Sugar.Double) + "," +
                     "Fibers=" + SqlDouble(food.Fibers.Double) + "," +
                     "Proteins=" + SqlDouble(food.Proteins.Double) + "," +
@@ -554,10 +553,10 @@ namespace GlucoMan
                     SqlInt(food.IdFood) + "," +
                     SqlString(food.Name) + "," +
                     SqlString(food.Description) + "," +
-                    SqlDouble(food.Energy) + "," +
-                    SqlDouble(food.TotalFats) + "," +
+                    SqlDouble(food.Energy.Double) + "," +
+                    SqlDouble(food.TotalFats.Double) + "," +
                     SqlDouble(food.SaturatedFats.Double) + "," +
-                    SqlDouble(food.Carbohydrates.Double) + "," +
+                    SqlDouble(food.Cho.Double) + "," +
                     SqlDouble(food.Sugar.Double) + "," +
                     SqlDouble(food.Fibers.Double) + "," +
                     SqlDouble(food.Proteins.Double) + "," +

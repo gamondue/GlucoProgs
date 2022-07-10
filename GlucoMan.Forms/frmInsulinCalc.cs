@@ -23,7 +23,7 @@ namespace GlucoMan.Forms
         {
             currentBolusCalculation.RestoreBolusParameters(); 
 
-            Common.SelectMealBasedOnTimeNow();
+            Common.SelectTypeOfMealBasedOnTimeNow();
             switch (currentBolusCalculation.MealOfBolus.IdTypeOfMeal)
             {
                 case (Common.TypeOfMeal.Breakfast):

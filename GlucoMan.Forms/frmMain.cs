@@ -70,7 +70,7 @@ namespace GlucoMan.Forms
         }
         private void btnFoods_Click(object sender, EventArgs e)
         {
-            frmFoods f = new frmFoods();
+            frmFoods f = new frmFoods(new Food());
             f.Show(); 
         }
     }

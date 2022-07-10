@@ -74,16 +74,9 @@ namespace GlucoMan.Mobile
             {
                 Console.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
             }
-<<<<<<< HEAD
-            //string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            string documentsPath = @"/data/user/";
-            ////string localFilename = Common.PathAndFileDatabase;
-            //string localFilename = Path.Combine(documentsPath, Common.FileDatabase); 
-=======
             //string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string documentsPath = @"/data/data/it.ingmonti.glucoman.mobile/files";
             string localFilename = Common.PathAndFileDatabase; 
->>>>>>> a904fb6cfb6efa9d9236457688f4df7af9654a19
             File.Copy(Common.PathAndFileDatabase, documentsPath);
         }
         private async void btnStopApplication_Click(object sender, EventArgs e)
