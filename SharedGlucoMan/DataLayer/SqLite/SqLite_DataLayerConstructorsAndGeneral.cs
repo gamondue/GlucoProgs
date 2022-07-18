@@ -497,7 +497,7 @@ namespace GlucoMan
                             }
                             else
                             {
-                                query += FieldValue;
+                                query += "'" + FieldValue + "'";
                             }
                             query += ");";
                             idOfRecord = 1;
@@ -518,7 +518,7 @@ namespace GlucoMan
                                 }
                                 else
                                 {
-                                    query += FieldName + "=" + FieldValue;
+                                    query += FieldName + "='" + FieldValue + "'";
                                 }
                                 idOfRecord = maxKey; 
                             }
@@ -537,7 +537,7 @@ namespace GlucoMan
                                     }
                                     else
                                     {
-                                        query += FieldName + "=" + FieldValue;
+                                        query += FieldName + "=" + "'" + FieldValue + "'";
                                     }
                                     whereClause = " WHERE IdParameters=" + Key;
 
@@ -548,14 +548,14 @@ namespace GlucoMan
                                     // making a new row with increased key
                                     query = "INSERT INTO Parameters (IdParameters,";
                                     query += FieldName;
-                                    query += ")VALUES(1,";
+                                    query += ")VALUES(1,"; 
                                     if (double.TryParse(FieldValue, out dummy))
                                     {
                                         query += SqlDouble(dummy);
                                     }
                                     else
                                     {
-                                        query += FieldValue;
+                                        query += "'" + FieldValue + "'";
                                     }
                                     query += ");";
                                     whereClause = " WHERE IdParameters=" + Key++;

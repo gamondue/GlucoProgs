@@ -59,8 +59,8 @@ namespace GlucoMan.Forms
             this.btnWeighFood = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.txtIdMealInFood = new System.Windows.Forms.TextBox();
-            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtIdFoodInMeal = new System.Windows.Forms.TextBox();
+            this.txtFoodInMealName = new System.Windows.Forms.TextBox();
             this.lblIdFood = new System.Windows.Forms.Label();
             this.txtIdFood = new System.Windows.Forms.TextBox();
             this.btnFoodDetail = new System.Windows.Forms.Button();
@@ -225,6 +225,7 @@ namespace GlucoMan.Forms
             this.txtChoOfMeal.Size = new System.Drawing.Size(68, 26);
             this.txtChoOfMeal.TabIndex = 47;
             this.txtChoOfMeal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtChoOfMeal.TextChanged += new System.EventHandler(this.txtChoOfMeal_TextChanged);
             // 
             // txtIdMeal
             // 
@@ -273,7 +274,6 @@ namespace GlucoMan.Forms
             this.cmbAccuracyFoodInMeal.Name = "cmbAccuracyFoodInMeal";
             this.cmbAccuracyFoodInMeal.Size = new System.Drawing.Size(158, 28);
             this.cmbAccuracyFoodInMeal.TabIndex = 7;
-            this.cmbAccuracyFoodInMeal.SelectedIndexChanged += new System.EventHandler(this.cmbAccuracyFoodInMeal_SelectedIndexChanged);
             // 
             // txtFoodChoPercent
             // 
@@ -321,8 +321,8 @@ namespace GlucoMan.Forms
             this.grpFood.Controls.Add(this.btnWeighFood);
             this.grpFood.Controls.Add(this.label16);
             this.grpFood.Controls.Add(this.label14);
-            this.grpFood.Controls.Add(this.txtIdMealInFood);
-            this.grpFood.Controls.Add(this.txtName);
+            this.grpFood.Controls.Add(this.txtIdFoodInMeal);
+            this.grpFood.Controls.Add(this.txtFoodInMealName);
             this.grpFood.Controls.Add(this.lblIdFood);
             this.grpFood.Controls.Add(this.txtIdFood);
             this.grpFood.Controls.Add(this.btnFoodDetail);
@@ -394,23 +394,23 @@ namespace GlucoMan.Forms
             this.label14.TabIndex = 74;
             this.label14.Text = "Name";
             // 
-            // txtIdMealInFood
+            // txtIdFoodInMeal
             // 
-            this.txtIdMealInFood.Location = new System.Drawing.Point(32, 49);
-            this.txtIdMealInFood.Name = "txtIdMealInFood";
-            this.txtIdMealInFood.ReadOnly = true;
-            this.txtIdMealInFood.Size = new System.Drawing.Size(50, 26);
-            this.txtIdMealInFood.TabIndex = 77;
-            this.txtIdMealInFood.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtIdFoodInMeal.Location = new System.Drawing.Point(32, 49);
+            this.txtIdFoodInMeal.Name = "txtIdFoodInMeal";
+            this.txtIdFoodInMeal.ReadOnly = true;
+            this.txtIdFoodInMeal.Size = new System.Drawing.Size(50, 26);
+            this.txtIdFoodInMeal.TabIndex = 77;
+            this.txtIdFoodInMeal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // txtName
+            // txtFoodInMealName
             // 
-            this.txtName.BackColor = System.Drawing.Color.LightGreen;
-            this.txtName.Location = new System.Drawing.Point(9, 104);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(155, 26);
-            this.txtName.TabIndex = 4;
-            this.txtName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtFoodInMealName.BackColor = System.Drawing.Color.LightGreen;
+            this.txtFoodInMealName.Location = new System.Drawing.Point(9, 104);
+            this.txtFoodInMealName.Name = "txtFoodInMealName";
+            this.txtFoodInMealName.Size = new System.Drawing.Size(155, 26);
+            this.txtFoodInMealName.TabIndex = 4;
+            this.txtFoodInMealName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // lblIdFood
             // 
@@ -458,6 +458,7 @@ namespace GlucoMan.Forms
             this.txtFoodChoGrams.Size = new System.Drawing.Size(74, 26);
             this.txtFoodChoGrams.TabIndex = 3;
             this.txtFoodChoGrams.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtFoodChoGrams.TextChanged += new System.EventHandler(this.txtFoodChoGrams_TextChanged);
             this.txtFoodChoGrams.Leave += new System.EventHandler(this.txtFoodChoGrams_Leave);
             // 
             // btnSaveMeal
@@ -475,6 +476,7 @@ namespace GlucoMan.Forms
             // cmbAccuracyMeal
             // 
             this.cmbAccuracyMeal.BackColor = System.Drawing.Color.PaleGoldenrod;
+            this.cmbAccuracyMeal.CausesValidation = false;
             this.cmbAccuracyMeal.FormattingEnabled = true;
             this.cmbAccuracyMeal.Location = new System.Drawing.Point(527, 120);
             this.cmbAccuracyMeal.Name = "cmbAccuracyMeal";
@@ -544,7 +546,7 @@ namespace GlucoMan.Forms
             // 
             // btnSumCho
             // 
-            this.btnSumCho.Location = new System.Drawing.Point(461, 45);
+            this.btnSumCho.Location = new System.Drawing.Point(461, 47);
             this.btnSumCho.Name = "btnSumCho";
             this.btnSumCho.Size = new System.Drawing.Size(60, 29);
             this.btnSumCho.TabIndex = 76;
@@ -741,13 +743,13 @@ namespace GlucoMan.Forms
         private Button btnGlucose;
         private Button btnInsulin;
         private Label label14;
-        private TextBox txtName;
+        private TextBox txtFoodInMealName;
         private Label label16;
         private TextBox textBox4;
         private Button btnSaveMeal;
         private Button btnSaveFood;
         private DataGridView gridFoodsInMeal;
-        private TextBox txtIdMealInFood;
+        private TextBox txtIdFoodInMeal;
         private TextBox txt;
         private TextBox txtAccuracyOfChoFoodInMeal;
         private TextBox txtSugarPercent;

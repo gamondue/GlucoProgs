@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Mobile.MealPage"
-             Title="Foods in a Meal">
+             Title="Meal and its foods">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -36,7 +36,7 @@
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtIdMeal" BackgroundColor="White" 
                    FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
-            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoOfMeal" BackgroundColor="Aqua"
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoOfMealGrams" BackgroundColor="Aqua"
                    Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAccuracyOfChoMeal" 
                    Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod" FontSize="Medium" />
@@ -44,12 +44,13 @@
                     Title="Accuracy" HorizontalTextAlignment="End"
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
-                    BackgroundColor="PaleGoldenrod" FontSize="Small"/>
+                    BackgroundColor="PaleGoldenrod" FontSize="Small"
+                    />
             <Button Grid.Row="2" Grid.Column="4" Text="Calc" x:Name="btnSumCho"
                     Clicked="btnSumCho_Click"></Button>
 
-            <Button Grid.Row="3" Grid.Column="0" Text="Save" x:Name="btnSaveAllMeal" 
-                    Clicked="btnSaveAllMeal_Click"></Button>
+            <Button Grid.Row="3" Grid.Column="0" Text="Save" x:Name="btnSaveMeal" 
+                    Clicked="btnSaveMeal_Click"></Button>
             <Button Grid.Row="3" Grid.Column="3" Text="Insulin" x:Name="btnInsulin" 
                     IsEnabled="False" Clicked="btnInsulin_Click"></Button>
             <Button Grid.Row="3" Grid.Column="4" Text="Gluc." x:Name="btnGlucose" 
@@ -110,7 +111,7 @@
             <Button Grid.Row="9" Grid.Column="1" Text="Defaults" x:Name="btnDefaults" 
                     Clicked="btnDefaults_Click"></Button>
             <Button Grid.Row="9" Grid.Column="2" Text="Foods" x:Name="btnFoodDetail" 
-                    Clicked="btnFoodDetail_Click"></Button>
+                    Clicked="btnFoodDetail_ClickAsync"></Button>
             <Button Grid.Row="9" Grid.Column="3" Text="Search" x:Name="btnSearchFood" 
                     Clicked="btnSearchFood_Click"></Button>
             <Button Grid.Row="9" Grid.Column="4" Text="Weigh" x:Name="btnWeighFood" 
@@ -131,7 +132,7 @@
                                         <RowDefinition Height="18"/>
                                     </Grid.RowDefinitions>
                                     <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding Name}"/>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesGrams.Double}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding ChoGrams.Text}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

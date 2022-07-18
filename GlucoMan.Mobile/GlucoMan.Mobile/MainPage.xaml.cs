@@ -60,7 +60,7 @@ namespace GlucoMan.Mobile
         }
         private async void btnFoods_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new FoodsPage());
+            await Navigation.PushAsync(new FoodsPage(new Food()));
         }
     }
 }

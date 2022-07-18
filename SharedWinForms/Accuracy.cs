@@ -9,15 +9,13 @@ namespace GlucoMan
 {
     internal class Accuracy
     {
-        frmMeals callingForm;
         TextBox txtQuantitative;
         ComboBox cmbQualitative; 
         bool clickedFlag;
         BL_MealAndFood bl;
 
-        internal Accuracy (frmMeals CallingForm, TextBox TextBox, ComboBox Combo, BL_MealAndFood Business)
+        internal Accuracy (TextBox TextBox, ComboBox Combo, BL_MealAndFood Business)
         {
-            callingForm = CallingForm; 
             txtQuantitative = TextBox;
             cmbQualitative = Combo;
             clickedFlag = false; 
@@ -106,20 +104,37 @@ namespace GlucoMan
                 return QualitativeAccuracy.Perfect;
             }
         }
+        private void TextBox_TextChanged(object sender, EventArgs e)
+        {
+            double acc;
+            double.TryParse(txtQuantitative.Text, out acc);
+            if (acc != 0) //
+            {
+                cmbQualitative.SelectedItem =
+                    bl.GetQualitativeAccuracyGivenQuantitavive(acc);
+                txtQuantitative.BackColor = bl.AccuracyBackColor(acc);
+                txtQuantitative.ForeColor = bl.AccuracyForeColor(acc);
+            }
+            else
+            {
+                cmbQualitative.SelectedItem = null;
+                txtQuantitative.BackColor = Color.White;
+                txtQuantitative.ForeColor = Color.Black;
+            }
+
+            bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtQuantitative.Text);
+            NumericalAccuracyChanged(bl.Meal.AccuracyOfChoEstimate.Double);
+        }
         private void Combo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (clickedFlag)
             {
                 clickedFlag = false;
                 QualitativeAccuracy qa = (QualitativeAccuracy)(cmbQualitative.SelectedItem);
+                txtQuantitative.Text = ((int)qa).ToString();
                 QualitativeAccuracyChanged(qa);
-                callingForm.FromClassToUi();
+                //callingForm.FromClassToUi();
             }
-        }
-        private void TextBox_TextChanged(object sender, EventArgs e)
-        {
-            bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtQuantitative.Text);
-            NumericalAccuracyChanged(bl.Meal.AccuracyOfChoEstimate.Double);
         }
         private void Combo_MouseClick(object sender, MouseEventArgs e)
         {

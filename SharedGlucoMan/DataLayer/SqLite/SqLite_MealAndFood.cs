@@ -148,7 +148,6 @@ namespace GlucoMan
                 m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
                 m.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
-                m.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy) Safe.Int(Row["IdQualitativeAccuracyCHO"]);
             }
             catch (Exception ex)
             {
@@ -170,8 +169,7 @@ namespace GlucoMan
                     "Carbohydrates=" + SqlDouble(Meal.ChoGrams.Text) + "," +
                     "AccuracyOfChoEstimate=" + SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     "IdBolusCalculation=" + SqlInt(Meal.IdBolusCalculation) + "," +
-                    "IdGlucoseRecord=" + SqlInt(Meal.IdGlucoseRecord) + "," +
-                    "IdQualitativeAccuracyCHO=" + SqlInt((int)Meal.QualitativeAccuracyOfChoEstimate) + "" +
+                    "IdGlucoseRecord=" + SqlInt(Meal.IdGlucoseRecord) + "" +
                     " WHERE IdMeal=" + SqlInt(Meal.IdMeal) + 
                     ";";
                     cmd.CommandText = query;
@@ -196,8 +194,7 @@ namespace GlucoMan
                     string query = "INSERT INTO Meals" +
                     "(" +
                     "IdMeal,Carbohydrates,TimeBegin,TimeEnd,AccuracyOfChoEstimate," +
-                    "IdBolusCalculation,IdGlucoseRecord," +
-                    "IdQualitativeAccuracyCho";
+                    "IdBolusCalculation,IdGlucoseRecord,";
                     query += ")VALUES(" +
                     SqlInt(Meal.IdMeal) + "," +
                     SqlDouble(Meal.ChoGrams.Double) + "," +
@@ -205,8 +202,7 @@ namespace GlucoMan
                     SqlDate(Meal.TimeEnd.DateTime) + "," +
                     SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     SqlDouble(Meal.IdBolusCalculation) + "," +
-                    SqlInt(Meal.IdGlucoseRecord) + "," +
-                    SqlInt((int)Meal.QualitativeAccuracyOfChoEstimate);
+                    SqlInt(Meal.IdGlucoseRecord) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -273,9 +269,6 @@ namespace GlucoMan
                 f.QuantityGrams.Double = Safe.Double(Row["Quantity"]);
                 f.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 f.Name = Safe.String(Row["Name"]);
-                int? dummy = Safe.Int(Row["QualitativeAccuracy"]);
-                if (dummy != null)
-                    f.QualitativeAccuracyOfCho = (QualitativeAccuracy)(dummy);
             }
             catch (Exception ex)
             {
@@ -329,7 +322,6 @@ namespace GlucoMan
                     "Quantity=" + SqlDouble(FoodToSave.QuantityGrams.Double) + "," +
                     "CarbohydratesPercent=" + SqlDouble(FoodToSave.ChoPercent.Double) + "," +
                     "AccuracyOfChoEstimate=" + SqlDouble(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
-                    "QualitativeAccuracy=" + SqlInt((int)FoodToSave.QualitativeAccuracyOfCho) + "," +
                     "Name=" + SqlString(FoodToSave.Name) + "" +
                     " WHERE IdFoodInMeal=" + SqlInt(FoodToSave.IdFoodInMeal) + 
                     ";";
@@ -355,7 +347,7 @@ namespace GlucoMan
                     string query = "INSERT INTO FoodsInMeals" +
                     "(" +
                     "IdFoodInMeal,IdMeal,IdFood,Quantity,CarbohydratesGrams," +
-                    "CarbohydratesPercent,AccuracyOfChoEstimate,QualitativeAccuracy," +
+                    "CarbohydratesPercent,AccuracyOfChoEstimate," +
                     "Name";
                     query += ")VALUES(" +
                     SqlInt(FoodToSave.IdFoodInMeal) + "," +
@@ -365,7 +357,6 @@ namespace GlucoMan
                     SqlDouble(FoodToSave.ChoGrams.Double) + "," +
                     SqlDouble(FoodToSave.ChoPercent.Double) + "," +
                     SqlDouble(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
-                    SqlInt((int)FoodToSave.QualitativeAccuracyOfCho) + "," +
                     SqlString(FoodToSave.Name) + ""; 
 
                     query += ");";

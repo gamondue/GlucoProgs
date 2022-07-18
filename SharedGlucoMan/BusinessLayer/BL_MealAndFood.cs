@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using static GlucoMan.Common;
 
@@ -12,23 +13,22 @@ namespace GlucoMan.BusinessLayer
         List<Meal> currentMeals;
         public List<Meal> Meals { get => currentMeals; set => currentMeals = value; }
         
-        Meal currentMeal;
         List<FoodInMeal> currentFoodsInMeal;
         FoodInMeal currentFoodInMeal;
-        public Meal Meal { get => currentMeal; set => currentMeal = value; }
+        public Meal Meal { get; set ; }
         public List<FoodInMeal> FoodsInMeal { get => currentFoodsInMeal; set => currentFoodsInMeal = value; }
         public BL_MealAndFood()
         {
             currentMeals = new List<Meal>();
-            currentMeal = new Meal();
+            Meal = new Meal();
             currentFoodsInMeal = new List<FoodInMeal>();
             currentFoodInMeal = new FoodInMeal();
         }
         #region Meals
         public Meal GetOneMeal(int? IdMeal)
         {
-            currentMeal = dl.GetOneMeal(IdMeal);
-            return currentMeal;
+            Meal = dl.GetOneMeal(IdMeal);
+            return Meal;
         }
         public List<Meal> GetMeals(DateTime? InitialTime, DateTime? FinalTime)
         {
@@ -37,8 +37,8 @@ namespace GlucoMan.BusinessLayer
         }
         public int? SaveOneMeal(Meal Meal)
         {
-            currentMeal = Meal;
-            return dl.SaveOneMeal(currentMeal);
+            Meal = Meal;
+            return dl.SaveOneMeal(Meal);
         }
         internal void DeleteOneMeal(Meal Meal)
         {
@@ -48,7 +48,6 @@ namespace GlucoMan.BusinessLayer
         {
             return Enum.GetNames(typeof(Common.TypeOfMeal));
         }
-
         #endregion
         #region FoodsInMeals
         public FoodInMeal FoodInMeal { get => currentFoodInMeal; set => currentFoodInMeal = value; }
@@ -131,7 +130,7 @@ namespace GlucoMan.BusinessLayer
                 {
                     total += f.ChoGrams.Double;
                 }
-                currentMeal.ChoGrams.Double = total;
+                Meal.ChoGrams.Double = total;
             }
             return total; 
         }
@@ -172,41 +171,232 @@ namespace GlucoMan.BusinessLayer
                 {
                     // square of the weighted quadratic sum
                     WeightedQuadraticAverage = Math.Sqrt(sumOfSquaredWeightedValues / sumOfSquaredWeights) * 100;
-                    currentMeal.AccuracyOfChoEstimate.Double = WeightedQuadraticAverage;
+                    Meal.AccuracyOfChoEstimate.Double = WeightedQuadraticAverage;
                 }
-                // if the value in not correct, currentMeal.AccuracyOfChoEstimate remains unchanged
+                // if the value in not correct, Meal.AccuracyOfChoEstimate remains unchanged
             }
             return WeightedQuadraticAverage;
         }
-
-        internal FoodInMeal FromFoodToFoodInMeal(Food currentFood)
+        internal void FromFoodToFoodInMeal(Food SourceFood, FoodInMeal DestinationFood)
         {
-            throw new NotImplementedException();
+            DestinationFood.IdFood = SourceFood.IdFood;
+            DestinationFood.ChoPercent = SourceFood.Cho; 
+            DestinationFood.Name = SourceFood.Name;
         }
-
         internal TypeOfMeal SetTypeOfMealBasedOnTime()
         {
             TypeOfMeal type = TypeOfMeal.NotSet; 
             DateTime now = DateTime.Now;
             if (now.Hour > 6 && now.Hour < 9)
-                currentMeal.IdTypeOfMeal = TypeOfMeal.Breakfast;
+                Meal.IdTypeOfMeal = TypeOfMeal.Breakfast;
             else if (now.Hour > 12 && now.Hour < 14)
-                currentMeal.IdTypeOfMeal = TypeOfMeal.Lunch;
+                Meal.IdTypeOfMeal = TypeOfMeal.Lunch;
             else if (now.Hour > 19 && now.Hour < 21)
-                currentMeal.IdTypeOfMeal = TypeOfMeal.Dinner;
+                Meal.IdTypeOfMeal = TypeOfMeal.Dinner;
             else
-                currentMeal.IdTypeOfMeal = TypeOfMeal.Snack;
-            return currentMeal.IdTypeOfMeal; 
+                Meal.IdTypeOfMeal = TypeOfMeal.Snack;
+            return Meal.IdTypeOfMeal; 
         }
         internal void NewDefaults()
         {
-            currentMeal = new Meal();
+            Meal = new Meal();
             DateTime now = DateTime.Now;
-            currentMeal.TimeBegin.DateTime = now;
-            currentMeal.TimeEnd.DateTime = now;
-            currentMeal.AccuracyOfChoEstimate.Double = 0;
-            currentMeal.QualitativeAccuracyOfChoEstimate = QualitativeAccuracy.NotSet;
-            currentMeal.IdTypeOfMeal = SetTypeOfMealBasedOnTime();
+            Meal.TimeBegin.DateTime = now;
+            Meal.TimeEnd.DateTime = now;
+            Meal.AccuracyOfChoEstimate.Double = 0;
+            Meal.QualitativeAccuracyOfChoEstimate = QualitativeAccuracy.NotSet;
+            Meal.IdTypeOfMeal = SetTypeOfMealBasedOnTime();
+        }
+        internal QualitativeAccuracy GetQualitativeAccuracyGivenQuantitavive(double? NumericalAccuracy)
+        {
+            if (NumericalAccuracy <= 0)
+            {
+                return QualitativeAccuracy.NotSet;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.VeryBad)
+            {
+                return QualitativeAccuracy.Null;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Bad)
+            {
+                return QualitativeAccuracy.VeryBad;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Poor)
+            {
+                return QualitativeAccuracy.Bad;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.AlmostSufficient)
+            {
+                return QualitativeAccuracy.Poor;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Sufficient)
+            {
+                return QualitativeAccuracy.AlmostSufficient;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Satisfactory)
+            {
+                return QualitativeAccuracy.Sufficient;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Good)
+            {
+                return QualitativeAccuracy.Satisfactory;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.VeryGood)
+            {
+                return QualitativeAccuracy.Good;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Outstanding)
+            {
+                return QualitativeAccuracy.VeryGood;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Perfect)
+            {
+                return QualitativeAccuracy.Outstanding;
+            }
+            else
+            {
+                return QualitativeAccuracy.Perfect;
+            }
+        }
+        internal Color AccuracyBackColor(double NumericalAccuracy)
+        {
+            Color c; 
+            if (NumericalAccuracy <= 0)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.VeryBad)
+            {
+                c = Color.Red;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Bad)
+            {
+                c = Color.DarkRed;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Poor)
+            {
+                c = Color.OrangeRed;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.AlmostSufficient)
+            {
+                c = Color.Orange;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Sufficient)
+            {
+                c = Color.Yellow;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Satisfactory)
+            {
+                c = Color.YellowGreen;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Good)
+            {
+                c = Color.GreenYellow;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.VeryGood)
+            {
+                c = Color.LawnGreen;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Outstanding)
+            {
+                c = Color.DarkSeaGreen;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Perfect)
+            {
+                c = Color.Green;
+            }
+            else
+            {
+                c = Color.Lime;
+            }
+            return c; 
+        }
+        internal Color AccuracyForeColor(double NumericalAccuracy)
+        {
+            Color c;
+            if (NumericalAccuracy <= 0)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.VeryBad)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Bad)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Poor)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.AlmostSufficient)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Sufficient)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Satisfactory)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Good)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.VeryGood)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Outstanding)
+            {
+                c = Color.White;
+            }
+            else if (NumericalAccuracy < (double)QualitativeAccuracy.Perfect)
+            {
+                c = Color.White;
+            }
+            else
+            {
+                c = Color.White;
+            }
+            return c;
+        }
+        public void SaveFoodInMealParameters()
+        {
+            dl.SaveParameter("FoodInMeal_ChoGrams", currentFoodInMeal.ChoGrams.Text);
+            dl.SaveParameter("FoodInMeal_QuantityGrams", currentFoodInMeal.QuantityGrams.Text);
+            dl.SaveParameter("FoodInMeal_ChoPercent", currentFoodInMeal.ChoPercent.Text);
+            dl.SaveParameter("FoodInMeal_Name", currentFoodInMeal.Name);
+            dl.SaveParameter("FoodInMeal_AccuracyOfChoEstimate", currentFoodInMeal.AccuracyOfChoEstimate.Text);
+        }
+        public void RestoreFoodInMealParameters()
+        {
+            currentFoodInMeal.ChoGrams.Text = dl.RestoreParameter("FoodInMeal_ChoGrams");
+            currentFoodInMeal.QuantityGrams.Text = dl.RestoreParameter("FoodInMeal_QuantityGrams");
+            currentFoodInMeal.ChoPercent.Text = dl.RestoreParameter("FoodInMeal_ChoPercent");
+            currentFoodInMeal.Name = dl.RestoreParameter("FoodInMeal_Name");
+            currentFoodInMeal.AccuracyOfChoEstimate.Text = dl.RestoreParameter("FoodInMeal_AccuracyOfChoEstimate");
+        }
+        public void SaveMealParameters()
+        {
+            dl.SaveParameter("Meal_ChoGrams", Meal.ChoGrams.Text);
+        }
+        public void RestoreMealParameters()
+        {
+            currentFoodInMeal.ChoGrams.Text = dl.RestoreParameter("Meal_ChoGrams");
+        }
+        public Food FromFoodInMealToFood(FoodInMeal FoodInMeal)
+        {
+            Food f = new Food();
+            f.Name = FoodInMeal.Name;
+            f.Description = FoodInMeal.Description;
+            f.Cho = FoodInMeal.ChoPercent;
+            f.Sugar = FoodInMeal.SugarPercent;
+            f.Fibers = FoodInMeal.FibersPercent;
+            return f;
         }
     }
 }

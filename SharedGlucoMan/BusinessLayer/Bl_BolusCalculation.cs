@@ -155,27 +155,57 @@ namespace GlucoMan.BusinessLayer
         }
         public  void RestoreBolusParameters()
         {
-             dl.RestoreBolusParameters(this);
+            TargetGlucose.Text = dl.RestoreParameter("Bolus_TargetGlucose");
+            ChoInsulinRatioBreakfast.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioBreakfast");
+            ChoInsulinRatioLunch.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioLunch");
+            ChoInsulinRatioDinner.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioDinner");
+            InsulinCorrectionSensitivity.Text = dl.RestoreParameter("Bolus_InsulinCorrectionSensitivity");
+            TotalDailyDoseOfInsulin.Text = dl.RestoreParameter("Bolus_TotalDailyDoseOfInsulin");
+            ChoToEat.Text = dl.RestoreParameter("Bolus_ChoToEat");
+            GlucoseBeforeMeal.Text = dl.RestoreParameter("Bolus_GlucoseBeforeMeal");
         }
         public  void SaveBolusParameters()
         {
-            dl.SaveBolusParameters(this);
-        }
+            dl.SaveParameter("Bolus_TargetGlucose", TargetGlucose.Text);
+            dl.SaveParameter("Bolus_ChoInsulinRatioBreakfast", ChoInsulinRatioBreakfast.Text);
+            dl.SaveParameter("Bolus_ChoInsulinRatioLunch", ChoInsulinRatioLunch.Text);
+            dl.SaveParameter("Bolus_ChoInsulinRatioDinner", ChoInsulinRatioDinner.Text);
+            dl.SaveParameter("Bolus_InsulinCorrectionSensitivity", InsulinCorrectionSensitivity.Text);
+            dl.SaveParameter("Bolus_TotalDailyDoseOfInsulin", TotalDailyDoseOfInsulin.Text);
+            dl.SaveParameter("Bolus_ChoToEat", ChoToEat.Text);
+            dl.SaveParameter("Bolus_GlucoseBeforeMeal", GlucoseBeforeMeal.Text);
+    }
         public  void SaveInsulinCorrectionParameters()
         {
-            dl.SaveInsulinCorrectionParameters(this);
+            dl.SaveParameter("Correction_TypicalBolusMorning", TypicalBolusMorning.Text);
+            dl.SaveParameter("Correction_TypicalBolusMidday", TypicalBolusMidday.Text);
+            dl.SaveParameter("Correction_TypicalBolusEvening", TypicalBolusEvening.Text);
+            dl.SaveParameter("Correction_TypicalBolusNight", TypicalBolusNight.Text);
+            dl.SaveParameter("Correction_FactorOfInsulinCorrectionSensitivity", FactorOfInsulinCorrectionSensitivity.Text);
+            dl.SaveParameter("Bolus_TotalDailyDoseOfInsulin", TotalDailyDoseOfInsulin.Text);
+            dl.SaveParameter("Bolus_InsulinCorrectionSensitivity", InsulinCorrectionSensitivity.Text);
         }
         public  void RestoreInsulinCorrectionParameters()
         {
-            dl.RestoreInsulinCorrectionParameters(this);
+            TypicalBolusMorning.Text = dl.RestoreParameter("Correction_TypicalBolusMorning");
+            TypicalBolusMidday.Text = dl.RestoreParameter("Correction_TypicalBolusMidday");
+            TypicalBolusEvening.Text = dl.RestoreParameter("Correction_TypicalBolusEvening");
+            TypicalBolusNight.Text = dl.RestoreParameter("Correction_TypicalBolusNight");
+            FactorOfInsulinCorrectionSensitivity.Text = dl.RestoreParameter("Correction_FactorOfInsulinCorrectionSensitivity");
+            TotalDailyDoseOfInsulin.Text = dl.RestoreParameter("Bolus_TotalDailyDoseOfInsulin");
+            InsulinCorrectionSensitivity.Text = dl.RestoreParameter("Bolus_InsulinCorrectionSensitivity");
         }
         public void SaveRatioCHOInsulinParameters()
         {
-            dl.SaveRatioChoInsulinParameters(this);
+            dl.SaveParameter("Bolus_ChoInsulinRatioBreakfast", ChoInsulinRatioBreakfast.Text);
+            dl.SaveParameter("Bolus_ChoInsulinRatioLunch", ChoInsulinRatioLunch.Text);
+            dl.SaveParameter("Bolus_ChoInsulinRatioDinner", ChoInsulinRatioDinner.Text);
         }
         public void RestoreRatioCHOInsulinParameters()
         {
-            dl.RestoreRatioChoInsulinParameters(this);
+            ChoInsulinRatioBreakfast.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioBreakfast");
+            ChoInsulinRatioLunch.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioLunch");
+            ChoInsulinRatioDinner.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioDinner");
         }
     }
 }

@@ -39,7 +39,6 @@
             this.btnSaveMeal = new System.Windows.Forms.Button();
             this.dtpMealTimeEnd = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.cmbAccuracyMeal = new System.Windows.Forms.ComboBox();
             this.txtAccuracyOfChoMeal = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.cmbTypeOfMeal = new System.Windows.Forms.ComboBox();
@@ -56,6 +55,7 @@
             this.rdbIsBreakfast = new System.Windows.Forms.RadioButton();
             this.rdbIsDinner = new System.Windows.Forms.RadioButton();
             this.rdbIsLunch = new System.Windows.Forms.RadioButton();
+            this.cmbAccuracyMeal = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridMeals)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -162,16 +162,9 @@
             this.label1.TabIndex = 57;
             this.label1.Text = "Meal end";
             // 
-            // cmbAccuracyMeal
-            // 
-            this.cmbAccuracyMeal.FormattingEnabled = true;
-            this.cmbAccuracyMeal.Location = new System.Drawing.Point(618, 31);
-            this.cmbAccuracyMeal.Name = "cmbAccuracyMeal";
-            this.cmbAccuracyMeal.Size = new System.Drawing.Size(145, 29);
-            this.cmbAccuracyMeal.TabIndex = 72;
-            // 
             // txtAccuracyOfChoMeal
             // 
+            this.txtAccuracyOfChoMeal.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.txtAccuracyOfChoMeal.Location = new System.Drawing.Point(552, 31);
             this.txtAccuracyOfChoMeal.Name = "txtAccuracyOfChoMeal";
             this.txtAccuracyOfChoMeal.Size = new System.Drawing.Size(60, 29);
@@ -215,6 +208,7 @@
             this.txtChoOfMeal.Size = new System.Drawing.Size(68, 26);
             this.txtChoOfMeal.TabIndex = 75;
             this.txtChoOfMeal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtChoOfMeal.TextChanged += new System.EventHandler(this.txtChoOfMeal_TextChanged);
             // 
             // label5
             // 
@@ -248,7 +242,7 @@
             this.btnNowBegin.TabIndex = 78;
             this.btnNowBegin.Text = "Now";
             this.btnNowBegin.UseVisualStyleBackColor = true;
-            this.btnNowBegin.Click += new System.EventHandler(this.btnNowStart_Click);
+            this.btnNowBegin.Click += new System.EventHandler(this.btnNowBegin_Click);
             // 
             // gridMeals
             // 
@@ -346,11 +340,21 @@
             this.rdbIsLunch.Text = "lunch";
             this.rdbIsLunch.UseVisualStyleBackColor = true;
             // 
+            // cmbAccuracy
+            // 
+            this.cmbAccuracyMeal.BackColor = System.Drawing.Color.PaleGoldenrod;
+            this.cmbAccuracyMeal.FormattingEnabled = true;
+            this.cmbAccuracyMeal.Location = new System.Drawing.Point(618, 31);
+            this.cmbAccuracyMeal.Name = "cmbAccuracy";
+            this.cmbAccuracyMeal.Size = new System.Drawing.Size(144, 29);
+            this.cmbAccuracyMeal.TabIndex = 83;
+            // 
             // frmMeals
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(768, 395);
+            this.Controls.Add(this.cmbAccuracyMeal);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnDefaults);
             this.Controls.Add(this.chkNowInAdd);
@@ -361,7 +365,6 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.cmbTypeOfMeal);
-            this.Controls.Add(this.cmbAccuracyMeal);
             this.Controls.Add(this.txtAccuracyOfChoMeal);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.dtpMealTimeEnd);
@@ -403,7 +406,7 @@
         private Button btnSaveMeal;
         private DateTimePicker dtpMealTimeEnd;
         private Label label1;
-        private ComboBox cmbAccuracyMeal;
+        //////////private ComboBox cmbAccuracyMeal;
         private TextBox txtAccuracyOfChoMeal;
         private Label label13;
         private ComboBox cmbTypeOfMeal;
@@ -423,5 +426,6 @@
         private RadioButton rdbIsBreakfast;
         private RadioButton rdbIsDinner;
         private RadioButton rdbIsLunch;
+        private ComboBox cmbAccuracyMeal;
     }
 }

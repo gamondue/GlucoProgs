@@ -9,6 +9,7 @@ namespace GlucoMan.Forms
         Accuracy accuracyClass; 
 
         private List<Meal> allTheMeals;
+        //private bool clickedAccuracy;
 
         public frmMeals()
         {
@@ -19,25 +20,9 @@ namespace GlucoMan.Forms
             cmbAccuracyMeal.DataSource = Enum.GetValues(typeof(QualitativeAccuracy));
             cmbTypeOfMeal.DataSource = Enum.GetValues(typeof(TypeOfMeal));
 
-            accuracyClass = new Accuracy(this, txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
+            accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
 
             RefreshUi();
-        }
-        public void FromClassToUi()
-        {
-            txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-            txtChoOfMeal.Text = Safe.String(bl.Meal.ChoGrams.Text);
-
-            if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
-                dtpMealTimeBegin.Value = (DateTime)bl.Meal.TimeBegin.DateTime;
-            if (bl.Meal.TimeEnd.DateTime != Common.DateNull)
-                dtpMealTimeEnd.Value = (DateTime)bl.Meal.TimeEnd.DateTime;
-
-            txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
-            cmbAccuracyMeal.SelectedItem = bl.Meal.QualitativeAccuracyOfChoEstimate;
-
-            cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
-            SetCorrectRadioButtons();
         }
         private void SetCorrectRadioButtons()
         {
@@ -57,16 +42,30 @@ namespace GlucoMan.Forms
             else if (bl.Meal.IdTypeOfMeal == Common.TypeOfMeal.Dinner)
                 rdbIsDinner.Checked = true;
         }
+        public void FromClassToUi()
+        {
+            txtIdMeal.Text = bl.Meal.IdMeal.ToString();
+            txtChoOfMeal.Text = Safe.String(bl.Meal.ChoGrams.Text);
+            cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
+            if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
+                dtpMealTimeBegin.Value = (DateTime)bl.Meal.TimeBegin.DateTime;
+            if (bl.Meal.TimeEnd.DateTime != Common.DateNull)
+                dtpMealTimeEnd.Value = (DateTime)bl.Meal.TimeEnd.DateTime;
+            txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
+
+            SetCorrectRadioButtons();
+        }
         private void FromUiToClass()
         {
             bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
-            bl.Meal.ChoGrams.Text = Safe.Double(txtChoOfMeal.Text).ToString();
-            bl.Meal.TimeBegin.DateTime = dtpMealTimeBegin.Value;
-            bl.Meal.TimeEnd.DateTime = dtpMealTimeEnd.Value;
-            bl.Meal.AccuracyOfChoEstimate.Double = (double?)Safe.Double(txtAccuracyOfChoMeal.Text);
+            bl.Meal.ChoGrams.Text = txtChoOfMeal.Text;
 
             bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
-            bl.Meal.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
+
+            bl.Meal.AccuracyOfChoEstimate.Double = (double?)Safe.Double(txtAccuracyOfChoMeal.Text);
+
+            bl.Meal.TimeBegin.DateTime = dtpMealTimeBegin.Value;
+            bl.Meal.TimeEnd.DateTime = dtpMealTimeEnd.Value;
 
             // since the combo has more options, it gets the priority 
             // over the radiobuttons, but if the combo is in one of the 
@@ -103,6 +102,7 @@ namespace GlucoMan.Forms
                 bl.Meal.TimeEnd.DateTime = now;
             }
             txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString();   
+            
             frmMeal m = new frmMeal(bl.Meal); 
             m.ShowDialog();
             RefreshUi(); 
@@ -146,7 +146,7 @@ namespace GlucoMan.Forms
             m.ShowDialog();
             RefreshUi();
         }
-        private void btnNowStart_Click(object sender, EventArgs e)
+        private void btnNowBegin_Click(object sender, EventArgs e)
         {
             DateTime now = DateTime.Now;
             dtpMealTimeBegin.Value = now;
@@ -155,6 +155,11 @@ namespace GlucoMan.Forms
         private void btnNowEnd_Click(object sender, EventArgs e)
         {
             dtpMealTimeEnd.Value = DateTime.Now;
+        }
+        private void btnDefaults_Click(object sender, EventArgs e)
+        {
+            bl.NewDefaults();
+            FromClassToUi();
         }
         private void gridMeals_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void gridMeals_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -184,10 +189,45 @@ namespace GlucoMan.Forms
                 FromClassToUi();
             }
         }
-        private void btnDefaults_Click(object sender, EventArgs e)
+        private void txtChoOfMeal_TextChanged(object sender, EventArgs e)
         {
-            bl.NewDefaults();
-            FromClassToUi();
+            bl.SaveMealParameters();
         }
+        //private void txtAccuracyOfChoMeal_TextChanged(object sender, EventArgs e)
+        //{
+        //    double acc;
+        //    double.TryParse(txtAccuracyOfChoMeal.Text, out acc); 
+        //    if (acc != 0) //
+        //    {
+        //        cmbAccuracyMeal.SelectedItem =
+        //            bl.GetQualitativeAccuracyGivenQuantitavive(acc);
+        //        txtAccuracyOfChoMeal.BackColor = bl.AccuracyBackColor(acc);
+        //        txtAccuracyOfChoMeal.ForeColor = bl.AccuracyForeColor(acc);
+        //    }
+        //    else
+        //    {
+        //        cmbAccuracyMeal.SelectedItem = null;
+        //        txtAccuracyOfChoMeal.BackColor = Color.White;
+        //        txtAccuracyOfChoMeal.ForeColor = Color.Black;
+        //    }
+        //}
+        //private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (clickedAccuracy)
+        //    {
+        //        clickedAccuracy = false;
+        //        QualitativeAccuracy qa = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
+        //        txtAccuracyOfChoMeal.Text = ((int)qa).ToString(); 
+        //        FromClassToUi();
+        //    }
+        //}
+        //private void cmbAccuracyMeal_Enter(object sender, MouseEventArgs e)
+        //{
+        //    clickedAccuracy = true;
+        //}
+        //private void cmbAccuracyMeal_Leave(object sender, EventArgs e)
+        //{
+        //    clickedAccuracy = false;
+        //}
     }
 }

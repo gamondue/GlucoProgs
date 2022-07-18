@@ -9,75 +9,87 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FoodToHitTargetCarbsPage : ContentPage
     {
-        BL_FoodToHitTargetCarbs foodToEat = new BL_FoodToHitTargetCarbs();
+        BL_FoodToHitTargetCarbs blFoodToEat = new BL_FoodToHitTargetCarbs();
+        BL_General blg = new BL_General();
+
         public FoodToHitTargetCarbsPage()
         {
             InitializeComponent();
+            // read data from other pages
+            blFoodToEat.TargetCho.Double = Safe.Double(blg.RestoreParameter("Bolus_ChoToEat"));
+            blFoodToEat.NameOfFood = Safe.String(blg.RestoreParameter("FoodInMeal_Name"));
 
-            foodToEat.RestoreData();
+            blFoodToEat.RestoreParametrs();
+
             FromClassToUi();
-        }
-        private void frmFoodToHitTargetCarbs_Load(object sender, EventArgs e)
-        {
-
         }
         private void FromClassToUi()
         {
-            TxtChoAlreadyTaken.Text = foodToEat.ChoAlreadyTaken.Text;
-            TxtChoOfFood.Text = foodToEat.ChoOfFood.Text;
-            TxtTargetCho.Text = foodToEat.TargetCho.Text;
-            TxtChoLeftToTake.Text = foodToEat.ChoLeftToTake.Text;
-            TxtFoodToHitTarget.Text = foodToEat.FoodToHitTarget.Text;
+            TxtChoAlreadyTaken.Text = blFoodToEat.ChoAlreadyTaken.Text;
+            TxtChoOfFood.Text = blFoodToEat.ChoOfFood.Text;
+            TxtTargetCho.Text = blFoodToEat.TargetCho.Text;
+            TxtChoLeftToTake.Text = blFoodToEat.ChoLeftToTake.Text;
+            TxtFoodToHitTarget.Text = blFoodToEat.FoodToHitTarget.Text;
+            TxtFoodName.Text = blFoodToEat.NameOfFood;
         }
         internal void FromUiToClass()
         {
-            foodToEat.ChoAlreadyTaken.Text = TxtChoAlreadyTaken.Text;
-            foodToEat.ChoOfFood.Text = TxtChoOfFood.Text;
-            foodToEat.TargetCho.Text = TxtTargetCho.Text;
-            foodToEat.ChoLeftToTake.Text = TxtChoLeftToTake.Text;
-            foodToEat.FoodToHitTarget.Text = TxtFoodToHitTarget.Text;
+            blFoodToEat.ChoAlreadyTaken.Text = TxtChoAlreadyTaken.Text;
+            blFoodToEat.ChoOfFood.Text = TxtChoOfFood.Text;
+            blFoodToEat.TargetCho.Text = TxtTargetCho.Text;
+            blFoodToEat.ChoLeftToTake.Text = TxtChoLeftToTake.Text;
+            blFoodToEat.FoodToHitTarget.Text = TxtFoodToHitTarget.Text;
+            blFoodToEat.NameOfFood = TxtFoodName.Text;
         }
         private void TxtChoAlreadyTaken_Leave(object sender, EventArgs e)
         {
-            foodToEat.ChoAlreadyTaken.Text = TxtChoAlreadyTaken.Text;
-            foodToEat.Calculations();
-
+            blFoodToEat.ChoAlreadyTaken.Text = TxtChoAlreadyTaken.Text;
+            blFoodToEat.Calculations();
             FromClassToUi();
         }
         private void TxtChoOfFood_Leave(object sender, EventArgs e)
         {
-            foodToEat.ChoOfFood.Text = TxtChoOfFood.Text;
-            foodToEat.Calculations();
-
+            blFoodToEat.ChoOfFood.Text = TxtChoOfFood.Text;
+            blFoodToEat.Calculations();
             FromClassToUi();
         }
         private void TxtTargetCho_Leave(object sender, EventArgs e)
         {
-            foodToEat.TargetCho.Text = TxtTargetCho.Text;
-            foodToEat.Calculations();
-
+            blFoodToEat.TargetCho.Text = TxtTargetCho.Text;
+            blFoodToEat.Calculations();
             FromClassToUi();
         }
-        private void btnReadTarget_Click(object sender, EventArgs e)
+        private void btnCalculateGrams_Click(object sender, EventArgs e)
         {
-            BL_General bl = new BL_General();
-            foodToEat.TargetCho.Double = Safe.Double(bl.RestoreParameter("ChoToEat"));
+            FromUiToClass();
+            blFoodToEat.Calculations();
             FromClassToUi();
         }
-        private void btnCalc_Click(object sender, EventArgs e)
+        private void btnReadAll_Click(object sender, EventArgs e)
         {
-            FromUiToClass(); 
-            foodToEat.Calculations();
+            blFoodToEat.TargetCho.Double = Safe.Double(blg.RestoreParameter("Bolus_ChoToEat"));
+            blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(blg.RestoreParameter("XXXXXXXXXXXXXX"));
+            blFoodToEat.ChoOfFood.Double = Safe.Double(blg.RestoreParameter("FoodInMeal_ChoPercent"));
+            blFoodToEat.NameOfFood = Safe.String(blg.RestoreParameter("FoodInMeal_Name"));
+            FromClassToUi();
+            TxtChoLeftToTake.Text = "";
+            TxtFoodToHitTarget.Text = "";
+        }
+        private void btnReadTargetCho_Click(object sender, EventArgs e)
+        {
+            blFoodToEat.TargetCho.Double = Safe.Double(blg.RestoreParameter("Bolus_ChoToEat"));
             FromClassToUi();
         }
         private void btnReadChoTaken_Click(object sender, EventArgs e)
         {
+            blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(blg.RestoreParameter("XXXXXXXXXXXXXX"));
+            FromClassToUi();
         }
         private void btnReadFood_Click(object sender, EventArgs e)
         {
-        }
-        private void btnReadAll_Click(object sender, EventArgs e)
-        {
+            blFoodToEat.ChoOfFood.Double = Safe.Double(blg.RestoreParameter("FoodInMeal_ChoPercent"));
+            blFoodToEat.NameOfFood = Safe.String(blg.RestoreParameter("FoodInMeal_Name"));
+            FromClassToUi();
         }
     }
 }

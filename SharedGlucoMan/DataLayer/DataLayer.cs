@@ -41,24 +41,14 @@ namespace GlucoMan
         #region Save and restore of program's parameters
         internal abstract long? SaveParameter(string FieldName, string FieldValue, int? Key = null);
         internal abstract string RestoreParameter(string FieldName, int? Key = null);
-        internal abstract void RestoreInsulinCorrectionParameters(BL_BolusCalculation bL_BolusCalculation);
-        internal abstract void RestoreFoodToHitTargetCarbs(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
-        internal abstract void RestoreHypoPrediction(GlucoMan.BusinessLayer.BL_HypoPrediction Hypo);
-        internal abstract void SaveBolusParameters(BL_BolusCalculation Parameters);
-        internal abstract void RestoreBolusParameters(BL_BolusCalculation Parameters);
-        internal abstract void SaveInsulinCorrectionParameters(BL_BolusCalculation Parameters);
-        internal abstract void SaveRatioChoInsulinParameters(BL_BolusCalculation Parameters);
-        internal abstract void RestoreRatioChoInsulinParameters(BL_BolusCalculation Parameters);
         #endregion
 
         #region Glucose 
         internal abstract List<GlucoseRecord> GetLastTwoGlucoseMeasurements(); 
         internal abstract List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, DateTime? FinalInstant);
         internal abstract void RestoreWeighFood(BL_WeighFood WeighFood);
-        internal abstract void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
-        internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);
-        internal abstract void SaveHypoPrediction(BL_HypoPrediction Hypo);
-        internal abstract void SaveLogOfBoluses(BL_BolusCalculation Bolus);
+        //internal abstract void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
+        internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);      internal abstract void SaveLogOfBoluses(BL_BolusCalculation Bolus);
         internal abstract long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
         internal abstract void SaveWeighFood(BL_WeighFood WeighFood);
         #endregion

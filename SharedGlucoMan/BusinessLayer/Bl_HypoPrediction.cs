@@ -248,7 +248,15 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
-                dl.SaveHypoPrediction(this); 
+                dl.SaveParameter("Hypo_GlucoseTarget", GlucoseTarget.Text);
+                dl.SaveParameter("Hypo_GlucoseLast", GlucoseLast.Text);
+                dl.SaveParameter("Hypo_GlucosePrevious", GlucosePrevious.Text);
+                dl.SaveParameter("Hypo_HourLast", HourLast.Text);
+                dl.SaveParameter("Hypo_HourPrevious", HourPrevious.Text);
+                dl.SaveParameter("Hypo_MinuteLast", MinuteLast.Text);
+                dl.SaveParameter("Hypo_MinutePrevious", MinutePrevious.Text);
+                dl.SaveParameter("Hypo_AlarmAdvanceTime", AlarmAdvanceTime.Text);
+                dl.SaveParameter("Hypo_FutureSpanMinutes", FutureSpanMinutes.Text);
             }
             catch (Exception ex)
             {
@@ -257,7 +265,18 @@ namespace GlucoMan.BusinessLayer
         }
         public void RestoreData()
         {
-            dl.RestoreHypoPrediction(this); 
+            GlucoseTarget.Text = dl.RestoreParameter("Hypo_GlucoseTarget");
+            GlucoseLast.Text = dl.RestoreParameter("Hypo_GlucoseLast");
+            GlucosePrevious.Text = dl.RestoreParameter("Hypo_GlucosePrevious");
+            HourLast.Text = dl.RestoreParameter("Hypo_HourLast");
+            HourPrevious.Text = dl.RestoreParameter("Hypo_HourPrevious");
+            MinuteLast.Text = dl.RestoreParameter("Hypo_MinuteLast");
+            MinutePrevious.Text = dl.RestoreParameter("Hypo_MinutePrevious");
+            int? minutes = Safe.Int(dl.RestoreParameter("Hypo_AlarmAdvanceTime"));
+            if (minutes == null)
+                minutes = 0;
+            AlarmAdvanceTime.Text = dl.RestoreParameter("Hypo_AlarmAdvanceTime");
+            FutureSpanMinutes.Text = dl.RestoreParameter("Hypo_FutureSpanMinutes");
         }
     }
 }

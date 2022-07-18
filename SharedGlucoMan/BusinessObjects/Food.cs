@@ -19,7 +19,9 @@ namespace GlucoMan
         internal DoubleAndText Proteins { get; set; }     // [g/100]
         internal DoubleAndText Salt { get; set; }         // [g/100]
         internal DoubleAndText Potassium { get; set; }    // [g/100]  
+        internal DoubleAndText Cholesterol { get; set; }
         internal DoubleAndText GlycemicIndex { get; set; } // [n]
+
         public Food()
         {
             Energy = new DoubleAndText();      // [kcal]  

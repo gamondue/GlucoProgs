@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static GlucoMan.Common;
+﻿using static GlucoMan.Common;
 
 namespace GlucoMan
 {
@@ -29,9 +26,7 @@ namespace GlucoMan
             ChoPercent = new DoubleAndText(); // [%]
             SugarPercent = new DoubleAndText();         // [%]
             FibersPercent = new DoubleAndText();        // [%]
-            AccuracyOfChoEstimate = new DoubleAndText();
-            //QualitativeAccuracyOfCho = QualitativeAccuracy.Perfect;
-
+            AccuracyOfChoEstimate = new DoubleAndText(); 
             ChoGrams.Format = "0.0";
             QuantityGrams.Format = "0";
             ChoPercent.Format = "0.0";

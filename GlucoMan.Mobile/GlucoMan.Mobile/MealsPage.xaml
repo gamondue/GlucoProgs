@@ -53,7 +53,8 @@
             <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Meal begin instant"  XAlign="Center" YAlign="End"/>
 
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtChoOfMeal" BackgroundColor="Aqua"
-                   Keyboard="Numeric"  FontSize="Medium" HorizontalTextAlignment="End"/>
+                   Keyboard="Numeric"  FontSize="Medium" HorizontalTextAlignment="End"
+                   TextChanged="txtChoOfMeal_TextChanged"/>
             <DatePicker Grid.Row="4" Grid.Column="1" x:Name="dtpMealDateBegin" 
                         BackgroundColor="PaleGreen" FontSize="Small" Format="yyyy-MM-dd" 
                         HorizontalOptions="Center" />
@@ -71,6 +72,7 @@
                 <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddMeal" Clicked="btnAddMeal_ClickAsync"></Button>
                 <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveMeal" Clicked="btnRemoveMeal_ClickAsync"></Button>
             </Grid>
+            
             <Button Grid.Row="5" Grid.Column="0" Text="Save" x:Name="btnSave" Clicked="btnSaveMeal_Click"></Button>
             <Button Grid.Row="5" Grid.Column="1" Text="Now" x:Name="btnNowBegin" Clicked="btnNowBegin_Click"></Button>
             <Button Grid.Row="5" Grid.Column="2" Text="Defaults" x:Name="btnDefaults" Clicked="btnDefault_Click"></Button>
@@ -94,7 +96,7 @@
                 </Label>
             </StackLayout>
             
-            <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Text="Date and Time" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" Text="Carbohydrates" XAlign="Center" YAlign="End"/>
             
             <ListView Grid.Row="8" Grid.ColumnSpan="4" x:Name="gridMeals" ItemsSource="{Binding}"
@@ -109,7 +111,7 @@
                                         <RowDefinition Height="18"/>
                                     </Grid.RowDefinitions>
                                     <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding TimeBegin.DateTime}"/>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding ChoGrams.Text}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

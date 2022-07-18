@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
-using System.Text;
 
 namespace GlucoMan
 {
@@ -59,17 +57,6 @@ CREATE TABLE IF NOT EXISTS 'BolusCalculations' (
 	'FactorOfInsulinCorrectionSensitivity'	DOUBLE,
 	PRIMARY KEY('IdBolusCalculation')
 );
-DROP TABLE IF EXISTS 'Alarms';
-CREATE TABLE IF NOT EXISTS 'Alarms' (
-	'idAlarm'	INT NOT NULL,
-	'TimeStart'	DATETIME,
-	'TimeAlarm'	DATETIME,
-	'Interval'	DOUBLE,
-	'Duration'	DOUBLE,
-	'IsRepeated'	TINYINT,
-	'IsEnabled'	TINYINT,
-	PRIMARY KEY('idAlarm')
-);
 DROP TABLE IF EXISTS 'GlucoseRecords';
 CREATE TABLE IF NOT EXISTS 'GlucoseRecords' (
 	'IdGlucoseRecord'	INT NOT NULL,
@@ -83,33 +70,6 @@ CREATE TABLE IF NOT EXISTS 'GlucoseRecords' (
 	'IdDocumentType'	INT,
 	'Notes'	VARCHAR(255),
 	PRIMARY KEY('IdGlucoseRecord')
-);
-DROP TABLE IF EXISTS 'Meals';
-CREATE TABLE IF NOT EXISTS 'Meals' (
-	'IdMeal'	INT NOT NULL,
-	'IdTypeOfMeal'	INT,
-	'TimeBegin'	DATETIME,
-	'TimeEnd'	DATETIME,
-	'Carbohydrates'	DOUBLE,
-	'AccuracyOfChoEstimate'	DOUBLE,
-	'IdBolusCalculation'	TEXT,
-	'IdGlucoseRecord'	INT,
-	'IdQualitativeAccuracyCHO'	INT,
-	PRIMARY KEY('IdMeal')
-);
-DROP TABLE IF EXISTS 'FoodsInMeals';
-CREATE TABLE IF NOT EXISTS 'FoodsInMeals' (
-	'IdFoodInMeal'	INT NOT NULL,
-	'IdMeal'	INT,
-	'IdFood'	INT,
-	'CarbohydratesGrams'	DOUBLE,
-	'CarbohydratesPercent'	INTEGER,
-	'Quantity'	DOUBLE,
-	'AccuracyOfChoEstimate'	DOUBLE,
-	'QualitativeAccuracy'	INT,
-	'Name'	TEXT,
-	'Field10'	INTEGER,
-	PRIMARY KEY('IdFoodInMeal')
 );
 DROP TABLE IF EXISTS 'Foods';
 CREATE TABLE IF NOT EXISTS 'Foods' (
@@ -149,22 +109,33 @@ CREATE TABLE IF NOT EXISTS 'HypoPredictions' (
 	'DatetimePrevious'	DATETIME,
 	PRIMARY KEY('IdHypoPrediction')
 );
+DROP TABLE IF EXISTS 'Alarms';
+CREATE TABLE IF NOT EXISTS 'Alarms' (
+	'IdAlarm'	INT NOT NULL,
+	'TimeStart'	DATETIME,
+	'TimeAlarm'	DATETIME,
+	'Interval'	DOUBLE,
+	'Duration'	DOUBLE,
+	'IsRepeated'	TINYINT,
+	'IsEnabled'	TINYINT,
+	PRIMARY KEY('idAlarm')
+);
 DROP TABLE IF EXISTS 'Parameters';
 CREATE TABLE IF NOT EXISTS 'Parameters' (
 	'IdParameters'	INTEGER NOT NULL,
-	'TargetGlucose'	INTEGER,
-	'GlucoseBeforeMeal'	INTEGER,
-	'ChoToEat'	INTEGER,
-	'ChoInsulinRatioBreakfast'	DOUBLE,
-	'ChoInsulinRatioLunch'	DOUBLE,
-	'ChoInsulinRatioDinner'	DOUBLE,
-	'TypicalBolusMorning'	DOUBLE,
-	'TypicalBolusMidday'	DOUBLE,
-	'TypicalBolusEvening'	DOUBLE,
-	'TypicalBolusNight'	DOUBLE,
-	'TotalDailyDoseOfInsulin'	DOUBLE,
-	'FactorOfInsulinCorrectionSensitivity'	DOUBLE,
-	'InsulinCorrectionSensitivity'	DOUBLE,
+	'Bolus_TargetGlucose'	INTEGER,
+	'Bolus_GlucoseBeforeMeal'	INTEGER,
+	'Bolus_ChoToEat'	INTEGER,
+	'Bolus_ChoInsulinRatioBreakfast'	DOUBLE,
+	'Bolus_ChoInsulinRatioLunch'	DOUBLE,
+	'Bolus_ChoInsulinRatioDinner'	DOUBLE,
+	'Bolus_TotalDailyDoseOfInsulin'	DOUBLE,
+	'Bolus_InsulinCorrectionSensitivity'	DOUBLE,
+	'Correction_TypicalBolusMorning'	DOUBLE,
+	'Correction_TypicalBolusMidday'	DOUBLE,
+	'Correction_TypicalBolusEvening'	DOUBLE,
+	'Correction_TypicalBolusNight'	DOUBLE,
+	'Correction_FactorOfInsulinCorrectionSensitivity'	DOUBLE,
 	'Hypo_GlucoseTarget'	DOUBLE,
 	'Hypo_GlucoseLast'	DOUBLE,
 	'Hypo_GlucosePrevious'	DOUBLE,
@@ -177,7 +148,38 @@ CREATE TABLE IF NOT EXISTS 'Parameters' (
 	'Hit_ChoAlreadyTaken'	DOUBLE,
 	'Hit_ChoOfFood'	DOUBLE,
 	'Hit_TargetCho'	DOUBLE,
+	'Hit_NameOfFood'	TEXT,
+	'FoodInMeal_ChoGrams'	DOUBLE,
+	'FoodInMeal_QuantityGrams'	DOUBLE,
+	'FoodInMeal_ChoPercent'	DOUBLE,
+	'FoodInMeal_Name'	TEXT,
+	'FoodInMeal_AccuracyOfChoEstimate'	DOUBLE,
+	'Meal_ChoGrams'	DOUBLE,
 	PRIMARY KEY('IdParameters' AUTOINCREMENT)
+);
+DROP TABLE IF EXISTS 'FoodsInMeals';
+CREATE TABLE IF NOT EXISTS 'FoodsInMeals' (
+	'IdFoodInMeal'	INT NOT NULL,
+	'IdMeal'	INT,
+	'IdFood'	INT,
+	'CarbohydratesGrams'	DOUBLE,
+	'CarbohydratesPercent'	INTEGER,
+	'Quantity'	DOUBLE,
+	'AccuracyOfChoEstimate'	DOUBLE,
+	'Name'	TEXT,
+	PRIMARY KEY('IdFoodInMeal')
+);
+DROP TABLE IF EXISTS 'Meals';
+CREATE TABLE IF NOT EXISTS 'Meals' (
+	'IdMeal'	INT NOT NULL,
+	'IdTypeOfMeal'	INT,
+	'TimeBegin'	DATETIME,
+	'TimeEnd'	DATETIME,
+	'Carbohydrates'	DOUBLE,
+	'AccuracyOfChoEstimate'	DOUBLE,
+	'IdBolusCalculation'	INT,
+	'IdGlucoseRecord'	INT,
+	PRIMARY KEY('IdMeal')
 );
 COMMIT;
 ";

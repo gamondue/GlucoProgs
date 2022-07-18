@@ -12,7 +12,7 @@ namespace GlucoMan.Mobile
     public partial class MealsPage : ContentPage
     {
         private BL_MealAndFood bl = new BL_MealAndFood();
-        //Accuracy accuracyClass;
+        Accuracy accuracyClass;
 
         private List<Meal> allTheMeals;
 
@@ -23,24 +23,9 @@ namespace GlucoMan.Mobile
             cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
             cmbTypeOfMeal.ItemsSource = Enum.GetValues(typeof(TypeOfMeal));
 
-            //accuracyClass = new Accuracy(this, txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
+            accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
 
             RefreshUi();
-        }
-        private void FromClassToUi()
-        {
-            txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-            txtChoOfMeal.Text = Safe.String(bl.Meal.ChoGrams.Text);
-            if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
-            {
-                dtpMealDateBegin.Date = (DateTime)Safe.DateTime(bl.Meal.TimeBegin.DateTime);
-                dtpMealTimeBegin.Time = ((DateTime)bl.Meal.TimeBegin.DateTime).TimeOfDay;  // - dtpMealDateBegin.Date;
-            }
-            txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.ToString();
-
-            cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
-            cmbAccuracyMeal.SelectedItem = bl.Meal.QualitativeAccuracyOfChoEstimate;
-            SetCorrectRadioButtons(); 
         }
         private void SetCorrectRadioButtons()
         {
@@ -60,26 +45,34 @@ namespace GlucoMan.Mobile
             else if (bl.Meal.IdTypeOfMeal == TypeOfMeal.Dinner)
                 rdbIsDinner.IsChecked = true;
         }
+        private void FromClassToUi()
+        {
+            txtIdMeal.Text = bl.Meal.IdMeal.ToString();
+            txtChoOfMeal.Text = Safe.String(bl.Meal.ChoGrams.Text);
+            cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
+            if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
+            {
+                dtpMealDateBegin.Date = (DateTime)Safe.DateTime(bl.Meal.TimeBegin.DateTime);
+                dtpMealTimeBegin.Time = ((DateTime)bl.Meal.TimeBegin.DateTime).TimeOfDay;  // - dtpMealDateBegin.Date;
+            }
+            txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.ToString();
+
+            SetCorrectRadioButtons();
+        }
         private void FromUiToClass()
         {
             bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
             bl.Meal.ChoGrams.Text = Safe.Double(txtChoOfMeal.Text).ToString();
-            DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
-                dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
-            bl.Meal.TimeBegin.DateTime = instant;
-            bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text);
 
-            bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
-            bl.Meal.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
             if (cmbTypeOfMeal.SelectedItem != null)
                 bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
             else
                 bl.Meal.IdTypeOfMeal = TypeOfMeal.NotSet;
+            bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text);
 
-            if (cmbAccuracyMeal.SelectedItem != null)
-                bl.Meal.QualitativeAccuracyOfChoEstimate = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
-            else
-                bl.Meal.QualitativeAccuracyOfChoEstimate = QualitativeAccuracy.NotSet;
+            DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
+                dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
+            bl.Meal.TimeBegin.DateTime = instant;
 
             // since the combo has more options, it gets the priority 
             // over the radiobuttons, but if the combo is in one of the 
@@ -118,6 +111,7 @@ namespace GlucoMan.Mobile
             }
             // ???? make modal ????
             txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString(); 
+            
             await Navigation.PushAsync(new MealPage(bl.Meal)); 
             RefreshUi();
         }
@@ -172,7 +166,8 @@ namespace GlucoMan.Mobile
         private void btnDefault_Click(object sender, EventArgs e)
         {
             bl.NewDefaults();
-            FromClassToUi();         }
+            FromClassToUi();         
+        }
         private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
@@ -184,6 +179,9 @@ namespace GlucoMan.Mobile
             bl.Meal = (Meal)e.SelectedItem;
             FromClassToUi();
         }
-
+        private void txtChoOfMeal_TextChanged(object sender, EventArgs e)
+        {
+            bl.SaveMealParameters();
+        }
     }
 }

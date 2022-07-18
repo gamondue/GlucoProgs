@@ -40,9 +40,9 @@
             this.btnSearchFood = new System.Windows.Forms.Button();
             this.lblIdFood = new System.Windows.Forms.Label();
             this.txtIdFood = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.txtPotassium = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.txtCholesterol = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.txtTotalFats = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -104,9 +104,9 @@
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(354, 27);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(120, 21);
+            this.label16.Size = new System.Drawing.Size(107, 21);
             this.label16.TabIndex = 31;
-            this.label16.Text = "Mono fats  [g]%";
+            this.label16.Text = "Mono sat. fats";
             this.label16.Visible = false;
             // 
             // label1
@@ -190,31 +190,31 @@
             this.txtIdFood.TabIndex = 71;
             this.txtIdFood.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox11
+            // txtPotassium
             // 
-            this.textBox11.Location = new System.Drawing.Point(364, 168);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(100, 29);
-            this.textBox11.TabIndex = 36;
-            this.textBox11.Visible = false;
+            this.txtPotassium.Location = new System.Drawing.Point(364, 168);
+            this.txtPotassium.Name = "txtPotassium";
+            this.txtPotassium.Size = new System.Drawing.Size(100, 29);
+            this.txtPotassium.TabIndex = 36;
+            this.txtPotassium.Visible = false;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(231, 145);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(129, 21);
+            this.label15.Size = new System.Drawing.Size(125, 21);
             this.label15.TabIndex = 25;
-            this.label15.Text = "Cholesterol  [g]%";
+            this.label15.Text = "Cholesterol [g]%";
             this.label15.Visible = false;
             // 
-            // textBox12
+            // txtCholesterol
             // 
-            this.textBox12.Location = new System.Drawing.Point(245, 168);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(100, 29);
-            this.textBox12.TabIndex = 33;
-            this.textBox12.Visible = false;
+            this.txtCholesterol.Location = new System.Drawing.Point(245, 168);
+            this.txtCholesterol.Name = "txtCholesterol";
+            this.txtCholesterol.Size = new System.Drawing.Size(100, 29);
+            this.txtCholesterol.TabIndex = 33;
+            this.txtCholesterol.Visible = false;
             // 
             // label12
             // 
@@ -314,7 +314,7 @@
             this.grpFood.Size = new System.Drawing.Size(672, 303);
             this.grpFood.TabIndex = 79;
             this.grpFood.TabStop = false;
-            this.grpFood.Text = "Calculator";
+            this.grpFood.Text = "Food information";
             // 
             // label18
             // 
@@ -354,9 +354,9 @@
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.txtMonoinsaturatedFats);
             this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.textBox11);
+            this.groupBox1.Controls.Add(this.txtPotassium);
             this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.textBox12);
+            this.groupBox1.Controls.Add(this.txtCholesterol);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.txtFoodCarbohydrates);
             this.groupBox1.Controls.Add(this.label3);
@@ -470,10 +470,12 @@
             this.gridFoods.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridFoods.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.gridFoods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridFoods.Location = new System.Drawing.Point(5, 355);
             this.gridFoods.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gridFoods.Name = "gridFoods";
+            this.gridFoods.ReadOnly = true;
             this.gridFoods.Size = new System.Drawing.Size(667, 263);
             this.gridFoods.TabIndex = 78;
             this.gridFoods.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellClick);
@@ -545,9 +547,9 @@
         private Button btnSearchFood;
         private Label lblIdFood;
         private TextBox txtIdFood;
-        private TextBox textBox11;
+        private TextBox txtPotassium;
         private Label label15;
-        private TextBox textBox12;
+        private TextBox txtCholesterol;
         private Label label12;
         private TextBox txtTotalFats;
         private Label label10;

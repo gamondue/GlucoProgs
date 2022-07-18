@@ -9,7 +9,6 @@
     <Import_RootNamespace>SharedWindows</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Accuracy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonDataWindows.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctionsWindows.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Alarm.cs" />

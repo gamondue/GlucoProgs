@@ -62,14 +62,14 @@ namespace GlucoMan
         {
             throw new NotImplementedException();
         }
-        internal override void SaveRatioChoInsulinParameters(BL_BolusCalculation Parameters)
-        {
-            throw new NotImplementedException();
-        }
-        internal override void RestoreRatioChoInsulinParameters(BL_BolusCalculation Parameters)
-        {
-            throw new NotImplementedException();
-        }
+        //internal override void SaveRatioChoInsulinParameters(BL_BolusCalculation Parameters)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //internal override void RestoreRatioChoInsulinParameters(BL_BolusCalculation Parameters)
+        //{
+        //    throw new NotImplementedException();
+        //}
         internal override List<Food> SearchFood(string Name, string Description)
         {
             throw new NotImplementedException();

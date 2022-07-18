@@ -1,45 +1,30 @@
 ﻿using GlucoMan.BusinessLayer;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GlucoMan.Forms
 {
     public partial class frmFoods : Form
     {
         BL_MealAndFood bl = new BL_MealAndFood();
-
-        Food currentFood = new Food();
-        public Food CurrentFood { get => currentFood; set => currentFood = value; }
-        //string currentnName;
-        //string currentDescription;
-
+        public Food CurrentFood { get; set; }
         List<Food> allFoods;
-        private FoodInMeal foodInMeal;
         
-        private bool foodIsChosen;
-        public bool FoodIsChosen { get => foodIsChosen;  }
+        bool foodIsChosen;
+        public bool FoodIsChosen { get;  }
 
         public frmFoods(Food Food)
         {
             InitializeComponent();
-            currentFood = Food;
+            CurrentFood = Food;
         }
         public frmFoods(string FoodNameForSearch)
         {
             InitializeComponent();
-            currentFood.Name = FoodNameForSearch;
+            CurrentFood.Name = FoodNameForSearch;
         }
         public frmFoods(FoodInMeal FoodInMeal)
         {
             InitializeComponent();
-            currentFood = FormFoodInMealToFood(FoodInMeal);
+            CurrentFood = bl.FromFoodInMealToFood(FoodInMeal);
         }
         private void frmFoods_Load(object sender, EventArgs e)
         {
@@ -49,65 +34,55 @@ namespace GlucoMan.Forms
         }
         private void FromClassToUi()
         {
-            txtIdFood.Text = currentFood.IdFood.ToString();
-            txtName.Text = currentFood.Name;
-            txtDescription.Text = currentFood.Description;
-            txtCalories.Text = currentFood.Energy.Text;
-            txtTotalFats.Text = currentFood.TotalFats.Text;
-            txtSaturatedFats.Text = currentFood.SaturatedFats.Text;
-            txtFoodCarbohydrates.Text = currentFood.Cho.Text;
-            txtSugar.Text = currentFood.Sugar.Text;
-            txtFibers.Text = currentFood.Fibers.Text;
-            txtProteins.Text = currentFood.Proteins.Text;
-            txtSalt.Text = currentFood.Salt.Text;
-            //txtPotassium.Text = currentFood.Potassium.Text; 
-            //txtGlicemicIndex.Text = currentFood.GlycemicIndex.Text;
+            txtIdFood.Text = CurrentFood.IdFood.ToString();
+            txtName.Text = CurrentFood.Name;
+            txtDescription.Text = CurrentFood.Description;
+            txtCalories.Text = CurrentFood.Energy.Text;
+            txtTotalFats.Text = CurrentFood.TotalFats.Text;
+            txtSaturatedFats.Text = CurrentFood.SaturatedFats.Text;
+            txtFoodCarbohydrates.Text = CurrentFood.Cho.Text;
+            txtSugar.Text = CurrentFood.Sugar.Text;
+            txtFibers.Text = CurrentFood.Fibers.Text;
+            txtProteins.Text = CurrentFood.Proteins.Text;
+            txtSalt.Text = CurrentFood.Salt.Text;
+            //txtPotassium.Text = CurrentFood.Potassium.Text; 
+            //txtGlicemicIndex.Text = CurrentFood.GlycemicIndex.Text;
         }
         private void FromUiToClass()
         {
-            currentFood.IdFood = Safe.Int(txtIdFood.Text);
-            currentFood.Name = txtName.Text;
-            currentFood.Description = txtDescription.Text;
-            currentFood.Energy.Double = Safe.Double(txtCalories.Text);
-            currentFood.TotalFats.Double = Safe.Double(txtTotalFats.Text);
-            currentFood.SaturatedFats.Double = Safe.Double(txtSaturatedFats.Text);
-            currentFood.Cho.Double = Safe.Double(txtFoodCarbohydrates.Text);
-            currentFood.Sugar.Double = Safe.Double(txtSugar.Text);
-            currentFood.Fibers.Double = Safe.Double(txtFibers.Text);
-            currentFood.Proteins.Double = Safe.Double(txtProteins.Text);
-            currentFood.Salt.Double = Safe.Double(txtSalt.Text);
-            //currentFood.Potassium.Double = Safe.Double(txtPotassium.Text);
-            //currentFood.GlycemicIndex.Double = Safe.Double(txtGlicemicIndex.Text);
+            CurrentFood.IdFood = Safe.Int(txtIdFood.Text);
+            CurrentFood.Name = txtName.Text;
+            CurrentFood.Description = txtDescription.Text;
+            CurrentFood.Energy.Double = Safe.Double(txtCalories.Text);
+            CurrentFood.TotalFats.Double = Safe.Double(txtTotalFats.Text);
+            CurrentFood.SaturatedFats.Double = Safe.Double(txtSaturatedFats.Text);
+            CurrentFood.Cho.Double = Safe.Double(txtFoodCarbohydrates.Text);
+            CurrentFood.Sugar.Double = Safe.Double(txtSugar.Text);
+            CurrentFood.Fibers.Double = Safe.Double(txtFibers.Text);
+            CurrentFood.Proteins.Double = Safe.Double(txtProteins.Text);
+            CurrentFood.Salt.Double = Safe.Double(txtSalt.Text);
+            //CurrentFood.Potassium.Double = Safe.Double(txtPotassium.Text);
+            //CurrentFood.GlycemicIndex.Double = Safe.Double(txtGlicemicIndex.Text);
         }
         private void RefreshUi()
         {
             FromUiToClass();
-            allFoods = bl.SearchFoods(currentFood.Name, currentFood.Description);
+            allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description);
             gridFoods.DataSource = allFoods;
-            gridFoods.Refresh();
-        }
-        private Food FormFoodInMealToFood(FoodInMeal foodInMeal)
-        {
-            Food f =  new Food();
-            f.Name = foodInMeal.Name;
-            f.Description = foodInMeal.Description;
-            f.Cho = foodInMeal.ChoPercent;
-            f.Sugar = foodInMeal.SugarPercent;
-            f.Fibers = foodInMeal.FibersPercent;
-            return f; 
+            //gridFoods.Refresh();
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            bl.SaveOneFood(currentFood);
+            bl.SaveOneFood(CurrentFood);
             FromClassToUi();
             RefreshUi(); 
         }
         private void btnNewFood_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            currentFood.IdFood = null;
-            bl.SaveOneFood(currentFood);
+            CurrentFood.IdFood = null;
+            bl.SaveOneFood(CurrentFood);
             RefreshUi();
         }
         private void gridFoods_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -118,7 +93,7 @@ namespace GlucoMan.Forms
         {
             if(e.RowIndex > 0)
             {
-                currentFood = allFoods[e.RowIndex];
+                CurrentFood = allFoods[e.RowIndex];
                 gridFoods.Rows[e.RowIndex].Selected = true;
                 RefreshUi(); 
             }
@@ -144,7 +119,7 @@ namespace GlucoMan.Forms
         {
             foodIsChosen = true;
             FromUiToClass();
-            bl.SaveOneFood(currentFood);
+            bl.SaveOneFood(CurrentFood);
             this.Close(); 
         }
     }
