@@ -94,7 +94,7 @@ namespace GlucoMan
                 if (Meal.IdMeal == null || Meal.IdMeal == 0)
                 {
                     Meal.IdMeal = GetNextTablePrimaryKey("Meals", "IdMeal"); 
-                    Meal.TimeBegin.DateTime = DateTime.Now;
+                    //Meal.TimeBegin.DateTime = DateTime.Now;
                     //Meal.TimeEnd.DateTime =  DateTime.Now;
                     // INSERT new record in the table
                     InsertMeal(Meal);
@@ -194,7 +194,7 @@ namespace GlucoMan
                     string query = "INSERT INTO Meals" +
                     "(" +
                     "IdMeal,Carbohydrates,TimeBegin,TimeEnd,AccuracyOfChoEstimate," +
-                    "IdBolusCalculation,IdGlucoseRecord,";
+                    "IdBolusCalculation,IdGlucoseRecord";
                     query += ")VALUES(" +
                     SqlInt(Meal.IdMeal) + "," +
                     SqlDouble(Meal.ChoGrams.Double) + "," +

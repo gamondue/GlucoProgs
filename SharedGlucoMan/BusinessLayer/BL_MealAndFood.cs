@@ -1,8 +1,7 @@
-﻿using System;
+﻿using static GlucoMan.Common;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-using static GlucoMan.Common;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -37,7 +36,7 @@ namespace GlucoMan.BusinessLayer
         }
         public int? SaveOneMeal(Meal Meal)
         {
-            Meal = Meal;
+            this.Meal = Meal;
             return dl.SaveOneMeal(Meal);
         }
         internal void DeleteOneMeal(Meal Meal)
@@ -177,11 +176,22 @@ namespace GlucoMan.BusinessLayer
             }
             return WeightedQuadraticAverage;
         }
-        internal void FromFoodToFoodInMeal(Food SourceFood, FoodInMeal DestinationFood)
+        internal void FromFoodToFoodInMeal(Food SourceFood, FoodInMeal DestinationFoodInMeal)
         {
-            DestinationFood.IdFood = SourceFood.IdFood;
-            DestinationFood.ChoPercent = SourceFood.Cho; 
-            DestinationFood.Name = SourceFood.Name;
+            DestinationFoodInMeal.IdFood = SourceFood.IdFood;
+            DestinationFoodInMeal.ChoPercent = SourceFood.Cho; 
+            DestinationFoodInMeal.Name = SourceFood.Name;
+            DestinationFoodInMeal.Description = SourceFood.Description;
+            DestinationFoodInMeal.SugarPercent = SourceFood.Sugar;
+            DestinationFoodInMeal.FibersPercent = SourceFood.Fibers;         }
+        public void FromFoodInMealToFood(FoodInMeal SourceFoodInMeal, Food DestinationFood)
+        {
+            DestinationFood.IdFood = SourceFoodInMeal.IdFood;
+            DestinationFood.Name = SourceFoodInMeal.Name;
+            DestinationFood.Description = SourceFoodInMeal.Description;
+            DestinationFood.Cho = SourceFoodInMeal.ChoPercent;
+            DestinationFood.Sugar = SourceFoodInMeal.SugarPercent;
+            DestinationFood.Fibers = SourceFoodInMeal.FibersPercent;
         }
         internal TypeOfMeal SetTypeOfMealBasedOnTime()
         {
@@ -386,17 +396,7 @@ namespace GlucoMan.BusinessLayer
         }
         public void RestoreMealParameters()
         {
-            currentFoodInMeal.ChoGrams.Text = dl.RestoreParameter("Meal_ChoGrams");
-        }
-        public Food FromFoodInMealToFood(FoodInMeal FoodInMeal)
-        {
-            Food f = new Food();
-            f.Name = FoodInMeal.Name;
-            f.Description = FoodInMeal.Description;
-            f.Cho = FoodInMeal.ChoPercent;
-            f.Sugar = FoodInMeal.SugarPercent;
-            f.Fibers = FoodInMeal.FibersPercent;
-            return f;
+            Meal.ChoGrams.Text = dl.RestoreParameter("Meal_ChoGrams");
         }
     }
 }

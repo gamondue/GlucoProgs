@@ -142,6 +142,7 @@ namespace GlucoMan.Forms
                 return;
             }
             FromUiToClass();
+            bl.FoodInMeal = new FoodInMeal(); 
             frmMeal m = new frmMeal(bl.Meal);
             m.ShowDialog();
             RefreshUi();

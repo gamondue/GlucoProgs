@@ -121,9 +121,6 @@ namespace GlucoMan
                 txtQuantitative.BackColor = Color.White;
                 txtQuantitative.ForeColor = Color.Black;
             }
-
-            bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtQuantitative.Text);
-            NumericalAccuracyChanged(bl.Meal.AccuracyOfChoEstimate.Double);
         }
         private void Combo_SelectedIndexChanged(object sender, EventArgs e)
         {

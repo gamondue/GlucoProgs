@@ -22,11 +22,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="FoodsPage_TEMP.xaml.cs" />
     <Compile Remove="Page1.xaml.cs" />
+    <Compile Remove="Page2.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="FoodsPage_TEMP.xaml" />
     <EmbeddedResource Remove="Page1.xaml" />
+    <EmbeddedResource Remove="Page2.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,7 +55,7 @@
     <Compile Update="CorrectionParametersPage.xaml.cs">
       <DependentUpon>CorrectionParametersPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="FoodToHitTargetCarbsPage.xaml.cs">
+     <Compile Update="FoodToHitTargetCarbsPage.xaml.cs">
       <DependentUpon>FoodToHitTargetCarbsPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="GlucoseMeasurementPage.xaml.cs">
@@ -72,6 +76,9 @@
     <Compile Update="InjectionSitePage.xaml.cs">
       <DependentUpon>InjectionSitePage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="FoodsPage.xaml.cs">
+      <DependentUpon>FoodsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="WeighFoodPage.xaml.cs">
       <DependentUpon>WeighFoodPage.xaml</DependentUpon>
     </Compile>
@@ -84,7 +91,7 @@
     <EmbeddedResource Update="CorrectionParametersPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="FoodsPage.xaml">
+    <EmbeddedResource Update="FoodPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MealPage.xaml">
@@ -97,6 +104,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="InjectionSitePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FoodsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="ShowTextPage.xaml">

@@ -151,6 +151,8 @@ namespace GlucoMan.Mobile
                 await DisplayAlert("", "Choose a meal in the grid", "Ok");
                 return;
             }
+            FromUiToClass();
+            bl.FoodInMeal = new FoodInMeal();
             await Navigation.PushAsync(new MealPage(bl.Meal));
         }
         private void btnNowBegin_Click(object sender, EventArgs e)

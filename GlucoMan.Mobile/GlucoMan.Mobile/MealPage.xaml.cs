@@ -1,9 +1,9 @@
 ﻿using GlucoMan.BusinessLayer;
+using static GlucoMan.Common;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using static GlucoMan.Common;
 
 namespace GlucoMan.Mobile
 {
@@ -16,6 +16,8 @@ namespace GlucoMan.Mobile
 
         private Accuracy accuracyMeal;
         private Accuracy accuracyFoodInMeal;
+
+        FoodsPage foodsPage; 
 
         public MealPage(Meal Meal)
         {
@@ -35,7 +37,8 @@ namespace GlucoMan.Mobile
                 bl.Meal.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
             }
             //bl.RestoreFoodInMealParameters();
-            bl.RestoreMealParameters(); 
+            bl.RestoreMealParameters();
+            bl.FoodInMeal.AccuracyOfChoEstimate.Double = 0;
             FromClassToUi();
             RefreshGrid();
 
@@ -49,6 +52,16 @@ namespace GlucoMan.Mobile
             // base.OnAppearing();
             // await Task.Delay(1);
             // txtFoodChoPercent.Focus();
+
+            if (foodsPage!= null)
+            {
+                // 
+                if (foodsPage.FoodIsChosen)
+                {
+                    bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
+                    FromClassToUi(); 
+                }
+            }
         }
         private void RefreshGrid()
         {
@@ -160,11 +173,12 @@ namespace GlucoMan.Mobile
         private async void btnFoodDetail_ClickAsync(object sender, EventArgs e)
         {
             FromUiToClass();
-            FoodsPage page = new FoodsPage(bl.FoodInMeal); 
-            await Navigation.PushAsync(page);
-            if (page.FoodIsChosen)
+            foodsPage = new FoodsPage(bl.FoodInMeal); 
+            await Navigation.PushAsync(foodsPage);
+            if (foodsPage.FoodIsChosen)
             {
-                bl.FromFoodToFoodInMeal(page.CurrentFood, bl.FoodInMeal); 
+                bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
+                FromClassToUi(); 
             }
         }
         private void btnInsulin_Click(object sender, EventArgs e)
@@ -215,17 +229,13 @@ namespace GlucoMan.Mobile
         }
         private void btnSearchFood_Click(object sender, EventArgs e)
         {
-            //////frmFoods f = new frmFoods(txtName.Text);
+            FoodsPage f = new FoodsPage(txtFoodInMealName.Text);
         }
         private void btnSaveMeal_Click(object sender, EventArgs e)
         {
             FromUiToClass();
             txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString();
             bl.SaveAllFoodsInMeal();
-            //bl.RecalcTotalAccuracy();
-            //bl.RecalcTotalCho();
-            //FromClassToUi();
-            //RefreshGrid();
         }
         private void btnSaveAllFoods_Click(object sender, EventArgs e)
         {

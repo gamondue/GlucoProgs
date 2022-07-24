@@ -24,7 +24,7 @@ namespace GlucoMan.Forms
         public frmFoods(FoodInMeal FoodInMeal)
         {
             InitializeComponent();
-            CurrentFood = bl.FromFoodInMealToFood(FoodInMeal);
+            bl.FromFoodInMealToFood(FoodInMeal, CurrentFood);
         }
         private void frmFoods_Load(object sender, EventArgs e)
         {
