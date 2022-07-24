@@ -4,7 +4,7 @@ namespace GlucoMan.Forms
 {
     public partial class frmFoods : Form
     {
-        BL_MealAndFood bl = new BL_MealAndFood();
+        BL_MealAndFood bl = Common.MealAndFood_CommonBL; 
         public Food CurrentFood { get; set; }
         List<Food> allFoods;
         

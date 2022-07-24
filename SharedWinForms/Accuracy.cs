@@ -12,7 +12,7 @@ namespace GlucoMan
         TextBox txtQuantitative;
         ComboBox cmbQualitative; 
         bool clickedFlag;
-        BL_MealAndFood bl;
+        BL_MealAndFood bl = Common.MealAndFood_CommonBL;
 
         internal Accuracy (TextBox TextBox, ComboBox Combo, BL_MealAndFood Business)
         {

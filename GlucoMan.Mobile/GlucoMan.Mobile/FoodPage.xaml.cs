@@ -13,7 +13,7 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FoodPage : ContentPage
     {
-        BL_MealAndFood bl = new BL_MealAndFood();
+        BL_MealAndFood bl = Common.MealAndFood_CommonBL;
         public FoodPage(Food currentFood)
         {
             InitializeComponent();

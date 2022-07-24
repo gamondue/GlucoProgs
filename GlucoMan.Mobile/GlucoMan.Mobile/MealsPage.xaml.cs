@@ -11,7 +11,7 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MealsPage : ContentPage
     {
-        private BL_MealAndFood bl = new BL_MealAndFood();
+        private BL_MealAndFood bl = Common.MealAndFood_CommonBL; 
         Accuracy accuracyClass;
 
         private List<Meal> allTheMeals;

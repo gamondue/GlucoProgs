@@ -1,7 +1,6 @@
-﻿using SharedGlucoMan.BusinessLayer;
+﻿using GlucoMan.BusinessLayer;
+using SharedGlucoMan.BusinessLayer;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GlucoMan
 {
@@ -10,7 +9,9 @@ namespace GlucoMan
         public static string FileDatabase = @"GlucoManData.Sqlite"; 
         
         internal static DataLayer Database;
-        public static BL_General Bl; 
+        public static BL_General BlGeneral;
+        public static BL_MealAndFood MealAndFood_CommonBL = new BL_MealAndFood();
+
         public static SharedData.Logger LogOfProgram;
 
         public static string Version { get; private set; }

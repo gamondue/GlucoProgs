@@ -50,7 +50,7 @@
                     Clicked="btnSumCho_Click"></Button>
 
             <Button Grid.Row="3" Grid.Column="0" Text="Save" x:Name="btnSaveMeal" 
-                    Clicked="btnSaveMeal_Click"></Button>
+                    Clicked="btnSaveAllMeal_Click"></Button>
             <Button Grid.Row="3" Grid.Column="3" Text="Insulin" x:Name="btnInsulin" 
                     IsEnabled="False" Clicked="btnInsulin_Click"></Button>
             <Button Grid.Row="3" Grid.Column="4" Text="Gluc." x:Name="btnGlucose" 
@@ -100,10 +100,10 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddFood" 
-                        Clicked="btnAddFood_Click"></Button>
-                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveFood"
-                        Clicked="btnRemoveFood_Click"></Button>
+                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddFoodInMeal" 
+                        Clicked="btnAddFoodInMeal_Click"></Button>
+                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveFoodInMeal"
+                        Clicked="btnRemoveFoodInMeal_Click"></Button>
             </Grid>
 
             <Button Grid.Row="9" Grid.Column="0" Text="Save" x:Name="btnSaveAllFoods" 

@@ -5,7 +5,10 @@ namespace GlucoMan.Forms
 {
     public partial class frmMeals : Form
     {
-        private BL_MealAndFood bl = new BL_MealAndFood();
+        // since it is accessed by several pages, to avoid "concurrent" problems 
+        // we use a common business layer beetween different forms
+        private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
+
         Accuracy accuracyClass; 
 
         private List<Meal> allTheMeals;

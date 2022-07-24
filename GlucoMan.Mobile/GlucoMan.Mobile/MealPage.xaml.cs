@@ -10,7 +10,9 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MealPage : ContentPage
     {
-        private BL_MealAndFood bl = new BL_MealAndFood();
+        // since it is accessed by several pages, to avoid "concurrent" problems 
+        // we use a common business layer beetween different pages
+        private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
 
         private bool loading = true;
 
@@ -26,6 +28,8 @@ namespace GlucoMan.Mobile
                 Meal = new Meal();
             bl.Meal = Meal;
             
+            loading = true;
+
             cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
             cmbAccuracyFoodInMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
 
@@ -38,7 +42,7 @@ namespace GlucoMan.Mobile
             }
             //bl.RestoreFoodInMealParameters();
             bl.RestoreMealParameters();
-            bl.FoodInMeal.AccuracyOfChoEstimate.Double = 0;
+            //bl.FoodInMeal.AccuracyOfChoEstimate.Double = 0;
             FromClassToUi();
             RefreshGrid();
 
@@ -72,11 +76,13 @@ namespace GlucoMan.Mobile
         {
             loading = true;
 
+            txtIdMeal.Text = bl.Meal.IdMeal.ToString();
+            txtChoOfMealGrams.Text = bl.Meal.ChoGrams.Text;
+
             if (bl.Meal.IdMeal != null)
                 txtIdMeal.Text = bl.Meal.IdMeal.ToString();
             else
                 txtIdMeal.Text = "";         
-            txtChoOfMealGrams.Text = bl.Meal.ChoGrams.Text;
             
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
 
@@ -92,9 +98,10 @@ namespace GlucoMan.Mobile
             txtFoodChoPercent.Text = bl.FoodInMeal.ChoPercent.Text;
             txtFoodQuantityGrams.Text = bl.FoodInMeal.QuantityGrams.Text;
             txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
-            txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;
-            cmbAccuracyFoodInMeal.SelectedItem = 
-                bl.GetQualitativeAccuracyGivenQuantitavive((double?)bl.FoodInMeal.AccuracyOfChoEstimate.Double);
+            //// the value contaied in the combo is updated when txtAccuracy is modified 
+            //txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;
+            //cmbAccuracyFoodInMeal.SelectedItem = 
+            //    bl.GetQualitativeAccuracyGivenQuantitavive((double?)bl.FoodInMeal.AccuracyOfChoEstimate.Double);
 
             txtFoodInMealName.Text = bl.FoodInMeal.Name;
 
@@ -102,6 +109,8 @@ namespace GlucoMan.Mobile
         }
         private void FromUiToClass()
         {
+            loading = true;
+
             bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
             bl.Meal.ChoGrams.Text = txtChoOfMealGrams.Text;
 
@@ -115,8 +124,10 @@ namespace GlucoMan.Mobile
             bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
             bl.FoodInMeal.Name = txtFoodInMealName.Text;
             bl.FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
-            if (cmbAccuracyFoodInMeal.SelectedItem != null)
-                bl.FoodInMeal.QualitativeAccuracyOfCho = ((QualitativeAccuracy)cmbAccuracyFoodInMeal.SelectedItem);
+            //if (cmbAccuracyFoodInMeal.SelectedItem != null)
+            //    bl.FoodInMeal.QualitativeAccuracyOfCho = ((QualitativeAccuracy)cmbAccuracyFoodInMeal.SelectedItem);
+
+            loading = false;
         }
         private void txtFoodChoPercent_TextChanged(object sender, EventArgs e)
         {
@@ -150,23 +161,49 @@ namespace GlucoMan.Mobile
             }
             bl.SaveFoodInMealParameters();
         }
-        private void txtAccuracyOfChoFoodInMeal_TextChanged(object sender, EventArgs e) { }
-        private void txtAccuracyOfChoFoodInMeal_Leave(object sender, EventArgs e)
+        private void txtChoOfMealGrams_TextChanged(object sender, EventArgs e)
+        {
+            bl.SaveMealParameters();
+        }
+        private void txtAccuracyOfChoFoodInMeal_TextChanged(object sender, EventArgs e) 
         {
             bl.FoodInMeal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoFoodInMeal.Text);
             bl.RecalcTotalAccuracy();
             FromClassToUi();
         }
-        private void btnAddFood_Click(object sender, EventArgs e)
+        private void txtAccuracyOfChoFoodInMeal_Leave(object sender, EventArgs e)
+        {
+            //bl.FoodInMeal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoFoodInMeal.Text);
+            //bl.RecalcTotalAccuracy();
+            //FromClassToUi();
+        }
+        //private void btnSave_Click(object sender, EventArgs e)
+        //{
+        //    btnSave_ClickAsync(sender, e);
+        //}
+        private void btnSaveAllMeal_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
+            txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString();
+            bl.SaveAllFoodsInMeal();
+        }
+        private void btnAddFoodInMeal_Click(object sender, EventArgs e)
         {
             if (txtIdMeal.Text == "")
-                btnSaveMeal_Click(null, null);
+                btnSaveAllMeal_Click(null, null);
             FromUiToClass();
             // erase Id, so that a new record will be created
             bl.FoodInMeal.IdFoodInMeal = null;
             bl.SaveOneFoodInMeal(bl.FoodInMeal);
             bl.RecalcTotalCho();
             bl.RecalcTotalAccuracy();
+            FromClassToUi();
+            RefreshGrid();
+        }
+        private void btnRemoveFoodInMeal_Click(object sender, EventArgs e)
+        {
+            bl.DeleteOneFoodInMeal(bl.FoodInMeal);
+            bl.RecalcTotalCho();
             FromClassToUi();
             RefreshGrid();
         }
@@ -180,6 +217,63 @@ namespace GlucoMan.Mobile
                 bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
                 FromClassToUi(); 
             }
+        }
+        // in this UI we have no buttons to save just one food in meal 
+        //private void btnSaveFoodInMeal_Click(object sender, EventArgs e)
+        //{
+        //    if (gridFoodsInMeal.SelectedRows.Count == 0)
+        //    {
+        //        MessageBox.Show("Choose a food to save");
+        //        return;
+        //    }
+        //    FromUiToClass();
+        //    bl.SaveOneFoodInMeal(bl.FoodInMeal);
+        //    FromClassToUi();
+        //    RefreshGrid();
+        //}
+        private void btnDefaults_Click(object sender, EventArgs e)
+        {
+            txtFoodChoPercent.Text = "";
+            txtFoodQuantityGrams.Text = "";
+            txtFoodChoGrams.Text = "";
+            txtAccuracyOfChoFoodInMeal.Text = "";
+            cmbAccuracyFoodInMeal.SelectedItem = null;
+            txtIdFoodInMeal.Text = "";
+            txtIdFood.Text = "";
+            txtFoodInMealName.Text = "";
+        }
+        private void btnSumCho_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
+            bl.RecalcTotalCho();
+            bl.RecalcTotalAccuracy();
+            FromClassToUi();
+        }
+        private void btnSaveAllFoods_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
+            bl.RecalcTotalAccuracy();
+            bl.RecalcTotalCho();
+            bl.SaveAllFoodsInMeal();
+            FromClassToUi();
+            RefreshGrid();
+        }
+        private void btnSearchFood_Click(object sender, EventArgs e)
+        {
+            FoodsPage f = new FoodsPage(txtFoodInMealName.Text);
+        }
+        private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                //await DisplayAlert("XXXX", "YYYY", "Ok");
+                return;
+            }
+            loading = true;
+            //make the tapped row the current meal 
+            bl.FoodInMeal = (FoodInMeal)gridFoodsInMeal.SelectedItem;
+            FromClassToUi();
+            loading = false;
         }
         private void btnInsulin_Click(object sender, EventArgs e)
         {
@@ -195,78 +289,6 @@ namespace GlucoMan.Mobile
         {
             //////frmWeighFood fw = new frmWeighFood();
             //////fw.ShowDialog();
-        }
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            btnSave_ClickAsync(sender, e);
-        }
-        private void btnRemoveFood_Click(object sender, EventArgs e)
-        {
-            bl.DeleteOneFoodInMeal(bl.FoodInMeal);
-            bl.RecalcTotalCho();
-            FromClassToUi();
-            RefreshGrid();
-        }
-        private void btnDefaults_Click(object sender, EventArgs e)
-        {
-            txtFoodChoPercent.Text = "";
-            txtFoodQuantityGrams.Text = "";
-            txtFoodChoGrams.Text = "";
-            txtAccuracyOfChoFoodInMeal.Text = "";
-            cmbAccuracyFoodInMeal.SelectedItem = null;
-            txtIdFoodInMeal.Text = "";
-            txtIdFood.Text = "";
-            txtFoodInMealName.Text = "";
-            //////make the next function
-            //////bl.Meal.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
-        }
-        private void btnSumCho_Click(object sender, EventArgs e)
-        {
-            FromUiToClass();
-            bl.RecalcTotalCho();
-            bl.RecalcTotalAccuracy();
-            FromClassToUi();
-        }
-        private void btnSearchFood_Click(object sender, EventArgs e)
-        {
-            FoodsPage f = new FoodsPage(txtFoodInMealName.Text);
-        }
-        private void btnSaveMeal_Click(object sender, EventArgs e)
-        {
-            FromUiToClass();
-            txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString();
-            bl.SaveAllFoodsInMeal();
-        }
-        private void btnSaveAllFoods_Click(object sender, EventArgs e)
-        {
-            FromUiToClass();
-            bl.RecalcTotalAccuracy();
-            bl.RecalcTotalCho();
-            bl.SaveAllFoodsInMeal(); 
-            FromClassToUi();
-            RefreshGrid();
-        }
-        private async Task btnSave_ClickAsync(object sender, EventArgs e)
-        {
-            if (txtIdMeal.Text == "")
-            {
-                await DisplayAlert("Saving not possible", "Choose the meal to modify", "Ok");
-                return;
-            }
-            FromUiToClass();
-            bl.SaveOneMeal(bl.Meal);
-            RefreshGrid();
-        }
-        private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (e.SelectedItem == null)
-            {
-                //await DisplayAlert("XXXX", "YYYY", "Ok");
-                return;
-            }
-            //make the tapped row the current meal 
-            bl.FoodInMeal = (FoodInMeal)gridFoodsInMeal.SelectedItem;
-            FromClassToUi();
         }
     }
 }

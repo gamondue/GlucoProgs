@@ -11,6 +11,10 @@ namespace GlucoMan
     {
         public static void GeneralInitializations()
         {
+            Common.Database = new DL_Sqlite();
+            Common.BlGeneral = new BL_General(); 
+            Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
             General.MakeFolderIfDontExist(Common.PathConfigurationData);
             General.MakeFolderIfDontExist(Common.PathProgramsData);
             General.MakeFolderIfDontExist(Common.PathLogs);
@@ -22,10 +26,6 @@ namespace GlucoMan
                 @"GlucoMan_Debug.txt",
                 @"GlucoMan_Prompts.txt",
                 @"GlucoMan_Data.txt");
-
-            Common.Database = new DL_Sqlite();
-            Common.Bl = new BL_General(); 
-            Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         public static TypeOfMeal SelectTypeOfMealBasedOnTimeNow()
         {

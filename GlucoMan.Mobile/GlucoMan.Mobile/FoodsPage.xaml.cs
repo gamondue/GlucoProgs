@@ -9,8 +9,7 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FoodsPage : ContentPage
     {
-        BL_MealAndFood bl = new BL_MealAndFood();
-
+        BL_MealAndFood bl = Common.MealAndFood_CommonBL;
         public Food CurrentFood { get; set; }
         bool foodIsChosen = false;
         public bool FoodIsChosen { get => foodIsChosen; }
