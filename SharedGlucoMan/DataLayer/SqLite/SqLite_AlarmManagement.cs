@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 
 namespace GlucoMan
-{ 
+{
     internal partial class DL_Sqlite : DataLayer
     {
         internal override int? SaveOneAlarm(Alarm Alarm)

@@ -47,9 +47,9 @@ namespace GlucoMan.Forms
                 "ERASING DATABASE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2)
                 == DialogResult.Yes)
             {
-                BL_General bl = new SharedGlucoMan.BusinessLayer.BL_General();
+                BL_General blGeneral = new SharedGlucoMan.BusinessLayer.BL_General();
                 // deleting the file will result automatically in a reset of the database 
-                bl.DeleteDatabase(); 
+                blGeneral.DeleteDatabase(); 
             }
         }
         private void btnCopyDatabase_Click(object sender, EventArgs e)

@@ -35,80 +35,11 @@ namespace GlucoMan
             bl.Meal.AccuracyOfChoEstimate.Double = accuracyNumber;
             return bl.Meal.AccuracyOfChoEstimate.Double;
         }
-        /// <summary>
-        /// Changes qualitative accuracy when numerical accuracy changes
-        /// </summary>
-        /// <param name="currentMeal"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        internal QualitativeAccuracy NumericalAccuracyChanged(double? NumericalAccuracy)
-        {
-            if (NumericalAccuracy <= 0)
-            {
-                txtQuantitative.BackColor = Color.White;
-                return QualitativeAccuracy.NotSet;
-            }
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.VeryBad)
-            {
-                txtQuantitative.BackColor = Color.Red;
-                return QualitativeAccuracy.Null;
-            }
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Bad)
-            {
-                txtQuantitative.BackColor = Color.DarkRed;
-                return QualitativeAccuracy.VeryBad;
-            }
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Poor)
-            {
-                txtQuantitative.BackColor = Color.OrangeRed;
-                return QualitativeAccuracy.Bad;
-            }
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.AlmostSufficient)
-            {
-                txtQuantitative.BackColor = Color.Orange;
-                return QualitativeAccuracy.Poor;
-            }
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Sufficient)
-            {
-                txtQuantitative.BackColor = Color.Yellow;
-                return QualitativeAccuracy.AlmostSufficient;
-            }
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Satisfactory)
-            {
-                txtQuantitative.BackColor = Color.GreenYellow;
-                return QualitativeAccuracy.Sufficient;
-            }
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Good)
-            {
-                txtQuantitative.BackColor = Color.ForestGreen;
-                return QualitativeAccuracy.Satisfactory;
-            }
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.VeryGood)
-            {
-                txtQuantitative.BackColor = Color.LawnGreen;
-                return QualitativeAccuracy.Good;
-            }
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Outstanding)
-            {
-                txtQuantitative.BackColor = Color.DarkSeaGreen;
-                return QualitativeAccuracy.VeryGood;
-            }
-            else if (NumericalAccuracy < (double)QualitativeAccuracy.Perfect)
-            {
-                txtQuantitative.BackColor = Color.DarkOliveGreen;
-                txtQuantitative.ForeColor = Color.White;
-                return QualitativeAccuracy.Outstanding;
-            }
-            else
-            {
-                txtQuantitative.BackColor = Color.Green;
-                return QualitativeAccuracy.Perfect;
-            }
-        }
         private void TextBox_TextChanged(object sender, EventArgs e)
         {
             double acc;
             double.TryParse(txtQuantitative.Text, out acc);
-            if (acc != 0) //
+            if (acc >= 0) //
             {
                 cmbQualitative.SelectedItem =
                     bl.GetQualitativeAccuracyGivenQuantitavive(acc);

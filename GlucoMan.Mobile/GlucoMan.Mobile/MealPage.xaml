@@ -45,16 +45,19 @@
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
                     BackgroundColor="PaleGoldenrod" FontSize="Small"
-                    />
+                    SelectedIndexChanged="cmbAccuracyMeal_SelectedIndexChanged"
+                    />            
             <Button Grid.Row="2" Grid.Column="4" Text="Calc" x:Name="btnSumCho"
                     Clicked="btnSumCho_Click"></Button>
-
+            
             <Button Grid.Row="3" Grid.Column="0" Text="Save" x:Name="btnSaveMeal" 
                     Clicked="btnSaveAllMeal_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="3" Text="Insulin" x:Name="btnInsulin" 
-                    IsEnabled="False" Clicked="btnInsulin_Click"></Button>
+            <Button Grid.Row="3" Grid.Column="1" Text="Food calc." x:Name="btnFoodCalc" 
+                    Clicked="btnFoodCalc_ClickAsync"></Button>
+            <Button Grid.Row="3" Grid.Column="3" Text="Insulin calc." x:Name="btnInsulinCalc" 
+                    IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync"></Button>
             <Button Grid.Row="3" Grid.Column="4" Text="Gluc." x:Name="btnGlucose" 
-                    IsEnabled="False" Clicked="btnGlucose_Click"></Button>
+                    IsEnabled="False" Clicked="btnGlucose_ClickAsync"></Button>
 
             <Label Grid.Row="4" Grid.Column="0" TextColor="Black" 
                    Grid.ColumnSpan="5" Text="Food data" XAlign="Center" YAlign="End"/>
@@ -113,7 +116,7 @@
             <Button Grid.Row="9" Grid.Column="2" Text="Foods" x:Name="btnFoodDetail" 
                     Clicked="btnFoodDetail_ClickAsync"></Button>
             <Button Grid.Row="9" Grid.Column="3" Text="Search" x:Name="btnSearchFood" 
-                    Clicked="btnSearchFood_Click"></Button>
+                    Clicked="btnSearchFood_ClickAsync"></Button>
             <Button Grid.Row="9" Grid.Column="4" Text="Weigh" x:Name="btnWeighFood" 
                     Clicked="btnWeighFood_Click"></Button>
 

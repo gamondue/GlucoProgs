@@ -427,7 +427,7 @@ namespace GlucoMan
                 {
                     string query = "SELECT *" +
                         " FROM Foods ";
-                    if (Name != "" && Name != null)
+                    if ((Name != "" && Name != null) || (Description != "" && Description != null) )
                     {
                         query += " WHERE Name LIKE '%" + Name + "%'" +
                                 " AND Description LIKE '%" + Description + "%'";

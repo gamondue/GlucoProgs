@@ -27,7 +27,6 @@ namespace GlucoMan.Mobile
 
             RefreshGrid();
         }
-
         private void FromUiToClass()
         {
             double? glucose = Safe.Double(txtGlucose.Text);
@@ -48,9 +47,18 @@ namespace GlucoMan.Mobile
         private void FromClassToUi()
         {
             txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
-            //dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
-            dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
-            dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;
+            if (currentGlucose.Timestamp != null 
+                && currentGlucose.Timestamp != new DateTime(1, 1, 1, 0, 0, 0)
+                && currentGlucose.Timestamp != Common.DateNull) 
+            { 
+                dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
+                dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;
+            }
+            else
+            {
+                dtpEventDate.Date = DateTime.Now;
+                dtpEventTime.Time = new TimeSpan(0);
+            }
             txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
         }
         private void RefreshGrid()

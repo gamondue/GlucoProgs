@@ -6,20 +6,20 @@
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition />
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition Height="20"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition Height="20"/>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition Height="20"/>
-                <RowDefinition />
-                <RowDefinition Height="20"/>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="45"/>
                 <RowDefinition />
 
                 <RowDefinition />
@@ -39,74 +39,84 @@
                     Clicked="btnReadGlucose_Click" Text="Read g."></Button>
             <Button Grid.Row="0" Grid.Column="3" 
                     Clicked="btnPredict_Click" Text="Predict"></Button>
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Text="Glucose for alarm" 
+            
+            <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Text="Glucose for alarm" 
                     XAlign="Center" YAlign="Center"/>
-            <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Text="Alarm advance time [min]" 
+            <Label Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" Text="Alarm advance time [min]" 
                     XAlign="Center" YAlign="Center"/>
-            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtGlucoseTarget" Text="80" 
+            <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucoseTarget" Text="80" 
                    Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod"
                    IsEnabled="true"/>
-            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAlarmAdvanceTime" Text="80" 
+            <Entry Grid.Row="1" Grid.Column="2" x:Name="txtAlarmAdvanceTime" Text="80" 
                    Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="DarkSeaGreen"
                    IsEnabled="true"/>
-            <Label Grid.Row="3" Grid.ColumnSpan="3" Text="Measurements of glucose and time" 
+            
+            <Label Grid.Row="2" Grid.ColumnSpan="4" Text="Measurements of glucose and time" 
                     XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="4" Grid.Column="0" Text="Glucose" XAlign="Center" YAlign="End"/>
-            <Entry Grid.Row="5" Grid.Column="0" x:Name="txtGlucoseLast" HorizontalTextAlignment ="End" 
+            
+            <Label Grid.Row="3" Grid.Column="0" Text="Glucose" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="3" Grid.Column="1" Text="Hour" XAlign="Center" YAlign="End" />
+            <Label Grid.Row="3" Grid.Column="2" Text="Minute" XAlign="Center" YAlign="End" />
+
+            <Entry Grid.Row="4" Grid.Column="0" x:Name="txtGlucoseLast" HorizontalTextAlignment ="End" 
                    Keyboard="Numeric" Text="" FontSize="Large" Placeholder="gluc.meas." BackgroundColor="LightGreen" />
-            <Label Grid.Row="4" Grid.Column="1" Text="Hour" XAlign="Center" YAlign="End" />
-            <Entry Grid.Row="5" Grid.Column="1" x:Name="txtHourLast" Placeholder="hour" 
+            <Entry Grid.Row="4" Grid.Column="1" x:Name="txtHourLast" Placeholder="hour" 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
-            <Label Grid.Row="4" Grid.Column="2" Text="Minute" XAlign="Center" YAlign="End" />
-            <Entry Grid.Row="5" Grid.Column="2" x:Name="txtMinuteLast" Placeholder="minute" 
+            <Entry Grid.Row="4" Grid.Column="2" x:Name="txtMinuteLast" Placeholder="minute" 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
-            <Label Grid.Row="5" Grid.Column="3" Text="current measurement" XAlign="Center" YAlign="Center" />
-            <Entry Grid.Row="6" Grid.Column="0" x:Name="txtGlucosePrevious" Text="" Placeholder="gluc.meas." 
+            <Label Grid.Row="4" Grid.Column="3" Text="current measurement" XAlign="Center" YAlign="Center" />
+            
+            <Entry Grid.Row="5" Grid.Column="0" x:Name="txtGlucosePrevious" Text="" Placeholder="gluc.meas." 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
-            <Entry Grid.Row="6" Grid.Column="1" x:Name="txtHourPrevious" Placeholder="hour" 
+            <Entry Grid.Row="5" Grid.Column="1" x:Name="txtHourPrevious" Placeholder="hour" 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
-            <Entry Grid.Row="6" Grid.Column="2" x:Name="txtMinutePrevious" Placeholder="minute" 
+            <Entry Grid.Row="5" Grid.Column="2" x:Name="txtMinutePrevious" Placeholder="minute" 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
-            <Label Grid.Row="6" Grid.Column="3" Text="previous measurement" 
-                   XAlign="Center" YAlign="center" />
-            <Label Grid.Row="7" Grid.Column="1" x:Name="txtGlucoseSlope" Text="----" FontSize="Large"
+            <Label Grid.Row="5" Grid.Column="3" Text="previous measurement" XAlign="Center" YAlign="center" />
+
+            <Label Grid.Row="6" Grid.Column="1" x:Name="txtGlucoseSlope" Text="----" FontSize="Large"
                    YAlign="Center" XAlign="Center" BackgroundColor="LightGray"/>
-            <Label Grid.Row="7" Grid.Column="2" Text="Slope&#10;[gluc/h]" 
+            <Label Grid.Row="6" Grid.Column="2" Text="Slope&#10;[gluc/h]" 
                    XAlign="Center" YAlign="center" />
-            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Text="Expected time of achievement of the target value"
+            
+            <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Text="Expected time of achievement of the target value"
                    VerticalOptions="End" HorizontalOptions="Center" />
-            <Label Grid.Row="9" Grid.Column="1" x:Name="txtPredictedHour" Text="----" FontSize="Large"
+            
+            <Label Grid.Row="8" Grid.Column="1" x:Name="txtPredictedHour" Text="----" FontSize="Large"
                    YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
-            <Label Grid.Row="9" Grid.Column="2" x:Name="txtPredictedMinute" Text="----" FontSize="Large"
+            <Label Grid.Row="8" Grid.Column="2" x:Name="txtPredictedMinute" Text="----" FontSize="Large"
                    YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
-            <Label Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="4" Text="Alarm time"
+            
+            <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" Text="Alarm time"
                    VerticalOptions="End" HorizontalOptions="Center" />
-            <Label Grid.Row="11" Grid.Column="1" x:Name="txtAlarmHour" Text="----" FontSize="Large"
+            
+            <Label Grid.Row="10" Grid.Column="1" x:Name="txtAlarmHour" Text="----" FontSize="Large"
                    YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
-            <Label Grid.Row="11" Grid.Column="2" x:Name="txtAlarmMinute" Text="----" FontSize="Large"
+            <Label Grid.Row="10" Grid.Column="2" x:Name="txtAlarmMinute" Text="----" FontSize="Large"
                    YAlign="Center" XAlign="Center" BackgroundColor="SkyBlue"/>
-            <Button Grid.Row="11" IsVisible="false" Grid.Column="3" 
+            <Button Grid.Row="10" IsVisible="false" Grid.Column="3" 
                    Clicked="btnAlarm_Click" Text="Alarm"></Button>
            
-            <Label Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="3" 
-                   Text="Calculation of a future value" XAlign="Start" YAlign="Center" />
-            <Button Grid.Row="12" Grid.Column="3" x:Name="btnCalcFutureGlucose"
+            <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3" 
+                   Text="Calculation of a future glucose value" HorizontalTextAlignment="End" 
+                   XAlign="Start" YAlign="Center" />
+            <Button Grid.Row="11" Grid.Column="3" x:Name="btnCalcFutureGlucose" 
                     Clicked="btnCalcFutureGlucose_Click" Text="Calc."></Button>
             
-            <Label Grid.Row="13" Grid.Column="0" Text="Time diff." XAlign="Center" />
-            <Label Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2" Text="Future time" XAlign="Center" />
-            <Label Grid.Row="13" Grid.Column="3" Text="Future gluc" XAlign="Center" />
+            <Label Grid.Row="12" Grid.Column="0" Text="Time diff." XAlign="Center" />
+            <Label Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="2" Text="Future time" XAlign="Center" />
+            <Label Grid.Row="12" Grid.Column="3" Text="Future gluc" XAlign="Center" />
 
-            <Entry Grid.Row="14" Grid.Column="0" x:Name="txtFutureTimeMinutes" Placeholder="min" 
+            <Entry Grid.Row="13" Grid.Column="0" x:Name="txtFutureTimeMinutes" Placeholder="min" 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="DarkSeaGreen" />
-            <DatePicker Grid.Row="14" Grid.Column="1" x:Name="dtpTimeFutureDate" BackgroundColor="White"
-                        FontSize="Small" Format="yyyy-MM-dd" HorizontalOptions="Center"/>
-            <TimePicker Grid.Row="14" Grid.Column="2" x:Name="dtpTimeFutureTime" BackgroundColor="White"
-                        FontSize="Small" Format="HH:mm:ss" HorizontalOptions="Center" />
-            <Entry Grid.Row="14" Grid.Column="3" x:Name="txtFutureGlucose" Placeholder="gluc" 
+            <DatePicker Grid.Row="13" Grid.Column="1" x:Name="dtpTimeFutureDate" BackgroundColor="White"
+                        IsEnabled="False" FontSize="Medium" Format="yyyy-MM-dd" HorizontalOptions="Center"/>
+            <TimePicker Grid.Row="13" Grid.Column="2" x:Name="dtpTimeFutureTime" BackgroundColor="White"
+                        IsEnabled="False" FontSize="Medium"  Format="HH:mm:ss" HorizontalOptions="Center" />
+            <Entry Grid.Row="13" Grid.Column="3" x:Name="txtFutureGlucose" Placeholder="gluc" 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="SkyBlue" />
 
-            <Label Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="4"
+            <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4"
                     x:Name="txtStatusBar" Text="" FontSize="Medium" 
                    BackgroundColor="red" TextColor="Yellow" 
                     YAlign="Center" XAlign="Center"/>

@@ -81,17 +81,17 @@ namespace GlucoMan
             BasalBolus = 40
         }
         public enum QualitativeAccuracy
-        {
+        {           
             NotSet = -1,
-            Null = 0, 
-            VeryBad = 10,
-            Bad = 20,
-            Poor = 30,
-            AlmostSufficient = 40,
-            Sufficient = 50,
-            Satisfactory = 60,
-            Good = 70,
-            VeryGood = 80,
+            Null = 0,
+            AlmostNull = 10,
+            VeryBad = 20,
+            Bad = 30,
+            Poor = 40,
+            AlmostSufficient = 50,
+            Sufficient = 60,
+            Satisfactory = 70,
+            Good = 80,
             Outstanding = 90,
             Perfect = 100
         }

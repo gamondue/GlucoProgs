@@ -7,17 +7,17 @@ namespace GlucoMan
     // Doing nothing Alarm
     // !!!! TODO find out how to make and alarm in Android
     // and implement it here 
-    internal partial class Alarm
+    public partial class Alarm
     {
         // Android dependant part of the Alarm class
         private System.Timers.Timer alarm;
 
-        internal void InitAlarm()
+        public void InitAlarm()
         {
             alarm = new System.Timers.Timer();
             alarm.Elapsed += Alarm_Triggered;
         }
-        internal void SetAlarm(TimeSpan AlarmTimeSpan)
+        public void SetAlarm(TimeSpan AlarmTimeSpan)
         {
             alarm.Interval = AlarmTimeSpan.TotalMilliseconds;
             alarm.Start();
@@ -37,7 +37,7 @@ namespace GlucoMan
 
             }
         }
-        internal void StopAlarm()
+        public void StopAlarm()
         {
             //if (playing)
             //{

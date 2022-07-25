@@ -4,25 +4,26 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal class HypoPredictionData
+    public class HypoPredictionData
     {
-        internal int IdHypoPrediction;
-        internal DateTimeAndText PredictedTime { get; set; }
-        internal DateTimeAndText AlarmTime { get; set; }
-        internal DoubleAndText GlucoseSlope { get; }
-        internal IntAndText HypoGlucoseTarget { get; set; }
-        internal IntAndText GlucoseLast { get; set; }
-        internal IntAndText GlucosePrevious { get; set; }
-        internal TimeSpan Interval { get => interval; set => interval = value; }
-        internal IntAndText HourLast { get; set; }
-        internal IntAndText MinuteLast { get; set; }
-        internal IntAndText HourPrevious { get; set; }
-        internal IntAndText MinutePrevious { get; set; }
-        internal IntAndText PredictedHour { get; set; }
-        internal IntAndText PredictedMinute { get; set; }
-        internal IntAndText AlarmHour { get; set; }
-        internal IntAndText AlarmMinute { get; set; }
-        internal HypoPredictionData()
+        public int IdHypoPrediction;
+        public DateTimeAndText PredictedTime { get; set; }
+        public DateTimeAndText AlarmTime { get; set; }
+        public DoubleAndText GlucoseSlope { get; }
+        public IntAndText HypoGlucoseTarget { get; set; }
+        public IntAndText GlucoseLast { get; set; }
+        public IntAndText GlucosePrevious { get; set; }
+        public TimeSpan Interval { get => interval; set => interval = value; }
+        public IntAndText HourLast { get; set; }
+        public IntAndText MinuteLast { get; set; }
+        public IntAndText HourPrevious { get; set; }
+        public IntAndText MinutePrevious { get; set; }
+        public IntAndText PredictedHour { get; set; }
+        public IntAndText PredictedMinute { get; set; }
+        public IntAndText AlarmHour { get; set; }
+        public IntAndText AlarmMinute { get; set; }
+        private TimeSpan interval;
+        public HypoPredictionData()
         {
             GlucoseLast = new IntAndText();
             GlucosePrevious = new IntAndText();
@@ -40,7 +41,5 @@ namespace GlucoMan
             AlarmHour = new IntAndText();
             AlarmMinute = new IntAndText();
         }
-
-        private TimeSpan interval;
     }
 }

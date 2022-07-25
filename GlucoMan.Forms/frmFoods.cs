@@ -6,10 +6,11 @@ namespace GlucoMan.Forms
     {
         BL_MealAndFood bl = Common.MealAndFood_CommonBL; 
         public Food CurrentFood { get; set; }
+        public bool FoodIsChosen { get => foodIsChosen; }
+
         List<Food> allFoods;
-        
-        bool foodIsChosen;
-        public bool FoodIsChosen { get;  }
+
+        private bool foodIsChosen;
 
         public frmFoods(Food Food)
         {
@@ -19,11 +20,13 @@ namespace GlucoMan.Forms
         public frmFoods(string FoodNameForSearch)
         {
             InitializeComponent();
+            CurrentFood = new Food();
             CurrentFood.Name = FoodNameForSearch;
         }
         public frmFoods(FoodInMeal FoodInMeal)
         {
             InitializeComponent();
+            CurrentFood = new Food(); 
             bl.FromFoodInMealToFood(FoodInMeal, CurrentFood);
         }
         private void frmFoods_Load(object sender, EventArgs e)
@@ -66,17 +69,16 @@ namespace GlucoMan.Forms
         }
         private void RefreshUi()
         {
-            FromUiToClass();
+            FromClassToUi();
             allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description);
             gridFoods.DataSource = allFoods;
-            //gridFoods.Refresh();
+            gridFoods.Refresh();
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
             FromUiToClass();
             bl.SaveOneFood(CurrentFood);
             FromClassToUi();
-            RefreshUi(); 
         }
         private void btnNewFood_Click(object sender, EventArgs e)
         {
@@ -91,11 +93,11 @@ namespace GlucoMan.Forms
         }
         private void gridFoods_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex > 0)
+            if(e.RowIndex > -1)
             {
                 CurrentFood = allFoods[e.RowIndex];
                 gridFoods.Rows[e.RowIndex].Selected = true;
-                RefreshUi(); 
+                FromClassToUi();
             }
         }
         private void gridFoods_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -121,6 +123,20 @@ namespace GlucoMan.Forms
             FromUiToClass();
             bl.SaveOneFood(CurrentFood);
             this.Close(); 
+        }
+        private void btnCleanFields_Click(object sender, EventArgs e)
+        {
+            txtIdFood.Text = "";
+            txtName.Text = "";
+            txtDescription.Text = "";
+            txtCalories.Text = "";
+            txtTotalFats.Text = "";
+            txtSaturatedFats.Text = "";
+            txtFoodCarbohydrates.Text = "";
+            txtSugar.Text = "";
+            txtFibers.Text = "";
+            txtProteins.Text = "";
+            txtSalt.Text = "";
         }
     }
 }

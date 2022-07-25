@@ -39,7 +39,7 @@ namespace GlucoMan.Forms
                 bl.Meal.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
             }
             //bl.RestoreFoodInMealParameters();
-            bl.RestoreMealParameters();
+            //bl.RestoreMealParameters();
             FromClassToUi();
             RefreshGrid();
 
@@ -267,7 +267,7 @@ namespace GlucoMan.Forms
             if (gridFoodsInMeal.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Choose a food to save");
-                return; 
+                return;
             }
             FromUiToClass();
             bl.SaveOneFoodInMeal(bl.FoodInMeal);

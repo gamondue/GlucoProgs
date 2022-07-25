@@ -23,10 +23,13 @@ namespace GlucoMan.Mobile
             CurrentFood = Food;
             PageLoad();
         }
-        public FoodsPage(string FoodNameForSearch)
+        public FoodsPage(string FoodNameForSearch, string FoodDescriptionForSearch)
         {
             InitializeComponent();
+            if (CurrentFood == null)
+                CurrentFood = new Food();
             CurrentFood.Name = FoodNameForSearch;
+            CurrentFood.Description = FoodDescriptionForSearch;
             PageLoad();
         }
         public FoodsPage(FoodInMeal FoodInMeal)
@@ -50,19 +53,22 @@ namespace GlucoMan.Mobile
                 //await DisplayAlert("XXXX", "YYYY", "Ok");
                 return;
             }
-            //make the tapped row the current meal 
-            //bl.FoodInMeal = (FoodInMeal)gridFoodsInMeal.SelectedItem;
-            //FromClassToUi();
+            //loading = true;
+            //make the tapped row the current food
+            CurrentFood = (Food)gridFoods.SelectedItem;
+            FromClassToUi();
+            //loading = false;
         }
         private void FromClassToUi()
         {
             txtIdFood.Text = CurrentFood.IdFood.ToString();
             txtName.Text = CurrentFood.Name;
             txtDescription.Text = CurrentFood.Description;
+            txtFoodCarbohydrates.Text = CurrentFood.Cho.Text;
+
             //txtCalories.Text = CurrentFood.Energy.Text;
             //txtTotalFats.Text = CurrentFood.TotalFats.Text;
             //txtSaturatedFats.Text = CurrentFood.SaturatedFats.Text;
-            //txtFoodCarbohydrates.Text = CurrentFood.Cho.Text;
             //txtSugar.Text = CurrentFood.Sugar.Text;
             //txtFibers.Text = CurrentFood.Fibers.Text;
             //txtProteins.Text = CurrentFood.Proteins.Text;
@@ -77,10 +83,11 @@ namespace GlucoMan.Mobile
             CurrentFood.IdFood = Safe.Int(txtIdFood.Text);
             CurrentFood.Name = txtName.Text;
             CurrentFood.Description = txtDescription.Text;
+            CurrentFood.Cho.Double = Safe.Double(txtFoodCarbohydrates.Text);
+
             //CurrentFood.Energy.Double = Safe.Double(txtCalories.Text);
             //CurrentFood.TotalFats.Double = Safe.Double(txtTotalFats.Text);
             //CurrentFood.SaturatedFats.Double = Safe.Double(txtSaturatedFats.Text);
-            //CurrentFood.Cho.Double = Safe.Double(txtFoodCarbohydrates.Text);
             //CurrentFood.Sugar.Double = Safe.Double(txtSugar.Text);
             //CurrentFood.Fibers.Double = Safe.Double(txtFibers.Text);
             //CurrentFood.Proteins.Double = Safe.Double(txtProteins.Text);
@@ -92,7 +99,7 @@ namespace GlucoMan.Mobile
         }
         private void RefreshUi()
         {
-            FromUiToClass();
+            FromClassToUi();
             allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description);
             gridFoods.ItemsSource = allFoods;
         }
@@ -164,6 +171,21 @@ namespace GlucoMan.Mobile
             FromUiToClass();
             bl.SaveOneFood(CurrentFood);
             this.Navigation.PopAsync(); 
+        }
+        private void btnCleanFields_Click(object sender, EventArgs e)
+        {
+            txtIdFood.Text = "";
+            txtName.Text = "";
+            txtDescription.Text = "";
+            txtFoodCarbohydrates.Text = "";
+
+            //txtCalories.Text = "";
+            //txtTotalFats.Text = "";
+            //txtSaturatedFats.Text = "";
+            //txtSugar.Text = "";
+            //txtFibers.Text = "";
+            //txtProteins.Text = "";
+            //txtSalt.Text = "";
         }
     }
 }

@@ -7,20 +7,20 @@ namespace GlucoMan
 {
     public class Food
     {
-        internal int? IdFood { get; set; }
-        internal string Name { get; set; }
-        internal string Description;
-        internal DoubleAndText Energy { get; set; }    // [kcal]  
-        internal DoubleAndText TotalFats { get; set; }    // [g/100]
-        internal DoubleAndText SaturatedFats { get; set; }// [g/100]
-        internal DoubleAndText Cho { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
-        internal DoubleAndText Sugar { get; set; }        // [g/100]
-        internal DoubleAndText Fibers { get; set; }       // [g/100]
-        internal DoubleAndText Proteins { get; set; }     // [g/100]
-        internal DoubleAndText Salt { get; set; }         // [g/100]
-        internal DoubleAndText Potassium { get; set; }    // [g/100]  
-        internal DoubleAndText Cholesterol { get; set; }
-        internal DoubleAndText GlycemicIndex { get; set; } // [n]
+        public int? IdFood { get; set; }
+        public string Name { get; set; }
+        public string Description;
+        public DoubleAndText Energy { get; set; }    // [kcal]  
+        public DoubleAndText TotalFats { get; set; }    // [g/100]
+        public DoubleAndText SaturatedFats { get; set; }// [g/100]
+        public DoubleAndText Cho { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
+        public DoubleAndText Sugar { get; set; }        // [g/100]
+        public DoubleAndText Fibers { get; set; }       // [g/100]
+        public DoubleAndText Proteins { get; set; }     // [g/100]
+        public DoubleAndText Salt { get; set; }         // [g/100]
+        public DoubleAndText Potassium { get; set; }    // [g/100]  
+        public DoubleAndText Cholesterol { get; set; }
+        public DoubleAndText GlycemicIndex { get; set; } // [n]
 
         public Food()
         {

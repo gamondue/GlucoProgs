@@ -30,7 +30,6 @@ namespace GlucoMan.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMeal));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rdbIsSnack = new System.Windows.Forms.RadioButton();
             this.rdbIsBreakfast = new System.Windows.Forms.RadioButton();
@@ -261,7 +260,7 @@ namespace GlucoMan.Forms
             this.txtAccuracyOfChoFoodInMeal.Location = new System.Drawing.Point(461, 48);
             this.txtAccuracyOfChoFoodInMeal.Name = "txtAccuracyOfChoFoodInMeal";
             this.txtAccuracyOfChoFoodInMeal.Size = new System.Drawing.Size(60, 26);
-            this.txtAccuracyOfChoFoodInMeal.TabIndex = 6;
+            this.txtAccuracyOfChoFoodInMeal.TabIndex = 4;
             this.txtAccuracyOfChoFoodInMeal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtAccuracyOfChoFoodInMeal.TextChanged += new System.EventHandler(this.txtAccuracyOfChoFoodInMeal_TextChanged);
             this.txtAccuracyOfChoFoodInMeal.Leave += new System.EventHandler(this.txtAccuracyOfChoFoodInMeal_Leave);
@@ -409,7 +408,7 @@ namespace GlucoMan.Forms
             this.txtFoodInMealName.Location = new System.Drawing.Point(9, 104);
             this.txtFoodInMealName.Name = "txtFoodInMealName";
             this.txtFoodInMealName.Size = new System.Drawing.Size(155, 26);
-            this.txtFoodInMealName.TabIndex = 4;
+            this.txtFoodInMealName.TabIndex = 3;
             this.txtFoodInMealName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // lblIdFood
@@ -456,7 +455,7 @@ namespace GlucoMan.Forms
             this.txtFoodChoGrams.Location = new System.Drawing.Point(341, 49);
             this.txtFoodChoGrams.Name = "txtFoodChoGrams";
             this.txtFoodChoGrams.Size = new System.Drawing.Size(74, 26);
-            this.txtFoodChoGrams.TabIndex = 3;
+            this.txtFoodChoGrams.TabIndex = 5;
             this.txtFoodChoGrams.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtFoodChoGrams.TextChanged += new System.EventHandler(this.txtFoodChoGrams_TextChanged);
             this.txtFoodChoGrams.Leave += new System.EventHandler(this.txtFoodChoGrams_Leave);
@@ -606,6 +605,7 @@ namespace GlucoMan.Forms
             this.btnSaveFoodInMeal.Text = "Save this food";
             this.toolTip1.SetToolTip(this.btnSaveFoodInMeal, "Save food data in persistent foods");
             this.btnSaveFoodInMeal.UseVisualStyleBackColor = true;
+            this.btnSaveFoodInMeal.Click += new System.EventHandler(this.btnSaveFoodInMeal_Click);
             // 
             // btnRemoveFoodInMeal
             // 
@@ -618,6 +618,7 @@ namespace GlucoMan.Forms
             this.btnRemoveFoodInMeal.Text = "- Food";
             this.toolTip1.SetToolTip(this.btnRemoveFoodInMeal, "Remove the Meal\'s food");
             this.btnRemoveFoodInMeal.UseVisualStyleBackColor = true;
+            this.btnRemoveFoodInMeal.Click += new System.EventHandler(this.btnRemoveFoodInMeal_Click);
             // 
             // grpFoodsInMeals
             // 
@@ -660,6 +661,7 @@ namespace GlucoMan.Forms
             this.btnDefaults.TabIndex = 80;
             this.btnDefaults.Text = "Defaults";
             this.btnDefaults.UseVisualStyleBackColor = true;
+            this.btnDefaults.Click += new System.EventHandler(this.btnDefaults_Click);
             // 
             // btnAddFood
             // 
@@ -671,6 +673,7 @@ namespace GlucoMan.Forms
             this.btnAddFood.TabIndex = 76;
             this.btnAddFood.Text = "+ Food";
             this.btnAddFood.UseVisualStyleBackColor = true;
+            this.btnAddFood.Click += new System.EventHandler(this.btnAddFoodInMeal_Click);
             // 
             // frmMeal
             // 
@@ -681,7 +684,6 @@ namespace GlucoMan.Forms
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.grpFood);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmMeal";
             this.Text = "Foods in a meal";

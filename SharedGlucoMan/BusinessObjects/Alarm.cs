@@ -4,17 +4,17 @@ using System.Text;
 
 namespace GlucoMan
 {
-    internal partial class Alarm
+    public partial class Alarm
     {
         // platform independent part of class Alarm
-        internal int? IdAlarm { get; set; }
-        internal DateTimeAndText TimeStart { get; set; }
-        internal DateTimeAndText TimeAlarm { get; set; }
-        internal TimeSpan? Interval { get; set; }
-        internal TimeSpan? Duration { get; set; }
-        internal bool? IsRepeated { get; set; }
-        internal bool? IsEnabled { get; set; }
-        internal Alarm()
+        public int? IdAlarm { get; set; }
+        public DateTimeAndText TimeStart { get; set; }
+        public DateTimeAndText TimeAlarm { get; set; }
+        public TimeSpan? Interval { get; set; }
+        public TimeSpan? Duration { get; set; }
+        public bool? IsRepeated { get; set; }
+        public bool? IsEnabled { get; set; }
+        public Alarm()
         {
             TimeStart = new DateTimeAndText();
             TimeAlarm = new DateTimeAndText(); 

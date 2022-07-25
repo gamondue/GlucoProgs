@@ -68,9 +68,10 @@
             this.txtFibers = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.txtCalories = new System.Windows.Forms.TextBox();
-            this.gridFoods = new System.Windows.Forms.DataGridView();
             this.btnDetails = new System.Windows.Forms.Button();
             this.btnDeleteFood = new System.Windows.Forms.Button();
+            this.gridFoods = new System.Windows.Forms.DataGridView();
+            this.btnCleanFields = new System.Windows.Forms.Button();
             this.grpFood.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridFoods)).BeginInit();
@@ -79,9 +80,9 @@
             // btnNewFood
             // 
             this.btnNewFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnNewFood.Location = new System.Drawing.Point(97, 305);
+            this.btnNewFood.Location = new System.Drawing.Point(83, 306);
             this.btnNewFood.Name = "btnNewFood";
-            this.btnNewFood.Size = new System.Drawing.Size(75, 44);
+            this.btnNewFood.Size = new System.Drawing.Size(42, 44);
             this.btnNewFood.TabIndex = 90;
             this.btnNewFood.Text = "+";
             this.btnNewFood.UseVisualStyleBackColor = true;
@@ -130,7 +131,7 @@
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSave.Location = new System.Drawing.Point(257, 306);
+            this.btnSave.Location = new System.Drawing.Point(176, 306);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 44);
             this.btnSave.TabIndex = 88;
@@ -465,23 +466,6 @@
             this.txtCalories.TabIndex = 5;
             this.txtCalories.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // gridFoods
-            // 
-            this.gridFoods.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridFoods.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.gridFoods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridFoods.Location = new System.Drawing.Point(5, 355);
-            this.gridFoods.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gridFoods.Name = "gridFoods";
-            this.gridFoods.ReadOnly = true;
-            this.gridFoods.Size = new System.Drawing.Size(667, 263);
-            this.gridFoods.TabIndex = 78;
-            this.gridFoods.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellClick);
-            this.gridFoods.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellContentClick);
-            this.gridFoods.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellDoubleClick);
-            // 
             // btnDetails
             // 
             this.btnDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -496,18 +480,44 @@
             // btnDeleteFood
             // 
             this.btnDeleteFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnDeleteFood.Location = new System.Drawing.Point(178, 305);
+            this.btnDeleteFood.Location = new System.Drawing.Point(131, 306);
             this.btnDeleteFood.Name = "btnDeleteFood";
-            this.btnDeleteFood.Size = new System.Drawing.Size(75, 44);
+            this.btnDeleteFood.Size = new System.Drawing.Size(39, 44);
             this.btnDeleteFood.TabIndex = 92;
             this.btnDeleteFood.Text = "-";
             this.btnDeleteFood.UseVisualStyleBackColor = true;
+            // 
+            // gridFoods
+            // 
+            this.gridFoods.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridFoods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridFoods.Location = new System.Drawing.Point(6, 353);
+            this.gridFoods.Name = "gridFoods";
+            this.gridFoods.RowTemplate.Height = 25;
+            this.gridFoods.Size = new System.Drawing.Size(666, 259);
+            this.gridFoods.TabIndex = 93;
+            this.gridFoods.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellClick);
+            // 
+            // btnCleanFields
+            // 
+            this.btnCleanFields.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnCleanFields.Location = new System.Drawing.Point(257, 306);
+            this.btnCleanFields.Name = "btnCleanFields";
+            this.btnCleanFields.Size = new System.Drawing.Size(75, 44);
+            this.btnCleanFields.TabIndex = 94;
+            this.btnCleanFields.Text = "Clean fields";
+            this.btnCleanFields.UseVisualStyleBackColor = true;
+            this.btnCleanFields.Click += new System.EventHandler(this.btnCleanFields_Click);
             // 
             // frmFoods
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(678, 623);
+            this.ClientSize = new System.Drawing.Size(678, 617);
+            this.Controls.Add(this.btnCleanFields);
+            this.Controls.Add(this.gridFoods);
             this.Controls.Add(this.btnDeleteFood);
             this.Controls.Add(this.btnDetails);
             this.Controls.Add(this.btnNewFood);
@@ -517,7 +527,6 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnFatSecret);
             this.Controls.Add(this.grpFood);
-            this.Controls.Add(this.gridFoods);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -575,8 +584,9 @@
         private Label label11;
         private TextBox txtCalories;
         private TextBox txtFoodCarbohydrates;
-        private DataGridView gridFoods;
         private Button btnDetails;
         private Button btnDeleteFood;
+        private DataGridView gridFoods;
+        private Button btnCleanFields;
     }
 }

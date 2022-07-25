@@ -114,7 +114,7 @@ namespace GlucoMan
             }
             else
             {
-                if (Double.IsFinite(acc) && acc != 0)
+                if (Double.IsFinite(acc) && acc >= 0)
                 {
                     cmbQualitative.SelectedItem =
                         bl.GetQualitativeAccuracyGivenQuantitavive(acc);
