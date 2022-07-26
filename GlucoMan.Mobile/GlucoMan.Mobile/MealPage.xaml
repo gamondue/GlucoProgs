@@ -56,7 +56,7 @@
             <Button Grid.Row="3" Grid.Column="3" Text="Insulin calc." x:Name="btnInsulinCalc" 
                     IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync"></Button>
             <Button Grid.Row="3" Grid.Column="4" Text="Gluc." x:Name="btnGlucose" 
-                    IsEnabled="False" Clicked="btnGlucose_ClickAsync"></Button>
+                    IsEnabled="True" Clicked="btnGlucose_ClickAsync"></Button>
 
             <Label Grid.Row="4" Grid.Column="0" TextColor="Black" 
                    Grid.ColumnSpan="5" Text="Food data" XAlign="Center" YAlign="End"/>

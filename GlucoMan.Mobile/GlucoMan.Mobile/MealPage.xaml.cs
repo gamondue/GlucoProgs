@@ -95,7 +95,7 @@ namespace GlucoMan.Mobile
             txtFoodChoPercent.Text = bl.FoodInMeal.ChoPercent.Text;
             txtFoodQuantityGrams.Text = bl.FoodInMeal.QuantityGrams.Text;
             txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
-
+            txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;  
             txtFoodInMealName.Text = bl.FoodInMeal.Name;
 
             loading = false;
@@ -156,30 +156,6 @@ namespace GlucoMan.Mobile
         private void txtChoOfMealGrams_TextChanged(object sender, EventArgs e)
         {
             bl.SaveMealParameters();
-        }
-        //private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    loading = true;
-        //    {
-        //        if (cmbAccuracyMeal.SelectedItem != null)
-        //        {
-        //            int accuracy = Convert.ToInt32((QualitativeAccuracy)cmbAccuracyMeal.SelectedItem);
-        //            txtAccuracyOfChoMeal.Text = accuracy.ToString();
-        //            bl.Meal.AccuracyOfChoEstimate.Double = accuracy;
-        //            bl.RecalcTotalAccuracy();
-        //            FromClassToUi();
-        //        }
-        //    }
-        //    loading = false; 
-        //}
-        private void txtAccuracyOfChoFoodInMeal_TextChanged(object sender, EventArgs e) 
-        {
-            if (!loading)
-            {
-                bl.FoodInMeal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoFoodInMeal.Text);
-                bl.RecalcTotalAccuracy();
-                FromClassToUi();
-            }
         }
         private void btnSaveAllMeal_Click(object sender, EventArgs e)
         {
@@ -272,7 +248,7 @@ namespace GlucoMan.Mobile
                 return;
             }
             loading = true;
-
+            FromUiToClass();
             //make the tapped row the current food in meal 
             bl.FoodInMeal = (FoodInMeal)gridFoodsInMeal.SelectedItem;
             bl.SaveFoodInMealParameters(); 

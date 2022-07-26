@@ -1,10 +1,4 @@
-﻿using SharedData;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin;
+﻿using System.IO;
 
 namespace GlucoMan
 {

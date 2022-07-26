@@ -68,7 +68,7 @@ namespace GlucoMan.Mobile
         private void btnReadAll_Click(object sender, EventArgs e)
         {
             blFoodToEat.TargetCho.Double = Safe.Double(blg.RestoreParameter("Bolus_ChoToEat"));
-            blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(blg.RestoreParameter("XXXXXXXXXXXXXX"));
+            blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(blg.RestoreParameter("Meal_ChoGrams"));
             blFoodToEat.ChoOfFood.Double = Safe.Double(blg.RestoreParameter("FoodInMeal_ChoPercent"));
             blFoodToEat.NameOfFood = Safe.String(blg.RestoreParameter("FoodInMeal_Name"));
             FromClassToUi();
@@ -82,7 +82,7 @@ namespace GlucoMan.Mobile
         }
         private void btnReadChoTaken_Click(object sender, EventArgs e)
         {
-            blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(blg.RestoreParameter("XXXXXXXXXXXXXX"));
+            blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(blg.RestoreParameter("Meal_ChoGrams"));
             FromClassToUi();
         }
         private void btnReadFood_Click(object sender, EventArgs e)

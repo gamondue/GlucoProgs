@@ -7,6 +7,8 @@ namespace GlucoMan
 {
     public static partial class Common
     {
+        public static string NomeFileDatabase = @"GlucoManData_1.Sqlite";
+
         public static string PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
         public static string PathApplication = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public static string PathUsersDownload = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -21,6 +23,6 @@ namespace GlucoMan
         public static string PathProgramsData = Path.Combine(PathUser, @"Data");
         public static string PathLogs = Path.Combine(PathUser , @"Logs");
         public static string PathDatabase = Path.Combine(PathUsersDownload, @"Glucoman/Data");
-        public static string PathAndFileDatabase = Path.Combine(PathDatabase, @"GlucoManData.Sqlite");
+        public static string PathAndFileDatabase = Path.Combine(PathDatabase, NomeFileDatabase);
     }
 }

@@ -86,7 +86,7 @@
                                         <ColumnDefinition Width="35"/>
                                     </Grid.ColumnDefinitions>
                                     <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}" />
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding Description}"/>
+                                    <Label HorizontalTextAlignment="Start" Grid.Column="1" Text="{Binding Description}"/>
                                     <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding Cho.Text}"/>
                                 </Grid>
                             </ViewCell.View>

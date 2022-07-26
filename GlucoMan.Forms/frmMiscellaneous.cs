@@ -55,7 +55,7 @@ namespace GlucoMan.Forms
         private void btnCopyDatabase_Click(object sender, EventArgs e)
         {
             string oneDrivePath = Common.PathUser.Substring(0, Common.PathUser.LastIndexOf(@"\")); 
-            File.Copy(Common.PathAndFileDatabase, Path.Combine(oneDrivePath, @"OneDrive\GlucoMan\", Common.FileDatabase)); 
+            File.Copy(Common.PathAndFileDatabase, Path.Combine(oneDrivePath, @"OneDrive\GlucoMan\", Common.NomeFileDatabase)); 
         }
         private void btnShowErrorLog_Click(object sender, EventArgs e)
         {

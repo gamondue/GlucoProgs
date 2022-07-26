@@ -8,6 +8,8 @@ namespace GlucoMan
 {
     public static partial class Common
     {
+        public static string NomeFileDatabase = @"GlucoManData.Sqlite";
+
         // program's default path and files. 
         public static string PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
         //public static string PathExe = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
@@ -18,6 +20,6 @@ namespace GlucoMan
         //public static string PathUsersDownload = ; // !!!! TODO find how to save on the download folder of user; 
         public static string PathLogs = Path.Combine(PathUser , @"GlucoMan\Logs\");
         public static string PathDatabase = Path.Combine(PathUser, @"GlucoMan\Data\");
-        public static string PathAndFileDatabase = Path.Combine(PathDatabase, FileDatabase);
+        public static string PathAndFileDatabase = Path.Combine(PathDatabase, NomeFileDatabase);
     }
 }

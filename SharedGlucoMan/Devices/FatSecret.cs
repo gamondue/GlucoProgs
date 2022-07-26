@@ -14,10 +14,10 @@ namespace GlucoMan
         {
             private static readonly HttpClient client = new HttpClient();
 
-            static void Main(string[] args)
+            /*static void Main(string[] args)
             {
                 //...
-            }
+            }*/
         }
     }
 

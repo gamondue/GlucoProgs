@@ -5,9 +5,7 @@ using System;
 namespace GlucoMan
 {
     public static partial class Common
-    {
-        public static string FileDatabase = @"GlucoManData.Sqlite"; 
-        
+    {        
         internal static DataLayer Database;
         public static BL_General BlGeneral;
         public static BL_MealAndFood MealAndFood_CommonBL = new BL_MealAndFood();
