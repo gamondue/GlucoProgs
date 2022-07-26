@@ -1,12 +1,9 @@
-﻿using GlucoMan.BusinessLayer;
-using Microsoft.Data.Sqlite;
-using SharedData;
+﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.IO;
-using System.Text;
 
 namespace GlucoMan
 {

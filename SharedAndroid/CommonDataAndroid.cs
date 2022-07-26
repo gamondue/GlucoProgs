@@ -9,8 +9,9 @@ namespace GlucoMan
     {
         public static string NomeFileDatabase = @"GlucoManData_1.Sqlite";
 
-        public static string PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
-        public static string PathApplication = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        //public static string PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
+        public static string PathUser = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+        public static string PathApplication = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
         public static string PathUsersDownload = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         // fix the former using some hints from here: 

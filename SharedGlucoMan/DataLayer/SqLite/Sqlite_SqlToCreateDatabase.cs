@@ -189,8 +189,8 @@ COMMIT;
 			if (File.Exists(dbName))
 				File.Delete(dbName); 
 
-			if(!File.Exists(dbName))
-				File.Create(dbName);
+			//if(!File.Exists(dbName))
+			//	File.Create(dbName);
 
 			// when the file does not exist 
 			// Microsoft.Data.Sqlite creates the file at first connection
