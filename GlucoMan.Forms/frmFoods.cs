@@ -80,13 +80,6 @@ namespace GlucoMan.Forms
             bl.SaveOneFood(CurrentFood);
             FromClassToUi();
         }
-        private void btnNewFood_Click(object sender, EventArgs e)
-        {
-            FromUiToClass();
-            CurrentFood.IdFood = null;
-            bl.SaveOneFood(CurrentFood);
-            RefreshUi();
-        }
         private void gridFoods_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -137,6 +130,23 @@ namespace GlucoMan.Forms
             txtFibers.Text = "";
             txtProteins.Text = "";
             txtSalt.Text = "";
+        }
+        private void btnNewFood_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
+            CurrentFood.IdFood = null;
+            bl.SaveOneFood(CurrentFood);
+            RefreshUi();
+        }
+        private void btnDeleteFood_Click(object sender, EventArgs e)
+        {
+            if (gridFoods.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Choose a food to delete");
+                return; 
+            }
+            bl.DeleteOneFood(CurrentFood);
+            RefreshUi();
         }
     }
 }

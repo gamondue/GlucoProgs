@@ -205,7 +205,6 @@ COMMIT;
 					cmd.ExecuteNonQuery();
 					cmd.Dispose();
 				}
-				// !!!! TODO fill the tables of enumerations
 			}
 			catch (Exception ex)
 			{

@@ -27,8 +27,8 @@ namespace GlucoMan.Forms
             cmbAccuracyMeal.DataSource = Enum.GetValues(typeof(QualitativeAccuracy));
             cmbAccuracyFoodInMeal.DataSource = Enum.GetValues(typeof(QualitativeAccuracy));
 
-            accuracyMeal = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
-            accuracyFoodInMeal = new Accuracy(txtAccuracyOfChoFoodInMeal, cmbAccuracyFoodInMeal, bl);
+            accuracyMeal = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
+            accuracyFoodInMeal = new Accuracy(txtAccuracyOfChoFoodInMeal, cmbAccuracyFoodInMeal);
 
             gridFoodsInMeal.AutoGenerateColumns = true;
         }
@@ -78,10 +78,6 @@ namespace GlucoMan.Forms
             txtFoodQuantityGrams.Text = bl.FoodInMeal.QuantityGrams.Text;
             txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
             txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;
-            //// the value contaied in the combo is updated when txtAccuracy is modified 
-            // we don't have to modify it here! 
-            //cmbAccuracyFoodInMeal.SelectedItem = bl.FoodInMeal.QualitativeAccuracy;
-
             txtFoodInMealName.Text = bl.FoodInMeal.Name;
 
             loading = false; 
@@ -97,7 +93,7 @@ namespace GlucoMan.Forms
             bl.Meal.TimeEnd.DateTime = dtpMealTimeFinish.Value;
             bl.Meal.IdTypeOfMeal = GetTypeOfMealFromRadiobuttons();
 
-            bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
+            bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
 
             bl.FoodInMeal.IdMeal = Safe.Int(txtIdMeal.Text);
             bl.FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
@@ -107,9 +103,7 @@ namespace GlucoMan.Forms
             bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
             bl.FoodInMeal.Name = txtFoodInMealName.Text;
             bl.FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
-            //if (cmbAccuracyFoodInMeal.SelectedItem != null)
-            //    bl.FoodInMeal.QualitativeAccuracyOfCho = ((QualitativeAccuracy)cmbAccuracyFoodInMeal.SelectedItem);
-            
+          
             loading = false;
         }
         private TypeOfMeal GetTypeOfMealFromRadiobuttons()
@@ -162,9 +156,9 @@ namespace GlucoMan.Forms
         {
             if (!loading)
             {
-                FromUiToClass();
+                bl.FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text;
                 bl.CalculateChoOfFoodGrams(bl.FoodInMeal);
-                FromClassToUi();
+                txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
             }
         }
         private void txtFoodQuantityGrams_TextChanged(object sender, EventArgs e) { }
@@ -172,9 +166,9 @@ namespace GlucoMan.Forms
         {
             if (!loading)
             {
-                FromUiToClass();
+                bl.FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text;
                 bl.CalculateChoOfFoodGrams(bl.FoodInMeal);
-                FromClassToUi();
+                txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
                 bl.SaveFoodInMealParameters();
             }
         }
@@ -182,10 +176,13 @@ namespace GlucoMan.Forms
         {
             if (!loading)
             {
-                txtFoodQuantityGrams.Text = "";
-                bl.FoodInMeal.QuantityGrams.Double = 0;
-                txtFoodChoPercent.Text = "";
-                bl.FoodInMeal.ChoPercent.Double = 0;
+                if (!txtFoodQuantityGrams.Focused && !txtFoodChoPercent.Focused)
+                {
+                    txtFoodQuantityGrams.Text = "";
+                    bl.FoodInMeal.QuantityGrams.Double = 0;
+                    txtFoodChoPercent.Text = "";
+                    bl.FoodInMeal.ChoPercent.Double = 0;
+                }
             }
         }
         private void txtFoodChoGrams_Leave(object sender, EventArgs e)
@@ -240,6 +237,8 @@ namespace GlucoMan.Forms
         {
             bl.DeleteOneFoodInMeal(bl.FoodInMeal);
             bl.RecalcTotalCho();
+            bl.RecalcTotalAccuracy();
+            bl.SaveMealParameters();
             FromClassToUi();
             RefreshGrid();
         }
@@ -316,7 +315,8 @@ namespace GlucoMan.Forms
                 loading = true; 
 
                 bl.FoodInMeal = bl.FoodsInMeal[e.RowIndex];
-                //bl.SaveFoodInMealParameters(); 
+                bl.SaveFoodInMealParameters();
+                //make the tapped row the current food in meal 
                 gridFoodsInMeal.Rows[e.RowIndex].Selected = true;
                 FromClassToUi();
 

@@ -1,39 +1,24 @@
 ﻿using GlucoMan.BusinessLayer;
-using GlucoMan.Forms;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using static GlucoMan.Common;
 
 namespace GlucoMan
 {
-    internal class Accuracy
+    internal partial class Accuracy
     {
         TextBox txtQuantitative;
         ComboBox cmbQualitative; 
         bool clickedFlag;
-        BL_MealAndFood bl = Common.MealAndFood_CommonBL;
-
-        internal Accuracy (TextBox TextBox, ComboBox Combo, BL_MealAndFood Business)
+        internal Accuracy (TextBox TextBox, ComboBox Combo)
         {
             txtQuantitative = TextBox;
             cmbQualitative = Combo;
             clickedFlag = false; 
-            bl = Business; 
 
             // hookup useful events 
-            Combo.SelectedIndexChanged += new System.EventHandler(Combo_SelectedIndexChanged);
-            Combo.Leave += new System.EventHandler(Combo_Leave);
-            Combo.MouseClick += new System.Windows.Forms.MouseEventHandler(Combo_MouseClick);
-            TextBox.TextChanged += new System.EventHandler(TextBox_TextChanged);
-        }
-        internal double? QualitativeAccuracyChanged(QualitativeAccuracy QualitativeAccuracy)
-        {
-            // the value (int) associated with the QualitativeAccuracy is given to the numerical accuracy
-            int accuracyNumber = (int)QualitativeAccuracy;
-            bl.Meal.QualitativeAccuracyOfChoEstimate = QualitativeAccuracy;
-            bl.Meal.AccuracyOfChoEstimate.Double = accuracyNumber;
-            return bl.Meal.AccuracyOfChoEstimate.Double;
+            Combo.SelectedIndexChanged += Combo_SelectedIndexChanged;
+            Combo.Leave += Combo_Leave;
+            Combo.MouseClick += Combo_MouseClick;
+            TextBox.TextChanged += TextBox_TextChanged;
         }
         private void TextBox_TextChanged(object sender, EventArgs e)
         {
@@ -42,9 +27,9 @@ namespace GlucoMan
             if (acc >= 0) //
             {
                 cmbQualitative.SelectedItem =
-                    bl.GetQualitativeAccuracyGivenQuantitavive(acc);
-                txtQuantitative.BackColor = bl.AccuracyBackColor(acc);
-                txtQuantitative.ForeColor = bl.AccuracyForeColor(acc);
+                    GetQualitativeAccuracyGivenQuantitavive(acc);
+                txtQuantitative.BackColor = AccuracyBackColor(acc);
+                txtQuantitative.ForeColor = AccuracyForeColor(acc);
             }
             else
             {
@@ -60,8 +45,8 @@ namespace GlucoMan
                 clickedFlag = false;
                 QualitativeAccuracy qa = (QualitativeAccuracy)(cmbQualitative.SelectedItem);
                 txtQuantitative.Text = ((int)qa).ToString();
-                QualitativeAccuracyChanged(qa);
-                //callingForm.FromClassToUi();
+                // the value (int) associated with the QualitativeAccuracy is given to the numerical accuracy
+                int accuracyNumber = (int)qa;
             }
         }
         private void Combo_MouseClick(object sender, MouseEventArgs e)

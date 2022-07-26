@@ -45,7 +45,6 @@
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
                     BackgroundColor="PaleGoldenrod" FontSize="Small"
-                    SelectedIndexChanged="cmbAccuracyMeal_SelectedIndexChanged"
                     />            
             <Button Grid.Row="2" Grid.Column="4" Text="Calc" x:Name="btnSumCho"
                     Clicked="btnSumCho_Click"></Button>

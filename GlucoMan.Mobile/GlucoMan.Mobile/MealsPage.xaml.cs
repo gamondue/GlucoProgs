@@ -23,7 +23,7 @@ namespace GlucoMan.Mobile
             cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
             cmbTypeOfMeal.ItemsSource = Enum.GetValues(typeof(TypeOfMeal));
 
-            accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
+            accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
 
             RefreshUi();
         }
@@ -55,7 +55,8 @@ namespace GlucoMan.Mobile
                 dtpMealDateBegin.Date = (DateTime)Safe.DateTime(bl.Meal.TimeBegin.DateTime);
                 dtpMealTimeBegin.Time = ((DateTime)bl.Meal.TimeBegin.DateTime).TimeOfDay;  // - dtpMealDateBegin.Date;
             }
-            txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.ToString();
+            if (bl.Meal.AccuracyOfChoEstimate.Double != null)
+                txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
 
             SetCorrectRadioButtons();
         }

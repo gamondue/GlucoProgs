@@ -23,7 +23,7 @@ namespace GlucoMan.Forms
             cmbAccuracyMeal.DataSource = Enum.GetValues(typeof(QualitativeAccuracy));
             cmbTypeOfMeal.DataSource = Enum.GetValues(typeof(TypeOfMeal));
 
-            accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
+            accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
 
             RefreshUi();
         }

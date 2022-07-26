@@ -9,6 +9,7 @@
     <Import_RootNamespace>GlucoMan</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Accuracy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_AlarmManagement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_BolusCalculation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_FoodToHitTargetCarbs.cs" />

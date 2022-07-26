@@ -130,10 +130,8 @@ namespace GlucoMan.Mobile
         }
         private void btnRemoveFood_Click(object sender, EventArgs e)
         {
-            //FromUiToClass();
-            //CurrentFood.IdFood = null;
-            //bl.SaveOneFood(CurrentFood);
-            //RefreshUi();
+            bl.DeleteOneFood(CurrentFood);
+            RefreshUi();
         }
         //private void gridFoods_CellContentClick(object sender, DataGridViewCellEventArgs e)
         //{

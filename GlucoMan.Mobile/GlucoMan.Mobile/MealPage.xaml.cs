@@ -1,7 +1,6 @@
 ﻿using GlucoMan.BusinessLayer;
 using static GlucoMan.Common;
 using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -33,16 +32,14 @@ namespace GlucoMan.Mobile
             cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
             cmbAccuracyFoodInMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
 
-            accuracyMeal = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal, bl);
-            accuracyFoodInMeal = new Accuracy(txtAccuracyOfChoFoodInMeal, cmbAccuracyFoodInMeal, bl);
+            accuracyMeal = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
+            accuracyFoodInMeal = new Accuracy(txtAccuracyOfChoFoodInMeal, cmbAccuracyFoodInMeal);
 
             if (bl.Meal.IdTypeOfMeal == TypeOfMeal.NotSet)
             {
                 bl.Meal.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
             }
-            //bl.RestoreFoodInMealParameters();
-            bl.RestoreMealParameters();
-            //bl.FoodInMeal.AccuracyOfChoEstimate.Double = 0;
+            //bl.RestoreMealParameters();
             FromClassToUi();
             RefreshGrid();
 
@@ -120,8 +117,6 @@ namespace GlucoMan.Mobile
             bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
             bl.FoodInMeal.Name = txtFoodInMealName.Text;
             bl.FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
-            //if (cmbAccuracyFoodInMeal.SelectedItem != null)
-            //    bl.FoodInMeal.QualitativeAccuracyOfCho = ((QualitativeAccuracy)cmbAccuracyFoodInMeal.SelectedItem);
 
             loading = false;
         }
@@ -141,6 +136,7 @@ namespace GlucoMan.Mobile
                 bl.FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text;
                 bl.CalculateChoOfFoodGrams(bl.FoodInMeal);
                 txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
+                bl.SaveFoodInMealParameters();
             }
         }
         private void txtFoodChoGrams_TextChanged(object sender, EventArgs e)
@@ -161,21 +157,21 @@ namespace GlucoMan.Mobile
         {
             bl.SaveMealParameters();
         }
-        private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            loading = true;
-            {
-                if (cmbAccuracyMeal.SelectedItem != null)
-                {
-                    int accuracy = Convert.ToInt32((QualitativeAccuracy)cmbAccuracyMeal.SelectedItem);
-                    txtAccuracyOfChoMeal.Text = accuracy.ToString();
-                    bl.Meal.AccuracyOfChoEstimate.Double = accuracy;
-                    bl.RecalcTotalAccuracy();
-                    FromClassToUi();
-                }
-            }
-            loading = false; 
-        }
+        //private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    loading = true;
+        //    {
+        //        if (cmbAccuracyMeal.SelectedItem != null)
+        //        {
+        //            int accuracy = Convert.ToInt32((QualitativeAccuracy)cmbAccuracyMeal.SelectedItem);
+        //            txtAccuracyOfChoMeal.Text = accuracy.ToString();
+        //            bl.Meal.AccuracyOfChoEstimate.Double = accuracy;
+        //            bl.RecalcTotalAccuracy();
+        //            FromClassToUi();
+        //        }
+        //    }
+        //    loading = false; 
+        //}
         private void txtAccuracyOfChoFoodInMeal_TextChanged(object sender, EventArgs e) 
         {
             if (!loading)
@@ -209,6 +205,7 @@ namespace GlucoMan.Mobile
         {
             bl.DeleteOneFoodInMeal(bl.FoodInMeal);
             bl.RecalcTotalCho();
+            bl.RecalcTotalAccuracy();
             bl.SaveMealParameters(); 
             FromClassToUi();
             RefreshGrid();
@@ -275,13 +272,14 @@ namespace GlucoMan.Mobile
                 return;
             }
             loading = true;
-            //make the tapped row the current meal 
+
+            //make the tapped row the current food in meal 
             bl.FoodInMeal = (FoodInMeal)gridFoodsInMeal.SelectedItem;
             bl.SaveFoodInMealParameters(); 
             FromClassToUi();
+
             loading = false;
         }
-        
         private async void btnFoodCalc_ClickAsync(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new FoodToHitTargetCarbsPage());
