@@ -187,32 +187,32 @@ COMMIT;
 		{
 			// making new, means erasing existent! 
 			if (File.Exists(dbName))
-				File.Delete(dbName); 
+				File.Delete(dbName);
 
-			//if(!File.Exists(dbName))
-			//	File.Create(dbName);
+            if (!File.Exists(dbName))
+                File.Create(dbName);
 
-			// when the file does not exist 
-			// Microsoft.Data.Sqlite creates the file at first connection
-			DbConnection c = Connect();
-			c.Close();
-			c.Dispose(); 
+            //when the file does not exist
+            // Microsoft.Data.Sqlite creates the file at first connection
+            DbConnection c = Connect();
+            c.Close();
+            c.Dispose();
 
-			try
-			{
-				using (DbConnection conn = Connect())
-				{
-					DbCommand cmd = conn.CreateCommand();
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
 
-					cmd.CommandText = creationScript;
-					cmd.ExecuteNonQuery();
-					cmd.Dispose();
-				}
-			}
-			catch (Exception ex)
-			{
-				Common.LogOfProgram.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
-			}
-		}
-	}
+                    cmd.CommandText = creationScript;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
+            }
+        }
+    }
 }

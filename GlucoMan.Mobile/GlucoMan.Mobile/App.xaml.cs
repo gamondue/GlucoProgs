@@ -11,7 +11,7 @@ namespace GlucoMan.Mobile
         {
             InitializeComponent();
 
-            Common.LogOfProgram = new Logger(Common.PathProgramsData, true, @"logs\GlucoMan_log.txt",
+            Common.LogOfProgram = new Logger(Common.PathLogs, true, @"logs\GlucoMan_log.txt",
                 @"logs\GlucoMan_errors.txt", @"logs\GlucoMan_debug.txt", @"logs\GlucoMan_prompts.txt",
                 @"logs\GlucoMan_data.txt");
 
