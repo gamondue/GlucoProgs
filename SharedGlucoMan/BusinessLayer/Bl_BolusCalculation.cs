@@ -151,7 +151,7 @@ namespace GlucoMan.BusinessLayer
         }
         public  void SaveBolusLog()
         {
-                dl.SaveLogOfBoluses(this); 
+                // !!!! TO DO !!!!
         }
         public  void RestoreBolusParameters()
         {

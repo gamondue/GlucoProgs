@@ -8,7 +8,7 @@ using static GlucoMan.DataLayer;
 namespace SharedGlucoMan.BusinessLayer
 {
     // Business Layer, general part
-    public  class BL_General
+    public class BL_General
     {
         DataLayer dl = Common.Database;
         public  long? SaveParameter(string FieldName, string FieldValue)

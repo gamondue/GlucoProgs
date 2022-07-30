@@ -46,7 +46,7 @@
             <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="----" XAlign="Center" YAlign="Center"/>
             <Entry Grid.Row="4" Grid.Column="1" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
                    Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod" />
-            <Button Grid.Row="4" Grid.Column="3" x:Name="btnSetParameters" Text="Calc. param."
+            <Button Grid.Row="4" Grid.Column="3" x:Name="btnSetParameters" Text="Set param."
                     Clicked="btnSetParameters_Click"/>
             
             <Label Grid.Row="5" Grid.Column="0" Text="Premeal Gluc" XAlign="Center" YAlign="End"/>

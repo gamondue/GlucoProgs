@@ -35,7 +35,7 @@
                     x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
             
             <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="Copy database" Margin="100,0,100,0"
+                    Text="Copy files" Margin="100,0,100,0"
                     x:Name="btnCopyDatabase" Clicked="btnCopyDatabase_Click" />
             
             <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 

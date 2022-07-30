@@ -28,7 +28,7 @@ namespace FoglioGlicemiaTerapia
                 @"logs\GlucoMan_errors.txt", @"logs\GlucoMan_debug.txt", @"logs\GlucoMan_prompts.txt",
                 @"logs\GlucoMan_data.txt");
 
-            Common.Database = new DL_FlatText();
+            //////Common.Database = new DL_FlatText();
 
             //Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }

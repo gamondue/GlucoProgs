@@ -8,14 +8,18 @@ namespace GlucoMan
     {
         public static void GeneralInitializations()
         {
-            Common.Database = new DL_Sqlite();
-            Common.BlGeneral = new BL_General(); 
-            Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
+            // generation of folders. Since File.Create() doesn't work if the folder
+            // doesn't exist, the following statements should be executed before
+            // any code that creates or uses files is run 
             General.MakeFolderIfDontExist(Common.PathConfigurationData);
             General.MakeFolderIfDontExist(Common.PathProgramsData);
             General.MakeFolderIfDontExist(Common.PathLogs);
             General.MakeFolderIfDontExist(Common.PathDatabase);
+            General.MakeFolderIfDontExist(Common.PathExport);
+
+            Common.Database = new DL_Sqlite();
+            Common.BlGeneral = new BL_General();
+            Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             Common.LogOfProgram = new Logger(Common.PathLogs, true,
                 @"GlucoMan_Log.txt",

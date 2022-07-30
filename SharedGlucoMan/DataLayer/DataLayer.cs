@@ -13,16 +13,6 @@ namespace GlucoMan
 {
     internal abstract partial class DataLayer
     {
-        internal string persistentBolusCalculation = Path.Combine(Common.PathConfigurationData, @"BolusCalculation.txt");
-        internal string persistentInsulinParameters = Path.Combine(Common.PathConfigurationData, @"InsulinParameters.txt");
-        internal string persistentGlucoseMeasurements = Path.Combine(Common.PathConfigurationData, @"GlucoseMeasurements.txt");
-        internal string persistentFoodToEatTarget = Path.Combine(Common.PathConfigurationData, @"FoodToHitTargetCarbs.txt");
-
-        internal string persistentHypoPrediction = Path.Combine(Common.PathConfigurationData, @"HypoPrediction.txt");
-        internal string persistentWeighFood = Path.Combine(Common.PathConfigurationData, @"WeighFood.txt");
-
-        internal string logBolusCalculationsFile = Path.Combine(Common.PathConfigurationData, @"LogOfBolusCalculations.tsv");
-
         #region General
         internal abstract void DeleteDatabase();
         internal abstract int GetNextPrimaryKey();
@@ -46,11 +36,9 @@ namespace GlucoMan
         #region Glucose 
         internal abstract List<GlucoseRecord> GetLastTwoGlucoseMeasurements(); 
         internal abstract List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, DateTime? FinalInstant);
-        internal abstract void RestoreWeighFood(BL_WeighFood WeighFood);
         //internal abstract void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
-        internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);      internal abstract void SaveLogOfBoluses(BL_BolusCalculation Bolus);
+        internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);      
         internal abstract long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
-        internal abstract void SaveWeighFood(BL_WeighFood WeighFood);
         #endregion
 
         #region Meals and Food in Meals

@@ -69,15 +69,16 @@ namespace GlucoMan.Mobile
         private async void btnCopyDatabase_Click(object sender, EventArgs e)
         {
             // write the SpecialFolders that are used in Android
-            // !!!! comment the loop when devepolment of this part has finished !!!!
+            // !!!! comment the next loop when devepolment of this part has finished !!!!
             foreach (var folder in Enum.GetValues(typeof(Environment.SpecialFolder))) 
             {
                 Console.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
             }
-            //string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string documentsPath = @"/data/data/it.ingmonti.glucoman.mobile/files";
-            string localFilename = Common.PathAndFileDatabase; 
-            File.Copy(Common.PathAndFileDatabase, documentsPath);
+            string externalFile = Path.Combine(Common.PathExport, Common.DatabaseFileName); 
+            if (File.Exists(externalFile))
+                File.Delete(externalFile);
+            File.Copy(Common.PathAndFileDatabase, externalFile);
+            // !!!! TODO !!!! also copy the other files 
         }
         private async void btnStopApplication_Click(object sender, EventArgs e)
         {

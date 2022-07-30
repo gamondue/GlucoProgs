@@ -20,7 +20,7 @@ namespace GlucoMan
         /// Constructor of DataLayer class that uses the default database of the program
         /// Assumes that the file exists.
         /// </summary>
-        internal  DL_Sqlite()
+        internal DL_Sqlite()
         {
             dbName = Common.PathAndFileDatabase;
             if (!System.IO.File.Exists(Common.PathAndFileDatabase))

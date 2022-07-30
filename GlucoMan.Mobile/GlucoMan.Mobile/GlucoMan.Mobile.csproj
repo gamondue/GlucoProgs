@@ -6,7 +6,7 @@
     <AssemblyName>GlucoMan</AssemblyName>
     <ApplicationIcon>Current_Icon_White.ico</ApplicationIcon>
     <PackageId>GlucoMan</PackageId>
-    <Version>0.7.0.0</Version>
+    <Version>0.7.0.1</Version>
     <NeutralLanguage>en-150</NeutralLanguage>
     <PackageLicenseExpression>GPL-2.0-only</PackageLicenseExpression>
     <Authors>Ing.Gabriele MONTI - Forlì - Italia</Authors>
@@ -45,10 +45,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.5" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.7" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.0" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
   </ItemGroup>
 
   <ItemGroup>

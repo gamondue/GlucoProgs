@@ -8,21 +8,21 @@
     ".NETCoreApp,Version=v6.0": {
       "GlucoMan/0.7.0.0": {
         "dependencies": {
-          "Microsoft.Data.Sqlite.Core": "6.0.5",
+          "Microsoft.Data.Sqlite.Core": "6.0.7",
           "SQLitePCLRaw.bundle_e_sqlite3": "2.1.0"
         },
         "runtime": {
           "GlucoMan.dll": {}
         }
       },
-      "Microsoft.Data.Sqlite.Core/6.0.5": {
+      "Microsoft.Data.Sqlite.Core/6.0.7": {
         "dependencies": {
           "SQLitePCLRaw.core": "2.1.0"
         },
         "runtime": {
           "lib/net6.0/Microsoft.Data.Sqlite.dll": {
-            "assemblyVersion": "6.0.5.0",
-            "fileVersion": "6.0.522.21804"
+            "assemblyVersion": "6.0.7.0",
+            "fileVersion": "6.0.722.31501"
           }
         }
       },
@@ -183,12 +183,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Data.Sqlite.Core/6.0.5": {
+    "Microsoft.Data.Sqlite.Core/6.0.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-NDvPAsJZSptFxB5B5t3a/7UUihO2nPm8nsEG3s2EtnccIotMsQqSkDdak/T/tWQUivzdiy1Q/0jXk97zQgD75Q==",
-      "path": "microsoft.data.sqlite.core/6.0.5",
-      "hashPath": "microsoft.data.sqlite.core.6.0.5.nupkg.sha512"
+      "sha512": "sha512-lB8T+Y/5pMDBf13dGnrQvZ9rfkZrvRY82FgVElWGIuIF3yFwYLR6475U4/IM+TNLPSk8SvTFBqdLN3gOm3suOQ==",
+      "path": "microsoft.data.sqlite.core/6.0.7",
+      "hashPath": "microsoft.data.sqlite.core.6.0.7.nupkg.sha512"
     },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.0": {
       "type": "package",

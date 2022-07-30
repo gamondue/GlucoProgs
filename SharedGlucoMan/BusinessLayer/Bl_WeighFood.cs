@@ -72,11 +72,11 @@ namespace GlucoMan.BusinessLayer
         }
         public  void SaveData()
         {
-            dl.SaveWeighFood(this); 
+            ////////dl.SaveWeighFood(this); 
         }
         public  void RestoreData()
         {
-            dl.RestoreWeighFood(this); 
+            ////////dl.RestoreWeighFood(this); 
         }
     }
 }
