@@ -332,6 +332,7 @@
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(450, 29);
             this.txtDescription.TabIndex = 3;
+            this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
             // 
             // label19
             // 
@@ -349,6 +350,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(141, 29);
             this.txtName.TabIndex = 1;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // groupBox1
             // 
@@ -500,6 +502,8 @@
             this.gridFoods.Size = new System.Drawing.Size(666, 259);
             this.gridFoods.TabIndex = 93;
             this.gridFoods.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellClick);
+            this.gridFoods.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellContentClick);
+            this.gridFoods.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoods_CellDoubleClick);
             // 
             // btnCleanFields
             // 

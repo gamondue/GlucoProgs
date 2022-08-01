@@ -1,8 +1,5 @@
-﻿using GlucoMan;
-using GlucoMan.BusinessLayer;
-using SharedData;
+﻿using GlucoMan.BusinessLayer;
 using System;
-using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Collections.Generic;
@@ -126,6 +123,10 @@ namespace GlucoMan.Mobile
         private void btnSaveBolus_Click(object sender, EventArgs e)
         {
             currentBolusCalculation.SaveBolusParameters();
+        }
+        private void btnReadCho_Click(object sender, EventArgs e)
+        {
+            txtChoToEat.Text = currentBolusCalculation.RestoreChoToEat();
         }
     }
 }

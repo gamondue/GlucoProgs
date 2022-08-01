@@ -30,6 +30,7 @@ namespace GlucoMan.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMeal));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rdbIsSnack = new System.Windows.Forms.RadioButton();
             this.rdbIsBreakfast = new System.Windows.Forms.RadioButton();
@@ -70,6 +71,8 @@ namespace GlucoMan.Forms
             this.label13 = new System.Windows.Forms.Label();
             this.txtAccuracyOfChoMeal = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnFoodCalc = new System.Windows.Forms.Button();
+            this.btnInjection = new System.Windows.Forms.Button();
             this.btnSaveAllMeal = new System.Windows.Forms.Button();
             this.btnSumCho = new System.Windows.Forms.Button();
             this.btnGlucose = new System.Windows.Forms.Button();
@@ -209,9 +212,9 @@ namespace GlucoMan.Forms
             this.label5.Location = new System.Drawing.Point(368, 25);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(83, 20);
+            this.label5.Size = new System.Drawing.Size(82, 20);
             this.label5.TabIndex = 48;
-            this.label5.Text = "Total CHO";
+            this.label5.Text = "Meal CHO";
             // 
             // txtChoOfMealGrams
             // 
@@ -334,12 +337,12 @@ namespace GlucoMan.Forms
             this.grpFood.Controls.Add(this.txtFoodChoPercent);
             this.grpFood.Controls.Add(this.label6);
             this.grpFood.Controls.Add(this.txtAccuracyOfChoFoodInMeal);
-            this.grpFood.Location = new System.Drawing.Point(6, 177);
+            this.grpFood.Location = new System.Drawing.Point(6, 195);
             this.grpFood.Name = "grpFood";
-            this.grpFood.Size = new System.Drawing.Size(708, 148);
+            this.grpFood.Size = new System.Drawing.Size(820, 148);
             this.grpFood.TabIndex = 63;
             this.grpFood.TabStop = false;
-            this.grpFood.Text = "Food";
+            this.grpFood.Text = "Food  data";
             // 
             // picCalculator
             // 
@@ -463,7 +466,7 @@ namespace GlucoMan.Forms
             // btnSaveMeal
             // 
             this.btnSaveMeal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSaveMeal.Location = new System.Drawing.Point(536, 25);
+            this.btnSaveMeal.Location = new System.Drawing.Point(450, 83);
             this.btnSaveMeal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSaveMeal.Name = "btnSaveMeal";
             this.btnSaveMeal.Size = new System.Drawing.Size(84, 41);
@@ -477,7 +480,7 @@ namespace GlucoMan.Forms
             this.cmbAccuracyMeal.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.cmbAccuracyMeal.CausesValidation = false;
             this.cmbAccuracyMeal.FormattingEnabled = true;
-            this.cmbAccuracyMeal.Location = new System.Drawing.Point(527, 120);
+            this.cmbAccuracyMeal.Location = new System.Drawing.Point(516, 46);
             this.cmbAccuracyMeal.Name = "cmbAccuracyMeal";
             this.cmbAccuracyMeal.Size = new System.Drawing.Size(158, 28);
             this.cmbAccuracyMeal.TabIndex = 69;
@@ -485,7 +488,7 @@ namespace GlucoMan.Forms
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(461, 99);
+            this.label13.Location = new System.Drawing.Point(450, 25);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(74, 20);
@@ -495,7 +498,7 @@ namespace GlucoMan.Forms
             // txtAccuracyOfChoMeal
             // 
             this.txtAccuracyOfChoMeal.BackColor = System.Drawing.Color.PaleGoldenrod;
-            this.txtAccuracyOfChoMeal.Location = new System.Drawing.Point(461, 122);
+            this.txtAccuracyOfChoMeal.Location = new System.Drawing.Point(450, 48);
             this.txtAccuracyOfChoMeal.Name = "txtAccuracyOfChoMeal";
             this.txtAccuracyOfChoMeal.Size = new System.Drawing.Size(60, 26);
             this.txtAccuracyOfChoMeal.TabIndex = 68;
@@ -503,6 +506,8 @@ namespace GlucoMan.Forms
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnFoodCalc);
+            this.groupBox2.Controls.Add(this.btnInjection);
             this.groupBox2.Controls.Add(this.btnSaveAllMeal);
             this.groupBox2.Controls.Add(this.btnSumCho);
             this.groupBox2.Controls.Add(this.cmbAccuracyMeal);
@@ -524,16 +529,39 @@ namespace GlucoMan.Forms
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Location = new System.Drawing.Point(6, 9);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(708, 162);
+            this.groupBox2.Size = new System.Drawing.Size(820, 180);
             this.groupBox2.TabIndex = 70;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Meal";
+            this.groupBox2.Text = "Meal data";
+            // 
+            // btnFoodCalc
+            // 
+            this.btnFoodCalc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnFoodCalc.Location = new System.Drawing.Point(726, 131);
+            this.btnFoodCalc.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnFoodCalc.Name = "btnFoodCalc";
+            this.btnFoodCalc.Size = new System.Drawing.Size(84, 41);
+            this.btnFoodCalc.TabIndex = 81;
+            this.btnFoodCalc.Text = "Food Calc.";
+            this.btnFoodCalc.UseVisualStyleBackColor = true;
+            this.btnFoodCalc.Click += new System.EventHandler(this.btnFoodCalc_Click);
+            // 
+            // btnInjection
+            // 
+            this.btnInjection.Location = new System.Drawing.Point(634, 131);
+            this.btnInjection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnInjection.Name = "btnInjection";
+            this.btnInjection.Size = new System.Drawing.Size(84, 41);
+            this.btnInjection.TabIndex = 80;
+            this.btnInjection.Text = "Injection";
+            this.btnInjection.UseVisualStyleBackColor = true;
+            this.btnInjection.Click += new System.EventHandler(this.btnInjection_Click);
             // 
             // btnSaveAllMeal
             // 
             this.btnSaveAllMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveAllMeal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSaveAllMeal.Location = new System.Drawing.Point(536, 69);
+            this.btnSaveAllMeal.Location = new System.Drawing.Point(542, 82);
             this.btnSaveAllMeal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSaveAllMeal.Name = "btnSaveAllMeal";
             this.btnSaveAllMeal.Size = new System.Drawing.Size(84, 41);
@@ -545,9 +573,9 @@ namespace GlucoMan.Forms
             // 
             // btnSumCho
             // 
-            this.btnSumCho.Location = new System.Drawing.Point(461, 47);
+            this.btnSumCho.Location = new System.Drawing.Point(680, 40);
             this.btnSumCho.Name = "btnSumCho";
-            this.btnSumCho.Size = new System.Drawing.Size(60, 29);
+            this.btnSumCho.Size = new System.Drawing.Size(84, 41);
             this.btnSumCho.TabIndex = 76;
             this.btnSumCho.Text = "Calc.";
             this.btnSumCho.UseVisualStyleBackColor = true;
@@ -555,7 +583,7 @@ namespace GlucoMan.Forms
             // 
             // btnGlucose
             // 
-            this.btnGlucose.Location = new System.Drawing.Point(623, 69);
+            this.btnGlucose.Location = new System.Drawing.Point(450, 131);
             this.btnGlucose.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnGlucose.Name = "btnGlucose";
             this.btnGlucose.Size = new System.Drawing.Size(84, 41);
@@ -566,7 +594,8 @@ namespace GlucoMan.Forms
             // 
             // btnInsulin
             // 
-            this.btnInsulin.Location = new System.Drawing.Point(623, 25);
+            this.btnInsulin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnInsulin.Location = new System.Drawing.Point(542, 131);
             this.btnInsulin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnInsulin.Name = "btnInsulin";
             this.btnInsulin.Size = new System.Drawing.Size(84, 41);
@@ -583,7 +612,7 @@ namespace GlucoMan.Forms
             // 
             this.btnSaveAllFoods.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveAllFoods.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSaveAllFoods.Location = new System.Drawing.Point(613, 22);
+            this.btnSaveAllFoods.Location = new System.Drawing.Point(726, 22);
             this.btnSaveAllFoods.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSaveAllFoods.Name = "btnSaveAllFoods";
             this.btnSaveAllFoods.Size = new System.Drawing.Size(83, 45);
@@ -597,7 +626,7 @@ namespace GlucoMan.Forms
             // 
             this.btnSaveFoodInMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveFoodInMeal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSaveFoodInMeal.Location = new System.Drawing.Point(525, 22);
+            this.btnSaveFoodInMeal.Location = new System.Drawing.Point(638, 22);
             this.btnSaveFoodInMeal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSaveFoodInMeal.Name = "btnSaveFoodInMeal";
             this.btnSaveFoodInMeal.Size = new System.Drawing.Size(83, 45);
@@ -610,7 +639,7 @@ namespace GlucoMan.Forms
             // btnRemoveFoodInMeal
             // 
             this.btnRemoveFoodInMeal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveFoodInMeal.Location = new System.Drawing.Point(437, 22);
+            this.btnRemoveFoodInMeal.Location = new System.Drawing.Point(550, 22);
             this.btnRemoveFoodInMeal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnRemoveFoodInMeal.Name = "btnRemoveFoodInMeal";
             this.btnRemoveFoodInMeal.Size = new System.Drawing.Size(83, 45);
@@ -628,9 +657,9 @@ namespace GlucoMan.Forms
             this.grpFoodsInMeals.Controls.Add(this.btnSaveFoodInMeal);
             this.grpFoodsInMeals.Controls.Add(this.btnRemoveFoodInMeal);
             this.grpFoodsInMeals.Controls.Add(this.btnAddFood);
-            this.grpFoodsInMeals.Location = new System.Drawing.Point(6, 323);
+            this.grpFoodsInMeals.Location = new System.Drawing.Point(6, 349);
             this.grpFoodsInMeals.Name = "grpFoodsInMeals";
-            this.grpFoodsInMeals.Size = new System.Drawing.Size(707, 320);
+            this.grpFoodsInMeals.Size = new System.Drawing.Size(820, 292);
             this.grpFoodsInMeals.TabIndex = 76;
             this.grpFoodsInMeals.TabStop = false;
             this.grpFoodsInMeals.Text = "Foods in meal";
@@ -644,7 +673,7 @@ namespace GlucoMan.Forms
             this.gridFoodsInMeal.Location = new System.Drawing.Point(1, 75);
             this.gridFoodsInMeal.Name = "gridFoodsInMeal";
             this.gridFoodsInMeal.RowTemplate.Height = 25;
-            this.gridFoodsInMeal.Size = new System.Drawing.Size(698, 245);
+            this.gridFoodsInMeal.Size = new System.Drawing.Size(811, 217);
             this.gridFoodsInMeal.TabIndex = 81;
             this.gridFoodsInMeal.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoodsInMeal_CellClick);
             this.gridFoodsInMeal.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoodsInMeal_CellContentClick);
@@ -654,7 +683,7 @@ namespace GlucoMan.Forms
             // 
             this.btnDefaults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnDefaults.Location = new System.Drawing.Point(261, 22);
+            this.btnDefaults.Location = new System.Drawing.Point(374, 22);
             this.btnDefaults.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnDefaults.Name = "btnDefaults";
             this.btnDefaults.Size = new System.Drawing.Size(83, 45);
@@ -666,7 +695,7 @@ namespace GlucoMan.Forms
             // btnAddFood
             // 
             this.btnAddFood.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddFood.Location = new System.Drawing.Point(349, 22);
+            this.btnAddFood.Location = new System.Drawing.Point(462, 22);
             this.btnAddFood.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAddFood.Name = "btnAddFood";
             this.btnAddFood.Size = new System.Drawing.Size(83, 45);
@@ -679,14 +708,15 @@ namespace GlucoMan.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(717, 653);
+            this.ClientSize = new System.Drawing.Size(838, 653);
             this.Controls.Add(this.grpFoodsInMeals);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.grpFood);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmMeal";
-            this.Text = "Foods in a meal";
+            this.Text = "The Meal and its Foods";
             this.Load += new System.EventHandler(this.frmMeal_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -768,5 +798,9 @@ namespace GlucoMan.Forms
         private Button btnSaveAllFoods;
         private GroupBox grpFoodsInMeals;
         private Button btnDefaults;
+        private Button button2;
+        private Button button1;
+        private Button btnInjection;
+        private Button btnFoodCalc;
     }
 }

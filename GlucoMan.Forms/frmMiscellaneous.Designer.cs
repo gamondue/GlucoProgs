@@ -108,7 +108,7 @@
             this.btnCopyDatabase.Name = "btnCopyDatabase";
             this.btnCopyDatabase.Size = new System.Drawing.Size(100, 63);
             this.btnCopyDatabase.TabIndex = 4;
-            this.btnCopyDatabase.Text = "Copy database";
+            this.btnCopyDatabase.Text = "Copy files";
             this.btnCopyDatabase.UseVisualStyleBackColor = true;
             this.btnCopyDatabase.Click += new System.EventHandler(this.btnCopyDatabase_Click);
             // 

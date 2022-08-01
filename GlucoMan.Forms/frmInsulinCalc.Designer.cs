@@ -49,6 +49,7 @@ namespace GlucoMan.Forms
             this.label8 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnOpenGlucose = new System.Windows.Forms.Button();
+            this.txtReadCho = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.txtGlucoseToBeCorrected = new System.Windows.Forms.TextBox();
             this.txtCorrectionInsulin = new System.Windows.Forms.TextBox();
@@ -265,6 +266,18 @@ namespace GlucoMan.Forms
             this.toolTip1.SetToolTip(this.btnOpenGlucose, "Open glucose measurements window");
             this.btnOpenGlucose.UseVisualStyleBackColor = true;
             this.btnOpenGlucose.Click += new System.EventHandler(this.btnOpenGlucose_Click);
+            // 
+            // txtReadCho
+            // 
+            this.txtReadCho.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtReadCho.Location = new System.Drawing.Point(388, 130);
+            this.txtReadCho.Name = "txtReadCho";
+            this.txtReadCho.Size = new System.Drawing.Size(75, 50);
+            this.txtReadCho.TabIndex = 123;
+            this.txtReadCho.Text = "Read CHO";
+            this.toolTip1.SetToolTip(this.txtReadCho, "Read CHO from other Window");
+            this.txtReadCho.UseVisualStyleBackColor = true;
+            this.txtReadCho.Click += new System.EventHandler(this.txtReadCho_Click);
             // 
             // label10
             // 
@@ -500,6 +513,7 @@ namespace GlucoMan.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(515, 448);
+            this.Controls.Add(this.txtReadCho);
             this.Controls.Add(this.btnOpenGlucose);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnBolusCalculations);
@@ -582,5 +596,6 @@ namespace GlucoMan.Forms
         private TextBox txtChoInsulinRatioLunch;
         private TextBox txtChoInsulinRatioDinner;
         private Button btnOpenGlucose;
+        private Button txtReadCho;
     }
 }

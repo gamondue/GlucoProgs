@@ -51,7 +51,7 @@ namespace GlucoMan
         internal abstract List<FoodInMeal> GetFoodsInMeal(int? IdMeal);
         internal abstract int? SaveOneFoodInMeal(FoodInMeal FoodToSave);
         internal abstract void DeleteOneFoodInMeal(FoodInMeal Food);
-        internal abstract List<Food> SearchFood(string Name, string Description);
+        internal abstract List<Food> SearchFoods(string Name, string Description);
         internal abstract int? SaveOneFood(Food currentFood);
         internal abstract void DeleteOneFood(Food food);
         internal abstract Food GetOneFood(int? IdFood);

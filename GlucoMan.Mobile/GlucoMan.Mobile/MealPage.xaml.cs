@@ -126,7 +126,8 @@ namespace GlucoMan.Mobile
             {
                 bl.FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text; 
                 bl.CalculateChoOfFoodGrams(bl.FoodInMeal);
-                txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text; 
+                txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
+                bl.SaveFoodInMealParameters();
             }
         }
         private void txtFoodQuantityGrams_TextChanged(object sender, EventArgs e)
@@ -136,7 +137,6 @@ namespace GlucoMan.Mobile
                 bl.FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text;
                 bl.CalculateChoOfFoodGrams(bl.FoodInMeal);
                 txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
-                bl.SaveFoodInMealParameters();
             }
         }
         private void txtFoodChoGrams_TextChanged(object sender, EventArgs e)
@@ -151,6 +151,10 @@ namespace GlucoMan.Mobile
                     bl.FoodInMeal.ChoPercent.Double = 0;
                 }
             }
+            bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
+            bl.RecalcTotalCho();
+            bl.RecalcTotalAccuracy();
+            txtChoOfMealGrams.Text = bl.Meal.ChoGrams.Text;
             bl.SaveFoodInMealParameters();
         }
         private void txtChoOfMealGrams_TextChanged(object sender, EventArgs e)
@@ -165,15 +169,15 @@ namespace GlucoMan.Mobile
         }
         private void btnAddFoodInMeal_Click(object sender, EventArgs e)
         {
-            if (txtIdMeal.Text == "")
-                btnSaveAllMeal_Click(null, null);
             FromUiToClass();
             // erase Id, so that a new record will be created
             bl.FoodInMeal.IdFoodInMeal = null;
             bl.SaveOneFoodInMeal(bl.FoodInMeal);
             bl.RecalcTotalCho();
             bl.RecalcTotalAccuracy();
-            bl.SaveMealParameters();
+            bl.SaveFoodInMealParameters();
+            //if (txtIdMeal.Text == "")
+            //    btnSaveAllMeal_Click(null, null);
             FromClassToUi();
             RefreshGrid();
         }
@@ -231,9 +235,11 @@ namespace GlucoMan.Mobile
         }
         private void btnSaveAllFoods_Click(object sender, EventArgs e)
         {
+            if (bl.Meal.IdMeal == null)
+                bl.SaveOneMeal(new Meal());
             FromUiToClass();
             bl.SaveAllFoodsInMeal();
-            FromClassToUi();
+            //FromClassToUi();
             RefreshGrid();
         }
         private async void btnSearchFood_ClickAsync(object sender, EventArgs e)
@@ -253,7 +259,7 @@ namespace GlucoMan.Mobile
             bl.FoodInMeal = (FoodInMeal)gridFoodsInMeal.SelectedItem;
             bl.SaveFoodInMealParameters(); 
             FromClassToUi();
-
+            RefreshGrid();
             loading = false;
         }
         private async void btnFoodCalc_ClickAsync(object sender, EventArgs e)
@@ -267,6 +273,10 @@ namespace GlucoMan.Mobile
         private async void btnGlucose_ClickAsync(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new GlucoseMeasurementPage());
+        }
+        private async void btnInjection_ClickAsync(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new InjectionsPage());
         }
         private void btnWeighFood_Click(object sender, EventArgs e)
         {

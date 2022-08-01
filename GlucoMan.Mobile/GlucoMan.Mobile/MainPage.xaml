@@ -10,16 +10,16 @@
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnMeals" Text="Meals" Clicked="btnMeals_Clicked" IsEnabled="True"
                 Margin="15,0,15,0"></Button>
+        <Button x:Name="btnNewMeal" Text="New meal" Clicked="btnNewMeal_Clicked" IsEnabled="True"
+                Margin="15,0,15,0"></Button>
         <Button x:Name="btnFoods" Text="Foods" Clicked="btnFoods_Clicked" IsEnabled="True"
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnWeighFood" Text="Weigh Food" Clicked="btnWeighFood_Clicked" IsEnabled="False"
                 Margin="15,0,15,0"></Button>
         <Button x:Name="btnInsulinCalc" Text="Meal insulin" Clicked="btnInsulinCalc_Clicked"
                 Margin="15,0,15,0"></Button>
-        <!--
-        <Button x:Name="btnInjectionSites" Text="Injection sites" 
-                Clicked="btnInjectionSites_Clicked" IsEnabled="False" Margin="15,0,15,0"></Button>
-        -->
+        <Button x:Name="btnInjections" Text="Injection sites" 
+                Clicked="btnInjections_Clicked" IsEnabled="False" Margin="15,0,15,0"></Button>
         <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to reach target carbs" 
                 Clicked="btnFoodToHitTargetCarbs_Clicked"
                 Margin="15,0,15,0"></Button>

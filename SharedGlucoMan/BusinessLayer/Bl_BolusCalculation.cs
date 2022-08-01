@@ -149,6 +149,10 @@ namespace GlucoMan.BusinessLayer
                 iterationsCount++; 
             } while (Math.Abs((double)bolusCurrent - (double)targetBolus) > 0.01 && iterationsCount < 20); 
         }
+        internal string RestoreChoToEat()
+        {
+            return dl.RestoreParameter("Meal_ChoGrams").ToString(); 
+        }
         public  void SaveBolusLog()
         {
                 // !!!! TO DO !!!!
@@ -184,6 +188,20 @@ namespace GlucoMan.BusinessLayer
             dl.SaveParameter("Correction_FactorOfInsulinCorrectionSensitivity", FactorOfInsulinCorrectionSensitivity.Text);
             dl.SaveParameter("Bolus_TotalDailyDoseOfInsulin", TotalDailyDoseOfInsulin.Text);
             dl.SaveParameter("Bolus_InsulinCorrectionSensitivity", InsulinCorrectionSensitivity.Text);
+            // append the new data to the log file 
+            string TextOfFile = "";
+            TextOfFile += "Date and Time=\t" + DateTime.Now.ToString() + "\t";
+            TextOfFile += "Typical Bolus Morning=\t" + TypicalBolusMorning.Text + "\t";
+            TextOfFile += "Typical Bolus Midday=\t" + TypicalBolusMidday.Text + "\t";
+            TextOfFile += "Typical Bolus Evening=\t" + TypicalBolusEvening.Text + "\t";
+            TextOfFile += "Typical Bolus Night=\t" + TypicalBolusNight.Text + "\t";
+            TextOfFile += "Total Daily Dose of Insulin\t" + TotalDailyDoseOfInsulin.Text + "\t";
+            TextOfFile += "Factor of Insulin Correction Sensitivity=\t" + FactorOfInsulinCorrectionSensitivity.Text + "\t";
+            TextOfFile += "Insulin Correction Sensitivity\t" + InsulinCorrectionSensitivity.Text + "\t";
+            TextOfFile += "\n"; 
+            // write in append to the file 
+            File.AppendAllText(Path.Combine(Common.PathConfigurationData, 
+                "Log of the Insulin Correction Parameters.txt"), TextOfFile);
         }
         public  void RestoreInsulinCorrectionParameters()
         {

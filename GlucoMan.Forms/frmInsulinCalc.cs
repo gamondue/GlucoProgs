@@ -1,10 +1,4 @@
-﻿using GlucoMan;
-using GlucoMan.BusinessLayer;
-using SharedData;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using static GlucoMan.DataLayer;
+﻿using GlucoMan.BusinessLayer;
 
 namespace GlucoMan.Forms
 {
@@ -143,6 +137,10 @@ namespace GlucoMan.Forms
         {
             frmGlucose frm = new frmGlucose();  
             frm.Show();
+        }
+        private void txtReadCho_Click(object sender, EventArgs e)
+        {
+            txtChoToEat.Text = currentBolusCalculation.RestoreChoToEat();
         }
     }
 }

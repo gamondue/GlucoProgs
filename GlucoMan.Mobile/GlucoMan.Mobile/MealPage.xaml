@@ -9,13 +9,13 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
@@ -37,9 +37,11 @@
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtIdMeal" BackgroundColor="White" 
                    FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoOfMealGrams" BackgroundColor="Aqua"
-                   Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                   Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"
+                   TextChanged="txtChoOfMealGrams_TextChanged"/>
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAccuracyOfChoMeal" 
-                   Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod" FontSize="Medium" />
+                   Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   BackgroundColor="PaleGoldenrod" FontSize="Medium" />
             <Picker Grid.Row="2" Grid.Column="3" x:Name="cmbAccuracyMeal"
                     Title="Accuracy" HorizontalTextAlignment="End"
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
@@ -51,11 +53,13 @@
             
             <Button Grid.Row="3" Grid.Column="0" Text="Save" x:Name="btnSaveMeal" 
                     Clicked="btnSaveAllMeal_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="1" Text="Food calc." x:Name="btnFoodCalc" 
+            <Button Grid.Row="3" Grid.Column="4" Text="Food calc." x:Name="btnFoodCalc" 
                     Clicked="btnFoodCalc_ClickAsync"></Button>
-            <Button Grid.Row="3" Grid.Column="3" Text="Insulin calc." x:Name="btnInsulinCalc" 
+            <Button Grid.Row="3" Grid.Column="2" Text="Insulin calc." x:Name="btnInsulinCalc" 
                     IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync"></Button>
-            <Button Grid.Row="3" Grid.Column="4" Text="Gluc." x:Name="btnGlucose" 
+            <Button Grid.Row="3" Grid.Column="3" Text="Injection" x:Name="btnInjection" 
+                    IsEnabled="True" Clicked="btnInjection_ClickAsync"></Button>
+            <Button Grid.Row="3" Grid.Column="1" Text="Gluc." x:Name="btnGlucose" 
                     IsEnabled="True" Clicked="btnGlucose_ClickAsync"></Button>
 
             <Label Grid.Row="4" Grid.Column="0" TextColor="Black" 
@@ -88,7 +92,8 @@
             <Entry Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtFoodInMealName" BackgroundColor="LightGreen"
                    FontSize="Medium" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="8" Grid.Column="2" x:Name="txtAccuracyOfChoFoodInMeal" 
-                   Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod" FontSize="Medium" />
+                   Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   BackgroundColor="PaleGoldenrod" FontSize="Medium" />
             <Picker Grid.Row="8" Grid.Column="3" x:Name="cmbAccuracyFoodInMeal"
                     Title="Accuracy" HorizontalTextAlignment="End"
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 

@@ -73,8 +73,8 @@
     <Compile Update="MiscellaneousFunctionsPage.xaml.cs">
       <DependentUpon>MiscellaneousFunctionsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="InjectionSitePage.xaml.cs">
-      <DependentUpon>InjectionSitePage.xaml</DependentUpon>
+    <Compile Update="InjectionsPage.xaml.cs">
+      <DependentUpon>InjectionsPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="FoodsPage.xaml.cs">
       <DependentUpon>FoodsPage.xaml</DependentUpon>
@@ -103,7 +103,7 @@
     <EmbeddedResource Update="MiscellaneousFunctionsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="InjectionSitePage.xaml">
+    <EmbeddedResource Update="InjectionsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="FoodsPage.xaml">

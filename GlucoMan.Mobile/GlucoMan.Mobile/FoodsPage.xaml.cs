@@ -16,6 +16,7 @@ namespace GlucoMan.Mobile
 
         List<Food> allFoods;
         private FoodPage foodPage;
+        private bool loading = false;
 
         public FoodsPage(Food Food)
         {
@@ -42,9 +43,24 @@ namespace GlucoMan.Mobile
         }
         private void PageLoad()
         {
+            loading = true;
+
             foodIsChosen = false;
+            txtName.Text = "";
+            txtDescription.Text = ""; 
             allFoods = new List<Food>();
-            RefreshUi(); 
+            // if a specific food is passed, load its persistent from database 
+            if (CurrentFood.IdFood != 0 && CurrentFood.IdFood != null)
+            {
+                CurrentFood = bl.GetOneFood(CurrentFood.IdFood);
+            }
+            // if what is passed has not and IdFood,
+            // we use the data actually passed 
+            
+            // let's show the CurrentFood
+            FromClassToUi();
+
+            loading = false;
         }
         private void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
         {
@@ -53,11 +69,11 @@ namespace GlucoMan.Mobile
                 //await DisplayAlert("XXXX", "YYYY", "Ok");
                 return;
             }
-            //loading = true;
+            loading = true;
             //make the tapped row the current food
             CurrentFood = (Food)gridFoods.SelectedItem;
             FromClassToUi();
-            //loading = false;
+            loading = false;
         }
         private void FromClassToUi()
         {
@@ -100,6 +116,10 @@ namespace GlucoMan.Mobile
         private void RefreshUi()
         {
             FromClassToUi();
+            RefreshGrid();
+        }
+        private void RefreshGrid()
+        {
             allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description);
             gridFoods.ItemsSource = allFoods;
         }
@@ -184,6 +204,30 @@ namespace GlucoMan.Mobile
             //txtFibers.Text = "";
             //txtProteins.Text = "";
             //txtSalt.Text = "";
+        }
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
+            if (!loading)
+            {
+                if (txtDescription.Text != null &&
+                    (txtName.Text.Length >= 3 || txtDescription.Text.Length >= 3))
+                {
+                    FromUiToClass();
+                    RefreshGrid();
+                }
+            }
+        }
+        private void txtDescription_TextChanged(object sender, EventArgs e)
+        {
+            if (!loading)
+            {
+                if (txtName.Text != null &&
+                (txtName.Text.Length >= 3 || txtDescription.Text.Length >= 3))
+                {
+                    FromUiToClass();
+                    RefreshGrid();
+                }
+            }
         }
     }
 }

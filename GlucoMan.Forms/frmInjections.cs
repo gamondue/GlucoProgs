@@ -10,11 +10,15 @@ using System.Windows.Forms;
 
 namespace GlucoMan.Forms
 {
-    public partial class frmInjectionSite : Form
+    public partial class frmInjections : Form
     {
-        public frmInjectionSite()
+        public frmInjections()
         {
             InitializeComponent();
+        }
+        private void frmInjections_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

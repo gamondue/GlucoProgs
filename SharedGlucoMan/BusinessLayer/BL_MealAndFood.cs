@@ -88,15 +88,13 @@ namespace GlucoMan.BusinessLayer
         }
         internal Food GetOneFood(int? idFood)
         {
-            // !!!! verify if  the row to delete has been used somewhere else in the database
-            // !!!! if it is the case, don't delete and give notice to the caller 
             return Common.Database.GetOneFood(idFood);
         }
         internal List<Food> SearchFoods(string Name, string Description)
         {
-            return Common.Database.SearchFood(Name, Description);
+            return Common.Database.SearchFoods(Name, Description);
         }
-        internal List<Food> ReadFoods()
+        internal List<Food> GetFoods()
         {
             return Common.Database.GetFoods();
         }
@@ -106,9 +104,9 @@ namespace GlucoMan.BusinessLayer
             {
                 Food.ChoGrams.Double = Food.ChoPercent.Double / 100 *
                     Food.QuantityGrams.Double;
-                RecalcTotalCho();
-                RecalcTotalAccuracy();
             }
+            RecalcTotalCho();
+            RecalcTotalAccuracy();
         }
         #endregion
         internal string[] GetAllAccuracies()
@@ -178,7 +176,8 @@ namespace GlucoMan.BusinessLayer
             DestinationFoodInMeal.Name = SourceFood.Name;
             DestinationFoodInMeal.Description = SourceFood.Description;
             DestinationFoodInMeal.SugarPercent = SourceFood.Sugar;
-            DestinationFoodInMeal.FibersPercent = SourceFood.Fibers;         }
+            DestinationFoodInMeal.FibersPercent = SourceFood.Fibers;         
+        }
         public void FromFoodInMealToFood(FoodInMeal SourceFoodInMeal, Food DestinationFood)
         {
             DestinationFood.IdFood = SourceFoodInMeal.IdFood;

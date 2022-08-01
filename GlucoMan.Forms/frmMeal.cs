@@ -38,6 +38,8 @@ namespace GlucoMan.Forms
             {
                 bl.Meal.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
             }
+            loading = true;
+
             //bl.RestoreFoodInMealParameters();
             //bl.RestoreMealParameters();
             FromClassToUi();
@@ -184,6 +186,11 @@ namespace GlucoMan.Forms
                     bl.FoodInMeal.ChoPercent.Double = 0;
                 }
             }
+            bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
+            bl.RecalcTotalCho();
+            bl.RecalcTotalAccuracy();
+            txtChoOfMealGrams.Text = bl.Meal.ChoGrams.Text;
+            bl.SaveFoodInMealParameters();
         }
         private void txtFoodChoGrams_Leave(object sender, EventArgs e)
         {
@@ -355,6 +362,17 @@ namespace GlucoMan.Forms
             calculator.ShowDialog();
             if (calculator.ClosedWithOk)
                 this.ActiveControl.Text = calculator.Result.ToString();
+        }
+        private void btnInjection_Click(object sender, EventArgs e)
+        {
+            frmInjections f = new frmInjections();
+            f.Show(); 
+        }
+
+        private void btnFoodCalc_Click(object sender, EventArgs e)
+        {
+            frmFoodToHitTargetCarbs f = new frmFoodToHitTargetCarbs(); 
+            f.Show(); 
         }
     }
 }
