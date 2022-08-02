@@ -49,6 +49,7 @@ namespace GlucoMan.Forms
             this.btnReadChoTaken = new System.Windows.Forms.Button();
             this.btnReadFood = new System.Windows.Forms.Button();
             this.btnReadAll = new System.Windows.Forms.Button();
+            this.btnInjection = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.TxtChoLeftToTake = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -161,7 +162,7 @@ namespace GlucoMan.Forms
             // 
             this.TxtFoodToHitTarget.BackColor = System.Drawing.Color.SkyBlue;
             this.TxtFoodToHitTarget.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TxtFoodToHitTarget.Location = new System.Drawing.Point(370, 281);
+            this.TxtFoodToHitTarget.Location = new System.Drawing.Point(372, 333);
             this.TxtFoodToHitTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TxtFoodToHitTarget.Name = "TxtFoodToHitTarget";
             this.TxtFoodToHitTarget.ReadOnly = true;
@@ -173,7 +174,7 @@ namespace GlucoMan.Forms
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(357, 236);
+            this.label5.Location = new System.Drawing.Point(359, 288);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 40);
@@ -183,7 +184,7 @@ namespace GlucoMan.Forms
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(442, 287);
+            this.label6.Location = new System.Drawing.Point(444, 339);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(18, 20);
@@ -250,10 +251,22 @@ namespace GlucoMan.Forms
             this.btnReadAll.UseVisualStyleBackColor = true;
             this.btnReadAll.Click += new System.EventHandler(this.btnReadAll_Click);
             // 
+            // btnInjection
+            // 
+            this.btnInjection.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnInjection.Location = new System.Drawing.Point(197, 313);
+            this.btnInjection.Name = "btnInjection";
+            this.btnInjection.Size = new System.Drawing.Size(75, 50);
+            this.btnInjection.TabIndex = 167;
+            this.btnInjection.Text = "Injection";
+            this.toolTip1.SetToolTip(this.btnInjection, "Read last glucose value  from recorded glucose measurements");
+            this.btnInjection.UseVisualStyleBackColor = true;
+            this.btnInjection.Click += new System.EventHandler(this.btnInjection_Click);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 256);
+            this.label7.Location = new System.Drawing.Point(16, 308);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(123, 20);
@@ -265,7 +278,7 @@ namespace GlucoMan.Forms
             // 
             this.TxtChoLeftToTake.BackColor = System.Drawing.Color.White;
             this.TxtChoLeftToTake.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TxtChoLeftToTake.Location = new System.Drawing.Point(41, 281);
+            this.TxtChoLeftToTake.Location = new System.Drawing.Point(43, 333);
             this.TxtChoLeftToTake.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TxtChoLeftToTake.Name = "TxtChoLeftToTake";
             this.TxtChoLeftToTake.Size = new System.Drawing.Size(68, 26);
@@ -275,7 +288,7 @@ namespace GlucoMan.Forms
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(117, 284);
+            this.label8.Location = new System.Drawing.Point(119, 336);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(18, 20);
@@ -297,7 +310,8 @@ namespace GlucoMan.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(488, 336);
+            this.ClientSize = new System.Drawing.Size(488, 388);
+            this.Controls.Add(this.btnInjection);
             this.Controls.Add(this.TxtFoodName);
             this.Controls.Add(this.btnReadAll);
             this.Controls.Add(this.btnReadFood);
@@ -354,5 +368,6 @@ namespace GlucoMan.Forms
         private Button btnReadFood;
         private Button btnReadAll;
         private TextBox TxtFoodName;
+        private Button btnInjection;
     }
 }

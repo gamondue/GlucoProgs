@@ -91,5 +91,9 @@ namespace GlucoMan.Mobile
             blFoodToEat.NameOfFood = Safe.String(Common.BlGeneral.RestoreParameter("FoodInMeal_Name"));
             FromClassToUi();
         }
+        private void btnInjection_Click(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new InjectionsPage());
+        }
     }
 }

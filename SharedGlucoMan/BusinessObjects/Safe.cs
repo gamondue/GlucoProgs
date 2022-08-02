@@ -23,6 +23,19 @@ namespace GlucoMan
                 return null;
             }
         }
+        internal static int? Int(string Value)
+        {
+            if (Value == "" || Value == null)
+                return null;
+            try
+            {
+                return int.Parse(Value.Trim());
+            }
+            catch
+            {
+                return null;
+            }
+        }
         internal static string String(DbDataReader r, int FieldNumber)
         {
             try

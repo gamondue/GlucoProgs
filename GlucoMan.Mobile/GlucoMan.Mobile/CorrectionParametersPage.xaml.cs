@@ -8,12 +8,12 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CorrectionParametersPage : ContentPage
     {
-        BL_BolusCalculation bolusCalculation;
+        BL_BolusesAndInjections bolusCalculation;
         public CorrectionParametersPage()
         {
             InitializeComponent();
 
-            bolusCalculation = new BL_BolusCalculation(); 
+            bolusCalculation = new BL_BolusesAndInjections(); 
             bolusCalculation.RestoreInsulinCorrectionParameters();
             bolusCalculation.RestoreRatioCHOInsulinParameters();
 

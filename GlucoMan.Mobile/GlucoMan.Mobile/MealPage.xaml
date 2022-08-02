@@ -26,7 +26,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
+            <Label Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold"
                    Grid.ColumnSpan="5" Text="Meal data" XAlign="Center" YAlign="End"/>
             
             <Label Grid.Row="1" Grid.Column="0" Text="IdMeal" XAlign="Center" YAlign="End"/>
@@ -52,18 +52,18 @@
                     Clicked="btnSumCho_Click"></Button>
             
             <Button Grid.Row="3" Grid.Column="0" Text="Save" x:Name="btnSaveMeal" 
-                    Clicked="btnSaveAllMeal_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="4" Text="Food calc." x:Name="btnFoodCalc" 
-                    Clicked="btnFoodCalc_ClickAsync"></Button>
-            <Button Grid.Row="3" Grid.Column="2" Text="Insulin calc." x:Name="btnInsulinCalc" 
-                    IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync"></Button>
-            <Button Grid.Row="3" Grid.Column="3" Text="Injection" x:Name="btnInjection" 
-                    IsEnabled="True" Clicked="btnInjection_ClickAsync"></Button>
+                    Margin = "0,0,0,0" Clicked="btnSaveAllMeal_Click"></Button>
             <Button Grid.Row="3" Grid.Column="1" Text="Gluc." x:Name="btnGlucose" 
-                    IsEnabled="True" Clicked="btnGlucose_ClickAsync"></Button>
+                    Margin = "0,0,0,0" IsEnabled="True" Clicked="btnGlucose_ClickAsync"></Button>
+            <Button Grid.Row="3" Grid.Column="2" Text="Calc. insul." x:Name="btnInsulinCalc" 
+                    Margin = "0,0,0,0" IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync"></Button>
+            <Button Grid.Row="3" Grid.Column="3" Text="Injection" x:Name="btnInjection" 
+                    Margin = "0,0,0,0" IsEnabled="True" Clicked="btnInjection_ClickAsync"></Button>
+            <Button Grid.Row="3" Grid.Column="4" Text="Calc. Food" x:Name="btnFoodCalc" 
+                    Margin = "0,0,0,0" Clicked="btnFoodCalc_ClickAsync"></Button>
 
             <Label Grid.Row="4" Grid.Column="0" TextColor="Black" 
-                   Grid.ColumnSpan="5" Text="Food data" XAlign="Center" YAlign="End"/>
+                   Grid.ColumnSpan="5" Text="Food data" FontAttributes="Bold" XAlign="Center" YAlign="End"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="Id M-F" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="5" Grid.Column="1" Text="Id Food" XAlign="Center" YAlign="End"/>

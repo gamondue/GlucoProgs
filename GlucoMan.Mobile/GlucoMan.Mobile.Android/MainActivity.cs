@@ -4,8 +4,6 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using Android;
-using AndroidX.Core.Content;
-using System.IO;
 
 namespace GlucoMan.Mobile.Droid
 {

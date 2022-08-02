@@ -368,7 +368,6 @@ namespace GlucoMan.Forms
             frmInjections f = new frmInjections();
             f.Show(); 
         }
-
         private void btnFoodCalc_Click(object sender, EventArgs e)
         {
             frmFoodToHitTargetCarbs f = new frmFoodToHitTargetCarbs(); 

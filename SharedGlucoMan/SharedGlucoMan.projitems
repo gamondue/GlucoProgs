@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_MealAndFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Alarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodInMeal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\InsulinInjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_GlucoseMeasurements.cs" />
@@ -38,7 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DataLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DL_SqlStringsGeneration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_ImportData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_BolusCalculations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_BolusesAndInjections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_DataLayerConstructorsAndGeneral.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_FoodToHitTarget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_GlucoseMeasurements.cs" />

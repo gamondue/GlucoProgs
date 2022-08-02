@@ -86,7 +86,8 @@ namespace GlucoMan.Mobile
             GlucoseRecord gr = (GlucoseRecord)gridMeasurements.SelectedItem; 
             if (gr != null)
             {
-                bool remove = await DisplayAlert(String.Format("Should I delete the measurement {0}, {1}, Id {2}?",
+                bool remove = await DisplayAlert(String.Format(
+                    "Should I delete the measurement {0}, {1}, Id {2}?",
                     gr.GlucoseValue.ToString(),
                     gr.Timestamp.ToString(),
                     gr.IdGlucoseRecord.ToString()),

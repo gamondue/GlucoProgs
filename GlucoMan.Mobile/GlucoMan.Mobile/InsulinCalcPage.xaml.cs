@@ -9,13 +9,13 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class InsulinCalcPage : ContentPage
     {
-        BL_BolusCalculation currentBolusCalculation;
+        BL_BolusesAndInjections currentBolusCalculation;
         BL_GlucoseMeasurements currentGlucoseMeasuremet;
         public InsulinCalcPage()
         {
             InitializeComponent();
 
-            currentBolusCalculation = new BL_BolusCalculation();
+            currentBolusCalculation = new BL_BolusesAndInjections();
             currentGlucoseMeasuremet = new BL_GlucoseMeasurements();
 
             currentBolusCalculation.RestoreBolusParameters();
@@ -127,6 +127,10 @@ namespace GlucoMan.Mobile
         private void btnReadCho_Click(object sender, EventArgs e)
         {
             txtChoToEat.Text = currentBolusCalculation.RestoreChoToEat();
+        }
+        private  void btnInjection_Click(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new InjectionsPage());
         }
     }
 }

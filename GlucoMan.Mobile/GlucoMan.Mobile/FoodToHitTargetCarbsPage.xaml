@@ -9,8 +9,8 @@
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="60"/>
-                <RowDefinition Height="70"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="70"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="70"/>
@@ -28,7 +28,7 @@
             <Entry Grid.Row="2" Grid.Column="0" x:Name="TxtTargetCho" Text="" Unfocused="TxtTargetCho_Leave"
                    Keyboard="Numeric" Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    BackgroundColor="PaleGoldenrod" />
-            <Button Grid.Row="3" Grid.Column="0" x:Name="btnReadTarget" Text="Read target CHO" 
+            <Button Grid.Row="4" Grid.Column="0" x:Name="btnReadTarget" Text="Read target CHO" 
                    Margin="10,5,10,5" Clicked="btnReadTargetCho_Click" />
 
             <Label Grid.Row="1" Grid.Column="1" Text="CHO already taken [g]" 
@@ -36,7 +36,7 @@
             <Entry Grid.Row="2" Grid.Column="1" x:Name="TxtChoAlreadyTaken" Text="" Unfocused="TxtChoAlreadyTaken_Leave"
                    Keyboard="Numeric" Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="PaleGreen" />
-            <Button Grid.Row="3" Grid.Column="1" x:Name="btnReadChoTaken" Text="Read CHO taken" 
+            <Button Grid.Row="4" Grid.Column="1" x:Name="btnReadChoTaken" Text="Read CHO taken" 
                    IsEnabled="True" Margin="10,5,10,5" Clicked="btnReadChoTaken_Click" />
 
             <Label Grid.Row="1" Grid.Column="2" Text="CHO food to eat [%]" XAlign="Center" YAlign="End"/>
@@ -44,10 +44,10 @@
                    Keyboard="Numeric" Margin="25,0,25,0" Placeholder="%" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="PaleGreen" />
             
-            <Button Grid.Row="3" Grid.Column="2" x:Name="btnReadFood" Text="Read Food CHO" 
+            <Button Grid.Row="4" Grid.Column="2" x:Name="btnReadFood" Text="Read Food CHO" 
                    IsEnabled="True" Margin="10,5,10,5" Clicked="btnReadFood_Click" />
 
-            <Entry Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" x:Name="TxtFoodName" Text="" Unfocused="TxtChoOfFood_Leave"
+            <Entry Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" x:Name="TxtFoodName" Text="" Unfocused="TxtChoOfFood_Leave"
                    Keyboard="Numeric" Margin="25,0,25,0" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="White" />
             
@@ -58,6 +58,9 @@
             <Entry Grid.Row="7" Grid.Column="0" x:Name="TxtChoLeftToTake" Text="" Unfocused="TxtChoOfFood_Leave"
                    Keyboard="Numeric" Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="White" />
+
+            <Button Grid.Row="7" Grid.Column="1"  Text="Injection" IsEnabled="True" 
+                        x:Name="btnInjection" Clicked="btnInjection_Click" />
 
             <Label Grid.Row="6" Grid.Column="2" Text="Food to eat to hit target CHO [g]" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="7" Grid.Column="2" x:Name="TxtFoodToHitTarget" Text="" 

@@ -4,13 +4,13 @@ namespace GlucoMan.Forms
 {
     public partial class frmInsulinCalc : Form
     {
-        BL_BolusCalculation currentBolusCalculation;
+        BL_BolusesAndInjections currentBolusCalculation;
         BL_GlucoseMeasurements currentGlucoseMeasurement;
         public frmInsulinCalc()
         {
             InitializeComponent();
 
-            currentBolusCalculation = new BL_BolusCalculation();
+            currentBolusCalculation = new BL_BolusesAndInjections();
             currentGlucoseMeasurement = new BL_GlucoseMeasurements();
         }
         private void frmInsulinCalc_Load(object sender, EventArgs e)
@@ -141,6 +141,11 @@ namespace GlucoMan.Forms
         private void txtReadCho_Click(object sender, EventArgs e)
         {
             txtChoToEat.Text = currentBolusCalculation.RestoreChoToEat();
+        }
+        private void btnInjection_Click(object sender, EventArgs e)
+        {
+            frmInjections frm = new frmInjections();
+            frm.Show();
         }
     }
 }

@@ -50,6 +50,7 @@ namespace GlucoMan.Forms
             this.label2 = new System.Windows.Forms.Label();
             this.btnOpenGlucose = new System.Windows.Forms.Button();
             this.txtReadCho = new System.Windows.Forms.Button();
+            this.btnInjection = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.txtGlucoseToBeCorrected = new System.Windows.Forms.TextBox();
             this.txtCorrectionInsulin = new System.Windows.Forms.TextBox();
@@ -133,7 +134,7 @@ namespace GlucoMan.Forms
             this.btnSetParameters.Name = "btnSetParameters";
             this.btnSetParameters.Size = new System.Drawing.Size(92, 50);
             this.btnSetParameters.TabIndex = 100;
-            this.btnSetParameters.Text = "Calc parameters";
+            this.btnSetParameters.Text = "Set parameters";
             this.btnSetParameters.UseVisualStyleBackColor = true;
             this.btnSetParameters.Click += new System.EventHandler(this.btnSetParameters_Click);
             // 
@@ -191,7 +192,7 @@ namespace GlucoMan.Forms
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(94, 327);
+            this.label11.Location = new System.Drawing.Point(92, 377);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(90, 42);
@@ -202,9 +203,9 @@ namespace GlucoMan.Forms
             // btnRoundInsulin
             // 
             this.btnRoundInsulin.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnRoundInsulin.Location = new System.Drawing.Point(436, 258);
+            this.btnRoundInsulin.Location = new System.Drawing.Point(436, 130);
             this.btnRoundInsulin.Name = "btnRoundInsulin";
-            this.btnRoundInsulin.Size = new System.Drawing.Size(75, 46);
+            this.btnRoundInsulin.Size = new System.Drawing.Size(75, 50);
             this.btnRoundInsulin.TabIndex = 102;
             this.btnRoundInsulin.Text = "Round insulin";
             this.toolTip1.SetToolTip(this.btnRoundInsulin, "Calculate CHO that gives  integer insulin");
@@ -214,7 +215,7 @@ namespace GlucoMan.Forms
             // btnReadGlucose
             // 
             this.btnReadGlucose.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnReadGlucose.Location = new System.Drawing.Point(2, 258);
+            this.btnReadGlucose.Location = new System.Drawing.Point(27, 248);
             this.btnReadGlucose.Name = "btnReadGlucose";
             this.btnReadGlucose.Size = new System.Drawing.Size(75, 46);
             this.btnReadGlucose.TabIndex = 103;
@@ -225,8 +226,9 @@ namespace GlucoMan.Forms
             // 
             // btnSaveBolus
             // 
+            this.btnSaveBolus.Enabled = false;
             this.btnSaveBolus.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSaveBolus.Location = new System.Drawing.Point(436, 364);
+            this.btnSaveBolus.Location = new System.Drawing.Point(434, 414);
             this.btnSaveBolus.Name = "btnSaveBolus";
             this.btnSaveBolus.Size = new System.Drawing.Size(75, 46);
             this.btnSaveBolus.TabIndex = 105;
@@ -237,7 +239,7 @@ namespace GlucoMan.Forms
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(200, 327);
+            this.label8.Location = new System.Drawing.Point(198, 377);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(101, 42);
@@ -247,7 +249,7 @@ namespace GlucoMan.Forms
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(316, 327);
+            this.label2.Location = new System.Drawing.Point(314, 377);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(105, 48);
@@ -258,9 +260,9 @@ namespace GlucoMan.Forms
             // btnOpenGlucose
             // 
             this.btnOpenGlucose.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnOpenGlucose.Location = new System.Drawing.Point(2, 310);
+            this.btnOpenGlucose.Location = new System.Drawing.Point(346, 36);
             this.btnOpenGlucose.Name = "btnOpenGlucose";
-            this.btnOpenGlucose.Size = new System.Drawing.Size(75, 46);
+            this.btnOpenGlucose.Size = new System.Drawing.Size(75, 50);
             this.btnOpenGlucose.TabIndex = 122;
             this.btnOpenGlucose.Text = "Open glucose";
             this.toolTip1.SetToolTip(this.btnOpenGlucose, "Open glucose measurements window");
@@ -270,7 +272,7 @@ namespace GlucoMan.Forms
             // txtReadCho
             // 
             this.txtReadCho.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtReadCho.Location = new System.Drawing.Point(388, 130);
+            this.txtReadCho.Location = new System.Drawing.Point(388, 244);
             this.txtReadCho.Name = "txtReadCho";
             this.txtReadCho.Size = new System.Drawing.Size(75, 50);
             this.txtReadCho.TabIndex = 123;
@@ -278,6 +280,18 @@ namespace GlucoMan.Forms
             this.toolTip1.SetToolTip(this.txtReadCho, "Read CHO from other Window");
             this.txtReadCho.UseVisualStyleBackColor = true;
             this.txtReadCho.Click += new System.EventHandler(this.txtReadCho_Click);
+            // 
+            // btnInjection
+            // 
+            this.btnInjection.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnInjection.Location = new System.Drawing.Point(273, 246);
+            this.btnInjection.Name = "btnInjection";
+            this.btnInjection.Size = new System.Drawing.Size(75, 46);
+            this.btnInjection.TabIndex = 124;
+            this.btnInjection.Text = "Injection";
+            this.toolTip1.SetToolTip(this.btnInjection, "Read last glucose value  from recorded glucose measurements");
+            this.btnInjection.UseVisualStyleBackColor = true;
+            this.btnInjection.Click += new System.EventHandler(this.btnInjection_Click);
             // 
             // label10
             // 
@@ -306,7 +320,7 @@ namespace GlucoMan.Forms
             // 
             this.txtCorrectionInsulin.BackColor = System.Drawing.Color.CadetBlue;
             this.txtCorrectionInsulin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtCorrectionInsulin.Location = new System.Drawing.Point(105, 374);
+            this.txtCorrectionInsulin.Location = new System.Drawing.Point(103, 424);
             this.txtCorrectionInsulin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtCorrectionInsulin.Name = "txtCorrectionInsulin";
             this.txtCorrectionInsulin.ReadOnly = true;
@@ -321,7 +335,7 @@ namespace GlucoMan.Forms
             this.groupBox1.Controls.Add(this.rdbIsBreakfast);
             this.groupBox1.Controls.Add(this.rdbIsDinner);
             this.groupBox1.Controls.Add(this.rdbIsLunch);
-            this.groupBox1.Location = new System.Drawing.Point(86, 248);
+            this.groupBox1.Location = new System.Drawing.Point(85, 310);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(334, 56);
             this.groupBox1.TabIndex = 38;
@@ -375,7 +389,7 @@ namespace GlucoMan.Forms
             // txtChoInsulinMeal
             // 
             this.txtChoInsulinMeal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtChoInsulinMeal.Location = new System.Drawing.Point(216, 374);
+            this.txtChoInsulinMeal.Location = new System.Drawing.Point(214, 424);
             this.txtChoInsulinMeal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtChoInsulinMeal.Name = "txtChoInsulinMeal";
             this.txtChoInsulinMeal.ReadOnly = true;
@@ -399,7 +413,7 @@ namespace GlucoMan.Forms
             // 
             // txtStatusBar
             // 
-            this.txtStatusBar.Location = new System.Drawing.Point(5, 416);
+            this.txtStatusBar.Location = new System.Drawing.Point(3, 466);
             this.txtStatusBar.Name = "txtStatusBar";
             this.txtStatusBar.Size = new System.Drawing.Size(506, 26);
             this.txtStatusBar.TabIndex = 113;
@@ -408,7 +422,7 @@ namespace GlucoMan.Forms
             // 
             this.txtTotalInsulin.BackColor = System.Drawing.Color.Aqua;
             this.txtTotalInsulin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtTotalInsulin.Location = new System.Drawing.Point(334, 374);
+            this.txtTotalInsulin.Location = new System.Drawing.Point(332, 424);
             this.txtTotalInsulin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTotalInsulin.Name = "txtTotalInsulin";
             this.txtTotalInsulin.ReadOnly = true;
@@ -418,9 +432,9 @@ namespace GlucoMan.Forms
             // 
             // btnBolusCalculations
             // 
-            this.btnBolusCalculations.Location = new System.Drawing.Point(436, 34);
+            this.btnBolusCalculations.Location = new System.Drawing.Point(436, 36);
             this.btnBolusCalculations.Name = "btnBolusCalculations";
-            this.btnBolusCalculations.Size = new System.Drawing.Size(75, 56);
+            this.btnBolusCalculations.Size = new System.Drawing.Size(75, 50);
             this.btnBolusCalculations.TabIndex = 120;
             this.btnBolusCalculations.Text = "Calc. bolus";
             this.btnBolusCalculations.UseVisualStyleBackColor = true;
@@ -512,7 +526,8 @@ namespace GlucoMan.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(515, 448);
+            this.ClientSize = new System.Drawing.Size(515, 498);
+            this.Controls.Add(this.btnInjection);
             this.Controls.Add(this.txtReadCho);
             this.Controls.Add(this.btnOpenGlucose);
             this.Controls.Add(this.groupBox2);
@@ -597,5 +612,6 @@ namespace GlucoMan.Forms
         private TextBox txtChoInsulinRatioDinner;
         private Button btnOpenGlucose;
         private Button txtReadCho;
+        private Button btnInjection;
     }
 }

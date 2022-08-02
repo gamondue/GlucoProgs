@@ -2,10 +2,11 @@
 using System.IO;
 using SharedData;
 using GlucoMan;
+using System.Collections.Generic;
 
 namespace GlucoMan.BusinessLayer
 {
-    public  class BL_BolusCalculation
+    public  class BL_BolusesAndInjections
     {
         DataLayer dl = Common.Database;
 
@@ -27,6 +28,7 @@ namespace GlucoMan.BusinessLayer
         public  DoubleAndText BolusInsulinDueToCorrectionOfGlucose { get; set; }
         public  DoubleAndText BolusInsulinDueToChoOfMeal { get; }
         public  DoubleAndText TotalInsulinForMeal { get; set; }
+
         public  string StatusMessage { get => statusMessage; }
         public  Meal MealOfBolus { get; set; }
 
@@ -35,8 +37,15 @@ namespace GlucoMan.BusinessLayer
         private DateTime initialLunchPeriod;
         private DateTime finalLunchPeriod;
         private DateTime initialDinnerPeriod;
+
+        internal List<InsulinInjection> GetInjections(DateTime InitialInstant,
+            DateTime FinalInstant)
+        {
+            return dl.GetInjections(InitialInstant, FinalInstant); 
+        }
+
         private DateTime finalDinnerPeriod;
-        public  BL_BolusCalculation()
+        public  BL_BolusesAndInjections()
         { 
             ChoToEat = new DoubleAndText(); 
             TypicalBolusMorning = new DoubleAndText(); 
@@ -69,6 +78,12 @@ namespace GlucoMan.BusinessLayer
 
             MealOfBolus = new Meal(); 
         }
+
+        internal void DeleteOneInjection(InsulinInjection Injection)
+        {
+            dl.DeleteOneInjection(Injection); 
+        }
+
         public  void CalculateInsulinCorrectionSensitivity()
         {
             TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double +
@@ -104,7 +119,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception Ex)
             {
-                Common.LogOfProgram.Error("BL_BolusCalculations | CalculateBolus()", Ex);
+                Common.LogOfProgram.Error("BL_BolusesAndInjections | CalculateBolus()", Ex);
             }
         }
         public  void RoundInsulinToZeroDecimal()
@@ -224,6 +239,10 @@ namespace GlucoMan.BusinessLayer
             ChoInsulinRatioBreakfast.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioBreakfast");
             ChoInsulinRatioLunch.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioLunch");
             ChoInsulinRatioDinner.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioDinner");
+        }
+        internal void SaveOneInjection(InsulinInjection Injection)
+        {
+            dl.SaveOneInjection(Injection);
         }
     }
 }

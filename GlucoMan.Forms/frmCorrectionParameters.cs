@@ -13,12 +13,12 @@ namespace GlucoMan.Forms
 {
     public partial class frmCorrectionParameters : Form
     {
-        BL_BolusCalculation bolusCalculation;
+        BL_BolusesAndInjections bolusCalculation;
         public frmCorrectionParameters()
         {
             InitializeComponent();
 
-            bolusCalculation = new BL_BolusCalculation();
+            bolusCalculation = new BL_BolusesAndInjections();
         }
         private void frmCorrectionParameters_Load(object sender, EventArgs e)
         {

@@ -8,7 +8,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="20"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
@@ -19,7 +19,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Blood glucose unit conversion"
-                   FontSize="Large" Font="Bold"  XAlign="Center" YAlign="End"/>
+                   FontSize="Title" Font="Bold"  XAlign="Center" YAlign="End"/>
 
             <Label Grid.Row="1" Grid.Column="0" Text="mg/dL" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="1" Grid.Column="1" Text="mmol/L" XAlign="Center" YAlign="End"/>

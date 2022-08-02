@@ -39,6 +39,10 @@ namespace GlucoMan
         //internal abstract void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
         internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);      
         internal abstract long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
+        internal abstract int? SaveOneInjection(InsulinInjection Injection);
+        internal abstract void DeleteOneInjection(InsulinInjection Injection);
+        internal abstract List<InsulinInjection> GetInjections(DateTime InitialInstant,
+            DateTime FinalInstant); 
         #endregion
 
         #region Meals and Food in Meals

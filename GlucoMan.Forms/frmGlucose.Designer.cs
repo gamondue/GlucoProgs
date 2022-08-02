@@ -65,6 +65,7 @@
             // 
             // txtGlucose
             // 
+            this.txtGlucose.BackColor = System.Drawing.Color.PaleGreen;
             this.txtGlucose.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtGlucose.Location = new System.Drawing.Point(12, 36);
             this.txtGlucose.Name = "txtGlucose";
@@ -87,11 +88,11 @@
             this.chkNowInAdd.AutoSize = true;
             this.chkNowInAdd.Checked = true;
             this.chkNowInAdd.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkNowInAdd.Location = new System.Drawing.Point(445, 32);
+            this.chkNowInAdd.Location = new System.Drawing.Point(722, 5);
             this.chkNowInAdd.Name = "chkNowInAdd";
-            this.chkNowInAdd.Size = new System.Drawing.Size(180, 25);
+            this.chkNowInAdd.Size = new System.Drawing.Size(187, 25);
             this.chkNowInAdd.TabIndex = 4;
-            this.chkNowInAdd.Text = "New has Now as time";
+            this.chkNowInAdd.Text = "Save with Now as time";
             this.chkNowInAdd.UseVisualStyleBackColor = true;
             // 
             // txtIdGlucoseRecord
@@ -107,7 +108,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(627, 13);
+            this.label3.Location = new System.Drawing.Point(651, 13);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(23, 21);
             this.label3.TabIndex = 7;

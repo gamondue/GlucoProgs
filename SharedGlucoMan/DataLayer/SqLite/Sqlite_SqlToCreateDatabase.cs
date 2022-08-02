@@ -8,31 +8,11 @@ namespace GlucoMan
     {
 		string creationScript = @"
 BEGIN TRANSACTION;
-DROP TABLE IF EXISTS 'InsulinInjection';
-CREATE TABLE IF NOT EXISTS 'InsulinInjection' (
-	'idInsulinInjection'	INT NOT NULL,
-	'descInsulinInjection'	VARCHAR(45),
-	'amount'	VARCHAR(45),
-	PRIMARY KEY('idInsulinInjection')
-);
 DROP TABLE IF EXISTS 'ModelsOfMeasurementSystem';
 CREATE TABLE IF NOT EXISTS 'ModelsOfMeasurementSystem' (
 	'IdModelOfMeasurementSystem'	INT NOT NULL,
 	'Name'	VARCHAR(45),
 	PRIMARY KEY('IdModelOfMeasurementSystem')
-);
-DROP TABLE IF EXISTS 'InsulineInjections';
-CREATE TABLE IF NOT EXISTS 'InsulineInjections' (
-	'IdInsulineInjection'	INT NOT NULL,
-	'Timestamp'	VARCHAR(45),
-	'InsulinValue'	DOUBLE,
-	'InjectionPositionX'	INT,
-	'InjectionPositionY'	INT,
-	'IdTypeOfInjection'	INT,
-	'IdTypeOfInsulinSpeed'	INT,
-	'IdTypeOfInsulinInjection'	INT,
-	'InsulinString'	VARCHAR(45),
-	PRIMARY KEY('IdInsulineInjection')
 );
 DROP TABLE IF EXISTS 'BolusCalculations';
 CREATE TABLE IF NOT EXISTS 'BolusCalculations' (
@@ -81,8 +61,8 @@ CREATE TABLE IF NOT EXISTS 'Foods' (
 	'SaturatedFats'	DOUBLE,
 	'Carbohydrates'	DOUBLE NOT NULL,
 	'Sugar'	DOUBLE,
-	'Fibers'	INTEGER,
-	'Proteins'	INTEGER,
+	'Fibers'	INT,
+	'Proteins'	INT,
 	'Salt'	DOUBLE,
 	'Potassium'	DOUBLE,
 	'GlycemicIndex'	DOUBLE,
@@ -90,7 +70,7 @@ CREATE TABLE IF NOT EXISTS 'Foods' (
 );
 DROP TABLE IF EXISTS 'InsulinDrugs';
 CREATE TABLE IF NOT EXISTS 'InsulinDrugs' (
-	'IdInsulinDrugs'	INTEGER NOT NULL,
+	'IdInsulinDrugs'	INT NOT NULL,
 	'Name'	VARCHAR(30),
 	'InsulinSpeed'	DOUBLE,
 	PRIMARY KEY('IdInsulinDrugs')
@@ -118,14 +98,14 @@ CREATE TABLE IF NOT EXISTS 'Alarms' (
 	'Duration'	DOUBLE,
 	'IsRepeated'	TINYINT,
 	'IsEnabled'	TINYINT,
-	PRIMARY KEY('idAlarm')
+	PRIMARY KEY('IdAlarm')
 );
 DROP TABLE IF EXISTS 'Parameters';
 CREATE TABLE IF NOT EXISTS 'Parameters' (
-	'IdParameters'	INTEGER NOT NULL,
-	'Bolus_TargetGlucose'	INTEGER,
-	'Bolus_GlucoseBeforeMeal'	INTEGER,
-	'Bolus_ChoToEat'	INTEGER,
+	'IdParameters'	INT NOT NULL,
+	'Bolus_TargetGlucose'	INT,
+	'Bolus_GlucoseBeforeMeal'	INT,
+	'Bolus_ChoToEat'	INT,
 	'Bolus_ChoInsulinRatioBreakfast'	DOUBLE,
 	'Bolus_ChoInsulinRatioLunch'	DOUBLE,
 	'Bolus_ChoInsulinRatioDinner'	DOUBLE,
@@ -155,7 +135,7 @@ CREATE TABLE IF NOT EXISTS 'Parameters' (
 	'FoodInMeal_Name'	TEXT,
 	'FoodInMeal_AccuracyOfChoEstimate'	DOUBLE,
 	'Meal_ChoGrams'	DOUBLE,
-	PRIMARY KEY('IdParameters' AUTOINCREMENT)
+	PRIMARY KEY('IdParameters')
 );
 DROP TABLE IF EXISTS 'FoodsInMeals';
 CREATE TABLE IF NOT EXISTS 'FoodsInMeals' (
@@ -163,7 +143,7 @@ CREATE TABLE IF NOT EXISTS 'FoodsInMeals' (
 	'IdMeal'	INT,
 	'IdFood'	INT,
 	'CarbohydratesGrams'	DOUBLE,
-	'CarbohydratesPercent'	INTEGER,
+	'CarbohydratesPercent'	INT,
 	'Quantity'	DOUBLE,
 	'AccuracyOfChoEstimate'	DOUBLE,
 	'Name'	TEXT,
@@ -180,6 +160,20 @@ CREATE TABLE IF NOT EXISTS 'Meals' (
 	'IdBolusCalculation'	INT,
 	'IdGlucoseRecord'	INT,
 	PRIMARY KEY('IdMeal')
+);
+DROP TABLE IF EXISTS 'InsulinInjections';
+CREATE TABLE IF NOT EXISTS 'InsulinInjections' (
+	'IdInsulinInjection' INT NOT NULL,
+	'Timestamp'	DATETIME,
+	'InsulinValue'	DOUBLE,
+	'InsulinCalculated'	DOUBLE,
+	'InjectionPositionX' INT,
+	'InjectionPositionY' INT,
+	'IdTypeOfInjection' INT,
+	'IdTypeOfInsulinSpeed' INT,
+	'IdTypeOfInsulinInjection' INT,
+	'InsulinString'	VARCHAR(45),
+	PRIMARY KEY('IdInsulinInjection')
 );
 COMMIT;
 ";
