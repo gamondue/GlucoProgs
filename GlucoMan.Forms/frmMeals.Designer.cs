@@ -56,6 +56,7 @@
             this.rdbIsDinner = new System.Windows.Forms.RadioButton();
             this.rdbIsLunch = new System.Windows.Forms.RadioButton();
             this.cmbAccuracyMeal = new System.Windows.Forms.ComboBox();
+            this.txtNotes = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridMeals)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -188,6 +189,7 @@
             this.cmbTypeOfMeal.Name = "cmbTypeOfMeal";
             this.cmbTypeOfMeal.Size = new System.Drawing.Size(107, 29);
             this.cmbTypeOfMeal.TabIndex = 73;
+            this.cmbTypeOfMeal.SelectedIndexChanged += new System.EventHandler(this.cmbTypeOfMeal_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -249,10 +251,10 @@
             this.gridMeals.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridMeals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridMeals.Location = new System.Drawing.Point(6, 187);
+            this.gridMeals.Location = new System.Drawing.Point(6, 219);
             this.gridMeals.Name = "gridMeals";
             this.gridMeals.RowTemplate.Height = 25;
-            this.gridMeals.Size = new System.Drawing.Size(756, 204);
+            this.gridMeals.Size = new System.Drawing.Size(756, 172);
             this.gridMeals.TabIndex = 79;
             this.gridMeals.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellContentClick);
             this.gridMeals.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellDoubleClick);
@@ -274,7 +276,7 @@
             // btnDefaults
             // 
             this.btnDefaults.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnDefaults.Location = new System.Drawing.Point(565, 73);
+            this.btnDefaults.Location = new System.Drawing.Point(565, 74);
             this.btnDefaults.Margin = new System.Windows.Forms.Padding(2);
             this.btnDefaults.Name = "btnDefaults";
             this.btnDefaults.Size = new System.Drawing.Size(82, 46);
@@ -306,6 +308,7 @@
             this.rdbIsSnack.TabStop = true;
             this.rdbIsSnack.Text = "snack";
             this.rdbIsSnack.UseVisualStyleBackColor = true;
+            this.rdbIsSnack.CheckedChanged += new System.EventHandler(this.rdb_CheckedChanged);
             // 
             // rdbIsBreakfast
             // 
@@ -317,6 +320,7 @@
             this.rdbIsBreakfast.TabStop = true;
             this.rdbIsBreakfast.Text = "breakfast";
             this.rdbIsBreakfast.UseVisualStyleBackColor = true;
+            this.rdbIsBreakfast.CheckedChanged += new System.EventHandler(this.rdb_CheckedChanged);
             // 
             // rdbIsDinner
             // 
@@ -328,6 +332,7 @@
             this.rdbIsDinner.TabStop = true;
             this.rdbIsDinner.Text = "dinner";
             this.rdbIsDinner.UseVisualStyleBackColor = true;
+            this.rdbIsDinner.CheckedChanged += new System.EventHandler(this.rdb_CheckedChanged);
             // 
             // rdbIsLunch
             // 
@@ -339,21 +344,30 @@
             this.rdbIsLunch.TabStop = true;
             this.rdbIsLunch.Text = "lunch";
             this.rdbIsLunch.UseVisualStyleBackColor = true;
+            this.rdbIsLunch.CheckedChanged += new System.EventHandler(this.rdb_CheckedChanged);
             // 
-            // cmbAccuracy
+            // cmbAccuracyMeal
             // 
             this.cmbAccuracyMeal.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.cmbAccuracyMeal.FormattingEnabled = true;
             this.cmbAccuracyMeal.Location = new System.Drawing.Point(618, 31);
-            this.cmbAccuracyMeal.Name = "cmbAccuracy";
+            this.cmbAccuracyMeal.Name = "cmbAccuracyMeal";
             this.cmbAccuracyMeal.Size = new System.Drawing.Size(144, 29);
             this.cmbAccuracyMeal.TabIndex = 83;
+            // 
+            // txtNotes
+            // 
+            this.txtNotes.Location = new System.Drawing.Point(6, 184);
+            this.txtNotes.Name = "txtNotes";
+            this.txtNotes.Size = new System.Drawing.Size(756, 29);
+            this.txtNotes.TabIndex = 128;
             // 
             // frmMeals
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(768, 395);
+            this.Controls.Add(this.txtNotes);
             this.Controls.Add(this.cmbAccuracyMeal);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnDefaults);
@@ -427,5 +441,6 @@
         private RadioButton rdbIsDinner;
         private RadioButton rdbIsLunch;
         private ComboBox cmbAccuracyMeal;
+        private TextBox txtNotes;
     }
 }

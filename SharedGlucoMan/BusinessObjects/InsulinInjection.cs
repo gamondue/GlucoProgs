@@ -12,6 +12,8 @@
         public IntAndText IdTypeOfInsulinSpeed { get; set; }
         public IntAndText IdTypeOfInsulinInjection { get; set; }
         public string InsulinString { get; set; }
+        public string Notes { get; internal set; }
+
         public InsulinInjection()
         {
             Timestamp = new DateTimeAndText();

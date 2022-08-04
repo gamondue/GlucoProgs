@@ -122,7 +122,7 @@ namespace GlucoMan.Mobile
             {
                 return;
             }
-                // make the tapped row current
+            // make the tapped row current
             currentGlucose = (GlucoseRecord)e.SelectedItem;
             FromClassToUi();
         }

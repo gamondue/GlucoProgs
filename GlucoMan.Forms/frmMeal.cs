@@ -60,7 +60,7 @@ namespace GlucoMan.Forms
             loading = true;
 
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-            txtChoOfMealGrams.Text = bl.Meal.ChoGrams.Text;
+            txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
 
             SetTypeOfMealRadiobutton(bl.Meal.IdTypeOfMeal);
 
@@ -68,8 +68,9 @@ namespace GlucoMan.Forms
                 dtpMealTimeStart.Value = (DateTime)bl.Meal.TimeBegin.DateTime;
             if (bl.Meal.TimeEnd.DateTime != Common.DateNull)
                 dtpMealTimeFinish.Value = (DateTime)bl.Meal.TimeEnd.DateTime;
-
+            
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
+            txtNotes.Text = bl.Meal.Notes;
 
             if (bl.FoodInMeal.IdFoodInMeal != null)
                 txtIdFoodInMeal.Text = bl.FoodInMeal.IdFoodInMeal.ToString();
@@ -89,11 +90,12 @@ namespace GlucoMan.Forms
             loading = true;
 
             bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
-            bl.Meal.ChoGrams.Text = txtChoOfMealGrams.Text;
+            bl.Meal.Carbohydrates.Text = txtChoOfMealGrams.Text;
 
             bl.Meal.TimeBegin.DateTime = dtpMealTimeStart.Value;
             bl.Meal.TimeEnd.DateTime = dtpMealTimeFinish.Value;
             bl.Meal.IdTypeOfMeal = GetTypeOfMealFromRadiobuttons();
+            bl.Meal.Notes = txtNotes.Text;
 
             bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
 
@@ -153,8 +155,7 @@ namespace GlucoMan.Forms
                     break;
             }
         }
-        private void txtFoodChoPercent_TextChanged(object sender, EventArgs e) { }
-        private void txtFoodChoPercent_Leave(object sender, EventArgs e)
+        private void txtFoodChoPercent_TextChanged(object sender, EventArgs e) 
         {
             if (!loading)
             {
@@ -163,8 +164,7 @@ namespace GlucoMan.Forms
                 txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
             }
         }
-        private void txtFoodQuantityGrams_TextChanged(object sender, EventArgs e) { }
-        private void txtFoodQuantityGrams_Leave(object sender, EventArgs e)
+        private void txtFoodQuantityGrams_TextChanged(object sender, EventArgs e) 
         {
             if (!loading)
             {
@@ -189,7 +189,7 @@ namespace GlucoMan.Forms
             bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
             bl.RecalcTotalCho();
             bl.RecalcTotalAccuracy();
-            txtChoOfMealGrams.Text = bl.Meal.ChoGrams.Text;
+            txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
             bl.SaveFoodInMealParameters();
         }
         private void txtFoodChoGrams_Leave(object sender, EventArgs e)
@@ -229,14 +229,13 @@ namespace GlucoMan.Forms
         }
         private void btnAddFoodInMeal_Click(object sender, EventArgs e)
         {
-            if (txtIdMeal.Text == "")
-                btnSaveMeal_Click(null, null); 
             FromUiToClass();
             // erase Id, so that a new record will be created
             bl.FoodInMeal.IdFoodInMeal = null; 
             bl.SaveOneFoodInMeal(bl.FoodInMeal);
             bl.RecalcTotalCho();
             bl.RecalcTotalAccuracy();
+            bl.SaveFoodInMealParameters();
             FromClassToUi();
             RefreshGrid();
         }
@@ -252,6 +251,7 @@ namespace GlucoMan.Forms
         private void btnStartMeal_Click(object sender, EventArgs e) 
         {
             dtpMealTimeStart.Value = DateTime.Now;
+            dtpMealTimeFinish.Value = DateTime.Now;
         }
         private void btnEndMeal_Click(object sender, EventArgs e) 
         {

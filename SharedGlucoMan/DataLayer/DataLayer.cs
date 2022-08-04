@@ -14,7 +14,7 @@ namespace GlucoMan
     internal abstract partial class DataLayer
     {
         #region General
-        internal abstract void DeleteDatabase();
+        internal abstract bool DeleteDatabase();
         internal abstract int GetNextPrimaryKey();
         internal abstract void DeleteOneGlucoseMeasurement(GlucoseRecord gr);
 

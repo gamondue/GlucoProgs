@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInjections));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabData = new System.Windows.Forms.TabPage();
+            this.txtNotes = new System.Windows.Forms.TextBox();
             this.btnRemoveMeasurement = new System.Windows.Forms.Button();
             this.btnAddMeasurement = new System.Windows.Forms.Button();
             this.chkNowInAdd = new System.Windows.Forms.CheckBox();
@@ -71,6 +72,7 @@
             // 
             // tabData
             // 
+            this.tabData.Controls.Add(this.txtNotes);
             this.tabData.Controls.Add(this.btnRemoveMeasurement);
             this.tabData.Controls.Add(this.btnAddMeasurement);
             this.tabData.Controls.Add(this.chkNowInAdd);
@@ -93,6 +95,13 @@
             this.tabData.TabIndex = 3;
             this.tabData.Text = "Data";
             this.tabData.UseVisualStyleBackColor = true;
+            // 
+            // txtNotes
+            // 
+            this.txtNotes.Location = new System.Drawing.Point(28, 110);
+            this.txtNotes.Name = "txtNotes";
+            this.txtNotes.Size = new System.Drawing.Size(620, 29);
+            this.txtNotes.TabIndex = 127;
             // 
             // btnRemoveMeasurement
             // 
@@ -261,10 +270,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridInjections.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridInjections.Location = new System.Drawing.Point(-9, 115);
+            this.gridInjections.Location = new System.Drawing.Point(-9, 145);
             this.gridInjections.Name = "gridInjections";
             this.gridInjections.RowTemplate.Height = 25;
-            this.gridInjections.Size = new System.Drawing.Size(681, 470);
+            this.gridInjections.Size = new System.Drawing.Size(681, 440);
             this.gridInjections.TabIndex = 0;
             this.gridInjections.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridInjections_CellClick);
             this.gridInjections.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridInjections_CellContentClick);
@@ -342,5 +351,6 @@
         private CheckBox chkNowInAdd;
         private Button btnRemoveMeasurement;
         private Button btnAddMeasurement;
+        private TextBox txtNotes;
     }
 }

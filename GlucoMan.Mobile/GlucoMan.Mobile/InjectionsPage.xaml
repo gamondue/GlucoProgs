@@ -12,6 +12,7 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="20"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -20,21 +21,21 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="2" Text="Id" XAlign="Center" YAlign="Center"/>
+            <Label Grid.Row="0" Grid.Column="1" Text="Id" XAlign="Center" YAlign="Center"/>
             <Label Grid.Row="0" Grid.Column="0" Text="Actual insulin" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="0" Grid.Column="1" Text="Calculated Insulin" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="0" Grid.Column="2" Text="Calculated Insulin" XAlign="Center" YAlign="End"/>
 
-            <Entry Grid.Row="1" Grid.Column="2" x:Name="txtIdInjection" BackgroundColor="White" 
+            <Entry Grid.Row="1" Grid.Column="1" x:Name="txtIdInjection" BackgroundColor="White" 
                        FontSize="Medium" HorizontalTextAlignment="End" IsReadOnly="true"/>
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtInsulinActual" 
                    Keyboard="Numeric" BackgroundColor="PaleGreen" HorizontalTextAlignment="End"
                    FontSize="Medium" />
-            <Entry Grid.Row="1" Grid.Column="1" x:Name="txtInsulinCalculated" 
+            <Entry Grid.Row="1" Grid.Column="2" x:Name="txtInsulinCalculated" 
                    Keyboard="Numeric" BackgroundColor="White" HorizontalTextAlignment="End"
                    FontSize="Medium" />
             <Button Grid.Row="1" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_Click"></Button>
 
-            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Injection date and time"  XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Injection date and time"  XAlign="Center" YAlign="End"/>
 
             <DatePicker Grid.Row="3" Grid.Column="0" x:Name="dtpInjectionDate" 
                         BackgroundColor="PaleGreen" FontSize="Small" Format="yyyy-MM-dd" 
@@ -55,7 +56,7 @@
                 <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveInjection" Clicked="btnRemoveInjection_Click"></Button>
             </Grid>
 
-            <StackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <StackLayout Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
@@ -73,7 +74,10 @@
                 </Label>
             </StackLayout>
 
-            <ListView Grid.Row="5" Grid.ColumnSpan="4" x:Name="gridInjections" ItemsSource="{Binding}"
+            <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
+                   FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
+
+            <ListView Grid.Row="6" Grid.ColumnSpan="4" x:Name="gridInjections" ItemsSource="{Binding}"
                       ItemSelected="OnGridSelectionAsync" >
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>

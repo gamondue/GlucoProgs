@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,6 +13,7 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MiscellaneousFunctionsPage : ContentPage
     {
+        SharedGlucoMan.BusinessLayer.BL_General blGeneral = new SharedGlucoMan.BusinessLayer.BL_General();
         bool canModify = true; 
         public MiscellaneousFunctionsPage()
         {
@@ -25,7 +25,7 @@ namespace GlucoMan.Mobile
             double.TryParse(txt_mgPerdL.Text, out value);
             if (canModify)
             {
-                canModify = false;
+                canModify = false; 
                 txt_mmolPerL.Text = Common.mgPerdL_To_mmolPerL(value).ToString("0.00");
             }
             else
@@ -53,20 +53,15 @@ namespace GlucoMan.Mobile
                 "", "Yes", "No");
             if (remove)
             {
-                try
-                {
-                    SharedGlucoMan.BusinessLayer.BL_General b = new SharedGlucoMan.BusinessLayer.BL_General();
-                    // deleting the database file
-                    b.DeleteDatabase();
-                    // after deletion the software will automatically re-create the database
-                }
-                catch (Exception ex)
-                {
+                // deleting the database file
+                // after deletion the software will automatically re-create the database
+                if (!blGeneral.DeleteDatabase())
+                { 
                     DisplayAlert("", "Error in deleting file. File NOT deleted", "OK"); 
                 }
             }
         }
-        private async void btnCopyDatabase_Click(object sender, EventArgs e)
+        private void btnCopyDatabase_Click(object sender, EventArgs e)
         {
             // write the SpecialFolders that are used in Android
             // !!!! comment the next loop when devepolment of this part has finished !!!!
@@ -74,11 +69,10 @@ namespace GlucoMan.Mobile
             {
                 Console.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
             }
-            string externalFile = Path.Combine(Common.PathExport, Common.DatabaseFileName); 
-            if (File.Exists(externalFile))
-                File.Delete(externalFile);
-            File.Copy(Common.PathAndFileDatabase, externalFile);
-            // !!!! TODO !!!! also copy the other files 
+            if (!blGeneral.ExportProgramsFiles())
+            { 
+                DisplayAlert("", "Error in exporting program's files. NOT all files copied, check logs", "OK");
+            }
         }
         private async void btnStopApplication_Click(object sender, EventArgs e)
         {

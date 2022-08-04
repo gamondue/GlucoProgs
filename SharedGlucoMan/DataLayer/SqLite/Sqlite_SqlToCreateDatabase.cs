@@ -51,23 +51,6 @@ CREATE TABLE IF NOT EXISTS 'GlucoseRecords' (
 	'Notes'	VARCHAR(255),
 	PRIMARY KEY('IdGlucoseRecord')
 );
-DROP TABLE IF EXISTS 'Foods';
-CREATE TABLE IF NOT EXISTS 'Foods' (
-	'IdFood'	INT NOT NULL,
-	'Name'	VARCHAR(15),
-	'Description'	VARCHAR(256),
-	'Energy'	DOUBLE,
-	'TotalFats'	DOUBLE,
-	'SaturatedFats'	DOUBLE,
-	'Carbohydrates'	DOUBLE NOT NULL,
-	'Sugar'	DOUBLE,
-	'Fibers'	INT,
-	'Proteins'	INT,
-	'Salt'	DOUBLE,
-	'Potassium'	DOUBLE,
-	'GlycemicIndex'	DOUBLE,
-	PRIMARY KEY('IdFood')
-);
 DROP TABLE IF EXISTS 'InsulinDrugs';
 CREATE TABLE IF NOT EXISTS 'InsulinDrugs' (
 	'IdInsulinDrugs'	INT NOT NULL,
@@ -149,31 +132,50 @@ CREATE TABLE IF NOT EXISTS 'FoodsInMeals' (
 	'Name'	TEXT,
 	PRIMARY KEY('IdFoodInMeal')
 );
+DROP TABLE IF EXISTS 'InsulinInjections';
+CREATE TABLE IF NOT EXISTS 'InsulinInjections' (
+	'IdInsulinInjection'	INT NOT NULL,
+	'Timestamp'	DATETIME,
+	'InsulinValue'	DOUBLE,
+	'InsulinCalculated'	DOUBLE,
+	'InjectionPositionX'	INT,
+	'InjectionPositionY'	INT,
+	'Notes'	VARCHAR(255),
+	'IdTypeOfInjection'	INT,
+	'IdTypeOfInsulinSpeed'	INT,
+	'IdTypeOfInsulinInjection'	INT,
+	'InsulinString'	VARCHAR(45),
+	PRIMARY KEY('IdInsulinInjection')
+);
 DROP TABLE IF EXISTS 'Meals';
 CREATE TABLE IF NOT EXISTS 'Meals' (
 	'IdMeal'	INT NOT NULL,
 	'IdTypeOfMeal'	INT,
-	'TimeBegin'	DATETIME,
-	'TimeEnd'	DATETIME,
 	'Carbohydrates'	DOUBLE,
+	'TimeBegin'	DATETIME,
+	'Notes'	VARCHAR(255),
 	'AccuracyOfChoEstimate'	DOUBLE,
 	'IdBolusCalculation'	INT,
 	'IdGlucoseRecord'	INT,
+	'TimeEnd'	DATETIME,
 	PRIMARY KEY('IdMeal')
 );
-DROP TABLE IF EXISTS 'InsulinInjections';
-CREATE TABLE IF NOT EXISTS 'InsulinInjections' (
-	'IdInsulinInjection' INT NOT NULL,
-	'Timestamp'	DATETIME,
-	'InsulinValue'	DOUBLE,
-	'InsulinCalculated'	DOUBLE,
-	'InjectionPositionX' INT,
-	'InjectionPositionY' INT,
-	'IdTypeOfInjection' INT,
-	'IdTypeOfInsulinSpeed' INT,
-	'IdTypeOfInsulinInjection' INT,
-	'InsulinString'	VARCHAR(45),
-	PRIMARY KEY('IdInsulinInjection')
+DROP TABLE IF EXISTS 'Foods';
+CREATE TABLE IF NOT EXISTS 'Foods' (
+	'IdFood'	INT NOT NULL,
+	'Name'	VARCHAR(15),
+	'Description'	VARCHAR(256),
+	'Energy'	DOUBLE,
+	'TotalFats'	DOUBLE,
+	'SaturatedFats'	DOUBLE,
+	'Carbohydrates'	DOUBLE,
+	'Sugar'	DOUBLE,
+	'Fibers'	INT,
+	'Proteins'	INT,
+	'Salt'	DOUBLE,
+	'Potassium'	DOUBLE,
+	'GlycemicIndex'	DOUBLE,
+	PRIMARY KEY('IdFood')
 );
 COMMIT;
 ";

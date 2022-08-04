@@ -25,6 +25,7 @@ namespace GlucoMan.Forms
             txtInsulinCalculated.Text = CurrentInjection.InsulinCalculated.Text;
             dtpInjectionDate.Value = ((DateTime) CurrentInjection.Timestamp.DateTime); 
             dtpInjectionTime.Value = ((DateTime) CurrentInjection.Timestamp.DateTime);
+            txtNotes.Text = CurrentInjection.Notes; 
         }
         private void FromUiToClass()
         {
@@ -34,7 +35,8 @@ namespace GlucoMan.Forms
             DateTime instant = new DateTime(
                 dtpInjectionDate.Value.Date.Year, dtpInjectionDate.Value.Date.Month, dtpInjectionDate.Value.Date.Day,
                 dtpInjectionTime.Value.Hour, dtpInjectionTime.Value.Minute, dtpInjectionTime.Value.Second);
-            CurrentInjection.Timestamp.DateTime = instant; 
+            CurrentInjection.Timestamp.DateTime = instant;
+            CurrentInjection.Notes = txtNotes.Text;
         }
         private void RefreshGrid()
         {
@@ -56,6 +58,8 @@ namespace GlucoMan.Forms
                 MessageBox.Show("Choose the injection to modify");
                 return;
             }
+            if (chkNowInAdd.Checked)
+                dtpInjectionTime.Value = DateTime.Now;
             FromUiToClass();
             bl.SaveOneInjection(CurrentInjection);
             RefreshGrid();

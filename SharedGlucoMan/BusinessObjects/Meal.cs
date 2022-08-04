@@ -12,8 +12,6 @@ namespace GlucoMan
 
         private DoubleAndText carbohydrates;
 
-        public int? IdGlucoseRecord;
-        public int? IdBolusCalculation;
         DateTimeAndText timeBegin;
         DateTimeAndText timeEnd;
 
@@ -21,28 +19,21 @@ namespace GlucoMan
         
         [DisplayName("Meal Code")]
         public int? IdMeal { get; set; }
-
-        [DisplayName("Start time")]
-        public DateTimeAndText TimeBegin { get => timeBegin; set => timeBegin = value; }
-
         [DisplayName("Type of meal")]
         public TypeOfMeal IdTypeOfMeal { get => typeOfMeal; set => typeOfMeal = value; }
-
         [DisplayName("CHO of meal")]
-        public DoubleAndText ChoGrams { get => carbohydrates; set => carbohydrates = value; }
-
+        public DoubleAndText Carbohydrates { get => carbohydrates; set => carbohydrates = value; }
+        [DisplayName("Start time")]
+        public DateTimeAndText TimeBegin { get => timeBegin; set => timeBegin = value; }
+        public string Notes { get; set; }
         [DisplayName("Accuracy of CHO")]
         public DoubleAndText AccuracyOfChoEstimate { get; set; }
-
-        [DisplayName("Qualitative accuracy")]
-        public QualitativeAccuracy QualitativeAccuracyOfChoEstimate { get; set; }
-
+        public int? IdBolusCalculation { get; set; }
+        public int? IdGlucoseRecord { get; set; }
         [DisplayName("End time")]
         public DateTimeAndText TimeEnd { get => timeEnd; set => timeEnd = value; }
 
-        public  List<Food> FoodsEaten { get => foodsEaten; set => foodsEaten = value; }
-        //[DisplayName("Food Code")]
-        //public int? IdFoodInMeal { get; set; }
+        public List<Food> FoodsEaten { get => foodsEaten; set => foodsEaten = value; }
 
         public  Meal()
         {
@@ -51,7 +42,7 @@ namespace GlucoMan
             TimeBegin = new DateTimeAndText();
             TimeEnd = new DateTimeAndText();
 
-            ChoGrams = new DoubleAndText();
+            Carbohydrates = new DoubleAndText();
             AccuracyOfChoEstimate = new DoubleAndText(); 
         }
     }

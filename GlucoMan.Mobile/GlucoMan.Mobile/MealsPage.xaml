@@ -22,10 +22,14 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <RadioButton Grid.Row="0" Grid.Column="0" Content="b.fast" x:Name="rdbIsBreakfast" />
-            <RadioButton Grid.Row="0" Grid.Column="1" Content="lunch" x:Name="rdbIsLunch" />
-            <RadioButton Grid.Row="0" Grid.Column="2" Content="dinner" x:Name="rdbIsDinner" />
-            <RadioButton Grid.Row="0" Grid.Column="3" Content="snack" x:Name="rdbIsSnack" />
+            <RadioButton Grid.Row="0" Grid.Column="0" Content="b.fast" x:Name="rdbIsBreakfast" 
+                         CheckedChanged="rdb_CheckedChanged"/>
+            <RadioButton Grid.Row="0" Grid.Column="1" Content="lunch" x:Name="rdbIsLunch" 
+                         CheckedChanged="rdb_CheckedChanged"/>
+            <RadioButton Grid.Row="0" Grid.Column="2" Content="dinner" x:Name="rdbIsDinner"
+                         CheckedChanged="rdb_CheckedChanged"/>
+            <RadioButton Grid.Row="0" Grid.Column="3" Content="snack" x:Name="rdbIsSnack"
+                         CheckedChanged="rdb_CheckedChanged"/>
 
             <Label Grid.Row="1" Grid.Column="0" Text="IdMeal" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="1" Grid.Column="1" Text="Type of Meal" XAlign="Center" YAlign="End"/>
@@ -39,6 +43,7 @@
                     HorizontalTextAlignment="End"
                     ItemsSource="{Binding Common.TypeOfMeal}" 
                     BackgroundColor="PaleGoldenrod"
+                    SelectedIndexChanged="cmbTypeOfMeal_SelectedIndexChanged"
                     FontSize="Small" />
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAccuracyOfChoMeal" 
                    Keyboard="Numeric" BackgroundColor="PaleGoldenrod" HorizontalTextAlignment="End"
@@ -72,8 +77,8 @@
                 <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddMeal" Clicked="btnAddMeal_ClickAsync"></Button>
                 <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveMeal" Clicked="btnRemoveMeal_ClickAsync"></Button>
             </Grid>
-            
-            <Button Grid.Row="5" Grid.Column="0" Text="Save" x:Name="btnSave" Clicked="btnSaveMeal_Click"></Button>
+
+            <Button Grid.Row="5" Grid.Column="0" Text="Save" x:Name="btnSave" Clicked="btnSaveMeal_ClickAsync"></Button>
             <Button Grid.Row="5" Grid.Column="1" Text="Now" x:Name="btnNowBegin" Clicked="btnNowBegin_Click"></Button>
             <Button Grid.Row="5" Grid.Column="2" Text="Defaults" x:Name="btnDefaults" Clicked="btnDefault_Click"></Button>
             <Button Grid.Row="5" Grid.Column="3" Text="Details" x:Name="btnShowThisMeal" Clicked="btnShowThisMeal_ClickAsync"></Button>

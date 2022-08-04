@@ -21,8 +21,8 @@ namespace GlucoMan
                         " FROM Meals";
                     if (InitialInstant != null && FinalInstant != null)
                     {   // add WHERE clause
-                        query += " WHERE TimeBegin BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd") +
-                            "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd 23:59:29") + "'";
+                        query += " WHERE TimeBegin BETWEEN " + SqlDate(((DateTime)InitialInstant).ToString("yyyy-MM-dd")) +
+                            " AND " + SqlDate(((DateTime)FinalInstant).ToString("yyyy-MM-dd 23:59:29")) + "";
                     }
                     query += " ORDER BY TimeBegin DESC, IdMeal;";
                     cmd = new SqliteCommand(query);
@@ -92,8 +92,6 @@ namespace GlucoMan
                 if (Meal.IdMeal == null || Meal.IdMeal == 0)
                 {
                     Meal.IdMeal = GetNextTablePrimaryKey("Meals", "IdMeal"); 
-                    //Meal.TimeBegin.DateTime = DateTime.Now;
-                    //Meal.TimeEnd.DateTime =  DateTime.Now;
                     // INSERT new record in the table
                     InsertMeal(Meal);
                 }
@@ -140,12 +138,13 @@ namespace GlucoMan
                     m.IdTypeOfMeal = 0; 
                 else
                     m.IdTypeOfMeal = (TypeOfMeal)Safe.Int(Row["IdTypeOfMeal"]);
+                m.Carbohydrates.Double = Safe.Double(Row["Carbohydrates"]);
                 m.TimeBegin.DateTime = Safe.DateTime(Row["TimeBegin"]);
-                m.ChoGrams.Double = Safe.Double(Row["Carbohydrates"]);
-                m.TimeEnd.DateTime = Safe.DateTime(Row["TimeEnd"]);
+                m.Notes = Safe.String(Row["Notes"]); 
                 m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
                 m.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
+                m.TimeEnd.DateTime = Safe.DateTime(Row["TimeEnd"]);
             }
             catch (Exception ex)
             {
@@ -162,12 +161,13 @@ namespace GlucoMan
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE Meals SET " +
                     "IdTypeOfMeal=" + SqlInt((int)Meal.IdTypeOfMeal) + "," +
+                    "Carbohydrates=" + SqlDouble(Meal.Carbohydrates.Text) + "," +
                     "TimeBegin=" + SqlDate(Meal.TimeBegin.DateTime) + "," +
-                    "TimeEnd=" + SqlDate(Meal.TimeEnd.DateTime) + "," +
-                    "Carbohydrates=" + SqlDouble(Meal.ChoGrams.Text) + "," +
+                    "Notes=" + SqlString(Meal.Notes) + "," + 
                     "AccuracyOfChoEstimate=" + SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     "IdBolusCalculation=" + SqlInt(Meal.IdBolusCalculation) + "," +
-                    "IdGlucoseRecord=" + SqlInt(Meal.IdGlucoseRecord) + "" +
+                    "IdGlucoseRecord=" + SqlInt(Meal.IdGlucoseRecord) + "," +
+                    "TimeEnd=" + SqlDate(Meal.TimeEnd.DateTime) + "" +
                     " WHERE IdMeal=" + SqlInt(Meal.IdMeal) + 
                     ";";
                     cmd.CommandText = query;
@@ -191,16 +191,18 @@ namespace GlucoMan
                     DbCommand cmd = conn.CreateCommand();
                     string query = "INSERT INTO Meals" +
                     "(" +
-                    "IdMeal,Carbohydrates,TimeBegin,TimeEnd,AccuracyOfChoEstimate," +
-                    "IdBolusCalculation,IdGlucoseRecord";
+                    "IdMeal,IdTypeOfMeal,Carbohydrates,TimeBegin,Notes,AccuracyOfChoEstimate," +
+                    "IdBolusCalculation,IdGlucoseRecord,TimeEnd";
                     query += ")VALUES(" +
                     SqlInt(Meal.IdMeal) + "," +
-                    SqlDouble(Meal.ChoGrams.Double) + "," +
+                    SqlInt((int)Meal.IdTypeOfMeal) + "," +
+                    SqlDouble(Meal.Carbohydrates.Double) + "," +
                     SqlDate(Meal.TimeBegin.DateTime) + "," +
-                    SqlDate(Meal.TimeEnd.DateTime) + "," +
+                    SqlString(Meal.Notes) + "," +
                     SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     SqlDouble(Meal.IdBolusCalculation) + "," +
-                    SqlInt(Meal.IdGlucoseRecord) + "";
+                    SqlInt(Meal.IdGlucoseRecord) + "," + 
+                    SqlDate(Meal.TimeEnd.DateTime) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -259,8 +261,8 @@ namespace GlucoMan
             FoodInMeal f = new FoodInMeal();
             try
             {
-                f.IdFoodInMeal = Safe.Int(Row["IdFoodInMeal"]);
                 f.IdMeal = Safe.Int(Row["IdMeal"]);
+                f.IdFoodInMeal = Safe.Int(Row["IdFoodInMeal"]);
                 f.IdFood = Safe.Int(Row["IdFood"]);
                 f.ChoGrams.Double = Safe.Double(Row["CarbohydratesGrams"]);
                 f.ChoPercent.Double = Safe.Double(Row["CarbohydratesPercent"]);

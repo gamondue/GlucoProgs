@@ -71,6 +71,7 @@ namespace GlucoMan.Forms
             this.label13 = new System.Windows.Forms.Label();
             this.txtAccuracyOfChoMeal = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtNotes = new System.Windows.Forms.TextBox();
             this.btnFoodCalc = new System.Windows.Forms.Button();
             this.btnInjection = new System.Windows.Forms.Button();
             this.btnSaveAllMeal = new System.Windows.Forms.Button();
@@ -223,7 +224,6 @@ namespace GlucoMan.Forms
             this.txtChoOfMealGrams.Location = new System.Drawing.Point(375, 48);
             this.txtChoOfMealGrams.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtChoOfMealGrams.Name = "txtChoOfMealGrams";
-            this.txtChoOfMealGrams.ReadOnly = true;
             this.txtChoOfMealGrams.Size = new System.Drawing.Size(68, 26);
             this.txtChoOfMealGrams.TabIndex = 47;
             this.txtChoOfMealGrams.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -305,7 +305,6 @@ namespace GlucoMan.Forms
             this.txtFoodQuantityGrams.TabIndex = 2;
             this.txtFoodQuantityGrams.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtFoodQuantityGrams.TextChanged += new System.EventHandler(this.txtFoodQuantityGrams_TextChanged);
-            this.txtFoodQuantityGrams.Leave += new System.EventHandler(this.txtFoodQuantityGrams_Leave);
             // 
             // label10
             // 
@@ -506,6 +505,7 @@ namespace GlucoMan.Forms
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtNotes);
             this.groupBox2.Controls.Add(this.btnFoodCalc);
             this.groupBox2.Controls.Add(this.btnInjection);
             this.groupBox2.Controls.Add(this.btnSaveAllMeal);
@@ -533,6 +533,13 @@ namespace GlucoMan.Forms
             this.groupBox2.TabIndex = 70;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Meal data";
+            // 
+            // txtNotes
+            // 
+            this.txtNotes.Location = new System.Drawing.Point(9, 148);
+            this.txtNotes.Name = "txtNotes";
+            this.txtNotes.Size = new System.Drawing.Size(438, 26);
+            this.txtNotes.TabIndex = 82;
             // 
             // btnFoodCalc
             // 
@@ -802,5 +809,6 @@ namespace GlucoMan.Forms
         private Button button1;
         private Button btnInjection;
         private Button btnFoodCalc;
+        private TextBox txtNotes;
     }
 }

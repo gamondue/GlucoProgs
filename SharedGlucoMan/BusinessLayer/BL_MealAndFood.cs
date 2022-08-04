@@ -35,7 +35,6 @@ namespace GlucoMan.BusinessLayer
         }
         public int? SaveOneMeal(Meal Meal)
         {
-            this.Meal = Meal;
             return Common.Database.SaveOneMeal(Meal);
         }
         internal void DeleteOneMeal(Meal Meal)
@@ -60,6 +59,22 @@ namespace GlucoMan.BusinessLayer
         }
         public int? SaveOneFoodInMeal(FoodInMeal FoodToSave)
         {
+            // if we don't have a meal, the we make one 
+            if (Meal == null)
+            {
+                Meal = new Meal();
+            }
+            // if the meal has not a code, we save it to have one 
+            if (Meal.IdMeal == null)
+            {
+                Meal.IdMeal = SaveOneMeal(Meal);
+            }
+            // if the FoodInMeal has not an IdMeal, we give it the Id of the current Meal 
+            if (FoodToSave.IdMeal == null)
+            {
+                FoodToSave.IdMeal = Meal.IdMeal; 
+            }
+            // so the new meal will be the one of the FoodInMeal we are saving
             return Common.Database.SaveOneFoodInMeal(FoodToSave);
         }
         internal void SaveAllFoodsInMeal()
@@ -67,6 +82,7 @@ namespace GlucoMan.BusinessLayer
             if (currentFoodsInMeal != null)
                 foreach (FoodInMeal food in currentFoodsInMeal)
                 {
+                    // if it is necessary, the next method will create a new meal
                     Common.Database.SaveOneFoodInMeal(food);
                 }
         }
@@ -122,7 +138,7 @@ namespace GlucoMan.BusinessLayer
                 {
                     total += f.ChoGrams.Double;
                 }
-                Meal.ChoGrams.Double = total;
+                Meal.Carbohydrates.Double = total;
             }
             return total; 
         }
@@ -144,7 +160,7 @@ namespace GlucoMan.BusinessLayer
                 {
                     // if we don't have CHO we can't calculate the propagation of uncertainty, 
                     // because CHO is the weight of the component
-                    if (f == null && f.ChoGrams.Double == null)
+                    if (f == null || f.ChoGrams.Double == null)
                     {
                         IsValueCorrect = false;
                         break;
@@ -167,7 +183,10 @@ namespace GlucoMan.BusinessLayer
                 }
                 // if the value in not correct, Meal.AccuracyOfChoEstimate remains unchanged
             }
-            return WeightedQuadraticAverage;
+            if (IsValueCorrect)
+                return WeightedQuadraticAverage;
+            else
+                return null;
         }
         internal void FromFoodToFoodInMeal(Food SourceFood, FoodInMeal DestinationFoodInMeal)
         {
@@ -208,7 +227,6 @@ namespace GlucoMan.BusinessLayer
             Meal.TimeBegin.DateTime = now;
             Meal.TimeEnd.DateTime = now;
             Meal.AccuracyOfChoEstimate.Double = 0;
-            Meal.QualitativeAccuracyOfChoEstimate = QualitativeAccuracy.NotSet;
             Meal.IdTypeOfMeal = SetTypeOfMealBasedOnTime();
         }
         public void SaveFoodInMealParameters()
@@ -229,11 +247,11 @@ namespace GlucoMan.BusinessLayer
         }
         public void SaveMealParameters()
         {
-            Common.Database.SaveParameter("Meal_ChoGrams", Meal.ChoGrams.Text);
+            Common.Database.SaveParameter("Meal_ChoGrams", Meal.Carbohydrates.Text);
         }
         public void RestoreMealParameters()
         {
-            Meal.ChoGrams.Text = Common.Database.RestoreParameter("Meal_ChoGrams");
+            Meal.Carbohydrates.Text = Common.Database.RestoreParameter("Meal_ChoGrams");
         }
     }
 }

@@ -454,15 +454,17 @@ namespace GlucoMan
                 cmd.Dispose();
             }
         }
-        internal  override void DeleteDatabase()
+        internal  override bool DeleteDatabase()
         {
             try
             {
                 File.Delete(dbName);
+                return true;
             }
             catch (Exception ex)
             {
                 Common.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | DeleteDatabase", ex);
+                return false;
             }
         }
         internal  override long? SaveParameter(string FieldName, string FieldValue, int? Key = null)

@@ -193,7 +193,8 @@ namespace GlucoMan.BusinessLayer
             dl.SaveParameter("Bolus_TotalDailyDoseOfInsulin", TotalDailyDoseOfInsulin.Text);
             dl.SaveParameter("Bolus_ChoToEat", ChoToEat.Text);
             dl.SaveParameter("Bolus_GlucoseBeforeMeal", GlucoseBeforeMeal.Text);
-    }
+            AppendToLogOfParameters();
+        }
         public  void SaveInsulinCorrectionParameters()
         {
             dl.SaveParameter("Correction_TypicalBolusMorning", TypicalBolusMorning.Text);
@@ -204,7 +205,21 @@ namespace GlucoMan.BusinessLayer
             dl.SaveParameter("Bolus_TotalDailyDoseOfInsulin", TotalDailyDoseOfInsulin.Text);
             dl.SaveParameter("Bolus_InsulinCorrectionSensitivity", InsulinCorrectionSensitivity.Text);
             // append the new data to the log file 
+            AppendToLogOfParameters();
+        }
+        private void AppendToLogOfParameters()
+        {
             string TextOfFile = "";
+
+            TextOfFile +="Bolus_TargetGlucose=\t" + TargetGlucose.Text + "\t"; 
+            TextOfFile +="Bolus_ChoInsulinRatioBreakfast=\t" + ChoInsulinRatioBreakfast.Text + "\t"; 
+            TextOfFile +="Bolus_ChoInsulinRatioLunch=\t" + ChoInsulinRatioLunch.Text + "\t"; 
+            TextOfFile +="Bolus_ChoInsulinRatioDinner=\t" + ChoInsulinRatioDinner.Text + "\t"; 
+            TextOfFile +="Bolus_InsulinCorrectionSensitivity=\t" + InsulinCorrectionSensitivity.Text + "\t"; 
+            TextOfFile +="Bolus_TotalDailyDoseOfInsulin=\t" + TotalDailyDoseOfInsulin.Text + "\t"; 
+            TextOfFile +="Bolus_ChoToEat=\t" + ChoToEat.Text + "\t"; 
+            TextOfFile +="Bolus_GlucoseBeforeMeal=\t" + GlucoseBeforeMeal.Text + "\t"; 
+
             TextOfFile += "Date and Time=\t" + DateTime.Now.ToString() + "\t";
             TextOfFile += "Typical Bolus Morning=\t" + TypicalBolusMorning.Text + "\t";
             TextOfFile += "Typical Bolus Midday=\t" + TypicalBolusMidday.Text + "\t";
@@ -213,10 +228,10 @@ namespace GlucoMan.BusinessLayer
             TextOfFile += "Total Daily Dose of Insulin\t" + TotalDailyDoseOfInsulin.Text + "\t";
             TextOfFile += "Factor of Insulin Correction Sensitivity=\t" + FactorOfInsulinCorrectionSensitivity.Text + "\t";
             TextOfFile += "Insulin Correction Sensitivity\t" + InsulinCorrectionSensitivity.Text + "\t";
-            TextOfFile += "\n"; 
+            TextOfFile += "\n";
             // write in append to the file 
-            File.AppendAllText(Path.Combine(Common.PathConfigurationData, 
-                "Log of the Insulin Correction Parameters.txt"), TextOfFile);
+            File.AppendAllText(Path.Combine(Common.PathConfigurationData,
+                "Log of the Insulin Correction Parameters.txt"), TextOfFile); 
         }
         public  void RestoreInsulinCorrectionParameters()
         {

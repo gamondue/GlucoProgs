@@ -4,6 +4,7 @@ namespace GlucoMan.Forms
 {
     public partial class frmMiscellaneous : Form
     {
+        BL_General blGeneral = new SharedGlucoMan.BusinessLayer.BL_General();
         bool canModify = true; 
         public frmMiscellaneous()
         {
@@ -47,15 +48,22 @@ namespace GlucoMan.Forms
                 "ERASING DATABASE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2)
                 == DialogResult.Yes)
             {
-                BL_General blGeneral = new SharedGlucoMan.BusinessLayer.BL_General();
-                // deleting the file will result automatically in a reset of the database 
-                blGeneral.DeleteDatabase(); 
+                // deleting the database file
+                // after deletion the software will automatically re-create the database
+                if (!blGeneral.DeleteDatabase())
+                {
+                    MessageBox.Show("Error in deleting file. File NOT deleted",
+                      "ERASING DATABASE", MessageBoxButtons.OK);
+                }
             }
         }
         private void btnCopyDatabase_Click(object sender, EventArgs e)
         {
-            string oneDrivePath = Common.PathUser.Substring(0, Common.PathUser.LastIndexOf(@"\")); 
-            File.Copy(Common.PathAndFileDatabase, Common.PathExport); 
+            if (!blGeneral.ExportProgramsFiles())
+            {
+                MessageBox.Show("Error in exporting program's files. NOT all files copied, check logs",
+                  "Exporting program's files", MessageBoxButtons.OK);
+            }
         }
         private void btnShowErrorLog_Click(object sender, EventArgs e)
         {

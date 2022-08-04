@@ -1,4 +1,5 @@
 ﻿using GlucoMan;
+using System.IO; 
 using GlucoMan.BusinessLayer;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,28 @@ namespace SharedGlucoMan.BusinessLayer
         {
             return dl.RestoreParameter(FieldName);
         }
-        public  void DeleteDatabase()
+        public bool DeleteDatabase()
         {
-            dl.DeleteDatabase();
+            return dl.DeleteDatabase();
+        }
+        internal bool ExportProgramsFiles()
+        {
+            try
+            {
+                // database file
+                File.Copy(Common.PathAndFileDatabase, Common.PathExport);
+                // log of insulin correction parameters 
+                string logOfParameters = Path.Combine(Common.PathConfigurationData,
+                    "Log of the Insulin Correction Parameters.txt");
+                File.Copy(logOfParameters, Common.PathExport);
+                // log of errors 
+                File.Copy(Common.LogOfProgram.ErrorsFile, Common.PathExport);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

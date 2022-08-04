@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.1": {},
     ".NETStandard,Version=v2.1/": {
-      "GlucoMan/0.7.1.0": {
+      "GlucoMan/0.7.2.0": {
         "dependencies": {
           "Microsoft.Data.Sqlite.Core": "6.0.7",
           "SQLitePCLRaw.bundle_e_sqlite3": "2.1.0",
@@ -131,7 +131,7 @@
     }
   },
   "libraries": {
-    "GlucoMan/0.7.1.0": {
+    "GlucoMan/0.7.2.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
