@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
-using SharedData;
-using GlucoMan;
 using System.Collections.Generic;
 
 namespace GlucoMan.BusinessLayer
 {
-    public  class BL_BolusesAndInjections
+    public class BL_BolusesAndInjections
     {
         DataLayer dl = Common.Database;
 
@@ -78,12 +76,10 @@ namespace GlucoMan.BusinessLayer
 
             MealOfBolus = new Meal(); 
         }
-
         internal void DeleteOneInjection(InsulinInjection Injection)
         {
             dl.DeleteOneInjection(Injection); 
         }
-
         public  void CalculateInsulinCorrectionSensitivity()
         {
             TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double +

@@ -13,7 +13,7 @@
     <NeutralLanguage>en-001</NeutralLanguage>
     <PackageIcon>gamon LegoLogo scritta con piastra bianca 256x256.png</PackageIcon>
     <Authors>Ing.Gabriele Monti - Forlì - Italia</Authors>
-    <Version>0.7.2.0</Version>
+    <Version>0.7.2.1</Version>
     <PackageId>GlucoMan</PackageId>
     <AssemblyName>GlucoMan</AssemblyName>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>

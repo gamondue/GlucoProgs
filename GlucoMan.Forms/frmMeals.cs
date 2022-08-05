@@ -28,7 +28,7 @@ namespace GlucoMan.Forms
             accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
 
             bl.SetTypeOfMealBasedOnTime(); 
-            RefreshUi();
+            RefreshGrid();
         }
         private void SetCorrectTypeOfMealRadioButton()
         {
@@ -89,6 +89,35 @@ namespace GlucoMan.Forms
                 now.AddDays(1));
             gridMeals.DataSource = allTheMeals;
         }
+        private void gridMeals_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void gridMeals_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                gridMeals.Rows[e.RowIndex].Selected = true;
+                bl.Meal = allTheMeals[e.RowIndex];
+                FromClassToUi();
+            }
+        }
+        private void gridMeals_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                gridMeals.Rows[e.RowIndex].Selected = true;
+                FromUiToClass();
+                frmMeal m = new frmMeal(bl.Meal);
+                m.ShowDialog();
+            }
+        }
+        private void gridMeals_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            //if (e.RowIndex > -1)
+            //{
+            //    bl.Meal = allTheMeals[e.RowIndex];
+            //    gridMeals.Rows[e.RowIndex].Selected = true;
+            //    FromClassToUi();
+            //}
+        }
         private void btnAddMeal_Click(object sender, EventArgs e)
         {
             FromUiToClass();
@@ -99,9 +128,7 @@ namespace GlucoMan.Forms
                 DateTime now = DateTime.Now;
                 bl.Meal.TimeBegin.DateTime = now;
                 bl.Meal.TimeEnd.DateTime = now;
-            }
-            ////////////txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString();   
-            
+            }        
             frmMeal m = new frmMeal(bl.Meal); 
             m.ShowDialog();
             RefreshUi(); 
@@ -130,7 +157,7 @@ namespace GlucoMan.Forms
                 return ;    
             }
             FromUiToClass();
-            bl.SaveOneMeal(bl.Meal);
+            bl.SaveOneMeal(bl.Meal, chkNowInAdd.Checked);
             RefreshUi(); 
         }
         private void btnShowThisMeal_Click(object sender, EventArgs e)
@@ -160,34 +187,6 @@ namespace GlucoMan.Forms
         {
             bl.NewDefaults();
             FromClassToUi();
-        }
-        private void gridMeals_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void gridMeals_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex > -1)
-            {
-                gridMeals.Rows[e.RowIndex].Selected = true;
-                FromUiToClass();
-            }
-        }
-        private void gridMeals_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex > -1)
-            {
-                gridMeals.Rows[e.RowIndex].Selected = true;
-                FromUiToClass();
-                frmMeal m = new frmMeal(bl.Meal);
-                m.ShowDialog();
-            }
-        }
-        private void gridMeals_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex > -1)
-            {
-                bl.Meal = allTheMeals[e.RowIndex];
-                gridMeals.Rows[e.RowIndex].Selected = true;
-                FromClassToUi();
-            }
         }
         private void txtChoOfMeal_TextChanged(object sender, EventArgs e)
         {

@@ -40,10 +40,7 @@ namespace GlucoMan.Forms
             }
             loading = true;
 
-            //bl.RestoreFoodInMealParameters();
-            //bl.RestoreMealParameters();
-            FromClassToUi();
-            RefreshGrid();
+            RefreshUi();
 
             txtFoodChoPercent.Focus();
 
@@ -54,6 +51,11 @@ namespace GlucoMan.Forms
             bl.FoodsInMeal = bl.GetFoodsInMeal(bl.Meal.IdMeal); 
             gridFoodsInMeal.DataSource = bl.FoodsInMeal;
             gridFoodsInMeal.Refresh();
+        }
+        private void RefreshUi()
+        {
+            FromClassToUi(); 
+            RefreshGrid(); 
         }
         internal void FromClassToUi()
         {
@@ -171,7 +173,6 @@ namespace GlucoMan.Forms
                 bl.FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text;
                 bl.CalculateChoOfFoodGrams(bl.FoodInMeal);
                 txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
-                bl.SaveFoodInMealParameters();
             }
         }
         private void txtFoodChoGrams_TextChanged(object sender, EventArgs e)
@@ -187,44 +188,55 @@ namespace GlucoMan.Forms
                 }
             }
             bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
-            bl.RecalcTotalCho();
-            bl.RecalcTotalAccuracy();
+            bl.RecalcAll();
             txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
-            bl.SaveFoodInMealParameters();
         }
-        private void txtFoodChoGrams_Leave(object sender, EventArgs e)
-        {
-            FromUiToClass();
-            bl.RecalcTotalCho();
-            bl.RecalcTotalAccuracy();
-            txtFoodQuantityGrams.Text = "";
-            bl.FoodInMeal.QuantityGrams.Double = 0;
-            txtFoodChoPercent.Text = "";
-            bl.FoodInMeal.ChoPercent.Double = 0;
-            FromClassToUi();
+        //private void txtFoodChoGrams_Leave(object sender, EventArgs e)
+        //{
+        //    FromUiToClass();
+        //    bl.RecalcTotalCho();
+        //    bl.RecalcTotalAccuracy();
+        //    txtFoodQuantityGrams.Text = "";
+        //    bl.FoodInMeal.QuantityGrams.Double = 0;
+        //    txtFoodChoPercent.Text = "";
+        //    bl.FoodInMeal.ChoPercent.Double = 0;
+        //    FromClassToUi();
 
-            bl.SaveFoodInMealParameters();
-        }
+        //    bl.SaveFoodInMealParameters();
+        //}
         private void txtChoOfMealGrams_TextChanged(object sender, EventArgs e)
         {
             bl.SaveMealParameters();
         }
-        private void txtAccuracyOfChoFoodInMeal_TextChanged(object sender, EventArgs e) { }
-        private void txtAccuracyOfChoFoodInMeal_Leave(object sender, EventArgs e)
+        private void txtAccuracyOfChoFoodInMeal_TextChanged(object sender, EventArgs e)
         {
             bl.FoodInMeal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoFoodInMeal.Text);
             bl.RecalcTotalAccuracy();
             FromClassToUi();
         }
+        //private void txtAccuracyOfChoFoodInMeal_Leave(object sender, EventArgs e)
+        //{
+
+        //}
         private void btnSaveMeal_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString();
+            if (bl.Meal.TimeBegin.DateTime == Common.DateNull)
+                // if the meal has no date, we put Now
+                txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, true).ToString();
+            else
+                // if the meal has already a time, we don't touch it  
+                txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, false).ToString();
         }
         private void btnSaveAllMeal_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString();
+            if (bl.Meal.TimeBegin.DateTime == Common.DateNull)
+                // if the meal has no date, we put Now
+                txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, true).ToString();
+            else
+                // if the meal has already a time, we don't touch it  
+                txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, false).ToString();
             bl.SaveAllFoodsInMeal();
         }
         private void btnAddFoodInMeal_Click(object sender, EventArgs e)
@@ -242,11 +254,7 @@ namespace GlucoMan.Forms
         private void btnRemoveFoodInMeal_Click(object sender, EventArgs e)
         {
             bl.DeleteOneFoodInMeal(bl.FoodInMeal);
-            bl.RecalcTotalCho();
-            bl.RecalcTotalAccuracy();
-            bl.SaveMealParameters();
-            FromClassToUi();
-            RefreshGrid();
+            RefreshUi();
         }
         private void btnStartMeal_Click(object sender, EventArgs e) 
         {

@@ -40,6 +40,7 @@ namespace SharedGlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
+                Common.LogOfProgram.Error("ExportProgramsFiles. ", ex); 
                 return false;
             }
         }

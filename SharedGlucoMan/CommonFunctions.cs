@@ -19,6 +19,8 @@ namespace GlucoMan
 
             Common.Database = new DL_Sqlite();
             Common.BlGeneral = new BL_General();
+            Common.MealAndFood_CommonBL = new BusinessLayer.BL_MealAndFood();
+
             Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             Common.LogOfProgram = new Logger(Common.PathLogs, true,

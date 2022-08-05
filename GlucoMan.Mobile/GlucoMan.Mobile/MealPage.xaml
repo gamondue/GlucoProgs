@@ -48,9 +48,9 @@
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
                     BackgroundColor="PaleGoldenrod" FontSize="Small"
-                    />            
-            <Button Grid.Row="2" Grid.Column="4" Text="Calc" x:Name="btnSumCho"
-                    Clicked="btnSumCho_Click"></Button>
+                    />
+            <Button Grid.Row="2" Grid.Column="4" Text="Calc" x:Name="btnCalc"
+                    Clicked="btnCalc_Click"></Button>
             
             <Button Grid.Row="3" Grid.Column="0" Text="Save" x:Name="btnSaveMeal" 
                     Margin = "0,0,0,0" Clicked="btnSaveAllMeal_Click"></Button>
@@ -126,7 +126,7 @@
             <Button Grid.Row="10" Grid.Column="3" Text="Search" x:Name="btnSearchFood" 
                     Clicked="btnSearchFood_ClickAsync"></Button>
             <Button Grid.Row="10" Grid.Column="4" Text="Weigh" x:Name="btnWeighFood" 
-                    Clicked="btnWeighFood_Click"></Button>
+                    Clicked="btnWeighFood_Click" IsEnabled="False"></Button>
 
             <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3" Text="Food" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="1" Text="CHO" XAlign="Center" YAlign="End"/>

@@ -4,8 +4,8 @@ using System.IO;
 
 namespace GlucoMan
 {
-    internal partial class DL_Sqlite : DataLayer
-    {
+  internal partial class DL_Sqlite : DataLayer
+  {
 		string creationScript = @"
 BEGIN TRANSACTION;
 DROP TABLE IF EXISTS 'ModelsOfMeasurementSystem';
@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS 'Alarms' (
 	'IdAlarm'	INT NOT NULL,
 	'TimeStart'	DATETIME,
 	'TimeAlarm'	DATETIME,
-	'Interval'	DOUBLE,
-	'Duration'	DOUBLE,
-	'IsRepeated'	TINYINT,
+	'Interval' DOUBLE,
+	'Duration' DOUBLE,
+	'IsRepeated' TINYINT,
 	'IsEnabled'	TINYINT,
 	PRIMARY KEY('IdAlarm')
 );
@@ -179,33 +179,33 @@ CREATE TABLE IF NOT EXISTS 'Foods' (
 );
 COMMIT;
 ";
-        private void CreateNewDatabase(string dbName)
+	private void CreateNewDatabase(string dbName)
+	{
+		// making new, means erasing existent! 
+		if (File.Exists(dbName))
+		File.Delete(dbName);
+
+		//when the file does not exist
+		// Microsoft.Data.Sqlite creates the file at first connection
+		DbConnection c = Connect();
+		c.Close();
+		c.Dispose();
+
+		try
 		{
-			// making new, means erasing existent! 
-			if (File.Exists(dbName))
-				File.Delete(dbName);
+			using (DbConnection conn = Connect())
+			{
+				DbCommand cmd = conn.CreateCommand();
 
-            //when the file does not exist
-            // Microsoft.Data.Sqlite creates the file at first connection
-            DbConnection c = Connect();
-            c.Close();
-            c.Dispose();
-
-            try
-            {
-                using (DbConnection conn = Connect())
-                {
-                    DbCommand cmd = conn.CreateCommand();
-
-                    cmd.CommandText = creationScript;
-                    cmd.ExecuteNonQuery();
-                    cmd.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                Common.LogOfProgram.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
-            }
-        }
-    }
+				cmd.CommandText = creationScript;
+				cmd.ExecuteNonQuery();
+				cmd.Dispose();
+			}
+		}
+		catch (Exception ex)
+			{
+				Common.LogOfProgram.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
+			}
+		}
+	}
 }

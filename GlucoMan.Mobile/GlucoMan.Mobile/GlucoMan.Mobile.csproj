@@ -6,7 +6,7 @@
     <AssemblyName>GlucoMan</AssemblyName>
     <ApplicationIcon>Current_Icon_White.ico</ApplicationIcon>
     <PackageId>GlucoMan</PackageId>
-    <Version>0.7.2.0</Version>
+    <Version>0.7.2.1</Version>
     <NeutralLanguage>en-150</NeutralLanguage>
     <PackageLicenseExpression>GPL-2.0-only</PackageLicenseExpression>
     <Authors>Ing.Gabriele MONTI - Forlì - Italia</Authors>

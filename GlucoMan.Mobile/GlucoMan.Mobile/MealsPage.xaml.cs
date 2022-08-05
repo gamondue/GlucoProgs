@@ -1,7 +1,6 @@
 ﻿using GlucoMan.BusinessLayer;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using static GlucoMan.Common;
@@ -17,6 +16,7 @@ namespace GlucoMan.Mobile
         Accuracy accuracyClass;
 
         private List<Meal> allTheMeals;
+        private MealPage mealPage;
 
         public MealsPage()
         {
@@ -29,8 +29,8 @@ namespace GlucoMan.Mobile
 
             accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
 
-            bl.SetTypeOfMealBasedOnTime(); 
-            RefreshUi();
+            bl.SetTypeOfMealBasedOnTime();
+            RefreshGrid();
         }
         private void SetCorrectTypeOfMealRadioButton()
         {
@@ -62,6 +62,7 @@ namespace GlucoMan.Mobile
             }
             if (bl.Meal.AccuracyOfChoEstimate.Double != null)
                 txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
+            //txtNotes.Text = bl.Meal.Notes;
             SetCorrectTypeOfMealRadioButton();
         }
         private void FromUiToClass()
@@ -74,6 +75,7 @@ namespace GlucoMan.Mobile
             DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
                 dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
             bl.Meal.TimeBegin.DateTime = instant;
+            //bl.Meal.Notes = txtNotes.Text;
             // TypeOfMeal treated by controls' events
         }
         private void RefreshUi()
@@ -89,6 +91,29 @@ namespace GlucoMan.Mobile
                 now.AddDays(1));
             gridMeals.BindingContext = allTheMeals;
         }
+        protected override async void OnAppearing()
+        {
+            if (mealPage != null)
+                RefreshUi(); 
+            //{
+            //    if (mealPage.FoodIsChosen)
+            //    {
+            //        bl.FromFoodToFoodInMeal(mealPage.CurrentFood, bl.FoodInMeal);
+            //        FromClassToUi();
+            //    }
+            //}
+        }
+        private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                //await DisplayAlert("XXXX", "YYYY", "Ok");
+                return;
+            }
+            //make the tapped row the current meal 
+            bl.Meal = (Meal)e.SelectedItem;
+            FromClassToUi();
+        }
         private async void btnAddMeal_ClickAsync(object sender, EventArgs e)
         {
             FromUiToClass();
@@ -99,10 +124,9 @@ namespace GlucoMan.Mobile
                 DateTime now = DateTime.Now;
                 bl.Meal.TimeBegin.DateTime = now;
                 bl.Meal.TimeEnd.DateTime = now;
-            }
-            //////////txtIdMeal.Text = bl.SaveOneMeal(bl.Meal).ToString(); 
-            
-            await Navigation.PushAsync(new MealPage(bl.Meal)); 
+            }           
+            mealPage = new MealPage(bl.Meal);
+            await Navigation.PushAsync(mealPage);
             RefreshUi();
         }
         private async void btnRemoveMeal_ClickAsync(object sender, EventArgs e)
@@ -130,7 +154,7 @@ namespace GlucoMan.Mobile
                 return;
             }
             FromUiToClass();
-            bl.SaveOneMeal(bl.Meal);
+            bl.SaveOneMeal(bl.Meal, chkNowInAdd.IsChecked);
             RefreshUi();
         }
         private async void btnShowThisMeal_ClickAsync(object sender, EventArgs e)
@@ -151,25 +175,10 @@ namespace GlucoMan.Mobile
             dtpMealDateBegin.Date = now;
             dtpMealTimeBegin.Time = now.TimeOfDay;
         }
-        //private void btnSaveMeal_Click(object sender, EventArgs e)
-        //{
-        //    btnSaveMeal_ClickAsync(sender, e); 
-        //}
         private void btnDefault_Click(object sender, EventArgs e)
         {
             bl.NewDefaults();
             FromClassToUi();         
-        }
-        private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (e.SelectedItem == null)
-            {
-                //await DisplayAlert("XXXX", "YYYY", "Ok");
-                return;
-            }
-            //make the tapped row the current meal 
-            bl.Meal = (Meal)e.SelectedItem;
-            FromClassToUi();
         }
         private void txtChoOfMeal_TextChanged(object sender, EventArgs e)
         {

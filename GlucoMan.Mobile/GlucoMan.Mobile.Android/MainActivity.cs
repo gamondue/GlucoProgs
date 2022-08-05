@@ -27,8 +27,8 @@ namespace GlucoMan.Mobile.Droid
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
 
+        }
         [Obsolete]
         internal void SetAndroidPaths()
         {

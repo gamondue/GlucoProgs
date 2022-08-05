@@ -1,45 +1,52 @@
 ﻿using static GlucoMan.Common;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace GlucoMan.BusinessLayer
 {
     public class BL_MealAndFood
     {
-        //DataLayer dl = Common.Database;
-        List<Meal> currentMeals;
-        public List<Meal> Meals { get => currentMeals; set => currentMeals = value; }
-        
-        List<FoodInMeal> currentFoodsInMeal;
-        FoodInMeal currentFoodInMeal;
-        public Meal Meal { get; set ; }
-        public List<FoodInMeal> FoodsInMeal { get => currentFoodsInMeal; set => currentFoodsInMeal = value; }
+        DataLayer dl;
+
+        public List<Meal> Meals { get; set; }
+        public Meal Meal { get; set; }
+
+        public List<FoodInMeal> FoodsInMeal { get; set; }
+        public FoodInMeal FoodInMeal { get; set; }
+
         public BL_MealAndFood()
         {
-            currentMeals = new List<Meal>();
+            Meals = new List<Meal>();
             Meal = new Meal();
-            currentFoodsInMeal = new List<FoodInMeal>();
-            currentFoodInMeal = new FoodInMeal();
+            FoodsInMeal = new List<FoodInMeal>();
+            FoodInMeal = new FoodInMeal();
+
+            dl = Common.Database;
         }
         #region Meals
         public Meal GetOneMeal(int? IdMeal)
         {
-            Meal = Common.Database.GetOneMeal(IdMeal);
+            Meal = dl.GetOneMeal(IdMeal);
             return Meal;
         }
         public List<Meal> GetMeals(DateTime? InitialTime, DateTime? FinalTime)
         {
-            currentMeals = Common.Database.GetMeals(InitialTime, FinalTime);
-            return currentMeals;
+            Meals = dl.GetMeals(InitialTime, FinalTime);
+            return Meals;
         }
-        public int? SaveOneMeal(Meal Meal)
+        public int? SaveOneMeal(Meal Meal, bool SaveWithNowAsTime)
         {
-            return Common.Database.SaveOneMeal(Meal);
+            if (SaveWithNowAsTime)
+            {
+                DateTime now = DateTime.Now;
+                Meal.TimeBegin.DateTime = now;
+                Meal.TimeEnd.DateTime = now;
+            }
+            return dl.SaveOneMeal(Meal);
         }
         internal void DeleteOneMeal(Meal Meal)
         {
-            Common.Database.DeleteOneMeal(Meal);
+            dl.DeleteOneMeal(Meal);
         }
         internal string[] GetAllTypesOfMeal()
         {
@@ -47,19 +54,18 @@ namespace GlucoMan.BusinessLayer
         }
         #endregion
         #region FoodsInMeals
-        public FoodInMeal FoodInMeal { get => currentFoodInMeal; set => currentFoodInMeal = value; }
         public List<FoodInMeal> GetFoodsInMeal(int? IdMeal)
         {
-            currentFoodsInMeal = Common.Database.GetFoodsInMeal(IdMeal);
-            return currentFoodsInMeal;
+            FoodsInMeal = dl.GetFoodsInMeal(IdMeal);
+            return FoodsInMeal;
         }
         public void SaveFoodsInMeal(List<FoodInMeal> List)
         {
-            Common.Database.SaveFoodsInMeal(List);
+            dl.SaveFoodsInMeal(List);
         }
         public int? SaveOneFoodInMeal(FoodInMeal FoodToSave)
         {
-            // if we don't have a meal, the we make one 
+            // if we don't have a meal, then we make one 
             if (Meal == null)
             {
                 Meal = new Meal();
@@ -67,7 +73,8 @@ namespace GlucoMan.BusinessLayer
             // if the meal has not a code, we save it to have one 
             if (Meal.IdMeal == null)
             {
-                Meal.IdMeal = SaveOneMeal(Meal);
+                // if a Meal is created here, it must have Now as Time
+                Meal.IdMeal = SaveOneMeal(Meal, true);
             }
             // if the FoodInMeal has not an IdMeal, we give it the Id of the current Meal 
             if (FoodToSave.IdMeal == null)
@@ -75,44 +82,50 @@ namespace GlucoMan.BusinessLayer
                 FoodToSave.IdMeal = Meal.IdMeal; 
             }
             // so the new meal will be the one of the FoodInMeal we are saving
-            return Common.Database.SaveOneFoodInMeal(FoodToSave);
+            return dl.SaveOneFoodInMeal(FoodToSave);
         }
         internal void SaveAllFoodsInMeal()
         {
-            if (currentFoodsInMeal != null)
-                foreach (FoodInMeal food in currentFoodsInMeal)
+            if (FoodsInMeal != null)
+                foreach (FoodInMeal food in FoodsInMeal)
                 {
                     // if it is necessary, the next method will create a new meal
-                    Common.Database.SaveOneFoodInMeal(food);
+                    if (food.IdMeal == null)
+                    {   // if the food has not ebbe saves jet, we add it to the list of Foods in this Meal
+                        FoodsInMeal.Add(food);
+                    }
+                    // now we save, if the food was new, when exiting the next function, it will have an IdFoodInMeal
+                    dl.SaveOneFoodInMeal(food);
                 }
         }
         internal void DeleteOneFoodInMeal(FoodInMeal Food)
         {
-            Common.Database.DeleteOneFoodInMeal(Food);
+            dl.DeleteOneFoodInMeal(Food);
+            RecalcAll();
         }
         #endregion
         #region Foods
         internal int? SaveOneFood(Food food)
         {
-            return Common.Database.SaveOneFood(food);
+            return dl.SaveOneFood(food);
         }
         internal void DeleteOneFood(Food food)
         {
             // !!!! verify if  the row to delete has been used somewhere else in the database
             // !!!! if it is the case, don't delete and give notice to the caller 
-            Common.Database.DeleteOneFood(food);
+            dl.DeleteOneFood(food);
         }
         internal Food GetOneFood(int? idFood)
         {
-            return Common.Database.GetOneFood(idFood);
+            return dl.GetOneFood(idFood);
         }
         internal List<Food> SearchFoods(string Name, string Description)
         {
-            return Common.Database.SearchFoods(Name, Description);
+            return dl.SearchFoods(Name, Description);
         }
         internal List<Food> GetFoods()
         {
-            return Common.Database.GetFoods();
+            return dl.GetFoods();
         }
         public void CalculateChoOfFoodGrams(FoodInMeal Food)
         {
@@ -121,8 +134,7 @@ namespace GlucoMan.BusinessLayer
                 Food.ChoGrams.Double = Food.ChoPercent.Double / 100 *
                     Food.QuantityGrams.Double;
             }
-            RecalcTotalCho();
-            RecalcTotalAccuracy();
+            RecalcAll(); 
         }
         #endregion
         internal string[] GetAllAccuracies()
@@ -132,9 +144,9 @@ namespace GlucoMan.BusinessLayer
         internal double? RecalcTotalCho()
         {
             double? total = 0;
-            if (currentFoodsInMeal != null)
+            if (FoodsInMeal != null)
             {
-                foreach (FoodInMeal f in currentFoodsInMeal)
+                foreach (FoodInMeal f in FoodsInMeal)
                 {
                     total += f.ChoGrams.Double;
                 }
@@ -154,9 +166,9 @@ namespace GlucoMan.BusinessLayer
             double sumOfSquaredWeightedValues = 0;
             double? WeightedQuadraticAverage = 0;
             bool IsValueCorrect = true; 
-            if (currentFoodsInMeal != null && currentFoodsInMeal.Count > 0)
+            if (FoodsInMeal != null && FoodsInMeal.Count > 0)
             {
-                foreach (FoodInMeal f in currentFoodsInMeal)
+                foreach (FoodInMeal f in FoodsInMeal)
                 {
                     // if we don't have CHO we can't calculate the propagation of uncertainty, 
                     // because CHO is the weight of the component
@@ -220,6 +232,12 @@ namespace GlucoMan.BusinessLayer
                 Meal.IdTypeOfMeal = TypeOfMeal.Snack;
             return Meal.IdTypeOfMeal; 
         }
+        internal void RecalcAll()
+        {
+            RecalcTotalCho();
+            RecalcTotalAccuracy();
+            SaveMealParameters();
+        }
         internal void NewDefaults()
         {
             Meal = new Meal();
@@ -231,27 +249,27 @@ namespace GlucoMan.BusinessLayer
         }
         public void SaveFoodInMealParameters()
         {
-            Common.Database.SaveParameter("FoodInMeal_ChoGrams", currentFoodInMeal.ChoGrams.Text);
-            Common.Database.SaveParameter("FoodInMeal_QuantityGrams", currentFoodInMeal.QuantityGrams.Text);
-            Common.Database.SaveParameter("FoodInMeal_ChoPercent", currentFoodInMeal.ChoPercent.Text);
-            Common.Database.SaveParameter("FoodInMeal_Name", currentFoodInMeal.Name);
-            Common.Database.SaveParameter("FoodInMeal_AccuracyOfChoEstimate", currentFoodInMeal.AccuracyOfChoEstimate.Text);
+            dl.SaveParameter("FoodInMeal_ChoGrams", FoodInMeal.ChoGrams.Text);
+            dl.SaveParameter("FoodInMeal_QuantityGrams", FoodInMeal.QuantityGrams.Text);
+            dl.SaveParameter("FoodInMeal_ChoPercent", FoodInMeal.ChoPercent.Text);
+            dl.SaveParameter("FoodInMeal_Name", FoodInMeal.Name);
+            dl.SaveParameter("FoodInMeal_AccuracyOfChoEstimate", FoodInMeal.AccuracyOfChoEstimate.Text);
         }
         public void RestoreFoodInMealParameters()
         {
-            currentFoodInMeal.ChoGrams.Text = Common.Database.RestoreParameter("FoodInMeal_ChoGrams");
-            currentFoodInMeal.QuantityGrams.Text = Common.Database.RestoreParameter("FoodInMeal_QuantityGrams");
-            currentFoodInMeal.ChoPercent.Text = Common.Database.RestoreParameter("FoodInMeal_ChoPercent");
-            currentFoodInMeal.Name = Common.Database.RestoreParameter("FoodInMeal_Name");
-            currentFoodInMeal.AccuracyOfChoEstimate.Text = Common.Database.RestoreParameter("FoodInMeal_AccuracyOfChoEstimate");
+            FoodInMeal.ChoGrams.Text = dl.RestoreParameter("FoodInMeal_ChoGrams");
+            FoodInMeal.QuantityGrams.Text = dl.RestoreParameter("FoodInMeal_QuantityGrams");
+            FoodInMeal.ChoPercent.Text = dl.RestoreParameter("FoodInMeal_ChoPercent");
+            FoodInMeal.Name = dl.RestoreParameter("FoodInMeal_Name");
+            FoodInMeal.AccuracyOfChoEstimate.Text = dl.RestoreParameter("FoodInMeal_AccuracyOfChoEstimate");
         }
         public void SaveMealParameters()
         {
-            Common.Database.SaveParameter("Meal_ChoGrams", Meal.Carbohydrates.Text);
+            dl.SaveParameter("Meal_ChoGrams", Meal.Carbohydrates.Text);
         }
         public void RestoreMealParameters()
         {
-            Meal.Carbohydrates.Text = Common.Database.RestoreParameter("Meal_ChoGrams");
+            Meal.Carbohydrates.Text = dl.RestoreParameter("Meal_ChoGrams");
         }
     }
 }

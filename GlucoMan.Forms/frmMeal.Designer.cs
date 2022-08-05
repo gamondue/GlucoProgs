@@ -266,7 +266,6 @@ namespace GlucoMan.Forms
             this.txtAccuracyOfChoFoodInMeal.TabIndex = 4;
             this.txtAccuracyOfChoFoodInMeal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtAccuracyOfChoFoodInMeal.TextChanged += new System.EventHandler(this.txtAccuracyOfChoFoodInMeal_TextChanged);
-            this.txtAccuracyOfChoFoodInMeal.Leave += new System.EventHandler(this.txtAccuracyOfChoFoodInMeal_Leave);
             // 
             // cmbAccuracyFoodInMeal
             // 
@@ -460,7 +459,6 @@ namespace GlucoMan.Forms
             this.txtFoodChoGrams.TabIndex = 5;
             this.txtFoodChoGrams.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtFoodChoGrams.TextChanged += new System.EventHandler(this.txtFoodChoGrams_TextChanged);
-            this.txtFoodChoGrams.Leave += new System.EventHandler(this.txtFoodChoGrams_Leave);
             // 
             // btnSaveMeal
             // 

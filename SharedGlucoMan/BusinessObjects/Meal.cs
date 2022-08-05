@@ -32,13 +32,11 @@ namespace GlucoMan
         public int? IdGlucoseRecord { get; set; }
         [DisplayName("End time")]
         public DateTimeAndText TimeEnd { get => timeEnd; set => timeEnd = value; }
-
         public List<Food> FoodsEaten { get => foodsEaten; set => foodsEaten = value; }
-
-        public  Meal()
+        public Meal()
         {
-            // default type of meal is snack
-            IdTypeOfMeal = Common.TypeOfMeal.Snack;
+            // default type of meal is NotSet
+            IdTypeOfMeal = Common.TypeOfMeal.NotSet;
             TimeBegin = new DateTimeAndText();
             TimeEnd = new DateTimeAndText();
 

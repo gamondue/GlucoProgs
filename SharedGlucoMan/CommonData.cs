@@ -5,10 +5,10 @@ using System;
 namespace GlucoMan
 {
     public static partial class Common
-    {        
-        internal static DataLayer Database;
+    {
+        internal static DataLayer Database; 
         public static BL_General BlGeneral;
-        public static BL_MealAndFood MealAndFood_CommonBL = new BL_MealAndFood();
+        public static BL_MealAndFood MealAndFood_CommonBL;
 
         public static SharedData.Logger LogOfProgram;
 
