@@ -30,6 +30,7 @@ namespace GlucoMan
         public DoubleAndText AccuracyOfChoEstimate { get; set; }
         public int? IdBolusCalculation { get; set; }
         public int? IdGlucoseRecord { get; set; }
+        public int? IdInsulinInjection { get; internal set; }
         [DisplayName("End time")]
         public DateTimeAndText TimeEnd { get => timeEnd; set => timeEnd = value; }
         public List<Food> FoodsEaten { get => foodsEaten; set => foodsEaten = value; }

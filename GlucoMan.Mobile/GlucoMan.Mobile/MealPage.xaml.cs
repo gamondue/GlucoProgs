@@ -18,17 +18,23 @@ namespace GlucoMan.Mobile
         private Accuracy accuracyMeal;
         private Accuracy accuracyFoodInMeal;
 
-        FoodsPage foodsPage; 
+        FoodsPage foodsPage;
+        InsulinCalcPage insulinCalcPage;
+        InjectionsPage injectionsPage;
+        GlucoseMeasurementsPage measurementPage; 
 
         public MealPage(Meal Meal)
         {
             InitializeComponent();
-            if (Meal == null)
-                Meal = new Meal();
-            bl.Meal = Meal;
             
             loading = true;
-
+            if (Meal == null)
+            {
+                Meal = new Meal();
+                btnDefaults_Click(null, null);
+            }
+            bl.Meal = Meal;
+            
             cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
             cmbAccuracyFoodInMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
 
@@ -39,28 +45,9 @@ namespace GlucoMan.Mobile
             {
                 bl.Meal.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
             }
-            //bl.RestoreMealParameters();
-            FromClassToUi();
-            RefreshGrid();
+            RefreshUi();
 
             loading = false;
-        }
-        protected override async void OnAppearing()
-        {
-            // set focus to a specific field
-            // (currently deemed not necessary and commented out)
-            // base.OnAppearing();
-            // await Task.Delay(1);
-            // txtFoodChoPercent.Focus();
-
-            if (foodsPage!= null)
-            {
-                if (foodsPage.FoodIsChosen)
-                {
-                    bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
-                    FromClassToUi(); 
-                }
-            }
         }
         private void RefreshGrid()
         {
@@ -110,7 +97,6 @@ namespace GlucoMan.Mobile
 
             bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
             bl.Meal.Carbohydrates.Text = txtChoOfMealGrams.Text;
-
             bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
             bl.Meal.Notes = txtNotes.Text;
 
@@ -173,23 +159,8 @@ namespace GlucoMan.Mobile
             else
                 // if the meal has already a time, we don't touch it  
                 txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, false).ToString();
-            txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString(); 
+            txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
             bl.SaveAllFoodsInMeal();
-        }
-        private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (e.SelectedItem == null)
-            {
-                //await DisplayAlert("XXXX", "YYYY", "Ok");
-                return;
-            }
-            loading = true;
-            //FromUiToClass();
-            //make the tapped row the current food in meal 
-            bl.FoodInMeal = (FoodInMeal)e.SelectedItem;
-            FromClassToUi();
-            bl.SaveFoodInMealParameters();
-            loading = false;
         }
         private void btnAddFoodInMeal_Click(object sender, EventArgs e)
         {
@@ -210,11 +181,11 @@ namespace GlucoMan.Mobile
             FromUiToClass();
             foodsPage = new FoodsPage(bl.FoodInMeal); 
             await Navigation.PushAsync(foodsPage);
-            if (foodsPage.FoodIsChosen)
-            {
-                bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
-                FromClassToUi(); 
-            }
+            //if (foodsPage.FoodIsChosen)
+            //{
+            //    bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
+            //    FromClassToUi(); 
+            //}
         }
         // in this UI we have no buttons to save just one food in meal 
         //private void btnSaveFoodInMeal_Click(object sender, EventArgs e)
@@ -229,6 +200,13 @@ namespace GlucoMan.Mobile
         //    FromClassToUi();
         //    RefreshGrid();
         //}
+        private void btnSaveAllFoods_Click(object sender, EventArgs e)
+        {
+            FromUiToClass();
+            bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
+            bl.SaveAllFoodsInMeal();
+            RefreshGrid();
+        }
         private void btnDefaults_Click(object sender, EventArgs e)
         {
             txtFoodChoPercent.Text = "";
@@ -243,39 +221,68 @@ namespace GlucoMan.Mobile
         private void btnCalc_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            bl.RecalcAll(); 
+            bl.RecalcAll();
             FromClassToUi();
-        }
-        private void btnSaveAllFoods_Click(object sender, EventArgs e)
-        {
-            FromUiToClass();
-            bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
-            bl.SaveAllFoodsInMeal();
-            RefreshGrid();
         }
         private async void btnSearchFood_ClickAsync(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new FoodsPage(txtFoodInMealName.Text, "")); 
         }
-        private async void btnFoodCalc_ClickAsync(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new FoodToHitTargetCarbsPage());
-        }
         private async void btnInsulinCalc_ClickAsync(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new InsulinCalcPage());
+            //insulinCalcPage = new InsulinCalcPage(bl.Meal.IdBolusCalculation);
+            insulinCalcPage = new InsulinCalcPage();
+            await Navigation.PushAsync(insulinCalcPage);
         }
         private async void btnGlucose_ClickAsync(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new GlucoseMeasurementPage());
+            measurementPage = new GlucoseMeasurementsPage(bl.Meal.IdGlucoseRecord); 
+            await Navigation.PushAsync(measurementPage);
         }
         private async void btnInjection_ClickAsync(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new InjectionsPage());
+            injectionsPage = new InjectionsPage(bl.Meal.IdInsulinInjection);
+            await Navigation.PushAsync(injectionsPage);
         }
         private async void btnWeighFood_Click(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new WeighFoodPage());
+        }
+        private async void btnFoodCalc_ClickAsync(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FoodToHitTargetCarbsPage());
+        }
+        private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                //await DisplayAlert("XXXX", "YYYY", "Ok");
+                return;
+            }
+            loading = true;
+            //make the tapped row the current food in meal 
+            bl.FoodInMeal = (FoodInMeal)e.SelectedItem;
+            FromClassToUi();
+            bl.SaveFoodInMealParameters();
+            loading = false;
+        }
+        protected override async void OnAppearing()
+        {
+            if (foodsPage != null && foodsPage.FoodIsChosen)
+                bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
+            //bl.Meal.IdBolusCalculation = insulinCalcPage.IdBolusCalculation;
+            if (injectionsPage != null && injectionsPage.IdInsulinInjection != null)
+                bl.Meal.IdInsulinInjection = injectionsPage.IdInsulinInjection;
+            if (measurementPage != null && measurementPage.IdGlucoseRecord != null)
+                bl.Meal.IdGlucoseRecord = measurementPage.IdGlucoseRecord;
+
+            FromClassToUi();
+
+            // set focus to a specific field
+            // (currently deemed not necessary and commented out)
+            // base.OnAppearing();
+            // await Task.Delay(1);
+            // txtFoodChoPercent.Focus();
         }
     }
 }

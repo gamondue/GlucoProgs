@@ -11,7 +11,7 @@ namespace GlucoMan
         {
             return GetNextTablePrimaryKey("GlucoseRecords", "IdGlucoseRecord");
         }
-        internal  override List<GlucoseRecord> ReadGlucoseMeasurements(
+        internal  override List<GlucoseRecord> GetGlucoseRecords(
             DateTime? InitialInstant, DateTime? FinalInstant)
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>(); 
@@ -46,6 +46,36 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
             }
             return list; 
+        }
+        internal override GlucoseRecord GetOneGlucoseRecord(int? IdGlucoseRecord)
+        {
+            GlucoseRecord gr = new GlucoseRecord();
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
+                {
+                    string query = "SELECT *" +
+                        " FROM GlucoseRecords";
+                    query += " WHERE idGlucoseRecord=" + IdGlucoseRecord; 
+                    query += ";";
+                    cmd = new SqliteCommand(query);
+                    cmd.Connection = conn;
+                    dRead = cmd.ExecuteReader();
+                    while (dRead.Read())
+                    {
+                        gr = GetGlucoseRecordFromRow(dRead);
+                    }
+                    dRead.Dispose();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
+            }
+            return gr;
         }
         internal  override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
         {

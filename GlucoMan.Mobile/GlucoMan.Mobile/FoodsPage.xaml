@@ -49,7 +49,7 @@
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
                     x:Name="txtDescription" BackgroundColor="White"
                     Keyboard="Text" TextChanged="txtDescription_TextChanged"
-                    FontSize="Medium" HorizontalTextAlignment="End"/>
+                    FontSize="Medium" HorizontalTextAlignment="Start"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="CHO [g]%" XAlign="Center" YAlign="End"/>
 

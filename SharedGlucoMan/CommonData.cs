@@ -6,6 +6,9 @@ namespace GlucoMan
 {
     public static partial class Common
     {
+        public static string DatabaseFileName = @"GlucoManData.Sqlite";
+        public static string LogOfParametersFileName = @"Log of the Insulin Correction Parameters.txt";
+
         internal static DataLayer Database; 
         public static BL_General BlGeneral;
         public static BL_MealAndFood MealAndFood_CommonBL;

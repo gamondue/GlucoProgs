@@ -75,9 +75,9 @@ namespace GlucoMan.Forms
             this.btnFoodCalc = new System.Windows.Forms.Button();
             this.btnInjection = new System.Windows.Forms.Button();
             this.btnSaveAllMeal = new System.Windows.Forms.Button();
-            this.btnSumCho = new System.Windows.Forms.Button();
+            this.btnCalc = new System.Windows.Forms.Button();
             this.btnGlucose = new System.Windows.Forms.Button();
-            this.btnInsulin = new System.Windows.Forms.Button();
+            this.btnInsulinCalc = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnSaveAllFoods = new System.Windows.Forms.Button();
             this.btnSaveFoodInMeal = new System.Windows.Forms.Button();
@@ -265,7 +265,6 @@ namespace GlucoMan.Forms
             this.txtAccuracyOfChoFoodInMeal.Size = new System.Drawing.Size(60, 26);
             this.txtAccuracyOfChoFoodInMeal.TabIndex = 4;
             this.txtAccuracyOfChoFoodInMeal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtAccuracyOfChoFoodInMeal.TextChanged += new System.EventHandler(this.txtAccuracyOfChoFoodInMeal_TextChanged);
             // 
             // cmbAccuracyFoodInMeal
             // 
@@ -507,12 +506,12 @@ namespace GlucoMan.Forms
             this.groupBox2.Controls.Add(this.btnFoodCalc);
             this.groupBox2.Controls.Add(this.btnInjection);
             this.groupBox2.Controls.Add(this.btnSaveAllMeal);
-            this.groupBox2.Controls.Add(this.btnSumCho);
+            this.groupBox2.Controls.Add(this.btnCalc);
             this.groupBox2.Controls.Add(this.cmbAccuracyMeal);
             this.groupBox2.Controls.Add(this.txtAccuracyOfChoMeal);
             this.groupBox2.Controls.Add(this.btnSaveMeal);
             this.groupBox2.Controls.Add(this.btnGlucose);
-            this.groupBox2.Controls.Add(this.btnInsulin);
+            this.groupBox2.Controls.Add(this.btnInsulinCalc);
             this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.groupBox1);
             this.groupBox2.Controls.Add(this.label4);
@@ -576,15 +575,15 @@ namespace GlucoMan.Forms
             this.btnSaveAllMeal.UseVisualStyleBackColor = true;
             this.btnSaveAllMeal.Click += new System.EventHandler(this.btnSaveAllMeal_Click);
             // 
-            // btnSumCho
+            // btnCalc
             // 
-            this.btnSumCho.Location = new System.Drawing.Point(680, 40);
-            this.btnSumCho.Name = "btnSumCho";
-            this.btnSumCho.Size = new System.Drawing.Size(84, 41);
-            this.btnSumCho.TabIndex = 76;
-            this.btnSumCho.Text = "Calc.";
-            this.btnSumCho.UseVisualStyleBackColor = true;
-            this.btnSumCho.Click += new System.EventHandler(this.btnSumCho_Click);
+            this.btnCalc.Location = new System.Drawing.Point(680, 40);
+            this.btnCalc.Name = "btnCalc";
+            this.btnCalc.Size = new System.Drawing.Size(84, 41);
+            this.btnCalc.TabIndex = 76;
+            this.btnCalc.Text = "Calc.";
+            this.btnCalc.UseVisualStyleBackColor = true;
+            this.btnCalc.Click += new System.EventHandler(this.btnCalc_Click);
             // 
             // btnGlucose
             // 
@@ -597,17 +596,17 @@ namespace GlucoMan.Forms
             this.btnGlucose.UseVisualStyleBackColor = true;
             this.btnGlucose.Click += new System.EventHandler(this.btnGlucose_Click);
             // 
-            // btnInsulin
+            // btnInsulinCalc
             // 
-            this.btnInsulin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnInsulin.Location = new System.Drawing.Point(542, 131);
-            this.btnInsulin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnInsulin.Name = "btnInsulin";
-            this.btnInsulin.Size = new System.Drawing.Size(84, 41);
-            this.btnInsulin.TabIndex = 73;
-            this.btnInsulin.Text = "Insulin";
-            this.btnInsulin.UseVisualStyleBackColor = true;
-            this.btnInsulin.Click += new System.EventHandler(this.btnInsulin_Click);
+            this.btnInsulinCalc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnInsulinCalc.Location = new System.Drawing.Point(542, 131);
+            this.btnInsulinCalc.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnInsulinCalc.Name = "btnInsulinCalc";
+            this.btnInsulinCalc.Size = new System.Drawing.Size(84, 41);
+            this.btnInsulinCalc.TabIndex = 73;
+            this.btnInsulinCalc.Text = "Insulin";
+            this.btnInsulinCalc.UseVisualStyleBackColor = true;
+            this.btnInsulinCalc.Click += new System.EventHandler(this.btnInsulinCalc_Click);
             // 
             // toolTip1
             // 
@@ -779,7 +778,7 @@ namespace GlucoMan.Forms
         private TextBox txtIdFood;
         private GroupBox groupBox2;
         private Button btnGlucose;
-        private Button btnInsulin;
+        private Button btnInsulinCalc;
         private Label label14;
         private TextBox txtFoodInMealName;
         private Label label16;
@@ -795,7 +794,7 @@ namespace GlucoMan.Forms
         private TextBox txtSugarGrams;
         private Button btnWeighFood;
         private Button btnNewData;
-        private Button btnSumCho;
+        private Button btnCalc;
         private Button btnSearchFood;
         private ToolTip toolTip1;
         private PictureBox picCalculator;

@@ -24,6 +24,7 @@ namespace GlucoMan
         public static string PathLogs = Path.Combine(PathUser , @"GlucoMan\Logs\");
         public static string PathDatabase = Path.Combine(PathUser, @"GlucoMan\Data\");
         public static string PathAndFileDatabase = Path.Combine(PathDatabase, NomeFileDatabase);
-        public static string PathExport = Common.PathUsersDownload; 
+        public static string PathExport = Common.PathUsersDownload;
+        public static string PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, Common.LogOfParametersFileName);
     }
 }

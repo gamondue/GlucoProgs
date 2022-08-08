@@ -51,6 +51,7 @@ namespace GlucoMan.Forms
             this.btnOpenGlucose = new System.Windows.Forms.Button();
             this.txtReadCho = new System.Windows.Forms.Button();
             this.btnInjection = new System.Windows.Forms.Button();
+            this.btnMeasureGlucose = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.txtGlucoseToBeCorrected = new System.Windows.Forms.TextBox();
             this.txtCorrectionInsulin = new System.Windows.Forms.TextBox();
@@ -284,7 +285,7 @@ namespace GlucoMan.Forms
             // btnInjection
             // 
             this.btnInjection.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnInjection.Location = new System.Drawing.Point(273, 246);
+            this.btnInjection.Location = new System.Drawing.Point(273, 248);
             this.btnInjection.Name = "btnInjection";
             this.btnInjection.Size = new System.Drawing.Size(75, 46);
             this.btnInjection.TabIndex = 124;
@@ -292,6 +293,18 @@ namespace GlucoMan.Forms
             this.toolTip1.SetToolTip(this.btnInjection, "Read last glucose value  from recorded glucose measurements");
             this.btnInjection.UseVisualStyleBackColor = true;
             this.btnInjection.Click += new System.EventHandler(this.btnInjection_Click);
+            // 
+            // btnMeasureGlucose
+            // 
+            this.btnMeasureGlucose.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnMeasureGlucose.Location = new System.Drawing.Point(150, 248);
+            this.btnMeasureGlucose.Name = "btnMeasureGlucose";
+            this.btnMeasureGlucose.Size = new System.Drawing.Size(75, 46);
+            this.btnMeasureGlucose.TabIndex = 125;
+            this.btnMeasureGlucose.Text = "Measure glucose";
+            this.toolTip1.SetToolTip(this.btnMeasureGlucose, "Read last glucose value  from recorded glucose measurements");
+            this.btnMeasureGlucose.UseVisualStyleBackColor = true;
+            this.btnMeasureGlucose.Click += new System.EventHandler(this.btnMeasureGlucose_Click);
             // 
             // label10
             // 
@@ -527,6 +540,7 @@ namespace GlucoMan.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(515, 498);
+            this.Controls.Add(this.btnMeasureGlucose);
             this.Controls.Add(this.btnInjection);
             this.Controls.Add(this.txtReadCho);
             this.Controls.Add(this.btnOpenGlucose);
@@ -613,5 +627,7 @@ namespace GlucoMan.Forms
         private Button btnOpenGlucose;
         private Button txtReadCho;
         private Button btnInjection;
+        private Button button1;
+        private Button btnMeasureGlucose;
     }
 }

@@ -147,5 +147,10 @@ namespace GlucoMan.Forms
             frmInjections frm = new frmInjections();
             frm.Show();
         }
+        private void btnMeasureGlucose_Click(object sender, EventArgs e)
+        {
+            frmGlucose frm = new frmGlucose();
+            frm.Show();
+        }
     }
 }

@@ -26,7 +26,6 @@ namespace GlucoMan.BusinessLayer
         public  DoubleAndText BolusInsulinDueToCorrectionOfGlucose { get; set; }
         public  DoubleAndText BolusInsulinDueToChoOfMeal { get; }
         public  DoubleAndText TotalInsulinForMeal { get; set; }
-
         public  string StatusMessage { get => statusMessage; }
         public  Meal MealOfBolus { get; set; }
 
@@ -41,7 +40,10 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.GetInjections(InitialInstant, FinalInstant); 
         }
-
+        internal InsulinInjection GetOneInjection(int? IdInjection)
+        {
+            return dl.GetOneInjection(IdInjection); 
+        }
         private DateTime finalDinnerPeriod;
         public  BL_BolusesAndInjections()
         { 
@@ -121,7 +123,9 @@ namespace GlucoMan.BusinessLayer
         public  void RoundInsulinToZeroDecimal()
         {
             // find target bolus and relative CHO with bisection algorithm 
-            
+
+            if (TotalInsulinForMeal.Double == null)
+                return; 
             // calc bolus to determine target bolus
             CalculateBolus();
             // target bolus will be nearest integer 
@@ -226,8 +230,7 @@ namespace GlucoMan.BusinessLayer
             TextOfFile += "Insulin Correction Sensitivity\t" + InsulinCorrectionSensitivity.Text + "\t";
             TextOfFile += "\n";
             // write in append to the file 
-            File.AppendAllText(Path.Combine(Common.PathConfigurationData,
-                "Log of the Insulin Correction Parameters.txt"), TextOfFile); 
+            File.AppendAllText(Common.PathAndFileLogOfParameters, TextOfFile); 
         }
         public  void RestoreInsulinCorrectionParameters()
         {

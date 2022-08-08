@@ -12,7 +12,7 @@ namespace GlucoMan.Mobile
         }
         private async void btnGlucoseMeasurement_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new GlucoseMeasurementPage());
+            await Navigation.PushAsync(new GlucoseMeasurementsPage(null));
         }
         private async void btnMeals_Clicked(object sender, EventArgs e)
         {
@@ -52,7 +52,7 @@ namespace GlucoMan.Mobile
         }
         private async void btnInjections_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new InjectionsPage());
+            await Navigation.PushAsync(new InjectionsPage(null));
         }
         private async void btnFoods_Clicked(object sender, EventArgs e)
         {

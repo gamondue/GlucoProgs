@@ -155,8 +155,9 @@ CREATE TABLE IF NOT EXISTS 'Meals' (
 	'TimeBegin'	DATETIME,
 	'Notes'	VARCHAR(255),
 	'AccuracyOfChoEstimate'	DOUBLE,
-	'IdBolusCalculation'	INT,
-	'IdGlucoseRecord'	INT,
+	'IdBolusCalculation' INT,
+	'IdGlucoseRecord' INT,
+	'IdInsulinInjection' INT,
 	'TimeEnd'	DATETIME,
 	PRIMARY KEY('IdMeal')
 );

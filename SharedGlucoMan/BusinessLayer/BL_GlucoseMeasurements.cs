@@ -25,7 +25,11 @@ namespace GlucoMan.BusinessLayer
         internal List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialTime, 
             DateTime? FinalTime)
         {
-            return dl.ReadGlucoseMeasurements(InitialTime, FinalTime); 
+            return dl.GetGlucoseRecords(InitialTime, FinalTime); 
+        }
+        internal GlucoseRecord GetOneGlucoseRecord(int? IdGlucoseRecord)
+        {
+            return dl.GetOneGlucoseRecord(IdGlucoseRecord); 
         }
         internal List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
         {

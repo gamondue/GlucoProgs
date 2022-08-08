@@ -69,8 +69,8 @@
 
             <Button Grid.Row="7" Grid.Column="0"  Text="Read" 
                         x:Name="btnReadGlucose" Clicked="btnReadGlucose_Click" />
-            <Button Grid.Row="7" Grid.Column="1"  Text="Save" IsEnabled="False" 
-                        x:Name="btnSaveBolus" Clicked="btnSaveBolus_Click" />
+            <Button Grid.Row="7" Grid.Column="1"  Text="Meas. Gluc." IsEnabled="True" 
+                        x:Name="btnMeasureGlucose" Clicked="btnMeasureGlucose_Click" />
             <Button Grid.Row="7" Grid.Column="3" x:Name="btnReadCho" Text="Read"
                     Clicked="btnReadCho_Click"/>
             <Button Grid.Row="7" Grid.Column="2"  Text="Injection" IsEnabled="True" 

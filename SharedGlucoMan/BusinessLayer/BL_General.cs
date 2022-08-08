@@ -1,10 +1,6 @@
 ﻿using GlucoMan;
 using System.IO; 
-using GlucoMan.BusinessLayer;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using static GlucoMan.DataLayer;
 
 namespace SharedGlucoMan.BusinessLayer
 {
@@ -29,13 +25,19 @@ namespace SharedGlucoMan.BusinessLayer
             try
             {
                 // database file
-                File.Copy(Common.PathAndFileDatabase, Common.PathExport);
-                // log of insulin correction parameters 
-                string logOfParameters = Path.Combine(Common.PathConfigurationData,
-                    "Log of the Insulin Correction Parameters.txt");
-                File.Copy(logOfParameters, Common.PathExport);
+                string exportedDatabase = Path.Combine(Common.PathExport, Common.DatabaseFileName);
+                File.Copy(Common.PathAndFileDatabase, exportedDatabase, true);
+
                 // log of errors 
-                File.Copy(Common.LogOfProgram.ErrorsFile, Common.PathExport);
+                string exportedLogOfProgram = Path.Combine(Common.PathExport, 
+                    Path.GetFileName (Common.LogOfProgram.ErrorsFile)); 
+                File.Copy(Common.LogOfProgram.ErrorsFile, Common.PathExport, true);
+
+                // log of insulin correction parameters 
+                string exportedLogOfParameters = Path.Combine(Common.PathExport,
+                    Common.LogOfParametersFileName); 
+                File.Copy(Common.PathAndFileLogOfParameters, exportedLogOfParameters, true);
+
                 return true;
             }
             catch (Exception ex)

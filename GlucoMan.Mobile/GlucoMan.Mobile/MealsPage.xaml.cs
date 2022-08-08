@@ -62,7 +62,7 @@ namespace GlucoMan.Mobile
             }
             if (bl.Meal.AccuracyOfChoEstimate.Double != null)
                 txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
-            //txtNotes.Text = bl.Meal.Notes;
+            txtNotes.Text = bl.Meal.Notes;
             SetCorrectTypeOfMealRadioButton();
         }
         private void FromUiToClass()
@@ -75,7 +75,7 @@ namespace GlucoMan.Mobile
             DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
                 dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
             bl.Meal.TimeBegin.DateTime = instant;
-            //bl.Meal.Notes = txtNotes.Text;
+            bl.Meal.Notes = txtNotes.Text;
             // TypeOfMeal treated by controls' events
         }
         private void RefreshUi()
@@ -93,8 +93,9 @@ namespace GlucoMan.Mobile
         }
         protected override async void OnAppearing()
         {
-            if (mealPage != null)
-                RefreshUi(); 
+            //if (mealPage != null)
+            RefreshUi();
+            base.OnAppearing(); 
             //{
             //    if (mealPage.FoodIsChosen)
             //    {

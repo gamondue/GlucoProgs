@@ -5,8 +5,6 @@ namespace GlucoMan
 {
     public static partial class Common
     {
-        public static string DatabaseFileName = @"GlucoManData.Sqlite";
-
         public static string PathUser;
         public static string CommonApplicationPath;
         public static string LocalApplicationPath;
@@ -23,5 +21,6 @@ namespace GlucoMan
         public static string PathDatabase;
         public static string PathAndFileDatabase;
         public static string PathExport;
+        public static string PathAndFileLogOfParameters;      
     }
 }

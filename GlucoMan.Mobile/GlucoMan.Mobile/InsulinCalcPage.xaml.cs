@@ -130,7 +130,11 @@ namespace GlucoMan.Mobile
         }
         private  void btnInjection_Click(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new InjectionsPage());
+            Navigation.PushAsync(new InjectionsPage(null));
+        }
+        private void btnMeasureGlucose_Click(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new GlucoseMeasurementsPage(null));
         }
     }
 }

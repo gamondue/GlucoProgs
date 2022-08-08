@@ -256,8 +256,8 @@
             this.gridMeals.RowTemplate.Height = 25;
             this.gridMeals.Size = new System.Drawing.Size(756, 172);
             this.gridMeals.TabIndex = 79;
+            this.gridMeals.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellClick);
             this.gridMeals.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellContentClick);
-            this.gridMeals.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellDoubleClick);
             this.gridMeals.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_CellDoubleClick);
             this.gridMeals.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeals_RowEnter);
             // 

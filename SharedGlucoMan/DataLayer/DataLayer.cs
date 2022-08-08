@@ -16,8 +16,6 @@ namespace GlucoMan
         #region General
         internal abstract bool DeleteDatabase();
         internal abstract int GetNextPrimaryKey();
-        internal abstract void DeleteOneGlucoseMeasurement(GlucoseRecord gr);
-
         #endregion
         /// <summary>
         /// Saves the values of the parameters, passed as strings, in the fields whose name is passed
@@ -34,11 +32,13 @@ namespace GlucoMan
         #endregion
 
         #region Glucose 
+        internal abstract GlucoseRecord GetOneGlucoseRecord(int? idGlucoseRecord);
         internal abstract List<GlucoseRecord> GetLastTwoGlucoseMeasurements(); 
-        internal abstract List<GlucoseRecord> ReadGlucoseMeasurements(DateTime? InitialInstant, DateTime? FinalInstant);
+        internal abstract List<GlucoseRecord> GetGlucoseRecords(DateTime? InitialInstant, DateTime? FinalInstant);
         //internal abstract void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
         internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);      
         internal abstract long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
+        internal abstract void DeleteOneGlucoseMeasurement(GlucoseRecord gr);
         internal abstract int? SaveOneInjection(InsulinInjection Injection);
         internal abstract void DeleteOneInjection(InsulinInjection Injection);
         internal abstract List<InsulinInjection> GetInjections(DateTime InitialInstant,
@@ -60,8 +60,8 @@ namespace GlucoMan
         internal abstract void DeleteOneFood(Food food);
         internal abstract Food GetOneFood(int? IdFood);
         internal abstract List<Food> GetFoods();
+        internal abstract InsulinInjection GetOneInjection(int? idInjection);
         #endregion
-
         #region Alarms
         internal abstract int? SaveOneAlarm(Alarm currentAlarm);
         internal abstract List<Alarm> ReadAllAlarms();

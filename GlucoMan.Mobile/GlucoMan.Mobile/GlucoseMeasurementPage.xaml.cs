@@ -13,19 +13,25 @@ using System.ComponentModel;
 namespace GlucoMan.Mobile
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class GlucoseMeasurementPage : ContentPage
+    public partial class GlucoseMeasurementsPage : ContentPage
     {
         BL_GlucoseMeasurements bl = new BL_GlucoseMeasurements();
-        GlucoseRecord currentGlucose;
+        GlucoseRecord currentGlucose = new GlucoseRecord(); 
         List<GlucoseRecord> glucoseReadings = new List<GlucoseRecord>();
 
-        public GlucoseMeasurementPage()
+        public int? IdGlucoseRecord
+        {
+            get
+            {
+                return currentGlucose.IdGlucoseRecord;
+            }
+        }
+        public GlucoseMeasurementsPage(int? IdGlucoseRecord)
         {
             InitializeComponent();
-
-            currentGlucose = new GlucoseRecord();   
-
-            RefreshGrid();
+            if(IdGlucoseRecord != null)
+                currentGlucose = bl.GetOneGlucoseRecord(IdGlucoseRecord);   
+            RefreshUi();
         }
         private void FromUiToClass()
         {
@@ -66,6 +72,11 @@ namespace GlucoMan.Mobile
             glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
             this.BindingContext = glucoseReadings; 
             //gridMeasurements.ItemsSource = glucoseReadings;
+        }
+        private void RefreshUi()
+        {
+            FromClassToUi();
+            RefreshGrid(); 
         }
         public void btnAddMeasurement_Click(object sender, EventArgs e)
         {

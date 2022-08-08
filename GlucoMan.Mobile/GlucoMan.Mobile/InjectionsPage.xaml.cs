@@ -9,14 +9,23 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class InjectionsPage : TabbedPage
     {
-        private InsulinInjection CurrentInjection = new InsulinInjection();
         BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
+        InsulinInjection CurrentInjection = new InsulinInjection();
         List<InsulinInjection> allInjections;
-        public InjectionsPage()
+
+        public int? IdInsulinInjection
+        {
+            get 
+            {
+                return CurrentInjection.IdInsulinInjection; 
+            }
+        }
+        internal InjectionsPage(int? IdInjection)
         {
             InitializeComponent();
-            
-            RefreshGrid();
+            if (IdInjection != null)
+                CurrentInjection = bl.GetOneInjection(IdInjection); 
+            RefreshUi();
         }
         private void FromClassToUi()
         {
@@ -46,6 +55,11 @@ namespace GlucoMan.Mobile
             DateTime now = DateTime.Now;
             allInjections = bl.GetInjections(now.AddMonths(-2), now);
             gridInjections.ItemsSource = allInjections;
+        }
+        private void RefreshUi()
+        {
+            FromClassToUi();
+            RefreshGrid();
         }
         private void btnNow_Click(object sender, EventArgs e)
         {

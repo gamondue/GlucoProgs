@@ -144,6 +144,7 @@ namespace GlucoMan
                 m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
                 m.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
+                m.IdInsulinInjection = Safe.Int(Row["IdInsulinInjection"]);
                 m.TimeEnd.DateTime = Safe.DateTime(Row["TimeEnd"]);
             }
             catch (Exception ex)
@@ -167,6 +168,7 @@ namespace GlucoMan
                     "AccuracyOfChoEstimate=" + SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     "IdBolusCalculation=" + SqlInt(Meal.IdBolusCalculation) + "," +
                     "IdGlucoseRecord=" + SqlInt(Meal.IdGlucoseRecord) + "," +
+                    "IdInsulinInjection=" + SqlInt(Meal.IdInsulinInjection) + "," +
                     "TimeEnd=" + SqlDate(Meal.TimeEnd.DateTime) + "" +
                     " WHERE IdMeal=" + SqlInt(Meal.IdMeal) + 
                     ";";
@@ -192,7 +194,7 @@ namespace GlucoMan
                     string query = "INSERT INTO Meals" +
                     "(" +
                     "IdMeal,IdTypeOfMeal,Carbohydrates,TimeBegin,Notes,AccuracyOfChoEstimate," +
-                    "IdBolusCalculation,IdGlucoseRecord,TimeEnd";
+                    "IdBolusCalculation,IdGlucoseRecord,IdInsulinInjection,TimeEnd";
                     query += ")VALUES(" +
                     SqlInt(Meal.IdMeal) + "," +
                     SqlInt((int)Meal.IdTypeOfMeal) + "," +
@@ -201,7 +203,8 @@ namespace GlucoMan
                     SqlString(Meal.Notes) + "," +
                     SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
                     SqlDouble(Meal.IdBolusCalculation) + "," +
-                    SqlInt(Meal.IdGlucoseRecord) + "," + 
+                    SqlInt(Meal.IdGlucoseRecord) + "," +
+                    SqlInt(Meal.IdInsulinInjection) + "," +
                     SqlDate(Meal.TimeEnd.DateTime) + "";
                     query += ");";
                     cmd.CommandText = query;
@@ -212,7 +215,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_MealAndFood | UpdateMeal", ex);
+                Common.LogOfProgram.Error("Sqlite_MealAndFood | InsertMeal", ex);
                 return null;
             }
         }

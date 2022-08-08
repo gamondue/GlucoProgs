@@ -148,6 +148,7 @@ namespace GlucoMan.BusinessLayer
             {
                 foreach (FoodInMeal f in FoodsInMeal)
                 {
+                    if (f.ChoGrams.Double != null)
                     total += f.ChoGrams.Double;
                 }
                 Meal.Carbohydrates.Double = total;
@@ -198,7 +199,10 @@ namespace GlucoMan.BusinessLayer
             if (IsValueCorrect)
                 return WeightedQuadraticAverage;
             else
+            {
+                Meal.AccuracyOfChoEstimate.Double = (int)QualitativeAccuracy.NotSet; 
                 return null;
+            }
         }
         internal void FromFoodToFoodInMeal(Food SourceFood, FoodInMeal DestinationFoodInMeal)
         {

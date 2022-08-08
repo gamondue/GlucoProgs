@@ -118,6 +118,33 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_BolusesAndInjections | DeleteOneInjection", ex);
             }
         }
+        internal override InsulinInjection GetOneInjection(int? IdInjection)
+        {
+            InsulinInjection g = null; 
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
+                {
+                    string query = "SELECT *" +
+                        " FROM InsulinInjections" + 
+                        " WHERE IdInsulinInjection=" + SqlInt(IdInjection); 
+                    query += ";";
+                    cmd = new SqliteCommand(query);
+                    cmd.Connection = conn;
+                    dRead = cmd.ExecuteReader();
+                    g = GetInjectionFromRow(dRead);
+                    dRead.Dispose();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetOneInjection", ex);
+            }
+            return g;
+        }
         internal override List<InsulinInjection> GetInjections(DateTime InitialInstant, 
             DateTime FinalInstant)
         {

@@ -96,7 +96,7 @@ namespace GlucoMan.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (currentGlucose.IdGlucoseRecord == null)
+            if (currentGlucose == null || currentGlucose.IdGlucoseRecord == null)
             {
                 MessageBox.Show("Choose the glucose measurement to modify");
                 return; 
