@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using gamon;
 
 namespace GlucoMan.Mobile
 {
@@ -24,7 +25,9 @@ namespace GlucoMan.Mobile
         {
             InitializeComponent();
             if (IdInjection != null)
-                CurrentInjection = bl.GetOneInjection(IdInjection); 
+                CurrentInjection = bl.GetOneInjection(IdInjection);
+            if (IdInjection == null)
+                bl.SetTypeOfInsulinSpeedBasedOnTimeNow(CurrentInjection); 
             RefreshUi();
         }
         private void FromClassToUi()
@@ -38,6 +41,15 @@ namespace GlucoMan.Mobile
             dtpInjectionDate.Date = ((DateTime)CurrentInjection.Timestamp.DateTime);
             dtpInjectionTime.Time = ((DateTime)CurrentInjection.Timestamp.DateTime).TimeOfDay;
             txtNotes.Text = CurrentInjection.Notes;
+            if (CurrentInjection.IdTypeOfInsulinSpeed.Int == (int)Common.TypeOfInsulinSpeed.QuickAction)
+                rdbFastInsulin.IsChecked = true;
+            else if (CurrentInjection.IdTypeOfInsulinSpeed.Int == (int)Common.TypeOfInsulinSpeed.SlowAction)
+                rdbSlowInsulin.IsChecked = true;
+            else
+            {
+                rdbFastInsulin.IsChecked = false;
+                rdbSlowInsulin.IsChecked = false;
+            }
         }
         private void FromUiToClass()
         {
@@ -49,6 +61,12 @@ namespace GlucoMan.Mobile
                 dtpInjectionTime.Time.Hours, dtpInjectionTime.Time.Minutes, dtpInjectionTime.Time.Seconds);
             CurrentInjection.Timestamp.DateTime = instant;
             CurrentInjection.Notes = txtNotes.Text;
+            if (rdbFastInsulin.IsChecked)
+                CurrentInjection.IdTypeOfInsulinSpeed.Int = (int)Common.TypeOfInsulinSpeed.QuickAction;
+            else if (rdbSlowInsulin.IsChecked)
+                CurrentInjection.IdTypeOfInsulinSpeed.Int = (int)Common.TypeOfInsulinSpeed.SlowAction;
+            else
+                CurrentInjection.IdTypeOfInsulinSpeed.Int = (int)Common.TypeOfInsulinSpeed.NotSet;
         }
         private void RefreshGrid()
         {
@@ -74,12 +92,6 @@ namespace GlucoMan.Mobile
             //    MessageBox.Show("Choose the injection to modify");
             //    return;
             //}
-            if (chkNowInAdd.IsChecked)
-            {
-                DateTime now = DateTime.Now;
-                dtpInjectionDate.Date = now;
-                dtpInjectionTime.Time = now.TimeOfDay;
-            }
             FromUiToClass();
             bl.SaveOneInjection(CurrentInjection);
             RefreshGrid();

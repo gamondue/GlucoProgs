@@ -1,6 +1,5 @@
 ﻿using GlucoMan;
 using GlucoMan.BusinessLayer;
-using SharedData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ using Xamarin.Forms.Xaml;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using gamon; 
 
 namespace GlucoMan.Mobile
 {
@@ -55,7 +55,7 @@ namespace GlucoMan.Mobile
             txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
             if (currentGlucose.Timestamp != null 
                 && currentGlucose.Timestamp != new DateTime(1, 1, 1, 0, 0, 0)
-                && currentGlucose.Timestamp != Common.DateNull) 
+                && currentGlucose.Timestamp != General.DateNull) 
             { 
                 dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
                 dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;

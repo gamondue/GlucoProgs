@@ -1,4 +1,5 @@
-﻿using GlucoMan.BusinessLayer;
+﻿using gamon;
+using GlucoMan.BusinessLayer;
 
 namespace GlucoMan.Forms
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using gamon;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -20,6 +21,19 @@ namespace GlucoMan.BusinessLayer
         public  DoubleAndText TotalDailyDoseOfInsulin { get; set; }
         public  DoubleAndText GlucoseBeforeMeal { get; set; }
         public  DoubleAndText GlucoseToBeCorrected { get; set; }
+
+        internal void SetTypeOfInsulinSpeedBasedOnTimeNow(InsulinInjection Injection)
+        {
+            TimeSpan timeOfDay = DateTime.Now.TimeOfDay;
+            if (timeOfDay > new TimeSpan(2, 0, 0) && timeOfDay < new TimeSpan(22, 0, 0))
+            {
+                Injection.IdTypeOfInsulinSpeed.Int = (int)Common.TypeOfInsulinSpeed.QuickAction;
+            }
+            else
+            {
+                Injection.IdTypeOfInsulinSpeed.Int = (int)Common.TypeOfInsulinSpeed.SlowAction;
+            }
+        }
         public  DoubleAndText TargetGlucose { get; set; }
         public  DoubleAndText FactorOfInsulinCorrectionSensitivity { get; set; }
         public  DoubleAndText InsulinCorrectionSensitivity { get; }

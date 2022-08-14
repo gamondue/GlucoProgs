@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -61,7 +57,7 @@ namespace GlucoMan.Mobile
                 }
             }
         }
-        private void btnCopyDatabase_Click(object sender, EventArgs e)
+        private void btnCopyProgramsFiles_Click(object sender, EventArgs e)
         {
             // write the SpecialFolders that are used in Android
             // !!!! comment the next loop when devepolment of this part has finished !!!!
@@ -72,6 +68,20 @@ namespace GlucoMan.Mobile
             if (!blGeneral.ExportProgramsFiles())
             { 
                 DisplayAlert("", "Error in exporting program's files. NOT all files copied, check logs", "OK");
+            }
+        }
+        private async void btnImport_Click(object sender, EventArgs e)
+        {
+            bool import = await DisplayAlert("", 
+                "Please put a database named 'import.sqlite' in the same folder where this program exports its data. " +
+                "\nShould we continue with the import?", "Yes", "No");
+            if (import)
+            {
+                if (!blGeneral.ImportFromExternalDatabase(Common.PathAndFileDatabase,
+                    Path.Combine(Common.PathExport, "import.sqlite")))
+                {
+                    DisplayAlert("", "Error in importing form import-sqlite to app's database", "OK");
+                }
             }
         }
         private async void btnStopApplication_Click(object sender, EventArgs e)

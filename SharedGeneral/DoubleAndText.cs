@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace GlucoMan
+namespace gamon
 {
     [Browsable(false)]
     public class DoubleAndText

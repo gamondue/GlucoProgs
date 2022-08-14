@@ -1,0 +1,8 @@
+PathAndFileDatabase
+/data/user/0/it.ingmonti.diabetesrecords/files/DiabetesRecords.Sqlite
+PathExternalPublic
+/storage/emulated/0/Documents/diabetesrecords
+PathUser
+/data/user/0/it.ingmonti.diabetesrecords/files
+PathLogs
+/data/user/0/it.ingmonti.diabetesrecords/files/logs

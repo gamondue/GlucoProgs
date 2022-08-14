@@ -1,5 +1,4 @@
-﻿using GlucoMan;
-using SharedData;
+﻿using gamon; 
 using System;
 using System.Drawing;
 using System.IO;

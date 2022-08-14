@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using gamon;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -119,7 +120,7 @@ namespace GlucoMan
             {
                 DbCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT " + KeyName + " FROM " + TableName +
-                    " WHERE " + KeyName + "=" + SqlString(KeyValue) +
+                    " WHERE " + KeyName + "=" + SqliteHelper.String(KeyValue) +
                     ";";
                 var keyResult = cmd.ExecuteScalar();
                 cmd.Dispose();
@@ -359,15 +360,15 @@ namespace GlucoMan
                 //        if (fieldNames[col] != "")
                 //        {
                 //            if (fieldTypes[col].IndexOf("VARCHAR") >= 0)
-                //                valuesString += "" + SqlString(dati[row, col]) + ",";
+                //                valuesString += "" + SqliteHelper.String(dati[row, col]) + ",";
                 //            else if (fieldTypes[col].IndexOf("INT") >= 0)
-                //                valuesString +=  SqlInt(dati[row, col]) + ",";
+                //                valuesString +=  SqliteHelper.Int(dati[row, col]) + ",";
                 //            else if (fieldTypes[col].IndexOf("REAL") >= 0)
                 //                valuesString += SqlFloat(dati[row, col]) + ",";
                 //            else if (fieldTypes[col].IndexOf("FLOAT") >= 0)
                 //                valuesString += SqlFloat(dati[row, col]) + ",";
                 //            else if (fieldTypes[col].IndexOf("DATE") >= 0)
-                //                valuesString += SqlDate(dati[row, col]) + ",";
+                //                valuesString += SqliteHelper.Date((dati[row, col]) + ",";
                 //        }
                 //    }
                 //    valuesString = valuesString.Substring(0, valuesString.Length - 1);
@@ -423,7 +424,7 @@ namespace GlucoMan
                             case TypeCode.String:
                             case TypeCode.Char:
                                 {
-                                    cmd.CommandText += "" + SqlString(row[c.ColumnName].ToString()) + ",";
+                                    cmd.CommandText += "" + SqliteHelper.String(row[c.ColumnName].ToString()) + ",";
                                     break;
                                 };
                             case TypeCode.DateTime:
@@ -492,7 +493,7 @@ namespace GlucoMan
                             query += ")VALUES(1,";
                             if (double.TryParse(FieldValue, out dummy))
                             {
-                                query += SqlDouble(dummy);
+                                query += SqliteHelper.Double(dummy);
                             }
                             else
                             {
@@ -513,7 +514,7 @@ namespace GlucoMan
                                 query = "UPDATE Parameters SET ";
                                 if (double.TryParse(FieldValue, out dummy))
                                 {
-                                    query += FieldName + "=" + SqlDouble(dummy);
+                                    query += FieldName + "=" + SqliteHelper.Double(dummy);
                                 }
                                 else
                                 {
@@ -532,7 +533,7 @@ namespace GlucoMan
                                     query = "UPDATE Parameters SET ";
                                     if (double.TryParse(FieldValue, out dummy))
                                     {
-                                        query += FieldName + "=" + SqlDouble(dummy);
+                                        query += FieldName + "=" + SqliteHelper.Double(dummy);
                                     }
                                     else
                                     {
@@ -550,7 +551,7 @@ namespace GlucoMan
                                     query += ")VALUES(1,"; 
                                     if (double.TryParse(FieldValue, out dummy))
                                     {
-                                        query += SqlDouble(dummy);
+                                        query += SqliteHelper.Double(dummy);
                                     }
                                     else
                                     {

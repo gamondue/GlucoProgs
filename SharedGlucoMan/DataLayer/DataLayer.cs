@@ -1,7 +1,7 @@
 ﻿
 using GlucoMan;
 using GlucoMan.BusinessLayer;
-using SharedData;
+using gamon;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

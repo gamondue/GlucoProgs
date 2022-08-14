@@ -1,4 +1,4 @@
-﻿using SharedData;
+﻿using gamon;
 using SharedGlucoMan.BusinessLayer;
 using System;
 
@@ -11,7 +11,6 @@ namespace GlucoMan
             // generation of folders. Since File.Create() doesn't work if the folder
             // doesn't exist, the following statements should be executed before
             // any code that creates or uses files is run 
-            General.MakeFolderIfDontExist(Common.PathConfigurationData);
             General.MakeFolderIfDontExist(Common.PathProgramsData);
             General.MakeFolderIfDontExist(Common.PathLogs);
             General.MakeFolderIfDontExist(Common.PathDatabase);

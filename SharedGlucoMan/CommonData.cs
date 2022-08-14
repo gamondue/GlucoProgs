@@ -13,7 +13,7 @@ namespace GlucoMan
         public static BL_General BlGeneral;
         public static BL_MealAndFood MealAndFood_CommonBL;
 
-        public static SharedData.Logger LogOfProgram;
+        public static gamon.Logger LogOfProgram;
 
         public static string Version { get; private set; }
 
@@ -23,8 +23,6 @@ namespace GlucoMan
         public static int lunchEndHour = 15;
         public static int dinnerStartHour = 17;
         public static int dinnerEndHour = 21;
-
-        public static DateTime DateNull = new DateTime(1, 1, 1, 0, 0, 0, 0);
 
         #region enums
         public enum TypeOfGlucoseMeasurement
@@ -57,16 +55,6 @@ namespace GlucoMan
             Snack = 40,
             Other = 90
         }
-        public enum TypeOfInjection
-        {
-            Unknown = 0,
-            MealInjection = 10,
-            Night = 20,
-            GlucoseRecover = 30,
-            GlucoseCorrection = 40,
-            DecreasingGlucoseCorrection = 50,
-            Other = 60
-        }
         public enum TypeOfInsulinSpeed
         {
             NotSet = 0,
@@ -79,7 +67,8 @@ namespace GlucoMan
             CarbohydratesBolus = 10,
             CorrectionBolus = 20,
             ExtendedEffectBolus = 30,
-            BasalBolus = 40
+            BasalBolus = 40,
+            Other = 90
         }
         public enum QualitativeAccuracy
         {           

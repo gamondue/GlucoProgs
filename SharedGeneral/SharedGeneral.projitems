@@ -10,11 +10,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ColorConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GeneralFunctions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeAndText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DoubleAndText.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)General.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IntAndText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Safe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlLiteHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TextFile.cs" />
   </ItemGroup>
 </Project>

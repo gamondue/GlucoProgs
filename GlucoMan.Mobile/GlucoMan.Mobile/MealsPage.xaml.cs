@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using static GlucoMan.Common;
+using gamon;
 
 namespace GlucoMan.Mobile
 {
@@ -29,7 +30,7 @@ namespace GlucoMan.Mobile
 
             accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
 
-            bl.SetTypeOfMealBasedOnTime();
+            bl.SetTypeOfMealBasedOnTimeNow();
             RefreshGrid();
         }
         private void SetCorrectTypeOfMealRadioButton()
@@ -55,7 +56,7 @@ namespace GlucoMan.Mobile
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
             txtChoOfMeal.Text = Safe.String(bl.Meal.Carbohydrates.Text);
             cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
-            if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
+            if (bl.Meal.TimeBegin.DateTime != General.DateNull)
             {
                 dtpMealDateBegin.Date = (DateTime)Safe.DateTime(bl.Meal.TimeBegin.DateTime);
                 dtpMealTimeBegin.Time = ((DateTime)bl.Meal.TimeBegin.DateTime).TimeOfDay;  // - dtpMealDateBegin.Date;

@@ -8,8 +8,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="60"/>
-                <RowDefinition Height="30"/>
                 <RowDefinition Height="45"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
@@ -24,13 +24,20 @@
             <Label Grid.Row="0" Grid.Column="3" Text="Id" XAlign="Center" YAlign="End"/>
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucose" Text="" FontSize="Large"
                    Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="Lime" IsEnabled="true"/>
+           
             <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate" BackgroundColor="PaleGreen"
                         FontSize="Small" Format="yyyy-MM-dd" HorizontalOptions="Center"/>
             <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpEventTime" BackgroundColor="PaleGreen"
                         FontSize="Small" Format="HH:mm:ss" HorizontalOptions="Center"/>
             <Label Grid.Row="1" Grid.Column="3" x:Name="txtIdGlucoseRecord" Text="" XAlign="Center" YAlign="Center"/>
             <!-- check box with associated label into a StackLayout -->
-            <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+
+            <Button Grid.Row="2" Grid.Column="0" Text="+" x:Name="btnAddMeasurement" Clicked="btnAddMeasurement_Click"></Button>
+            <Button Grid.Row="2" Grid.Column="1" Text="-" x:Name="btnRemoveMeasurement" Clicked="btnRemoveMeasurement_Click"></Button>
+            <Button Grid.Row="2" Grid.Column="2" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
+            <Button Grid.Row="2" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_Click"></Button>
+
+            <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
@@ -47,10 +54,7 @@
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
-            <Button Grid.Row="3" Grid.Column="0" Text="+" x:Name="btnAddMeasurement" Clicked="btnAddMeasurement_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="1" Text="-" x:Name="btnRemoveMeasurement" Clicked="btnRemoveMeasurement_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="2" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_Click"></Button>
+            
             <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Text="Glucose" XAlign="Center" YAlign="End"/>
             <ListView Grid.Row="5" Grid.ColumnSpan="4" x:Name="gridMeasurements" ItemsSource="{Binding}"

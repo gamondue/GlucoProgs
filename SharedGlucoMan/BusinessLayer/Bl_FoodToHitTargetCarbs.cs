@@ -1,5 +1,5 @@
-﻿using GlucoMan;
-using SharedData;
+﻿using gamon;
+using GlucoMan;
 using System;
 using System.IO;
 

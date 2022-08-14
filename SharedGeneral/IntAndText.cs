@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GlucoMan
+namespace gamon
 {
     public class IntAndText
     {

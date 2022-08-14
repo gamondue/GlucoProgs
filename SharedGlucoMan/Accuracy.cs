@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Text;
 using static GlucoMan.Common;
 
-namespace GlucoMan
+namespace gamon
 {
     internal partial class Accuracy
     {

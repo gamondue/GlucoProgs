@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using gamon;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -21,8 +22,8 @@ namespace GlucoMan
                         " FROM Meals";
                     if (InitialInstant != null && FinalInstant != null)
                     {   // add WHERE clause
-                        query += " WHERE TimeBegin BETWEEN " + SqlDate(((DateTime)InitialInstant).ToString("yyyy-MM-dd")) +
-                            " AND " + SqlDate(((DateTime)FinalInstant).ToString("yyyy-MM-dd 23:59:29")) + "";
+                        query += " WHERE TimeBegin BETWEEN " + SqliteHelper.Date(((DateTime)InitialInstant).ToString("yyyy-MM-dd")) +
+                            " AND " + SqliteHelper.Date(((DateTime)FinalInstant).ToString("yyyy-MM-dd 23:59:29")) + "";
                     }
                     query += " ORDER BY TimeBegin DESC, IdMeal;";
                     cmd = new SqliteCommand(query);
@@ -161,16 +162,16 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE Meals SET " +
-                    "IdTypeOfMeal=" + SqlInt((int)Meal.IdTypeOfMeal) + "," +
-                    "Carbohydrates=" + SqlDouble(Meal.Carbohydrates.Text) + "," +
-                    "TimeBegin=" + SqlDate(Meal.TimeBegin.DateTime) + "," +
-                    "Notes=" + SqlString(Meal.Notes) + "," + 
-                    "AccuracyOfChoEstimate=" + SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
-                    "IdBolusCalculation=" + SqlInt(Meal.IdBolusCalculation) + "," +
-                    "IdGlucoseRecord=" + SqlInt(Meal.IdGlucoseRecord) + "," +
-                    "IdInsulinInjection=" + SqlInt(Meal.IdInsulinInjection) + "," +
-                    "TimeEnd=" + SqlDate(Meal.TimeEnd.DateTime) + "" +
-                    " WHERE IdMeal=" + SqlInt(Meal.IdMeal) + 
+                    "IdTypeOfMeal=" + SqliteHelper.Int((int)Meal.IdTypeOfMeal) + "," +
+                    "Carbohydrates=" + SqliteHelper.Double(Meal.Carbohydrates.Text) + "," +
+                    "TimeBegin=" + SqliteHelper.Date(Meal.TimeBegin.DateTime) + "," +
+                    "Notes=" + SqliteHelper.String(Meal.Notes) + "," + 
+                    "AccuracyOfChoEstimate=" + SqliteHelper.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
+                    "IdBolusCalculation=" + SqliteHelper.Int(Meal.IdBolusCalculation) + "," +
+                    "IdGlucoseRecord=" + SqliteHelper.Int(Meal.IdGlucoseRecord) + "," +
+                    "IdInsulinInjection=" + SqliteHelper.Int(Meal.IdInsulinInjection) + "," +
+                    "TimeEnd=" + SqliteHelper.Date(Meal.TimeEnd.DateTime) + "" +
+                    " WHERE IdMeal=" + SqliteHelper.Int(Meal.IdMeal) + 
                     ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -196,16 +197,16 @@ namespace GlucoMan
                     "IdMeal,IdTypeOfMeal,Carbohydrates,TimeBegin,Notes,AccuracyOfChoEstimate," +
                     "IdBolusCalculation,IdGlucoseRecord,IdInsulinInjection,TimeEnd";
                     query += ")VALUES(" +
-                    SqlInt(Meal.IdMeal) + "," +
-                    SqlInt((int)Meal.IdTypeOfMeal) + "," +
-                    SqlDouble(Meal.Carbohydrates.Double) + "," +
-                    SqlDate(Meal.TimeBegin.DateTime) + "," +
-                    SqlString(Meal.Notes) + "," +
-                    SqlDouble(Meal.AccuracyOfChoEstimate.Double) + "," +
-                    SqlDouble(Meal.IdBolusCalculation) + "," +
-                    SqlInt(Meal.IdGlucoseRecord) + "," +
-                    SqlInt(Meal.IdInsulinInjection) + "," +
-                    SqlDate(Meal.TimeEnd.DateTime) + "";
+                    SqliteHelper.Int(Meal.IdMeal) + "," +
+                    SqliteHelper.Int((int)Meal.IdTypeOfMeal) + "," +
+                    SqliteHelper.Double(Meal.Carbohydrates.Double) + "," +
+                    SqliteHelper.Date(Meal.TimeBegin.DateTime) + "," +
+                    SqliteHelper.String(Meal.Notes) + "," +
+                    SqliteHelper.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
+                    SqliteHelper.Double(Meal.IdBolusCalculation) + "," +
+                    SqliteHelper.Int(Meal.IdGlucoseRecord) + "," +
+                    SqliteHelper.Int(Meal.IdInsulinInjection) + "," +
+                    SqliteHelper.Date(Meal.TimeEnd.DateTime) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -319,14 +320,14 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE FoodsInMeals SET " +
-                    "IdMeal=" + SqlInt(FoodToSave.IdMeal) + "," +
-                    "IdFood=" + SqlInt(FoodToSave.IdFood) + "," +
-                    "CarbohydratesGrams=" + SqlDouble(FoodToSave.ChoGrams.Double) + "," +
-                    "Quantity=" + SqlDouble(FoodToSave.QuantityGrams.Double) + "," +
-                    "CarbohydratesPercent=" + SqlDouble(FoodToSave.ChoPercent.Double) + "," +
-                    "AccuracyOfChoEstimate=" + SqlDouble(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
-                    "Name=" + SqlString(FoodToSave.Name) + "" +
-                    " WHERE IdFoodInMeal=" + SqlInt(FoodToSave.IdFoodInMeal) + 
+                    "IdMeal=" + SqliteHelper.Int(FoodToSave.IdMeal) + "," +
+                    "IdFood=" + SqliteHelper.Int(FoodToSave.IdFood) + "," +
+                    "CarbohydratesGrams=" + SqliteHelper.Double(FoodToSave.ChoGrams.Double) + "," +
+                    "Quantity=" + SqliteHelper.Double(FoodToSave.QuantityGrams.Double) + "," +
+                    "CarbohydratesPercent=" + SqliteHelper.Double(FoodToSave.ChoPercent.Double) + "," +
+                    "AccuracyOfChoEstimate=" + SqliteHelper.Double(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
+                    "Name=" + SqliteHelper.String(FoodToSave.Name) + "" +
+                    " WHERE IdFoodInMeal=" + SqliteHelper.Int(FoodToSave.IdFoodInMeal) + 
                     ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -353,14 +354,14 @@ namespace GlucoMan
                     "CarbohydratesPercent,AccuracyOfChoEstimate," +
                     "Name";
                     query += ")VALUES(" +
-                    SqlInt(FoodToSave.IdFoodInMeal) + "," +
-                    SqlInt(FoodToSave.IdMeal) + "," +
-                    SqlInt(FoodToSave.IdFood) + "," +
-                    SqlDouble(FoodToSave.QuantityGrams.Double) + "," +
-                    SqlDouble(FoodToSave.ChoGrams.Double) + "," +
-                    SqlDouble(FoodToSave.ChoPercent.Double) + "," +
-                    SqlDouble(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
-                    SqlString(FoodToSave.Name) + ""; 
+                    SqliteHelper.Int(FoodToSave.IdFoodInMeal) + "," +
+                    SqliteHelper.Int(FoodToSave.IdMeal) + "," +
+                    SqliteHelper.Int(FoodToSave.IdFood) + "," +
+                    SqliteHelper.Double(FoodToSave.QuantityGrams.Double) + "," +
+                    SqliteHelper.Double(FoodToSave.ChoGrams.Double) + "," +
+                    SqliteHelper.Double(FoodToSave.ChoPercent.Double) + "," +
+                    SqliteHelper.Double(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
+                    SqliteHelper.String(FoodToSave.Name) + ""; 
 
                     query += ");";
                     cmd.CommandText = query;
@@ -508,19 +509,19 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE Foods SET " +
-                    "Name=" + SqlString(food.Name) + "," +
-                    "Description=" + SqlString(food.Description) + "," +
-                    "Energy=" + SqlDouble(food.Energy.Double) + "," +
-                    "TotalFats=" + SqlDouble(food.TotalFats.Double) + "," +
-                    "SaturatedFats=" + SqlDouble(food.SaturatedFats.Double) + "," +
-                    "Carbohydrates=" + SqlDouble(food.Cho.Double) + "," +
-                    "Sugar=" + SqlDouble(food.Sugar.Double) + "," +
-                    "Fibers=" + SqlDouble(food.Fibers.Double) + "," +
-                    "Proteins=" + SqlDouble(food.Proteins.Double) + "," +
-                    "Salt=" + SqlDouble(food.Salt.Double) + "," +
-                    "Potassium=" + SqlDouble(food.Potassium.Double) + "," +
-                    "GlycemicIndex=" + SqlDouble(food.GlycemicIndex.Double) + "" +
-                    " WHERE IdFood=" + SqlInt(food.IdFood) +
+                    "Name=" + SqliteHelper.String(food.Name) + "," +
+                    "Description=" + SqliteHelper.String(food.Description) + "," +
+                    "Energy=" + SqliteHelper.Double(food.Energy.Double) + "," +
+                    "TotalFats=" + SqliteHelper.Double(food.TotalFats.Double) + "," +
+                    "SaturatedFats=" + SqliteHelper.Double(food.SaturatedFats.Double) + "," +
+                    "Carbohydrates=" + SqliteHelper.Double(food.Cho.Double) + "," +
+                    "Sugar=" + SqliteHelper.Double(food.Sugar.Double) + "," +
+                    "Fibers=" + SqliteHelper.Double(food.Fibers.Double) + "," +
+                    "Proteins=" + SqliteHelper.Double(food.Proteins.Double) + "," +
+                    "Salt=" + SqliteHelper.Double(food.Salt.Double) + "," +
+                    "Potassium=" + SqliteHelper.Double(food.Potassium.Double) + "," +
+                    "GlycemicIndex=" + SqliteHelper.Double(food.GlycemicIndex.Double) + "" +
+                    " WHERE IdFood=" + SqliteHelper.Int(food.IdFood) +
                     ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -546,19 +547,19 @@ namespace GlucoMan
                     "IdFood,Name,Description,Energy,TotalFats,SaturatedFats,Carbohydrates," +
                     "Sugar,Fibers,Proteins,Salt,Potassium,GlycemicIndex"; 
                     query += ")VALUES(" +
-                    SqlInt(food.IdFood) + "," +
-                    SqlString(food.Name) + "," +
-                    SqlString(food.Description) + "," +
-                    SqlDouble(food.Energy.Double) + "," +
-                    SqlDouble(food.TotalFats.Double) + "," +
-                    SqlDouble(food.SaturatedFats.Double) + "," +
-                    SqlDouble(food.Cho.Double) + "," +
-                    SqlDouble(food.Sugar.Double) + "," +
-                    SqlDouble(food.Fibers.Double) + "," +
-                    SqlDouble(food.Proteins.Double) + "," +
-                    SqlDouble(food.Salt.Double) + "," +
-                    SqlDouble(food.Potassium.Double) + "," +
-                    SqlDouble(food.GlycemicIndex.Double) + ""; 
+                    SqliteHelper.Int(food.IdFood) + "," +
+                    SqliteHelper.String(food.Name) + "," +
+                    SqliteHelper.String(food.Description) + "," +
+                    SqliteHelper.Double(food.Energy.Double) + "," +
+                    SqliteHelper.Double(food.TotalFats.Double) + "," +
+                    SqliteHelper.Double(food.SaturatedFats.Double) + "," +
+                    SqliteHelper.Double(food.Cho.Double) + "," +
+                    SqliteHelper.Double(food.Sugar.Double) + "," +
+                    SqliteHelper.Double(food.Fibers.Double) + "," +
+                    SqliteHelper.Double(food.Proteins.Double) + "," +
+                    SqliteHelper.Double(food.Salt.Double) + "," +
+                    SqliteHelper.Double(food.Potassium.Double) + "," +
+                    SqliteHelper.Double(food.GlycemicIndex.Double) + ""; 
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();

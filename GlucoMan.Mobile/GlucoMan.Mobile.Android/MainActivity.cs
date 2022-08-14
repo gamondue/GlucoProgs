@@ -20,28 +20,16 @@ namespace GlucoMan.Mobile.Droid
             RequestPermissions(new string[] 
             {Manifest.Permission.WriteExternalStorage, Manifest.Permission.ReadExternalStorage}, 0);
 
-            SetAndroidPaths();
-            Common.SetGeneralPaths(); 
+            Common.SetAndroidPaths();
+            // the next definition is in this Activity to have the Android.OS namespace
+            // must be before SetGeneralPaths();
+            Common.ExternalPublicPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDocuments)?.AbsolutePath;
+            Common.SetGeneralPaths();
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        }
-        [Obsolete]
-        internal void SetAndroidPaths()
-        {
-            // in this Activity to have the Android.OS namespace 
-            Common.PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
-            Common.CommonApplicationPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
-            Common.LocalApplicationPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
-
-            Common.AppDataDirectoryPath = Xamarin.Essentials.FileSystem.AppDataDirectory;
-            Common.CacheDirectoryPath = Xamarin.Essentials.FileSystem.CacheDirectory;
-
-            Common.myDocPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-            Common.ExternalPublicPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDocuments)?.AbsolutePath;
         }
     }
 }

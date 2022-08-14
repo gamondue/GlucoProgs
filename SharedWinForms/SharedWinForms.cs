@@ -1,4 +1,5 @@
-﻿using GlucoMan;
+﻿using gamon;
+using GlucoMan;
 using System;
 using System.Collections.Generic;
 using System.Text;

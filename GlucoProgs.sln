@@ -27,29 +27,15 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedGeneral", "SharedGene
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConciliateData", "ConciliateData\ConciliateData.csproj", "{8F34C065-5170-40AB-9810-84DBE3CB862E}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedGlucomanAndroid", "SharedGlucomanAndroid\SharedGlucomanAndroid.shproj", "{89990EA0-1B3B-4208-B789-86433EF93D53}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiabetesRecords", "DiabetesRecords\DiabetesRecords.csproj", "{51671830-F844-4CB7-9B86-29A797E0DCBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiabetesRecords.Android", "DiabetesRecords.Android\DiabetesRecords.Android.csproj", "{C77E2136-9F80-43C0-ADA1-F44702A11848}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiabetesRecords.iOS", "DiabetesRecords.iOS\DiabetesRecords.iOS.csproj", "{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SharedWinForms\SharedWinForms.projitems*{12450c6c-3750-476e-95ca-8615b1478239}*SharedItemsImports = 13
-		SharedGeneral\SharedGeneral.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
-		SharedGlucoMan\SharedGlucoMan.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
-		SharedWindows\SharedWindows.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
-		SharedWinForms\SharedWinForms.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
-		SharedGeneral\SharedGeneral.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
-		SharedGlucoMan\SharedGlucoMan.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
-		SharedWindows\SharedWindows.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
-		SharedXOffice\SharedXOffice.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
-		SharedAndroid\SharedAndroid.projitems*{7abe1f51-c287-42f5-9da8-8dc734cda12b}*SharedItemsImports = 13
-		SharedGeneral\SharedGeneral.projitems*{8f34c065-5170-40ab-9810-84dbe3cb862e}*SharedItemsImports = 5
-		SharedGlucoMan\SharedGlucoMan.projitems*{8f34c065-5170-40ab-9810-84dbe3cb862e}*SharedItemsImports = 5
-		SharedWindows\SharedWindows.projitems*{8f34c065-5170-40ab-9810-84dbe3cb862e}*SharedItemsImports = 5
-		SharedAndroid\SharedAndroid.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
-		SharedGeneral\SharedGeneral.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
-		SharedGlucoMan\SharedGlucoMan.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
-		SharedGlucoMan\SharedGlucoMan.projitems*{a099d29b-5307-4564-acad-2a073fd1ef64}*SharedItemsImports = 13
-		SharedWindows\SharedWindows.projitems*{b3c5e432-3f17-4683-976f-bd54081a9966}*SharedItemsImports = 13
-		SharedGeneral\SharedGeneral.projitems*{b8615262-a1a5-4508-a7a2-321c10ed81cc}*SharedItemsImports = 13
-		SharedXOffice\SharedXOffice.projitems*{eeb0680e-e0d0-4485-8c9a-f7aa98da1b90}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|iPhone = Debug|iPhone
@@ -149,11 +135,76 @@ Global
 		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Release|iPhone.Build.0 = Release|Any CPU
 		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{8F34C065-5170-40AB-9810-84DBE3CB862E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Release|iPhone.Build.0 = Release|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{51671830-F844-4CB7-9B86-29A797E0DCBA}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Debug|iPhone.Deploy.0 = Debug|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Debug|iPhoneSimulator.Deploy.0 = Debug|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Release|iPhone.Build.0 = Release|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Release|iPhone.Deploy.0 = Release|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{C77E2136-9F80-43C0-ADA1-F44702A11848}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Debug|iPhone.Build.0 = Debug|iPhone
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Release|iPhone.ActiveCfg = Release|iPhone
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Release|iPhone.Build.0 = Release|iPhone
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89FF1775-43D1-485A-B101-F367F3C3701E}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SharedWinForms\SharedWinForms.projitems*{12450c6c-3750-476e-95ca-8615b1478239}*SharedItemsImports = 13
+		SharedGeneral\SharedGeneral.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
+		SharedGlucoMan\SharedGlucoMan.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
+		SharedWindows\SharedWindows.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
+		SharedWinForms\SharedWinForms.projitems*{19a0720c-b541-4d0c-bd30-b872f8f0d6b4}*SharedItemsImports = 5
+		SharedAndroid\SharedAndroid.projitems*{51671830-f844-4cb7-9b86-29a797e0dcba}*SharedItemsImports = 5
+		SharedGeneral\SharedGeneral.projitems*{51671830-f844-4cb7-9b86-29a797e0dcba}*SharedItemsImports = 5
+		SharedGeneral\SharedGeneral.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
+		SharedGlucoMan\SharedGlucoMan.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
+		SharedWindows\SharedWindows.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
+		SharedXOffice\SharedXOffice.projitems*{5da71b44-3ca7-47ad-b840-86d0168a09a6}*SharedItemsImports = 5
+		SharedAndroid\SharedAndroid.projitems*{7abe1f51-c287-42f5-9da8-8dc734cda12b}*SharedItemsImports = 13
+		SharedGlucomanAndroid\SharedGlucomanAndroid.projitems*{89990ea0-1b3b-4208-b789-86433ef93d53}*SharedItemsImports = 13
+		SharedAndroid\SharedAndroid.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
+		SharedGeneral\SharedGeneral.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
+		SharedGlucomanAndroid\SharedGlucomanAndroid.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
+		SharedGlucoMan\SharedGlucoMan.projitems*{96f2f950-7773-411f-a37a-b25992452fda}*SharedItemsImports = 5
+		SharedGlucoMan\SharedGlucoMan.projitems*{a099d29b-5307-4564-acad-2a073fd1ef64}*SharedItemsImports = 13
+		SharedWindows\SharedWindows.projitems*{b3c5e432-3f17-4683-976f-bd54081a9966}*SharedItemsImports = 13
+		SharedGeneral\SharedGeneral.projitems*{b8615262-a1a5-4508-a7a2-321c10ed81cc}*SharedItemsImports = 13
+		SharedXOffice\SharedXOffice.projitems*{eeb0680e-e0d0-4485-8c9a-f7aa98da1b90}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

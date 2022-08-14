@@ -1,4 +1,4 @@
-using SharedData;
+using gamon; 
 
 namespace GlucoMan.Forms
 {

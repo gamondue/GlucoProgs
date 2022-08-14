@@ -3,6 +3,7 @@ using SharedGlucoMan.BusinessLayer;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using gamon;
 
 namespace GlucoMan.Mobile
 {

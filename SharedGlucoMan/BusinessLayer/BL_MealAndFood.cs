@@ -222,7 +222,7 @@ namespace GlucoMan.BusinessLayer
             DestinationFood.Sugar = SourceFoodInMeal.SugarPercent;
             DestinationFood.Fibers = SourceFoodInMeal.FibersPercent;
         }
-        internal TypeOfMeal SetTypeOfMealBasedOnTime()
+        internal TypeOfMeal SetTypeOfMealBasedOnTimeNow()
         {
             TypeOfMeal type = TypeOfMeal.NotSet; 
             DateTime now = DateTime.Now;
@@ -249,7 +249,7 @@ namespace GlucoMan.BusinessLayer
             Meal.TimeBegin.DateTime = now;
             Meal.TimeEnd.DateTime = now;
             Meal.AccuracyOfChoEstimate.Double = 0;
-            Meal.IdTypeOfMeal = SetTypeOfMealBasedOnTime();
+            Meal.IdTypeOfMeal = SetTypeOfMealBasedOnTimeNow();
         }
         public void SaveFoodInMealParameters()
         {

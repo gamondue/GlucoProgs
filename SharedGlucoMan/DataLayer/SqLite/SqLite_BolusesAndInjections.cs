@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using gamon;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -37,17 +38,16 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE InsulinInjections SET " +
-                    "Timestamp=" + SqlDate(Injection.Timestamp.DateTime) + "," +
-                    "InsulinValue=" + SqlDouble(Injection.InsulinValue.Text) + "," +
-                    "InsulinCalculated=" + SqlDouble(Injection.InsulinCalculated.Text) + "," +
-                    "InjectionPositionX=" + SqlInt(Injection.InjectionPositionX.Int) + "," +
-                    "InjectionPositionY=" + SqlInt(Injection.InjectionPositionY.Int) + "," +
-                    "Notes=" + SqlString(Injection.Notes) + "," +
-                    "IdTypeOfInjection=" + SqlInt(Injection.IdTypeOfInjection.Int) + "," +
-                    "IdTypeOfInsulinSpeed=" + SqlInt(Injection.IdTypeOfInsulinSpeed.Int) + "," +
-                    "IdTypeOfInsulinInjection=" + SqlInt(Injection.IdTypeOfInsulinInjection.Int) + "," +
-                    "InsulinString=" + SqlString(Injection.InsulinString) + "" +
-                    " WHERE IdInsulinInjection=" + SqlInt(Injection.IdInsulinInjection) +
+                    "Timestamp=" + SqliteHelper.Date(Injection.Timestamp.DateTime) + "," +
+                    "InsulinValue=" + SqliteHelper.Double(Injection.InsulinValue.Text) + "," +
+                    "InsulinCalculated=" + SqliteHelper.Double(Injection.InsulinCalculated.Text) + "," +
+                    "InjectionPositionX=" + SqliteHelper.Int(Injection.InjectionPositionX.Int) + "," +
+                    "InjectionPositionY=" + SqliteHelper.Int(Injection.InjectionPositionY.Int) + "," +
+                    "Notes=" + SqliteHelper.String(Injection.Notes) + "," +
+                    "IdTypeOfInsulinSpeed=" + SqliteHelper.Int(Injection.IdTypeOfInsulinSpeed.Int) + "," +
+                    "IdTypeOfInsulinInjection=" + SqliteHelper.Int(Injection.IdTypeOfInsulinInjection.Int) + "," +
+                    "InsulinString=" + SqliteHelper.String(Injection.InsulinString) + "" +
+                    " WHERE IdInsulinInjection=" + SqliteHelper.Int(Injection.IdInsulinInjection) +
                     ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -71,20 +71,19 @@ namespace GlucoMan
                     string query = "INSERT INTO InsulinInjections" +
                     "(" +
                     "IdInsulinInjection,Timestamp,InsulinValue,InsulinCalculated," +
-                    "InjectionPositionX,InjectionPositionY,Notes,IdTypeOfInjection," +
+                    "InjectionPositionX,InjectionPositionY,Notes," +
                     "IdTypeOfInsulinSpeed,IdTypeOfInsulinInjection,InsulinString";
                     query += ")VALUES(" +
-                    SqlInt(Injection.IdInsulinInjection) + "," +
-                    SqlDate(Injection.Timestamp.DateTime) + "," +
-                    SqlDouble(Injection.InsulinValue.Text) + "," +
-                    SqlDouble(Injection.InsulinCalculated.Text) + "," +
-                    SqlInt(Injection.InjectionPositionX.Int) + "," +
-                    SqlInt(Injection.InjectionPositionY.Int) + "," +
-                    SqlString(Injection.Notes) + "," +
-                    SqlInt(Injection.IdTypeOfInjection.Int) + "," +
-                    SqlInt(Injection.IdTypeOfInsulinSpeed.Int) + "," +
-                    SqlInt(Injection.IdTypeOfInsulinInjection.Int) + "," +
-                    SqlString(Injection.InsulinString) + "";
+                    SqliteHelper.Int(Injection.IdInsulinInjection) + "," +
+                    SqliteHelper.Date(Injection.Timestamp.DateTime) + "," +
+                    SqliteHelper.Double(Injection.InsulinValue.Text) + "," +
+                    SqliteHelper.Double(Injection.InsulinCalculated.Text) + "," +
+                    SqliteHelper.Int(Injection.InjectionPositionX.Int) + "," +
+                    SqliteHelper.Int(Injection.InjectionPositionY.Int) + "," +
+                    SqliteHelper.String(Injection.Notes) + "," +
+                    SqliteHelper.Int(Injection.IdTypeOfInsulinSpeed.Int) + "," +
+                    SqliteHelper.Int(Injection.IdTypeOfInsulinInjection.Int) + "," +
+                    SqliteHelper.String(Injection.InsulinString) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -129,7 +128,7 @@ namespace GlucoMan
                 {
                     string query = "SELECT *" +
                         " FROM InsulinInjections" + 
-                        " WHERE IdInsulinInjection=" + SqlInt(IdInjection); 
+                        " WHERE IdInsulinInjection=" + SqliteHelper.Int(IdInjection); 
                     query += ";";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
@@ -194,7 +193,6 @@ namespace GlucoMan
                 ii.InjectionPositionX.Int = Safe.Int(Row["InjectionPositionX"]);
                 ii.InjectionPositionY.Int = Safe.Int(Row["InjectionPositionY"]);
                 ii.Notes = Safe.String(Row["Notes"]);
-                ii.IdTypeOfInjection.Int = Safe.Int(Row["IdTypeOfInjection"]);
                 ii.IdTypeOfInsulinSpeed.Int = Safe.Int(Row["IdTypeOfInsulinSpeed"]);
                 ii.IdTypeOfInsulinInjection.Int = Safe.Int(Row["IdTypeOfInsulinInjection"]);
                 ii.InsulinString = Safe.String(Row["InsulinString"]);

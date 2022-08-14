@@ -1,0 +1,15 @@
+Insulin Bases: key of row, base insulin, descriptive string 
+10,4,Breakfast
+20,5,Lunch
+30,5,Dinner
+40,10,------
+Ranges: key of row, delta insulinin of range, glucose sup of range
+0, -1, 80
+1, 0, 150
+2, 1, 200
+3, 2, 250
+4, 3, 300
+5, 4, 350
+6, 5, 400
+
+

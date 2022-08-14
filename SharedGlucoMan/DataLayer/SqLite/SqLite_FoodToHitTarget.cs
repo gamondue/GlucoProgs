@@ -1,5 +1,4 @@
 ﻿using GlucoMan.BusinessLayer;
-using SharedData;
 using GlucoMan;
 using System;
 using System.Collections.Generic;

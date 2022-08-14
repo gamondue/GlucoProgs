@@ -1,4 +1,5 @@
-﻿using GlucoMan.BusinessLayer;
+﻿using gamon;
+using GlucoMan.BusinessLayer;
 using static GlucoMan.Common;
 
 namespace GlucoMan.Forms
@@ -71,9 +72,9 @@ namespace GlucoMan.Forms
 
             SetTypeOfMealRadiobutton(bl.Meal.IdTypeOfMeal);
 
-            if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
+            if (bl.Meal.TimeBegin.DateTime != General.DateNull)
                 dtpMealTimeStart.Value = (DateTime)bl.Meal.TimeBegin.DateTime;
-            if (bl.Meal.TimeEnd.DateTime != Common.DateNull)
+            if (bl.Meal.TimeEnd.DateTime != General.DateNull)
                 dtpMealTimeFinish.Value = (DateTime)bl.Meal.TimeEnd.DateTime;
             
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
@@ -226,7 +227,7 @@ namespace GlucoMan.Forms
         private void btnSaveMeal_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            if (bl.Meal.TimeBegin.DateTime == Common.DateNull)
+            if (bl.Meal.TimeBegin.DateTime == General.DateNull)
                 // if the meal has no date, we put Now
                 txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, true).ToString();
             else
@@ -236,7 +237,7 @@ namespace GlucoMan.Forms
         private void btnSaveAllMeal_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            if (bl.Meal.TimeBegin.DateTime == Common.DateNull)
+            if (bl.Meal.TimeBegin.DateTime == General.DateNull)
                 // if the meal has no date, we put Now
                 txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, true).ToString();
             else

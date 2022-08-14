@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GlucoMan
+namespace gamon
 {
     public class DateTimeAndText
     {
@@ -14,7 +12,7 @@ namespace GlucoMan
             // default Format
             Format = "yyyy-MM-dd HH:mm:ss";
             // default values 
-            dateTimeVal = Common.DateNull;
+            dateTimeVal = General.DateNull;
             text = "";
         }
         public DateTime? DateTime
@@ -44,7 +42,7 @@ namespace GlucoMan
                 }
                 catch
                 {
-                    dateTimeVal = Common.DateNull;
+                    dateTimeVal = General.DateNull;
                 }
             }
         }

@@ -13,6 +13,7 @@
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
+                <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -36,16 +37,20 @@
             
             <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
                     Text="Copy files" Margin="100,0,100,0"
-                    x:Name="btnCopyDatabase" Clicked="btnCopyDatabase_Click" />
+                    x:Name="btnCopyDatabase" Clicked="btnCopyProgramsFiles_Click" />
             
             <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Text="Import data" Margin="100,0,100,0"
+                    x:Name="btnImport" Clicked="btnImport_Click" />
+            
+            <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
                     Text="Stop application" Margin="100,0,100,0"
                     x:Name="btnStopApplication" Clicked="btnStopApplication_Click" />
 
-            <Button Grid.Row="6" Grid.Column="0"
+            <Button Grid.Row="7" Grid.Column="0"
                     Text="Show error log" 
                     x:Name="btnShowErrorLog" Clicked="btnShowErrorLog_ClickAsync" />
-            <Button Grid.Row="6" Grid.Column="1"
+            <Button Grid.Row="7" Grid.Column="1"
                     Text="Delete error log" 
                     x:Name="btnDeleteErrorLog" Clicked="btnDeleteErrorLog_ClickAsync" />
         </Grid>

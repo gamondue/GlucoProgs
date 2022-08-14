@@ -1,4 +1,5 @@
-﻿using GlucoMan.BusinessLayer;
+﻿using gamon;
+using GlucoMan.BusinessLayer;
 using static GlucoMan.Common;
 
 namespace GlucoMan.Forms
@@ -27,7 +28,7 @@ namespace GlucoMan.Forms
 
             accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
 
-            bl.SetTypeOfMealBasedOnTime(); 
+            bl.SetTypeOfMealBasedOnTimeNow(); 
             RefreshGrid();
         }
         private void SetCorrectTypeOfMealRadioButton()
@@ -53,9 +54,9 @@ namespace GlucoMan.Forms
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
             txtChoOfMeal.Text = Safe.String(bl.Meal.Carbohydrates.Text);
             cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
-            if (bl.Meal.TimeBegin.DateTime != Common.DateNull)
+            if (bl.Meal.TimeBegin.DateTime != General.DateNull)
                 dtpMealTimeBegin.Value = (DateTime)bl.Meal.TimeBegin.DateTime;
-            if (bl.Meal.TimeEnd.DateTime != Common.DateNull)
+            if (bl.Meal.TimeEnd.DateTime != General.DateNull)
                 dtpMealTimeEnd.Value = (DateTime)bl.Meal.TimeEnd.DateTime;
             if (bl.Meal.AccuracyOfChoEstimate.Double != null)
                 txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;

@@ -4,10 +4,12 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Imaging
+namespace gamon
 {
 	using System;
 	using System.Drawing;
+
+	// partially taken from source code of AForge.Imaging
 
 	/// <summary>
 	/// RGB components

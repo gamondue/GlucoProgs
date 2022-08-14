@@ -1,4 +1,5 @@
-﻿using static GlucoMan.Common;
+﻿using gamon;
+using static GlucoMan.Common;
 
 namespace GlucoMan
 {

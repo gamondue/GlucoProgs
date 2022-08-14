@@ -1,8 +1,5 @@
-﻿using GlucoMan;
-using SharedData;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using gamon; 
 
 namespace GlucoMan.BusinessLayer
 {

@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace SharedData
+namespace gamon
 {
     public class Logger
     {

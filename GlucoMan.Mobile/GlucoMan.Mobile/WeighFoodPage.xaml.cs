@@ -1,5 +1,4 @@
-﻿using SharedData;
-using GlucoMan.BusinessLayer;
+﻿using GlucoMan.BusinessLayer;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -10,8 +9,6 @@ namespace GlucoMan.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WeighFoodPage : ContentPage
     {
-        string persistentStorage = Path.Combine(Common.PathConfigurationData , @"WeighFood.txt");
-
         BL_WeighFood food = new BL_WeighFood();
         BL_GrossTareAndNetWeight M0RawMain;
         BL_GrossTareAndNetWeight S1Sauce;

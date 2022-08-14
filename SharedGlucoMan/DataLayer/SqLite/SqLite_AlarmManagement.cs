@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using gamon;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -51,13 +52,13 @@ namespace GlucoMan
                     "IdAlarm,TimeStart,TimeAlarm,Interval,Duration," +
                     "IsRepeated,IsEnabled";
                     query += ")VALUES(" +
-                    SqlInt(alarm.IdAlarm) + "," +
-                    SqlDate(alarm.TimeStart.DateTime) + "," +
-                    SqlDate(alarm.TimeAlarm.DateTime) + "," +
-                    SqlInt(secondsOfInterval) + "," +
-                    SqlInt(secondsOfDuration) + "," +
-                    SqlBool(alarm.IsRepeated) + "," +
-                    SqlBool(alarm.IsEnabled) + ""; 
+                    SqliteHelper.Int(alarm.IdAlarm) + "," +
+                    SqliteHelper.Date(alarm.TimeStart.DateTime) + "," +
+                    SqliteHelper.Date(alarm.TimeAlarm.DateTime) + "," +
+                    SqliteHelper.Int(secondsOfInterval) + "," +
+                    SqliteHelper.Int(secondsOfDuration) + "," +
+                    SqliteHelper.Bool(alarm.IsRepeated) + "," +
+                    SqliteHelper.Bool(alarm.IsEnabled) + ""; 
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();

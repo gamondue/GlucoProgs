@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
-using SharedData;
 
-namespace GlucoMan
+namespace gamon
 {
     internal static class TextFile
     {
@@ -101,7 +100,7 @@ namespace GlucoMan
             }
             catch (Exception e)
             {
-                Common.LogOfProgram.Error("TextFile", e); 
+                General.Log.Error("TextFile", e); 
             }
         }
         /// <summary>

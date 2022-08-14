@@ -1,7 +1,6 @@
 ﻿
 using GlucoMan;
 using GlucoMan.BusinessLayer;
-using SharedData;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -112,7 +111,7 @@ namespace GlucoMan.Mobile
         private void btnReadGlucose_Click(object sender, EventArgs e)
         {
             List<GlucoseRecord> list = blMeasurements.GetLastTwoGlucoseMeasurements();
-            if (list.Count != 0)
+            if (list.Count > 1)
             {
                 txtGlucoseLast.Text = list[0].GlucoseValue.ToString();
                 txtGlucosePrevious.Text = list[1].GlucoseValue.ToString();

@@ -1,6 +1,5 @@
-﻿using System;
-using SharedData;
-using GlucoMan;
+﻿using System; 
+using gamon;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -101,13 +100,16 @@ namespace GlucoMan.BusinessLayer
                 TimePrevious = TimeLast.Subtract(Interval);
 
                 double secondsBetweenMeasurements = Interval.TotalSeconds;
+                int? glucoseDifference = GlucoseLast.Int - GlucosePrevious.Int;
 
                 // check if the difference in time is too big or too little
                 if (secondsBetweenMeasurements > 3 * 60 * 60)
                 {
                     //Console.Beep(200, 40);
                     Common.LogOfProgram.Error("Time between measurements too big", null);
-                    GlucoseSlope.Text = "----";
+                    //GlucoseSlope.Text = "----";
+                    GlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
+                    GlucoseSlope.Double = GlucoseSlope.Double * 60 * 60;
                     PredictedTime.Text = ">";
                     AlarmTime.Text = ">";
                     PredictedHour.Text = "> 3 h";
@@ -121,7 +123,9 @@ namespace GlucoMan.BusinessLayer
                 {
                     //Console.Beep(200, 40);
                     Common.LogOfProgram.Error("Time between measurements too short", null);
-                    GlucoseSlope.Text = "----";
+                    //GlucoseSlope.Text = "----";
+                    GlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
+                    GlucoseSlope.Double = GlucoseSlope.Double * 60 * 60;
                     PredictedTime.Text = "<";
                     AlarmTime.Text = "<";
                     PredictedHour.Text = "< 20 min";
@@ -131,8 +135,6 @@ namespace GlucoMan.BusinessLayer
                     statusMessage = "Time between measurements too short";
                     return;
                 }
-                int? glucoseDifference = GlucoseLast.Int - GlucosePrevious.Int;
-
                 if (glucoseDifference > 0) 
                 {
                     // if glucose increases, hypo is not possible 

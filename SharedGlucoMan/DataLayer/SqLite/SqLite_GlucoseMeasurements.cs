@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using gamon;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -169,16 +170,16 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE GlucoseRecords SET " +
-                    "GlucoseValue=" + SqlDouble(Measurement.GlucoseValue) + "," +
-                    "Timestamp=" + SqlDate(Measurement.Timestamp) + "," +
-                    "GlucoseString=" + SqlString(Measurement.GlucoseString) + "," +
-                    "IdTypeOfGlucoseMeasurement=" + SqlString(Measurement.IdTypeOfGlucoseMeasurement) + "," +
-                    "IdTypeOfGlucoseMeasurementDevice=" + SqlString(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
-                    "IdModelOfMeasurementSystem=" + SqlString(Measurement.IdModelOfMeasurementSystem) + "," +
-                    "IdDevice=" + SqlString(Measurement.IdDevice) + "," +
-                    "IdDocumentType=" + SqlInt(Measurement.IdDocumentType) + "," +
-                    "Notes=" + SqlString(Measurement.Notes) + ""; 
-                    query += " WHERE IdGlucoseRecord=" + SqlInt(Measurement.IdGlucoseRecord);
+                    "GlucoseValue=" + SqliteHelper.Double(Measurement.GlucoseValue) + "," +
+                    "Timestamp=" + SqliteHelper.Date(Measurement.Timestamp) + "," +
+                    "GlucoseString=" + SqliteHelper.String(Measurement.GlucoseString) + "," +
+                    "IdTypeOfGlucoseMeasurement=" + SqliteHelper.String(Measurement.IdTypeOfGlucoseMeasurement) + "," +
+                    "IdTypeOfGlucoseMeasurementDevice=" + SqliteHelper.String(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
+                    "IdModelOfMeasurementSystem=" + SqliteHelper.String(Measurement.IdModelOfMeasurementSystem) + "," +
+                    "IdDevice=" + SqliteHelper.String(Measurement.IdDevice) + "," +
+                    "IdDocumentType=" + SqliteHelper.Int(Measurement.IdDocumentType) + "," +
+                    "Notes=" + SqliteHelper.String(Measurement.Notes) + ""; 
+                    query += " WHERE IdGlucoseRecord=" + SqliteHelper.Int(Measurement.IdGlucoseRecord);
                     query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -205,16 +206,16 @@ namespace GlucoMan
                     "IdTypeOfGlucoseMeasurement,IdTypeOfGlucoseMeasurementDevice,IdModelOfMeasurementSystem," +
                     "IdDevice,IdDocumentType,Notes";
                     query += ")VALUES (" +
-                    SqlInt(Measurement.IdGlucoseRecord) + "," +
-                    SqlDouble(Measurement.GlucoseValue) + "," +
-                    SqlDate(Measurement.Timestamp) + "," +
-                    SqlString(Measurement.GlucoseString) + "," +
-                    SqlString(Measurement.IdTypeOfGlucoseMeasurement) + "," +
-                    SqlString(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
-                    SqlString(Measurement.IdModelOfMeasurementSystem) + "," +
-                    SqlString(Measurement.IdDevice) + "," +
-                    SqlInt(Measurement.IdDocumentType) + "," +
-                    SqlString(Measurement.Notes) + ")";
+                    SqliteHelper.Int(Measurement.IdGlucoseRecord) + "," +
+                    SqliteHelper.Double(Measurement.GlucoseValue) + "," +
+                    SqliteHelper.Date(Measurement.Timestamp) + "," +
+                    SqliteHelper.String(Measurement.GlucoseString) + "," +
+                    SqliteHelper.String(Measurement.IdTypeOfGlucoseMeasurement) + "," +
+                    SqliteHelper.String(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
+                    SqliteHelper.String(Measurement.IdModelOfMeasurementSystem) + "," +
+                    SqliteHelper.String(Measurement.IdDevice) + "," +
+                    SqliteHelper.Int(Measurement.IdDocumentType) + "," +
+                    SqliteHelper.String(Measurement.Notes) + ")";
                     query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();

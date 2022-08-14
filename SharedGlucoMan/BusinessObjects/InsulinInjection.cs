@@ -1,4 +1,6 @@
-﻿namespace GlucoMan
+﻿using gamon;
+
+namespace GlucoMan
 {
     internal class InsulinInjection
     {
@@ -8,7 +10,6 @@
         public DoubleAndText InsulinCalculated { get; set; }
         public IntAndText InjectionPositionX { get; set; }
         public IntAndText InjectionPositionY { get; set; }
-        public IntAndText IdTypeOfInjection { get; set; }
         public IntAndText IdTypeOfInsulinSpeed { get; set; }
         public IntAndText IdTypeOfInsulinInjection { get; set; }
         public string InsulinString { get; set; }
@@ -23,7 +24,6 @@
             InsulinCalculated.Format = "#";
             InjectionPositionX = new IntAndText();
             InjectionPositionY = new IntAndText();
-            IdTypeOfInjection = new IntAndText();
             IdTypeOfInsulinSpeed = new IntAndText();
             IdTypeOfInsulinInjection = new IntAndText();
         }

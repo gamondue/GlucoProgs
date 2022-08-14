@@ -31,7 +31,7 @@ namespace SharedGlucoMan.BusinessLayer
                 // log of errors 
                 string exportedLogOfProgram = Path.Combine(Common.PathExport, 
                     Path.GetFileName (Common.LogOfProgram.ErrorsFile)); 
-                File.Copy(Common.LogOfProgram.ErrorsFile, Common.PathExport, true);
+                File.Copy(Common.LogOfProgram.ErrorsFile, exportedLogOfProgram, true);
 
                 // log of insulin correction parameters 
                 string exportedLogOfParameters = Path.Combine(Common.PathExport,
@@ -45,6 +45,12 @@ namespace SharedGlucoMan.BusinessLayer
                 Common.LogOfProgram.Error("ExportProgramsFiles. ", ex); 
                 return false;
             }
+        }
+        internal bool ImportFromExternalDatabase(string pathAndFileDatabase, string v)
+        {
+            // import the foods
+
+            return false; 
         }
     }
 }

@@ -6,16 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <Import Project="..\SharedGeneral\SharedGeneral.projitems" Label="Shared" />
-
-  <Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
-
-  <Import Project="..\SharedWindows\SharedWindows.projitems" Label="Shared" />
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.7" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.8" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
   </ItemGroup>
 
 </Project>

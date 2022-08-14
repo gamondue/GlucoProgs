@@ -3,6 +3,7 @@ using static GlucoMan.Common;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using gamon;
 
 namespace GlucoMan.Mobile
 {
@@ -153,7 +154,7 @@ namespace GlucoMan.Mobile
         private void btnSaveAllMeal_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            if (bl.Meal.TimeBegin.DateTime == Common.DateNull)
+            if (bl.Meal.TimeBegin.DateTime == General.DateNull)
                 // if the meal has no time, we put Now
                 txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, true).ToString();
             else
@@ -181,11 +182,6 @@ namespace GlucoMan.Mobile
             FromUiToClass();
             foodsPage = new FoodsPage(bl.FoodInMeal); 
             await Navigation.PushAsync(foodsPage);
-            //if (foodsPage.FoodIsChosen)
-            //{
-            //    bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
-            //    FromClassToUi(); 
-            //}
         }
         // in this UI we have no buttons to save just one food in meal 
         //private void btnSaveFoodInMeal_Click(object sender, EventArgs e)
@@ -269,7 +265,10 @@ namespace GlucoMan.Mobile
         protected override async void OnAppearing()
         {
             if (foodsPage != null && foodsPage.FoodIsChosen)
+            {
                 bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
+                txtFoodChoGrams.Text = "0";
+            }
             //bl.Meal.IdBolusCalculation = insulinCalcPage.IdBolusCalculation;
             if (injectionsPage != null && injectionsPage.IdInsulinInjection != null)
                 bl.Meal.IdInsulinInjection = injectionsPage.IdInsulinInjection;

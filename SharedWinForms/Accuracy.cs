@@ -1,7 +1,7 @@
 ﻿using GlucoMan.BusinessLayer;
 using static GlucoMan.Common;
 
-namespace GlucoMan
+namespace gamon
 {
     internal partial class Accuracy
     {
