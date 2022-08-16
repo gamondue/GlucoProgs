@@ -4,6 +4,7 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using gamon;
+using System.Collections.Generic;
 
 namespace GlucoMan.Mobile
 {
@@ -63,33 +64,8 @@ namespace GlucoMan.Mobile
         private void FromClassToUi()
         {
             loading = true;
-
-            txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-            txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
-
-            if (bl.Meal.IdMeal != null)
-                txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-            else
-                txtIdMeal.Text = "";         
-            
-            txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
-            txtNotes.Text = bl.Meal.Notes;
-
-            if (bl.FoodInMeal.IdFoodInMeal != null)
-                txtIdFoodInMeal.Text = bl.FoodInMeal.IdFoodInMeal.ToString();
-            else
-                txtIdFoodInMeal.Text = "";
-            if (bl.FoodInMeal.IdFood != null)
-                txtIdFood.Text = bl.FoodInMeal.IdFood.ToString();
-            else
-                txtIdFood.Text = "";
-
-            txtFoodChoPercent.Text = bl.FoodInMeal.ChoPercent.Text;
-            txtFoodQuantityGrams.Text = bl.FoodInMeal.QuantityGrams.Text;
-            txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
-            txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;  
-            txtFoodInMealName.Text = bl.FoodInMeal.Name;
-
+            ShowMealBoxes();
+            ShowFoodBoxes();
             loading = false;
         }
         private void FromUiToClass()
@@ -111,6 +87,36 @@ namespace GlucoMan.Mobile
             bl.FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
 
             loading = false;
+        }
+        private void ShowFoodBoxes()
+        {
+            if (bl.FoodInMeal.IdFoodInMeal != null)
+                txtIdFoodInMeal.Text = bl.FoodInMeal.IdFoodInMeal.ToString();
+            else
+                txtIdFoodInMeal.Text = "";
+            if (bl.FoodInMeal.IdFood != null)
+                txtIdFood.Text = bl.FoodInMeal.IdFood.ToString();
+            else
+                txtIdFood.Text = "";
+
+            txtFoodChoPercent.Text = bl.FoodInMeal.ChoPercent.Text;
+            txtFoodQuantityGrams.Text = bl.FoodInMeal.QuantityGrams.Text;
+            txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
+            txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;
+            txtFoodInMealName.Text = bl.FoodInMeal.Name;
+        }
+        private void ShowMealBoxes()
+        {
+            txtIdMeal.Text = bl.Meal.IdMeal.ToString();
+            txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
+
+            if (bl.Meal.IdMeal != null)
+                txtIdMeal.Text = bl.Meal.IdMeal.ToString();
+            else
+                txtIdMeal.Text = "";
+
+            txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
+            txtNotes.Text = bl.Meal.Notes;
         }
         private void txtFoodChoPercent_TextChanged(object sender, EventArgs e)
         {
@@ -145,6 +151,7 @@ namespace GlucoMan.Mobile
             }
             bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
             bl.RecalcAll();
+            ShowMealBoxes();
             txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
         }
         private void txtChoOfMealGrams_TextChanged(object sender, EventArgs e)
@@ -166,17 +173,22 @@ namespace GlucoMan.Mobile
         private void btnAddFoodInMeal_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            // erase Id, so that a new record will be created
+            // erase Id of FoodInMeal, so that a new record will be created
             bl.FoodInMeal.IdFoodInMeal = null;
             txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
+            if (bl.FoodsInMeal == null)
+                bl.FoodsInMeal = new List<FoodInMeal>();
+            RefreshGrid();
             bl.RecalcAll();
-            RefreshUi();
+            ShowMealBoxes();
         }
         private void btnRemoveFoodInMeal_Click(object sender, EventArgs e)
         {
             bl.DeleteOneFoodInMeal(bl.FoodInMeal);
-            RefreshUi();
-        }
+            RefreshGrid(); 
+            bl.RecalcAll();
+            ShowMealBoxes(); 
+        } 
         private async void btnFoodDetail_ClickAsync(object sender, EventArgs e)
         {
             FromUiToClass();
@@ -267,7 +279,10 @@ namespace GlucoMan.Mobile
             if (foodsPage != null && foodsPage.FoodIsChosen)
             {
                 bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
+                loading = true;
                 txtFoodChoGrams.Text = "0";
+                txtChoOfMealGrams.Text = "0";
+                loading = false;
             }
             //bl.Meal.IdBolusCalculation = insulinCalcPage.IdBolusCalculation;
             if (injectionsPage != null && injectionsPage.IdInsulinInjection != null)

@@ -119,17 +119,40 @@ namespace GlucoMan.Mobile
         private async void btnAddMeal_ClickAsync(object sender, EventArgs e)
         {
             FromUiToClass();
-            // erase Id to create a new meal
-            bl.Meal.IdMeal = null;
+            // reset the meal because we want a new one
+            bl.Meal = new Meal();
+            // add to the new meal the data cominng from this page
             if (chkNowInAdd.IsChecked)
             {
                 DateTime now = DateTime.Now;
                 bl.Meal.TimeBegin.DateTime = now;
                 bl.Meal.TimeEnd.DateTime = now;
-            }           
+            }
+            else
+            {
+                DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
+                    dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
+                bl.Meal.TimeBegin.DateTime = instant;
+                bl.Meal.TimeEnd.DateTime = bl.Meal.TimeBegin.DateTime; 
+            }
+            bl.Meal.IdTypeOfMeal = SetTypeOfMealBasedOnRadioButtons(); 
             mealPage = new MealPage(bl.Meal);
             await Navigation.PushAsync(mealPage);
-            RefreshUi();
+        }
+        private TypeOfMeal SetTypeOfMealBasedOnRadioButtons()
+        {
+            TypeOfMeal type;
+            if (rdbIsBreakfast.IsChecked)
+                type = TypeOfMeal.Breakfast;
+            else if (rdbIsDinner.IsChecked)
+                type = TypeOfMeal.Dinner;
+            else if (rdbIsLunch.IsChecked)
+                type = TypeOfMeal.Lunch;
+            else if (rdbIsSnack.IsChecked)
+                type = TypeOfMeal.Snack;
+            else
+                type = TypeOfMeal.Other;
+            return type; 
         }
         private async void btnRemoveMeal_ClickAsync(object sender, EventArgs e)
         {
@@ -156,7 +179,7 @@ namespace GlucoMan.Mobile
                 return;
             }
             FromUiToClass();
-            bl.SaveOneMeal(bl.Meal, chkNowInAdd.IsChecked);
+            bl.SaveOneMeal(bl.Meal, false);
             RefreshUi();
         }
         private async void btnShowThisMeal_ClickAsync(object sender, EventArgs e)

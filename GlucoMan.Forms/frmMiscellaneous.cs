@@ -5,7 +5,7 @@ namespace GlucoMan.Forms
     public partial class frmMiscellaneous : Form
     {
         BL_General blGeneral = new SharedGlucoMan.BusinessLayer.BL_General();
-        bool canModify = true; 
+        bool canModify = true;
         public frmMiscellaneous()
         {
             InitializeComponent();
@@ -39,13 +39,13 @@ namespace GlucoMan.Forms
             }
             else
             {
-                canModify = true; 
+                canModify = true;
             }
         }
         private void btnResetDatabase_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("ATTENTION: should I delete the WHOLE database? All data will be lost!", 
-                "ERASING DATABASE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2)
+            if (MessageBox.Show("ATTENTION: should I delete the WHOLE database? All data will be lost!",
+                "ERASING DATABASE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2)
                 == DialogResult.Yes)
             {
                 // deleting the database file
@@ -74,13 +74,26 @@ namespace GlucoMan.Forms
                 f.Show();
             } catch
             {
-                MessageBox.Show("File not existing or not accessible."); 
+                MessageBox.Show("File not existing or not accessible.");
             }
         }
         private void btnDeleteErrorLog_Click(object sender, EventArgs e)
         {
             File.Delete(Common.LogOfProgram.ErrorsFile);
-            MessageBox.Show("Done!"); 
+            MessageBox.Show("Done!");
+        }
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Please put a database named 'import.sqlite' in the same " +
+                "folder where this program exports its data.\nShould we continue in the process?", 
+                "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (!blGeneral.ImportFromExternalDatabase(Common.PathAndFileDatabase,
+                    Path.Combine(Common.PathExport, "import.sqlite")))
+                {
+                    MessageBox.Show("Error in importing form import-sqlite to app's database", "");
+                }
+            }
         }
     }
 }

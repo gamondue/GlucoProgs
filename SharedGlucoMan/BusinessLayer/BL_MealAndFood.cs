@@ -1,6 +1,7 @@
 ﻿using static GlucoMan.Common;
 using System;
 using System.Collections.Generic;
+using gamon;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -70,13 +71,22 @@ namespace GlucoMan.BusinessLayer
             {
                 Meal = new Meal();
             }
-            // if the meal has not a code, we save it to have one 
+            // if the meal hasn't been saved yet, we do save and obtain the key of the meal 
             if (Meal.IdMeal == null)
             {
-                // if a Meal is created here, it must have Now as Time
-                Meal.IdMeal = SaveOneMeal(Meal, true);
+                // if the meal has not a begin date, we save with now
+                if (Meal.TimeBegin == null || Meal.TimeBegin.DateTime == General.DateNull)
+                {
+                    // if a Meal is created here, it must have Now as Time
+                    // (true as the second paramater) 
+                    Meal.IdMeal = SaveOneMeal(Meal, true);
+                }
+                else
+                {   // if it has already a date, we save with that 
+                    Meal.IdMeal = SaveOneMeal(Meal, false);
+                }
             }
-            // if the FoodInMeal has not an IdMeal, we give it the Id of the current Meal 
+            // if the current FoodInMeal has not an IdMeal, we give it the Id of the current Meal 
             if (FoodToSave.IdMeal == null)
             {
                 FoodToSave.IdMeal = Meal.IdMeal; 
@@ -89,11 +99,11 @@ namespace GlucoMan.BusinessLayer
             if (FoodsInMeal != null)
                 foreach (FoodInMeal food in FoodsInMeal)
                 {
-                    // if it is necessary, the next method will create a new meal
-                    if (food.IdMeal == null)
-                    {   // if the food has not ebbe saves jet, we add it to the list of Foods in this Meal
-                        FoodsInMeal.Add(food);
-                    }
+                    //// if it is necessary, the next method will create a new meal
+                    //if (food.IdMeal == null)
+                    //{   // if the food has not been saved jet, we add it to the list of Foods in this Meal
+                    //    FoodsInMeal.Add(food);
+                    //}
                     // now we save, if the food was new, when exiting the next function, it will have an IdFoodInMeal
                     dl.SaveOneFoodInMeal(food);
                 }

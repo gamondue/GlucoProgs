@@ -38,6 +38,7 @@
             this.btnCopyDatabase = new System.Windows.Forms.Button();
             this.btnShowErrorLog = new System.Windows.Forms.Button();
             this.btnDeleteErrorLog = new System.Windows.Forms.Button();
+            this.btnImport = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -114,7 +115,7 @@
             // 
             // btnShowErrorLog
             // 
-            this.btnShowErrorLog.Location = new System.Drawing.Point(29, 257);
+            this.btnShowErrorLog.Location = new System.Drawing.Point(29, 326);
             this.btnShowErrorLog.Name = "btnShowErrorLog";
             this.btnShowErrorLog.Size = new System.Drawing.Size(100, 63);
             this.btnShowErrorLog.TabIndex = 5;
@@ -124,7 +125,7 @@
             // 
             // btnDeleteErrorLog
             // 
-            this.btnDeleteErrorLog.Location = new System.Drawing.Point(149, 257);
+            this.btnDeleteErrorLog.Location = new System.Drawing.Point(149, 326);
             this.btnDeleteErrorLog.Name = "btnDeleteErrorLog";
             this.btnDeleteErrorLog.Size = new System.Drawing.Size(100, 63);
             this.btnDeleteErrorLog.TabIndex = 6;
@@ -132,11 +133,22 @@
             this.btnDeleteErrorLog.UseVisualStyleBackColor = true;
             this.btnDeleteErrorLog.Click += new System.EventHandler(this.btnDeleteErrorLog_Click);
             // 
+            // btnImport
+            // 
+            this.btnImport.Location = new System.Drawing.Point(92, 257);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(100, 63);
+            this.btnImport.TabIndex = 7;
+            this.btnImport.Text = "Import data";
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
             // frmMiscellaneous
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(293, 389);
+            this.ClientSize = new System.Drawing.Size(293, 402);
+            this.Controls.Add(this.btnImport);
             this.Controls.Add(this.btnDeleteErrorLog);
             this.Controls.Add(this.btnShowErrorLog);
             this.Controls.Add(this.btnCopyDatabase);
@@ -167,5 +179,6 @@
         private Button btnCopyDatabase;
         private Button btnShowErrorLog;
         private Button btnDeleteErrorLog;
+        private Button btnImport;
     }
 }

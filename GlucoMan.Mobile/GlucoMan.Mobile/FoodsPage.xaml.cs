@@ -38,7 +38,7 @@ namespace GlucoMan.Mobile
         {
             InitializeComponent();
             if (CurrentFood == null)
-                CurrentFood = new Food(); 
+                CurrentFood = new Food();
             bl.FromFoodInMealToFood(FoodInMeal, CurrentFood);
             PageLoad();
         }
@@ -48,7 +48,7 @@ namespace GlucoMan.Mobile
 
             foodIsChosen = false;
             txtName.Text = "";
-            txtDescription.Text = ""; 
+            txtDescription.Text = "";
             allFoods = new List<Food>();
             // if a specific food is passed, load its persistent from database 
             if (CurrentFood.IdFood != 0 && CurrentFood.IdFood != null)
@@ -57,7 +57,7 @@ namespace GlucoMan.Mobile
             }
             // if what is passed has not and IdFood,
             // we use the data actually passed 
-            
+
             // let's show the CurrentFood
             FromClassToUi();
 
@@ -189,7 +189,7 @@ namespace GlucoMan.Mobile
             foodIsChosen = true;
             FromUiToClass();
             bl.SaveOneFood(CurrentFood);
-            this.Navigation.PopAsync(); 
+            this.Navigation.PopAsync();
         }
         private void btnCleanFields_Click(object sender, EventArgs e)
         {
@@ -229,6 +229,10 @@ namespace GlucoMan.Mobile
                     RefreshGrid();
                 }
             }
+        }
+        protected override async void OnAppearing()
+        {
+            foodIsChosen = false;
         }
     }
 }

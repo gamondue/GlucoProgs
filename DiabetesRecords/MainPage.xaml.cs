@@ -16,8 +16,6 @@ namespace DiabetesRecords
             InitializeComponent();
             
             bl = new BusinessLayer();
-            therapy = new InsulinTherapy();
-            therapy.GetTherapy(); 
 
             string ProgramVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             string ProgramName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name.ToString();
@@ -193,8 +191,18 @@ namespace DiabetesRecords
                 }
             };
         }
-        private void txt_TextChanghed(object sender, EventArgs e)
+        private async void txt_TextChanghed(object sender, EventArgs e)
         {
+            if (therapy == null)
+            {
+                therapy = new InsulinTherapy();
+                if (!therapy.GetTherapy())
+                {
+                    await DisplayAlert("Errore di lettura",
+                        "File della terapia sbagliato, uso la terapia inclusa nel programma!",
+                        "OK");
+                }
+            }
             double glucose; 
             double.TryParse(txtNewGlucose.Text, out glucose);
             txtHintedInsulin.Text = therapy.CalcInsulinHint(glucose,

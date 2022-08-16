@@ -67,7 +67,9 @@
             <TimePicker Grid.Row="4" Grid.Column="2" x:Name="dtpMealTimeBegin" 
                         BackgroundColor="PaleGreen" FontSize="Small" Format="HH:mm:ss" 
                         HorizontalOptions="Center" />
-            <Grid Grid.Row="4" Grid.Column="3">
+            <Button Grid.Row="4" Grid.Column="3" Text="Defaults" x:Name="btnDefaults" Clicked="btnDefault_Click"></Button>
+
+            <Grid Grid.Row="6" Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                 </Grid.RowDefinitions>
@@ -84,10 +86,9 @@
             
             <Button Grid.Row="6" Grid.Column="0" Text="Save" x:Name="btnSave" Clicked="btnSaveMeal_ClickAsync"></Button>
             <Button Grid.Row="6" Grid.Column="1" Text="Now" x:Name="btnNowBegin" Clicked="btnNowBegin_Click"></Button>
-            <Button Grid.Row="6" Grid.Column="2" Text="Defaults" x:Name="btnDefaults" Clicked="btnDefault_Click"></Button>
             <Button Grid.Row="6" Grid.Column="3" Text="Details" x:Name="btnShowThisMeal" Clicked="btnShowThisMeal_ClickAsync"></Button>
 
-            <StackLayout Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <StackLayout Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
