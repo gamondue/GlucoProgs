@@ -88,10 +88,25 @@ namespace GlucoMan.Forms
                 "folder where this program exports its data.\nShould we continue in the process?", 
                 "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                if (!blGeneral.ImportFromExternalDatabase(Common.PathAndFileDatabase,
-                    Path.Combine(Common.PathExport, "import.sqlite")))
+                if (!blGeneral.ImportDatabaseFromExternal(Common.PathAndFileDatabase,
+                    Path.Combine(Common.PathImportExport, "import.sqlite")))
                 {
                     MessageBox.Show("Error in importing form import-sqlite to app's database", "");
+                }
+            }
+        }
+        private void btnReadDatabase_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Please put a database named 'readGlucoman.sqlite' in the same " +
+                "folder where this program exports its data." +
+                "\nAttention, this file will replace the database! " +
+                "\nShould we continue in the process?",
+                "Read database from external folder", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (!blGeneral.ReadDatabaseFromExternal(Common.PathAndFileDatabase,
+                    Path.Combine(Common.PathImportExport, "readGlucoman.sqlite")))
+                {
+                    MessageBox.Show("Error in reading database from external", "Error!");
                 }
             }
         }

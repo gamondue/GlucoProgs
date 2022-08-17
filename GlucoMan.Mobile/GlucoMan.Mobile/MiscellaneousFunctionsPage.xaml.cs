@@ -77,8 +77,8 @@ namespace GlucoMan.Mobile
                 "\nShould we continue with the import?", "Yes", "No");
             if (import)
             {
-                if (!blGeneral.ImportFromExternalDatabase(Common.PathAndFileDatabase,
-                    Path.Combine(Common.PathExport, "import.sqlite")))
+                if (!blGeneral.ImportDatabaseFromExternal(Common.PathAndFileDatabase,
+                    Path.Combine(Common.PathImportExport, "import.sqlite")))
                 {
                     DisplayAlert("", "Error in importing form import-sqlite to app's database", "OK");
                 }
@@ -105,6 +105,22 @@ namespace GlucoMan.Mobile
         {
             File.Delete(Common.LogOfProgram.ErrorsFile);
             await DisplayAlert("", "Done!", "Ok");
+        }
+        private async void btnReadDatabase_Click(object sender, EventArgs e)
+        {
+            bool read = await DisplayAlert("Read database from external folder",
+                "Please put a database named 'readGlucoman.sqlite' in the same " +
+                "folder where this program exports its data." +
+                "\nAttention, this file will replace the database! " +
+                "\nShould we continue in the process?", "Yes", "No");
+            if (read)
+            {
+                if (!blGeneral.ReadDatabaseFromExternal(Common.PathAndFileDatabase,
+                    Path.Combine(Common.PathImportExport, "readGlucoman.sqlite")))
+                {
+                    DisplayAlert("Error!", "Error in reading database from external folder", "OK");
+                }
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace GlucoMan
         public static string PathLogs;
         public static string PathDatabase;
         public static string PathAndFileDatabase;
-        public static string PathExport;
+        public static string PathImportExport;
         public static string PathAndFileLogOfParameters;      
     }
 }

@@ -6,23 +6,32 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "GlucoMan/0.7.3.0": {
+      "GlucoMan/0.7.3.1": {
         "dependencies": {
-          "Microsoft.Data.Sqlite.Core": "6.0.7",
-          "SQLitePCLRaw.bundle_e_sqlite3": "2.1.0"
+          "Microsoft.Data.Sqlite.Core": "6.0.8",
+          "SQLitePCLRaw.bundle_e_sqlite3": "2.1.0",
+          "SimMetrics.Net": "1.0.5"
         },
         "runtime": {
           "GlucoMan.dll": {}
         }
       },
-      "Microsoft.Data.Sqlite.Core/6.0.7": {
+      "Microsoft.Data.Sqlite.Core/6.0.8": {
         "dependencies": {
           "SQLitePCLRaw.core": "2.1.0"
         },
         "runtime": {
           "lib/net6.0/Microsoft.Data.Sqlite.dll": {
-            "assemblyVersion": "6.0.7.0",
-            "fileVersion": "6.0.722.31501"
+            "assemblyVersion": "6.0.8.0",
+            "fileVersion": "6.0.822.36205"
+          }
+        }
+      },
+      "SimMetrics.Net/1.0.5": {
+        "runtime": {
+          "lib/netstandard2.0/SimMetrics.Net.dll": {
+            "assemblyVersion": "1.0.5.0",
+            "fileVersion": "1.0.5.0"
           }
         }
       },
@@ -178,17 +187,24 @@
     }
   },
   "libraries": {
-    "GlucoMan/0.7.3.0": {
+    "GlucoMan/0.7.3.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Data.Sqlite.Core/6.0.7": {
+    "Microsoft.Data.Sqlite.Core/6.0.8": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-lB8T+Y/5pMDBf13dGnrQvZ9rfkZrvRY82FgVElWGIuIF3yFwYLR6475U4/IM+TNLPSk8SvTFBqdLN3gOm3suOQ==",
-      "path": "microsoft.data.sqlite.core/6.0.7",
-      "hashPath": "microsoft.data.sqlite.core.6.0.7.nupkg.sha512"
+      "sha512": "sha512-ssJbtn9p7vXh3T4gi7g1Ir0bY4cJgVOU1MtTvnl4JvbLNmlq2q24SNK5jJHK/IPI37nhDqcPLHtfW40bscYU/Q==",
+      "path": "microsoft.data.sqlite.core/6.0.8",
+      "hashPath": "microsoft.data.sqlite.core.6.0.8.nupkg.sha512"
+    },
+    "SimMetrics.Net/1.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LaSDYOJDh2WncgRboqiWtk/Igqoim/LV7v808qBeWY/f36Ol5oEKguEYpKrWw5ap8KYP0SRXf7/v3zil9koY6Q==",
+      "path": "simmetrics.net/1.0.5",
+      "hashPath": "simmetrics.net.1.0.5.nupkg.sha512"
     },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.0": {
       "type": "package",

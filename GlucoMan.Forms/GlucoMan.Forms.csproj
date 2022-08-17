@@ -13,7 +13,7 @@
     <NeutralLanguage>en-001</NeutralLanguage>
     <PackageIcon>gamon LegoLogo scritta con piastra bianca 256x256.png</PackageIcon>
     <Authors>Ing.Gabriele Monti - Forlì - Italia</Authors>
-    <Version>0.7.3.0</Version>
+    <Version>0.7.3.1</Version>
     <PackageId>GlucoMan</PackageId>
     <AssemblyName>GlucoMan</AssemblyName>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
@@ -50,6 +50,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.8" />
+    <PackageReference Include="SimMetrics.Net" Version="1.0.5" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.0" />
   </ItemGroup>
 
