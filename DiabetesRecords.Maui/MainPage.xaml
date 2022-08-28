@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CarouselView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiabetesRecords.MainPage" >
+
+    <!--<ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <Image
+                Source="dotnet_bot.png"
+                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                HeightRequest="200"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Hello, World!"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Welcome to .NET Multi-platform App UI"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                FontSize="18"
+                HorizontalOptions="Center" />
+
+            <Button
+                x:Name="CounterBtn"
+                Text="Click me"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>-->
+    <CarouselView.ItemsSource>
+        <x:Array Type="{x:Type ContentView}">
+            <ContentPage Title="Nuovo">
+                <StackLayout>
+                    <Frame BackgroundColor="#3196FF" Padding="10" CornerRadius="0">
+                        <Label x:Name="txtNew" Text="Nuovi dati" HorizontalTextAlignment="Center" TextColor="White" FontSize="26"/>
+                    </Frame>
+
+                    <Label Text="Glicemia" HorizontalTextAlignment="Center" FontSize="Small" Padding="30,10,30,10"/>
+                    <Entry x:Name="txtNewGlucose" Text="" HorizontalTextAlignment="Center" TextChanged="txt_TextChanghed"
+                   BackgroundColor="PaleGreen" FontSize="Small" Keyboard="Numeric"/>
+
+                    <Label Text="Insulina da terapia" HorizontalTextAlignment="Center" FontSize="Small" Padding="30,10,30,10"/>
+                    <Label x:Name="txtHintedInsulin" Text="" HorizontalTextAlignment="Center" 
+                   BackgroundColor="White"  FontAttributes="Bold" FontSize="Small"/>
+
+                    <Label Text="Insulina" HorizontalTextAlignment="Center" FontSize="Small" Padding="30,10,30,10"/>
+                    <Entry x:Name="txtNewInsulin" Text="" HorizontalTextAlignment="Center" TextChanged="txt_TextChanghed"
+                   BackgroundColor="PaleGreen" FontSize="Small" Keyboard="Numeric"/>
+                    <StackLayout Orientation="Horizontal">
+                        <RadioButton Content="Humalog" GroupName="groupInsulin" x:Name="rdbNewFastInsulin" 
+                             FontSize="Small" WidthRequest="180" />
+                        <RadioButton Content="Toujeo" GroupName="groupInsulin" x:Name="rdbNewSlowInsulin" 
+                             FontSize="Small" WidthRequest="180"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <RadioButton Content="Colaz." GroupName="groupMeal" x:Name="rdbNewBreakfast" 
+                             FontSize="Small" WidthRequest="95"/>
+                        <RadioButton Content="Pranzo" GroupName="groupMeal" x:Name="rdbNewLunch" 
+                             FontSize="Small" WidthRequest="95"/>
+                        <RadioButton Content="Cena" GroupName="groupMeal" x:Name="rdbNewDinner" 
+                             FontSize="Small" WidthRequest="95"/>
+                        <RadioButton Content="--------" GroupName="groupMeal" x:Name="rdbNewSnack" 
+                             FontSize="Small" WidthRequest="95"/>
+                    </StackLayout>
+                    <Label Text="Note" HorizontalTextAlignment="Center" FontSize="Small" />
+                    <Entry x:Name="txtNewNote" FontSize="Small"/>
+                    <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                        <DatePicker x:Name="dtpNewDate" 
+                            BackgroundColor="White" FontSize="Small"  
+                            HorizontalOptions="Center" IsEnabled="False"/>
+                        <TimePicker x:Name="dtpNewTime" 
+                                BackgroundColor="White" FontSize="Small"  
+                                HorizontalOptions="Center" IsEnabled="False"/>
+                    </StackLayout>
+                    <Button x:Name="btnSaveNew" Text="Salva" Clicked="btnSaveNewRecord_ClickedAsync"
+                    Margin="15,0,15,0" FontSize="Small"></Button>
+                </StackLayout>
+            </ContentPage>
+            <ContentPage Title="About">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                            <ContentView Padding="0,20,0,20" VerticalOptions="FillAndExpand">
+                                <Image Source="Current_Logo_Transparent.png" VerticalOptions="Center" HeightRequest="50" />
+                            </ContentView>
+                        </StackLayout>
+                    </StackLayout>
+                    <ScrollView Grid.Row="1">
+                        <StackLayout Orientation="Vertical" Padding="20,24,20,24" Spacing="10">
+                            <Frame BackgroundColor="#2196F3" Padding="0" CornerRadius="0">
+                                <Label x:Name="lblAppName" Text="DiabetesRecords" HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
+                            </Frame>
+                            <Label Text="Un programma semplice per memorizzare i dati principali nella gestione della glicemia delle persone diabetiche." 
+                            FontSize="20" Padding="0,0,0,0"/>
+                            <Label Text="DiabetesRecord is Free Software (licence: GPL v.2) by:" FontSize="15" 
+                       HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
+                            <Label Text="Ing.Gabriele Monti (gamon) - Forlì - Italia" FontSize="17" 
+                       HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
+                            <Label FontSize="13" Padding="30,0,30,0">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <FormattedString.Spans>
+                                            <Span Text="Distribution at "/>
+                                            <Span x:Name="tempText" Text="https://ingmonti.it/DiabetesRecords/" FontAttributes="Bold"/>
+                                        </FormattedString.Spans>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </ScrollView>
+
+                    <Button Grid.Row="2" Grid.Column="0"
+                    Text="Copia files" Margin="100,0,100,0"
+                    x:Name="btnCopyDatabase" Clicked="btnCopyProgramsFiles_Click" />
+
+                    <Button Grid.Row="3" Grid.Column="0"
+                    Text="Reset database" Margin="100,0,100,0"
+                    BackgroundColor="Red" TextColor="Yellow"
+                    x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
+                </Grid>
+            </ContentPage>
+        </x:Array>
+    </CarouselView.ItemsSource>
+    <CarouselView.ItemTemplate>
+        <DataTemplate>
+            <ContentView Content="{Binding .}" />
+        </DataTemplate>
+    </CarouselView.ItemTemplate>
+</CarouselView>
