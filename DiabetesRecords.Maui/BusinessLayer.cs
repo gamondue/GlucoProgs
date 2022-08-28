@@ -11,7 +11,7 @@ namespace DiabetesRecords
         TimeSpan timeToBeRecent = new TimeSpan(0, 20, 0);
 
         internal static string DatabaseFileName = @"DiabetesRecords.Sqlite";
-        internal static string AppDataDirectoryPath = Xamarin.Essentials.FileSystem.AppDataDirectory;
+        internal static string AppDataDirectoryPath = FileSystem.AppDataDirectory;
         internal static string PathAndFileDatabase = Path.Combine(AppDataDirectoryPath, DatabaseFileName);
         public static string PathExternalPublic;
         internal static string PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);

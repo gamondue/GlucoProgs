@@ -7,7 +7,6 @@ namespace DiabetesRecords
         BusinessLayer bl;
         DiabetesRecord currentRecord = new DiabetesRecord();
         InsulinTherapy therapy;
-
         public MainPage()
         {
             InitializeComponent();
@@ -28,42 +27,42 @@ namespace DiabetesRecords
         }
         private void FromClassToUi()
         {
-            ////////////txtIdDiabetesRecord.Text = currentRecord.IdDiabetesRecord.ToString();
-            ////////////if (currentRecord.Timestamp != null && currentRecord.Timestamp != General.DateNull)
-            ////////////{
-            ////////////    dtpDateOfRecord.Date = (DateTime)Safe.DateTime(currentRecord.Timestamp);
-            ////////////    dtpTimeOfRecord.Time = ((DateTime)currentRecord.Timestamp).TimeOfDay;
-            ////////////}
-            ////////////txtGlucose.Text = currentRecord.GlucoseValue.ToString();
-            ////////////txtInsulin.Text = currentRecord.InsulinValue.ToString();
-            ////////////txtNote.Text = currentRecord.Notes;
+            txtIdDiabetesRecord.Text = currentRecord.IdDiabetesRecord.ToString();
+            if (currentRecord.Timestamp != null && currentRecord.Timestamp != General.DateNull)
+            {
+                dtpDateOfRecord.Date = (DateTime)Safe.DateTime(currentRecord.Timestamp);
+                dtpTimeOfRecord.Time = ((DateTime)currentRecord.Timestamp).TimeOfDay;
+            }
+            txtGlucose.Text = currentRecord.GlucoseValue.ToString();
+            txtInsulin.Text = currentRecord.InsulinValue.ToString();
+            txtNote.Text = currentRecord.Notes;
 
-            ////////////SetRadioButtonsBasedOnTypeOfInsulinSpeed(currentRecord,
-            ////////////    rdbFastInsulin, rdbSlowInsulin);
-            ////////////SetRadioButtonsBasedOnTypeOfMeal(currentRecord,
-            ////////////    rdbBreakfast, rdbLunch, rdbDinner, rdbSnack);
+            SetRadioButtonsBasedOnTypeOfInsulinSpeed(currentRecord,
+                rdbFastInsulin, rdbSlowInsulin);
+            SetRadioButtonsBasedOnTypeOfMeal(currentRecord,
+                rdbBreakfast, rdbLunch, rdbDinner, rdbSnack);
         }
         private void FromUiToClass()
         {
-            //////////double dummy;
-            //////////double.TryParse(txtIdDiabetesRecord.Text, out dummy);
-            //////////currentRecord.IdDiabetesRecord = (int?)dummy;
-            //////////DateTime instant = new DateTime(
-            //////////    dtpDateOfRecord.Date.Year, dtpDateOfRecord.Date.Month, dtpDateOfRecord.Date.Day,
-            //////////    dtpTimeOfRecord.Time.Hours, dtpTimeOfRecord.Time.Minutes, dtpTimeOfRecord.Time.Seconds);
-            //////////currentRecord.Timestamp = instant;
-            //////////double.TryParse(txtGlucose.Text, out dummy);
-            //////////currentRecord.GlucoseValue = dummy;
-            //////////double.TryParse(txtInsulin.Text, out dummy);
-            //////////currentRecord.InsulinValue = dummy;
-            //////////currentRecord.Notes = txtNote.Text;
-            //////////currentRecord.IdTypeOfInsulinSpeed = GetTypeOfInsulinSpeedFromRadioButtons(rdbFastInsulin, rdbSlowInsulin);
-            //////////currentRecord.IdTypeOfMeal = GetTypeOfMealFromRadioButtons(rdbBreakfast, rdbLunch, rdbDinner, rdbLunch);
+            double dummy;
+            double.TryParse(txtIdDiabetesRecord.Text, out dummy);
+            currentRecord.IdDiabetesRecord = (int?)dummy;
+            DateTime instant = new DateTime(
+                dtpDateOfRecord.Date.Year, dtpDateOfRecord.Date.Month, dtpDateOfRecord.Date.Day,
+                dtpTimeOfRecord.Time.Hours, dtpTimeOfRecord.Time.Minutes, dtpTimeOfRecord.Time.Seconds);
+            currentRecord.Timestamp = instant;
+            double.TryParse(txtGlucose.Text, out dummy);
+            currentRecord.GlucoseValue = dummy;
+            double.TryParse(txtInsulin.Text, out dummy);
+            currentRecord.InsulinValue = dummy;
+            currentRecord.Notes = txtNote.Text;
+            currentRecord.IdTypeOfInsulinSpeed = GetTypeOfInsulinSpeedFromRadioButtons(rdbFastInsulin, rdbSlowInsulin);
+            currentRecord.IdTypeOfMeal = GetTypeOfMealFromRadioButtons(rdbBreakfast, rdbLunch, rdbDinner, rdbLunch);
         }
         private void RefreshGrid()
         {
-            ////////DateTime now = DateTime.Now;
-            ////////gridRecords.BindingContext = bl.GetDiabetesRecords(now.AddMonths(-2), now.AddDays(1));
+            DateTime now = DateTime.Now;
+            gridRecords.BindingContext = bl.GetDiabetesRecords(now.AddMonths(-2), now.AddDays(1));
         }
         private void RefreshUi()
         {
@@ -91,7 +90,7 @@ namespace DiabetesRecords
             catch (Exception ex)
             {
                 General.Log.Error("btnSaveNewRecord_Clicked | " + ex.Message, null);
-                ////////await DisplayDensityChangedEventArgs("Errore", "Scrivere bene tutti i numeri", "Ok");
+                ////////await DisplayAlert("Errore", "Scrivere bene tutti i numeri", "Ok");
                 return;
             }
 
@@ -115,11 +114,11 @@ namespace DiabetesRecords
         }
         private async void btnSaveRecord_ClickAsync(object sender, EventArgs e)
         {
-            ////////if (txtIdDiabetesRecord.Text == "")
-            ////////{
-            ////////    await DisplayAlert("Scegliere una riga dalla lista", "Scegliere i dati da salvare", "Ok");
-            ////////    return;
-            ////////}
+            if (txtIdDiabetesRecord.Text == "")
+            {
+                //////////await DisplayAlert("Scegliere una riga dalla lista", "Scegliere i dati da salvare", "Ok");
+                return;
+            }
             FromUiToClass();
             bl.SaveOneDiabetesRecord(currentRecord);
             RefreshUi();
@@ -134,11 +133,11 @@ namespace DiabetesRecords
         }
         private async void btnRemoveRecord_ClickAsync(object sender, EventArgs e)
         {
-            ////////if (txtIdDiabetesRecord.Text == "")
-            ////////{
-            ////////    await DisplayAlert("Scegliere una riga dalla lista", "Scegliere i dati da eliminare", "Ok");
-            ////////    return;
-            ////////}
+            if (txtIdDiabetesRecord.Text == "")
+            {
+                //////////await DisplayAlert("Scegliere una riga dalla lista", "Scegliere i dati da eliminare", "Ok");
+                return;
+            }
             ////////bool remove = await DisplayAlert(
             ////////    String.Format("Cancello la registrazione del {0}, Id {1}?",
             ////////    currentRecord.Timestamp,
@@ -146,46 +145,46 @@ namespace DiabetesRecords
             ////////    "", "Sì", "No");
             ////////if (remove)
             ////////{
-            ////////    bl.DeleteOneDiabetesRecord(currentRecord);
-            ////////    RefreshUi();
+                bl.DeleteOneDiabetesRecord(currentRecord);
+                RefreshUi();
             ////////}
         }
         private async void btnDeleteFields_Click_Async(object sender, EventArgs e)
         {
-            ////////txtIdDiabetesRecord.Text = "";
-            ////////txtGlucose.Text = "";
-            ////////txtInsulin.Text = "";
-            ////////txtNote.Text = "";
-            ////////dtpDateOfRecord.Date = DateTime.Now.Date;
-            ////////dtpTimeOfRecord.Time = DateTime.Now.TimeOfDay;
+            txtIdDiabetesRecord.Text = "";
+            txtGlucose.Text = "";
+            txtInsulin.Text = "";
+            txtNote.Text = "";
+            dtpDateOfRecord.Date = DateTime.Now.Date;
+            dtpTimeOfRecord.Time = DateTime.Now.TimeOfDay;
 
-            ////////bl.SetTypeOfInsulinSpeedBasedOnTimeNow(currentRecord);
-            ////////SetRadioButtonsBasedOnTypeOfInsulinSpeed(currentRecord,
-            ////////    rdbFastInsulin, rdbSlowInsulin);
-            ////////bl.SetTypeOfMealBasedOnTimeNow(currentRecord);
-            ////////SetRadioButtonsBasedOnTypeOfMeal(currentRecord,
-            ////////    rdbBreakfast, rdbLunch, rdbDinner, rdbSnack);
-            ////////FromUiToClass();
+            bl.SetTypeOfInsulinSpeedBasedOnTimeNow(currentRecord);
+            SetRadioButtonsBasedOnTypeOfInsulinSpeed(currentRecord,
+                rdbFastInsulin, rdbSlowInsulin);
+            bl.SetTypeOfMealBasedOnTimeNow(currentRecord);
+            SetRadioButtonsBasedOnTypeOfMeal(currentRecord,
+                rdbBreakfast, rdbLunch, rdbDinner, rdbSnack);
+            FromUiToClass();
         }
         private async void btnCopyProgramsFiles_Click(object sender, EventArgs e)
         {
             if (!bl.ExportProgramsFiles())
             {
-                //////////DisplayAlert("", "Errore nell'esportazione dei file del programma. NON tutti i filesono stati copiati, verifichi nei logs", "OK");
+                //////////await DisplayAlert("", "Errore nell'esportazione dei file del programma. NON tutti i filesono stati copiati, verifichi nei logs", "OK");
             }
         }
         private async void btnResetDatabase_Click(object sender, EventArgs e)
         {
-            ////////bool remove = await DisplayAlert("Devo cancellare TUTTO il database? Tutti i dati saranno persi!",
-            ////////    "", "Sì", "No");
+            ////////////bool remove = await DisplayAlert("Devo cancellare TUTTO il database? Tutti i dati saranno persi!",
+                //////////"", "Sì", "No");
             ////////if (remove)
             ////////{
-            ////////    // deleting the database file
-            ////////    // after deletion the software will automatically re-create the database
-            ////////    if (!bl.DeleteDatabase())
-            ////////    {
-            ////////        DisplayAlert("", "Errore nella cancellazione del file. File NON cancellato", "OK");
-            ////////    }
+                // deleting the database file
+                // after deletion the software will automatically re-create the database
+                if (!bl.DeleteDatabase())
+                {
+                    //////////DisplayAlert("", "Errore nella cancellazione del file. File NON cancellato", "OK");
+                }
             ////////};
         }
         private async void txt_TextChanghed(object sender, EventArgs e)
@@ -195,9 +194,9 @@ namespace DiabetesRecords
                 therapy = new InsulinTherapy();
                 if (!therapy.GetTherapy())
                 {
-                    ////////await DisplayAlert("Errore di lettura",
-                    ////////    "File della terapia sbagliato, uso la terapia inclusa nel programma!",
-                    ////////    "OK");
+                    //////////await DisplayAlert("Errore di lettura",
+                    //////////    "File della terapia sbagliato, uso la terapia inclusa nel programma!",
+                    //////////    "OK");
                 }
             }
             double glucose;
@@ -221,21 +220,21 @@ namespace DiabetesRecords
         private void CurrentPageChanged(object sender, EventArgs e)
         {
             // if it is the first page and it must be reset, then is reset 
-            ////////int currentPageIndex = this.Children.IndexOf(this.CurrentPage);
-            ////////if (bl != null && currentPageIndex == 0
-                ////////&& !bl.IsLastRecordRecent())
-            ////////{
-            ////////    ResetNewPageToDefaults();
-            ////////}
-            //if (txtIdDiabetesRecord.Text == "")
-            //{
-            //    bl.SetTypeOfInsulinSpeedBasedOnTimeNow(currentRecord);
-            //    SetRadioButtonsBasedOnTypeOfInsulinSpeed(currentRecord, rdbNewFastInsulin, rdbNewSlowInsulin);
-            //    bl.SetTypeOfMealBasedOnTimeNow(currentRecord);
-            //    SetRadioButtonsBasedOnTypeOfMeal(currentRecord,
-            //        rdbNewBreakfast, rdbNewLunch, rdbNewDinner, rdbNewSnack);
-            //}
-            ////////base.OnAppearing();
+            ////////object currentPageIndex = this.Pages.;
+            if (bl != null /*&& currentPageIndex == 0*/
+                && !bl.IsLastRecordRecent())
+            {
+                ResetNewPageToDefaults();
+            }
+            if (txtIdDiabetesRecord.Text == "")
+            {
+                bl.SetTypeOfInsulinSpeedBasedOnTimeNow(currentRecord);
+                SetRadioButtonsBasedOnTypeOfInsulinSpeed(currentRecord, rdbNewFastInsulin, rdbNewSlowInsulin);
+                bl.SetTypeOfMealBasedOnTimeNow(currentRecord);
+                SetRadioButtonsBasedOnTypeOfMeal(currentRecord,
+                    rdbNewBreakfast, rdbNewLunch, rdbNewDinner, rdbNewSnack);
+            }
+            ////////base.CurrentItemChanged();
         }
         private void ResetNewPageToDefaults()
         {

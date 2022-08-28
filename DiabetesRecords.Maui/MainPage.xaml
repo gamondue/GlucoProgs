@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <CarouselView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DiabetesRecords.MainPage" >
-
+             x:Class="DiabetesRecords.MainPage" CurrentItemChanged="CurrentPageChanged">
     <!--<ScrollView>
         <VerticalStackLayout
             Spacing="25"
@@ -34,11 +33,10 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
-
         </VerticalStackLayout>
     </ScrollView>-->
-    <CarouselView.ItemsSource>
-        <x:Array Type="{x:Type ContentView}">
+    <CarouselView.ItemsSource >
+        <x:Array Type="{x:Type ContentView}" x:Name="Pages">
             <ContentPage Title="Nuovo">
                 <StackLayout>
                     <Frame BackgroundColor="#3196FF" Padding="10" CornerRadius="0">
@@ -84,6 +82,120 @@
                     </StackLayout>
                     <Button x:Name="btnSaveNew" Text="Salva" Clicked="btnSaveNewRecord_ClickedAsync"
                     Margin="15,0,15,0" FontSize="Small"></Button>
+                </StackLayout>
+            </ContentPage>
+            <ContentPage Title="Storico">
+                <StackLayout>
+                    <Frame BackgroundColor="#3196FF" Padding="10" CornerRadius="0">
+                        <Label Text="Dati storici" HorizontalTextAlignment="Center" TextColor="White" FontSize="Small"/>
+                    </Frame>
+                    <Grid>
+                        <Grid.RowDefinitions>
+<!--                    
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition />
+-->
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="IdPoint" 
+                       FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="Data" 
+                       FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                        <Label Grid.Row="0" Grid.Column="2" Text="Ora" 
+                       FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+                        <Entry Grid.Row="1" Grid.Column="0" x:Name="txtIdDiabetesRecord" BackgroundColor="White" 
+                       IsEnabled="False" FontSize="Small" HorizontalTextAlignment="End" IsReadOnly="true"/>
+                        <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpDateOfRecord" BackgroundColor="PaleGreen" 
+                                FontSize="Small" 
+                                HorizontalOptions="Center" />
+                        <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpTimeOfRecord" BackgroundColor="PaleGreen" 
+                                FontSize="Small" 
+                                HorizontalOptions="Center" />
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="Glicemia" 
+                       FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                        <Label Grid.Row="2" Grid.Column="1" Text="Insulina" 
+                       FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+                        <Entry Grid.Row="3" Grid.Column="0" x:Name="txtGlucose" BackgroundColor="PaleGreen" 
+                       FontSize="Small" HorizontalTextAlignment="End" IsReadOnly="false"/>
+                        <Entry Grid.Row="3" Grid.Column="1" x:Name="txtInsulin" BackgroundColor="PaleGreen" 
+                       FontSize="Small" HorizontalTextAlignment="End" IsReadOnly="false"/>
+                        <StackLayout Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Vertical">
+                            <RadioButton Content="Insulina rapida" x:Name="rdbFastInsulin" 
+                                 FontSize="Small"/>
+                            <RadioButton Content="Insulina lenta" x:Name="rdbSlowInsulin" 
+                                 FontSize="Small"/>
+                        </StackLayout>
+
+                        <RadioButton Grid.Row="4" Grid.Column="0" Content="Colaz." GroupName="groupMeal" 
+                             x:Name="rdbBreakfast" FontSize="Small" WidthRequest="95"/>
+                        <RadioButton Grid.Row="4" Grid.Column="1" Content="Pranzo" GroupName="groupMeal" 
+                             x:Name="rdbLunch" FontSize="Small" WidthRequest="95"/>
+                        <RadioButton Grid.Row="4" Grid.Column="2" Content="Cena" GroupName="groupMeal" 
+                             x:Name="rdbDinner" FontSize="Small" WidthRequest="95"/>
+                        <RadioButton Grid.Row="4" Grid.Column="3" Content="--------" GroupName="groupMeal" 
+                             x:Name="rdbSnack" FontSize="Small" WidthRequest="95"/>
+
+                        <Entry Grid.Row="5" Grid.Column="0" x:Name="txtNote" Grid.ColumnSpan="4" FontSize="Small"/>
+
+                        <!--<Picker Grid.Row="2" Grid.Column="1" x:Name="cmbTypeOfMeal"  
+                        Title="Type of Meal" 
+                        HorizontalTextAlignment="End"
+                        ItemsSource="{Binding Common.TypeOfMeal}" 
+                        BackgroundColor="PaleGoldenrod"
+                        SelectedIndexChanged="cmbTypeOfMeal_SelectedIndexChanged"
+                        FontSize="Small" />-->
+                        <Button Grid.Row="6" Grid.Column="0" Text="Salva" x:Name="btnSaveRecord" 
+                        Clicked="btnSaveRecord_ClickAsync"></Button>
+                        <Button Grid.Row="6" Grid.Column="1" Text="Canc. valori" x:Name="btnDeleteFields" 
+                        Clicked="btnDeleteFields_Click_Async"></Button>
+                        <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddRecord" 
+                        Clicked="btnAddRecord_Click_Async"></Button>
+                        <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveRecord" 
+                        Clicked="btnRemoveRecord_ClickAsync"></Button>
+
+                        <ListView Grid.Row="7" Grid.ColumnSpan="4" x:Name="gridRecords" ItemsSource="{Binding}"
+                          ItemSelected="OnGridSelectionAsync" >
+                            <!-- description of data to be shown, in a DataTemplate -->
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <ViewCell.View>
+                                            <Grid Margin="10">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="18"/>
+                                                </Grid.RowDefinitions>
+                                                <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding Timestamp}"/>
+                                                <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding GlucoseValue}"/>
+                                                <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding InsulinValue}"/>
+                                            </Grid>
+                                        </ViewCell.View>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
                 </StackLayout>
             </ContentPage>
             <ContentPage Title="About">
