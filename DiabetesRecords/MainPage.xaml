@@ -5,59 +5,74 @@
     <ContentPage Title="Nuovo">
         <StackLayout>
             <Frame BackgroundColor="#3196FF" Padding="10" CornerRadius="0">
-                <Label x:Name="txtNew" Text="Nuovi dati diabete" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+                <Label x:Name="txtNew" Text="Nuovi dati" HorizontalTextAlignment="Center" TextColor="White" FontSize="26"/>
             </Frame>
 
-            <Label Text="Glicemia" HorizontalTextAlignment="Center" FontSize="Title" Padding="30,10,30,10"/>
+            <Label Text="Glicemia" HorizontalTextAlignment="Center" FontSize="Small" Padding="30,10,30,10"/>
             <Entry x:Name="txtNewGlucose" Text="" HorizontalTextAlignment="Center" TextChanged="txt_TextChanghed"
-                   BackgroundColor="PaleGreen" FontSize="Title" Keyboard="Numeric"/>
+                   BackgroundColor="PaleGreen" FontSize="Small" Keyboard="Numeric"/>
 
-            <Label Text="Insulina da terapia" HorizontalTextAlignment="Center" FontSize="Title" Padding="30,10,30,10"/>
+            <Label Text="Insulina da terapia" HorizontalTextAlignment="Center" FontSize="Small" Padding="30,10,30,10"/>
             <Label x:Name="txtHintedInsulin" Text="" HorizontalTextAlignment="Center" 
-                   BackgroundColor="White"  FontAttributes="Bold" FontSize="Title"/>
-           
-            <Label Text="Insulina" HorizontalTextAlignment="Center" FontSize="Title" Padding="30,10,30,10"/>
+                   BackgroundColor="White"  FontAttributes="Bold" FontSize="Small"/>
+
+            <Label Text="Insulina" HorizontalTextAlignment="Center" FontSize="Small" Padding="30,10,30,10"/>
             <Entry x:Name="txtNewInsulin" Text="" HorizontalTextAlignment="Center" TextChanged="txt_TextChanghed"
-                   BackgroundColor="PaleGreen" FontSize="Large" Keyboard="Numeric"/>
+                   BackgroundColor="PaleGreen" FontSize="Small" Keyboard="Numeric"/>
             <StackLayout Orientation="Horizontal">
-                <RadioButton Content="Ins.rapida (Humalog)" GroupName="groupInsulin" x:Name="rdbNewFastInsulin" FontSize="Large" WidthRequest="180" />
-                <RadioButton Content="Ins.lenta (Toujeo)" GroupName="groupInsulin" x:Name="rdbNewSlowInsulin" FontSize="Large" WidthRequest="180"/>
+                <RadioButton Content="Humalog" GroupName="groupInsulin" x:Name="rdbNewFastInsulin" 
+                             FontSize="Small" WidthRequest="180" />
+                <RadioButton Content="Toujeo" GroupName="groupInsulin" x:Name="rdbNewSlowInsulin" 
+                             FontSize="Small" WidthRequest="180"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <RadioButton Content="Colaz." GroupName="groupMeal" x:Name="rdbNewBreakfast" WidthRequest="95"/>
-                <RadioButton Content="Pranzo" GroupName="groupMeal" x:Name="rdbNewLunch" WidthRequest="95"/>
-                <RadioButton Content="Cena" GroupName="groupMeal" x:Name="rdbNewDinner" WidthRequest="95"/>
-                <RadioButton Content="--------" GroupName="groupMeal" x:Name="rdbNewSnack" WidthRequest="95"/>
+                <RadioButton Content="Colaz." GroupName="groupMeal" x:Name="rdbNewBreakfast" 
+                             FontSize="Small" WidthRequest="95"/>
+                <RadioButton Content="Pranzo" GroupName="groupMeal" x:Name="rdbNewLunch" 
+                             FontSize="Small" WidthRequest="95"/>
+                <RadioButton Content="Cena" GroupName="groupMeal" x:Name="rdbNewDinner" 
+                             FontSize="Small" WidthRequest="95"/>
+                <RadioButton Content="--------" GroupName="groupMeal" x:Name="rdbNewSnack" 
+                             FontSize="Small" WidthRequest="95"/>
             </StackLayout>
-            <Label Text="Note" HorizontalTextAlignment="Center" FontSize="Medium" />
-            <Entry x:Name="txtNewNote" FontSize="Medium"/>
+            <Label Text="Note" HorizontalTextAlignment="Center" FontSize="Small" />
+            <Entry x:Name="txtNewNote" FontSize="Small"/>
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
                 <DatePicker x:Name="dtpNewDate" 
-                            BackgroundColor="White" FontSize="Large"  
+                            BackgroundColor="White" FontSize="Small"  
                             HorizontalOptions="Center" IsEnabled="False"/>
                 <TimePicker x:Name="dtpNewTime" 
-                                BackgroundColor="White" FontSize="Large"  
+                                BackgroundColor="White" FontSize="Small"  
                                 HorizontalOptions="Center" IsEnabled="False"/>
             </StackLayout>
             <Button x:Name="btnSaveNew" Text="Salva" Clicked="btnSaveNewRecord_ClickedAsync"
-                    Margin="15,0,15,0" FontSize="Large"></Button>
+                    Margin="15,0,15,0" FontSize="Small"></Button>
         </StackLayout>
     </ContentPage>
     
     <ContentPage Title="Storico">
         <StackLayout>
             <Frame BackgroundColor="#3196FF" Padding="10" CornerRadius="0">
-                <Label Text="Dati storici" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+                <Label Text="Dati storici" HorizontalTextAlignment="Center" TextColor="White" FontSize="Small"/>
             </Frame>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
+<!--                    <RowDefinition Height="20"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="60"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="60"/>
+                    <RowDefinition />
+                    -->
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -66,37 +81,48 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Text="IdPoint" XAlign="Center" YAlign="End" />
-                <Label Grid.Row="0" Grid.Column="1" Text="Data" XAlign="Center" YAlign="End"/>
-                <Label Grid.Row="0" Grid.Column="2" Text="Ora" XAlign="Center" YAlign="End"/>
+                <Label Grid.Row="0" Grid.Column="0" Text="IdPoint" 
+                       FontSize="Small" XAlign="Center" YAlign="End" />
+                <Label Grid.Row="0" Grid.Column="1" Text="Data" 
+                       FontSize="Small" XAlign="Center" YAlign="End"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="Ora" 
+                       FontSize="Small" XAlign="Center" YAlign="End"/>
 
                 <Entry Grid.Row="1" Grid.Column="0" x:Name="txtIdDiabetesRecord" BackgroundColor="White" 
-                       IsEnabled="False" FontSize="Medium" HorizontalTextAlignment="End" IsReadOnly="true"/>
+                       IsEnabled="False" FontSize="Small" HorizontalTextAlignment="End" IsReadOnly="true"/>
                 <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpDateOfRecord" BackgroundColor="PaleGreen" 
-                                FontSize="Medium" 
+                                FontSize="Small" 
                                 HorizontalOptions="Center" />
                 <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpTimeOfRecord" BackgroundColor="PaleGreen" 
-                                FontSize="Medium" 
+                                FontSize="Small" 
                                 HorizontalOptions="Center" />
 
-                <Label Grid.Row="2" Grid.Column="0" Text="Glicemia" XAlign="Center" YAlign="End"/>
-                <Label Grid.Row="2" Grid.Column="1" Text="Insulina" XAlign="Center" YAlign="End"/>
+                <Label Grid.Row="2" Grid.Column="0" Text="Glicemia" 
+                       FontSize="Small" XAlign="Center" YAlign="End"/>
+                <Label Grid.Row="2" Grid.Column="1" Text="Insulina" 
+                       FontSize="Small" XAlign="Center" YAlign="End"/>
 
                 <Entry Grid.Row="3" Grid.Column="0" x:Name="txtGlucose" BackgroundColor="PaleGreen" 
-                       FontSize="Medium" HorizontalTextAlignment="End" IsReadOnly="false"/>
+                       FontSize="Small" HorizontalTextAlignment="End" IsReadOnly="false"/>
                 <Entry Grid.Row="3" Grid.Column="1" x:Name="txtInsulin" BackgroundColor="PaleGreen" 
-                       FontSize="Medium" HorizontalTextAlignment="End" IsReadOnly="false"/>
+                       FontSize="Small" HorizontalTextAlignment="End" IsReadOnly="false"/>
                 <StackLayout Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Vertical">
-                    <RadioButton Content="Insulina rapida" x:Name="rdbFastInsulin" />
-                    <RadioButton Content="Insulina lenta" x:Name="rdbSlowInsulin" />
+                    <RadioButton Content="Insulina rapida" x:Name="rdbFastInsulin" 
+                                 FontSize="Small"/>
+                    <RadioButton Content="Insulina lenta" x:Name="rdbSlowInsulin" 
+                                 FontSize="Small"/>
                 </StackLayout>
 
-                <RadioButton Grid.Row="4" Grid.Column="0" Content="Colaz." GroupName="groupMeal" x:Name="rdbBreakfast" WidthRequest="95"/>
-                <RadioButton Grid.Row="4" Grid.Column="1" Content="Pranzo" GroupName="groupMeal" x:Name="rdbLunch" WidthRequest="95"/>
-                <RadioButton Grid.Row="4" Grid.Column="2" Content="Cena" GroupName="groupMeal" x:Name="rdbDinner" WidthRequest="95"/>
-                <RadioButton Grid.Row="4" Grid.Column="3" Content="--------" GroupName="groupMeal" x:Name="rdbSnack" WidthRequest="95"/>
+                <RadioButton Grid.Row="4" Grid.Column="0" Content="Colaz." GroupName="groupMeal" 
+                             x:Name="rdbBreakfast" FontSize="Small" WidthRequest="95"/>
+                <RadioButton Grid.Row="4" Grid.Column="1" Content="Pranzo" GroupName="groupMeal" 
+                             x:Name="rdbLunch" FontSize="Small" WidthRequest="95"/>
+                <RadioButton Grid.Row="4" Grid.Column="2" Content="Cena" GroupName="groupMeal" 
+                             x:Name="rdbDinner" FontSize="Small" WidthRequest="95"/>
+                <RadioButton Grid.Row="4" Grid.Column="3" Content="--------" GroupName="groupMeal" 
+                             x:Name="rdbSnack" FontSize="Small" WidthRequest="95"/>
 
-                <Entry Grid.Row="5" Grid.Column="0" x:Name="txtNote" Grid.ColumnSpan="4" FontSize="Large"/>
+                <Entry Grid.Row="5" Grid.Column="0" x:Name="txtNote" Grid.ColumnSpan="4" FontSize="Small"/>
                         
                 <!--<Picker Grid.Row="2" Grid.Column="1" x:Name="cmbTypeOfMeal"  
                         Title="Type of Meal" 
@@ -169,7 +195,7 @@
                             <FormattedString>
                                 <FormattedString.Spans>
                                     <Span Text="Distribution at "/>
-                                    <Span x:Name="tempText" Text="https://ingmonti.it/DiabetesRecord/" FontAttributes="Bold"/>
+                                    <Span x:Name="tempText" Text="https://ingmonti.it/DiabetesRecords/" FontAttributes="Bold"/>
                                 </FormattedString.Spans>
                             </FormattedString>
                         </Label.FormattedText>
