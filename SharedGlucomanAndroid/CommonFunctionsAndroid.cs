@@ -12,7 +12,7 @@ namespace GlucoMan
             PathLogs = Path.Combine(Common.LocalApplicationPath, @"Logs");
             PathDatabase = Path.Combine(Common.LocalApplicationPath, @"Data");
             PathAndFileDatabase = Path.Combine(Common.PathDatabase, Common.DatabaseFileName);
-            PathExport = Path.Combine(Common.ExternalPublicPath, @"Glucoman");
+            PathImportExport = Path.Combine(Common.ExternalPublicPath, @"Glucoman");
             PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, LogOfParametersFileName);
         }
         public static void SetAndroidPaths()

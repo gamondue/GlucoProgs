@@ -39,9 +39,13 @@
                     Text="Copy files" Margin="100,0,100,0"
                     x:Name="btnCopyDatabase" Clicked="btnCopyProgramsFiles_Click" />
             
-            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="Import data" Margin="100,0,100,0"
+            <Button Grid.Row="5" Grid.Column="0"
+                    Text="Import data"
                     x:Name="btnImport" Clicked="btnImport_Click" />
+            <Button Grid.Row="5" Grid.Column="1" 
+                    Text="Read database" 
+                    BackgroundColor="Red" TextColor="Yellow"
+                    x:Name="btnReadDatabase" Clicked="btnReadDatabase_Click" />
             
             <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
                     Text="Stop application" Margin="100,0,100,0"

@@ -1,6 +1,8 @@
 ﻿using GlucoMan;
 using System.IO; 
 using System;
+using System.Collections.Generic;
+using SimMetrics.Net;
 
 namespace SharedGlucoMan.BusinessLayer
 {
@@ -25,16 +27,16 @@ namespace SharedGlucoMan.BusinessLayer
             try
             {
                 // database file
-                string exportedDatabase = Path.Combine(Common.PathExport, Common.DatabaseFileName);
+                string exportedDatabase = Path.Combine(Common.PathImportExport, Common.DatabaseFileName);
                 File.Copy(Common.PathAndFileDatabase, exportedDatabase, true);
 
                 // log of errors 
-                string exportedLogOfProgram = Path.Combine(Common.PathExport, 
+                string exportedLogOfProgram = Path.Combine(Common.PathImportExport, 
                     Path.GetFileName (Common.LogOfProgram.ErrorsFile)); 
                 File.Copy(Common.LogOfProgram.ErrorsFile, exportedLogOfProgram, true);
 
                 // log of insulin correction parameters 
-                string exportedLogOfParameters = Path.Combine(Common.PathExport,
+                string exportedLogOfParameters = Path.Combine(Common.PathImportExport,
                     Common.LogOfParametersFileName); 
                 File.Copy(Common.PathAndFileLogOfParameters, exportedLogOfParameters, true);
 
@@ -42,15 +44,43 @@ namespace SharedGlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("ExportProgramsFiles. ", ex); 
+                Common.LogOfProgram.Error("ExportProgramsFiles", ex); 
                 return false;
             }
         }
-        internal bool ImportFromExternalDatabase(string pathAndFileDatabase, string v)
+        internal bool ImportDatabaseFromExternal(string pathAndFileDatabase, string v)
         {
             // import the foods
-            
+            DL_Sqlite dlImport = new DL_Sqlite(Path.Combine(Common.PathImportExport, "import.sqlite"));
+
+            List<Food> source = dlImport.GetFoods();
+            List<Food> destination = dl.GetFoods();
+
+            foreach(Food destFood in destination)
+            {
+                foreach (Food sourceFood in source)
+                {
+                    // calc similarities of all the new records 
+                    // !!!! TODO !!!! 
+                }
+            }
             return false; 
+        }
+
+        internal bool ReadDatabaseFromExternal(string pathAndFileInternalDatabase, string pathAndFileExternalDatabase)
+        {
+            try
+            {
+                string backupFile = Path.Combine(Common.PathImportExport, Common.DatabaseFileName.Replace(".Sqlite", "_backup.Sqlite")); 
+                File.Copy(pathAndFileInternalDatabase, backupFile, true);
+                File.Copy(pathAndFileExternalDatabase, pathAndFileInternalDatabase, true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Common.LogOfProgram.Error("ReadDatabaseFromExternal", ex);
+                return false;
+            }
         }
     }
 }

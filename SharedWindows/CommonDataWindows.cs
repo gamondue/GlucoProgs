@@ -16,7 +16,11 @@ namespace GlucoMan
         //public static string PathAndFileExe = System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(8);
         // !!!! substitute the next with a more general way of finding the folder when MS will provide a Download folder
         //      in Environment paths 
-        public static string PathUsersDownload = Path.Combine(PathUser, @"Download"); 
+        public static string PathUsersDownload = System.Convert.ToString(
+                        Microsoft.Win32.Registry.GetValue(
+                             @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+                            , "{374DE290-123F-4565-9164-39C4925E467B}"
+                            , String.Empty)); 
 
         // general paths to be used by the rest of the program 
         public static string PathConfigurationData = Path.Combine(PathUser , @"GlucoMan\Config\");
@@ -24,7 +28,7 @@ namespace GlucoMan
         public static string PathLogs = Path.Combine(PathUser , @"GlucoMan\Logs\");
         public static string PathDatabase = Path.Combine(PathUser, @"GlucoMan\Data\");
         public static string PathAndFileDatabase = Path.Combine(PathDatabase, NomeFileDatabase);
-        public static string PathExport = Common.PathUsersDownload;
+        public static string PathImportExport = Path.Combine(PathUser, @"GlucoMan\ImportExport\"); 
         public static string PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, Common.LogOfParametersFileName);
     }
 }

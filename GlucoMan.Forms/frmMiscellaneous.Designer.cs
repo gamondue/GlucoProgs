@@ -39,6 +39,7 @@
             this.btnShowErrorLog = new System.Windows.Forms.Button();
             this.btnDeleteErrorLog = new System.Windows.Forms.Button();
             this.btnImport = new System.Windows.Forms.Button();
+            this.btnReadDatabase = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -135,7 +136,7 @@
             // 
             // btnImport
             // 
-            this.btnImport.Location = new System.Drawing.Point(92, 257);
+            this.btnImport.Location = new System.Drawing.Point(29, 257);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(100, 63);
             this.btnImport.TabIndex = 7;
@@ -143,11 +144,25 @@
             this.btnImport.UseVisualStyleBackColor = true;
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
+            // btnReadDatabase
+            // 
+            this.btnReadDatabase.BackColor = System.Drawing.Color.Red;
+            this.btnReadDatabase.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnReadDatabase.ForeColor = System.Drawing.Color.Yellow;
+            this.btnReadDatabase.Location = new System.Drawing.Point(149, 257);
+            this.btnReadDatabase.Name = "btnReadDatabase";
+            this.btnReadDatabase.Size = new System.Drawing.Size(100, 63);
+            this.btnReadDatabase.TabIndex = 8;
+            this.btnReadDatabase.Text = "Read all database";
+            this.btnReadDatabase.UseVisualStyleBackColor = false;
+            this.btnReadDatabase.Click += new System.EventHandler(this.btnReadDatabase_Click);
+            // 
             // frmMiscellaneous
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(293, 402);
+            this.Controls.Add(this.btnReadDatabase);
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.btnDeleteErrorLog);
             this.Controls.Add(this.btnShowErrorLog);
@@ -180,5 +195,6 @@
         private Button btnShowErrorLog;
         private Button btnDeleteErrorLog;
         private Button btnImport;
+        private Button btnReadDatabase;
     }
 }

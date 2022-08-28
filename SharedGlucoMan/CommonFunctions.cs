@@ -14,7 +14,7 @@ namespace GlucoMan
             General.MakeFolderIfDontExist(Common.PathProgramsData);
             General.MakeFolderIfDontExist(Common.PathLogs);
             General.MakeFolderIfDontExist(Common.PathDatabase);
-            General.MakeFolderIfDontExist(Common.PathExport);
+            General.MakeFolderIfDontExist(Common.PathImportExport);
 
             Common.Database = new DL_Sqlite();
             Common.BlGeneral = new BL_General();
