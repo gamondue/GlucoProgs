@@ -90,7 +90,7 @@ namespace GlucoMan.Forms
         }
         private void RefreshGrid()
         {
-            allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description);
+            allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description, 0);
             gridFoods.DataSource = allFoods;
             gridFoods.Refresh();
         }
@@ -174,11 +174,12 @@ namespace GlucoMan.Forms
         {
             if (!loading)
             {
-                if (txtDescription.Text != null &&
-                    (txtName.Text.Length >= 3 || txtDescription.Text.Length >= 3))
+                CurrentFood.Name =  txtName.Text;
+                allFoods = bl.SearchFoods(txtName.Text, txtDescription.Text, 3); 
+                if (allFoods != null)
                 {
-                    FromUiToClass();
-                    RefreshGrid();
+                    gridFoods.DataSource = allFoods;
+                    gridFoods.Refresh();
                 }
             }
         }
@@ -186,11 +187,12 @@ namespace GlucoMan.Forms
         {
             if (!loading)
             {
-                if (txtName.Text != null &&
-                (txtName.Text.Length >= 3 || txtDescription.Text.Length >= 3))
+                CurrentFood.Description = txtDescription.Text;
+                allFoods = bl.SearchFoods(txtName.Text, txtDescription.Text, 3); 
+                if (allFoods != null)
                 {
-                    FromUiToClass();
-                    RefreshGrid();
+                    gridFoods.DataSource = allFoods;
+                    gridFoods.Refresh();
                 }
             }
         }

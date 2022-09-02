@@ -433,13 +433,13 @@ namespace GlucoMan
                 {
                     string query = "SELECT *" +
                         " FROM Foods";
-                    if ((Name != "" && Name != null) || (Description != "" && Description != null) )
-                    {
+                    //if ((Name != "" && Name != null) || (Description != "" && Description != null) )
+                    //{
                         query += " WHERE ((Name LIKE '%" + Name + "%'" +
                                 " OR Name = null)" +
                                 " AND (Description LIKE '%" + Description + "%'" + 
                                 " OR Description = null))";
-                    }
+                    //}
                     query += " ORDER BY Name, Description;";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;

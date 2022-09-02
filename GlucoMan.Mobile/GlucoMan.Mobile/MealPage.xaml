@@ -51,9 +51,9 @@
                     />
             <Button Grid.Row="2" Grid.Column="4" Text="Calc" x:Name="btnCalc"
                     Clicked="btnCalc_Click"></Button>
-            
-            <Button Grid.Row="3" Grid.Column="0" Text="Save" x:Name="btnSaveMeal" 
-                    Margin = "0,0,0,0" Clicked="btnSaveAllMeal_Click"></Button>
+
+            <Button Grid.Row="3" Grid.Column="0" Text="Start now" x:Name="btnStartMeal" 
+                    Margin = "0,0,0,0" Clicked="btnStartMeal_Click"></Button>
             <Button Grid.Row="3" Grid.Column="1" Text="Gluc." x:Name="btnGlucose" 
                     Margin = "0,0,0,0" IsEnabled="True" Clicked="btnGlucose_ClickAsync"></Button>
             <Button Grid.Row="3" Grid.Column="2" Text="Calc. insul." x:Name="btnInsulinCalc" 
@@ -63,9 +63,11 @@
             <Button Grid.Row="3" Grid.Column="4" Text="Calc. Food" x:Name="btnFoodCalc" 
                     Margin = "0,0,0,0" Clicked="btnFoodCalc_ClickAsync"></Button>
 
-            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" x:Name="txtNotes" BackgroundColor="White" 
+            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
                    FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
-
+            <Button Grid.Row="4" Grid.Column="4" Text="Save" x:Name="btnSaveMeal" 
+                    Margin = "0,0,0,0" Clicked="btnSaveAllMeal_Click"></Button>
+            
             <Label Grid.Row="5" Grid.Column="0" TextColor="Black" 
                    Grid.ColumnSpan="5" Text="Food data" FontAttributes="Bold" XAlign="Center" YAlign="End"/>
 
@@ -132,7 +134,7 @@
             <Label Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="1" Text="CHO" XAlign="Center" YAlign="End"/>
             
             <ListView Grid.Row="12" Grid.ColumnSpan="5" x:Name="gridFoodsInMeal" ItemsSource="{Binding}"
-                      ItemSelected="OnGridSelectionAsync" >
+                      ItemSelected="gridFoodsInMeal_CellClick" >
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>

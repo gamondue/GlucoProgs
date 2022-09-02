@@ -8,7 +8,7 @@ namespace DiabetesRecords
     public class BusinessLayer
     {
         DataLayer dl;
-        TimeSpan timeToBeRecent = new TimeSpan(0, 20, 0);
+        TimeSpan timeToBeRecent = new TimeSpan(0, 45, 0);
 
         internal static string DatabaseFileName = @"DiabetesRecords.Sqlite";
         internal static string AppDataDirectoryPath = Xamarin.Essentials.FileSystem.AppDataDirectory;
@@ -67,7 +67,7 @@ namespace DiabetesRecords
         }
         internal bool IsLastRecordRecent()
         {
-            DiabetesRecord lr = dl.GetLastDiabetesRecord();
+            DiabetesRecord lr = dl.GetLastDiabetesRecord(null);
             DateTime? before = (DateTime?)lr.Timestamp;
             if (before != null)
             {
@@ -77,30 +77,33 @@ namespace DiabetesRecords
             else
                 return false;
         }
-        internal bool ShouldUpdateLastRecord(DiabetesRecord FutureRecord)
+        private bool ShouldUpdateLastRecord(DiabetesRecord FutureRecord)
         {
-            DiabetesRecord lr = dl.GetLastDiabetesRecord();
+            // gets the last record of this type of insulin 
+            DiabetesRecord lr = dl.GetLastDiabetesRecord(FutureRecord.IdTypeOfInsulinSpeed);
             // the Id of the last record is copied into the new 
             FutureRecord.IdDiabetesRecord = lr.IdDiabetesRecord; 
-            // if the types of insulin done are different, we don't make a new record 
-            if (FutureRecord.IdTypeOfInsulinSpeed != lr.IdTypeOfInsulinSpeed)
-                return false;
             // if the last record is recent we will update the previous, without  
             // creating another one 
             DateTime? before = (DateTime?)lr.Timestamp;
-            if (before != null)
-                return DateTime.Now.Subtract((DateTime)before) < timeToBeRecent;
+            if (before != null && DateTime.Now.Subtract((DateTime)before) < timeToBeRecent)
+            {
+                // keep the previous time of event  
+                FutureRecord.Timestamp = lr.Timestamp; 
+                return true;
+            }
             else
                 return false;
         }
         internal void InsertOrUpdate(DiabetesRecord Record)
         {
             if (!ShouldUpdateLastRecord(Record))
-                Record.IdDiabetesRecord= null;
+                Record.IdDiabetesRecord = null;
             dl.SaveOneDiabetesRecord(Record);
         }
         internal int? SaveOneDiabetesRecord(DiabetesRecord currentRecord)
         {
+            // in the second page we save always 
             return dl.SaveOneDiabetesRecord(currentRecord);
         }
         internal bool ExportProgramsFiles()

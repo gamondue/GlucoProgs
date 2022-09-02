@@ -3,7 +3,6 @@ using System.IO;
 using System.Windows;
 using System;
 using GlucoMan;
-using SharedData;
 
 namespace FoglioGlicemiaTerapia
 {
@@ -24,7 +23,7 @@ namespace FoglioGlicemiaTerapia
         {
             InitializeComponent();
 
-            Common.LogOfProgram = new Logger(Common.PathProgramsData, true, @"logs\GlucoMan_log.txt",
+            Common.LogOfProgram = new gamon.Logger(Common.PathProgramsData, true, @"logs\GlucoMan_log.txt",
                 @"logs\GlucoMan_errors.txt", @"logs\GlucoMan_debug.txt", @"logs\GlucoMan_prompts.txt",
                 @"logs\GlucoMan_data.txt");
 

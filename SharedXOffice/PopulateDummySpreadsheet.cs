@@ -1,5 +1,4 @@
 ﻿using GlucoMan;
-using SharedData;
 
 namespace Comuni.XOffice
 {

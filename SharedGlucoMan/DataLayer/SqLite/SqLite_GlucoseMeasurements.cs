@@ -3,6 +3,7 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+//using Xamarin.Forms;
 
 namespace GlucoMan
 {
@@ -118,7 +119,10 @@ namespace GlucoMan
                 gr.Timestamp = Safe.DateTime(Row["Timestamp"]);
                 gr.GlucoseString = Safe.String(Row["GlucoseString"]);
                 gr.IdDevice = Safe.String(Row["IdDevice"]);
-                gr.IdTypeOfGlucoseMeasurementDevice = Safe.String(Row["IdDeviceType"]);
+                gr.IdTypeOfGlucoseMeasurement =  Safe.String(Row["IdTypeOfGlucoseMeasurement"]);
+                gr.IdTypeOfGlucoseMeasurementDevice = Safe.String(Row["IdTypeOfGlucoseMeasurementDevice"]);
+                gr.IdModelOfMeasurementSystem = Safe.String(Row["IdModelOfMeasurementSystem"]);
+                gr.IdDocumentType = Safe.Int(Row["IdDocumentType"]);
                 gr.Notes = Safe.String(Row["Notes"]);
             }
             catch (Exception ex)

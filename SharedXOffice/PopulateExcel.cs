@@ -3,7 +3,6 @@ using Excel = NetOffice.ExcelApi;
 using NetOffice.ExcelApi.Enums;
 using NetOffice.ExcelApi;
 using System.Threading;
-using SharedData;
 using GlucoMan;
 
 namespace Comuni.XOffice

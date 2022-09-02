@@ -68,25 +68,32 @@ namespace GlucoMan.Mobile
             ShowFoodBoxes();
             loading = false;
         }
-        private void FromUiToClass()
+        private void FromUiToClasses()
         {
             loading = true;
 
-            bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
-            bl.Meal.Carbohydrates.Text = txtChoOfMealGrams.Text;
-            bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
-            bl.Meal.Notes = txtNotes.Text;
-
-            bl.FoodInMeal.IdMeal = Safe.Int(txtIdMeal.Text);
-            bl.FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
-            bl.FoodInMeal.IdFood = Safe.Int(txtIdFood.Text);
-            bl.FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text; // [g]
-            bl.FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text;
-            bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
-            bl.FoodInMeal.Name = txtFoodInMealName.Text;
-            bl.FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
+            FromUiToMeal(bl.Meal);
+            FromUiToFood(bl.FoodInMeal);
 
             loading = false;
+        }
+        private void FromUiToFood(FoodInMeal FoodInMeal)
+        {
+            FoodInMeal.IdMeal = Safe.Int(txtIdMeal.Text);
+            FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
+            FoodInMeal.IdFood = Safe.Int(txtIdFood.Text);
+            FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text; // [g]
+            FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text;
+            FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
+            FoodInMeal.Name = txtFoodInMealName.Text;
+            FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
+        }
+        private void FromUiToMeal(Meal Meal)
+        {
+            Meal.IdMeal = Safe.Int(txtIdMeal.Text);
+            Meal.Carbohydrates.Text = txtChoOfMealGrams.Text;
+            Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
+            Meal.Notes = txtNotes.Text;
         }
         private void ShowFoodBoxes()
         {
@@ -118,13 +125,14 @@ namespace GlucoMan.Mobile
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
             txtNotes.Text = bl.Meal.Notes;
         }
+        FoodInMeal localFoodInMealForCalculations = new FoodInMeal(); 
         private void txtFoodChoPercent_TextChanged(object sender, EventArgs e)
         {
             if (!loading)
             {
-                bl.FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text; 
-                bl.CalculateChoOfFoodGrams(bl.FoodInMeal);
-                txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
+                FromUiToFood(localFoodInMealForCalculations);
+                bl.CalculateChoOfFoodGrams(localFoodInMealForCalculations);
+                txtFoodChoGrams.Text = localFoodInMealForCalculations.ChoGrams.Text;
                 bl.SaveFoodInMealParameters();
             }
         }
@@ -132,9 +140,9 @@ namespace GlucoMan.Mobile
         {
             if (!loading)
             {
-                bl.FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text;
-                bl.CalculateChoOfFoodGrams(bl.FoodInMeal);
-                txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
+                FromUiToFood(localFoodInMealForCalculations);
+                bl.CalculateChoOfFoodGrams(localFoodInMealForCalculations);
+                txtFoodChoGrams.Text = localFoodInMealForCalculations.ChoGrams.Text;
             }
         }
         private void txtFoodChoGrams_TextChanged(object sender, EventArgs e)
@@ -144,15 +152,15 @@ namespace GlucoMan.Mobile
                 if (!txtFoodQuantityGrams.IsFocused && !txtFoodChoPercent.IsFocused)
                 {
                     txtFoodQuantityGrams.Text = "";
-                    bl.FoodInMeal.QuantityGrams.Double = 0;
+                    localFoodInMealForCalculations.QuantityGrams.Double = 0;
                     txtFoodChoPercent.Text = "";
-                    bl.FoodInMeal.ChoPercent.Double = 0;
+                    localFoodInMealForCalculations.ChoPercent.Double = 0;
                 }
             }
-            bl.FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
-            bl.RecalcAll();
-            ShowMealBoxes();
-            txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
+            localFoodInMealForCalculations.ChoGrams.Text = txtFoodChoGrams.Text;
+            //bl.RecalcAll();
+            //ShowMealBoxes();
+            //txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
         }
         private void txtChoOfMealGrams_TextChanged(object sender, EventArgs e)
         {
@@ -160,19 +168,19 @@ namespace GlucoMan.Mobile
         }
         private void btnSaveAllMeal_Click(object sender, EventArgs e)
         {
-            FromUiToClass();
+            FromUiToClasses();
             if (bl.Meal.TimeBegin.DateTime == General.DateNull)
                 // if the meal has no time, we put Now
                 txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, true).ToString();
             else
                 // if the meal has already a time, we don't touch it  
                 txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, false).ToString();
-            txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
+            //txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
             bl.SaveAllFoodsInMeal();
         }
         private void btnAddFoodInMeal_Click(object sender, EventArgs e)
         {
-            FromUiToClass();
+            FromUiToClasses();
             // erase Id of FoodInMeal, so that a new record will be created
             bl.FoodInMeal.IdFoodInMeal = null;
             txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
@@ -191,7 +199,7 @@ namespace GlucoMan.Mobile
         } 
         private async void btnFoodDetail_ClickAsync(object sender, EventArgs e)
         {
-            FromUiToClass();
+            FromUiToClasses();
             foodsPage = new FoodsPage(bl.FoodInMeal); 
             await Navigation.PushAsync(foodsPage);
         }
@@ -210,7 +218,7 @@ namespace GlucoMan.Mobile
         //}
         private void btnSaveAllFoods_Click(object sender, EventArgs e)
         {
-            FromUiToClass();
+            FromUiToClasses();
             bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
             bl.SaveAllFoodsInMeal();
             RefreshGrid();
@@ -228,7 +236,7 @@ namespace GlucoMan.Mobile
         }
         private void btnCalc_Click(object sender, EventArgs e)
         {
-            FromUiToClass();
+            FromUiToClasses();
             bl.RecalcAll();
             FromClassToUi();
         }
@@ -260,12 +268,44 @@ namespace GlucoMan.Mobile
         {
             await Navigation.PushAsync(new FoodToHitTargetCarbsPage());
         }
-        private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
+        private void btnStartMeal_Click(object sender, EventArgs e)
+        {
+            FromUiToClasses(); 
+            bl.SaveOneMeal(bl.Meal, true); // saves with time now 
+            RefreshUi();
+        }
+        bool firstPass = true; 
+        private async void gridFoodsInMeal_CellClick(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
             {
                 //await DisplayAlert("XXXX", "YYYY", "Ok");
                 return;
+            }
+            FoodInMeal previousFoodInMeal = bl.FoodInMeal.DeepCopy();
+            FromUiToClasses();
+            FoodInMeal dummy;
+            if (!firstPass && !previousFoodInMeal.DeepEquals(bl.FoodInMeal, out dummy))
+            {
+                firstPass = false;
+                string[] options = { "Save the changes", "Make a new food" };
+                string chosen = await DisplayActionSheet("The food has changed. Should we:",
+                    "Abort the changes", null, options); 
+                if (chosen == "Save the changes")
+                {
+                    bl.SaveOneFoodInMeal(bl.FoodInMeal);
+                    RefreshGrid();
+                }
+                else if (chosen == "Make a new food")
+                {
+                    bl.FoodInMeal.IdFoodInMeal = null;
+                    bl.SaveOneFoodInMeal(bl.FoodInMeal);
+                    RefreshGrid();
+                }
+                else if (chosen == "Abort the changes" || chosen == null)
+                {
+                    // nothing 
+                }
             }
             loading = true;
             //make the tapped row the current food in meal 

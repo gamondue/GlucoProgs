@@ -12,10 +12,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>DiabetesRecords.Maui</ApplicationTitle>
+		<ApplicationTitle>DiabetesRecords</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.diabetesrecords.maui</ApplicationId>
+		<ApplicationId>it.ingmonti.diabetesrecords</ApplicationId>
 		<ApplicationIdGuid>D7C91060-BA7C-486A-83AA-70D96AE86B8B</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -29,6 +29,40 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<AssemblyName>DiabetesRecords</AssemblyName>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
+	  <Prefer32Bit>True</Prefer32Bit>
+	  <Debugger>Native</Debugger>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
+	  <Prefer32Bit>True</Prefer32Bit>
+	  <Debugger>Native</Debugger>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+	  <Prefer32Bit>True</Prefer32Bit>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+	  <Prefer32Bit>True</Prefer32Bit>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
+	  <Prefer32Bit>True</Prefer32Bit>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-maccatalyst|AnyCPU'">
+	  <Prefer32Bit>True</Prefer32Bit>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows10.0.19041.0|AnyCPU'">
+	  <Prefer32Bit>True</Prefer32Bit>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows10.0.19041.0|AnyCPU'">
+	  <Prefer32Bit>True</Prefer32Bit>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -50,7 +84,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.8" />
+	  <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0-preview.7.22376.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="MainPage_DiabetesRecordsMaui.xaml.cs">
+	    <DependentUpon>MainPage_DiabetesRecordsMaui.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<Import Project="..\SharedGeneral\SharedGeneral.projitems" Label="Shared" />

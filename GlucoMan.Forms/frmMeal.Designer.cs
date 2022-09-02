@@ -189,21 +189,21 @@ namespace GlucoMan.Forms
             // 
             // btnStartMeal
             // 
-            this.btnStartMeal.Location = new System.Drawing.Point(180, 88);
+            this.btnStartMeal.Location = new System.Drawing.Point(152, 88);
             this.btnStartMeal.Name = "btnStartMeal";
-            this.btnStartMeal.Size = new System.Drawing.Size(75, 29);
+            this.btnStartMeal.Size = new System.Drawing.Size(103, 29);
             this.btnStartMeal.TabIndex = 45;
-            this.btnStartMeal.Text = "Start";
+            this.btnStartMeal.Text = "Start now";
             this.btnStartMeal.UseVisualStyleBackColor = true;
             this.btnStartMeal.Click += new System.EventHandler(this.btnStartMeal_Click);
             // 
             // btnEndMeal
             // 
-            this.btnEndMeal.Location = new System.Drawing.Point(372, 88);
+            this.btnEndMeal.Location = new System.Drawing.Point(350, 88);
             this.btnEndMeal.Name = "btnEndMeal";
-            this.btnEndMeal.Size = new System.Drawing.Size(75, 29);
+            this.btnEndMeal.Size = new System.Drawing.Size(97, 29);
             this.btnEndMeal.TabIndex = 46;
-            this.btnEndMeal.Text = "Finish";
+            this.btnEndMeal.Text = "Finish now";
             this.btnEndMeal.UseVisualStyleBackColor = true;
             this.btnEndMeal.Click += new System.EventHandler(this.btnEndMeal_Click);
             // 

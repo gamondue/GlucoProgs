@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using SharedData;
 using GlucoMan;
 
 namespace Comuni.XOffice

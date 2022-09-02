@@ -2,7 +2,7 @@
 using System.IO; 
 using System;
 using System.Collections.Generic;
-using SimMetrics.Net;
+//using SimMetrics.Net;
 
 namespace SharedGlucoMan.BusinessLayer
 {

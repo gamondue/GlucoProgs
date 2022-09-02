@@ -121,7 +121,7 @@ namespace GlucoMan.Mobile
         }
         private void RefreshGrid()
         {
-            allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description);
+            allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description, 0);
             gridFoods.ItemsSource = allFoods;
         }
         private async void btnFoodDetails_Click(object sender, EventArgs e)
@@ -210,11 +210,11 @@ namespace GlucoMan.Mobile
         {
             if (!loading)
             {
-                if (txtDescription.Text != null &&
-                    (txtName.Text.Length >= 3 || txtDescription.Text.Length >= 3))
+                CurrentFood.Name = txtName.Text;
+                allFoods = bl.SearchFoods(txtName.Text, txtDescription.Text, 3);
+                if (allFoods != null)
                 {
-                    FromUiToClass();
-                    RefreshGrid();
+                    gridFoods.ItemsSource = allFoods;
                 }
             }
         }
@@ -222,11 +222,11 @@ namespace GlucoMan.Mobile
         {
             if (!loading)
             {
-                if (txtName.Text != null &&
-                (txtName.Text.Length >= 3 || txtDescription.Text.Length >= 3))
+                CurrentFood.Description = txtDescription.Text;
+                allFoods = bl.SearchFoods(txtName.Text, txtDescription.Text, 3);
+                if (allFoods != null)
                 {
-                    FromUiToClass();
-                    RefreshGrid();
+                    gridFoods.ItemsSource = allFoods;
                 }
             }
         }

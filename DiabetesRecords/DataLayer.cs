@@ -124,7 +124,7 @@ COMMIT;
             }
             return rec;
         }
-        internal DiabetesRecord GetLastDiabetesRecord()
+        internal DiabetesRecord GetLastDiabetesRecord(int? IdTypeOfInsulinSpeed)
         {
             DiabetesRecord rec = new DiabetesRecord();
             try
@@ -135,6 +135,8 @@ COMMIT;
                 {
                     string query = "SELECT * " +
                         " FROM DiabetesRecords"; 
+                    if (IdTypeOfInsulinSpeed != null)
+                        query += " WHERE IdTypeOfInsulinSpeed=" + IdTypeOfInsulinSpeed;
                     query += " ORDER BY Timestamp DESC, IdDiabetesRecord;";
                     query += " LIMIT 1";
                     cmd = new SqliteCommand(query);
@@ -340,7 +342,7 @@ COMMIT;
         {
             try
             {
-                DiabetesRecord dr = GetLastDiabetesRecord();
+                DiabetesRecord dr = GetLastDiabetesRecord(null);
                 if (dr == null || dr.IdDiabetesRecord == null)
                     return;
                 DeleteOneDiabetesRecord(dr); 

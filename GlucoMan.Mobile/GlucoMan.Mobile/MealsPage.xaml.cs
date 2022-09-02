@@ -135,6 +135,8 @@ namespace GlucoMan.Mobile
                 bl.Meal.TimeBegin.DateTime = instant;
                 bl.Meal.TimeEnd.DateTime = bl.Meal.TimeBegin.DateTime; 
             }
+            bl.Meal.Carbohydrates.Text = txtChoOfMeal.Text;
+            bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
             bl.Meal.IdTypeOfMeal = SetTypeOfMealBasedOnRadioButtons(); 
             mealPage = new MealPage(bl.Meal);
             await Navigation.PushAsync(mealPage);

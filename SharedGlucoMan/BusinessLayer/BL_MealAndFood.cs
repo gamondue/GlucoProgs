@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using gamon;
+using System.Xml.Linq;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -129,22 +130,31 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.GetOneFood(idFood);
         }
-        internal List<Food> SearchFoods(string Name, string Description)
+        internal List<Food> SearchFoods(string Name, string Description, int MinNoOfCharacters)
         {
-            return dl.SearchFoods(Name, Description);
+            if (Name != null && Description != null &&
+                (Name.Length >= MinNoOfCharacters || Description.Length >= MinNoOfCharacters))
+            {
+                // trim the strings from blanks coming from cut and paste 
+                Name = Name.Trim();
+                Description = Description.Trim();
+                return dl.SearchFoods(Name, Description);
+            }
+            else
+                return null; 
         }
         internal List<Food> GetFoods()
         {
             return dl.GetFoods();
         }
-        public void CalculateChoOfFoodGrams(FoodInMeal Food)
+        public void CalculateChoOfFoodGrams(FoodInMeal ThisFood)
         {
-            if (Food.ChoPercent.Double != null && Food.QuantityGrams.Double != null)
+            if (ThisFood.ChoPercent.Double != null && ThisFood.QuantityGrams.Double != null)
             {
-                Food.ChoGrams.Double = Food.ChoPercent.Double / 100 *
-                    Food.QuantityGrams.Double;
+                ThisFood.ChoGrams.Double = ThisFood.ChoPercent.Double / 100 *
+                    ThisFood.QuantityGrams.Double;
             }
-            RecalcAll(); 
+            //RecalcAll(); 
         }
         #endregion
         internal string[] GetAllAccuracies()

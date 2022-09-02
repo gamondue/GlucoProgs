@@ -1,6 +1,5 @@
 ﻿using GlucoMan;
 using NetOffice.WordApi.Enums;
-using SharedData;
 using System;
 using System.Threading;
 using Word = NetOffice.WordApi;
