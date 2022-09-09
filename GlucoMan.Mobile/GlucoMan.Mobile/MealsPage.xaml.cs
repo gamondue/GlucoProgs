@@ -94,16 +94,8 @@ namespace GlucoMan.Mobile
         }
         protected override async void OnAppearing()
         {
-            //if (mealPage != null)
             RefreshUi();
-            base.OnAppearing(); 
-            //{
-            //    if (mealPage.FoodIsChosen)
-            //    {
-            //        bl.FromFoodToFoodInMeal(mealPage.CurrentFood, bl.FoodInMeal);
-            //        FromClassToUi();
-            //    }
-            //}
+            base.OnAppearing();
         }
         private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
         {

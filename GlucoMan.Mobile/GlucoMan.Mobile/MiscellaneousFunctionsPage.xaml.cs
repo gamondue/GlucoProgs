@@ -61,10 +61,10 @@ namespace GlucoMan.Mobile
         {
             // write the SpecialFolders that are used in Android
             // !!!! comment the next loop when devepolment of this part has finished !!!!
-            foreach (var folder in Enum.GetValues(typeof(Environment.SpecialFolder))) 
-            {
-                Console.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
-            }
+            //foreach (var folder in Enum.GetValues(typeof(Environment.SpecialFolder))) 
+            //{
+            //    Console.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
+            //}
             if (!blGeneral.ExportProgramsFiles())
             { 
                 DisplayAlert("", "Error in exporting program's files. NOT all files copied, check logs", "OK");
@@ -111,7 +111,8 @@ namespace GlucoMan.Mobile
             bool read = await DisplayAlert("Read database from external folder",
                 "Please put a database named 'readGlucoman.sqlite' in the same " +
                 "folder where this program exports its data." +
-                "\nAttention, this file will replace the database! " +
+                "\nAttention, this file will replace the current database." +
+                "\nYou should backup it before continuing! " +
                 "\nShould we continue in the process?", "Yes", "No");
             if (read)
             {

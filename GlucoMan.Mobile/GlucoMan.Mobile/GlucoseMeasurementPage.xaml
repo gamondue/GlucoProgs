@@ -8,6 +8,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="60"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition Height="45"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="20"/>
@@ -32,12 +33,15 @@
             <Label Grid.Row="1" Grid.Column="3" x:Name="txtIdGlucoseRecord" Text="" XAlign="Center" YAlign="Center"/>
             <!-- check box with associated label into a StackLayout -->
 
-            <Button Grid.Row="2" Grid.Column="0" Text="+" x:Name="btnAddMeasurement" Clicked="btnAddMeasurement_Click"></Button>
-            <Button Grid.Row="2" Grid.Column="1" Text="-" x:Name="btnRemoveMeasurement" Clicked="btnRemoveMeasurement_Click"></Button>
-            <Button Grid.Row="2" Grid.Column="2" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
-            <Button Grid.Row="2" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_Click"></Button>
+            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
+                   FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
-            <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Grid.Row="3" Grid.Column="0" Text="+" x:Name="btnAddMeasurement" Clicked="btnAddMeasurement_Click"></Button>
+            <Button Grid.Row="3" Grid.Column="1" Text="-" x:Name="btnRemoveMeasurement" Clicked="btnRemoveMeasurement_Click"></Button>
+            <Button Grid.Row="3" Grid.Column="2" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
+            <Button Grid.Row="3" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_ClickAsync"></Button>
+
+            <StackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
@@ -55,9 +59,10 @@
                 </Label>
             </StackLayout>
             
-            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Text="Glucose" XAlign="Center" YAlign="End"/>
-            <ListView Grid.Row="5" Grid.ColumnSpan="4" x:Name="gridMeasurements" ItemsSource="{Binding}"
+            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Text="Glucose" XAlign="Center" YAlign="End"/>
+            
+            <ListView Grid.Row="6" Grid.ColumnSpan="4" x:Name="gridMeasurements" ItemsSource="{Binding}"
                       ItemSelected="OnGridSelection" >
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>

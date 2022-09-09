@@ -71,8 +71,13 @@ namespace SharedGlucoMan.BusinessLayer
         {
             try
             {
-                string backupFile = Path.Combine(Common.PathImportExport, Common.DatabaseFileName.Replace(".Sqlite", "_backup.Sqlite")); 
-                File.Copy(pathAndFileInternalDatabase, backupFile, true);
+                string backupFile = Path.Combine(Common.PathImportExport, Common.DatabaseFileName.Replace(".Sqlite", "_backup.Sqlite"));
+                if (File.Exists(pathAndFileInternalDatabase))
+                {
+                    File.Copy(pathAndFileInternalDatabase, backupFile, true);
+                    //File.Delete(pathAndFileInternalDatabase);
+                    //File.Create(pathAndFileInternalDatabase); 
+                }
                 File.Copy(pathAndFileExternalDatabase, pathAndFileInternalDatabase, true);
                 return true;
             }

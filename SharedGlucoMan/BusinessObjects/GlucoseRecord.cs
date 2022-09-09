@@ -40,7 +40,7 @@ namespace GlucoMan
         public string IdModelOfMeasurementSystem { get; internal set; }
         public string IdDevice { get => idDevice; set => idDevice = value; }
         public int? IdDocumentType { get => idDocumentType; set => idDocumentType = value; }
-         public string Notes { get => notes; set => notes = value; }
+        public string Notes { get => notes; set => notes = value; }
 
         // properties taken from other tables of database. Most are unuseful
         // !!!! TODO decide if they are useful and delete those not useful!!!!

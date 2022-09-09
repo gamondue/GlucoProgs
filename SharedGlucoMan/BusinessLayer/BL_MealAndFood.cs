@@ -132,14 +132,19 @@ namespace GlucoMan.BusinessLayer
         }
         internal List<Food> SearchFoods(string Name, string Description, int MinNoOfCharacters)
         {
-            if (Name != null && Description != null &&
-                (Name.Length >= MinNoOfCharacters || Description.Length >= MinNoOfCharacters))
+            if ((Name != null && Name != "" && Name.Length >= MinNoOfCharacters) || 
+                (Description != null && Description != "" && Description.Length >= MinNoOfCharacters))
             {
                 // trim the strings from blanks coming from cut and paste 
-                Name = Name.Trim();
-                Description = Description.Trim();
+                if (Name != null)
+                    Name = Name.Trim();
+                if (Description != null)
+                    Description = Description.Trim();
                 return dl.SearchFoods(Name, Description);
             }
+            // just if both are null: find all the list of foods 
+            else if(Name == "" && Description == "")
+                return dl.SearchFoods(Name, Description);
             else
                 return null; 
         }

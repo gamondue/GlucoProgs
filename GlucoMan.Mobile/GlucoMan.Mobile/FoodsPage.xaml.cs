@@ -32,6 +32,7 @@ namespace GlucoMan.Mobile
                 CurrentFood = new Food();
             CurrentFood.Name = FoodNameForSearch;
             CurrentFood.Description = FoodDescriptionForSearch;
+            RefreshGrid(); 
             PageLoad();
         }
         public FoodsPage(FoodInMeal FoodInMeal)
@@ -49,8 +50,10 @@ namespace GlucoMan.Mobile
             foodIsChosen = false;
             txtName.Text = "";
             txtDescription.Text = "";
+            CurrentFood.Name = "";
+            CurrentFood.Description = ""; 
             allFoods = new List<Food>();
-            // if a specific food is passed, load its persistent from database 
+            // if a specific food is passed, load its persistent data from database 
             if (CurrentFood.IdFood != 0 && CurrentFood.IdFood != null)
             {
                 CurrentFood = bl.GetOneFood(CurrentFood.IdFood);
@@ -135,8 +138,13 @@ namespace GlucoMan.Mobile
                 FromClassToUi();
             }
         }
-        private void btnSaveFood_Click(object sender, EventArgs e)
+        private async void btnSaveFood_Click(object sender, EventArgs e)
         {
+            if (txtIdFood.Text == "")
+            {
+                await DisplayAlert("Select one food from the list", "Choose a food to save", "Ok");
+                return;
+            }
             FromUiToClass();
             bl.SaveOneFood(CurrentFood);
             FromClassToUi();
@@ -181,7 +189,6 @@ namespace GlucoMan.Mobile
         //}
         private void btnSearchFood_Click(object sender, EventArgs e)
         {
-            FromUiToClass();
             RefreshUi();
         }
         private void btnChoose_Click(object sender, EventArgs e)
@@ -193,6 +200,7 @@ namespace GlucoMan.Mobile
         }
         private void btnCleanFields_Click(object sender, EventArgs e)
         {
+            loading = true;
             txtIdFood.Text = "";
             txtName.Text = "";
             txtDescription.Text = "";
@@ -205,6 +213,8 @@ namespace GlucoMan.Mobile
             //txtFibers.Text = "";
             //txtProteins.Text = "";
             //txtSalt.Text = "";
+            loading = false;
+            FromUiToClass(); 
         }
         private void txtName_TextChanged(object sender, EventArgs e)
         {
@@ -222,7 +232,6 @@ namespace GlucoMan.Mobile
         {
             if (!loading)
             {
-                CurrentFood.Description = txtDescription.Text;
                 allFoods = bl.SearchFoods(txtName.Text, txtDescription.Text, 3);
                 if (allFoods != null)
                 {

@@ -2,13 +2,10 @@
 using GlucoMan.BusinessLayer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.Collections.ObjectModel;
+using gamon;
 using System.Threading.Tasks;
-using System.ComponentModel;
-using gamon; 
 
 namespace GlucoMan.Mobile
 {
@@ -47,6 +44,7 @@ namespace GlucoMan.Mobile
             currentGlucose.GlucoseValue = glucose;
             DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
                 dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds);
+            currentGlucose.Notes = txtNotes.Text;  
             currentGlucose.Timestamp = instant;
             //currentGlucose.Timestamp = dtpEventDate.Date;
         }
@@ -65,6 +63,7 @@ namespace GlucoMan.Mobile
                 dtpEventDate.Date = DateTime.Now;
                 dtpEventTime.Time = new TimeSpan(0);
             }
+            txtNotes.Text = currentGlucose.Notes; 
             txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
         }
         private void RefreshGrid()
@@ -116,8 +115,13 @@ namespace GlucoMan.Mobile
             }
             RefreshGrid();
         }
-        private void btnSave_Click(object sender, EventArgs e)
+        private async void btnSave_ClickAsync(object sender, EventArgs e)
         {
+            if (txtIdGlucoseRecord.Text == "")
+            {
+                await DisplayAlert("Select one glicemia measurement from the list", "Choose a measurement to save", "Ok");
+                return;
+            }
             FromUiToClass();
             bl.SaveOneGlucoseMeasurement(currentGlucose);
             RefreshGrid();

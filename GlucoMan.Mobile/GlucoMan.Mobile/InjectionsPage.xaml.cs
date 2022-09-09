@@ -85,13 +85,13 @@ namespace GlucoMan.Mobile
             dtpInjectionDate.Date = now;
             dtpInjectionTime.Time = now.TimeOfDay;
         }
-        private void btnSave_Click(object sender, EventArgs e)
+        private async void btnSave_Click(object sender, EventArgs e)
         {
-            //if (CurrentInjection.IdInsulinInjection == null)
-            //{
-            //    MessageBox.Show("Choose the injection to modify");
-            //    return;
-            //}
+            if (txtIdInjection.Text == "")
+            {
+                await DisplayAlert("Select one injection from the list", "Choose a injection to save", "Ok");
+                return;
+            }
             FromUiToClass();
             bl.SaveOneInjection(CurrentInjection);
             RefreshGrid();

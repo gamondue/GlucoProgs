@@ -233,6 +233,7 @@ namespace GlucoMan.Mobile
             txtIdFoodInMeal.Text = "";
             txtIdFood.Text = "";
             txtFoodInMealName.Text = "";
+            FromUiToFood(bl.FoodInMeal); 
         }
         private void btnCalc_Click(object sender, EventArgs e)
         {
@@ -274,7 +275,7 @@ namespace GlucoMan.Mobile
             bl.SaveOneMeal(bl.Meal, true); // saves with time now 
             RefreshUi();
         }
-        bool firstPass = true; 
+        bool firstPass = true;
         private async void gridFoodsInMeal_CellClick(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
@@ -319,10 +320,9 @@ namespace GlucoMan.Mobile
             if (foodsPage != null && foodsPage.FoodIsChosen)
             {
                 bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
-                loading = true;
-                txtFoodChoGrams.Text = "0";
-                txtChoOfMealGrams.Text = "0";
-                loading = false;
+                // change the calls because FromClassToUi() follows and we don't fire events on textboxes
+                bl.FoodInMeal.ChoGrams.Text = "0";
+                bl.FoodInMeal.QuantityGrams.Text = "0";
             }
             //bl.Meal.IdBolusCalculation = insulinCalcPage.IdBolusCalculation;
             if (injectionsPage != null && injectionsPage.IdInsulinInjection != null)
