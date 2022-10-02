@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Accuracy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_AlarmManagement.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_BolusCalculation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_BolusesAndInjections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_FoodToHitTargetCarbs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_General.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_MealAndFood.cs" />

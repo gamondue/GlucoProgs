@@ -203,6 +203,25 @@ namespace GlucoMan
             }
             return ii;
         }
+        internal List<InsulinInjection> GetInjectionsStillEffective(DateTime dateTime, object thresholdTime)
+        {
+            int maximumDurationInHoursOfTheInsulineInAnyKindOfMedicine = 24;
+            DateTime now = DateTime.Now;
+            DateTime minimumTimeToBeStillEffective =
+                now.Subtract(new TimeSpan(maximumDurationInHoursOfTheInsulineInAnyKindOfMedicine,
+                0, 0));
+            List<InsulinInjection> ii = GetInjectionsAfterDate(minimumTimeToBeStillEffective);
+            return ii;
+        }
+        internal List<InsulinInjection> GetInjectionsAfterDate(DateTime minimumTimeToBeStillEffective)
+        {
+            List<InsulinInjection> ii = new List<InsulinInjection>();
+            foreach (InsulinInjection inj in ii)
+            {
+
+            }
+            return ii;
+        }
     }
 }
  

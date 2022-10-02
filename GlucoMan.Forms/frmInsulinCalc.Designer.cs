@@ -72,6 +72,8 @@ namespace GlucoMan.Forms
             this.txtChoInsulinRatioBreakfast = new System.Windows.Forms.TextBox();
             this.txtChoInsulinRatioLunch = new System.Windows.Forms.TextBox();
             this.txtChoInsulinRatioDinner = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtEmbarkedInsulin = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -535,11 +537,35 @@ namespace GlucoMan.Forms
             this.txtChoInsulinRatioDinner.TabIndex = 9;
             this.txtChoInsulinRatioDinner.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(255, 36);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(101, 42);
+            this.label3.TabIndex = 127;
+            this.label3.Text = "Embarkerd insulin";
+            this.toolTip1.SetToolTip(this.label3, "Insulin to be included in the bolus to correct for glucose more than target");
+            // 
+            // txtEmbarkedInsulin
+            // 
+            this.txtEmbarkedInsulin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtEmbarkedInsulin.Location = new System.Drawing.Point(271, 83);
+            this.txtEmbarkedInsulin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtEmbarkedInsulin.Name = "txtEmbarkedInsulin";
+            this.txtEmbarkedInsulin.ReadOnly = true;
+            this.txtEmbarkedInsulin.Size = new System.Drawing.Size(68, 26);
+            this.txtEmbarkedInsulin.TabIndex = 126;
+            this.txtEmbarkedInsulin.TabStop = false;
+            this.txtEmbarkedInsulin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // frmInsulinCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(515, 498);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtEmbarkedInsulin);
             this.Controls.Add(this.btnMeasureGlucose);
             this.Controls.Add(this.btnInjection);
             this.Controls.Add(this.txtReadCho);
@@ -629,5 +655,7 @@ namespace GlucoMan.Forms
         private Button btnInjection;
         private Button button1;
         private Button btnMeasureGlucose;
+        private Label label3;
+        private TextBox txtEmbarkedInsulin;
     }
 }

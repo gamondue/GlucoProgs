@@ -38,8 +38,9 @@ namespace GlucoMan.BusinessLayer
         public  DoubleAndText FactorOfInsulinCorrectionSensitivity { get; set; }
         public  DoubleAndText InsulinCorrectionSensitivity { get; }
         public  DoubleAndText BolusInsulinDueToCorrectionOfGlucose { get; set; }
-        public  DoubleAndText BolusInsulinDueToChoOfMeal { get; }
-        public  DoubleAndText TotalInsulinForMeal { get; set; }
+        public DoubleAndText BolusInsulinDueToChoOfMeal { get; }
+        public DoubleAndText EmbarkedInsulin { get; }
+        public DoubleAndText TotalInsulinForMeal { get; set; }
         public  string StatusMessage { get => statusMessage; }
         public  Meal MealOfBolus { get; set; }
 
@@ -271,6 +272,22 @@ namespace GlucoMan.BusinessLayer
         internal void SaveOneInjection(InsulinInjection Injection)
         {
             dl.SaveOneInjection(Injection);
+        }
+        public double CalculateEmbarkedInsulin(DateTimeAndText LastInjectionTime)
+        {
+            List<InsulinInjection> nonExaustedInsulin =
+                dl.GetInjectionsStillEffective();
+            EmbarkedInsulin.Double = 0;
+            foreach (InsulinInjection ii in nonExaustedInsulin)
+            {
+                DateTime now = DateTime.Now;
+                TimeSpan timeFromInjection = now.Subtract((DateTime)ii.Timestamp.DateTime);
+                // TODO generalize with type of insuline drug 
+                double insulinDurationInHours = dl.InsulinDuration(ii.IdTypeOfInsulinSpeed);
+                EmbarkedInsulin.Double += ii.InsulinValue.Double * insulinDurationInHours
+                  * (1 - timeFromInjection.Hours / insulinDurationInHours);
+            }
+            return (double) EmbarkedInsulin.Double;
         }
     }
 }
