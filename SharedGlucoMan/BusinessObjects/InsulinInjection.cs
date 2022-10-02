@@ -10,8 +10,8 @@ namespace GlucoMan
         public DoubleAndText InsulinCalculated { get; set; }
         public IntAndText InjectionPositionX { get; set; }
         public IntAndText InjectionPositionY { get; set; }
-        public IntAndText IdTypeOfInsulinSpeed { get; set; }
-        public IntAndText IdTypeOfInsulinInjection { get; set; }
+        public int? IdTypeOfInsulinSpeed { get; set; }
+        public int? IdTypeOfInsulinInjection { get; set; }
         public string InsulinString { get; set; }
         public string Notes { get; internal set; }
 
@@ -24,8 +24,8 @@ namespace GlucoMan
             InsulinCalculated.Format = "#";
             InjectionPositionX = new IntAndText();
             InjectionPositionY = new IntAndText();
-            IdTypeOfInsulinSpeed = new IntAndText();
-            IdTypeOfInsulinInjection = new IntAndText();
+            //IdTypeOfInsulinSpeed = new IntAndText();
+            //IdTypeOfInsulinInjection = new IntAndText();
         }
     }
 }

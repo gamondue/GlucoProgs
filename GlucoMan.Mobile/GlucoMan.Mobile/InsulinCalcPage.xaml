@@ -9,14 +9,14 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="60"/>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="20"/>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -40,14 +40,17 @@
             <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calc bolus" 
                    Clicked="btnBolusCalculations_Click" />
 
-            <Label Grid.Row="3" Grid.Column="0" Text="TDD" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="3" Grid.Column="1" Text="Sens.to insul." XAlign="Center" YAlign="End"/>
-            
-            <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="----" XAlign="Center" YAlign="Center"/>
-            <Entry Grid.Row="4" Grid.Column="1" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
+            <!-- <Label Grid.Row="3" Grid.Column="0" Text="TDD" XAlign="Center" YAlign="End"/>-->
+            <Label Grid.Row="3" Grid.Column="0" Text="Sensitivity to insulin" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="3" Grid.Column="2" Text="Embarked insulin" XAlign="Center" YAlign="End"/>
+
+            <!-- <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="-_-_" XAlign="Center" YAlign="Center"/> -->
+            <Entry Grid.Row="4" Grid.Column="0" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
                    Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod" />
-            <Button Grid.Row="4" Grid.Column="2" x:Name="btnSetParameters" Text="Set param."
+            <Button Grid.Row="4" Grid.Column="1" x:Name="btnSetParameters" Text="Set param."
                     Clicked="btnSetParameters_Click"/>
+            <Label Grid.Row="4" Grid.Column="2" x:Name="txtEmbarkedInsulin" Text="----" 
+                   XAlign="Center" YAlign="Center" FontSize="Medium" />
             <Button Grid.Row="4" Grid.Column="3" Text="Round" 
                         x:Name="btnRoundInsulin" Clicked="btnRoundInsulin_Click" />
             
@@ -84,15 +87,18 @@
             <RadioButton Grid.Row="9" Grid.Column="2" Content="dinner" x:Name="rdbIsDinner" />
             <RadioButton Grid.Row="9" Grid.Column="3" Content="snack" x:Name="rdbIsSnack" />
 
-            <Label Grid.Row="10" Grid.Column="0" Text="Corr.insulin" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="10" Grid.Column="1" Text="CHO ins." XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="10" Grid.Column="2" Text="Total bolus" XAlign="Center" YAlign="End"/>
-            
+            <Label Grid.Row="10" Grid.Column="0" Text="Correction insulin" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="10" Grid.Column="1" Text="CHO         insulin" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="10" Grid.Column="2" Text="Total excluded embarked" XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="10" Grid.Column="3" Text="Total bolus insulin" XAlign="Center" YAlign="End"/>
+
             <Label Grid.Row="11" Grid.Column="0" x:Name="txtCorrectionInsulin" Text="----" 
                    XAlign="Center" YAlign="Center" FontSize="Large" BackgroundColor="CadetBlue" />
             <Label Grid.Row="11" Grid.Column="1" x:Name="txtChoInsulinMeal" Text="----" 
                    XAlign="Center" YAlign="Center" FontSize="Medium" />
-            <Label Grid.Row="11" Grid.Column="2" x:Name="txtTotalInsulin" 
+            <Label Grid.Row="11" Grid.Column="2" x:Name="txtTotalInsulinExceptEmbarked" Text="----" 
+                   XAlign="Center" YAlign="Center" FontSize="Medium" />
+            <Label Grid.Row="11" Grid.Column="3" x:Name="txtTotalInsulin" 
                    Text="----" XAlign="Center" YAlign="Center" FontSize="Large" 
                    BackgroundColor="DeepSkyBlue"/>
             

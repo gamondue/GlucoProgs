@@ -10,39 +10,40 @@ namespace GlucoMan.BusinessLayer
         DataLayer dl = Common.Database;
 
         private string statusMessage;
-        public  DoubleAndText ChoToEat { get; set; }
-        public  DoubleAndText TypicalBolusMorning { get; set; }
-        public  DoubleAndText TypicalBolusMidday { get; set; }
-        public  DoubleAndText TypicalBolusEvening { get; set; }
-        public  DoubleAndText TypicalBolusNight { get; set; }
-        public  DoubleAndText ChoInsulinRatioLunch { get; set; }
-        public  DoubleAndText ChoInsulinRatioDinner { get; set; }
-        public  DoubleAndText ChoInsulinRatioBreakfast { get; set; }
-        public  DoubleAndText TotalDailyDoseOfInsulin { get; set; }
-        public  DoubleAndText GlucoseBeforeMeal { get; set; }
-        public  DoubleAndText GlucoseToBeCorrected { get; set; }
+        public DoubleAndText ChoToEat { get; set; }
+        public DoubleAndText TypicalBolusMorning { get; set; }
+        public DoubleAndText TypicalBolusMidday { get; set; }
+        public DoubleAndText TypicalBolusEvening { get; set; }
+        public DoubleAndText TypicalBolusNight { get; set; }
+        public DoubleAndText ChoInsulinRatioLunch { get; set; }
+        public DoubleAndText ChoInsulinRatioDinner { get; set; }
+        public DoubleAndText ChoInsulinRatioBreakfast { get; set; }
+        public DoubleAndText TotalInsulinExceptEmbarked { get; set; }
+        public DoubleAndText TotalDailyDoseOfInsulin { get; set; }
+        public DoubleAndText GlucoseBeforeMeal { get; set; }
+        public DoubleAndText GlucoseToBeCorrected { get; set; }
 
         internal void SetTypeOfInsulinSpeedBasedOnTimeNow(InsulinInjection Injection)
         {
             TimeSpan timeOfDay = DateTime.Now.TimeOfDay;
             if (timeOfDay > new TimeSpan(2, 0, 0) && timeOfDay < new TimeSpan(22, 0, 0))
             {
-                Injection.IdTypeOfInsulinSpeed.Int = (int)Common.TypeOfInsulinSpeed.QuickAction;
+                Injection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.QuickAction;
             }
             else
             {
-                Injection.IdTypeOfInsulinSpeed.Int = (int)Common.TypeOfInsulinSpeed.SlowAction;
+                Injection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.SlowAction;
             }
         }
-        public  DoubleAndText TargetGlucose { get; set; }
-        public  DoubleAndText FactorOfInsulinCorrectionSensitivity { get; set; }
-        public  DoubleAndText InsulinCorrectionSensitivity { get; }
-        public  DoubleAndText BolusInsulinDueToCorrectionOfGlucose { get; set; }
+        public DoubleAndText TargetGlucose { get; set; }
+        public DoubleAndText FactorOfInsulinCorrectionSensitivity { get; set; }
+        public DoubleAndText InsulinCorrectionSensitivity { get; }
+        public DoubleAndText BolusInsulinDueToCorrectionOfGlucose { get; set; }
         public DoubleAndText BolusInsulinDueToChoOfMeal { get; }
         public DoubleAndText EmbarkedInsulin { get; }
         public DoubleAndText TotalInsulinForMeal { get; set; }
-        public  string StatusMessage { get => statusMessage; }
-        public  Meal MealOfBolus { get; set; }
+        public string StatusMessage { get => statusMessage; }
+        public Meal MealOfBolus { get; set; }
 
         private DateTime initialBreakfastPeriod;
         private DateTime finalBreakfastPeriod;
@@ -51,15 +52,16 @@ namespace GlucoMan.BusinessLayer
         private DateTime initialDinnerPeriod;
 
         internal List<InsulinInjection> GetInjections(DateTime InitialInstant,
-            DateTime FinalInstant)
+            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed)
         {
-            return dl.GetInjections(InitialInstant, FinalInstant); 
+            return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinSpeed); 
         }
         internal InsulinInjection GetOneInjection(int? IdInjection)
         {
             return dl.GetOneInjection(IdInjection); 
         }
         private DateTime finalDinnerPeriod;
+
         public  BL_BolusesAndInjections()
         { 
             ChoToEat = new DoubleAndText(); 
@@ -77,7 +79,9 @@ namespace GlucoMan.BusinessLayer
             FactorOfInsulinCorrectionSensitivity = new DoubleAndText(); 
             InsulinCorrectionSensitivity = new DoubleAndText(); 
             BolusInsulinDueToCorrectionOfGlucose = new DoubleAndText(); 
-            BolusInsulinDueToChoOfMeal = new DoubleAndText(); 
+            BolusInsulinDueToChoOfMeal = new DoubleAndText();
+            EmbarkedInsulin = new DoubleAndText();
+            TotalInsulinExceptEmbarked = new DoubleAndText();
             TotalInsulinForMeal = new DoubleAndText();
 
             statusMessage = ""; 
@@ -112,7 +116,8 @@ namespace GlucoMan.BusinessLayer
                 // insulin sensitivity is now calculated in a specific method: CalculateInsulinCorrectionSensitivity()
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
-               
+                CalculateEmbarkedInsulin(DateTime.Now);
+
                 switch (MealOfBolus.IdTypeOfMeal)
                 {
                     case (Common.TypeOfMeal.Breakfast):
@@ -128,7 +133,12 @@ namespace GlucoMan.BusinessLayer
                         BolusInsulinDueToChoOfMeal.Double = 0; // snack has no insulin due to meal 
                         break;
                 }
-                TotalInsulinForMeal.Double = BolusInsulinDueToChoOfMeal.Double + BolusInsulinDueToCorrectionOfGlucose.Double;
+                TotalInsulinExceptEmbarked.Double = BolusInsulinDueToCorrectionOfGlucose.Double;
+                if (BolusInsulinDueToChoOfMeal.Double != null)
+                    TotalInsulinExceptEmbarked.Double += BolusInsulinDueToChoOfMeal.Double; 
+                TotalInsulinForMeal.Double = TotalInsulinExceptEmbarked.Double - EmbarkedInsulin.Double; 
+                if (TotalInsulinForMeal.Double < 0)
+                    TotalInsulinForMeal.Double = 0;
             }
             catch (Exception Ex)
             {
@@ -273,21 +283,45 @@ namespace GlucoMan.BusinessLayer
         {
             dl.SaveOneInjection(Injection);
         }
-        public double CalculateEmbarkedInsulin(DateTimeAndText LastInjectionTime)
+        public double CalculateEmbarkedInsulin(DateTime LastInjectionTargetTime)
         {
             List<InsulinInjection> nonExaustedInsulin =
-                dl.GetInjectionsStillEffective();
+                dl.GetInjections(LastInjectionTargetTime, DateTime.Now, Common.TypeOfInsulinSpeed.QuickAction);
             EmbarkedInsulin.Double = 0;
             foreach (InsulinInjection ii in nonExaustedInsulin)
             {
                 DateTime now = DateTime.Now;
                 TimeSpan timeFromInjection = now.Subtract((DateTime)ii.Timestamp.DateTime);
-                // TODO generalize with type of insuline drug 
-                double insulinDurationInHours = dl.InsulinDuration(ii.IdTypeOfInsulinSpeed);
-                EmbarkedInsulin.Double += ii.InsulinValue.Double * insulinDurationInHours
-                  * (1 - timeFromInjection.Hours / insulinDurationInHours);
+                // TODO should generalize with specific type of insuline drug 
+                if (ii.IdTypeOfInsulinSpeed == null)
+                    break; 
+                double insulinDurationInHours = InsulinDurationInHours((Common.TypeOfInsulinSpeed)ii.IdTypeOfInsulinSpeed);
+                double partialEmbarkedInsulin = (double)ii.InsulinValue.Double
+                    * (1 - timeFromInjection.TotalHours / insulinDurationInHours);
+                if (partialEmbarkedInsulin > 0)
+                    EmbarkedInsulin.Double += partialEmbarkedInsulin;
             }
+            if (EmbarkedInsulin.Double < 0)
+                EmbarkedInsulin.Double = 0; 
             return (double) EmbarkedInsulin.Double;
+        }
+        internal double InsulinDurationInHours(Common.TypeOfInsulinSpeed InsulinSpeed)
+        {
+            switch (InsulinSpeed)
+            {
+                case Common.TypeOfInsulinSpeed.QuickAction:
+                    {
+                        return 4;
+                    }
+                case Common.TypeOfInsulinSpeed.SlowAction:
+                    {
+                        return 24;
+                    }
+                default:
+                    {
+                        return 0; 
+                    }
+            };
         }
     }
 }

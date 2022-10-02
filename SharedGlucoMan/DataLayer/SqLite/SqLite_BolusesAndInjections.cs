@@ -3,6 +3,7 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Data.SqlTypes;
 
 namespace GlucoMan
 {
@@ -44,8 +45,8 @@ namespace GlucoMan
                     "InjectionPositionX=" + SqliteHelper.Int(Injection.InjectionPositionX.Int) + "," +
                     "InjectionPositionY=" + SqliteHelper.Int(Injection.InjectionPositionY.Int) + "," +
                     "Notes=" + SqliteHelper.String(Injection.Notes) + "," +
-                    "IdTypeOfInsulinSpeed=" + SqliteHelper.Int(Injection.IdTypeOfInsulinSpeed.Int) + "," +
-                    "IdTypeOfInsulinInjection=" + SqliteHelper.Int(Injection.IdTypeOfInsulinInjection.Int) + "," +
+                    "IdTypeOfInsulinSpeed=" + SqliteHelper.Int(Injection.IdTypeOfInsulinSpeed) + "," +
+                    "IdTypeOfInsulinInjection=" + SqliteHelper.Int(Injection.IdTypeOfInsulinInjection) + "," +
                     "InsulinString=" + SqliteHelper.String(Injection.InsulinString) + "" +
                     " WHERE IdInsulinInjection=" + SqliteHelper.Int(Injection.IdInsulinInjection) +
                     ";";
@@ -81,8 +82,8 @@ namespace GlucoMan
                     SqliteHelper.Int(Injection.InjectionPositionX.Int) + "," +
                     SqliteHelper.Int(Injection.InjectionPositionY.Int) + "," +
                     SqliteHelper.String(Injection.Notes) + "," +
-                    SqliteHelper.Int(Injection.IdTypeOfInsulinSpeed.Int) + "," +
-                    SqliteHelper.Int(Injection.IdTypeOfInsulinInjection.Int) + "," +
+                    SqliteHelper.Int(Injection.IdTypeOfInsulinSpeed) + "," +
+                    SqliteHelper.Int(Injection.IdTypeOfInsulinInjection) + "," +
                     SqliteHelper.String(Injection.InsulinString) + "";
                     query += ");";
                     cmd.CommandText = query;
@@ -145,7 +146,7 @@ namespace GlucoMan
             return g;
         }
         internal override List<InsulinInjection> GetInjections(DateTime InitialInstant, 
-            DateTime FinalInstant)
+            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed)
         {
             List<InsulinInjection> list = new List<InsulinInjection>();
             try
@@ -160,6 +161,17 @@ namespace GlucoMan
                     {   // add WHERE clause
                         query += " WHERE Timestamp BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd") +
                             "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd 23:59:29") + "'";
+                        if (TypeOfInsulinSpeed != Common.TypeOfInsulinSpeed.NotSet)
+                        {
+                            query += " AND IdTypeOfInsulinSpeed =" + (int)TypeOfInsulinSpeed;
+                        }
+                    }
+                    else
+                    {
+                        if (TypeOfInsulinSpeed != Common.TypeOfInsulinSpeed.NotSet)
+                        {
+                            query += " WHERE IdTypeOfInsulinSpeed =" + (int)TypeOfInsulinSpeed;
+                        }
                     }
                     query += " ORDER BY Timestamp DESC, IdInsulinInjection;";
                     cmd = new SqliteCommand(query);
@@ -180,7 +192,7 @@ namespace GlucoMan
             }
             return list;
         }
-        internal InsulinInjection GetInjectionFromRow(DbDataReader Row)
+        private InsulinInjection GetInjectionFromRow(DbDataReader Row)
         {
             InsulinInjection ii = new InsulinInjection();
             GlucoseRecord gr = new GlucoseRecord();
@@ -193,32 +205,13 @@ namespace GlucoMan
                 ii.InjectionPositionX.Int = Safe.Int(Row["InjectionPositionX"]);
                 ii.InjectionPositionY.Int = Safe.Int(Row["InjectionPositionY"]);
                 ii.Notes = Safe.String(Row["Notes"]);
-                ii.IdTypeOfInsulinSpeed.Int = Safe.Int(Row["IdTypeOfInsulinSpeed"]);
-                ii.IdTypeOfInsulinInjection.Int = Safe.Int(Row["IdTypeOfInsulinInjection"]);
+                ii.IdTypeOfInsulinSpeed = Safe.Int(Row["IdTypeOfInsulinSpeed"]);
+                ii.IdTypeOfInsulinInjection = Safe.Int(Row["IdTypeOfInsulinInjection"]);
                 ii.InsulinString = Safe.String(Row["InsulinString"]);
             }
             catch (Exception ex)
             {
                 Common.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetInjectionFromRow", ex);
-            }
-            return ii;
-        }
-        internal List<InsulinInjection> GetInjectionsStillEffective(DateTime dateTime, object thresholdTime)
-        {
-            int maximumDurationInHoursOfTheInsulineInAnyKindOfMedicine = 24;
-            DateTime now = DateTime.Now;
-            DateTime minimumTimeToBeStillEffective =
-                now.Subtract(new TimeSpan(maximumDurationInHoursOfTheInsulineInAnyKindOfMedicine,
-                0, 0));
-            List<InsulinInjection> ii = GetInjectionsAfterDate(minimumTimeToBeStillEffective);
-            return ii;
-        }
-        internal List<InsulinInjection> GetInjectionsAfterDate(DateTime minimumTimeToBeStillEffective)
-        {
-            List<InsulinInjection> ii = new List<InsulinInjection>();
-            foreach (InsulinInjection inj in ii)
-            {
-
             }
             return ii;
         }

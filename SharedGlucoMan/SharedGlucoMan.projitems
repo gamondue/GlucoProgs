@@ -39,7 +39,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_ImportData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_BolusesAndInjections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_DataLayerConstructorsAndGeneral.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_FoodToHitTarget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_GlucoseMeasurements.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_GrossTareAndNetWeight.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_HypoPrediction.cs" />

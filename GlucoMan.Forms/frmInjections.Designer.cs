@@ -51,6 +51,8 @@
             this.tabFront = new System.Windows.Forms.TabPage();
             this.tabBack = new System.Windows.Forms.TabPage();
             this.tabSensor = new System.Windows.Forms.TabPage();
+            this.rdbFastInsulin = new System.Windows.Forms.RadioButton();
+            this.rdbSlowInsulin = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.tabData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridInjections)).BeginInit();
@@ -58,7 +60,8 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabData);
             this.tabControl1.Controls.Add(this.tabFront);
@@ -67,11 +70,13 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(748, 619);
+            this.tabControl1.Size = new System.Drawing.Size(748, 641);
             this.tabControl1.TabIndex = 0;
             // 
             // tabData
             // 
+            this.tabData.Controls.Add(this.rdbSlowInsulin);
+            this.tabData.Controls.Add(this.rdbFastInsulin);
             this.tabData.Controls.Add(this.txtNotes);
             this.tabData.Controls.Add(this.btnRemoveMeasurement);
             this.tabData.Controls.Add(this.btnAddMeasurement);
@@ -91,16 +96,16 @@
             this.tabData.Controls.Add(this.gridInjections);
             this.tabData.Location = new System.Drawing.Point(4, 30);
             this.tabData.Name = "tabData";
-            this.tabData.Size = new System.Drawing.Size(740, 585);
+            this.tabData.Size = new System.Drawing.Size(740, 607);
             this.tabData.TabIndex = 3;
             this.tabData.Text = "Data";
             this.tabData.UseVisualStyleBackColor = true;
             // 
             // txtNotes
             // 
-            this.txtNotes.Location = new System.Drawing.Point(28, 110);
+            this.txtNotes.Location = new System.Drawing.Point(3, 142);
             this.txtNotes.Name = "txtNotes";
-            this.txtNotes.Size = new System.Drawing.Size(620, 29);
+            this.txtNotes.Size = new System.Drawing.Size(669, 29);
             this.txtNotes.TabIndex = 127;
             // 
             // btnRemoveMeasurement
@@ -119,7 +124,7 @@
             // 
             this.btnAddMeasurement.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddMeasurement.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAddMeasurement.Location = new System.Drawing.Point(678, 115);
+            this.btnAddMeasurement.Location = new System.Drawing.Point(678, 110);
             this.btnAddMeasurement.Name = "btnAddMeasurement";
             this.btnAddMeasurement.Size = new System.Drawing.Size(56, 56);
             this.btnAddMeasurement.TabIndex = 125;
@@ -227,7 +232,7 @@
             // 
             this.txtInsulinActual.BackColor = System.Drawing.Color.PaleGreen;
             this.txtInsulinActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 21F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtInsulinActual.Location = new System.Drawing.Point(28, 65);
+            this.txtInsulinActual.Location = new System.Drawing.Point(24, 65);
             this.txtInsulinActual.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtInsulinActual.Name = "txtInsulinActual";
             this.txtInsulinActual.Size = new System.Drawing.Size(68, 39);
@@ -270,10 +275,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridInjections.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridInjections.Location = new System.Drawing.Point(-9, 145);
+            this.gridInjections.Location = new System.Drawing.Point(3, 177);
             this.gridInjections.Name = "gridInjections";
             this.gridInjections.RowTemplate.Height = 25;
-            this.gridInjections.Size = new System.Drawing.Size(681, 440);
+            this.gridInjections.Size = new System.Drawing.Size(669, 430);
             this.gridInjections.TabIndex = 0;
             this.gridInjections.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridInjections_CellClick);
             this.gridInjections.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridInjections_CellContentClick);
@@ -283,7 +288,7 @@
             this.tabFront.Location = new System.Drawing.Point(4, 24);
             this.tabFront.Name = "tabFront";
             this.tabFront.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFront.Size = new System.Drawing.Size(740, 591);
+            this.tabFront.Size = new System.Drawing.Size(740, 613);
             this.tabFront.TabIndex = 0;
             this.tabFront.Text = "Front";
             this.tabFront.UseVisualStyleBackColor = true;
@@ -293,7 +298,7 @@
             this.tabBack.Location = new System.Drawing.Point(4, 24);
             this.tabBack.Name = "tabBack";
             this.tabBack.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBack.Size = new System.Drawing.Size(740, 591);
+            this.tabBack.Size = new System.Drawing.Size(740, 613);
             this.tabBack.TabIndex = 1;
             this.tabBack.Text = "Back";
             this.tabBack.UseVisualStyleBackColor = true;
@@ -303,16 +308,38 @@
             this.tabSensor.Location = new System.Drawing.Point(4, 24);
             this.tabSensor.Name = "tabSensor";
             this.tabSensor.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSensor.Size = new System.Drawing.Size(740, 591);
+            this.tabSensor.Size = new System.Drawing.Size(740, 613);
             this.tabSensor.TabIndex = 2;
             this.tabSensor.Text = "Sensor";
             this.tabSensor.UseVisualStyleBackColor = true;
+            // 
+            // rdbFastInsulin
+            // 
+            this.rdbFastInsulin.AutoSize = true;
+            this.rdbFastInsulin.Location = new System.Drawing.Point(216, 111);
+            this.rdbFastInsulin.Name = "rdbFastInsulin";
+            this.rdbFastInsulin.Size = new System.Drawing.Size(105, 25);
+            this.rdbFastInsulin.TabIndex = 128;
+            this.rdbFastInsulin.TabStop = true;
+            this.rdbFastInsulin.Text = "Fast insulin";
+            this.rdbFastInsulin.UseVisualStyleBackColor = true;
+            // 
+            // rdbSlowInsulin
+            // 
+            this.rdbSlowInsulin.AutoSize = true;
+            this.rdbSlowInsulin.Location = new System.Drawing.Point(358, 111);
+            this.rdbSlowInsulin.Name = "rdbSlowInsulin";
+            this.rdbSlowInsulin.Size = new System.Drawing.Size(112, 25);
+            this.rdbSlowInsulin.TabIndex = 129;
+            this.rdbSlowInsulin.TabStop = true;
+            this.rdbSlowInsulin.Text = "Slow insulin";
+            this.rdbSlowInsulin.UseVisualStyleBackColor = true;
             // 
             // frmInjections
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 622);
+            this.ClientSize = new System.Drawing.Size(747, 643);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -352,5 +379,7 @@
         private Button btnRemoveMeasurement;
         private Button btnAddMeasurement;
         private TextBox txtNotes;
+        private RadioButton rdbSlowInsulin;
+        private RadioButton rdbFastInsulin;
     }
 }

@@ -10,13 +10,13 @@ namespace GlucoMan.Mobile
     public partial class InsulinCalcPage : ContentPage
     {
         BL_BolusesAndInjections currentBolusCalculation;
-        BL_GlucoseMeasurements currentGlucoseMeasuremet;
+        BL_GlucoseMeasurements currentGlucoseMeasurement;
         public InsulinCalcPage()
         {
             InitializeComponent();
 
             currentBolusCalculation = new BL_BolusesAndInjections();
-            currentGlucoseMeasuremet = new BL_GlucoseMeasurements();
+            currentGlucoseMeasurement = new BL_GlucoseMeasurements();
 
             currentBolusCalculation.RestoreBolusParameters();
             currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
@@ -31,13 +31,15 @@ namespace GlucoMan.Mobile
         {
             txtChoToEat.Text = currentBolusCalculation.ChoToEat.Text;
             txtInsulinCorrectionSensitivity.Text = currentBolusCalculation.InsulinCorrectionSensitivity.Text;
-            txtTdd.Text = currentBolusCalculation.TotalDailyDoseOfInsulin.Text;
+            ////txtTdd.Text = currentBolusCalculation.TotalDailyDoseOfInsulin.Text;
             txtGlucoseBeforeMeal.Text = currentBolusCalculation.GlucoseBeforeMeal.Text;
             txtGlucoseToBeCorrected.Text = currentBolusCalculation.GlucoseToBeCorrected.Text;
             txtCorrectionInsulin.Text = currentBolusCalculation.BolusInsulinDueToCorrectionOfGlucose.Text;
             txtChoInsulinMeal.Text = currentBolusCalculation.BolusInsulinDueToChoOfMeal.Text;
-            txtTotalInsulin.Text = currentBolusCalculation.TotalInsulinForMeal.Text;
             txtTargetGlucose.Text = currentBolusCalculation.TargetGlucose.Text;
+            txtEmbarkedInsulin.Text = currentBolusCalculation.EmbarkedInsulin.Text;
+            txtTotalInsulinExceptEmbarked.Text = currentBolusCalculation.TotalInsulinExceptEmbarked.Text;
+            txtTotalInsulin.Text = currentBolusCalculation.TotalInsulinForMeal.Text;
 
             txtChoInsulinRatioBreakfast.Text = currentBolusCalculation.ChoInsulinRatioBreakfast.Text;
             txtChoInsulinRatioLunch.Text = currentBolusCalculation.ChoInsulinRatioLunch.Text;
@@ -64,13 +66,17 @@ namespace GlucoMan.Mobile
         {
             // since it is easy to mistakenly insert blanks during editing, we tear blanks off 
             // from all the Entry controls that input a number 
-            currentBolusCalculation.ChoToEat.Text = NoBlank(txtChoToEat.Text);
             currentBolusCalculation.ChoInsulinRatioDinner.Text = NoBlank(txtChoInsulinRatioDinner.Text);
             currentBolusCalculation.ChoInsulinRatioBreakfast.Text = NoBlank(txtChoInsulinRatioBreakfast.Text);
             currentBolusCalculation.ChoInsulinRatioLunch.Text = NoBlank(txtChoInsulinRatioLunch.Text);
+
+            currentBolusCalculation.ChoToEat.Text = NoBlank(txtChoToEat.Text);
+
             currentBolusCalculation.GlucoseBeforeMeal.Text = NoBlank(txtGlucoseBeforeMeal.Text);
             currentBolusCalculation.TargetGlucose.Text = NoBlank(txtTargetGlucose.Text);
             currentBolusCalculation.InsulinCorrectionSensitivity.Text = NoBlank(txtInsulinCorrectionSensitivity.Text);
+            currentBolusCalculation.EmbarkedInsulin.Text = txtEmbarkedInsulin.Text;
+            currentBolusCalculation.TotalInsulinExceptEmbarked.Text = txtTotalInsulinExceptEmbarked.Text;
 
             if (rdbIsBreakfast.IsChecked)
                 currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Breakfast;
@@ -116,7 +122,7 @@ namespace GlucoMan.Mobile
         }
         private void btnReadGlucose_Click(object sender, EventArgs e)
         {
-            List<GlucoseRecord> list = currentGlucoseMeasuremet.GetLastTwoGlucoseMeasurements();
+            List<GlucoseRecord> list = currentGlucoseMeasurement.GetLastTwoGlucoseMeasurements();
             if (list.Count > 0)
                 txtGlucoseBeforeMeal.Text = list[0].GlucoseValue.ToString();
         }

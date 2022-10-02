@@ -12,32 +12,34 @@ namespace GlucoMan.Forms
 
             currentBolusCalculation = new BL_BolusesAndInjections();
             currentGlucoseMeasurement = new BL_GlucoseMeasurements();
-        }
-        private void frmInsulinCalc_Load(object sender, EventArgs e)
-        {
-            currentBolusCalculation.RestoreBolusParameters(); 
 
-            Common.SelectTypeOfMealBasedOnTimeNow();
-            switch (currentBolusCalculation.MealOfBolus.IdTypeOfMeal)
-            {
-                case (Common.TypeOfMeal.Breakfast):
-                    rdbIsBreakfast.Checked = true;
-                    break;
-                case (Common.TypeOfMeal.Dinner):
-                    rdbIsDinner.Checked = true;
-                    break;
-                case (Common.TypeOfMeal.Lunch):
-                    rdbIsLunch.Checked = true;
-                    break;
-                case (Common.TypeOfMeal.Snack):
-                    rdbIsSnack.Checked = true;
-                    break;
-            }
+            currentBolusCalculation.RestoreBolusParameters();
+            currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
+
             currentBolusCalculation.TargetGlucose.Format = "0";
             currentBolusCalculation.GlucoseBeforeMeal.Format = "0";
 
             FromClassToUi();
             txtGlucoseBeforeMeal.Focus();
+        }
+        private void frmInsulinCalc_Load(object sender, EventArgs e)
+        {
+            //Common.SelectTypeOfMealBasedOnTimeNow();
+            //switch (currentBolusCalculation.MealOfBolus.IdTypeOfMeal)
+            //{
+            //    case (Common.TypeOfMeal.Breakfast):
+            //        rdbIsBreakfast.Checked = true;
+            //        break;
+            //    case (Common.TypeOfMeal.Dinner):
+            //        rdbIsDinner.Checked = true;
+            //        break;
+            //    case (Common.TypeOfMeal.Lunch):
+            //        rdbIsLunch.Checked = true;
+            //        break;
+            //    case (Common.TypeOfMeal.Snack):
+            //        rdbIsSnack.Checked = true;
+            //        break;
+            //}
         }
         private void FromClassToUi()
         {
@@ -48,8 +50,10 @@ namespace GlucoMan.Forms
             txtGlucoseToBeCorrected.Text = currentBolusCalculation.GlucoseToBeCorrected.Text;
             txtCorrectionInsulin.Text = currentBolusCalculation.BolusInsulinDueToCorrectionOfGlucose.Text;
             txtChoInsulinMeal.Text = currentBolusCalculation.BolusInsulinDueToChoOfMeal.Text;
-            txtTotalInsulin.Text = currentBolusCalculation.TotalInsulinForMeal.Text;
             txtTargetGlucose.Text = currentBolusCalculation.TargetGlucose.Text;
+            txtEmbarkedInsulin.Text = currentBolusCalculation.EmbarkedInsulin.Text;
+            txtTotalInsulinExceptEmbarked.Text = currentBolusCalculation.TotalInsulinExceptEmbarked.Text;
+            txtTotalInsulin.Text = currentBolusCalculation.TotalInsulinForMeal.Text;
 
             txtChoInsulinRatioBreakfast.Text = currentBolusCalculation.ChoInsulinRatioBreakfast.Text;
             txtChoInsulinRatioLunch.Text = currentBolusCalculation.ChoInsulinRatioLunch.Text;
@@ -77,10 +81,14 @@ namespace GlucoMan.Forms
             currentBolusCalculation.ChoInsulinRatioDinner.Text = txtChoInsulinRatioDinner.Text;
             currentBolusCalculation.ChoInsulinRatioBreakfast.Text = txtChoInsulinRatioBreakfast.Text;
             currentBolusCalculation.ChoInsulinRatioLunch.Text = txtChoInsulinRatioLunch.Text;
-            currentBolusCalculation.ChoToEat.Text = txtChoToEat.Text;            
+
+            currentBolusCalculation.ChoToEat.Text = txtChoToEat.Text;  
+            
             currentBolusCalculation.GlucoseBeforeMeal.Text = txtGlucoseBeforeMeal.Text;
             currentBolusCalculation.TargetGlucose.Text = txtTargetGlucose.Text;
             currentBolusCalculation.InsulinCorrectionSensitivity.Text = txtInsulinCorrectionSensitivity.Text;
+            currentBolusCalculation.EmbarkedInsulin.Text = txtEmbarkedInsulin.Text;
+            currentBolusCalculation.TotalInsulinExceptEmbarked.Text = txtTotalInsulinExceptEmbarked.Text;
 
             if (rdbIsBreakfast.Checked)
                 currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Breakfast;
@@ -125,7 +133,7 @@ namespace GlucoMan.Forms
         private void btnReadGlucose_Click(object sender, EventArgs e)
         {
             List<GlucoseRecord> list = currentGlucoseMeasurement.GetLastTwoGlucoseMeasurements();
-            if (list.Count > 1)
+            if (list.Count > 0)
                 txtGlucoseBeforeMeal.Text =  list[0].GlucoseValue.ToString();
         }
         private void btnSaveBolus_Click(object sender, EventArgs e)

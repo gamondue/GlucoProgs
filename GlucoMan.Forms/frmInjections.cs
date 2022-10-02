@@ -26,7 +26,16 @@ namespace GlucoMan.Forms
             txtInsulinCalculated.Text = CurrentInjection.InsulinCalculated.Text;
             dtpInjectionDate.Value = ((DateTime) CurrentInjection.Timestamp.DateTime); 
             dtpInjectionTime.Value = ((DateTime) CurrentInjection.Timestamp.DateTime);
-            txtNotes.Text = CurrentInjection.Notes; 
+            txtNotes.Text = CurrentInjection.Notes;
+            if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.QuickAction)
+                rdbFastInsulin.Checked = true;
+            else if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.SlowAction)
+                rdbSlowInsulin.Checked = true;
+            else
+            {
+                rdbFastInsulin.Checked = false;
+                rdbSlowInsulin.Checked = false;
+            }
         }
         private void FromUiToClass()
         {
@@ -38,11 +47,17 @@ namespace GlucoMan.Forms
                 dtpInjectionTime.Value.Hour, dtpInjectionTime.Value.Minute, dtpInjectionTime.Value.Second);
             CurrentInjection.Timestamp.DateTime = instant;
             CurrentInjection.Notes = txtNotes.Text;
+            if (rdbFastInsulin.Checked)
+                CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.QuickAction;
+            else if (rdbSlowInsulin.Checked)
+                CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.SlowAction;
+            else
+                CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.NotSet;
         }
         private void RefreshGrid()
         {
             DateTime now = DateTime.Now; 
-            allInjections = bl.GetInjections(now.AddMonths(-2), now);
+            allInjections = bl.GetInjections(now.AddMonths(-2), now, Common.TypeOfInsulinSpeed.NotSet);
             gridInjections.DataSource = allInjections;
             gridInjections.Refresh(); 
         }

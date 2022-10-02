@@ -14,13 +14,6 @@ namespace GlucoMan.Mobile
         InsulinInjection CurrentInjection = new InsulinInjection();
         List<InsulinInjection> allInjections;
 
-        public int? IdInsulinInjection
-        {
-            get 
-            {
-                return CurrentInjection.IdInsulinInjection; 
-            }
-        }
         internal InjectionsPage(int? IdInjection)
         {
             InitializeComponent();
@@ -29,6 +22,13 @@ namespace GlucoMan.Mobile
             if (IdInjection == null)
                 bl.SetTypeOfInsulinSpeedBasedOnTimeNow(CurrentInjection); 
             RefreshUi();
+        }
+        public int? IdInsulinInjection
+        {
+            get
+            {
+                return CurrentInjection.IdInsulinInjection;
+            }
         }
         private void FromClassToUi()
         {
@@ -41,9 +41,9 @@ namespace GlucoMan.Mobile
             dtpInjectionDate.Date = ((DateTime)CurrentInjection.Timestamp.DateTime);
             dtpInjectionTime.Time = ((DateTime)CurrentInjection.Timestamp.DateTime).TimeOfDay;
             txtNotes.Text = CurrentInjection.Notes;
-            if (CurrentInjection.IdTypeOfInsulinSpeed.Int == (int)Common.TypeOfInsulinSpeed.QuickAction)
+            if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.QuickAction)
                 rdbFastInsulin.IsChecked = true;
-            else if (CurrentInjection.IdTypeOfInsulinSpeed.Int == (int)Common.TypeOfInsulinSpeed.SlowAction)
+            else if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.SlowAction)
                 rdbSlowInsulin.IsChecked = true;
             else
             {
@@ -62,16 +62,16 @@ namespace GlucoMan.Mobile
             CurrentInjection.Timestamp.DateTime = instant;
             CurrentInjection.Notes = txtNotes.Text;
             if (rdbFastInsulin.IsChecked)
-                CurrentInjection.IdTypeOfInsulinSpeed.Int = (int)Common.TypeOfInsulinSpeed.QuickAction;
+                CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.QuickAction;
             else if (rdbSlowInsulin.IsChecked)
-                CurrentInjection.IdTypeOfInsulinSpeed.Int = (int)Common.TypeOfInsulinSpeed.SlowAction;
+                CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.SlowAction;
             else
-                CurrentInjection.IdTypeOfInsulinSpeed.Int = (int)Common.TypeOfInsulinSpeed.NotSet;
+                CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.NotSet;
         }
         private void RefreshGrid()
         {
             DateTime now = DateTime.Now;
-            allInjections = bl.GetInjections(now.AddMonths(-2), now);
+            allInjections = bl.GetInjections(now.AddMonths(-2), now, Common.TypeOfInsulinSpeed.NotSet);
             gridInjections.ItemsSource = allInjections;
         }
         private void RefreshUi()

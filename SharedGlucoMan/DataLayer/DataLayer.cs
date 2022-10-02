@@ -42,7 +42,7 @@ namespace GlucoMan
         internal abstract int? SaveOneInjection(InsulinInjection Injection);
         internal abstract void DeleteOneInjection(InsulinInjection Injection);
         internal abstract List<InsulinInjection> GetInjections(DateTime InitialInstant,
-            DateTime FinalInstant); 
+            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed); 
         #endregion
 
         #region Meals and Food in Meals
@@ -65,23 +65,6 @@ namespace GlucoMan
         #region Alarms
         internal abstract int? SaveOneAlarm(Alarm currentAlarm);
         internal abstract List<Alarm> ReadAllAlarms();
-        internal double? InsulinDuration(Common.TypeOfInsulinSpeed InsulinSpeed)
-        {
-            switch(InsulinSpeed)
-            {
-                case Common.TypeOfInsulinSpeed.QuickAction: 
-                {
-                        return 4;
-                }
-                case Common.TypeOfInsulinSpeed.SlowAction:
-                    {
-                        return 24;
-                    }
-            };
-            return null; 
-        }
-        internal abstract List<InsulinInjection> GetInjectionsStillEffective();
-        internal abstract List<InsulinInjection> GetInjectionsAfterDate(DateTime minimumTimeToBeStillEffective); 
         #endregion
     }
 }
