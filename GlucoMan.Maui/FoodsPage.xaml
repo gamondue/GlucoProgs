@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.FoodsPage"
+             Title="Foods">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
+                Grid.ColumnSpan="4" Text="Food's information" 
+                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Text="Id food" 
+                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"  Text="Name of food" 
+                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtIdFood" BackgroundColor="White" 
+                    FontSize="Medium" HorizontalTextAlignment="Center" 
+                    IsReadOnly="true"/>
+            <Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
+                    x:Name="txtName" BackgroundColor="LightGreen" 
+                    Keyboard="Text" TextChanged="txtName_TextChanged"
+                    FontSize="Medium" HorizontalTextAlignment="Center" 
+                    IsReadOnly="false"/>
+            <Button Grid.Row="2" Grid.Column="3" x:Name="btnChoose" Text="Choose" 
+                    Clicked="btnChoose_Click"></Button>
+
+            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,0,10,0"
+                    Text="Description of food" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
+                    x:Name="txtDescription" BackgroundColor="White"
+                    Keyboard="Text" TextChanged="txtDescription_TextChanged"
+                    FontSize="Medium" HorizontalTextAlignment="Start"/>
+
+            <Label Grid.Row="5" Grid.Column="0" Text="CHO [g]%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
+                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+            <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddFood" 
+                    Clicked="btnAddFood_Click"></Button>
+            <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveFood" 
+                    Clicked="btnRemoveFood_Click"></Button>
+
+            <Button Grid.Row="7" Grid.Column="0" Text="Save" x:Name="btnSaveFood" 
+                    Clicked="btnSaveFood_Click"></Button>
+            <Button Grid.Row="7" Grid.Column="1" Text="Details" x:Name="btnFoodDetails" 
+                    Clicked="btnFoodDetails_Click"></Button>
+            <Button Grid.Row="7" Grid.Column="2" Text="Clean Fields" x:Name="btnCleanFields" 
+                    Clicked="btnCleanFields_Click"></Button>
+            <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchFood" 
+                    Clicked="btnSearchFood_Click"></Button>
+
+            <ListView Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" x:Name="gridFoods" ItemsSource="{Binding}"
+                    ItemSelected="OnGridSelectionAsync">
+                <!-- description of data to be shown, in a DataTemplate -->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid Margin="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="35"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}" />
+                                    <Label HorizontalTextAlignment="Start" Grid.Column="1" Text="{Binding Description}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding Cho.Text}"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

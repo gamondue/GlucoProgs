@@ -9,13 +9,11 @@
     <Import_RootNamespace>GlucoMan</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Accuracy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_AlarmManagement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_BolusesAndInjections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_FoodToHitTargetCarbs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_General.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_MealAndFood.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Alarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodInMeal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\InsulinInjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctions.cs" />

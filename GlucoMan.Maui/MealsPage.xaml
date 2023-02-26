@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.MealsPage"
+             Title="MealsPage">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <RadioButton Grid.Row="0" Grid.Column="0" Content="b.fast" x:Name="rdbIsBreakfast" 
+                         CheckedChanged="rdb_CheckedChanged"/>
+            <RadioButton Grid.Row="0" Grid.Column="1" Content="lunch" x:Name="rdbIsLunch" 
+                         CheckedChanged="rdb_CheckedChanged"/>
+            <RadioButton Grid.Row="0" Grid.Column="2" Content="dinner" x:Name="rdbIsDinner"
+                         CheckedChanged="rdb_CheckedChanged"/>
+            <RadioButton Grid.Row="0" Grid.Column="3" Content="snack" x:Name="rdbIsSnack"
+                         CheckedChanged="rdb_CheckedChanged"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Text="IdMeal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="1" Text="Type of Meal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Text="Accuracy" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="3" Text="" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtIdMeal" BackgroundColor="White" 
+                   FontSize="Medium" HorizontalTextAlignment="End" IsReadOnly="true"/>
+            <Picker Grid.Row="2" Grid.Column="1" x:Name="cmbTypeOfMeal"  
+                    Title="Type of Meal" 
+                    HorizontalTextAlignment="End"
+                    ItemsSource="{Binding Common.TypeOfMeal}" 
+                    BackgroundColor="PaleGoldenrod"
+                    SelectedIndexChanged="cmbTypeOfMeal_SelectedIndexChanged"
+                    FontSize="Small" />
+            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAccuracyOfChoMeal" 
+                   Keyboard="Numeric" BackgroundColor="PaleGoldenrod" HorizontalTextAlignment="End"
+                   FontSize="Medium" />
+            <Picker Grid.Row="2" Grid.Column="3" x:Name="cmbAccuracyMeal"
+                    Title="Accuracy" HorizontalTextAlignment="End"
+                    ItemsSource="{Binding Common.QualitativeAccuracy}" 
+                    SelectedItem="{Binding NotSet, Mode=TwoWay}"
+                    BackgroundColor="PaleGoldenrod" FontSize="Small"/>
+
+            <Label Grid.Row="3" Grid.Column="0" Text="Meal CHO" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Meal begin instant"  HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="4" Grid.Column="0" x:Name="txtChoOfMeal" BackgroundColor="Aqua"
+                   Keyboard="Numeric"  FontSize="Medium" HorizontalTextAlignment="End"
+                   TextChanged="txtChoOfMeal_TextChanged"/>
+            <DatePicker Grid.Row="4" Grid.Column="1" x:Name="dtpMealDateBegin" 
+                        BackgroundColor="PaleGreen" FontSize="Small" Format="yyyy-MM-dd" 
+                        HorizontalOptions="Center" />
+            <TimePicker Grid.Row="4" Grid.Column="2" x:Name="dtpMealTimeBegin" 
+                        BackgroundColor="PaleGreen" FontSize="Small" Format="HH:mm:ss" 
+                        HorizontalOptions="Center" />
+            <Button Grid.Row="4" Grid.Column="3" Text="Defaults" x:Name="btnDefaults" Clicked="btnDefault_Click"></Button>
+
+            <Grid Grid.Row="6" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddMeal" Clicked="btnAddMeal_ClickAsync"></Button>
+                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveMeal" Clicked="btnRemoveMeal_ClickAsync"></Button>
+            </Grid>
+
+            <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
+                   FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
+
+            <Button Grid.Row="6" Grid.Column="0" Text="Save" x:Name="btnSave" Clicked="btnSaveMeal_ClickAsync"></Button>
+            <Button Grid.Row="6" Grid.Column="1" Text="Now" x:Name="btnNowBegin" Clicked="btnNowBegin_Click"></Button>
+            <Button Grid.Row="6" Grid.Column="3" Text="Details" x:Name="btnShowThisMeal" Clicked="btnShowThisMeal_ClickAsync"></Button>
+
+            <StackLayout Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
+                    <CheckBox.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="0,-10,0,0" />
+                            <On Platform="Android, WinPhone, Windows" Value="0,-5,0,0" />
+                        </OnPlatform>
+                    </CheckBox.Margin>
+                </CheckBox>
+                <Label VerticalTextAlignment="Center" VerticalOptions="Start" Text="Add with Now as time">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer>
+
+                        </TapGestureRecognizer>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Text="Date and Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Text="Carbohydrates" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <ListView Grid.Row="9" Grid.ColumnSpan="4" x:Name="gridMeals" ItemsSource="{Binding}"
+                      ItemSelected="OnGridSelectionAsync" >
+                <!-- description of data to be shown, in a DataTemplate -->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="18"/>
+                                    </Grid.RowDefinitions>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding TimeBegin.DateTime}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding Carbohydrates.Text}"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

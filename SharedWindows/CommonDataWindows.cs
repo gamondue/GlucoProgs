@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Text;
 
@@ -30,5 +31,12 @@ namespace GlucoMan
         public static string PathAndFileDatabase = Path.Combine(PathDatabase, NomeFileDatabase);
         public static string PathImportExport = Path.Combine(PathUser, @"GlucoMan\ImportExport\"); 
         public static string PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, Common.LogOfParametersFileName);
+
+        //public static Color InputColor = Color.PaleGreen;
+        //public static Color InputSlowChangingColor = Color.PaleGoldenrod;
+        //public static Color ToBeInputColor = Color.Red;
+        //public static Color CalculatedImportantColor = Color.Yellow;
+        //public static Color CalculatedNonImportantColor = Color.White;
+        //public static Color ProgramsResult = Color.SkyBlue;
     }
 }

@@ -43,14 +43,14 @@ namespace gamon
         /// <param name="FilePathAndName">The file path to write the object instance to.</param>
         /// <param name="ObjectToWrite">The object instance to write to the binary file.</param>
         /// <param name="Append">If false the file will be overwritten if it already exists. If true the contents will be appended to the file.</param>
-        internal static void WriteObjectToBinaryFile<T>(string FilePathAndName, T ObjectToWrite, bool Append = false)
-        {
-            using (Stream stream = File.Open(FilePathAndName, Append ? FileMode.Append : FileMode.Create))
-            {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                binaryFormatter.Serialize(stream, ObjectToWrite);
-            }
-        }
+        //internal static void WriteObjectToBinaryFile<T>(string FilePathAndName, T ObjectToWrite, bool Append = false)
+        //{
+        //    using (Stream stream = File.Open(FilePathAndName, Append ? FileMode.Append : FileMode.Create))
+        //    {
+        //        var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+        //        binaryFormatter.Serialize(stream, ObjectToWrite);
+        //    }
+        //}
         /// <summary>
         /// Reads an object instance from a binary file.
         /// (taken from https://stackoverflow.com/questions/6115721/how-to-save-restore-serializable-object-to-from-file)
@@ -58,14 +58,14 @@ namespace gamon
         /// <typeparam name="T">The type of object to read from the binary file.</typeparam>
         /// <param name="FilePathAndName">The file path to read the object instance from.</param>
         /// <returns>Returns a new instance of the object read from the binary file.</returns>
-        internal static T ReadObjectFromBinaryFile<T>(string FilePathAndName)
-        {
-            using (Stream stream = File.Open(FilePathAndName, FileMode.Open))
-            {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                return (T)binaryFormatter.Deserialize(stream);
-            }
-        }
+        //internal static T ReadObjectFromBinaryFile<T>(string FilePathAndName)
+        //{
+        //    using (Stream stream = File.Open(FilePathAndName, FileMode.Open))
+        //    {
+        //        var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+        //        return (T)binaryFormatter.Deserialize(stream);
+        //    }
+        //}
         internal static void MakeFolderAndFileIfDontExist(string FilePathAndName)
         {
             string dir = Path.GetDirectoryName(FilePathAndName);

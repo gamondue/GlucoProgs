@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Text;
 using static GlucoMan.Common;
 
 namespace gamon
 {
-    internal partial class Accuracy
+    internal class Accuracy
     {
+        Entry txtQuantitative;
+        Picker cmbQualitative;
+        bool clickedFlag;
+
         internal QualitativeAccuracy GetQualitativeAccuracyGivenQuantitavive(double? NumericalAccuracy)
         {
             if (NumericalAccuracy < 0)
@@ -63,56 +66,120 @@ namespace gamon
                 return QualitativeAccuracy.NotSet;
             }
         }
+        internal Accuracy(Entry TextBox, Picker Combo)
+        {
+            txtQuantitative = TextBox;
+            cmbQualitative = Combo;
+            clickedFlag = false;
+            //bl = Business;
+
+            // hookup useful events 
+            Combo.SelectedIndexChanged += Combo_SelectedIndexChanged;
+            Combo.Unfocused += Combo_Unfocused;
+            Combo.PropertyChanged += Combo_MouseClick;
+            TextBox.TextChanged += TextBox_TextChanged;
+        }
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            double acc;
+            if (!double.TryParse(txtQuantitative.Text, out acc))
+            {
+                cmbQualitative.SelectedItem = null;
+                txtQuantitative.Text = "";
+                txtQuantitative.BackgroundColor = Colors.White;
+                txtQuantitative.TextColor = Colors.Black;
+            }
+            else
+            {
+                if (Double.IsFinite(acc) && acc >= 0)
+                {
+                    cmbQualitative.SelectedItem =
+                        GetQualitativeAccuracyGivenQuantitavive(acc);
+                    txtQuantitative.BackgroundColor = AccuracyBackColor(acc);
+                    txtQuantitative.TextColor = AccuracyForeColor(acc);
+                }
+                else
+                {
+                    cmbQualitative.SelectedItem = null;
+                    txtQuantitative.Text = "";
+                    txtQuantitative.BackgroundColor = Colors.White;
+                    txtQuantitative.TextColor = Colors.Black;
+                }
+            }
+            //NumericalAccuracyChanged(bl.Meal.AccuracyOfChoEstimate.Double);
+        }
+        private void Combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (clickedFlag)
+            {
+                clickedFlag = false;
+                if (cmbQualitative.SelectedItem != null)
+                {
+                    QualitativeAccuracy qa = (QualitativeAccuracy)(cmbQualitative.SelectedItem);
+                    txtQuantitative.Text = ((int)qa).ToString();
+                    // the value (int) associated with the QualitativeAccuracy is given to the numerical accuracy
+                    int accuracyNumber = (int)qa;
+                }
+            }
+        }
+        private void Combo_MouseClick(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            clickedFlag = true;
+        }
+        private void Combo_Unfocused(object sender, FocusEventArgs e)
+        {
+            clickedFlag = false;
+        }
         internal Color AccuracyBackColor(double NumericalAccuracy)
         {
             Color c;
             if (NumericalAccuracy <= 0)
             {
-                c = Color.Red;
+                c = Colors.Red;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.AlmostNull)
             {
-                c = Color.DarkRed;
+                c = Colors.DarkRed;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.VeryBad)
             {
-                c = Color.MediumVioletRed;
+                c = Colors.MediumVioletRed;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Bad)
             {
-                c = Color.OrangeRed;
+                c = Colors.OrangeRed;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Poor)
             {
-                c = Color.Orange;
+                c = Colors.Orange;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.AlmostSufficient)
             {
-                c = Color.Yellow;
+                c = Colors.Yellow;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Sufficient)
             {
-                c = Color.YellowGreen;
+                c = Colors.YellowGreen;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Satisfactory)
             {
-                c = Color.GreenYellow;
+                c = Colors.GreenYellow;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Good)
             {
-                c = Color.Lime;
+                c = Colors.Lime;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Outstanding)
             {
-                c = Color.DarkSeaGreen;
+                c = Colors.DarkSeaGreen;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Perfect)
             {
-                c = Color.Green;
+                c = Colors.Green;
             }
             else
             {
-                c = Color.MintCream;
+                c = Colors.MintCream;
             }
             return c;
         }
@@ -121,53 +188,54 @@ namespace gamon
             Color c;
             if (NumericalAccuracy <= 0)
             {
-                c = Color.White;
+                c = Colors.White;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.AlmostNull)
             {
-                c = Color.White;
+                c = Colors.White;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.VeryBad)
             {
-                c = Color.White;
+                c = Colors.White;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Bad)
             {
-                c = Color.White;
+                c = Colors.White;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Poor)
             {
-                c = Color.Black;
+                c = Colors.Black;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.AlmostSufficient)
             {
-                c = Color.Black;
+                c = Colors.Black;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Sufficient)
             {
-                c = Color.Black;
+                c = Colors.Black;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Satisfactory)
             {
-                c = Color.Black;
+                c = Colors.Black;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Good)
             {
-                c = Color.Black;
+                c = Colors.Black;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Outstanding)
             {
-                c = Color.Black;
+                c = Colors.Black;
             }
             else if (NumericalAccuracy <= (double)QualitativeAccuracy.Perfect)
             {
-                c = Color.White;
+                c = Colors.White;
             }
             else
             {
-                c = Color.White;
+                c = Colors.White;
             }
             return c;
         }
     }
 }
+

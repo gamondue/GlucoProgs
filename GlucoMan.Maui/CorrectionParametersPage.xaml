@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.CorrectionParametersPage"
+             Title="Parameters for the corrections">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.ColumnSpan="4" Text="Calculation of Ratio CHO/insulin" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Large" FontAttributes="Bold"/>
+            <Label Grid.Row="1" Grid.ColumnSpan="4" Text="(better if calculated from dietist)" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="2" Grid.ColumnSpan="4" Text="Calculation to be implemented yet" 
+                    FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End" BackgroundColor="Red" TextColor="Yellow"/>
+
+            <Label Grid.Row="3" Grid.ColumnSpan="4" Text="Ratio CHO/insulin" 
+                    FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Label Grid.Row="4" Grid.Column="0" Text="Breakfast" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Label Grid.Row="4" Grid.Column="1" Text="Lunch" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="4" Grid.Column="2" Text="Dinner" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Entry Grid.Row="5" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" 
+                   Keyboard="Numeric" Placeholder="Break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+            <Entry Grid.Row="5" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" 
+                   Keyboard="Numeric" Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+            <Entry Grid.Row="5" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" 
+                   Keyboard="Numeric" Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+            <Button Grid.Row="5" Grid.Column="3" x:Name="btnSaveRatioCHOInsulin" Text="Save"
+                    Clicked="btnSaveRatioCHOInsulin_Click" />
+
+            <Label Grid.Row="6" Grid.ColumnSpan="4" Text="" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Large"/>
+
+            <Label Grid.Row="7" Grid.ColumnSpan="4" Text="Calculation of insulin sensitivity" 
+                   FontSize="Large"  HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontAttributes="Bold"/>
+            <Label Grid.Row="8" Grid.ColumnSpan="4" Text="Typical boluses made during a day [Ui]" 
+                   FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Label Grid.Row="9" Grid.Column="0" Text="morning" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="9" Grid.Column="1" Text="midday" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="9" Grid.Column="2" Text="evening" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="9" Grid.Column="3" Text="night" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="10" Grid.Column="0" x:Name="txtTypicalBolusMorning" Text="" 
+                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+            <Entry Grid.Row="10" Grid.Column="1" x:Name="txtTypicalBolusMidday" Text="" 
+                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+            <Entry Grid.Row="10" Grid.Column="2" x:Name="txtTypicalBolusEvening" Text="" 
+                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+            <Entry Grid.Row="10" Grid.Column="3" x:Name="txtTypicalBolusNight" Text="" 
+                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+
+            <Label Grid.Row="11" Grid.Column="0" Text="TDD" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="11" Grid.Column="1" Text="Sens.factor" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="11" Grid.Column="2" Text="Sens.to insul." HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Label Grid.Row="12" Grid.Column="0" x:Name="txtTotalDailyDoseOfInsulin" Text="----" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <Picker Grid.Row="12" Grid.Column="1" x:Name="cmbSensitivityFactor" Title="pick value">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>1800</x:String>
+                        <x:String>1500</x:String>
+                        <x:String>1400</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Entry Grid.Row="12" Grid.Column="2" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
+                   Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"/>
+            <Grid Grid.Row="12" Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Margin="-5,-5,-5,-5" FontSize="Caption"  x:Name="btnCalculateInsulinSensitivity" Text="Calc."
+                    Padding="0,0,0,0" Clicked="btnCalculateInsulinSensitivity_Click"/>
+                <Button Grid.Row="1" Margin="-5,-5,-5,-5" FontSize="Caption" x:Name="btnSaveInsulinSensitivity" Text="Save"
+                    Padding="0,0,0,0" Clicked="btnSaveInsulinSensitivity_Click"/>
+            </Grid>
+
+
+            <Label Grid.Row="13" Grid.ColumnSpan="4" Text="Physical Activity parameters" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Large" FontAttributes="Bold"/>
+            <Label Grid.Row="14" Grid.ColumnSpan="4" Text="Calculation to be implemented yet" 
+                    FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End" BackgroundColor="Red" TextColor="Yellow"/>
+            <Button Grid.Row="15" Grid.Column="3" x:Name="btnPhysicalActivityCalculation" Text="Save"
+                    Clicked="btnPhysicalActivityCalculation_Click" IsEnabled="False"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

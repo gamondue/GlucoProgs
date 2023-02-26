@@ -1,20 +1,10 @@
 ﻿using gamon; 
-using System;
-using System.Drawing;
-using System.IO;
 
 namespace GlucoMan.BusinessLayer
 {
     public class BL_WeighFood
     {
         DataLayer dl = Common.Database;
-
-        Color inputColor = Color.PaleGreen;
-        Color inputSlowChangingColor = Color.PaleGoldenrod;
-        Color toBeinputColor = Color.Red;
-        Color calculatedImportantColor = Color.Yellow;
-        Color calculatedNonImportantColor = Color.White;
-        Color programsResult = Color.SkyBlue;
 
         public  DoubleAndText M0RawGross = new DoubleAndText();
         public  DoubleAndText M0RawTare = new DoubleAndText();

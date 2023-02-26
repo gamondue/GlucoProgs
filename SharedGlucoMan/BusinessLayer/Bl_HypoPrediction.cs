@@ -36,7 +36,6 @@ namespace GlucoMan.BusinessLayer
         public DoubleAndText FutureSpanMinutes { get; internal set; }
         public DateTimeAndText FutureTime { get; internal set; }
         public DoubleAndText PredictedGlucose { get; internal set; }
-
         public BL_HypoPrediction()
         {
             GlucoseLast = new IntAndText(); 
