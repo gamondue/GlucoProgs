@@ -85,13 +85,15 @@ namespace GlucoMan.Forms
             }
             currentGlucose = new GlucoseRecord();
             currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
-            currentGlucose.GlucoseValue = glucose;
+            currentGlucose.GlucoseValue.Double = glucose;
+            currentGlucose.Notes = txtNotes.Text;
             currentGlucose.Timestamp = dtpEventInstant.Value;
         }
         private void FromClassToUi()
         {
             txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
             dtpEventInstant.Value = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
+            txtNotes.Text = currentGlucose.Notes;
             txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
         }
 

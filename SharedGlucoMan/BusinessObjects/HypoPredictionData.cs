@@ -14,7 +14,7 @@ namespace GlucoMan
         public IntAndText HypoGlucoseTarget { get; set; }
         public IntAndText GlucoseLast { get; set; }
         public IntAndText GlucosePrevious { get; set; }
-        public TimeSpan Interval { get => interval; set => interval = value; }
+        public TimeSpan Interval { get; set; }
         public IntAndText HourLast { get; set; }
         public IntAndText MinuteLast { get; set; }
         public IntAndText HourPrevious { get; set; }

@@ -41,7 +41,7 @@ namespace GlucoMan.Mobile
             }
             currentGlucose = new GlucoseRecord();
             currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
-            currentGlucose.GlucoseValue = glucose;
+            currentGlucose.GlucoseValue.Double = glucose;
             DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
                 dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds);
             currentGlucose.Notes = txtNotes.Text;  

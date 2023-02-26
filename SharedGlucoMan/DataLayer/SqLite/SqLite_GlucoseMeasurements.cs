@@ -115,8 +115,8 @@ namespace GlucoMan
             try
             {
                 gr.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
-                gr.GlucoseValue = Safe.Double(Row["GlucoseValue"]);
                 gr.Timestamp = Safe.DateTime(Row["Timestamp"]);
+                gr.GlucoseValue.Double = Safe.Double(Row["GlucoseValue"]);
                 gr.GlucoseString = Safe.String(Row["GlucoseString"]);
                 gr.IdDevice = Safe.String(Row["IdDevice"]);
                 gr.IdTypeOfGlucoseMeasurement =  Safe.String(Row["IdTypeOfGlucoseMeasurement"]);

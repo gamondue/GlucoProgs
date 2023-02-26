@@ -19,7 +19,7 @@ namespace GlucoMan
                 dbMRec.DateTimeFormatted = Safe.DateTime(inputContent[i][0].Substring(1, 10));
                 dbMRec.Timestamp = dbMRec.DateTimeFormatted;
                 dbMRec.Glucose = Safe.Double(inputContent[i][1]);
-                dbMRec.GlucoseValue = dbMRec.Glucose; 
+                dbMRec.GlucoseValue.Double = Safe.Double(dbMRec.Glucose); 
                 dbMRec.Carbs = Safe.Double(inputContent[i][2]);
                 dbMRec.CarbohydratesValue_g = dbMRec.Carbs;
                 dbMRec.Proteins = Safe.Double(inputContent[i][3]);

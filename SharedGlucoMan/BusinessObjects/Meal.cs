@@ -8,24 +8,15 @@ using static GlucoMan.Common;
 namespace GlucoMan
 {
     public class Meal
-    {
-        List<Food> foodsEaten;
-
-        private DoubleAndText carbohydrates;
-
-        DateTimeAndText timeBegin;
-        DateTimeAndText timeEnd;
-
-        TypeOfMeal typeOfMeal;
-        
+    {      
         [DisplayName("Meal Code")]
         public int? IdMeal { get; set; }
         [DisplayName("Type of meal")]
-        public TypeOfMeal IdTypeOfMeal { get => typeOfMeal; set => typeOfMeal = value; }
+        public TypeOfMeal IdTypeOfMeal { get; set; }
         [DisplayName("CHO of meal")]
-        public DoubleAndText Carbohydrates { get => carbohydrates; set => carbohydrates = value; }
+        public DoubleAndText Carbohydrates { get; set; }
         [DisplayName("Start time")]
-        public DateTimeAndText TimeBegin { get => timeBegin; set => timeBegin = value; }
+        public DateTimeAndText TimeBegin { get; set ; }
         public string Notes { get; set; }
         [DisplayName("Accuracy of CHO")]
         public DoubleAndText AccuracyOfChoEstimate { get; set; }
@@ -33,8 +24,8 @@ namespace GlucoMan
         public int? IdGlucoseRecord { get; set; }
         public int? IdInsulinInjection { get; internal set; }
         [DisplayName("End time")]
-        public DateTimeAndText TimeEnd { get => timeEnd; set => timeEnd = value; }
-        public List<Food> FoodsEaten { get => foodsEaten; set => foodsEaten = value; }
+        public DateTimeAndText TimeEnd { get; set; }
+        public List<Food> FoodsEaten { get; set; }
         public Meal()
         {
             // default type of meal is NotSet

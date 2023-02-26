@@ -42,6 +42,7 @@
             this.btnRemoveMeasurement = new System.Windows.Forms.Button();
             this.gridMeasurements = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
+            this.txtNotes = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridMeasurements)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,7 +68,7 @@
             // 
             this.txtGlucose.BackColor = System.Drawing.Color.PaleGreen;
             this.txtGlucose.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtGlucose.Location = new System.Drawing.Point(12, 36);
+            this.txtGlucose.Location = new System.Drawing.Point(9, 36);
             this.txtGlucose.Name = "txtGlucose";
             this.txtGlucose.Size = new System.Drawing.Size(71, 46);
             this.txtGlucose.TabIndex = 2;
@@ -160,13 +161,16 @@
             // 
             // gridMeasurements
             // 
+            this.gridMeasurements.AllowUserToAddRows = false;
+            this.gridMeasurements.AllowUserToDeleteRows = false;
             this.gridMeasurements.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridMeasurements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridMeasurements.Location = new System.Drawing.Point(12, 93);
+            this.gridMeasurements.Location = new System.Drawing.Point(9, 129);
             this.gridMeasurements.Name = "gridMeasurements";
-            this.gridMeasurements.Size = new System.Drawing.Size(840, 525);
+            this.gridMeasurements.ReadOnly = true;
+            this.gridMeasurements.Size = new System.Drawing.Size(840, 490);
             this.gridMeasurements.TabIndex = 12;
             this.gridMeasurements.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeasurements_CellContentClick);
             this.gridMeasurements.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridMeasurements_RowEnter);
@@ -181,11 +185,19 @@
             this.button1.Text = "Meal";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // txtNotes
+            // 
+            this.txtNotes.Location = new System.Drawing.Point(9, 94);
+            this.txtNotes.Name = "txtNotes";
+            this.txtNotes.Size = new System.Drawing.Size(840, 29);
+            this.txtNotes.TabIndex = 128;
+            // 
             // frmGlucose
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(926, 630);
+            this.Controls.Add(this.txtNotes);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.gridMeasurements);
             this.Controls.Add(this.btnRemoveMeasurement);
@@ -226,5 +238,6 @@
         private Button btnRemoveMeasurement;
         private DataGridView gridMeasurements;
         private Button button1;
+        private TextBox txtNotes;
     }
 }

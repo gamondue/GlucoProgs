@@ -60,11 +60,11 @@ namespace GlucoMan
                 switch (grec.TypeOfDocument)
                 {
                     case 0: // SensorIntermediateValue
-                        grec.GlucoseValue = grec.GlucoseHistoricValue;
+                        grec.GlucoseValue.Double = grec.GlucoseHistoricValue;
                         grec.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.SensorIntermediateValue;
                         break;
                     case 1: // SensorScanValue
-                        grec.GlucoseValue = grec.GlucoseScanValue;
+                        grec.GlucoseValue.Double = grec.GlucoseScanValue;
                         grec.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.SensorScanValue;
                         break;
                     case 4: // insulin, rapid or extended effect 

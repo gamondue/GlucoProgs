@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInjections));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabData = new System.Windows.Forms.TabPage();
+            this.rdbSlowInsulin = new System.Windows.Forms.RadioButton();
+            this.rdbFastInsulin = new System.Windows.Forms.RadioButton();
             this.txtNotes = new System.Windows.Forms.TextBox();
             this.btnRemoveMeasurement = new System.Windows.Forms.Button();
             this.btnAddMeasurement = new System.Windows.Forms.Button();
@@ -51,8 +53,6 @@
             this.tabFront = new System.Windows.Forms.TabPage();
             this.tabBack = new System.Windows.Forms.TabPage();
             this.tabSensor = new System.Windows.Forms.TabPage();
-            this.rdbFastInsulin = new System.Windows.Forms.RadioButton();
-            this.rdbSlowInsulin = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.tabData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridInjections)).BeginInit();
@@ -101,6 +101,28 @@
             this.tabData.Text = "Data";
             this.tabData.UseVisualStyleBackColor = true;
             // 
+            // rdbSlowInsulin
+            // 
+            this.rdbSlowInsulin.AutoSize = true;
+            this.rdbSlowInsulin.Location = new System.Drawing.Point(358, 111);
+            this.rdbSlowInsulin.Name = "rdbSlowInsulin";
+            this.rdbSlowInsulin.Size = new System.Drawing.Size(112, 25);
+            this.rdbSlowInsulin.TabIndex = 129;
+            this.rdbSlowInsulin.TabStop = true;
+            this.rdbSlowInsulin.Text = "Slow insulin";
+            this.rdbSlowInsulin.UseVisualStyleBackColor = true;
+            // 
+            // rdbFastInsulin
+            // 
+            this.rdbFastInsulin.AutoSize = true;
+            this.rdbFastInsulin.Location = new System.Drawing.Point(216, 111);
+            this.rdbFastInsulin.Name = "rdbFastInsulin";
+            this.rdbFastInsulin.Size = new System.Drawing.Size(105, 25);
+            this.rdbFastInsulin.TabIndex = 128;
+            this.rdbFastInsulin.TabStop = true;
+            this.rdbFastInsulin.Text = "Fast insulin";
+            this.rdbFastInsulin.UseVisualStyleBackColor = true;
+            // 
             // txtNotes
             // 
             this.txtNotes.Location = new System.Drawing.Point(3, 142);
@@ -112,7 +134,7 @@
             // 
             this.btnRemoveMeasurement.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemoveMeasurement.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnRemoveMeasurement.Location = new System.Drawing.Point(678, 177);
+            this.btnRemoveMeasurement.Location = new System.Drawing.Point(678, 204);
             this.btnRemoveMeasurement.Name = "btnRemoveMeasurement";
             this.btnRemoveMeasurement.Size = new System.Drawing.Size(56, 56);
             this.btnRemoveMeasurement.TabIndex = 126;
@@ -124,7 +146,7 @@
             // 
             this.btnAddMeasurement.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddMeasurement.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAddMeasurement.Location = new System.Drawing.Point(678, 110);
+            this.btnAddMeasurement.Location = new System.Drawing.Point(678, 142);
             this.btnAddMeasurement.Name = "btnAddMeasurement";
             this.btnAddMeasurement.Size = new System.Drawing.Size(56, 56);
             this.btnAddMeasurement.TabIndex = 125;
@@ -271,12 +293,15 @@
             // 
             // gridInjections
             // 
+            this.gridInjections.AllowUserToAddRows = false;
+            this.gridInjections.AllowUserToDeleteRows = false;
             this.gridInjections.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridInjections.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridInjections.Location = new System.Drawing.Point(3, 177);
             this.gridInjections.Name = "gridInjections";
+            this.gridInjections.ReadOnly = true;
             this.gridInjections.RowTemplate.Height = 25;
             this.gridInjections.Size = new System.Drawing.Size(669, 430);
             this.gridInjections.TabIndex = 0;
@@ -312,28 +337,6 @@
             this.tabSensor.TabIndex = 2;
             this.tabSensor.Text = "Sensor";
             this.tabSensor.UseVisualStyleBackColor = true;
-            // 
-            // rdbFastInsulin
-            // 
-            this.rdbFastInsulin.AutoSize = true;
-            this.rdbFastInsulin.Location = new System.Drawing.Point(216, 111);
-            this.rdbFastInsulin.Name = "rdbFastInsulin";
-            this.rdbFastInsulin.Size = new System.Drawing.Size(105, 25);
-            this.rdbFastInsulin.TabIndex = 128;
-            this.rdbFastInsulin.TabStop = true;
-            this.rdbFastInsulin.Text = "Fast insulin";
-            this.rdbFastInsulin.UseVisualStyleBackColor = true;
-            // 
-            // rdbSlowInsulin
-            // 
-            this.rdbSlowInsulin.AutoSize = true;
-            this.rdbSlowInsulin.Location = new System.Drawing.Point(358, 111);
-            this.rdbSlowInsulin.Name = "rdbSlowInsulin";
-            this.rdbSlowInsulin.Size = new System.Drawing.Size(112, 25);
-            this.rdbSlowInsulin.TabIndex = 129;
-            this.rdbSlowInsulin.TabStop = true;
-            this.rdbSlowInsulin.Text = "Slow insulin";
-            this.rdbSlowInsulin.UseVisualStyleBackColor = true;
             // 
             // frmInjections
             // 

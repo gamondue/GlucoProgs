@@ -22,7 +22,6 @@ namespace GlucoMan.BusinessLayer
         public DoubleAndText TotalDailyDoseOfInsulin { get; set; }
         public DoubleAndText GlucoseBeforeMeal { get; set; }
         public DoubleAndText GlucoseToBeCorrected { get; set; }
-
         internal void SetTypeOfInsulinSpeedBasedOnTimeNow(InsulinInjection Injection)
         {
             TimeSpan timeOfDay = DateTime.Now.TimeOfDay;
