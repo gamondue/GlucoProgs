@@ -11,6 +11,18 @@ namespace GlucoMan.Maui
             InitializeComponent();
             lblAppName.Text += " " + Common.Version;
         }
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+
+            if (Microsoft.Maui.Devices.DeviceInfo.Idiom == DeviceIdiom.Desktop && width > height)
+            {
+                // Landscape orientation
+                // Add additional UI elements or adjust the layout here
+                //grdOuter .Children
+                //MyStackLayout.Children.Add(new Label() { Text = "Additional label" });
+            }
+        }
         private async void btnGlucoseMeasurement_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new GlucoseMeasurementsPage(null));

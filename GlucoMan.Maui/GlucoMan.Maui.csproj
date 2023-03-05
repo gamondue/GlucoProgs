@@ -28,6 +28,68 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Version>0.7.3.4</Version>
+		<PackageId>GlucoMan</PackageId>
+		<Title>GlucoMan, Glucose Management for diabetics</Title>
+		<Authors>Ing.Gabriele MONTI - Forlì - Italia</Authors>
+		<Company>ingmonti.it</Company>
+		<Product>GlucoMan</Product>
+		<Description>GlucoMan, Glucose Management for diabetics</Description>
+		<Copyright>Copyleft GPL v.2</Copyright>
+		<PackageProjectUrl>www.ingmonti.it/GlucoMan</PackageProjectUrl>
+		<PackageIcon>..</PackageIcon>
+		<NeutralLanguage>en</NeutralLanguage>
+		<AssemblyVersion>0.7.4</AssemblyVersion>
+		<FileVersion>0.7.4</FileVersion>
+		<PackageLicenseExpression>GPL-2.0-only</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -53,8 +115,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="..">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.4" />
 	</ItemGroup>
 
 	<ItemGroup>

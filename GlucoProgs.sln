@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiabetesRecords.Android", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiabetesRecords.iOS", "DiabetesRecords.iOS\DiabetesRecords.iOS.csproj", "{628CFF3B-6355-4CA5-91B1-1499DF64CDD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlucoMan.Maui", "GlucoMan.Maui\GlucoMan.Maui.csproj", "{33E9E6C0-4E47-49BE-BCD7-3CD9A1EC0BCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlucoMan.Maui", "GlucoMan.Maui\GlucoMan.Maui.csproj", "{33E9E6C0-4E47-49BE-BCD7-3CD9A1EC0BCE}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedMaui", "SharedMaui\SharedMaui.shproj", "{B7063C16-A09E-4622-9713-67A6CF26CFFD}"
 EndProject

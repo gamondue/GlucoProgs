@@ -6,8 +6,6 @@ namespace GlucoMan
 {
     public static partial class Common
     {
-        internal class CommonFunctionsMaui
-        {
-        }
+
     }
 }
