@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GlucoMan.Maui.InjectionsPage"
-            Title="Insulin injections">-->
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Maui.InjectionsPage"
             Title="Insulin injections">
-    <ContentPage.Content>
-        <!--Pages can be added as references or inline-->
-    <!--<ContentPage Title="Data">-->
+    <!--Pages can be added as references or inline-->
+    <ContentPage Title="Data">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -99,7 +94,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="18"/>
                                     </Grid.RowDefinitions>
-                                    <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Timestamp.DateTime}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding Timestamp.DateTime}"/>
                                     <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding InsulinValue.Text}"/>
                                 </Grid>
                             </ViewCell.View>
@@ -108,9 +103,8 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-    </ContentPage.Content>
-</ContentPage>
-    <!--<ContentPage Title="Front" />
+    </ContentPage>
+    <ContentPage Title="Front" />
     <ContentPage Title="Back" />
     <ContentPage Title="Sensor" />
-</TabbedPage>-->
+</TabbedPage>

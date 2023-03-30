@@ -12,31 +12,31 @@
                        TextColor="White" FontSize="30"/>
             </Frame>
             <Button x:Name="btnGlucoseMeasurement" Text="Glucose" Clicked="btnGlucoseMeasurement_Clicked"
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,5,15,5"></Button>
             <Button x:Name="btnMeals" Text="Meals" Clicked="btnMeals_Clicked" IsEnabled="True"
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,4,15,4"></Button>
             <Button x:Name="btnNewMeal" Text="New meal" Clicked="btnNewMeal_Clicked" IsEnabled="True"
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,4,15,4"></Button>
             <Button x:Name="btnFoods" Text="Foods" Clicked="btnFoods_Clicked" IsEnabled="True"
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,4,15,4"></Button>
             <Button x:Name="btnWeighFood" Text="Weigh Food" Clicked="btnWeighFood_Clicked" IsEnabled="False"
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,4,15,4"></Button>
             <Button x:Name="btnInsulinCalc" Text="Meal insulin" Clicked="btnInsulinCalc_Clicked"
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,4,15,4"></Button>
             <Button x:Name="btnInjections" Text="Injections" 
-                    Clicked="btnInjections_Clicked" IsEnabled="True" Margin="15,0,15,0"></Button>
+                    Clicked="btnInjections_Clicked" IsEnabled="True" Margin="15,4,15,4"></Button>
             <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to reach target carbs" 
                     Clicked="btnFoodToHitTargetCarbs_Clicked"
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,4,15,4"></Button>
             <Button x:Name="btnHypoPrediction" Text="Hypoglicemia time prediction" Clicked="btnHypoPrediction_Clicked"
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,4,15,4"></Button>
             <Button x:Name="btnAlarms" Text="Alarm" IsEnabled="False" Clicked="btnAlarms_Clicked" 
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,4,15,4"></Button>
             <Button x:Name="btnMiscellaneousFunctions" Text="Miscellaneous functions" 
                     Clicked="btnMiscellaneousFunctions_Clicked"
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,4,15,4"></Button>
             <Button x:Name="btnAbout" Text="About" Clicked="btnAbout_Clicked"
-                    Margin="15,0,15,0"></Button>
+                    Margin="15,4,15,4"></Button>
         </StackLayout>
     </Grid>
 </ContentPage>

@@ -8,13 +8,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+        <VerticalStackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
                 <ContentView Padding="0,20,0,20" VerticalOptions="FillAndExpand">
                     <Image Source="Current_Logo_Transparent.png" VerticalOptions="Center" HeightRequest="50" />
                 </ContentView>
             </StackLayout>
-        </StackLayout>
+        </VerticalStackLayout>
         <ScrollView Grid.Row="1">
             <StackLayout Orientation="Vertical" Padding="20,24,20,24" Spacing="10">
                 <Frame BackgroundColor="#2196F3" Padding="0" CornerRadius="0">

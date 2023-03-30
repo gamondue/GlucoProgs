@@ -3,7 +3,7 @@ using GlucoMan.BusinessLayer;
 
 namespace GlucoMan.Maui;
 
-public partial class InjectionsPage : ContentPage
+public partial class InjectionsPage : TabbedPage
 {
     BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
     InsulinInjection CurrentInjection = new InsulinInjection();

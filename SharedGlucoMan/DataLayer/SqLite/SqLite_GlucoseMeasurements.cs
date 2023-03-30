@@ -3,7 +3,6 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
-//using Xamarin.Forms;
 
 namespace GlucoMan
 {

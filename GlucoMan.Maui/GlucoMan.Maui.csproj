@@ -111,6 +111,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="InjectionsPage_BROKEN.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="InjectionsPage_BROKEN.xaml" />
 	  <MauiXaml Remove="MainPage_INIZIALE.xaml" />
 	</ItemGroup>
 

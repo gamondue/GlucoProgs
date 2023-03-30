@@ -4,31 +4,15 @@
              x:Class="GlucoMan.Maui.FoodToHitTargetCarbsPage"
              Title="Calculation of food to reach CHO">
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="0"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="55"/>
-                <RowDefinition Height="55"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="70"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+        <Grid RowDefinitions="70,10,40,55,55,70,70,40,70"
+              ColumnDefinitions="*,*,*">
             <Button Grid.Row="0" Grid.Column="1" x:Name="btnCalculateGrams" Text="Calc Food" 
-                   IsEnabled="True" Margin="10,0,10,0" Clicked="btnCalculateGrams_Click" />
+                   IsEnabled="True" Margin="10,4,10,4" Clicked="btnCalculateGrams_Click" />
            
             <Label Grid.Row="2" Grid.Column="0" Text="Target CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="3" Grid.Column="0" x:Name="TxtTargetCho" Text="" Unfocused="TxtTargetCho_Leave"
                    Keyboard="Numeric" Margin="25,0,25,0" Placeholder="[g]" HorizontalTextAlignment ="End" 
                    BackgroundColor="PaleGoldenrod" />
-
 
             <Label Grid.Row="2" Grid.Column="1" Text="CHO already taken [g]" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End" />            
