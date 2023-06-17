@@ -145,8 +145,7 @@ namespace GlucoMan
             }
             return g;
         }
-        internal override List<InsulinInjection> GetInjections(DateTime InitialInstant, 
-            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed)
+        internal override List<InsulinInjection> GetInjections(DateTime InitialInstant, DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed)
         {
             List<InsulinInjection> list = new List<InsulinInjection>();
             try
@@ -157,10 +156,10 @@ namespace GlucoMan
                 {
                     string query = "SELECT *" +
                         " FROM InsulinInjections";
-                    if (InitialInstant != null && FinalInstant != null)
+                    if (FinalInstant != null)
                     {   // add WHERE clause
-                        query += " WHERE Timestamp BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd") +
-                            "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd 23:59:29") + "'";
+                        query += " WHERE Timestamp BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd HH:mm:ss") +
+                            "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd HH:mm:ss") + "'";
                         if (TypeOfInsulinSpeed != Common.TypeOfInsulinSpeed.NotSet)
                         {
                             query += " AND IdTypeOfInsulinSpeed =" + (int)TypeOfInsulinSpeed;

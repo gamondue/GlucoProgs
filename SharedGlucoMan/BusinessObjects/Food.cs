@@ -26,6 +26,7 @@ namespace GlucoMan
         public Food()
         {
             Energy = new DoubleAndText();      // [kcal]  
+
             TotalFats = new DoubleAndText();     // [g]
             SaturatedFats = new DoubleAndText(); // [g]
             Fibers = new DoubleAndText();        // [g]
