@@ -19,7 +19,7 @@
                     Margin="15,4,15,4"></Button>
             <Button x:Name="btnFoods" Text="Foods" Clicked="btnFoods_Clicked" IsEnabled="True"
                     Margin="15,4,15,4"></Button>
-            <Button x:Name="btnWeighFood" Text="Weigh Food" Clicked="btnWeighFood_Clicked" IsEnabled="False"
+            <Button x:Name="btnWeighFood" Text="Weigh Food" Clicked="btnWeighFood_Clicked" IsEnabled="True"
                     Margin="15,4,15,4"></Button>
             <Button x:Name="btnInsulinCalc" Text="Meal insulin" Clicked="btnInsulinCalc_Clicked"
                     Margin="15,4,15,4"></Button>

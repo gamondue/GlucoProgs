@@ -20,9 +20,15 @@ public partial class MealPage : ContentPage
     InjectionsPage injectionsPage;
     GlucoseMeasurementsPage measurementPage;
 
+    private Color defaultButtonBackground;
+    private Color defaultButtonText;
+
     public MealPage(Meal Meal)
     {
         InitializeComponent();
+
+        defaultButtonBackground = btnStartMeal.BackgroundColor;
+        defaultButtonText = btnStartMeal.TextColor;
 
         loading = true;
         if (Meal == null)
@@ -31,6 +37,12 @@ public partial class MealPage : ContentPage
             btnDefaults_Click(null, null);
         }
         bl.Meal = Meal;
+
+        if (bl.Meal.IdMeal == null || (bl.Meal.TimeBegin.DateTime + new TimeSpan(0, 15, 0)  > DateTime.Now))
+        {
+            btnStartMeal.BackgroundColor = Colors.Red;
+            btnStartMeal.TextColor = Colors.Yellow;
+        }
 
         cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
         cmbAccuracyFoodInMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
@@ -268,9 +280,12 @@ public partial class MealPage : ContentPage
     {
         FromUiToClasses();
         bl.SaveOneMeal(bl.Meal, true); // saves with time now 
+        btnStartMeal.BackgroundColor = defaultButtonBackground;
+        btnStartMeal.TextColor = defaultButtonText;
         RefreshUi();
     }
     bool firstPass = true;
+
     private async void gridFoodsInMeal_CellClick(object sender, SelectedItemChangedEventArgs e)
     {
         if (e.SelectedItem == null)
