@@ -27,15 +27,15 @@
                 Grid.ColumnSpan="4" Text="Food's information" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Label Grid.Row="1" Grid.Column="0" Text="Id food" 
+            <Label Grid.Row="1" Grid.Column="2" Text="Id food" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"  Text="Name of food" 
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of food" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtIdFood" BackgroundColor="White" 
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtIdFood" BackgroundColor="White" 
                     FontSize="Medium" HorizontalTextAlignment="Center" 
                     IsReadOnly="true"/>
-            <Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
+            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
                     x:Name="txtName" BackgroundColor="LightGreen" 
                     Keyboard="Text" TextChanged="txtName_TextChanged"
                     FontSize="Medium" HorizontalTextAlignment="Center" 

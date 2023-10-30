@@ -22,13 +22,13 @@
                    Clicked="btnBolusCalculations_Click" />
 
             <!-- <Label Grid.Row="3" Grid.Column="0" Text="TDD" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
-            <Label Grid.Row="3" Grid.Column="0" Text="Sensitivity to insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="3" Grid.Column="0" Text="Sensitivity to insulin [mg/dl]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="3" Grid.Column="2" Text="Embarked insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <!-- <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="-_-_" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> -->
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" Margin="2,2,2,2" 
                    Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod" />
-            <Button Grid.Row="4" Grid.Column="1" x:Name="btnSetParameters" Text="Set param." Margin="2,2,2,2" 
+            <Button Grid.Row="4" Grid.Column="1" x:Name="btnSetParameters" Text="Set par." Margin="2,2,2,2" 
                     Clicked="btnSetParameters_Click"/>
             <Label Grid.Row="4" Grid.Column="2" x:Name="txtEmbarkedInsulin" Text="----" Margin="2,2,2,2" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Medium" />

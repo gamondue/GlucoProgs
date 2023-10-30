@@ -79,9 +79,9 @@ namespace GlucoMan.Mobile
         }
         private void FromUiToFood(FoodInMeal FoodInMeal)
         {
-            FoodInMeal.IdMeal = Safe.Int(txtIdMeal.Text);
-            FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
-            FoodInMeal.IdFood = Safe.Int(txtIdFood.Text);
+            FoodInMeal.IdMeal = SqlSafe.Int(txtIdMeal.Text);
+            FoodInMeal.IdFoodInMeal = SqlSafe.Int(txtIdFoodInMeal.Text);
+            FoodInMeal.IdFood = SqlSafe.Int(txtIdFood.Text);
             FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text; // [g]
             FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text;
             FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
@@ -90,7 +90,7 @@ namespace GlucoMan.Mobile
         }
         private void FromUiToMeal(Meal Meal)
         {
-            Meal.IdMeal = Safe.Int(txtIdMeal.Text);
+            Meal.IdMeal = SqlSafe.Int(txtIdMeal.Text);
             Meal.Carbohydrates.Text = txtChoOfMealGrams.Text;
             Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
             Meal.Notes = txtNotes.Text;

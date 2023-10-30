@@ -8,7 +8,7 @@ using System.IO;
 
 namespace GlucoMan
 {
-    internal  partial class DL_Sqlite : DataLayer
+    internal partial class DL_Sqlite : DataLayer
     {
         /// <summary>
         /// Data Access Layer: abstracts the access to dbms using to transfer data 
@@ -34,7 +34,7 @@ namespace GlucoMan
         /// Constructor of DataLayer class that get from outside the databases to use
         /// Assumes that the file exists.
         /// </summary>
-        internal  DL_Sqlite(string PathAndFile)
+        internal DL_Sqlite(string PathAndFile)
         {
             // ???? is next if useful ????
             if (!System.IO.File.Exists(PathAndFile))
@@ -47,13 +47,13 @@ namespace GlucoMan
         }
         #endregion
         #region properties
-        internal  string NameAndPathDatabase
+        internal string NameAndPathDatabase
         {
             get { return dbName; }
             //set { nomeEPathDatabase = value; }
         }
         #endregion
-        internal  SqliteConnection Connect()
+        internal SqliteConnection Connect()
         {
             SqliteConnection connection;
 
@@ -81,7 +81,7 @@ namespace GlucoMan
             }
             return -1;
         }
-        internal  void CompactDatabase()
+        internal void CompactDatabase()
         {
             using (DbConnection conn = Connect())
             {
@@ -93,7 +93,7 @@ namespace GlucoMan
             }
             //Application.Exit();
         }
-        internal  int GetNextTablePrimaryKey(string Table, string KeyName)
+        internal int GetNextTablePrimaryKey(string Table, string KeyName)
         {
             int nextId;
             using (DbConnection conn = Connect())
@@ -113,14 +113,14 @@ namespace GlucoMan
             }
             return nextId;
         }
-        internal  bool CheckKeyExistence
+        internal bool CheckKeyExistence
             (string TableName, string KeyName, string KeyValue)
         {
             using (DbConnection conn = Connect())
             {
                 DbCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT " + KeyName + " FROM " + TableName +
-                    " WHERE " + KeyName + "=" + SqliteHelper.String(KeyValue) +
+                    " WHERE " + KeyName + "=" + SqliteSafe.String(KeyValue) +
                     ";";
                 var keyResult = cmd.ExecuteScalar();
                 cmd.Dispose();
@@ -157,7 +157,7 @@ namespace GlucoMan
             }
             return fieldExists;
         }
-        internal  void BackupAllDataToTsv()
+        internal void BackupAllDataToTsv()
         {
             BackupTableTsv("Students");
             BackupTableTsv("StudentsPhotos");
@@ -165,7 +165,7 @@ namespace GlucoMan
             BackupTableTsv("Classes_Students");
             BackupTableTsv("Grades");
         }
-        internal  void BackupAllDataToXml()
+        internal void BackupAllDataToXml()
         {
             BackupTableXml("Students");
             BackupTableXml("StudentsPhotos");
@@ -173,7 +173,7 @@ namespace GlucoMan
             BackupTableXml("Classes_Students");
             BackupTableXml("Grades");
         }
-        internal  void RestoreAllDataFromTsv(bool MustErase)
+        internal void RestoreAllDataFromTsv(bool MustErase)
         {
             RestoreTableTsv("Students", MustErase);
             RestoreTableTsv("StudentsPhotos", MustErase);
@@ -181,7 +181,7 @@ namespace GlucoMan
             RestoreTableTsv("Classes_Students", MustErase);
             RestoreTableTsv("Grades", MustErase);
         }
-        internal  void RestoreAllDataFromXml(bool MustErase)
+        internal void RestoreAllDataFromXml(bool MustErase)
         {
             RestoreTableXml("Students", MustErase);
             RestoreTableXml("StudentsPhotos", MustErase);
@@ -189,7 +189,7 @@ namespace GlucoMan
             RestoreTableXml("Classes_Students", MustErase);
             RestoreTableXml("Grades", MustErase);
         }
-        internal  void BackupTableTsv(string TableName)
+        internal void BackupTableTsv(string TableName)
         {
             DbDataReader dRead;
             DbCommand cmd;
@@ -212,7 +212,7 @@ namespace GlucoMan
                         for (int i = 0; i < dRead.FieldCount; i++)
                         {
                             fileContent += "\"" + dRead.GetName(i) + "\"\t";
-                            types += "\"" + Safe.String(dRead.GetDataTypeName(i)) + "\"\t";
+                            types += "\"" + SqlSafe.String(dRead.GetDataTypeName(i)) + "\"\t";
                         }
                         fileContent = fileContent.Substring(0, fileContent.Length - 1) + "\r\n";
                         fileContent += types.Substring(0, types.Length - 1) + "\r\n";
@@ -224,7 +224,7 @@ namespace GlucoMan
                         Console.Write(dRead.GetValue(0));
                         for (int i = 0; i < dRead.FieldCount; i++)
                         {
-                            values += "\"" + Safe.String(dRead.GetValue(i).ToString()) + "\"\t";
+                            values += "\"" + SqlSafe.String(dRead.GetValue(i).ToString()) + "\"\t";
                         }
                         fileContent += values.Substring(0, values.Length - 1) + "\r\n";
                     }
@@ -239,7 +239,7 @@ namespace GlucoMan
                 cmd.Dispose();
             }
         }
-        internal  void BackupTableXml(string TableName)
+        internal void BackupTableXml(string TableName)
         {
             DataAdapter dAdapt;
             DataSet dSet = new DataSet();
@@ -263,7 +263,7 @@ namespace GlucoMan
                 //dSet.Dispose();
             }
         }
-        internal  void RestoreTableTsv(string TableName, bool EraseBefore)
+        internal void RestoreTableTsv(string TableName, bool EraseBefore)
         {
             List<string> fieldNames;
             List<string> fieldTypes = new List<string>();
@@ -360,15 +360,15 @@ namespace GlucoMan
                 //        if (fieldNames[col] != "")
                 //        {
                 //            if (fieldTypes[col].IndexOf("VARCHAR") >= 0)
-                //                valuesString += "" + SqliteHelper.String(dati[row, col]) + ",";
+                //                valuesString += "" + SqliteSafe.String(dati[row, col]) + ",";
                 //            else if (fieldTypes[col].IndexOf("INT") >= 0)
-                //                valuesString +=  SqliteHelper.Int(dati[row, col]) + ",";
+                //                valuesString +=  SqliteSafe.Int(dati[row, col]) + ",";
                 //            else if (fieldTypes[col].IndexOf("REAL") >= 0)
                 //                valuesString += SqlFloat(dati[row, col]) + ",";
                 //            else if (fieldTypes[col].IndexOf("FLOAT") >= 0)
                 //                valuesString += SqlFloat(dati[row, col]) + ",";
                 //            else if (fieldTypes[col].IndexOf("DATE") >= 0)
-                //                valuesString += SqliteHelper.Date((dati[row, col]) + ",";
+                //                valuesString += SqliteSafe.Date((dati[row, col]) + ",";
                 //        }
                 //    }
                 //    valuesString = valuesString.Substring(0, valuesString.Length - 1);
@@ -387,7 +387,7 @@ namespace GlucoMan
                 //cmd.Dispose();
             }
         }
-        internal  void RestoreTableXml(string TableName, bool EraseBefore)
+        internal void RestoreTableXml(string TableName, bool EraseBefore)
         {
             DataSet dSet = new DataSet();
             DataTable t = null;
@@ -424,12 +424,12 @@ namespace GlucoMan
                             case TypeCode.String:
                             case TypeCode.Char:
                                 {
-                                    cmd.CommandText += "" + SqliteHelper.String(row[c.ColumnName].ToString()) + ",";
+                                    cmd.CommandText += "" + SqliteSafe.String(row[c.ColumnName].ToString()) + ",";
                                     break;
                                 };
                             case TypeCode.DateTime:
                                 {
-                                    DateTime? d = Safe.DateTime(row[c.ColumnName]);
+                                    DateTime? d = SqlSafe.DateTime(row[c.ColumnName]);
                                     cmd.CommandText += "'" +
                                         ((DateTime)(d)).ToString("yyyy-MM-dd_HH.mm.ss") + "',";
                                     break;
@@ -455,7 +455,7 @@ namespace GlucoMan
                 cmd.Dispose();
             }
         }
-        internal  override bool DeleteDatabase()
+        internal override bool DeleteDatabase()
         {
             try
             {
@@ -468,7 +468,7 @@ namespace GlucoMan
                 return false;
             }
         }
-        internal  override long? SaveParameter(string FieldName, string FieldValue, int? Key = null)
+        internal override long? SaveParameter(string FieldName, string FieldValue, int? Key = null)
         {
             long? idOfRecord = null;
             try
@@ -493,7 +493,7 @@ namespace GlucoMan
                             query += ")VALUES(1,";
                             if (double.TryParse(FieldValue, out dummy))
                             {
-                                query += SqliteHelper.Double(dummy);
+                                query += SqliteSafe.Double(dummy);
                             }
                             else
                             {
@@ -514,13 +514,13 @@ namespace GlucoMan
                                 query = "UPDATE Parameters SET ";
                                 if (double.TryParse(FieldValue, out dummy))
                                 {
-                                    query += FieldName + "=" + SqliteHelper.Double(dummy);
+                                    query += FieldName + "=" + SqliteSafe.Double(dummy);
                                 }
                                 else
                                 {
                                     query += FieldName + "='" + FieldValue + "'";
                                 }
-                                idOfRecord = maxKey; 
+                                idOfRecord = maxKey;
                             }
                             else
                             {   // user provided a key, if the key already has a row we must use that 
@@ -533,7 +533,7 @@ namespace GlucoMan
                                     query = "UPDATE Parameters SET ";
                                     if (double.TryParse(FieldValue, out dummy))
                                     {
-                                        query += FieldName + "=" + SqliteHelper.Double(dummy);
+                                        query += FieldName + "=" + SqliteSafe.Double(dummy);
                                     }
                                     else
                                     {
@@ -541,17 +541,17 @@ namespace GlucoMan
                                     }
                                     whereClause = " WHERE IdParameters=" + Key;
 
-                                    idOfRecord = Key; 
+                                    idOfRecord = Key;
                                 }
                                 else
                                 {
                                     // making a new row with increased key
                                     query = "INSERT INTO Parameters (IdParameters,";
                                     query += FieldName;
-                                    query += ")VALUES(1,"; 
+                                    query += ")VALUES(1,";
                                     if (double.TryParse(FieldValue, out dummy))
                                     {
-                                        query += SqliteHelper.Double(dummy);
+                                        query += SqliteSafe.Double(dummy);
                                     }
                                     else
                                     {
@@ -578,7 +578,7 @@ namespace GlucoMan
                 return null;
             }
         }
-        internal  override string RestoreParameter(string FieldName, int? Key = null)
+        internal override string RestoreParameter(string FieldName, int? Key = null)
         {
             try
             {
@@ -595,7 +595,7 @@ namespace GlucoMan
                     {
                         // no key between parameter: we use the highest key
                         cmd.CommandText = "SELECT MAX(IdParameters) FROM Parameters;";
-                        int? maxKey = Safe.Int(cmd.ExecuteScalar());
+                        int? maxKey = SqlSafe.Int(cmd.ExecuteScalar());
                         //int? maxKey = NextKey("Parameters", "IdParameters");
                         whereClause = " WHERE IdParameters=" + maxKey;
                     }
@@ -606,7 +606,7 @@ namespace GlucoMan
                     }
                     query += whereClause + ";";
                     cmd.CommandText = query;
-                    string result = Safe.String(cmd.ExecuteScalar());
+                    string result = SqlSafe.String(cmd.ExecuteScalar());
                     cmd.Dispose();
                     return result;
                 }

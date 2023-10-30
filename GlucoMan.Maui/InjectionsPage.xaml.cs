@@ -48,7 +48,7 @@ public partial class InjectionsPage : ContentPage
     }
     private void FromUiToClass()
     {
-        CurrentInjection.IdInsulinInjection = Safe.Int(txtIdInjection.Text);
+        CurrentInjection.IdInsulinInjection = SqlSafe.Int(txtIdInjection.Text);
         CurrentInjection.InsulinValue.Text = txtInsulinActual.Text;
         CurrentInjection.InsulinCalculated.Text = txtInsulinCalculated.Text;
         DateTime instant = new DateTime(

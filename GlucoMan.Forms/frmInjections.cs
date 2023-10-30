@@ -39,7 +39,7 @@ namespace GlucoMan.Forms
         }
         private void FromUiToClass()
         {
-            CurrentInjection.IdInsulinInjection = Safe.Int(txtIdInsulinInjection.Text); 
+            CurrentInjection.IdInsulinInjection = SqlSafe.Int(txtIdInsulinInjection.Text); 
             CurrentInjection.InsulinValue.Text = txtInsulinActual.Text;
             CurrentInjection.InsulinCalculated.Text = txtInsulinCalculated.Text;
             DateTime instant = new DateTime(

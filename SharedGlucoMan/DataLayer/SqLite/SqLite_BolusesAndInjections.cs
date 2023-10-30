@@ -3,7 +3,6 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Data.SqlTypes;
 
 namespace GlucoMan
 {
@@ -39,16 +38,16 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE InsulinInjections SET " +
-                    "Timestamp=" + SqliteHelper.Date(Injection.Timestamp.DateTime) + "," +
-                    "InsulinValue=" + SqliteHelper.Double(Injection.InsulinValue.Text) + "," +
-                    "InsulinCalculated=" + SqliteHelper.Double(Injection.InsulinCalculated.Text) + "," +
-                    "InjectionPositionX=" + SqliteHelper.Int(Injection.InjectionPositionX.Int) + "," +
-                    "InjectionPositionY=" + SqliteHelper.Int(Injection.InjectionPositionY.Int) + "," +
-                    "Notes=" + SqliteHelper.String(Injection.Notes) + "," +
-                    "IdTypeOfInsulinSpeed=" + SqliteHelper.Int(Injection.IdTypeOfInsulinSpeed) + "," +
-                    "IdTypeOfInsulinInjection=" + SqliteHelper.Int(Injection.IdTypeOfInsulinInjection) + "," +
-                    "InsulinString=" + SqliteHelper.String(Injection.InsulinString) + "" +
-                    " WHERE IdInsulinInjection=" + SqliteHelper.Int(Injection.IdInsulinInjection) +
+                    "Timestamp=" + SqliteSafe.Date(Injection.Timestamp.DateTime) + "," +
+                    "InsulinValue=" + SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
+                    "InsulinCalculated=" + SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
+                    "InjectionPositionX=" + SqliteSafe.Int(Injection.InjectionPositionX.Int) + "," +
+                    "InjectionPositionY=" + SqliteSafe.Int(Injection.InjectionPositionY.Int) + "," +
+                    "Notes=" + SqliteSafe.String(Injection.Notes) + "," +
+                    "IdTypeOfInsulinSpeed=" + SqliteSafe.Int(Injection.IdTypeOfInsulinSpeed) + "," +
+                    "IdTypeOfInsulinInjection=" + SqliteSafe.Int(Injection.IdTypeOfInsulinInjection) + "," +
+                    "InsulinString=" + SqliteSafe.String(Injection.InsulinString) + "" +
+                    " WHERE IdInsulinInjection=" + SqliteSafe.Int(Injection.IdInsulinInjection) +
                     ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -75,16 +74,16 @@ namespace GlucoMan
                     "InjectionPositionX,InjectionPositionY,Notes," +
                     "IdTypeOfInsulinSpeed,IdTypeOfInsulinInjection,InsulinString";
                     query += ")VALUES(" +
-                    SqliteHelper.Int(Injection.IdInsulinInjection) + "," +
-                    SqliteHelper.Date(Injection.Timestamp.DateTime) + "," +
-                    SqliteHelper.Double(Injection.InsulinValue.Text) + "," +
-                    SqliteHelper.Double(Injection.InsulinCalculated.Text) + "," +
-                    SqliteHelper.Int(Injection.InjectionPositionX.Int) + "," +
-                    SqliteHelper.Int(Injection.InjectionPositionY.Int) + "," +
-                    SqliteHelper.String(Injection.Notes) + "," +
-                    SqliteHelper.Int(Injection.IdTypeOfInsulinSpeed) + "," +
-                    SqliteHelper.Int(Injection.IdTypeOfInsulinInjection) + "," +
-                    SqliteHelper.String(Injection.InsulinString) + "";
+                    SqliteSafe.Int(Injection.IdInsulinInjection) + "," +
+                    SqliteSafe.Date(Injection.Timestamp.DateTime) + "," +
+                    SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
+                    SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
+                    SqliteSafe.Int(Injection.InjectionPositionX.Int) + "," +
+                    SqliteSafe.Int(Injection.InjectionPositionY.Int) + "," +
+                    SqliteSafe.String(Injection.Notes) + "," +
+                    SqliteSafe.Int(Injection.IdTypeOfInsulinSpeed) + "," +
+                    SqliteSafe.Int(Injection.IdTypeOfInsulinInjection) + "," +
+                    SqliteSafe.String(Injection.InsulinString) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -120,7 +119,7 @@ namespace GlucoMan
         }
         internal override InsulinInjection GetOneInjection(int? IdInjection)
         {
-            InsulinInjection g = null; 
+            InsulinInjection g = null;
             try
             {
                 DbDataReader dRead;
@@ -128,8 +127,8 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     string query = "SELECT *" +
-                        " FROM InsulinInjections" + 
-                        " WHERE IdInsulinInjection=" + SqliteHelper.Int(IdInjection); 
+                        " FROM InsulinInjections" +
+                        " WHERE IdInsulinInjection=" + SqliteSafe.Int(IdInjection);
                     query += ";";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
@@ -197,16 +196,16 @@ namespace GlucoMan
             GlucoseRecord gr = new GlucoseRecord();
             try
             {
-                ii.IdInsulinInjection = Safe.Int(Row["IdInsulinInjection"]);
-                ii.Timestamp.DateTime = Safe.DateTime(Row["Timestamp"]);
-                ii.InsulinValue.Double = Safe.Double(Row["InsulinValue"]);
-                ii.InsulinCalculated.Double = Safe.Double(Row["InsulinCalculated"]);
-                ii.InjectionPositionX.Int = Safe.Int(Row["InjectionPositionX"]);
-                ii.InjectionPositionY.Int = Safe.Int(Row["InjectionPositionY"]);
-                ii.Notes = Safe.String(Row["Notes"]);
-                ii.IdTypeOfInsulinSpeed = Safe.Int(Row["IdTypeOfInsulinSpeed"]);
-                ii.IdTypeOfInsulinInjection = Safe.Int(Row["IdTypeOfInsulinInjection"]);
-                ii.InsulinString = Safe.String(Row["InsulinString"]);
+                ii.IdInsulinInjection = SqlSafe.Int(Row["IdInsulinInjection"]);
+                ii.Timestamp.DateTime = SqlSafe.DateTime(Row["Timestamp"]);
+                ii.InsulinValue.Double = SqlSafe.Double(Row["InsulinValue"]);
+                ii.InsulinCalculated.Double = SqlSafe.Double(Row["InsulinCalculated"]);
+                ii.InjectionPositionX.Int = SqlSafe.Int(Row["InjectionPositionX"]);
+                ii.InjectionPositionY.Int = SqlSafe.Int(Row["InjectionPositionY"]);
+                ii.Notes = SqlSafe.String(Row["Notes"]);
+                ii.IdTypeOfInsulinSpeed = SqlSafe.Int(Row["IdTypeOfInsulinSpeed"]);
+                ii.IdTypeOfInsulinInjection = SqlSafe.Int(Row["IdTypeOfInsulinInjection"]);
+                ii.InsulinString = SqlSafe.String(Row["InsulinString"]);
             }
             catch (Exception ex)
             {
@@ -216,4 +215,3 @@ namespace GlucoMan
         }
     }
 }
- 

@@ -6,16 +6,16 @@ using System.Data.Common;
 
 namespace GlucoMan
 {
-    internal  partial class DL_Sqlite : DataLayer
+    internal partial class DL_Sqlite : DataLayer
     {
-        internal  override int GetNextPrimaryKey()
+        internal override int GetNextPrimaryKey()
         {
             return GetNextTablePrimaryKey("GlucoseRecords", "IdGlucoseRecord");
         }
-        internal  override List<GlucoseRecord> GetGlucoseRecords(
+        internal override List<GlucoseRecord> GetGlucoseRecords(
             DateTime? InitialInstant, DateTime? FinalInstant)
         {
-            List<GlucoseRecord> list = new List<GlucoseRecord>(); 
+            List<GlucoseRecord> list = new List<GlucoseRecord>();
             try
             {
                 DbDataReader dRead;
@@ -27,7 +27,7 @@ namespace GlucoMan
                     if (InitialInstant != null && FinalInstant != null)
                     {   // add WHERE clause
                         query += " WHERE Timestamp BETWEEN " + ((DateTime)InitialInstant).ToString("YYYY-MM-DD") +
-                            " AND " + ((DateTime)FinalInstant).ToString("YYYY-MM-DD"); 
+                            " AND " + ((DateTime)FinalInstant).ToString("YYYY-MM-DD");
                     }
                     query += " ORDER BY Timestamp DESC";
                     cmd = new SqliteCommand(query);
@@ -46,7 +46,7 @@ namespace GlucoMan
             {
                 Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
             }
-            return list; 
+            return list;
         }
         internal override GlucoseRecord GetOneGlucoseRecord(int? IdGlucoseRecord)
         {
@@ -59,7 +59,7 @@ namespace GlucoMan
                 {
                     string query = "SELECT *" +
                         " FROM GlucoseRecords";
-                    query += " WHERE idGlucoseRecord=" + IdGlucoseRecord; 
+                    query += " WHERE idGlucoseRecord=" + IdGlucoseRecord;
                     query += ";";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
@@ -78,7 +78,7 @@ namespace GlucoMan
             }
             return gr;
         }
-        internal  override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
+        internal override List<GlucoseRecord> GetLastTwoGlucoseMeasurements()
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>();
             try
@@ -113,16 +113,16 @@ namespace GlucoMan
             GlucoseRecord gr = new GlucoseRecord();
             try
             {
-                gr.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
-                gr.Timestamp = Safe.DateTime(Row["Timestamp"]);
-                gr.GlucoseValue.Double = Safe.Double(Row["GlucoseValue"]);
-                gr.GlucoseString = Safe.String(Row["GlucoseString"]);
-                gr.IdDevice = Safe.String(Row["IdDevice"]);
-                gr.IdTypeOfGlucoseMeasurement =  Safe.String(Row["IdTypeOfGlucoseMeasurement"]);
-                gr.IdTypeOfGlucoseMeasurementDevice = Safe.String(Row["IdTypeOfGlucoseMeasurementDevice"]);
-                gr.IdModelOfMeasurementSystem = Safe.String(Row["IdModelOfMeasurementSystem"]);
-                gr.IdDocumentType = Safe.Int(Row["IdDocumentType"]);
-                gr.Notes = Safe.String(Row["Notes"]);
+                gr.IdGlucoseRecord = SqlSafe.Int(Row["IdGlucoseRecord"]);
+                gr.Timestamp = SqlSafe.DateTime(Row["Timestamp"]);
+                gr.GlucoseValue.Double = SqlSafe.Double(Row["GlucoseValue"]);
+                gr.GlucoseString = SqlSafe.String(Row["GlucoseString"]);
+                gr.IdDevice = SqlSafe.String(Row["IdDevice"]);
+                gr.IdTypeOfGlucoseMeasurement = SqlSafe.String(Row["IdTypeOfGlucoseMeasurement"]);
+                gr.IdTypeOfGlucoseMeasurementDevice = SqlSafe.String(Row["IdTypeOfGlucoseMeasurementDevice"]);
+                gr.IdModelOfMeasurementSystem = SqlSafe.String(Row["IdModelOfMeasurementSystem"]);
+                gr.IdDocumentType = SqlSafe.Int(Row["IdDocumentType"]);
+                gr.Notes = SqlSafe.String(Row["Notes"]);
             }
             catch (Exception ex)
             {
@@ -130,7 +130,7 @@ namespace GlucoMan
             }
             return gr;
         }
-        internal  override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
+        internal override void SaveGlucoseMeasurements(List<GlucoseRecord> List)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
-        internal  override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
+        internal override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
         {
             try
             {
@@ -152,37 +152,38 @@ namespace GlucoMan
                 {
                     GlucoseMeasurement.IdGlucoseRecord = GetNextPrimaryKey();
                     // INSERT new record in the table
-                    InsertGlucoseMeasurement(GlucoseMeasurement);                         
+                    InsertGlucoseMeasurement(GlucoseMeasurement);
                 }
                 else
                 {   // GlucoseMeasurement.IdGlucoseRecord exists
-                    UpdateGlucoseMeasurement(GlucoseMeasurement); 
+                    UpdateGlucoseMeasurement(GlucoseMeasurement);
                 }
                 return GlucoseMeasurement.IdGlucoseRecord;
             }
             catch (Exception ex)
             {
                 Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
-                return null; 
+                return null;
             }
         }
         private long? UpdateGlucoseMeasurement(GlucoseRecord Measurement)
         {
-            try { 
+            try
+            {
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE GlucoseRecords SET " +
-                    "GlucoseValue=" + SqliteHelper.Double(Measurement.GlucoseValue) + "," +
-                    "Timestamp=" + SqliteHelper.Date(Measurement.Timestamp) + "," +
-                    "GlucoseString=" + SqliteHelper.String(Measurement.GlucoseString) + "," +
-                    "IdTypeOfGlucoseMeasurement=" + SqliteHelper.String(Measurement.IdTypeOfGlucoseMeasurement) + "," +
-                    "IdTypeOfGlucoseMeasurementDevice=" + SqliteHelper.String(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
-                    "IdModelOfMeasurementSystem=" + SqliteHelper.String(Measurement.IdModelOfMeasurementSystem) + "," +
-                    "IdDevice=" + SqliteHelper.String(Measurement.IdDevice) + "," +
-                    "IdDocumentType=" + SqliteHelper.Int(Measurement.IdDocumentType) + "," +
-                    "Notes=" + SqliteHelper.String(Measurement.Notes) + ""; 
-                    query += " WHERE IdGlucoseRecord=" + SqliteHelper.Int(Measurement.IdGlucoseRecord);
+                    "GlucoseValue=" + SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
+                    "Timestamp=" + SqliteSafe.Date(Measurement.Timestamp) + "," +
+                    "GlucoseString=" + SqliteSafe.String(Measurement.GlucoseString) + "," +
+                    "IdTypeOfGlucoseMeasurement=" + SqliteSafe.String(Measurement.IdTypeOfGlucoseMeasurement) + "," +
+                    "IdTypeOfGlucoseMeasurementDevice=" + SqliteSafe.String(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
+                    "IdModelOfMeasurementSystem=" + SqliteSafe.String(Measurement.IdModelOfMeasurementSystem) + "," +
+                    "IdDevice=" + SqliteSafe.String(Measurement.IdDevice) + "," +
+                    "IdDocumentType=" + SqliteSafe.Int(Measurement.IdDocumentType) + "," +
+                    "Notes=" + SqliteSafe.String(Measurement.Notes) + "";
+                    query += " WHERE IdGlucoseRecord=" + SqliteSafe.Int(Measurement.IdGlucoseRecord);
                     query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -209,16 +210,16 @@ namespace GlucoMan
                     "IdTypeOfGlucoseMeasurement,IdTypeOfGlucoseMeasurementDevice,IdModelOfMeasurementSystem," +
                     "IdDevice,IdDocumentType,Notes";
                     query += ")VALUES (" +
-                    SqliteHelper.Int(Measurement.IdGlucoseRecord) + "," +
-                    SqliteHelper.Double(Measurement.GlucoseValue) + "," +
-                    SqliteHelper.Date(Measurement.Timestamp) + "," +
-                    SqliteHelper.String(Measurement.GlucoseString) + "," +
-                    SqliteHelper.String(Measurement.IdTypeOfGlucoseMeasurement) + "," +
-                    SqliteHelper.String(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
-                    SqliteHelper.String(Measurement.IdModelOfMeasurementSystem) + "," +
-                    SqliteHelper.String(Measurement.IdDevice) + "," +
-                    SqliteHelper.Int(Measurement.IdDocumentType) + "," +
-                    SqliteHelper.String(Measurement.Notes) + ")";
+                    SqliteSafe.Int(Measurement.IdGlucoseRecord) + "," +
+                    SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
+                    SqliteSafe.Date(Measurement.Timestamp) + "," +
+                    SqliteSafe.String(Measurement.GlucoseString) + "," +
+                    SqliteSafe.String(Measurement.IdTypeOfGlucoseMeasurement) + "," +
+                    SqliteSafe.String(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
+                    SqliteSafe.String(Measurement.IdModelOfMeasurementSystem) + "," +
+                    SqliteSafe.String(Measurement.IdDevice) + "," +
+                    SqliteSafe.Int(Measurement.IdDocumentType) + "," +
+                    SqliteSafe.String(Measurement.Notes) + ")";
                     query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -240,7 +241,7 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "DELETE FROM GlucoseRecords" +
-                    " WHERE IdGlucoseRecord=" + gr.IdGlucoseRecord;  
+                    " WHERE IdGlucoseRecord=" + gr.IdGlucoseRecord;
                     query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();

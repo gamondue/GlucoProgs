@@ -1,7 +1,6 @@
 ﻿using gamon;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GlucoMan
 {
@@ -18,44 +17,44 @@ namespace GlucoMan
                 //int j = i - 2;
                 //listFreeStyle[j].IdDeviceType = inputContent[i][0];
                 //listFreeStyle[j].IdDevice = inputContent[i][1];
-                //listFreeStyle[j].Timestamp = Safe.DateTime(inputContent[i][2]);
-                //listFreeStyle[j].TypeOfDocument = Safe.Int(inputContent[i][3]);
-                //listFreeStyle[j].GlucoseHistoricValue = Safe.Double(inputContent[i][4]);
-                //listFreeStyle[j].GlucoseScanValue = Safe.Double(inputContent[i][5]);
+                //listFreeStyle[j].Timestamp = SqlSafe.DateTime(inputContent[i][2]);
+                //listFreeStyle[j].TypeOfDocument = SqlSafe.Int(inputContent[i][3]);
+                //listFreeStyle[j].GlucoseHistoricValue = SqlSafe.Double(inputContent[i][4]);
+                //listFreeStyle[j].GlucoseScanValue = SqlSafe.Double(inputContent[i][5]);
                 //listFreeStyle[j].InsulinRapidActionString = inputContent[i][6];
-                //listFreeStyle[j].InsulinRapidActionValue = Safe.Double(inputContent[i][7]);
+                //listFreeStyle[j].InsulinRapidActionValue = SqlSafe.Double(inputContent[i][7]);
                 //listFreeStyle[j].MealFoodString = inputContent[i][8];
-                //listFreeStyle[j].CarbohydratesValue_grams = Safe.Double(inputContent[i][9]);
+                //listFreeStyle[j].CarbohydratesValue_grams = SqlSafe.Double(inputContent[i][9]);
                 //listFreeStyle[j].CarbohydratesString = inputContent[i][10];
                 //listFreeStyle[j].InsulinSlowActionString = inputContent[i][11];
-                //listFreeStyle[j].InsulinSlowActionValue = Safe.Double(inputContent[i][12]);
+                //listFreeStyle[j].InsulinSlowActionValue = SqlSafe.Double(inputContent[i][12]);
                 //listFreeStyle[j].Notes = inputContent[i][13];
-                //listFreeStyle[j].GlucoseStripValue_mg_dL = Safe.Double(inputContent[i][14]);
-                //listFreeStyle[j].Chetons_mmol_L = Safe.Double(inputContent[i][15]);
-                //listFreeStyle[j].MealInsulin = Safe.Double(inputContent[i][16]);
-                //listFreeStyle[j].InsulinCorrection = Safe.Double(inputContent[i][17]);
-                //listFreeStyle[j].InsulinWithUsersModifications = Safe.Double(inputContent[i][18]);
+                //listFreeStyle[j].GlucoseStripValue_mg_dL = SqlSafe.Double(inputContent[i][14]);
+                //listFreeStyle[j].Chetons_mmol_L = SqlSafe.Double(inputContent[i][15]);
+                //listFreeStyle[j].MealInsulin = SqlSafe.Double(inputContent[i][16]);
+                //listFreeStyle[j].InsulinCorrection = SqlSafe.Double(inputContent[i][17]);
+                //listFreeStyle[j].InsulinWithUsersModifications = SqlSafe.Double(inputContent[i][18]);
 
                 FreeStyleLibreRecord grec = new FreeStyleLibreRecord();
                 grec.IdTypeOfGlucoseMeasurementDevice = inputContent[i][0];
                 grec.IdDevice = inputContent[i][1];
-                grec.Timestamp = Safe.DateTime(inputContent[i][2]);
-                grec.TypeOfDocument = Safe.Int(inputContent[i][3]);
-                grec.GlucoseHistoricValue = Safe.Double(inputContent[i][4]);
-                grec.GlucoseScanValue = Safe.Double(inputContent[i][5]);
+                grec.Timestamp = SqlSafe.DateTime(inputContent[i][2]);
+                grec.TypeOfDocument = SqlSafe.Int(inputContent[i][3]);
+                grec.GlucoseHistoricValue = SqlSafe.Double(inputContent[i][4]);
+                grec.GlucoseScanValue = SqlSafe.Double(inputContent[i][5]);
                 grec.InsulinRapidActionString = inputContent[i][6];
-                grec.InsulinRapidActionValue = Safe.Double(inputContent[i][7]);
+                grec.InsulinRapidActionValue = SqlSafe.Double(inputContent[i][7]);
                 grec.MealFoodString = inputContent[i][8];
-                grec.CarbohydratesValue_g = Safe.Double(inputContent[i][9]);
+                grec.CarbohydratesValue_g = SqlSafe.Double(inputContent[i][9]);
                 grec.CarbohydratesString = inputContent[i][10];
                 grec.InsulinSlowActionString = inputContent[i][11];
-                grec.InsulinSlowActionValue = Safe.Double(inputContent[i][12]);
+                grec.InsulinSlowActionValue = SqlSafe.Double(inputContent[i][12]);
                 grec.Notes = inputContent[i][13];
-                grec.GlucoseStripValue_mg_dL = Safe.Double(inputContent[i][14]);
-                grec.Chetons_mmol_L = Safe.Double(inputContent[i][15]);
-                grec.MealInsulin = Safe.Double(inputContent[i][16]);
-                grec.InsulinCorrection = Safe.Double(inputContent[i][17]);
-                grec.InsulinWithUsersModifications = Safe.Double(inputContent[i][18]);
+                grec.GlucoseStripValue_mg_dL = SqlSafe.Double(inputContent[i][14]);
+                grec.Chetons_mmol_L = SqlSafe.Double(inputContent[i][15]);
+                grec.MealInsulin = SqlSafe.Double(inputContent[i][16]);
+                grec.InsulinCorrection = SqlSafe.Double(inputContent[i][17]);
+                grec.InsulinWithUsersModifications = SqlSafe.Double(inputContent[i][18]);
 
                 switch (grec.TypeOfDocument)
                 {
@@ -93,7 +92,7 @@ namespace GlucoMan
             }
             listFreeStyle.Sort((x, y) => DateTime.Compare((DateTime)x.Timestamp, (DateTime)y.Timestamp));
 
-            return listFreeStyle; 
+            return listFreeStyle;
         }
     }
     class FreeStyleLibreRecord : GlucoseRecord

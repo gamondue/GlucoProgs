@@ -52,13 +52,13 @@ namespace GlucoMan
                     "IdAlarm,TimeStart,TimeAlarm,Interval,Duration," +
                     "IsRepeated,IsEnabled";
                     query += ")VALUES(" +
-                    SqliteHelper.Int(alarm.IdAlarm) + "," +
-                    SqliteHelper.Date(alarm.TimeStart.DateTime) + "," +
-                    SqliteHelper.Date(alarm.TimeAlarm.DateTime) + "," +
-                    SqliteHelper.Int(secondsOfInterval) + "," +
-                    SqliteHelper.Int(secondsOfDuration) + "," +
-                    SqliteHelper.Bool(alarm.IsRepeated) + "," +
-                    SqliteHelper.Bool(alarm.IsEnabled) + ""; 
+                    SqliteSafe.Int(alarm.IdAlarm) + "," +
+                    SqliteSafe.Date(alarm.TimeStart.DateTime) + "," +
+                    SqliteSafe.Date(alarm.TimeAlarm.DateTime) + "," +
+                    SqliteSafe.Int(secondsOfInterval) + "," +
+                    SqliteSafe.Int(secondsOfDuration) + "," +
+                    SqliteSafe.Bool(alarm.IsRepeated) + "," +
+                    SqliteSafe.Bool(alarm.IsEnabled) + ""; 
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -108,13 +108,13 @@ namespace GlucoMan
             Alarm m = new Alarm(); 
             try
             {
-                m.IdAlarm = Safe.Int(Row["IdAlarm"]);
-                m.TimeStart.DateTime = Safe.DateTime(Row["TimeStart"]);
-                m.TimeAlarm.DateTime= Safe.DateTime(Row["TimeAlarm"]);
-                m.Interval = Safe.TimeSpanFromSeconds(Row["Interval"]);
-                m.Duration = Safe.TimeSpanFromMinutes(Row["Duration"]);
-                m.IsEnabled = Safe.Bool(Row["IsEnabled"]);                
-                m.IsRepeated = Safe.Bool(Row["IsRepeated"]);
+                m.IdAlarm = SqlSafe.Int(Row["IdAlarm"]);
+                m.TimeStart.DateTime = SqlSafe.DateTime(Row["TimeStart"]);
+                m.TimeAlarm.DateTime= SqlSafe.DateTime(Row["TimeAlarm"]);
+                m.Interval = SqlSafe.TimeSpanFromSeconds(Row["Interval"]);
+                m.Duration = SqlSafe.TimeSpanFromMinutes(Row["Duration"]);
+                m.IsEnabled = SqlSafe.Bool(Row["IsEnabled"]);                
+                m.IsRepeated = SqlSafe.Bool(Row["IsRepeated"]);
             }
             catch (Exception ex)
             {

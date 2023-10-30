@@ -4,14 +4,14 @@ using System.Data.Common;
 namespace gamon
 {
     /// <summary>
-    /// Safe read of a database field to a string, managing nulls without stopping
+    /// SqlSafe read of a database field to a string, managing nulls without stopping
     /// </summary>
-    internal static class Safe
+    internal static class SqlSafe
     {
         internal static int? Int(object Value)
         {
             if (Value == null || Value is DBNull)
-                return null; 
+                return null;
             try
             {
                 return int.Parse(Value.ToString().Trim());
@@ -100,7 +100,7 @@ namespace gamon
         internal static Nullable<double> Double(string d)
         {
             if (d == "")
-                return null; 
+                return null;
             try
             {
                 return Convert.ToDouble(d);
@@ -133,13 +133,14 @@ namespace gamon
         internal static bool? Bool(object field)
         {
             if (field == null)
-                return null; 
+                return null;
             else
-                try 
+                try
                 {
-                    return Convert.ToBoolean(field); 
+                    return Convert.ToBoolean(field);
                 }
-                catch { 
+                catch
+                {
                     return null;
                 }
         }
@@ -151,7 +152,7 @@ namespace gamon
             }
             catch
             {
-                return null; 
+                return null;
             }
         }
         internal static TimeSpan? TimeSpanFromMinutes(object field)

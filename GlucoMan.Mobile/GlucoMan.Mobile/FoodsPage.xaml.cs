@@ -100,22 +100,22 @@ namespace GlucoMan.Mobile
         }
         private void FromUiToClass()
         {
-            CurrentFood.IdFood = Safe.Int(txtIdFood.Text);
+            CurrentFood.IdFood = SqlSafe.Int(txtIdFood.Text);
             CurrentFood.Name = txtName.Text;
             CurrentFood.Description = txtDescription.Text;
-            CurrentFood.Cho.Double = Safe.Double(txtFoodCarbohydrates.Text);
+            CurrentFood.Cho.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
 
-            //CurrentFood.Energy.Double = Safe.Double(txtCalories.Text);
-            //CurrentFood.TotalFats.Double = Safe.Double(txtTotalFats.Text);
-            //CurrentFood.SaturatedFats.Double = Safe.Double(txtSaturatedFats.Text);
-            //CurrentFood.Sugar.Double = Safe.Double(txtSugar.Text);
-            //CurrentFood.Fibers.Double = Safe.Double(txtFibers.Text);
-            //CurrentFood.Proteins.Double = Safe.Double(txtProteins.Text);
-            //CurrentFood.Salt.Double = Safe.Double(txtSalt.Text);
-            //CurrentFood.Potassium.Double = Safe.Double(txtPotassium.Text);
+            //CurrentFood.Energy.Double = SqlSafe.Double(txtCalories.Text);
+            //CurrentFood.TotalFats.Double = SqlSafe.Double(txtTotalFats.Text);
+            //CurrentFood.SaturatedFats.Double = SqlSafe.Double(txtSaturatedFats.Text);
+            //CurrentFood.Sugar.Double = SqlSafe.Double(txtSugar.Text);
+            //CurrentFood.Fibers.Double = SqlSafe.Double(txtFibers.Text);
+            //CurrentFood.Proteins.Double = SqlSafe.Double(txtProteins.Text);
+            //CurrentFood.Salt.Double = SqlSafe.Double(txtSalt.Text);
+            //CurrentFood.Potassium.Double = SqlSafe.Double(txtPotassium.Text);
 
-            //CurrentFood.Cholesterol.Double = Safe.Double(txtCholesterol.Text);
-            //CurrentFood.GlycemicIndex.Double = Safe.Double(txtGlicemicIndex.Text);
+            //CurrentFood.Cholesterol.Double = SqlSafe.Double(txtCholesterol.Text);
+            //CurrentFood.GlycemicIndex.Double = SqlSafe.Double(txtGlicemicIndex.Text);
         }
         private void RefreshUi()
         {

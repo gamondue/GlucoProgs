@@ -52,7 +52,7 @@ namespace GlucoMan.Forms
         public void FromClassToUi()
         {
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-            txtChoOfMeal.Text = Safe.String(bl.Meal.Carbohydrates.Text);
+            txtChoOfMeal.Text = SqlSafe.String(bl.Meal.Carbohydrates.Text);
             cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
             if (bl.Meal.TimeBegin.DateTime != General.DateNull)
                 dtpMealTimeBegin.Value = (DateTime)bl.Meal.TimeBegin.DateTime;
@@ -65,12 +65,12 @@ namespace GlucoMan.Forms
         }
         private void FromUiToClass()
         {
-            bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
+            bl.Meal.IdMeal = SqlSafe.Int(txtIdMeal.Text);
             bl.Meal.Carbohydrates.Text = txtChoOfMeal.Text;
 
             bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
 
-            bl.Meal.AccuracyOfChoEstimate.Double = (double?)Safe.Double(txtAccuracyOfChoMeal.Text);
+            bl.Meal.AccuracyOfChoEstimate.Double = (double?)SqlSafe.Double(txtAccuracyOfChoMeal.Text);
 
             bl.Meal.TimeBegin.DateTime = dtpMealTimeBegin.Value;
             bl.Meal.TimeEnd.DateTime = dtpMealTimeEnd.Value;

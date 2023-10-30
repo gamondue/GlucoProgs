@@ -33,7 +33,7 @@ namespace DiabetesRecords
             txtIdDiabetesRecord.Text = currentRecord.IdDiabetesRecord.ToString();
             if (currentRecord.Timestamp != null && currentRecord.Timestamp != General.DateNull)
             {
-                dtpDateOfRecord.Date = (DateTime)Safe.DateTime(currentRecord.Timestamp);
+                dtpDateOfRecord.Date = (DateTime)SqlSafe.DateTime(currentRecord.Timestamp);
                 dtpTimeOfRecord.Time = ((DateTime)currentRecord.Timestamp).TimeOfDay;
             }
             txtGlucose.Text = currentRecord.GlucoseValue.ToString();
@@ -96,7 +96,7 @@ namespace DiabetesRecords
                 await DisplayAlert("Errore", "Scrivere bene tutti i numeri", "Ok");
                 return; 
             }
-            dtpNewDate.Date = (DateTime)Safe.DateTime(currentRecord.Timestamp);
+            dtpNewDate.Date = (DateTime)SqlSafe.DateTime(currentRecord.Timestamp);
             dtpNewTime.Time = ((DateTime)currentRecord.Timestamp).TimeOfDay;
             // notify that save was accomplished 
             await DisplayAlert("", "Salvataggio fatto", "Ok");

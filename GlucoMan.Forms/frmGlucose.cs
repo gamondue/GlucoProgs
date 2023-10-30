@@ -84,7 +84,7 @@ namespace GlucoMan.Forms
                 return;
             }
             currentGlucose = new GlucoseRecord();
-            currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
+            currentGlucose.IdGlucoseRecord = SqlSafe.Int(txtIdGlucoseRecord.Text);
             currentGlucose.GlucoseValue.Double = glucose;
             currentGlucose.Notes = txtNotes.Text;
             currentGlucose.Timestamp = dtpEventInstant.Value;
@@ -92,7 +92,7 @@ namespace GlucoMan.Forms
         private void FromClassToUi()
         {
             txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
-            dtpEventInstant.Value = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
+            dtpEventInstant.Value = (DateTime)SqlSafe.DateTime(currentGlucose.Timestamp);
             txtNotes.Text = currentGlucose.Notes;
             txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
         }

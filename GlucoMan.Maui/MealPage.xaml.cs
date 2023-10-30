@@ -38,7 +38,7 @@ public partial class MealPage : ContentPage
         }
         bl.Meal = Meal;
 
-        if (bl.Meal.IdMeal == null || (bl.Meal.TimeBegin.DateTime + new TimeSpan(0, 15, 0)  > DateTime.Now))
+        if (bl.Meal.IdMeal == null || (bl.Meal.TimeBegin.DateTime + new TimeSpan(0, 15, 0) > DateTime.Now))
         {
             btnStartMeal.BackgroundColor = Colors.Red;
             btnStartMeal.TextColor = Colors.Yellow;
@@ -86,9 +86,9 @@ public partial class MealPage : ContentPage
     }
     private void FromUiToFood(FoodInMeal FoodInMeal)
     {
-        FoodInMeal.IdMeal = Safe.Int(txtIdMeal.Text);
-        FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
-        FoodInMeal.IdFood = Safe.Int(txtIdFood.Text);
+        FoodInMeal.IdMeal = SqlSafe.Int(txtIdMeal.Text);
+        FoodInMeal.IdFoodInMeal = SqlSafe.Int(txtIdFoodInMeal.Text);
+        FoodInMeal.IdFood = SqlSafe.Int(txtIdFood.Text);
         FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text; // [g]
         FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text;
         FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
@@ -97,7 +97,7 @@ public partial class MealPage : ContentPage
     }
     private void FromUiToMeal(Meal Meal)
     {
-        Meal.IdMeal = Safe.Int(txtIdMeal.Text);
+        Meal.IdMeal = SqlSafe.Int(txtIdMeal.Text);
         Meal.Carbohydrates.Text = txtChoOfMealGrams.Text;
         Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
         Meal.Notes = txtNotes.Text;
@@ -285,7 +285,11 @@ public partial class MealPage : ContentPage
         RefreshUi();
     }
     bool firstPass = true;
-
+    private async void gridFoodsInMeal_Unfocused(object sender, SelectedItemChangedEventArgs e)
+    {
+        FromUiToClasses();
+        bl.SaveAllFoodsInMeal();
+    }
     private async void gridFoodsInMeal_CellClick(object sender, SelectedItemChangedEventArgs e)
     {
         if (e.SelectedItem == null)

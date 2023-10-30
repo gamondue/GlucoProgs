@@ -2,7 +2,7 @@
 
 namespace gamon
 {
-    public static class SqliteHelper
+    public static class SqliteSafe
     {
         // Sql Helper functions that prepares values to be inserted in Sql queries  
 
@@ -96,7 +96,7 @@ namespace gamon
         {
             if (Number == null)
                 return "null";
-            // restituisce null se dà errore, perchè viene usato con double? 
+            // restituisce null se dà errore, perché viene usato con double? 
             try
             {
                 double dummy = (double)Number;
@@ -104,7 +104,7 @@ namespace gamon
                     return "null";
                 return Number.ToString().Replace(",", ".");
             }
-            catch
+            catch (Exception e)
             {
                 return "null";
             }

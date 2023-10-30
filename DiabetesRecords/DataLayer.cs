@@ -167,8 +167,8 @@ COMMIT;
                         " FROM DiabetesRecords";
                     if (DateFrom != null && DateTo != null)
                     {   // add WHERE clause
-                        query += " WHERE Timestamp BETWEEN " + SqliteHelper.Date(((DateTime)DateFrom).ToString("yyyy-MM-dd")) +
-                            " AND " + SqliteHelper.Date(((DateTime)DateTo).ToString("yyyy-MM-dd 23:59:29")) + "";
+                        query += " WHERE Timestamp BETWEEN " + SqliteSafe.Date(((DateTime)DateFrom).ToString("yyyy-MM-dd")) +
+                            " AND " + SqliteSafe.Date(((DateTime)DateTo).ToString("yyyy-MM-dd 23:59:29")) + "";
                     }
                     query += " ORDER BY Timestamp DESC, IdDiabetesRecord;";
                     cmd = new SqliteCommand(query);
@@ -194,13 +194,13 @@ COMMIT;
             DiabetesRecord dr = new DiabetesRecord();
             try
             {
-                dr.IdDiabetesRecord = Safe.Int(Row["IdDiabetesRecord"]);
-                dr.Timestamp = Safe.DateTime(Row["Timestamp"]);
-                dr.GlucoseValue = Safe.Double(Row["GlucoseValue"]);
-                dr.InsulinValue = Safe.Double(Row["InsulinValue"]);
-                dr.IdTypeOfInsulinSpeed = Safe.Int(Row["IdTypeOfInsulinSpeed"]);
-                dr.IdTypeOfMeal = Safe.Int(Row["IdTypeOfMeal"]);
-                dr.Notes = Safe.String(Row["Notes"]);
+                dr.IdDiabetesRecord = SqlSafe.Int(Row["IdDiabetesRecord"]);
+                dr.Timestamp = SqlSafe.DateTime(Row["Timestamp"]);
+                dr.GlucoseValue = SqlSafe.Double(Row["GlucoseValue"]);
+                dr.InsulinValue = SqlSafe.Double(Row["InsulinValue"]);
+                dr.IdTypeOfInsulinSpeed = SqlSafe.Int(Row["IdTypeOfInsulinSpeed"]);
+                dr.IdTypeOfMeal = SqlSafe.Int(Row["IdTypeOfMeal"]);
+                dr.Notes = SqlSafe.String(Row["Notes"]);
             }
             catch (Exception ex)
             {
@@ -266,13 +266,13 @@ COMMIT;
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE DiabetesRecords SET " +
-                    "Timestamp=" + SqliteHelper.Date(Record.Timestamp) + "," +
-                    "GlucoseValue=" + SqliteHelper.Double(Record.GlucoseValue) + "," +
-                    "InsulinValue=" + SqliteHelper.Double(Record.InsulinValue) + "," +
-                    "IdTypeOfInsulinSpeed=" + SqliteHelper.Int(Record.IdTypeOfInsulinSpeed) + "," +
-                    "IdTypeOfMeal=" + SqliteHelper.Int(Record.IdTypeOfMeal) + "," +
-                    "Notes=" + SqliteHelper.String(Record.Notes) + "";
-                    query += " WHERE IdDiabetesRecord=" + SqliteHelper.Int(Record.IdDiabetesRecord);
+                    "Timestamp=" + SqliteSafe.Date(Record.Timestamp) + "," +
+                    "GlucoseValue=" + SqliteSafe.Double(Record.GlucoseValue) + "," +
+                    "InsulinValue=" + SqliteSafe.Double(Record.InsulinValue) + "," +
+                    "IdTypeOfInsulinSpeed=" + SqliteSafe.Int(Record.IdTypeOfInsulinSpeed) + "," +
+                    "IdTypeOfMeal=" + SqliteSafe.Int(Record.IdTypeOfMeal) + "," +
+                    "Notes=" + SqliteSafe.String(Record.Notes) + "";
+                    query += " WHERE IdDiabetesRecord=" + SqliteSafe.Int(Record.IdDiabetesRecord);
                     query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -298,13 +298,13 @@ COMMIT;
                     "IdDiabetesRecord,Timestamp,GlucoseValue,InsulinValue," +
                     "IdTypeOfInsulinSpeed,IdTypeOfMeal,Notes";
                     query += ")VALUES (" +
-                    SqliteHelper.Int(Record.IdDiabetesRecord) + "," +
-                    SqliteHelper.Date(Record.Timestamp) + "," +
-                    SqliteHelper.Double(Record.GlucoseValue) + "," +
-                    SqliteHelper.Double(Record.InsulinValue) + "," +
-                    SqliteHelper.Int(Record.IdTypeOfInsulinSpeed) + "," +
-                    SqliteHelper.Int(Record.IdTypeOfMeal) + "," +
-                    SqliteHelper.String(Record.Notes) + ")";
+                    SqliteSafe.Int(Record.IdDiabetesRecord) + "," +
+                    SqliteSafe.Date(Record.Timestamp) + "," +
+                    SqliteSafe.Double(Record.GlucoseValue) + "," +
+                    SqliteSafe.Double(Record.InsulinValue) + "," +
+                    SqliteSafe.Int(Record.IdTypeOfInsulinSpeed) + "," +
+                    SqliteSafe.Int(Record.IdTypeOfMeal) + "," +
+                    SqliteSafe.String(Record.Notes) + ")";
                     query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();

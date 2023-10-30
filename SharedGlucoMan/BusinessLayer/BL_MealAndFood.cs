@@ -1,8 +1,7 @@
-﻿using static GlucoMan.Common;
+﻿using gamon;
 using System;
 using System.Collections.Generic;
-using gamon;
-using System.Xml.Linq;
+using static GlucoMan.Common;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -90,7 +89,7 @@ namespace GlucoMan.BusinessLayer
             // if the current FoodInMeal has not an IdMeal, we give it the Id of the current Meal 
             if (FoodToSave.IdMeal == null)
             {
-                FoodToSave.IdMeal = Meal.IdMeal; 
+                FoodToSave.IdMeal = Meal.IdMeal;
             }
             // so the new meal will be the one of the FoodInMeal we are saving
             return dl.SaveOneFoodInMeal(FoodToSave);
@@ -132,7 +131,7 @@ namespace GlucoMan.BusinessLayer
         }
         internal List<Food> SearchFoods(string Name, string Description, int MinNoOfCharacters)
         {
-            if ((Name != null && Name != "" && Name.Length >= MinNoOfCharacters) || 
+            if ((Name != null && Name != "" && Name.Length >= MinNoOfCharacters) ||
                 (Description != null && Description != "" && Description.Length >= MinNoOfCharacters))
             {
                 // trim the strings from blanks coming from cut and paste 
@@ -143,10 +142,10 @@ namespace GlucoMan.BusinessLayer
                 return dl.SearchFoods(Name, Description);
             }
             // just if both are null: find all the list of foods 
-            else if(Name == "" && Description == "")
+            else if (Name == "" && Description == "")
                 return dl.SearchFoods(Name, Description);
             else
-                return null; 
+                return null;
         }
         internal List<Food> GetFoods()
         {
@@ -174,24 +173,24 @@ namespace GlucoMan.BusinessLayer
                 foreach (FoodInMeal f in FoodsInMeal)
                 {
                     if (f.ChoGrams.Double != null)
-                    total += f.ChoGrams.Double;
+                        total += f.ChoGrams.Double;
                 }
                 Meal.Carbohydrates.Double = total;
             }
-            return total; 
+            return total;
         }
         /// <summary>
         /// Calculate accuracy from single food accuracies
         /// </summary>
         /// <returns>Weighted quadratic average. Also modifies Meal. </returns>
         internal double? RecalcTotalAccuracy()
-       {
+        {
             // calculate weighted quadratic sum of the quadratic weighted CHOs ("components" of accuracy estimation)
             // the weights are the values of CHO of the various foods eaten in this meal 
             double sumOfSquaredWeights = 0;
             double sumOfSquaredWeightedValues = 0;
             double? WeightedQuadraticAverage = 0;
-            bool IsValueCorrect = true; 
+            bool IsValueCorrect = true;
             if (FoodsInMeal != null && FoodsInMeal.Count > 0)
             {
                 foreach (FoodInMeal f in FoodsInMeal)
@@ -211,8 +210,8 @@ namespace GlucoMan.BusinessLayer
                     }
                     sumOfSquaredWeights += (double)f.ChoGrams.Double * (double)f.ChoGrams.Double;
                     double WeightedUncertaintyComponent = (double)f.AccuracyOfChoEstimate.Double / 100 * (double)f.ChoGrams.Double;
-                    sumOfSquaredWeightedValues += WeightedUncertaintyComponent * WeightedUncertaintyComponent; 
-                }   
+                    sumOfSquaredWeightedValues += WeightedUncertaintyComponent * WeightedUncertaintyComponent;
+                }
                 if (IsValueCorrect)
                 {
                     // square of the weighted quadratic sum
@@ -225,18 +224,18 @@ namespace GlucoMan.BusinessLayer
                 return WeightedQuadraticAverage;
             else
             {
-                Meal.AccuracyOfChoEstimate.Double = (int)QualitativeAccuracy.NotSet; 
+                Meal.AccuracyOfChoEstimate.Double = (int)QualitativeAccuracy.NotSet;
                 return null;
             }
         }
         internal void FromFoodToFoodInMeal(Food SourceFood, FoodInMeal DestinationFoodInMeal)
         {
             DestinationFoodInMeal.IdFood = SourceFood.IdFood;
-            DestinationFoodInMeal.ChoPercent = SourceFood.Cho; 
+            DestinationFoodInMeal.ChoPercent = SourceFood.Cho;
             DestinationFoodInMeal.Name = SourceFood.Name;
             DestinationFoodInMeal.Description = SourceFood.Description;
             DestinationFoodInMeal.SugarPercent = SourceFood.Sugar;
-            DestinationFoodInMeal.FibersPercent = SourceFood.Fibers;         
+            DestinationFoodInMeal.FibersPercent = SourceFood.Fibers;
         }
         public void FromFoodInMealToFood(FoodInMeal SourceFoodInMeal, Food DestinationFood)
         {
@@ -249,7 +248,7 @@ namespace GlucoMan.BusinessLayer
         }
         internal TypeOfMeal SetTypeOfMealBasedOnTimeNow()
         {
-            TypeOfMeal type = TypeOfMeal.NotSet; 
+            TypeOfMeal type = TypeOfMeal.NotSet;
             DateTime now = DateTime.Now;
             if (now.Hour > 6 && now.Hour < 9)
                 Meal.IdTypeOfMeal = TypeOfMeal.Breakfast;
@@ -259,7 +258,7 @@ namespace GlucoMan.BusinessLayer
                 Meal.IdTypeOfMeal = TypeOfMeal.Dinner;
             else
                 Meal.IdTypeOfMeal = TypeOfMeal.Snack;
-            return Meal.IdTypeOfMeal; 
+            return Meal.IdTypeOfMeal;
         }
         internal void RecalcAll()
         {
