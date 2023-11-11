@@ -10,7 +10,7 @@
     <ContentPage.Content>
         <!--Pages can be added as references or inline-->
     <!--<ContentPage Title="Data">-->
-        <Grid RowDefinitions="40,55,30,50,25,50,30,*"
+        <Grid RowDefinitions="40,65,30,65,35,50,30,*"
               ColumnDefinitions="*,*,*,*">
             <Label Grid.Row="0" Grid.Column="0" Text="Actual insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="0" Grid.Column="1" Text="Calculated Insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -26,13 +26,12 @@
                        FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
             <Button Grid.Row="1" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_Click"></Button>
 
-            <RadioButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Content="Fast insulin" HorizontalOptions="Center"
-                         GroupName="groupInsulin" x:Name="rdbFastInsulin" WidthRequest="180" />
-            <RadioButton Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Content="Slow insulin" HorizontalOptions="Center"
-                         GroupName="groupInsulin" x:Name="rdbSlowInsulin" WidthRequest="180"/>
-
             <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Injection date and time"  
-                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <RadioButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" x:Name="rdbFastInsulin" Content="Fast insulin" 
+                         HorizontalOptions="Center" VerticalOptions="End" GroupName="groupInsulin" WidthRequest="180" />
+            <RadioButton Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" x:Name="rdbSlowInsulin" Content="Slow insulin" 
+                         HorizontalOptions="Center" VerticalOptions="End" GroupName="groupInsulin" WidthRequest="180"/>
 
             <DatePicker Grid.Row="3" Grid.Column="0" x:Name="dtpInjectionDate" 
                         BackgroundColor="PaleGreen" FontSize="Small" Format="yyyy-MM-dd" 
@@ -54,7 +53,7 @@
             </Grid>
 
             <StackLayout Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
+                <CheckBox VerticalOptions="Center" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS" Value="0,-10,0,0" />
@@ -62,7 +61,7 @@
                         </OnPlatform>
                     </CheckBox.Margin>
                 </CheckBox>
-                <Label VerticalTextAlignment="End" VerticalOptions="Start" Text="Add with Now as time">
+                <Label VerticalTextAlignment="End" VerticalOptions="Center" Text="Add with Now as time">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer>
 
@@ -71,7 +70,7 @@
                 </Label>
             </StackLayout>
 
-            <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
+            <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="PaleGoldenrod" 
                    FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
             
             <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>

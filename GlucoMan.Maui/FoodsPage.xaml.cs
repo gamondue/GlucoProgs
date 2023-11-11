@@ -1,5 +1,4 @@
 using GlucoMan.BusinessLayer;
-using gamon;
 
 namespace GlucoMan.Maui;
 public partial class FoodsPage : ContentPage
@@ -57,7 +56,8 @@ public partial class FoodsPage : ContentPage
 
         // let's show the CurrentFood
         FromClassToUi();
-
+        this.BindingContext = CurrentFood;
+        //gridFoods.ItemsSource = glucoseReadings;
         loading = false;
     }
     private void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
@@ -70,15 +70,16 @@ public partial class FoodsPage : ContentPage
         loading = true;
         //make the tapped row the current food
         CurrentFood = (Food)gridFoods.SelectedItem;
+        this.BindingContext = CurrentFood;
         FromClassToUi();
         loading = false;
     }
     private void FromClassToUi()
     {
-        txtIdFood.Text = CurrentFood.IdFood.ToString();
-        txtName.Text = CurrentFood.Name;
-        txtDescription.Text = CurrentFood.Description;
-        txtFoodCarbohydrates.Text = CurrentFood.Cho.Text;
+        //lblIdFood.Text = CurrentFood.IdFood.ToString();
+        //txtName.Text = CurrentFood.Name;
+        //txtDescription.Text = CurrentFood.Description;
+        //txtFoodCarbohydrates.Text = CurrentFood.Cho.Text;
 
         //txtCalories.Text = CurrentFood.Energy.Text;
         //txtTotalFats.Text = CurrentFood.TotalFats.Text;
@@ -94,10 +95,10 @@ public partial class FoodsPage : ContentPage
     }
     private void FromUiToClass()
     {
-        CurrentFood.IdFood = SqlSafe.Int(txtIdFood.Text);
-        CurrentFood.Name = txtName.Text;
-        CurrentFood.Description = txtDescription.Text;
-        CurrentFood.Cho.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
+        //CurrentFood.IdFood = SqlSafe.Int(lblIdFood.Text);
+        //CurrentFood.Name = txtName.Text;
+        //CurrentFood.Description = txtDescription.Text;
+        //CurrentFood.Cho.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
 
         //CurrentFood.Energy.Double = SqlSafe.Double(txtCalories.Text);
         //CurrentFood.TotalFats.Double = SqlSafe.Double(txtTotalFats.Text);
@@ -134,7 +135,7 @@ public partial class FoodsPage : ContentPage
     }
     private async void btnSaveFood_Click(object sender, EventArgs e)
     {
-        if (txtIdFood.Text == "")
+        if (lblIdFood.Text == "")
         {
             await DisplayAlert("Select one food from the list", "Choose a food to save", "Ok");
             return;
@@ -195,7 +196,7 @@ public partial class FoodsPage : ContentPage
     private void btnCleanFields_Click(object sender, EventArgs e)
     {
         loading = true;
-        txtIdFood.Text = "";
+        lblIdFood.Text = "";
         txtName.Text = "";
         txtDescription.Text = "";
         txtFoodCarbohydrates.Text = "";

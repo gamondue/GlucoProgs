@@ -6,14 +6,14 @@
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
@@ -33,7 +33,7 @@
             <Button Grid.Row="0" Grid.Column="1" 
                     Clicked="btnNext_Click" Text="Next"></Button>
             <Button Grid.Row="0" Grid.Column="2" 
-                    Clicked="btnReadGlucose_Click" Text="Read g."></Button>
+                    Clicked="btnReadGlucose_Click" Text="Read glucose" LineBreakMode="WordWrap"></Button>
             <Button Grid.Row="0" Grid.Column="3" 
                     Clicked="btnPredict_Click" Text="Predict"></Button>
 

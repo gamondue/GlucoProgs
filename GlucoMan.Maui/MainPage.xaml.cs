@@ -1,15 +1,11 @@
-﻿using Microsoft.Maui.Controls;
-
-namespace GlucoMan.Maui
+﻿namespace GlucoMan.Maui
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
-            lblAppName.Text += " " + Common.Version;
+            Title = "GlucoMan " + Common.Version;
         }
         protected override void OnSizeAllocated(double width, double height)
         {

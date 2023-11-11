@@ -18,8 +18,8 @@
                    Keyboard="Numeric" Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" IsReadOnly="True" Margin="2,2,2,2" 
                    Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
-            <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calc bolus" Margin="2,2,2,2" 
-                   Clicked="btnBolusCalculations_Click" />
+            <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calculat. bolus" Margin="2,2,2,2" 
+                   LineBreakMode="WordWrap" Clicked="btnBolusCalculations_Click" />
 
             <!-- <Label Grid.Row="3" Grid.Column="0" Text="TDD" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
             <Label Grid.Row="3" Grid.Column="0" Text="Sensitivity to insulin [mg/dl]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -28,8 +28,8 @@
             <!-- <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="-_-_" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> -->
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" Margin="2,2,2,2" 
                    Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod" />
-            <Button Grid.Row="4" Grid.Column="1" x:Name="btnSetParameters" Text="Set par." Margin="2,2,2,2" 
-                    Clicked="btnSetParameters_Click"/>
+            <Button Grid.Row="4" Grid.Column="1" x:Name="btnSetParameters" Text="Set param." Margin="2,2,2,2" 
+                    LineBreakMode="WordWrap" Clicked="btnSetParameters_Click"/>
             <Label Grid.Row="4" Grid.Column="2" x:Name="txtEmbarkedInsulin" Text="----" Margin="2,2,2,2" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Medium" />
             <Button Grid.Row="4" Grid.Column="3" Text="Round" Margin="2,2,2,2" 
@@ -53,15 +53,15 @@
 
             <Button Grid.Row="7" Grid.Column="0"  Text="Read" Margin="2,2,2,2"
                         x:Name="btnReadGlucose" Clicked="btnReadGlucose_Click" />
-            <Button Grid.Row="7" Grid.Column="1"  Text="Meas. Gluc." IsEnabled="True" Margin="2,2,2,2"
-                        x:Name="btnMeasureGlucose" Clicked="btnMeasureGlucose_Click" />
+            <Button Grid.Row="7" Grid.Column="1"  Text="Measure glucose" IsEnabled="True" Margin="2,2,2,2"
+                        x:Name="btnMeasureGlucose" LineBreakMode="WordWrap" Clicked="btnMeasureGlucose_Click" />
             <Button Grid.Row="7" Grid.Column="3" x:Name="btnReadCho" Text="Read" Margin="2,2,2,2"
                     Clicked="btnReadCho_Click"/>
             <Button Grid.Row="7" Grid.Column="2"  Text="Injection" IsEnabled="True" Margin="2,2,2,2"
                         x:Name="btnInjection" Clicked="btnInjection_Click" />
 
             <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Text="Type of meal" 
-                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <RadioButton Grid.Row="9" Grid.Column="0" Content="b.fast" x:Name="rdbIsBreakfast" />
             <RadioButton Grid.Row="9" Grid.Column="1" Content="lunch" x:Name="rdbIsLunch" />

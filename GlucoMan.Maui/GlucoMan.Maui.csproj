@@ -15,7 +15,7 @@
 		<ApplicationTitle>GlucoMan.Maui</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.glucoman.maui</ApplicationId>
+		<ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
 		<ApplicationIdGuid>30939246-cae7-40ff-92ce-a308f5c8b0e8</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -39,8 +39,8 @@
 		<PackageProjectUrl>www.ingmonti.it/GlucoMan</PackageProjectUrl>
 		<PackageIcon>..</PackageIcon>
 		<NeutralLanguage>en</NeutralLanguage>
-		<AssemblyVersion>0.7.4</AssemblyVersion>
-		<FileVersion>0.7.4</FileVersion>
+		<AssemblyVersion>0.9.0</AssemblyVersion>
+		<FileVersion>0.9.0</FileVersion>
 		<PackageLicenseExpression>GPL-2.0-only</PackageLicenseExpression>
 	</PropertyGroup>
 
@@ -117,6 +117,31 @@
 	<ItemGroup>
 	  <MauiXaml Remove="InjectionsPage_BROKEN.xaml" />
 	  <MauiXaml Remove="MainPage_INIZIALE.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\AppIcon\appicon - Copia.svg" />
+	  <None Remove="Resources\AppIcon\appicon.MAUI.svg" />
+	  <None Remove="Resources\AppIcon\appicon.svg" />
+	  <None Remove="Resources\AppIcon\appiconfg - Copia.svg" />
+	  <None Remove="Resources\AppIcon\appiconfg.MAUI.svg" />
+	  <None Remove="Resources\AppIcon\appiconfg.svg" />
+	  <None Remove="Resources\AppIcon\appiconfgx.svg" />
+	  <None Remove="Resources\AppIcon\appiconfgXX.svg" />
+	  <None Remove="Resources\AppIcon\gamonlogoSVG - Copia.svg" />
+	  <None Remove="Resources\AppIcon\gamonlogoSVG.svg" />
+	  <None Remove="Resources\AppIcon\gamonlogo_trasparenteSVG - Copia.svg" />
+	  <None Remove="Resources\AppIcon\gamonlogo_trasparenteSVG.svg" />
+	  <None Remove="Resources\AppIcon\splash.svg" />
+	  <None Remove="Resources\Splash\appicon.svg" />
+	  <None Remove="Resources\Splash\appiconfg.svg" />
+	  <None Remove="Resources\Splash\splash.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidResource Include="Resources\AppIcon\appicon.svg" />
+	  <AndroidResource Include="Resources\AppIcon\appiconfg.svg" />
+	  <AndroidResource Include="Resources\Splash\splash.svg" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -3,28 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Maui.FoodsPage"
              Title="Foods">
-    <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="60"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+    <ContentPage.Content ItemsSource="{Binding}">
+        <Grid Padding="8,0,8,0" RowDefinitions="20,20,65,20,65,20,65,65,*"
+              ColumnDefinitions="*,*,*,*">
 
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
-                Grid.ColumnSpan="4" Text="Food's information" 
+                Grid.ColumnSpan="4" Text="Foods' information" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Label Grid.Row="1" Grid.Column="2" Text="Id food" 
@@ -32,14 +16,14 @@
             <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of food" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtIdFood" BackgroundColor="White" 
-                    FontSize="Medium" HorizontalTextAlignment="Center" 
-                    IsReadOnly="true"/>
+            <Label Grid.Row="2" Grid.Column="2" x:Name="lblIdFood" BackgroundColor="White" 
+                   FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   Text = "{Binding IdFood}"/>
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
                     x:Name="txtName" BackgroundColor="LightGreen" 
                     Keyboard="Text" TextChanged="txtName_TextChanged"
                     FontSize="Medium" HorizontalTextAlignment="Center" 
-                    IsReadOnly="false"/>
+                    Text= "{Binding Name}"/>
             <Button Grid.Row="2" Grid.Column="3" x:Name="btnChoose" Text="Choose" 
                     Clicked="btnChoose_Click"></Button>
 
@@ -49,12 +33,14 @@
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
                     x:Name="txtDescription" BackgroundColor="White"
                     Keyboard="Text" TextChanged="txtDescription_TextChanged"
-                    FontSize="Medium" HorizontalTextAlignment="Start"/>
+                    FontSize="Medium" HorizontalTextAlignment="Start"
+                   Text = "{Binding Description}"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="CHO [g]%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"
+                   Text = "{Binding Cho.Text}"/>
             <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddFood" 
                     Clicked="btnAddFood_Click"></Button>
             <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveFood" 
@@ -69,7 +55,7 @@
             <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchFood" 
                     Clicked="btnSearchFood_Click"></Button>
 
-            <ListView Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" x:Name="gridFoods" ItemsSource="{Binding}"
+            <ListView x:Name="gridFoods" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" ItemsSource="{Binding}"
                     ItemSelected="OnGridSelectionAsync">
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
