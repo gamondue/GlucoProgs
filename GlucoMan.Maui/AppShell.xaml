@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:GlucoMan.Maui"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
+<ShellContent
         Title="GlucoMan"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />

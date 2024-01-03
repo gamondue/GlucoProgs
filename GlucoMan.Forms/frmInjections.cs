@@ -27,9 +27,9 @@ namespace GlucoMan.Forms
             dtpInjectionDate.Value = ((DateTime) CurrentInjection.Timestamp.DateTime); 
             dtpInjectionTime.Value = ((DateTime) CurrentInjection.Timestamp.DateTime);
             txtNotes.Text = CurrentInjection.Notes;
-            if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.QuickAction)
+            if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.RapidActing)
                 rdbFastInsulin.Checked = true;
-            else if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.SlowAction)
+            else if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.ShortActing)
                 rdbSlowInsulin.Checked = true;
             else
             {
@@ -48,9 +48,9 @@ namespace GlucoMan.Forms
             CurrentInjection.Timestamp.DateTime = instant;
             CurrentInjection.Notes = txtNotes.Text;
             if (rdbFastInsulin.Checked)
-                CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.QuickAction;
+                CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.RapidActing;
             else if (rdbSlowInsulin.Checked)
-                CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.SlowAction;
+                CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.ShortActing;
             else
                 CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.NotSet;
         }

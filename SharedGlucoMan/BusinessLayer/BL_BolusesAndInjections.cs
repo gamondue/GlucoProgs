@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using gamon;
+using System;
 using System.Collections.Generic;
-using gamon;
+using System.IO;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -27,11 +27,11 @@ namespace GlucoMan.BusinessLayer
             TimeSpan timeOfDay = DateTime.Now.TimeOfDay;
             if (timeOfDay > new TimeSpan(2, 0, 0) && timeOfDay < new TimeSpan(22, 0, 0))
             {
-                Injection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.QuickAction;
+                Injection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.RapidActing;
             }
             else
             {
-                Injection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.SlowAction;
+                Injection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.ShortActing;
             }
         }
         public DoubleAndText TargetGlucose { get; set; }
@@ -53,37 +53,37 @@ namespace GlucoMan.BusinessLayer
         internal List<InsulinInjection> GetInjections(DateTime InitialInstant,
             DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed)
         {
-            return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinSpeed); 
+            return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinSpeed);
         }
         internal InsulinInjection GetOneInjection(int? IdInjection)
         {
-            return dl.GetOneInjection(IdInjection); 
+            return dl.GetOneInjection(IdInjection);
         }
         private DateTime finalDinnerPeriod;
 
-        public  BL_BolusesAndInjections()
-        { 
-            ChoToEat = new DoubleAndText(); 
-            TypicalBolusMorning = new DoubleAndText(); 
-            TypicalBolusMidday = new DoubleAndText(); 
-            TypicalBolusEvening = new DoubleAndText(); 
+        public BL_BolusesAndInjections()
+        {
+            ChoToEat = new DoubleAndText();
+            TypicalBolusMorning = new DoubleAndText();
+            TypicalBolusMidday = new DoubleAndText();
+            TypicalBolusEvening = new DoubleAndText();
             TypicalBolusNight = new DoubleAndText();
             ChoInsulinRatioBreakfast = new DoubleAndText();
             ChoInsulinRatioLunch = new DoubleAndText();
             ChoInsulinRatioDinner = new DoubleAndText();
-            TotalDailyDoseOfInsulin = new DoubleAndText(); 
-            GlucoseBeforeMeal = new DoubleAndText(); 
-            GlucoseToBeCorrected = new DoubleAndText(); 
-            TargetGlucose = new DoubleAndText(); 
-            FactorOfInsulinCorrectionSensitivity = new DoubleAndText(); 
-            InsulinCorrectionSensitivity = new DoubleAndText(); 
-            BolusInsulinDueToCorrectionOfGlucose = new DoubleAndText(); 
+            TotalDailyDoseOfInsulin = new DoubleAndText();
+            GlucoseBeforeMeal = new DoubleAndText();
+            GlucoseToBeCorrected = new DoubleAndText();
+            TargetGlucose = new DoubleAndText();
+            FactorOfInsulinCorrectionSensitivity = new DoubleAndText();
+            InsulinCorrectionSensitivity = new DoubleAndText();
+            BolusInsulinDueToCorrectionOfGlucose = new DoubleAndText();
             BolusInsulinDueToChoOfMeal = new DoubleAndText();
             EmbarkedInsulin = new DoubleAndText();
             TotalInsulinExceptEmbarked = new DoubleAndText();
             TotalInsulinForMeal = new DoubleAndText();
 
-            statusMessage = ""; 
+            statusMessage = "";
             DateTime now = DateTime.Now;
             int y = now.Year;
 
@@ -94,19 +94,19 @@ namespace GlucoMan.BusinessLayer
             initialDinnerPeriod = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
             finalDinnerPeriod = new DateTime(now.Year, now.Month, now.Day, 21, 0, 0);
 
-            MealOfBolus = new Meal(); 
+            MealOfBolus = new Meal();
         }
         internal void DeleteOneInjection(InsulinInjection Injection)
         {
-            dl.DeleteOneInjection(Injection); 
+            dl.DeleteOneInjection(Injection);
         }
-        public  void CalculateInsulinCorrectionSensitivity()
+        public void CalculateInsulinCorrectionSensitivity()
         {
             TotalDailyDoseOfInsulin.Double = TypicalBolusMorning.Double + TypicalBolusMidday.Double +
                 TypicalBolusEvening.Double + TypicalBolusNight.Double;
             InsulinCorrectionSensitivity.Double = FactorOfInsulinCorrectionSensitivity.Double / TotalDailyDoseOfInsulin.Double;
         }
-        public  void CalculateBolus()
+        public void CalculateBolus()
         {
             try
             {
@@ -115,15 +115,15 @@ namespace GlucoMan.BusinessLayer
                 // insulin sensitivity is now calculated in a specific method: CalculateInsulinCorrectionSensitivity()
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
-                // calculate embarked insulin for QuickAction insulin  
+                // calculate embarked insulin for RapidActing insulin  
                 // TODO calculate embarked insulin for each TypeOfInsulinSpeed !!!!
-                CalculateEmbarkedInsulin(DateTime.Now, Common.TypeOfInsulinSpeed.QuickAction);
+                CalculateEmbarkedInsulin(DateTime.Now, Common.TypeOfInsulinSpeed.RapidActing);
 
                 switch (MealOfBolus.IdTypeOfMeal)
                 {
                     case (Common.TypeOfMeal.Breakfast):
                         BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioBreakfast.Double;
-                        break; 
+                        break;
                     case (Common.TypeOfMeal.Lunch):
                         BolusInsulinDueToChoOfMeal.Double = ChoToEat.Double / ChoInsulinRatioLunch.Double;
                         break;
@@ -136,8 +136,8 @@ namespace GlucoMan.BusinessLayer
                 }
                 TotalInsulinExceptEmbarked.Double = BolusInsulinDueToCorrectionOfGlucose.Double;
                 if (BolusInsulinDueToChoOfMeal.Double != null)
-                    TotalInsulinExceptEmbarked.Double += BolusInsulinDueToChoOfMeal.Double; 
-                TotalInsulinForMeal.Double = TotalInsulinExceptEmbarked.Double - EmbarkedInsulin.Double; 
+                    TotalInsulinExceptEmbarked.Double += BolusInsulinDueToChoOfMeal.Double;
+                TotalInsulinForMeal.Double = TotalInsulinExceptEmbarked.Double - EmbarkedInsulin.Double;
                 if (TotalInsulinForMeal.Double < 0)
                     TotalInsulinForMeal.Double = 0;
             }
@@ -146,12 +146,12 @@ namespace GlucoMan.BusinessLayer
                 Common.LogOfProgram.Error("BL_BolusesAndInjections | CalculateBolus()", Ex);
             }
         }
-        public  void RoundInsulinToZeroDecimal()
+        public void RoundInsulinToZeroDecimal()
         {
             // find target bolus and relative CHO with bisection algorithm 
 
             if (TotalInsulinForMeal.Double == null)
-                return; 
+                return;
             // calc bolus to determine target bolus
             CalculateBolus();
             // target bolus will be nearest integer 
@@ -170,13 +170,13 @@ namespace GlucoMan.BusinessLayer
             double? bolusMinus = TotalInsulinForMeal.Double;
 
             double? bolusCurrent;
-            int iterationsCount = 0; 
+            int iterationsCount = 0;
             do
             {
                 // next attempt CHO, in the middle of current interval 
                 ChoToEat.Double = (choPlus - choMinus) / 2 + choMinus;
                 CalculateBolus();
-                bolusCurrent = TotalInsulinForMeal.Double; 
+                bolusCurrent = TotalInsulinForMeal.Double;
                 if (bolusCurrent < targetBolus)
                 {
                     choMinus = ChoToEat.Double;
@@ -187,18 +187,18 @@ namespace GlucoMan.BusinessLayer
                     choPlus = ChoToEat.Double;
                     bolusPlus = bolusCurrent;
                 }
-                iterationsCount++; 
-            } while (Math.Abs((double)bolusCurrent - (double)targetBolus) > 0.01 && iterationsCount < 20); 
+                iterationsCount++;
+            } while (Math.Abs((double)bolusCurrent - (double)targetBolus) > 0.01 && iterationsCount < 20);
         }
         internal string RestoreChoToEat()
         {
-            return dl.RestoreParameter("Meal_ChoGrams").ToString(); 
+            return dl.RestoreParameter("Meal_ChoGrams").ToString();
         }
-        public  void SaveBolusLog()
+        public void SaveBolusLog()
         {
-                // !!!! TO DO !!!!
+            // !!!! TO DO !!!!
         }
-        public  void RestoreBolusParameters()
+        public void RestoreBolusParameters()
         {
             TargetGlucose.Text = dl.RestoreParameter("Bolus_TargetGlucose");
             ChoInsulinRatioBreakfast.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioBreakfast");
@@ -209,7 +209,7 @@ namespace GlucoMan.BusinessLayer
             ChoToEat.Text = dl.RestoreParameter("Bolus_ChoToEat");
             GlucoseBeforeMeal.Text = dl.RestoreParameter("Bolus_GlucoseBeforeMeal");
         }
-        public  void SaveBolusParameters()
+        public void SaveBolusParameters()
         {
             dl.SaveParameter("Bolus_TargetGlucose", TargetGlucose.Text);
             dl.SaveParameter("Bolus_ChoInsulinRatioBreakfast", ChoInsulinRatioBreakfast.Text);
@@ -221,7 +221,7 @@ namespace GlucoMan.BusinessLayer
             dl.SaveParameter("Bolus_GlucoseBeforeMeal", GlucoseBeforeMeal.Text);
             AppendToLogOfParameters();
         }
-        public  void SaveInsulinCorrectionParameters()
+        public void SaveInsulinCorrectionParameters()
         {
             dl.SaveParameter("Correction_TypicalBolusMorning", TypicalBolusMorning.Text);
             dl.SaveParameter("Correction_TypicalBolusMidday", TypicalBolusMidday.Text);
@@ -237,14 +237,14 @@ namespace GlucoMan.BusinessLayer
         {
             string TextOfFile = "";
 
-            TextOfFile +="Bolus_TargetGlucose=\t" + TargetGlucose.Text + "\t"; 
-            TextOfFile +="Bolus_ChoInsulinRatioBreakfast=\t" + ChoInsulinRatioBreakfast.Text + "\t"; 
-            TextOfFile +="Bolus_ChoInsulinRatioLunch=\t" + ChoInsulinRatioLunch.Text + "\t"; 
-            TextOfFile +="Bolus_ChoInsulinRatioDinner=\t" + ChoInsulinRatioDinner.Text + "\t"; 
-            TextOfFile +="Bolus_InsulinCorrectionSensitivity=\t" + InsulinCorrectionSensitivity.Text + "\t"; 
-            TextOfFile +="Bolus_TotalDailyDoseOfInsulin=\t" + TotalDailyDoseOfInsulin.Text + "\t"; 
-            TextOfFile +="Bolus_ChoToEat=\t" + ChoToEat.Text + "\t"; 
-            TextOfFile +="Bolus_GlucoseBeforeMeal=\t" + GlucoseBeforeMeal.Text + "\t"; 
+            TextOfFile += "Bolus_TargetGlucose=\t" + TargetGlucose.Text + "\t";
+            TextOfFile += "Bolus_ChoInsulinRatioBreakfast=\t" + ChoInsulinRatioBreakfast.Text + "\t";
+            TextOfFile += "Bolus_ChoInsulinRatioLunch=\t" + ChoInsulinRatioLunch.Text + "\t";
+            TextOfFile += "Bolus_ChoInsulinRatioDinner=\t" + ChoInsulinRatioDinner.Text + "\t";
+            TextOfFile += "Bolus_InsulinCorrectionSensitivity=\t" + InsulinCorrectionSensitivity.Text + "\t";
+            TextOfFile += "Bolus_TotalDailyDoseOfInsulin=\t" + TotalDailyDoseOfInsulin.Text + "\t";
+            TextOfFile += "Bolus_ChoToEat=\t" + ChoToEat.Text + "\t";
+            TextOfFile += "Bolus_GlucoseBeforeMeal=\t" + GlucoseBeforeMeal.Text + "\t";
 
             TextOfFile += "Date and Time=\t" + DateTime.Now.ToString() + "\t";
             TextOfFile += "Typical Bolus Morning=\t" + TypicalBolusMorning.Text + "\t";
@@ -256,9 +256,9 @@ namespace GlucoMan.BusinessLayer
             TextOfFile += "Insulin Correction Sensitivity\t" + InsulinCorrectionSensitivity.Text + "\t";
             TextOfFile += "\n";
             // write in append to the file 
-            File.AppendAllText(Common.PathAndFileLogOfParameters, TextOfFile); 
+            File.AppendAllText(Common.PathAndFileLogOfParameters, TextOfFile);
         }
-        public  void RestoreInsulinCorrectionParameters()
+        public void RestoreInsulinCorrectionParameters()
         {
             TypicalBolusMorning.Text = dl.RestoreParameter("Correction_TypicalBolusMorning");
             TypicalBolusMidday.Text = dl.RestoreParameter("Correction_TypicalBolusMidday");
@@ -287,12 +287,12 @@ namespace GlucoMan.BusinessLayer
         public double CalculateEmbarkedInsulin(DateTime LastInjectionTargetTime, Common.TypeOfInsulinSpeed InsulinSpeed)
         {
             DateTime FinalInstant = DateTime.Now;
-            DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan (0, (int)(InsulinDurationInHours(InsulinSpeed) * 60), 0)); ;
-            // !!!! TODO insulin duration encoded here; manage it including the datum in database !!!! 
+            DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(0, (int)(InsulinDurationInHours(InsulinSpeed) * 60), 0)); ;
+            // !!!! TODO insulin duration was encoded here; manage it including the datum in database !!!! 
             //switch (InsulinSpeed)
             //{
-            //    case Common.TypeOfInsulinSpeed.QuickAction: InitialInstant = FinalInstant.Subtract(new TimeSpan(4, 0, 0)); break;
-            //    case Common.TypeOfInsulinSpeed.SlowAction: InitialInstant = FinalInstant.Subtract(new TimeSpan(24, 0, 0)); break;
+            //    case Common.TypeOfInsulinSpeed.RapidActing: InitialInstant = FinalInstant.Subtract(new TimeSpan(3, 0, 0)); break;
+            //    case Common.TypeOfInsulinSpeed.ShortActing: InitialInstant = FinalInstant.Subtract(new TimeSpan(24, 0, 0)); break;
             //    default: InitialInstant = FinalInstant.Subtract(new TimeSpan(24, 0, 0)); break;
             //}
             List<InsulinInjection> nonExaustedInsulin =
@@ -303,7 +303,7 @@ namespace GlucoMan.BusinessLayer
                 TimeSpan timeFromInjection = FinalInstant.Subtract((DateTime)ii.Timestamp.DateTime);
                 // TODO should generalize with specific type of insuline drug 
                 if (ii.IdTypeOfInsulinSpeed == null)
-                    break; 
+                    break;
                 double insulinDurationInHours = InsulinDurationInHours((Common.TypeOfInsulinSpeed)ii.IdTypeOfInsulinSpeed);
                 double partialEmbarkedInsulin = (double)ii.InsulinValue.Double
                     * (1 - timeFromInjection.TotalHours / insulinDurationInHours);
@@ -311,28 +311,39 @@ namespace GlucoMan.BusinessLayer
                     EmbarkedInsulin.Double += partialEmbarkedInsulin;
             }
             if (EmbarkedInsulin.Double < 0)
-                EmbarkedInsulin.Double = 0; 
-            return (double) EmbarkedInsulin.Double;
+                EmbarkedInsulin.Double = 0;
+            return (double)EmbarkedInsulin.Double;
         }
         // !!!! TODO InsulinDuration is hard encoded in this method. Bring it to the database !!!!
         internal double InsulinDurationInHours(Common.TypeOfInsulinSpeed InsulinSpeed)
         {
             switch (InsulinSpeed)
             {
-                case Common.TypeOfInsulinSpeed.QuickAction:
+                case Common.TypeOfInsulinSpeed.RapidActing:
                     {
-                        return 4;
+                        return 3;
                     }
-                case Common.TypeOfInsulinSpeed.SlowAction:
+                case Common.TypeOfInsulinSpeed.ShortActing:
+                    {
+                        return 4.5;
+                    }
+                case Common.TypeOfInsulinSpeed.IntermediateActing:
+                    {
+                        return 12 - 0 + (18.0 - 12) / 2.0;
+                    }
+                case Common.TypeOfInsulinSpeed.LongActing:
                     {
                         return 24;
                     }
                 default:
                     {
-                        return 0; 
+                        return 0;
                     }
+                    //RapidActing = 10, // about 15 minutes to start working, peaks in 1-2 hours, and lasts for 2-4 hours
+                    //ShortActing = 20, // 30 minutes to start working, peaks in 2-3 hours, and lasts for 3-6 hours.
+                    //IntermediateActing = 30, // about 2-4 hours to start working, peaks in 4-12 hours, and lasts for 12-18 hours.
+                    //LongActing = 40 // 1-2 hours to start working, has no peak effect, and lasts for 24+ hours
             };
         }
     }
 }
-  

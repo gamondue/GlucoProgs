@@ -1,0 +1,14 @@
+Domanda a Bing Chat:
+What formulas are use to calculate the quantity of carboihdrates burnt in phisical activitity?
+
+Carbohydrates are one of the primary sources of energy for physical activity. The amount of carbohydrates burnt during exercise depends on various factors such as the intensity and duration of the activity, body weight, and diet.
+
+The following formula can be used to calculate the amount of carbohydrates burnt during physical activity:
+
+Carbohydrates Burnt = (Duration of Activity in Minutes x Intensity of Activity in METs x Body Weight in Kilograms x 5) / 1000
+
+Here, METs stands for metabolic equivalent of task, which is a measure of the intensity of physical activity. The value of METs varies depending on the type of activity performed1.
+
+Please note that this formula is an approximation and may not be entirely accurate. It is always advisable to consult a certified fitness expert or a nutritionist for personalized advice on physical activity and diet.
+
+I hope this helps!

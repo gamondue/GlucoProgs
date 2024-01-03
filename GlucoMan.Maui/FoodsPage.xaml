@@ -26,7 +26,6 @@
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Food's information" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-
             <Label Grid.Row="1" Grid.Column="2" Text="Id food" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of food" 

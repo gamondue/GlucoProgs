@@ -1,0 +1,73 @@
+Tabella da https://golf.procon.org/met-values-for-800-activities/
+
+According to The Compendium of Physical Activities, “MET (Metabolic Equivalent) [is] the ratio of the work metabolic rate to the resting metabolic rate. One MET is defined as 1 kcal/kg/hour and is roughly equivalent to the energy cost of sitting quietly. A MET also is defined as oxygen uptake in ml/kg/min with one MET equal to the oxygen cost of sitting quietly, equivalent to 3.5 ml/kg/min.”
+
+
+Activity	MET Value
+Aerobics, high impact	7.5
+Aerobics, low impact	5.5
+Backpacking	7.0
+Badminton	5.5
+Basketball	8.0
+Bicycling, 10-11.9 mph, leisure, slow, light effort	6.8
+Bicycling, 12-13.9 mph, leisure, moderate effort	8.0
+Bicycling, 14-15.9 mph, racing or leisure, fast, vigorous effort	10.0
+Bicycling, 16-19 mph, racing/not drafting or > 19 mph drafting, very fast, racing general	12.0
+Bicycling, > 20 mph, racing, not drafting	15.8
+Bowling	3.0
+Boxing, punching bag	6.0
+Calisthenics, pushups, situps, pullups, jumping jacks, vigorous effort	8.0
+Canoeing, rowing, 2.0-4.9 mph, light effort	3.5
+Canoeing, rowing, 5.0-5.9 mph, moderate effort	7.0
+Canoeing, rowing, kayaking, competition, > 6 mph, vigorous effort	12.5
+Circuit training, moderate effort	5.5
+Dancing, ballroom, slow	3.0
+Dancing, disco, ballroom, fast	7.0
+Elliptical trainer, moderate effort	5.0
+Fencing	8.0
+Football, touch, flag, general	8.0
+Frisbee	4.0
+Golf, carrying clubs	4.3
+Golf, using power cart	3.0
+Gymnastics, general	4.0
+Handball	8.0
+Hiking, cross country	6.0
+Hockey, field	8.0
+Hockey, ice	8.0
+Horseback riding, general	5.5
+Housework, general	3.5
+Ice skating, moderate effort	5.0
+Jogging, general	7.0
+Jumping rope, moderate effort	10.0
+Karate, general	10.0
+Kayaking, moderate effort	5.0
+Kickboxing	8.0
+Lacrosse	8.0
+Marching, moderate effort	4.5
+Martial arts, general	6.0
+Mowing lawn, general	5.5
+Paddleball	7.0
+Pilates, general	3.0
+Racquetball, casual, general	7.0
+Racquetball, competitive	10.0
+Rock climbing, ascending rock	8.0
+Rollerblading, in-line skating, 10 mph, moderate effort	7.5
+Rope jumping, fast	12.3
+Rowing, stationary, moderate effort	6.0
+Running, 5 mph (12 min/mile)	8.3
+Running, 6 mph (10 min/mile)	9.8
+Running, 7 mph (8.5 min/mile)	11.0
+Running, 8 mph (7.5 min/mile)	11.8
+Running, 10 mph (6 min/mile)	16.0
+Running, 12 mph (5 min/mile)	19.0
+Running, cross country	9.0
+Running, stairs, up	15.0
+Scuba diving	5.5
+Skateboarding	5.0
+Skiing, cross country, 2.5 mph, slow or light effort	7.0
+Skiing, cross country, 4-5 mph, moderate effort	10.0
+Skiing, cross country, 5-8 mph, vigorous effort	12.5
+Skiing, downhill, light effort	5.0
+Skiing, downhill, moderate effort	6.0
+Skiing, downhill, vigorous effort	7.0
+Sledding, tobogganing, bobsledding, luge	7.0
