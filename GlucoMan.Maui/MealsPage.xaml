@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.MealsPage"
              Title="Meals">
     <ContentPage.Content>
-        <Grid RowDefinitions="40,20,50,20,50,50,50,20,20,*"
+        <Grid RowDefinitions="40,20,50,20,60,50,50,20,20,*"
             ColumnDefinitions="*,*,*,*">
             <RadioButton Grid.Row="0" Grid.Column="0" Content="b.fast" x:Name="rdbIsBreakfast" 
                          CheckedChanged="rdb_CheckedChanged"/>
@@ -16,7 +16,8 @@
                          CheckedChanged="rdb_CheckedChanged"/>
 
             <Label Grid.Row="1" Grid.Column="3" Text="IdMeal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="1" Grid.Column="0" Text="Meal CHO" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="0" Text="Meal CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                   LineBreakMode="WordWrap"/>
             <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="Accuracy" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdMeal" BackgroundColor="White" Margin="2,2,2,2" 
@@ -48,8 +49,9 @@
             <TimePicker Grid.Row="4" Grid.Column="2" x:Name="dtpMealTimeBegin" Margin="0,2,0,2" 
                         BackgroundColor="PaleGreen" Format="HH:mm:ss" 
                         HorizontalOptions="Center" />
-            <Button Grid.Row="4" Grid.Column="3" Text="Clean" Margin="2,2,2,2" 
-                    x:Name="btnDefaults" Clicked="btnDefault_Click"></Button>
+            <Button Grid.Row="4" Grid.Column="3" Text="Clean fields" Margin="2,2,2,2" 
+                    x:Name="btnDefaults" Clicked="btnDefault_Click"
+                    LineBreakMode="WordWrap"></Button>
 
             <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" Margin="2,2,2,2"
                    BackgroundColor="White" 
@@ -93,8 +95,10 @@
                 </Label>
             </HorizontalStackLayout>
 
-            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Text="Date and Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Text="CHO" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="0" Text="Date and Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="1" Text="CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="2" Text="Type" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="3" Text="Accuracy %" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <ListView Grid.Row="9" Grid.ColumnSpan="4" x:Name="gridMeals" ItemsSource="{Binding}"
                       ItemSelected="OnGridSelectionAsync" >
@@ -110,9 +114,13 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding TimeBegin.DateTime}"/>
                                     <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding Carbohydrates.Text}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding IdTypeOfMeal}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

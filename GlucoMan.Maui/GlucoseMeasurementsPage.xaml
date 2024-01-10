@@ -4,19 +4,21 @@
              x:Class="GlucoMan.Maui.GlucoseMeasurementsPage"
              Title="Glucose Measurements">
     <ContentPage.Content>
-        <Grid RowDefinitions="20,60,60,60,30,30,*"
+        <Grid RowDefinitions="40,60,60,60,30,30,*"
               ColumnDefinitions="*,*,*,*">
-            <Label Grid.Row="0" Grid.Column="0" Text="Glucose" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="0" Grid.Column="0" Text="Glucose&#10;[mg/dL]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                   LineBreakMode="WordWrap"/>
             <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="Measurement Date-Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="0" Grid.Column="3" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucose" Text="" FontSize="Large"
                    Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="Lime" IsEnabled="true"/>
-            <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate" BackgroundColor="PaleGreen" FontAutoScalingEnabled="True"
-                        Format="yyyy-MM-dd" HorizontalOptions="Center"/>
-            <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpEventTime" BackgroundColor="PaleGreen" FontAutoScalingEnabled="True"
-                        Format="HH:mm:ss" HorizontalOptions="Center"/>
-            <Label Grid.Row="1" Grid.Column="3" x:Name="txtIdGlucoseRecord" Text="" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate" BackgroundColor="PaleGreen" 
+                        FontAutoScalingEnabled="True" Format="yyyy-MM-dd" HorizontalOptions="Center"/>
+            <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpEventTime" BackgroundColor="PaleGreen" 
+                        FontAutoScalingEnabled="True" Format="HH:mm:ss" HorizontalOptions="Center"/>
+            <Label Grid.Row="1" Grid.Column="3" x:Name="txtIdGlucoseRecord" Text="" HorizontalTextAlignment="Center" 
+                   VerticalTextAlignment="Center"/>
             
             <!-- check box with associated label into a StackLayout -->
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
@@ -46,7 +48,7 @@
             </StackLayout>
 
             <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Text="Glucose" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Text="Glucose [mg/dL]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <ListView Grid.Row="6" Grid.ColumnSpan="4" x:Name="gridMeasurements" ItemsSource="{Binding}"
                       ItemSelected="OnGridSelection" >

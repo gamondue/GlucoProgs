@@ -12,8 +12,8 @@
     <!--<ContentPage Title="Data">-->
         <Grid RowDefinitions="40,55,30,50,25,50,30,*"
               ColumnDefinitions="*,*,*,*">
-            <Label Grid.Row="0" Grid.Column="0" Text="Actual insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="0" Grid.Column="1" Text="Calculated Insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="0" Grid.Column="0" Text="Actual insulin [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="0" Grid.Column="1" Text="Calculated Insulin [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="0" Grid.Column="2" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtInsulinActual" 
@@ -75,7 +75,7 @@
                    FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
             
             <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Text="Insulin Units" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Text="Insulin Units [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <ListView Grid.Row="7" Grid.ColumnSpan="4" x:Name="gridInjections" ItemsSource="{Binding}"
                       ItemSelected="OnGridSelectionAsync" >

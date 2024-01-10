@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.InsulinCalcPage"
              Title="Insulin bolus calculation">
     <ContentPage.Content>
-        <Grid Padding="8,0,8,0" RowDefinitions="25,20,60,35,60,25,60,60,40,30,40,60"
+        <Grid Padding="8,0,8,0" RowDefinitions="25,20,70,35,70,25,60,70,40,30,40,60"
               ColumnDefinitions="*,*,*,*">
         <Label x:Name="tempText" Grid.Row="0" Grid.ColumnSpan="4" Text="Ratio CHO / insulin (from dietist)" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -18,21 +18,22 @@
                    Keyboard="Numeric" Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" IsReadOnly="True" Margin="2,2,2,2" 
                    Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
-            <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calc bolus" Margin="2,2,2,2" 
+            <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calc.&#10;bolus" Margin="2,2,2,2" 
                    Clicked="btnBolusCalculations_Click" />
 
             <!-- <Label Grid.Row="3" Grid.Column="0" Text="TDD" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
             <Label Grid.Row="3" Grid.Column="0" Text="Sensitivity to insulin [mg/dl]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="3" Grid.Column="2" Text="Embarked insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="3" Grid.Column="2" Text="Embarked insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                   HorizontalOptions="Center"/>
 
             <!-- <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="-_-_" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> -->
-            <Entry Grid.Row="4" Grid.Column="0" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" Margin="2,2,2,2" 
+            <Entry Grid.Row="4" Grid.Column="0" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
                    Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod" />
-            <Button Grid.Row="4" Grid.Column="1" x:Name="btnSetParameters" Text="Set par." Margin="2,2,2,2" 
-                    Clicked="btnSetParameters_Click"/>
-            <Label Grid.Row="4" Grid.Column="2" x:Name="txtEmbarkedInsulin" Text="----" Margin="2,2,2,2" 
+            <Button Grid.Row="4" Grid.Column="1" x:Name="btnSetParameters" Text="Set&#10;param." 
+                    HorizontalOptions="Center" Clicked="btnSetParameters_Click"/>
+            <Label Grid.Row="4" Grid.Column="2" x:Name="txtEmbarkedInsulin" Text="----" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Medium" />
-            <Button Grid.Row="4" Grid.Column="3" Text="Round" Margin="2,2,2,2" 
+            <Button Grid.Row="4" Grid.Column="3" Text="Round" 
                         x:Name="btnRoundInsulin" Clicked="btnRoundInsulin_Click" />
 
             <Label Grid.Row="5" Grid.Column="0" Text="Premeal Gluc" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -53,8 +54,9 @@
 
             <Button Grid.Row="7" Grid.Column="0"  Text="Read" Margin="2,2,2,2"
                         x:Name="btnReadGlucose" Clicked="btnReadGlucose_Click" />
-            <Button Grid.Row="7" Grid.Column="1"  Text="Meas. Gluc." IsEnabled="True" Margin="2,2,2,2"
-                        x:Name="btnMeasureGlucose" Clicked="btnMeasureGlucose_Click" />
+            <Button Grid.Row="7" Grid.Column="1"  Text="Measure&#10;Glucose" IsEnabled="True" Margin="2,2,2,2"
+                        x:Name="btnMeasureGlucose" Clicked="btnMeasureGlucose_Click"
+                    />
             <Button Grid.Row="7" Grid.Column="3" x:Name="btnReadCho" Text="Read" Margin="2,2,2,2"
                     Clicked="btnReadCho_Click"/>
             <Button Grid.Row="7" Grid.Column="2"  Text="Injection" IsEnabled="True" Margin="2,2,2,2"

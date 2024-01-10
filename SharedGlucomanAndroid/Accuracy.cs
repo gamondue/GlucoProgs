@@ -1,7 +1,6 @@
-﻿using GlucoMan.BusinessLayer;
-using static GlucoMan.Common;
-using System;
+﻿using System;
 using Xamarin.Forms;
+using static GlucoMan.Common;
 using Color = System.Drawing.Color;
 
 namespace gamon
@@ -18,47 +17,47 @@ namespace gamon
             {
                 return QualitativeAccuracy.NotSet;
             }
-            else if (NumericalAccuracy == 0)
+            else if (NumericalAccuracy <= 5)
             {
                 return QualitativeAccuracy.Null;
             }
-            else if (NumericalAccuracy <= (double)QualitativeAccuracy.AlmostNull)
+            else if (NumericalAccuracy <= (double)QualitativeAccuracy.AlmostNull + 5)
             {
                 return QualitativeAccuracy.AlmostNull;
             }
-            else if (NumericalAccuracy <= (double)QualitativeAccuracy.VeryBad)
+            else if (NumericalAccuracy <= (double)QualitativeAccuracy.VeryBad + 5)
             {
                 return QualitativeAccuracy.VeryBad;
             }
-            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Bad)
+            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Bad + 5)
             {
                 return QualitativeAccuracy.Bad;
             }
-            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Poor)
+            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Poor + 5)
             {
                 return QualitativeAccuracy.Poor;
             }
-            else if (NumericalAccuracy <= (double)QualitativeAccuracy.AlmostSufficient)
+            else if (NumericalAccuracy <= (double)QualitativeAccuracy.AlmostSufficient + 5)
             {
                 return QualitativeAccuracy.AlmostSufficient;
             }
-            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Sufficient)
+            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Sufficient + 5)
             {
                 return QualitativeAccuracy.Sufficient;
             }
-            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Satisfactory)
+            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Satisfactory + 5)
             {
                 return QualitativeAccuracy.Satisfactory;
             }
-            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Good)
+            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Good + 5)
             {
                 return QualitativeAccuracy.Good;
             }
-            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Outstanding)
+            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Outstanding + 5)
             {
                 return QualitativeAccuracy.Outstanding;
             }
-            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Perfect)
+            else if (NumericalAccuracy <= (double)QualitativeAccuracy.Perfect + 5)
             {
                 return QualitativeAccuracy.Perfect;
             }
@@ -128,7 +127,7 @@ namespace gamon
             clickedFlag = true;
         }
         private void Combo_Unfocused(object sender, FocusEventArgs e)
-        { 
+        {
             clickedFlag = false;
         }
         internal Color AccuracyBackColor(double NumericalAccuracy)
@@ -179,7 +178,7 @@ namespace gamon
                 c = Color.Green;
             }
             else
-            {   
+            {
                 c = Color.MintCream;
             }
             return c;
