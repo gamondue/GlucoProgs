@@ -4,12 +4,13 @@
              x:Class="GlucoMan.Maui.FoodPage"
              Title="Food details">
     <ContentPage.Content>
-        <Grid RowDefinitions="35,20,50,20,50,20,50,35,20,30,50,20,50,20,50,50,50"
+        <Grid RowDefinitions="50,20,50,20,50,20,50,50,50,*"
             ColumnDefinitions="*,*,*,*">
 
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
-                Grid.ColumnSpan="4" Text="Food's nutrition data [g in 100 g]" 
-                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                Grid.ColumnSpan="4" Text="Food's nutrition data [g CHO in Unit]" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                   Margin="0,0,0,0"
                    FontSize="Large"/>
 
             <Label Grid.Row="1" Grid.Column="0" Text="Calories [kCal]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -45,8 +46,7 @@
             <Label Grid.Row="5" Grid.Column="2" Text="Cholesterol [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="5" Grid.Column="3" Text="Potassium  [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="6" Grid.Column="0" x:Name="txtProteins" BackgroundColor="White"
-                   
+            <Entry Grid.Row="6" Grid.Column="0" x:Name="txtProteins" BackgroundColor="White"                 
                 Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="6" Grid.Column="1" x:Name="txtSalt" BackgroundColor="White"
                 Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
@@ -55,46 +55,57 @@
             <Entry Grid.Row="6" Grid.Column="3" x:Name="txtPotassium" BackgroundColor="White"
                 Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
 
-            <Label Grid.Row="7" Grid.Column="0" Text="Food info" 
-                   Grid.ColumnSpan="4" FontSize="Large"
+            <Label Grid.Row="7" Grid.Column="0" Text="Glycemic Index" 
+                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="7" Grid.Column="1" Text="Id food" 
+                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="1" Text="Unit of food" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Label Grid.Row="8" Grid.Column="0" Text="Make" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                   Grid.ColumnSpan="4"/>
-            <Entry Grid.Row="9" Grid.Column="0" x:Name="txtFoodMake" BackgroundColor="White"
-                   Grid.ColumnSpan="4"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
-            <Picker Grid.Row="10" Grid.Column="0" x:Name="cmbMake" Title="Pick Maker of Food"
-                    Margin="5,0,5,0" Grid.ColumnSpan="4">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>1800</x:String>
-                        <x:String>1500</x:String>
-                        <x:String>1400</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
-            <Label Grid.Row="11" Grid.Column="0" Text="Product" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                   Grid.ColumnSpan="4"/>
-            <Entry Grid.Row="12" Grid.Column="0" x:Name="txtFoodProduct" BackgroundColor="White"
-                   Grid.ColumnSpan="4"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>                  
-            <Label Grid.Row="13" Grid.Column="0" Text="Category" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                   Grid.ColumnSpan="4"/>
-            <Entry Grid.Row="14" Grid.Column="0" x:Name="txtCategory" BackgroundColor="White"
-                   Grid.ColumnSpan="4"/>
-            <Picker Grid.Row="15" Grid.Column="0" x:Name="cmbCategory" Title="Pick category"
-                    Margin="5,0,5,0" Grid.ColumnSpan="4">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>1800</x:String>
-                        <x:String>1500</x:String>
-                        <x:String>1400</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
-            <Button Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="4" x:Name="btnChoose" Text="OK" 
+            <Entry Grid.Row="8" Grid.Column="0" x:Name="txtGlycemicIndex" BackgroundColor="White" 
+                    FontSize="Medium" HorizontalTextAlignment="End" Keyboard="Numeric"/>
+            <Entry Grid.Row="8" Grid.Column="1" x:Name="txtIdFood" BackgroundColor="White" 
+                    FontSize="Medium" HorizontalTextAlignment="Center" 
+                    IsReadOnly="true"/>
+            <Entry Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="1" 
+                       x:Name="txtUnit" BackgroundColor="White"
+                       FontSize="Medium" HorizontalTextAlignment="Start"/>
+            <Grid Grid.Row="8" Grid.Column="3" ColumnDefinitions="*,50"
+                  Grid.ColumnSpan="1">
+                <Picker Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
+                        x:Name="cmbUnit" Title="Pick Unit" Margin="5,0,5,0">
+                </Picker>
+                <Button Grid.Column="1"  x:Name="btnAddFood" Text="+" IsEnabled="False"/>
+            </Grid>
+            <StackLayout Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4">
+                <Label Text="Food info" Margin="0,10,0,0"
+                   Grid.ColumnSpan="4" FontSize="Large"
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                <Label Text="Food Name" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                <Entry x:Name="txtFoodName" BackgroundColor="GreenYellow" Keyboard="Text" 
+                       FontSize="Medium" HorizontalTextAlignment="Start"/>
+                <Label Text="Food Description" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                <Entry x:Name="txtFoodProduct" BackgroundColor="White" Keyboard="Text"
+                       FontSize="Medium" HorizontalTextAlignment="Start"/>
+                <Label Text="Producer" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                <Grid ColumnDefinitions="*,150,50">
+                    <Entry x:Name="txtFoodProducer" BackgroundColor="White"
+                       FontSize="Medium" HorizontalTextAlignment="Start"/>
+                    <Picker Grid.Column="1" x:Name="cmbProducer" Title="Pick Producer" Margin="5,0,5,0">
+                    </Picker>
+                    <Button Grid.Column="2" x:Name="btnAddFoodProducer" Text="+" IsEnabled="False"/>
+                </Grid>
+                <Label Text="Category" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                <Grid ColumnDefinitions="*,150,50">
+                    <Entry x:Name="txtCategory" BackgroundColor="White" FontSize="Medium"/>
+                    <Picker Grid.Column="1" x:Name="cmbCategory" Title="Pick category" 
+                            VerticalTextAlignment="End" Margin="5,0,5,0">
+                    </Picker>
+                    <Button Grid.Column="2" x:Name="btnCategory" Text="+" IsEnabled="False"/>
+                </Grid>
+                <Button x:Name="btnChoose" Text="OK" 
                     HorizontalOptions="Center" Clicked="btnOk_Click"></Button>
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
