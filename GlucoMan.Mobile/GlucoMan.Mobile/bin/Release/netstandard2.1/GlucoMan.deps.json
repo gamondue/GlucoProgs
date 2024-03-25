@@ -7,26 +7,26 @@
   "targets": {
     ".NETStandard,Version=v2.1": {},
     ".NETStandard,Version=v2.1/": {
-      "GlucoMan/0.7.3.4": {
+      "GlucoMan/0.7.4": {
         "dependencies": {
-          "Microsoft.Data.Sqlite.Core": "7.0.0-preview.7.22376.2",
-          "SQLitePCLRaw.bundle_e_sqlite3": "2.1.1-pre20220822172036",
+          "Microsoft.Data.Sqlite.Core": "7.0.3",
+          "SQLitePCLRaw.bundle_e_sqlite3": "2.1.4",
           "SimMetrics.Net": "1.0.5",
-          "Xamarin.Essentials": "1.7.3",
-          "Xamarin.Forms": "5.0.0.2515"
+          "Xamarin.Essentials": "1.7.5",
+          "Xamarin.Forms": "5.0.0.2545"
         },
         "runtime": {
           "GlucoMan.dll": {}
         }
       },
-      "Microsoft.Data.Sqlite.Core/7.0.0-preview.7.22376.2": {
+      "Microsoft.Data.Sqlite.Core/7.0.3": {
         "dependencies": {
-          "SQLitePCLRaw.core": "2.1.1-pre20220822172036"
+          "SQLitePCLRaw.core": "2.1.4"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Data.Sqlite.dll": {
-            "assemblyVersion": "7.0.0.0",
-            "fileVersion": "7.0.22.37602"
+            "assemblyVersion": "7.0.3.0",
+            "fileVersion": "7.0.323.6302"
           }
         }
       },
@@ -38,38 +38,38 @@
           }
         }
       },
-      "SQLitePCLRaw.bundle_e_sqlite3/2.1.1-pre20220822172036": {
+      "SQLitePCLRaw.bundle_e_sqlite3/2.1.4": {
         "dependencies": {
-          "SQLitePCLRaw.lib.e_sqlite3": "2.1.1-pre20220822172036",
-          "SQLitePCLRaw.provider.e_sqlite3": "2.1.1-pre20220822172036"
+          "SQLitePCLRaw.lib.e_sqlite3": "2.1.4",
+          "SQLitePCLRaw.provider.e_sqlite3": "2.1.4"
         },
         "runtime": {
           "lib/netstandard2.0/SQLitePCLRaw.batteries_v2.dll": {
-            "assemblyVersion": "2.1.1.1694",
-            "fileVersion": "2.1.1.1694"
+            "assemblyVersion": "2.1.4.1835",
+            "fileVersion": "2.1.4.1835"
           }
         }
       },
-      "SQLitePCLRaw.core/2.1.1-pre20220822172036": {
+      "SQLitePCLRaw.core/2.1.4": {
         "dependencies": {
           "System.Memory": "4.5.3"
         },
         "runtime": {
           "lib/netstandard2.0/SQLitePCLRaw.core.dll": {
-            "assemblyVersion": "2.1.1.1694",
-            "fileVersion": "2.1.1.1694"
+            "assemblyVersion": "2.1.4.1835",
+            "fileVersion": "2.1.4.1835"
           }
         }
       },
-      "SQLitePCLRaw.lib.e_sqlite3/2.1.1-pre20220822172036": {},
-      "SQLitePCLRaw.provider.e_sqlite3/2.1.1-pre20220822172036": {
+      "SQLitePCLRaw.lib.e_sqlite3/2.1.4": {},
+      "SQLitePCLRaw.provider.e_sqlite3/2.1.4": {
         "dependencies": {
-          "SQLitePCLRaw.core": "2.1.1-pre20220822172036"
+          "SQLitePCLRaw.core": "2.1.4"
         },
         "runtime": {
           "lib/netstandard2.0/SQLitePCLRaw.provider.e_sqlite3.dll": {
-            "assemblyVersion": "2.1.1.1694",
-            "fileVersion": "2.1.1.1694"
+            "assemblyVersion": "2.1.4.1835",
+            "fileVersion": "2.1.4.1835"
           }
         }
       },
@@ -110,7 +110,7 @@
           }
         }
       },
-      "Xamarin.Essentials/1.7.3": {
+      "Xamarin.Essentials/1.7.5": {
         "dependencies": {
           "System.Numerics.Vectors": "4.5.0"
         },
@@ -121,36 +121,36 @@
           }
         }
       },
-      "Xamarin.Forms/5.0.0.2515": {
+      "Xamarin.Forms/5.0.0.2545": {
         "runtime": {
           "lib/netstandard2.0/Xamarin.Forms.Core.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "5.0.0.946"
+            "fileVersion": "5.0.0.960"
           },
           "lib/netstandard2.0/Xamarin.Forms.Platform.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "5.0.0.946"
+            "fileVersion": "5.0.0.960"
           },
           "lib/netstandard2.0/Xamarin.Forms.Xaml.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "5.0.0.946"
+            "fileVersion": "5.0.0.960"
           }
         }
       }
     }
   },
   "libraries": {
-    "GlucoMan/0.7.3.4": {
+    "GlucoMan/0.7.4": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Data.Sqlite.Core/7.0.0-preview.7.22376.2": {
+    "Microsoft.Data.Sqlite.Core/7.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-b1IBXGJvc+1m7erHOMtU7cIhxdZvPFJqEdCJOoeUWCpcsb6SywLQWIAM14nbA/y56P27fbd6tLyBaCO+cFs9QA==",
-      "path": "microsoft.data.sqlite.core/7.0.0-preview.7.22376.2",
-      "hashPath": "microsoft.data.sqlite.core.7.0.0-preview.7.22376.2.nupkg.sha512"
+      "sha512": "sha512-pCmzLLWTIrIv94o7JtQ1qcPD0oc1YNY9XvlO6/tOF9YCcUfDZ3Tx9Z//CM7hFnprduHFPekif7jteBc/sXQ31Q==",
+      "path": "microsoft.data.sqlite.core/7.0.3",
+      "hashPath": "microsoft.data.sqlite.core.7.0.3.nupkg.sha512"
     },
     "SimMetrics.Net/1.0.5": {
       "type": "package",
@@ -159,33 +159,33 @@
       "path": "simmetrics.net/1.0.5",
       "hashPath": "simmetrics.net.1.0.5.nupkg.sha512"
     },
-    "SQLitePCLRaw.bundle_e_sqlite3/2.1.1-pre20220822172036": {
+    "SQLitePCLRaw.bundle_e_sqlite3/2.1.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-KaxwGl9Grbq9fjoTIis84HQdFHJ/lDUIOu9YzJ2LnY7QWF+712lUqGR84h7cNNa2DqVWkSXaK0anNQoRgN6gqQ==",
-      "path": "sqlitepclraw.bundle_e_sqlite3/2.1.1-pre20220822172036",
-      "hashPath": "sqlitepclraw.bundle_e_sqlite3.2.1.1-pre20220822172036.nupkg.sha512"
+      "sha512": "sha512-EWI1olKDjFEBMJu0+3wuxwziIAdWDVMYLhuZ3Qs84rrz+DHwD00RzWPZCa+bLnHCf3oJwuFZIRsHT5p236QXww==",
+      "path": "sqlitepclraw.bundle_e_sqlite3/2.1.4",
+      "hashPath": "sqlitepclraw.bundle_e_sqlite3.2.1.4.nupkg.sha512"
     },
-    "SQLitePCLRaw.core/2.1.1-pre20220822172036": {
+    "SQLitePCLRaw.core/2.1.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-dy6z7v8KvH3p/ukvlJQG1NEa40Wv4k2/Nb25oVjXbYSKg3IeAWIkSON6vo7rZRxBK3lhRWFT9mXhNBNjeUv/iA==",
-      "path": "sqlitepclraw.core/2.1.1-pre20220822172036",
-      "hashPath": "sqlitepclraw.core.2.1.1-pre20220822172036.nupkg.sha512"
+      "sha512": "sha512-inBjvSHo9UDKneGNzfUfDjK08JzlcIhn1+SP5Y3m6cgXpCxXKCJDy6Mka7LpgSV+UZmKSnC8rTwB0SQ0xKu5pA==",
+      "path": "sqlitepclraw.core/2.1.4",
+      "hashPath": "sqlitepclraw.core.2.1.4.nupkg.sha512"
     },
-    "SQLitePCLRaw.lib.e_sqlite3/2.1.1-pre20220822172036": {
+    "SQLitePCLRaw.lib.e_sqlite3/2.1.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-wT4oUwwWGkgcXPY0+NW8AxuZ30EhAcsNgUBAoUzrZNGwmWQOIZwq20dD9vB3Jvs3hrBCDO5SA2TZH8Rc8tyk1Q==",
-      "path": "sqlitepclraw.lib.e_sqlite3/2.1.1-pre20220822172036",
-      "hashPath": "sqlitepclraw.lib.e_sqlite3.2.1.1-pre20220822172036.nupkg.sha512"
+      "sha512": "sha512-2C9Q9eX7CPLveJA0rIhf9RXAvu+7nWZu1A2MdG6SD/NOu26TakGgL1nsbc0JAspGijFOo3HoN79xrx8a368fBg==",
+      "path": "sqlitepclraw.lib.e_sqlite3/2.1.4",
+      "hashPath": "sqlitepclraw.lib.e_sqlite3.2.1.4.nupkg.sha512"
     },
-    "SQLitePCLRaw.provider.e_sqlite3/2.1.1-pre20220822172036": {
+    "SQLitePCLRaw.provider.e_sqlite3/2.1.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-95ZVQ20m4JjtMAfAC9bkMeGMNcm0LzEjjLP/T8u1vLFFzfaAswl5zk2sBuk/+KpVBF6b+3KmY4heJzmQgFtkaA==",
-      "path": "sqlitepclraw.provider.e_sqlite3/2.1.1-pre20220822172036",
-      "hashPath": "sqlitepclraw.provider.e_sqlite3.2.1.1-pre20220822172036.nupkg.sha512"
+      "sha512": "sha512-CSlb5dUp1FMIkez9Iv5EXzpeq7rHryVNqwJMWnpq87j9zWZexaEMdisDktMsnnrzKM6ahNrsTkjqNodTBPBxtQ==",
+      "path": "sqlitepclraw.provider.e_sqlite3/2.1.4",
+      "hashPath": "sqlitepclraw.provider.e_sqlite3.2.1.4.nupkg.sha512"
     },
     "System.Buffers/4.4.0": {
       "type": "package",
@@ -215,19 +215,19 @@
       "path": "system.runtime.compilerservices.unsafe/4.5.2",
       "hashPath": "system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
     },
-    "Xamarin.Essentials/1.7.3": {
+    "Xamarin.Essentials/1.7.5": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-b6NfxOfkmMGN54a4OcV/D7KXclWWqFwgixMPzlAku3kfKgUBGW4vBdNaujIBmk57NbGpWB2IS78ek0gDHNKwoQ==",
-      "path": "xamarin.essentials/1.7.3",
-      "hashPath": "xamarin.essentials.1.7.3.nupkg.sha512"
+      "sha512": "sha512-+dDLUCXOehBxFOw5D5AXeFtcLQ0HBCMeVHSSbonVuZWJ2/8mb7+pGFQA8n053Lvpie7CAd8C+05chIKK6YCBiw==",
+      "path": "xamarin.essentials/1.7.5",
+      "hashPath": "xamarin.essentials.1.7.5.nupkg.sha512"
     },
-    "Xamarin.Forms/5.0.0.2515": {
+    "Xamarin.Forms/5.0.0.2545": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-n/Y/xk1idWRkxk7xItwvNwwda7CHpIk7JxD6tXkGXmTqiVGV1xRkepf5aKXFkQLM9KIQhXXYBxPsdyJysPpktw==",
-      "path": "xamarin.forms/5.0.0.2515",
-      "hashPath": "xamarin.forms.5.0.0.2515.nupkg.sha512"
+      "sha512": "sha512-mjfNx4Y/RD0FYjrBfETT2iNdFD1WCXN5wNHPhQaXm3k0u5XYJaOx5K83EZ8nVun+FPi7Wo3rQPIN0DLCs5PG4A==",
+      "path": "xamarin.forms/5.0.0.2545",
+      "hashPath": "xamarin.forms.5.0.0.2545.nupkg.sha512"
     }
   }
 }

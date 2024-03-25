@@ -8,12 +8,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="20"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="45"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="60"/>
-                <RowDefinition Height="70"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -37,7 +37,7 @@
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
                     x:Name="txtName" BackgroundColor="LightGreen" 
                     Keyboard="Text" TextChanged="txtName_TextChanged"
-                    FontSize="Medium" HorizontalTextAlignment="Center" 
+                    HorizontalTextAlignment="Center" 
                     IsReadOnly="false"/>
             <Button Grid.Row="2" Grid.Column="3" x:Name="btnChoose" Text="Choose" 
                     Clicked="btnChoose_Click"></Button>
@@ -48,7 +48,7 @@
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
                     x:Name="txtDescription" BackgroundColor="White"
                     Keyboard="Text" TextChanged="txtDescription_TextChanged"
-                    FontSize="Medium" HorizontalTextAlignment="Start"/>
+                    HorizontalTextAlignment="Start"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="CHO %" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
