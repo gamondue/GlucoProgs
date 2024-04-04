@@ -4,11 +4,11 @@
              x:Class="GlucoMan.Maui.FoodPage"
              Title="Food details">
     <ContentPage.Content>
-        <Grid RowDefinitions="50,20,50,20,50,20,50,50,50,*"
+        <Grid RowDefinitions="35,20,40,20,40,20,40,20,40,*"
             ColumnDefinitions="*,*,*,*">
 
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
-                Grid.ColumnSpan="4" Text="Food's nutrition data [g CHO in Unit]" 
+                Grid.ColumnSpan="4" Text="Food's nutrition data" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                    Margin="0,0,0,0"
                    FontSize="Large"/>
@@ -19,41 +19,41 @@
             <Label Grid.Row="1" Grid.Column="3" Text="Mono sat. fats" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtCalories" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End" />
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtTotalFats" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtSaturatedFats" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="2" Grid.Column="3" x:Name="txtMonoinsaturatedFats" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
 
-            <Label Grid.Row="3" Grid.Column="0" Text="Poli fats  [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="3" Grid.Column="0" Text="Poli fats [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="3" Grid.Column="1" Text="CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="3" Grid.Column="2" Text="Sugar [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="3" Grid.Column="3" Text="Fibers [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtPolinsaturatedFats" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="4" Grid.Column="1" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="4" Grid.Column="2" x:Name="txtSugar" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="4" Grid.Column="3" x:Name="txtFibers" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="Proteins [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="5" Grid.Column="1" Text="Salt [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="5" Grid.Column="2" Text="Cholesterol [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="5" Grid.Column="2" Text="Cholest. [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="5" Grid.Column="3" Text="Potassium  [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtProteins" BackgroundColor="White"                 
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="6" Grid.Column="1" x:Name="txtSalt" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="6" Grid.Column="2" x:Name="txtCholesterol" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="6" Grid.Column="3" x:Name="txtPotassium" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                Keyboard="Numeric" FontSize="Small" HorizontalTextAlignment="End"/>
 
             <Label Grid.Row="7" Grid.Column="0" Text="Glycemic Index" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -63,47 +63,55 @@
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="8" Grid.Column="0" x:Name="txtGlycemicIndex" BackgroundColor="White" 
-                    FontSize="Medium" HorizontalTextAlignment="End" Keyboard="Numeric"/>
+                    FontSize="Small" HorizontalTextAlignment="End" Keyboard="Numeric"/>
             <Entry Grid.Row="8" Grid.Column="1" x:Name="txtIdFood" BackgroundColor="White" 
-                    FontSize="Medium" HorizontalTextAlignment="Center" 
+                    FontSize="Small" HorizontalTextAlignment="Center" 
                     IsReadOnly="true"/>
             <Entry Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="1" 
                        x:Name="txtUnit" BackgroundColor="White"
-                       FontSize="Medium" HorizontalTextAlignment="Start"/>
+                       FontSize="Small" HorizontalTextAlignment="Start"/>
             <Grid Grid.Row="8" Grid.Column="3" ColumnDefinitions="*,50"
                   Grid.ColumnSpan="1">
                 <Picker Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" 
-                        x:Name="cmbUnit" Title="Pick Unit" Margin="5,0,5,0">
+                        x:Name="cmbUnit" Title="Pick Unit" Margin="5,0,5,0"
+                        FontSize="Small">
                 </Picker>
-                <Button Grid.Column="1"  x:Name="btnAddFood" Text="+" IsEnabled="False"/>
+                <Button Grid.Column="1"  x:Name="btnAddFood" Text="+" IsEnabled="False"
+                        FontSize="Small"/>
             </Grid>
             <StackLayout Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4">
-                <Label Text="Food info" Margin="0,10,0,0"
+                <Label Text="Food info" Margin="0,2,0,0"
                    Grid.ColumnSpan="4" FontSize="Large"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                 <Label Text="Food Name" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                 <Entry x:Name="txtFoodName" BackgroundColor="GreenYellow" Keyboard="Text" 
-                       FontSize="Medium" HorizontalTextAlignment="Start"/>
+                       FontSize="Small" HorizontalTextAlignment="Start"/>
                 <Label Text="Food Description" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                 <Entry x:Name="txtFoodProduct" BackgroundColor="White" Keyboard="Text"
-                       FontSize="Medium" HorizontalTextAlignment="Start"/>
-                <Label Text="Producer" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                       FontSize="Small" HorizontalTextAlignment="Start"/>
+                <Label Text="Producer" HorizontalTextAlignment="Center" 
+                       FontSize="Small" VerticalTextAlignment="End"/>
                 <Grid ColumnDefinitions="*,150,50">
                     <Entry x:Name="txtFoodProducer" BackgroundColor="White"
-                       FontSize="Medium" HorizontalTextAlignment="Start"/>
-                    <Picker Grid.Column="1" x:Name="cmbProducer" Title="Pick Producer" Margin="5,0,5,0">
+                       FontSize="Small" HorizontalTextAlignment="Start"/>
+                    <Picker Grid.Column="1" x:Name="cmbProducer" Title="Pick Producer" 
+                            FontSize="Small" Margin="5,0,5,0">
                     </Picker>
-                    <Button Grid.Column="2" x:Name="btnAddFoodProducer" Text="+" IsEnabled="False"/>
+                    <Button Grid.Column="2" x:Name="btnAddFoodProducer" Text="+" 
+                            FontSize="Small" IsEnabled="False"/>
                 </Grid>
-                <Label Text="Category" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                <Label Text="Category" HorizontalTextAlignment="Center" 
+                       FontSize="Small" VerticalTextAlignment="End"/>
                 <Grid ColumnDefinitions="*,150,50">
-                    <Entry x:Name="txtCategory" BackgroundColor="White" FontSize="Medium"/>
+                    <Entry x:Name="txtCategory" BackgroundColor="White" FontSize="Small"/>
                     <Picker Grid.Column="1" x:Name="cmbCategory" Title="Pick category" 
-                            VerticalTextAlignment="End" Margin="5,0,5,0">
+                            VerticalTextAlignment="End" 
+                            FontSize="Small" Margin="5,0,5,0">
                     </Picker>
-                    <Button Grid.Column="2" x:Name="btnCategory" Text="+" IsEnabled="False"/>
+                    <Button Grid.Column="2" x:Name="btnCategory" Text="+"
+                            FontSize="Small" IsEnabled="False"/>
                 </Grid>
-                <Button x:Name="btnChoose" Text="OK" 
+                <Button x:Name="btnChoose" Text="OK" FontSize="Small"
                     HorizontalOptions="Center" Clicked="btnOk_Click"></Button>
             </StackLayout>
         </Grid>

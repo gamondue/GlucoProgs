@@ -4,11 +4,11 @@
              x:Class="GlucoMan.Maui.GlucoseMeasurementsPage"
              Title="Glucose Measurements">
     <ContentPage.Content>
-        <Grid RowDefinitions="40,60,60,60,30,30,*"
+        <Grid RowDefinitions="40,50,50,50,30,30,*"
               ColumnDefinitions="*,*,*,*">
             <Label Grid.Row="0" Grid.Column="0" Text="Glucose&#10;[mg/dL]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                    LineBreakMode="WordWrap"/>
-            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="Measurement Date-Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="Measurement date and time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="0" Grid.Column="3" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucose" Text="" FontSize="Large"
@@ -48,7 +48,7 @@
             </StackLayout>
 
             <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Text="Glucose [mg/dL]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Text="Gluc.[mg/dL]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <ListView Grid.Row="6" Grid.ColumnSpan="4" x:Name="gridMeasurements" ItemsSource="{Binding}"
                       ItemSelected="OnGridSelection" >

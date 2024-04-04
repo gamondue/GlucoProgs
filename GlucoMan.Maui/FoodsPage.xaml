@@ -4,25 +4,8 @@
              x:Class="GlucoMan.Maui.FoodsPage"
              Title="Foods">
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="45"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="60"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
+        <Grid Grid.RowDefinitions="20, 20, 45, 20, 50, 20, 60, 60, *"
+            Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Food's information" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -37,8 +20,8 @@
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
                     x:Name="txtName" BackgroundColor="LightGreen" 
                     Keyboard="Text" TextChanged="txtName_TextChanged"
-                    HorizontalTextAlignment="Center" 
-                    IsReadOnly="false"/>
+                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                    FontSize="Small" IsReadOnly="false"/>
             <Button Grid.Row="2" Grid.Column="3" x:Name="btnChoose" Text="Choose" 
                     Clicked="btnChoose_Click"></Button>
 
@@ -50,10 +33,11 @@
                     Keyboard="Text" TextChanged="txtDescription_TextChanged"
                     HorizontalTextAlignment="Start"/>
 
-            <Label Grid.Row="5" Grid.Column="0" Text="CHO %" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="5" Grid.Column="0" Text="CHO [g]%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+                    Keyboard="Numeric" HorizontalTextAlignment="End"
+                   FontSize="Large" />
             <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddFood" 
                     Clicked="btnAddFood_Click"></Button>
             <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveFood" 
@@ -77,16 +61,16 @@
                             <ViewCell.View>
                                 <Grid Margin="8">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="18"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="150"/>
+                                        <!--<ColumnDefinition Width="150"/>-->
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="35"/>
                                     </Grid.ColumnDefinitions>
                                     <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}" />
-                                    <Label HorizontalTextAlignment="Start" Grid.Column="1" Text="{Binding Description}"/>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding Cho.Text}"/>
+                                    <!--<Label HorizontalTextAlignment="Start" Grid.Column="1" Text="{Binding Description}"/>-->
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding Cho.Text}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

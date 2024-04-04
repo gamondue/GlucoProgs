@@ -12,13 +12,16 @@
             <Label Grid.Row="1" Grid.Column="1" Text="Lunch" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="Dinner" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" IsReadOnly="True" Margin="2,2,2,2" 
-                   Keyboard="Numeric" Placeholder="break.ratio" HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod" />
-            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" IsReadOnly="True" Margin="2,2,2,2" 
-                   Keyboard="Numeric" Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
-            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" IsReadOnly="True" Margin="2,2,2,2" 
-                   Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod" />
-            <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calc.&#10;bolus" Margin="2,2,2,2" 
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" IsReadOnly="True" Margin="2" 
+                   Keyboard="Numeric" Placeholder="break.ratio" HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod" 
+                   VerticalTextAlignment="Center" FontSize="Large"/>
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" IsReadOnly="True" Margin="2" 
+                   Keyboard="Numeric" Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod"
+                   VerticalTextAlignment="Center" FontSize="Large"/>
+            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" IsReadOnly="True" Margin="2" 
+                   Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGoldenrod"
+                   VerticalTextAlignment="Center" FontSize="Large"/>
+            <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calc.&#10;bolus" Margin="2" 
                    Clicked="btnBolusCalculations_Click" />
 
             <!-- <Label Grid.Row="3" Grid.Column="0" Text="TDD" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
@@ -28,7 +31,8 @@
 
             <!-- <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="-_-_" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> -->
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
-                   Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod" />
+                   Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"
+                   VerticalTextAlignment="Center" FontSize="Large"/>
             <Button Grid.Row="4" Grid.Column="1" x:Name="btnSetParameters" Text="Set&#10;param." 
                     HorizontalOptions="Center" Clicked="btnSetParameters_Click"/>
             <Label Grid.Row="4" Grid.Column="2" x:Name="txtEmbarkedInsulin" Text="----" 
@@ -41,25 +45,26 @@
             <Label Grid.Row="5" Grid.Column="2" Text="Gl. to correct" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="5" Grid.Column="3" Text="CHO to eat" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="6" Grid.Column="0" HorizontalTextAlignment ="End" Margin="2,2,2,2" 
+            <Entry Grid.Row="6" Grid.Column="0" HorizontalTextAlignment ="End" Margin="2" 
                    Keyboard="Numeric" x:Name="txtGlucoseBeforeMeal" Text="" FontSize="Large" 
                    Placeholder="mg/dl" BackgroundColor="GreenYellow" />
-            <Entry Grid.Row="6" Grid.Column="1" HorizontalTextAlignment ="End" Margin="2,2,2,2"  
+            <Entry Grid.Row="6" Grid.Column="1" HorizontalTextAlignment ="End" Margin="2"  
                    Keyboard="Numeric" x:Name="txtTargetGlucose" Text="mg/dl" 
-                   Placeholder="" BackgroundColor="PaleGoldenrod" />
+                   Placeholder="" BackgroundColor="PaleGoldenrod"
+                   VerticalTextAlignment="Center" FontSize="Large"/>
             <Label Grid.Row="6" Grid.Column="2" x:Name="txtGlucoseToBeCorrected" 
                    Text="----" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-            <Entry Grid.Row="6" Grid.Column="3" x:Name="txtChoToEat" Text="" FontSize="Large" Margin="2,2,2,2"
+            <Entry Grid.Row="6" Grid.Column="3" x:Name="txtChoToEat" Text="" FontSize="Large" Margin="2"
                    Keyboard="Numeric" Placeholder="g" HorizontalTextAlignment ="End" BackgroundColor="GreenYellow" />
 
-            <Button Grid.Row="7" Grid.Column="0"  Text="Read" Margin="2,2,2,2"
+            <Button Grid.Row="7" Grid.Column="0"  Text="Read" Margin="2"
                         x:Name="btnReadGlucose" Clicked="btnReadGlucose_Click" />
-            <Button Grid.Row="7" Grid.Column="1"  Text="Measure&#10;Glucose" IsEnabled="True" Margin="2,2,2,2"
+            <Button Grid.Row="7" Grid.Column="1"  Text="Measure&#10;Glucose" IsEnabled="True" Margin="2"
                         x:Name="btnMeasureGlucose" Clicked="btnMeasureGlucose_Click"
                     />
-            <Button Grid.Row="7" Grid.Column="3" x:Name="btnReadCho" Text="Read" Margin="2,2,2,2"
+            <Button Grid.Row="7" Grid.Column="3" x:Name="btnReadCho" Text="Read" Margin="2"
                     Clicked="btnReadCho_Click"/>
-            <Button Grid.Row="7" Grid.Column="2"  Text="Injection" IsEnabled="True" Margin="2,2,2,2"
+            <Button Grid.Row="7" Grid.Column="2"  Text="Injection" IsEnabled="True" Margin="2"
                         x:Name="btnInjection" Clicked="btnInjection_Click" />
 
             <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Text="Type of meal" 
@@ -75,13 +80,13 @@
             <Label Grid.Row="10" Grid.Column="2" Text="Total excluded embarked" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="10" Grid.Column="3" Text="Total bolus insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Label Grid.Row="11" Grid.Column="0" x:Name="txtCorrectionInsulin" Text="----" Margin="2,2,2,2"
+            <Label Grid.Row="11" Grid.Column="0" x:Name="txtCorrectionInsulin" Text="----" Margin="2"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Large" BackgroundColor="CadetBlue" />
-            <Label Grid.Row="11" Grid.Column="1" x:Name="txtChoInsulinMeal" Text="----" Margin="2,2,2,2"
+            <Label Grid.Row="11" Grid.Column="1" x:Name="txtChoInsulinMeal" Text="----" Margin="2"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Medium" />
-            <Label Grid.Row="11" Grid.Column="2" x:Name="txtTotalInsulinExceptEmbarked" Text="----" Margin="2,2,2,2"
+            <Label Grid.Row="11" Grid.Column="2" x:Name="txtTotalInsulinExceptEmbarked" Text="----" Margin="2"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Medium" />
-            <Label Grid.Row="11" Grid.Column="3" x:Name="txtTotalInsulin" Margin="2,2,2,2"
+            <Label Grid.Row="11" Grid.Column="3" x:Name="txtTotalInsulin" Margin="2"
                    Text="----" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Large" 
                    BackgroundColor="DeepSkyBlue"/>
 

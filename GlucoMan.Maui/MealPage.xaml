@@ -17,19 +17,22 @@
             <Label Grid.Row="1" Grid.Column="3" Text="IdMeal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoOfMealGrams" BackgroundColor="Aqua"
-                   Margin="2,2,2,2" Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"
+                   Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End"
+                   VerticalTextAlignment="Center" FontSize="Large"  
                    TextChanged="txtChoOfMealGrams_TextChanged"/>
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" 
-                   Margin="2,2,2,2" Keyboard="Numeric" HorizontalTextAlignment="End" 
-                   BackgroundColor="PaleGoldenrod" FontSize="Medium"/>
+                   Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   BackgroundColor="PaleGoldenrod" FontSize="Medium"
+                   VerticalTextAlignment="Center"/>
             <Picker Grid.Row="2" Grid.Column="2" x:Name="cmbAccuracyMeal"
-                    Margin="2,2,2,2" HorizontalTextAlignment="End"
+                    Margin="2" HorizontalTextAlignment="End"
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
-                    BackgroundColor="PaleGoldenrod" FontSize="Small"                    />
+                    BackgroundColor="PaleGoldenrod" FontSize="Small"/>
             <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdMeal" BackgroundColor="White" 
-                   FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
-            <Button Grid.Row="2" Grid.Column="4" Text="Calc.&#10;CHO" x:Name="btnCalc" Margin="2,2,2,2"
+                   FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"
+                   VerticalTextAlignment="Center" />
+            <Button Grid.Row="2" Grid.Column="4" Text="Calc.&#10;CHO" x:Name="btnCalc" Margin="2"
                     Clicked="btnCalc_Click" LineBreakMode="WordWrap"/>
 
             <Button Grid.Row="3" Grid.Column="0" Text="Start&#10; now" x:Name="btnStartMeal" 
@@ -48,9 +51,9 @@
                     LineBreakMode="WordWrap"/>
 
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
-                   Margin="2,2,2,2" FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
+                   Margin="2" FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
             <Button Grid.Row="4" Grid.Column="4" Text="Save" x:Name="btnSaveMeal" 
-                   Margin="2,2,2,2" Clicked="btnSaveAllMeal_Click"/>
+                   Margin="2" Clicked="btnSaveAllMeal_Click"/>
 
             <Label Grid.Row="5" Grid.Column="0" TextColor="Black" 
                    Grid.ColumnSpan="5" Text="Food data" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -64,17 +67,17 @@
             <Label Grid.Row="6" Grid.Column="4" Text="Id Food" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="7" Grid.Column="0" x:Name="txtFoodChoPercent" BackgroundColor="GreenYellow"
-                   Margin="2,2,2,2" TextChanged="txtFoodChoPercent_TextChanged"
+                   Margin="2" TextChanged="txtFoodChoPercent_TextChanged"
                    Keyboard="Numeric"
                    FontSize="Medium" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="7" Grid.Column="1" x:Name="txtFoodQuantityGrams" BackgroundColor="GreenYellow"
-                   Margin="2,2,2,2" Keyboard="Numeric" TextChanged="txtFoodQuantityGrams_TextChanged" FontSize="Medium" HorizontalTextAlignment="End"/>
+                   Margin="2" Keyboard="Numeric" TextChanged="txtFoodQuantityGrams_TextChanged" FontSize="Medium" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="7" Grid.Column="2" x:Name="txtFoodChoGrams" BackgroundColor="LightGreen"
-                   Margin="2,2,2,2" Keyboard="Numeric" TextChanged="txtFoodChoGrams_TextChanged" FontSize="Medium" HorizontalTextAlignment="End"/>
+                   Margin="2" Keyboard="Numeric" TextChanged="txtFoodChoGrams_TextChanged" FontSize="Medium" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="7" Grid.Column="3" x:Name="txtIdFoodInMeal" BackgroundColor="White" 
-                   Margin="2,2,2,2" FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
+                   Margin="2" FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
             <Entry Grid.Row="7" Grid.Column="4" x:Name="txtIdFood" BackgroundColor="White" 
-                   Margin="2,2,2,2" Keyboard="Numeric"
+                   Margin="2" Keyboard="Numeric"
                    FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
 
             <Label Grid.Row="8" Grid.Column="0" Text="Name of food" Grid.ColumnSpan="2" 
@@ -82,12 +85,12 @@
             <Label Grid.Row="8" Grid.Column="2" Text="Accuracy" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtFoodInMealName" BackgroundColor="LightGreen"
-                   Margin="2,2,2,2" FontSize="Medium" HorizontalTextAlignment="Start"/>
+                   Margin="2" FontSize="Small" HorizontalTextAlignment="Start"/>
             <Entry Grid.Row="9" Grid.Column="2" x:Name="txtAccuracyOfChoFoodInMeal" 
-                   Margin="2,2,2,2" Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
                    BackgroundColor="PaleGoldenrod" FontSize="Medium" />
             <Picker Grid.Row="9" Grid.Column="3" x:Name="cmbAccuracyFoodInMeal"
-                    Margin="2,2,2,2" HorizontalTextAlignment="End"
+                    Margin="2" HorizontalTextAlignment="End"
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
                     BackgroundColor="PaleGoldenrod" FontSize="Small"/>
@@ -100,9 +103,9 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddFoodInMeal" 
-                        Margin="2,2,2,2" Clicked="btnAddFoodInMeal_Click"></Button>
+                        Margin="2" Clicked="btnAddFoodInMeal_Click"></Button>
                 <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveFoodInMeal"
-                        Margin="2,2,2,2" Clicked="btnRemoveFoodInMeal_Click"></Button>
+                        Margin="2" Clicked="btnRemoveFoodInMeal_Click"></Button>
             </Grid>
 
             <Button Grid.Row="10" Grid.Column="0" Text="Save" x:Name="btnSaveAllFoods" 
@@ -134,7 +137,7 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding Name}"/>
+                                    <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
                                     <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding ChoGrams.Text}"/>
                                 </Grid>
                             </ViewCell.View>
