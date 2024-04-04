@@ -43,7 +43,8 @@ public partial class GlucoseMeasurementsPage : ContentPage
     }
     private void FromClassToUi()
     {
-        txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
+        if (currentGlucose.GlucoseValue.Double != null && !double.IsNaN((double)currentGlucose.GlucoseValue.Double))
+            txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
         if (currentGlucose.Timestamp != null
             && currentGlucose.Timestamp != new DateTime(1, 1, 1, 0, 0, 0)
             && currentGlucose.Timestamp != General.DateNull)

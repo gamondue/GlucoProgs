@@ -4,9 +4,9 @@
              x:Class="GlucoMan.Mobile.AlarmPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+            <Label Text="Welcome!"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

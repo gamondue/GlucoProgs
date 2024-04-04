@@ -37,7 +37,7 @@ namespace GlucoMan.Forms
             this.txtCalories = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.txtMonoinsaturatedFats = new System.Windows.Forms.TextBox();
+            this.txtMonounsaturatedFats = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -102,7 +102,7 @@ namespace GlucoMan.Forms
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.txtMonoinsaturatedFats);
+            this.groupBox1.Controls.Add(this.txtMonounsaturatedFats);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.textBox11);
             this.groupBox1.Controls.Add(this.label15);
@@ -142,13 +142,13 @@ namespace GlucoMan.Forms
             this.label16.Text = "Mono fats  [g]%";
             this.label16.Visible = false;
             // 
-            // txtMonoinsaturatedFats
+            // txtMonounsaturatedFats
             // 
-            this.txtMonoinsaturatedFats.Location = new System.Drawing.Point(363, 50);
-            this.txtMonoinsaturatedFats.Name = "txtMonoinsaturatedFats";
-            this.txtMonoinsaturatedFats.Size = new System.Drawing.Size(100, 26);
-            this.txtMonoinsaturatedFats.TabIndex = 30;
-            this.txtMonoinsaturatedFats.Visible = false;
+            this.txtMonounsaturatedFats.Location = new System.Drawing.Point(363, 50);
+            this.txtMonounsaturatedFats.Name = "txtMonounsaturatedFats";
+            this.txtMonounsaturatedFats.Size = new System.Drawing.Size(100, 26);
+            this.txtMonounsaturatedFats.TabIndex = 30;
+            this.txtMonounsaturatedFats.Visible = false;
             // 
             // label14
             // 
@@ -404,7 +404,7 @@ namespace GlucoMan.Forms
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtFibers;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox txtMonoinsaturatedFats;
+        private System.Windows.Forms.TextBox txtMonounsaturatedFats;
         private ToolTip toolTip1;
         private Label label18;
         private TextBox txtDescription;

@@ -118,4 +118,8 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             }
         }
     }
+    private async void btnSettings_Click(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new SettingsPage());
+    }
 }

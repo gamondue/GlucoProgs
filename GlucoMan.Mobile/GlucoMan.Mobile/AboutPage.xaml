@@ -18,7 +18,7 @@
         <ScrollView Grid.Row="1">
             <StackLayout Orientation="Vertical" Padding="20,24,20,24" Spacing="10">
                 <Frame BackgroundColor="#2196F3" Padding="0" CornerRadius="0">
-                    <Label x:Name="lblAppName" Text="GlucoMan " HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
+                    <Label x:Name="lblAppName" Text="GlucoMan" HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
                 </Frame>
                 <Label Text="GlucoMan will be a Glucose Manager program for the diabetic person. " FontSize="20" Padding="0,0,0,0"/>
                 <Label Text="Currently it makes just a few calculations, but very useful to the diabetic person that has to make carbohydrate count. I will expand the program in the future, including full management of insulin and carbohydrates." 

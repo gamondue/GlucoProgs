@@ -224,8 +224,11 @@ namespace GlucoMan.BusinessLayer
         }
         internal void PredictGlucose()
         {
-            FutureTime.DateTime = TimeLast.Add(new TimeSpan(0, (int)FutureSpanMinutes.Double, 0));
-            PredictedGlucose.Double = (double)GlucoseLast.Int + GlucoseSlope.Double * FutureSpanMinutes.Double / 60;
+            if (FutureSpanMinutes.Double != null)
+            {
+                FutureTime.DateTime = TimeLast.Add(new TimeSpan(0, (int)FutureSpanMinutes.Double, 0));
+                PredictedGlucose.Double = (double)GlucoseLast.Int + GlucoseSlope.Double * FutureSpanMinutes.Double / 60;
+            }
         }
         public void StopAlarm()
         {

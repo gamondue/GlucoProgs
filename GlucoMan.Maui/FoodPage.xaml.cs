@@ -13,11 +13,12 @@ public partial class FoodPage : ContentPage
         this.BindingContext = currentFood;
         //gridMeasurements.ItemsSource = glucoseReadings;
         FoodIsChosen = false;
-        //FromClassToUi();
     }
+
     public bool FoodIsChosen { get; internal set; }
     public Food CurrentFood { get; private set; }
-    private void btnSave_Click(object sender, EventArgs e)
+
+    private void btnOk_Click(object sender, EventArgs e)
     {
         FoodIsChosen = true;
         bl.SaveOneFood((Food)this.BindingContext);

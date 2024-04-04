@@ -33,7 +33,7 @@
             this.btnFatSecret = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtMonoinsaturatedFats = new System.Windows.Forms.TextBox();
+            this.txtMonounsaturatedFats = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.btnSaveFood = new System.Windows.Forms.Button();
@@ -46,7 +46,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.txtTotalFats = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.txtPolinsaturatedFats = new System.Windows.Forms.TextBox();
+            this.txtMonounsaturatedFats = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtSugar = new System.Windows.Forms.TextBox();
             this.btnChoose = new System.Windows.Forms.Button();
@@ -119,14 +119,14 @@
             this.label1.TabIndex = 75;
             this.label1.Text = "Foods";
             // 
-            // txtMonoinsaturatedFats
+            // txtMonounsaturatedFats
             // 
-            this.txtMonoinsaturatedFats.Location = new System.Drawing.Point(354, 50);
-            this.txtMonoinsaturatedFats.Name = "txtMonoinsaturatedFats";
-            this.txtMonoinsaturatedFats.Size = new System.Drawing.Size(100, 29);
-            this.txtMonoinsaturatedFats.TabIndex = 12;
-            this.txtMonoinsaturatedFats.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtMonoinsaturatedFats.Visible = false;
+            this.txtMonounsaturatedFats.Location = new System.Drawing.Point(354, 50);
+            this.txtMonounsaturatedFats.Name = "txtMonounsaturatedFats";
+            this.txtMonounsaturatedFats.Size = new System.Drawing.Size(100, 29);
+            this.txtMonounsaturatedFats.TabIndex = 12;
+            this.txtMonounsaturatedFats.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtMonounsaturatedFats.Visible = false;
             // 
             // btnSave
             // 
@@ -244,14 +244,14 @@
             this.label10.Text = "Poli fats  [g]%";
             this.label10.Visible = false;
             // 
-            // txtPolinsaturatedFats
+            // txtMonounsaturatedFats
             // 
-            this.txtPolinsaturatedFats.Location = new System.Drawing.Point(482, 50);
-            this.txtPolinsaturatedFats.Name = "txtPolinsaturatedFats";
-            this.txtPolinsaturatedFats.Size = new System.Drawing.Size(100, 29);
-            this.txtPolinsaturatedFats.TabIndex = 15;
-            this.txtPolinsaturatedFats.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtPolinsaturatedFats.Visible = false;
+            this.txtMonounsaturatedFats.Location = new System.Drawing.Point(482, 50);
+            this.txtMonounsaturatedFats.Name = "txtMonounsaturatedFats";
+            this.txtMonounsaturatedFats.Size = new System.Drawing.Size(100, 29);
+            this.txtMonounsaturatedFats.TabIndex = 15;
+            this.txtMonounsaturatedFats.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtMonounsaturatedFats.Visible = false;
             // 
             // label8
             // 
@@ -355,7 +355,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.txtMonoinsaturatedFats);
+            this.groupBox1.Controls.Add(this.txtMonounsaturatedFats);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.txtPotassium);
             this.groupBox1.Controls.Add(this.label15);
@@ -365,7 +365,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtTotalFats);
             this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.txtPolinsaturatedFats);
+            this.groupBox1.Controls.Add(this.txtMonounsaturatedFats);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.txtSugar);
             this.groupBox1.Controls.Add(this.label2);
@@ -554,7 +554,7 @@
         private Button btnFatSecret;
         private Label label16;
         private Label label1;
-        private TextBox txtMonoinsaturatedFats;
+        private TextBox txtMonounsaturatedFats;
         private Button btnSave;
         private Label label14;
         private Button btnSaveFood;
@@ -567,7 +567,6 @@
         private Label label12;
         private TextBox txtTotalFats;
         private Label label10;
-        private TextBox txtPolinsaturatedFats;
         private Label label8;
         private TextBox txtSugar;
         private Button btnChoose;

@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GlucoMan.Maui.InjectionsPage"
-            Title="Insulin injections">-->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GlucoMan.Maui.InjectionsPage"
-            Title="Insulin injections">
+             x:Class="GlucoMan.Maui.PhysicalActivityPage"
+             Title="Physical Activity">
     <ContentPage.Content>
         <!--Pages can be added as references or inline-->
-    <!--<ContentPage Title="Data">-->
-        <Grid RowDefinitions="40,55,30,50,25,50,30,*"
+        <!--<ContentPage Title="Data">-->
+        <Grid RowDefinitions="40,65,30,65,35,50,30,*"
               ColumnDefinitions="*,*,*,*">
-            <Label Grid.Row="0" Grid.Column="0" Text="Actual insulin [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="0" Grid.Column="1" Text="Calculated Insulin [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="0" Grid.Column="0" Text="XXXXX" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="0" Grid.Column="1" Text="XXXXX" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="0" Grid.Column="2" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtInsulinActual" 
@@ -22,17 +18,16 @@
             <Entry Grid.Row="1" Grid.Column="1" x:Name="txtInsulinCalculated" 
                    Keyboard="Numeric" BackgroundColor="White" HorizontalTextAlignment="End"
                    FontSize="Medium" />
-            <Entry Grid.Row="1" Grid.Column="2" x:Name="txtIdInjection" BackgroundColor="White" 
+            <Entry Grid.Row="1" Grid.Column="2" x:Name="txtIdActivity" BackgroundColor="White" 
                        FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
-            <Button Grid.Row="1" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_Click"></Button>
+            <Button Grid.Row="1" Grid.Column="3" Text="Save" x:Name="btnSave"></Button>
 
-            <RadioButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Content="Fast insulin" HorizontalOptions="Center"
-                         GroupName="groupInsulin" x:Name="rdbFastInsulin" WidthRequest="180" />
-            <RadioButton Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Content="Slow insulin" HorizontalOptions="Center"
-                         GroupName="groupInsulin" x:Name="rdbSlowInsulin" WidthRequest="180"/>
-
-            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Injection date and time"  
-                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Activity date and time"  
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <RadioButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" x:Name="rdbFastInsulin" Content="Fast insulin" 
+                         HorizontalOptions="Center" VerticalOptions="End" GroupName="groupInsulin" WidthRequest="180" />
+            <RadioButton Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" x:Name="rdbSlowInsulin" Content="Slow insulin" 
+                         HorizontalOptions="Center" VerticalOptions="End" GroupName="groupInsulin" WidthRequest="180"/>
 
             <DatePicker Grid.Row="3" Grid.Column="0" x:Name="dtpInjectionDate" 
                         BackgroundColor="PaleGreen" FontSize="Small" Format="yyyy-MM-dd" 
@@ -40,7 +35,7 @@
             <TimePicker Grid.Row="3" Grid.Column="1" x:Name="dtpInjectionTime" 
                         BackgroundColor="PaleGreen" FontSize="Small" Format="HH:mm:ss" 
                         HorizontalOptions="Center" />
-            <Button Grid.Row="3" Grid.Column="2" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
+            <Button Grid.Row="3" Grid.Column="2" Text="Now" x:Name="btnNow"></Button>
             <Grid Grid.Row="3" Grid.Column="3">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -49,12 +44,12 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddInjection" Clicked="btnAddInjection_Click"></Button>
-                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveInjection" Clicked="btnRemoveInjection_Click"></Button>
+                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddInjection"></Button>
+                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveInjection" ></Button>
             </Grid>
 
             <StackLayout Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
+                <CheckBox VerticalOptions="Center" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS" Value="0,-10,0,0" />
@@ -62,7 +57,7 @@
                         </OnPlatform>
                     </CheckBox.Margin>
                 </CheckBox>
-                <Label VerticalTextAlignment="End" VerticalOptions="Start" Text="Add with Now as time">
+                <Label VerticalTextAlignment="End" VerticalOptions="Center" Text="Add with Now as time">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer>
 
@@ -71,14 +66,13 @@
                 </Label>
             </StackLayout>
 
-            <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
+            <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="PaleGoldenrod" 
                    FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
-            
-            <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Text="Insulin Units [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <ListView Grid.Row="7" Grid.ColumnSpan="4" x:Name="gridInjections" ItemsSource="{Binding}"
-                      ItemSelected="OnGridSelectionAsync" >
+            <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Text="Insulin Units" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <ListView Grid.Row="7" Grid.ColumnSpan="4" x:Name="gridInjections" ItemsSource="{Binding}">
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -103,7 +97,3 @@
         </Grid>
     </ContentPage.Content>
 </ContentPage>
-    <!--<ContentPage Title="Front" />
-    <ContentPage Title="Back" />
-    <ContentPage Title="Sensor" />
-</TabbedPage>-->

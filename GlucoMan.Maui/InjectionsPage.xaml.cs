@@ -36,9 +36,9 @@ public partial class InjectionsPage : ContentPage
         dtpInjectionDate.Date = ((DateTime)CurrentInjection.Timestamp.DateTime);
         dtpInjectionTime.Time = ((DateTime)CurrentInjection.Timestamp.DateTime).TimeOfDay;
         txtNotes.Text = CurrentInjection.Notes;
-        if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.QuickAction)
+        if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.RapidActing)
             rdbFastInsulin.IsChecked = true;
-        else if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.SlowAction)
+        else if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.ShortActing)
             rdbSlowInsulin.IsChecked = true;
         else
         {
@@ -57,9 +57,9 @@ public partial class InjectionsPage : ContentPage
         CurrentInjection.Timestamp.DateTime = instant;
         CurrentInjection.Notes = txtNotes.Text;
         if (rdbFastInsulin.IsChecked)
-            CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.QuickAction;
+            CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.RapidActing;
         else if (rdbSlowInsulin.IsChecked)
-            CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.SlowAction;
+            CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.ShortActing;
         else
             CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.NotSet;
     }

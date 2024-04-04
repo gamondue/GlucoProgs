@@ -6,7 +6,7 @@
     <StackLayout>
         <Label Text="Welcome!"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand"/>
     </StackLayout>
     </ContentPage.Content>
 </ContentPage>

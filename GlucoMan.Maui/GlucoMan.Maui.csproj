@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks>net7.0-android;net7.0-maccatalyst;net7.0-ios</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
@@ -39,8 +39,8 @@
 		<PackageProjectUrl>www.ingmonti.it/GlucoMan</PackageProjectUrl>
 		<PackageIcon>..</PackageIcon>
 		<NeutralLanguage>en</NeutralLanguage>
-		<AssemblyVersion>0.9.0</AssemblyVersion>
-		<FileVersion>0.9.0</FileVersion>
+		<AssemblyVersion>0.57.4</AssemblyVersion>
+		<FileVersion>0.57.4</FileVersion>
 		<PackageLicenseExpression>GPL-2.0-only</PackageLicenseExpression>
 	</PropertyGroup>
 
@@ -120,31 +120,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\AppIcon\appicon - Copia.svg" />
-	  <None Remove="Resources\AppIcon\appicon.MAUI.svg" />
-	  <None Remove="Resources\AppIcon\appicon.svg" />
-	  <None Remove="Resources\AppIcon\appiconfg - Copia.svg" />
-	  <None Remove="Resources\AppIcon\appiconfg.MAUI.svg" />
-	  <None Remove="Resources\AppIcon\appiconfg.svg" />
-	  <None Remove="Resources\AppIcon\appiconfgx.svg" />
-	  <None Remove="Resources\AppIcon\appiconfgXX.svg" />
-	  <None Remove="Resources\AppIcon\gamonlogoSVG - Copia.svg" />
-	  <None Remove="Resources\AppIcon\gamonlogoSVG.svg" />
-	  <None Remove="Resources\AppIcon\gamonlogo_trasparenteSVG - Copia.svg" />
-	  <None Remove="Resources\AppIcon\gamonlogo_trasparenteSVG.svg" />
-	  <None Remove="Resources\AppIcon\splash.svg" />
-	  <None Remove="Resources\Splash\appicon.svg" />
-	  <None Remove="Resources\Splash\appiconfg.svg" />
-	  <None Remove="Resources\Splash\splash.svg" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <AndroidResource Include="Resources\AppIcon\appicon.svg" />
-	  <AndroidResource Include="Resources\AppIcon\appiconfg.svg" />
-	  <AndroidResource Include="Resources\Splash\splash.svg" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Include="..">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
@@ -195,6 +170,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MiscellaneousFunctionsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SettingsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ShowTextPage.xaml">

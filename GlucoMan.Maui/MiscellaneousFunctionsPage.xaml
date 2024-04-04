@@ -4,58 +4,42 @@
              x:Class="GlucoMan.Maui.MiscellaneousFunctionsPage"
              Title="Miscellaneous functions">
     <ContentPage.Content>
-        <Grid Padding="8,0,8,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="80"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+        <Grid Padding="8,0,8,0"
+              RowDefinitions="30, 20, 50, 60, 60, 60, 60, 60, 60"
+              ColumnDefinitions="*,*" Margin="2">
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Blood glucose unit conversion"
                    FontSize="Title" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-
             <Label Grid.Row="1" Grid.Column="0" Text="mg/dL" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="1" Text="mmol/L" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-
-            <Entry Grid.Row="2" Grid.Column="0" x:Name="txt_mgPerdL" HorizontalTextAlignment ="End" Text="" 
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txt_mgPerdL" HorizontalTextAlignment ="End" Text="" WidthRequest="150"
                    Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="GreenYellow" TextChanged="txt_mgPerdL_TextChanged"/>
-            <Entry Grid.Row="2" Grid.Column="1" x:Name="txt_mmolPerL" HorizontalTextAlignment ="End" Text="" 
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="txt_mmolPerL" HorizontalTextAlignment ="End" Text="" WidthRequest="150"
                    Keyboard="Numeric" Placeholder="mmol/L" BackgroundColor="GreenYellow" TextChanged="txt_mmolPerL_TextChanged"/>
-
             <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="Reset database" Margin="100,0,100,0"
+                    Text="Settings" WidthRequest="150" BackgroundColor="Grey" TextColor="White"
+                    x:Name="btnSettings" Clicked="btnSettings_Click" />
+            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Text="Reset database" WidthRequest="150"
                     BackgroundColor="Red" TextColor="Yellow"
                     x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
-
-            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="Copy files" Margin="100,0,100,0"
+            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Text="Copy files" WidthRequest="150"
                     x:Name="btnCopyDatabase" Clicked="btnCopyProgramsFiles_Click" />
-
-            <Button Grid.Row="5" Grid.Column="0"
-                    Text="Import data"
+            <Button Grid.Row="6" Grid.Column="0"
+                    Text="Import data" WidthRequest="150"
                     x:Name="btnImport" Clicked="btnImport_Click" />
-            <Button Grid.Row="5" Grid.Column="1" 
-                    Text="Read database" 
+            <Button Grid.Row="6" Grid.Column="1" 
+                    Text="Read database" WidthRequest="150"
                     BackgroundColor="Red" TextColor="Yellow"
                     x:Name="btnReadDatabase" Clicked="btnReadDatabase_Click" />
-
-            <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="Stop application" Margin="100,0,100,0"
+            <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Text="Stop application" WidthRequest="150"
                     x:Name="btnStopApplication" Clicked="btnStopApplication_Click" />
-
-            <Button Grid.Row="7" Grid.Column="0"
-                    Text="Show error log" 
+            <Button Grid.Row="8" Grid.Column="0"
+                    Text="Show error log" WidthRequest="150"
                     x:Name="btnShowErrorLog" Clicked="btnShowErrorLog_ClickAsync" />
-            <Button Grid.Row="7" Grid.Column="1"
-                    Text="Delete error log" 
+            <Button Grid.Row="8" Grid.Column="1"
+                    Text="Delete error log" WidthRequest="150"
                     x:Name="btnDeleteErrorLog" Clicked="btnDeleteErrorLog_ClickAsync" />
         </Grid>
     </ContentPage.Content>

@@ -6,19 +6,21 @@
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="70"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="20"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -33,7 +35,7 @@
             <Button Grid.Row="0" Grid.Column="1" 
                     Clicked="btnNext_Click" Text="Next"></Button>
             <Button Grid.Row="0" Grid.Column="2" 
-                    Clicked="btnReadGlucose_Click" Text="Read glucose" LineBreakMode="WordWrap"></Button>
+                    Clicked="btnReadGlucose_Click" Text="Read g."></Button>
             <Button Grid.Row="0" Grid.Column="3" 
                     Clicked="btnPredict_Click" Text="Predict"></Button>
 
@@ -101,15 +103,15 @@
             <Button Grid.Row="11" Grid.Column="3" x:Name="btnCalcFutureGlucose" 
                     Clicked="btnCalcFutureGlucose_Click" Text="Calc."></Button>
 
-            <Label Grid.Row="12" Grid.Column="0" Text="Time diff." HorizontalTextAlignment="Center" />
+            <Label Grid.Row="12" Grid.Column="0" Text="Time diff.[min]" HorizontalTextAlignment="Center" />
             <Label Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="2" Text="Future time" HorizontalTextAlignment="Center" />
             <Label Grid.Row="12" Grid.Column="3" Text="Future gluc" HorizontalTextAlignment="Center" />
 
             <Entry Grid.Row="13" Grid.Column="0" x:Name="txtFutureTimeMinutes" Placeholder="min" 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="DarkSeaGreen" />
-            <DatePicker Grid.Row="13" Grid.Column="1" x:Name="dtpTimeFutureDate" BackgroundColor="White"
+            <DatePicker Grid.Row="13" Grid.Column="1" x:Name="dtpTimeFutureDate" BackgroundColor="White" TextColor="Black"
                         IsEnabled="False" FontSize="Medium" Format="yyyy-MM-dd" HorizontalOptions="Center"/>
-            <TimePicker Grid.Row="13" Grid.Column="2" x:Name="dtpTimeFutureTime" BackgroundColor="White"
+            <TimePicker Grid.Row="13" Grid.Column="2" x:Name="dtpTimeFutureTime" BackgroundColor="White" TextColor="Black"
                         IsEnabled="False" FontSize="Medium"  Format="HH:mm:ss" HorizontalOptions="Center" />
             <Entry Grid.Row="13" Grid.Column="3" x:Name="txtFutureGlucose" Placeholder="gluc" 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="SkyBlue" />

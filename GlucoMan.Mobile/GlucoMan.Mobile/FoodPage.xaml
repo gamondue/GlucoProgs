@@ -37,15 +37,15 @@
                 Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtSaturatedFats" BackgroundColor="White"
                 Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="2" Grid.Column="3" x:Name="txtMonoinsaturatedFats" BackgroundColor="White"
-                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
+            <!-- <Entry Grid.Row="2" Grid.Column="3" x:Name="txtMonounsaturatedFats" BackgroundColor="White"
+                Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/> -->
 
             <Label Grid.Row="3" Grid.Column="0" Text="Poli fats  [g]%" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="3" Grid.Column="1" Text="CHO [g]%" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="3" Grid.Column="2" Text="Sugar [g]%" XAlign="Center" YAlign="End"/>
             <Label Grid.Row="3" Grid.Column="3" Text="Fibers [g]%" XAlign="Center" YAlign="End"/>
 
-            <Entry Grid.Row="4" Grid.Column="0" x:Name="txtPolinsaturatedFats" BackgroundColor="White"
+            <Entry Grid.Row="4" Grid.Column="0" x:Name="txtMonounsaturatedFats" BackgroundColor="White"
                 Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="4" Grid.Column="1" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
                 Keyboard="Numeric" FontSize="Medium" HorizontalTextAlignment="End"/>

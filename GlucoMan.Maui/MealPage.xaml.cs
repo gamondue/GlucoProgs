@@ -87,7 +87,7 @@ public partial class MealPage : ContentPage
     private void FromUiToFood(FoodInMeal FoodInMeal)
     {
         FoodInMeal.IdMeal = SqlSafe.Int(txtIdMeal.Text);
-        FoodInMeal.IdFoodInMeal = SqlSafe.Int(lblIdFoodInMeal.Text);
+        FoodInMeal.IdFoodInMeal = SqlSafe.Int(txtIdFoodInMeal.Text);
         FoodInMeal.IdFood = SqlSafe.Int(txtIdFood.Text);
         FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text; // [g]
         FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text;
@@ -105,9 +105,9 @@ public partial class MealPage : ContentPage
     private void ShowFoodBoxes()
     {
         if (bl.FoodInMeal.IdFoodInMeal != null)
-            lblIdFoodInMeal.Text = bl.FoodInMeal.IdFoodInMeal.ToString();
+            txtIdFoodInMeal.Text = bl.FoodInMeal.IdFoodInMeal.ToString();
         else
-            lblIdFoodInMeal.Text = "";
+            txtIdFoodInMeal.Text = "";
         if (bl.FoodInMeal.IdFood != null)
             txtIdFood.Text = bl.FoodInMeal.IdFood.ToString();
         else
@@ -182,7 +182,7 @@ public partial class MealPage : ContentPage
         else
             // if the meal has already a time, we don't touch it  
             txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, false).ToString();
-        //lblIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
+        //txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
         bl.SaveAllFoodsInMeal();
     }
     private void btnAddFoodInMeal_Click(object sender, EventArgs e)
@@ -190,7 +190,7 @@ public partial class MealPage : ContentPage
         FromUiToClasses();
         // erase Id of FoodInMeal, so that a new record will be created
         bl.FoodInMeal.IdFoodInMeal = null;
-        lblIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
+        txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
         if (bl.FoodsInMeal == null)
             bl.FoodsInMeal = new List<FoodInMeal>();
         RefreshGrid();
@@ -237,7 +237,7 @@ public partial class MealPage : ContentPage
         txtFoodChoGrams.Text = "";
         txtAccuracyOfChoFoodInMeal.Text = "";
         cmbAccuracyFoodInMeal.SelectedItem = null;
-        lblIdFoodInMeal.Text = "";
+        txtIdFoodInMeal.Text = "";
         txtIdFood.Text = "";
         txtFoodInMealName.Text = "";
         FromUiToFood(bl.FoodInMeal);

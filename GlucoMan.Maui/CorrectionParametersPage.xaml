@@ -5,7 +5,9 @@
              Title="Parameters for the corrections">
     <ContentPage.Content>
         <Grid>
-            <Grid RowDefinitions="35,20,20,35,20,60,20,30,25,20,60,20,60,35,20,60"
+            <!--<Grid RowDefinitions="35,20,20,35,20,60,20,30,25,20,60,20,60,35,20,60"
+                ColumnDefinitions="*,*,*,*"/>-->
+            <Grid RowDefinitions="35,20,28,25,20,60,20,35,25,20,60,20,60,35,30,60"
                 ColumnDefinitions="*,*,*,*"/>
             <Label Grid.Row="0" Grid.ColumnSpan="4" Text="Calculation of Ratio CHO/insulin" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Large" FontAttributes="Bold"/>
@@ -33,7 +35,7 @@
 
             <Label Grid.Row="7" Grid.ColumnSpan="4" Text="Calculation of insulin sensitivity" 
                    FontSize="Large"  HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontAttributes="Bold"/>
-            <Label Grid.Row="8" Grid.ColumnSpan="4" Text="Typical boluses made during a day [Ui]" 
+            <Label Grid.Row="8" Grid.ColumnSpan="4" Text="Typical boluses made during a day [U]" 
                    FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Label Grid.Row="9" Grid.Column="0" Text="morning" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -79,7 +81,6 @@
                 <Button Grid.Row="1" Margin="-5,-5,-5,-5" FontSize="Caption" x:Name="btnSaveInsulinSensitivity" Text="Save"
                     Padding="0,0,0,0" Clicked="btnSaveInsulinSensitivity_Click"/>
             </Grid>
-
 
             <Label Grid.Row="13" Grid.ColumnSpan="4" Text="Physical Activity parameters" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Large" FontAttributes="Bold"/>

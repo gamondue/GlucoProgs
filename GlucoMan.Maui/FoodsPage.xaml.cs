@@ -1,3 +1,4 @@
+using gamon;
 using GlucoMan.BusinessLayer;
 
 namespace GlucoMan.Maui;
@@ -76,10 +77,10 @@ public partial class FoodsPage : ContentPage
     }
     private void FromClassToUi()
     {
-        //lblIdFood.Text = CurrentFood.IdFood.ToString();
-        //txtName.Text = CurrentFood.Name;
-        //txtDescription.Text = CurrentFood.Description;
-        //txtFoodCarbohydrates.Text = CurrentFood.Cho.Text;
+        txtIdFood.Text = CurrentFood.IdFood.ToString();
+        txtName.Text = CurrentFood.Name;
+        txtDescription.Text = CurrentFood.Description;
+        txtFoodCarbohydrates.Text = CurrentFood.Cho.Text;
 
         //txtCalories.Text = CurrentFood.Energy.Text;
         //txtTotalFats.Text = CurrentFood.TotalFats.Text;
@@ -95,10 +96,10 @@ public partial class FoodsPage : ContentPage
     }
     private void FromUiToClass()
     {
-        //CurrentFood.IdFood = SqlSafe.Int(lblIdFood.Text);
-        //CurrentFood.Name = txtName.Text;
-        //CurrentFood.Description = txtDescription.Text;
-        //CurrentFood.Cho.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
+        CurrentFood.IdFood = SqlSafe.Int(txtIdFood.Text);
+        CurrentFood.Name = txtName.Text;
+        CurrentFood.Description = txtDescription.Text;
+        CurrentFood.Cho.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
 
         //CurrentFood.Energy.Double = SqlSafe.Double(txtCalories.Text);
         //CurrentFood.TotalFats.Double = SqlSafe.Double(txtTotalFats.Text);
@@ -135,7 +136,7 @@ public partial class FoodsPage : ContentPage
     }
     private async void btnSaveFood_Click(object sender, EventArgs e)
     {
-        if (lblIdFood.Text == "")
+        if (txtIdFood.Text == "")
         {
             await DisplayAlert("Select one food from the list", "Choose a food to save", "Ok");
             return;
@@ -196,7 +197,7 @@ public partial class FoodsPage : ContentPage
     private void btnCleanFields_Click(object sender, EventArgs e)
     {
         loading = true;
-        lblIdFood.Text = "";
+        txtIdFood.Text = "";
         txtName.Text = "";
         txtDescription.Text = "";
         txtFoodCarbohydrates.Text = "";

@@ -1,6 +1,5 @@
 ﻿using GlucoMan.BusinessLayer;
 using SharedGlucoMan.BusinessLayer;
-using System;
 
 namespace GlucoMan
 {
@@ -9,7 +8,7 @@ namespace GlucoMan
         public static string DatabaseFileName = @"GlucoManData.Sqlite";
         public static string LogOfParametersFileName = @"Log of the Insulin Correction Parameters.txt";
 
-        internal static DataLayer Database; 
+        internal static DataLayer Database;
         public static BL_General BlGeneral;
         public static BL_MealAndFood MealAndFood_CommonBL;
 
@@ -28,14 +27,13 @@ namespace GlucoMan
         public enum TypeOfGlucoseMeasurement
         {
             NotSet = 0,
-            Strip = 10,
             SensorIntermediateValue = 20,
             SensorScanValue = 30
         }
         public enum TypeOfGlucoseMeasurementDevice
         {
             NotSet = 0,
-            Injection = 10,
+            FingerPuncture = 10,
             UnderSkinSensor = 20,
             CGM = 30,
             ArtificialPancreas = 40
@@ -44,7 +42,8 @@ namespace GlucoMan
         {
             Unknown = 0,
             AbbotFreestyle = 10,
-            AbbotFreestyleLibre = 20
+            AbbotFreestyleLibre = 20,
+            AbbotFreestyleLibre2 = 20
         }
         public enum TypeOfMeal
         {
@@ -58,8 +57,10 @@ namespace GlucoMan
         public enum TypeOfInsulinSpeed
         {
             NotSet = 0,
-            QuickAction = 10,
-            SlowAction = 20
+            RapidActing = 10, // about 15 minutes to start working, peaks in 1-2 hours, and lasts for 2-4 hours
+            ShortActing = 20, // 30 minutes to start working, peaks in 2-3 hours, and lasts for 3-6 hours.
+            IntermediateActing = 30, // about 2-4 hours to start working, peaks in 4-12 hours, and lasts for 12-18 hours.
+            LongActing = 40 // 1-2 hours to start working, has no peak effect, and lasts for 24+ hours
         }
         public enum TypeOfInsulinInjection
         {
@@ -71,7 +72,7 @@ namespace GlucoMan
             Other = 90
         }
         public enum QualitativeAccuracy
-        {           
+        {
             NotSet = -1,
             Null = 0,
             AlmostNull = 10,

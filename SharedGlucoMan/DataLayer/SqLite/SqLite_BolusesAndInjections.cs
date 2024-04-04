@@ -161,14 +161,14 @@ namespace GlucoMan
                             "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd HH:mm:ss") + "'";
                         if (TypeOfInsulinSpeed != Common.TypeOfInsulinSpeed.NotSet)
                         {
-                            query += " AND IdTypeOfInsulinSpeed =" + (int)TypeOfInsulinSpeed;
+                            query += " AND IdTypeOfInsulinSpeed=" + (int)TypeOfInsulinSpeed;
                         }
                     }
                     else
                     {
                         if (TypeOfInsulinSpeed != Common.TypeOfInsulinSpeed.NotSet)
                         {
-                            query += " WHERE IdTypeOfInsulinSpeed =" + (int)TypeOfInsulinSpeed;
+                            query += " WHERE IdTypeOfInsulinSpeed=" + (int)TypeOfInsulinSpeed;
                         }
                     }
                     query += " ORDER BY Timestamp DESC, IdInsulinInjection;";
