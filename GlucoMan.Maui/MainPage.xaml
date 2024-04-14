@@ -14,37 +14,38 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <StackLayout Grid.Column="0">
-            <Frame x:Name="mainStack" BackgroundColor="#2196F3" Padding="0" CornerRadius="0" Margin="0,0,0,0">
+        <VerticalStackLayout Grid.Column="0">
+            <Border x:Name="mainStack" BackgroundColor="#2196F3" Padding="0" Margin="0,0,0,0">
                 <Label x:Name="lblAppName" Text="GlucoMan " HorizontalTextAlignment="Center" 
                        TextColor="White" FontSize="25"/>
-            </Frame>
+            </Border>
             <Button x:Name="btnGlucoseMeasurement" Text="Glucose" Clicked="btnGlucoseMeasurement_Clicked"
-                    Margin="2,4,2,2"></Button>
+                    Margin="2,4,2,2" ToolTipProperties.Text="Opens the page of glucose measurement events"></Button>
             <Button x:Name="btnMeals" Text="Meals" Clicked="btnMeals_Clicked" IsEnabled="True"
-                    Margin="2"></Button>
+                    Margin="2" ToolTipProperties.Text="Opens the page of meals done in the past"></Button>
             <Button x:Name="btnNewMeal" Text="New meal" Clicked="btnNewMeal_Clicked" IsEnabled="True"
-                    Margin="2"></Button>
+                    Margin="2" ToolTipProperties.Text="Opens a new meal page"></Button>
             <Button x:Name="btnFoods" Text="Foods" Clicked="btnFoods_Clicked" IsEnabled="True"
-                    Margin="2"></Button>
+                    Margin="2" ToolTipProperties.Text="Opens the page for foods management"></Button>
             <Button x:Name="btnWeighFood" Text="Weigh Food" Clicked="btnWeighFood_Clicked"
-                    Margin="2" IsEnabled="False"/>
+                    Margin="2" ToolTipProperties.Text="Opens the page of food's weighing management" IsEnabled="False"/>
             <Button x:Name="btnInsulinCalc" Text="Meal insulin" Clicked="btnInsulinCalc_Clicked"
-                    Margin="2"></Button>
+                    Margin="2" ToolTipProperties.Text="Opens a page that calculates the quantity of insulin to inject before a meal"></Button>
             <Button x:Name="btnInjections" Text="Injections" 
-                    Clicked="btnInjections_Clicked" IsEnabled="True" Margin="2"></Button>
+                    Clicked="btnInjections_Clicked" IsEnabled="True" Margin="2"
+                    ToolTipProperties.Text="Opens the page past ad present injections"></Button>
             <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to reach target carbs" 
                     Clicked="btnFoodToHitTargetCarbs_Clicked"
-                    Margin="2"></Button>
+                    Margin="2" ToolTipProperties.Text="Opens the page that calculates the food we need to eat to hit a glucose target"></Button>
             <Button x:Name="btnHypoPrediction" Text="Hypoglicemia time prediction" Clicked="btnHypoPrediction_Clicked"
-                    Margin="2"></Button>
+                    Margin="2" ToolTipProperties.Text="Opens the page that makes a simple prediction of the time of an hypoglicemia episode"></Button>
             <Button x:Name="btnAlarms" Text="Alarm" IsEnabled="False" Clicked="btnAlarms_Clicked" 
-                    Margin="2"></Button>
+                    Margin="2" ToolTipProperties.Text="Opens the page of the alarms' settings"></Button>
             <Button x:Name="btnMiscellaneousFunctions" Text="Miscellaneous functions" 
-                    Clicked="btnMiscellaneousFunctions_Clicked"
-                    Margin="2"></Button>
+                    Clicked="btnMiscellaneousFunctions_Clicked" 
+                    Margin="2" ToolTipProperties.Text="Opens the of miscellaneous functions"></Button>
             <Button x:Name="btnAbout" Text="About" Clicked="btnAbout_Clicked"
-                    Margin="2"></Button>
-        </StackLayout>
+                    Margin="2" ToolTipProperties.Text="Opens the page of indications about this program"></Button>
+        </VerticalStackLayout>
     </Grid>
 </ContentPage>

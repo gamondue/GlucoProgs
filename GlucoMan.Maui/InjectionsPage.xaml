@@ -53,7 +53,7 @@
                 <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveInjection" Clicked="btnRemoveInjection_Click"></Button>
             </Grid>
 
-            <StackLayout Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
                 <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
@@ -69,7 +69,7 @@
                         </TapGestureRecognizer>
                     </Label.GestureRecognizers>
                 </Label>
-            </StackLayout>
+            </HorizontalStackLayout>
 
             <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
                    FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>

@@ -79,7 +79,7 @@
                 <Button Grid.Column="1"  x:Name="btnAddFood" Text="+" IsEnabled="False"
                         FontSize="Small"/>
             </Grid>
-            <StackLayout Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4">
+            <VerticalStackLayout Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4">
                 <Label Text="Food info" Margin="0,2,0,0"
                    Grid.ColumnSpan="4" FontSize="Large"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -113,7 +113,7 @@
                 </Grid>
                 <Button x:Name="btnChoose" Text="OK" FontSize="Small"
                     HorizontalOptions="Center" Clicked="btnOk_Click"></Button>
-            </StackLayout>
+            </VerticalStackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

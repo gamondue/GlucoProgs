@@ -8,8 +8,8 @@
             <Label
                    x:Name="txtText"
                    TextColor="Black"
-                VerticalOptions="StartAndExpand" 
-                HorizontalOptions="StartAndExpand" />
+                VerticalOptions="Start" 
+                HorizontalOptions="Start" />
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

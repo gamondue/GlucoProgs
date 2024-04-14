@@ -30,8 +30,8 @@
                    FontSize="Medium" />
             <Picker Grid.Row="2" Grid.Column="2" x:Name="cmbAccuracyMeal" Margin="2,2,2,2" 
                     HorizontalTextAlignment="End"
-                    VerticalOptions="CenterAndExpand" 
-                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center"
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
                     BackgroundColor="PaleGoldenrod" FontSize="Small"/>

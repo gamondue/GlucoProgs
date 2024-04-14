@@ -8,18 +8,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <VerticalStackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                <ContentView Padding="0,20,0,20" VerticalOptions="FillAndExpand">
+        <VerticalStackLayout VerticalOptions="Fill" HorizontalOptions="Fill">
+            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <ContentView Padding="0,20,0,20" VerticalOptions="Fill">
                     <Image Source="Current_Logo_Transparent.png" VerticalOptions="Center" HeightRequest="50" />
                 </ContentView>
-            </StackLayout>
+            </HorizontalStackLayout>
         </VerticalStackLayout>
         <ScrollView Grid.Row="1">
-            <StackLayout Orientation="Vertical" Padding="20,24,20,24" Spacing="10">
-                <Frame BackgroundColor="#2196F3" Padding="0" CornerRadius="0">
+            <VerticalStackLayout Padding="20,24,20,24" Spacing="10">
+                <Border BackgroundColor="#2196F3" Padding="0">
                     <Label x:Name="lblAppName" Text="GlucoMan" HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
-                </Frame>
+                </Border>
                 <Label Text="GlucoMan will be a Glucose Manager program for the diabetic person. " FontSize="20" Padding="0,0,0,0"/>
                 <Label Text="Currently it makes just a few calculations, but very useful to the diabetic person that has to make carbohydrate count. I will expand the program in the future, including full management of insulin and carbohydrates." 
                        FontSize="15" Padding="0,0,0,0"/>
@@ -39,7 +39,7 @@
                     </Label.FormattedText>
                 </Label>
                 <Button x:Name="btnExit" BackgroundColor="#2196F3" TextColor="White" Text="Menù" Clicked="btnExit_Click" />
-            </StackLayout>
+            </VerticalStackLayout>
         </ScrollView>
     </Grid>
 </ContentPage>

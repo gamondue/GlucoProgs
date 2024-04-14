@@ -26,7 +26,7 @@
                    FontSize="Large" BackgroundColor="PaleGreen" />
 
             <Label Grid.Row="4" Grid.Column="0" Text="Food to eat" Grid.ColumnSpan="5" Margin="0,0,30,0"
-                   VerticalOptions="EndAndExpand" HorizontalOptions="End"/>
+                   VerticalOptions="End" HorizontalOptions="End"/>
             <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" x:Name="TxtFoodName" Text=""
                    HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="White" />

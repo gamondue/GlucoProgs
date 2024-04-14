@@ -29,7 +29,7 @@
             <Button Grid.Row="3" Grid.Column="2" Text="-" x:Name="btnRemoveMeasurement" Clicked="btnRemoveMeasurement_Click"></Button>
             <Button Grid.Row="3" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_ClickAsync"></Button>
 
-            <StackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <HorizontalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
                 <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
@@ -45,7 +45,7 @@
                         </TapGestureRecognizer>
                     </Label.GestureRecognizers>
                 </Label>
-            </StackLayout>
+            </HorizontalStackLayout>
 
             <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Text="Gluc.[mg/dL]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
