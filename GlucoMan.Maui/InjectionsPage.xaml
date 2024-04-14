@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GlucoMan.Maui.InjectionsPage"
-            Title="Insulin injections">-->
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Maui.InjectionsPage"
             Title="Insulin injections">
-    <ContentPage.Content>
-        <!--Pages can be added as references or inline-->
-    <!--<ContentPage Title="Data">-->
+    <!--Pages can be added as references or inline-->
+    <ContentPage Title="Data">
         <Grid RowDefinitions="40,55,30,50,25,50,30,*"
               ColumnDefinitions="*,*,*,*">
             <Label Grid.Row="0" Grid.Column="0" Text="Actual insulin [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -73,7 +68,7 @@
 
             <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
                    FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
-            
+
             <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Text="Insulin Units [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
@@ -101,9 +96,16 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-    </ContentPage.Content>
-</ContentPage>
-    <!--<ContentPage Title="Front" />
+    </ContentPage>
+    <ContentPage Title="Front">
+        <VerticalStackLayout>
+            <HorizontalStackLayout HeightRequest="40">
+                
+            </HorizontalStackLayout>
+            <Image Source="C:\Develop\Git\GlucoProgs\GlucoMan.Maui\Resources\Images\dotnet_bot.svg"/>
+
+        </VerticalStackLayout>
+    </ContentPage>
     <ContentPage Title="Back" />
     <ContentPage Title="Sensor" />
-</TabbedPage>-->
+</TabbedPage>

@@ -104,7 +104,9 @@
             </ListView>
         </Grid>
     </ContentPage>
-    <ContentPage Title="Front" />
+    <ContentPage Title="Front">
+        
+    </ContentPage>
     <ContentPage Title="Back" />
     <ContentPage Title="Sensor" />
 </TabbedPage>
