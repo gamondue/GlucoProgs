@@ -100,12 +100,30 @@
     <ContentPage Title="Front">
         <VerticalStackLayout>
             <HorizontalStackLayout HeightRequest="40">
-                
             </HorizontalStackLayout>
-            <Image Source="C:\Develop\Git\GlucoProgs\GlucoMan.Maui\Resources\Images\dotnet_bot.svg"/>
-
+            <Image Source="busto_fronte.png" Scale="1"/>
         </VerticalStackLayout>
     </ContentPage>
-    <ContentPage Title="Back" />
-    <ContentPage Title="Sensor" />
+    <ContentPage Title="Back">
+        <VerticalStackLayout>
+            <HorizontalStackLayout HeightRequest="40">
+            </HorizontalStackLayout>
+            <Image Source="busto_retro.png" Scale="1"/>
+        </VerticalStackLayout>
+    </ContentPage>
+    <ContentPage Title="Hand">
+        <VerticalStackLayout>
+            <HorizontalStackLayout HeightRequest="40">
+            </HorizontalStackLayout>
+            <Image Source="mano_destra.png" Scale="1"/>
+            <Image Source="mano_sinistra.png" Scale="1"/>
+    </VerticalStackLayout>
+    </ContentPage>
+    <ContentPage Title="Sensor">
+        <VerticalStackLayout>
+            <HorizontalStackLayout HeightRequest="40">
+            </HorizontalStackLayout>
+            <Image Source="braccia_retro.png" Aspect="Center" Scale="1"/>
+        </VerticalStackLayout>
+    </ContentPage>
 </TabbedPage>
