@@ -37,7 +37,7 @@
 
             <Button Grid.Row="3" Grid.Column="0" Text="Start&#10; now" x:Name="btnStartMeal" 
                     Margin="1,1,1,1" Clicked="btnStartMeal_Click"/>
-            <Button Grid.Row="3" Grid.Column="1" Text="Glucose&#10;  value" x:Name="btnGlucose" 
+            <Button Grid.Row="3" Grid.Column="1" Text="Gluc.&#10;  value" x:Name="btnGlucose" 
                     Margin="1,1,1,1" IsEnabled="True" Clicked="btnGlucose_ClickAsync"
                     LineBreakMode="WordWrap"/>
             <Button Grid.Row="3" Grid.Column="2" Text="Calc.&#10;insul." x:Name="btnInsulinCalc" 
@@ -110,14 +110,16 @@
 
             <Button Grid.Row="10" Grid.Column="0" Text="Save" x:Name="btnSaveAllFoods" 
                     Clicked="btnSaveAllFoods_Click" IsEnabled="False" IsVisible="False"></Button>
-            <Button Grid.Row="10" Grid.Column="1" Text="Clean&#10;fields" x:Name="btnDefaults" 
+            <Button Grid.Row="10" Grid.Column="0" Text="Clean&#10;fields" x:Name="btnDefaults" 
                     Clicked="btnDefaults_Click" LineBreakMode="WordWrap"></Button>
-            <Button Grid.Row="10" Grid.Column="2" Text="Foods" x:Name="btnFoodDetail" 
+            <Button Grid.Row="10" Grid.Column="1" Text="Foods" x:Name="btnFoodDetail" 
                     Clicked="btnFoodDetail_ClickAsync"></Button>
-            <Button Grid.Row="10" Grid.Column="3" Text="Search" x:Name="btnSearchFood" 
+            <Button Grid.Row="10" Grid.Column="2" Text="Search" x:Name="btnSearchFood" 
                     Clicked="btnSearchFood_ClickAsync"></Button>
-            <Button Grid.Row="10" Grid.Column="4" Text="Weigh" x:Name="btnWeighFood" 
-                    Clicked="btnWeighFood_Click" IsEnabled="False"></Button>
+            <Button Grid.Row="10" Grid.Column="3" Text="Weigh" x:Name="btnWeighFood" 
+                    Clicked="btnWeighFood_Click" IsEnabled="True"></Button>
+            <Button Grid.Row="10" Grid.Column="4" Text="Recipe" x:Name="btnRecipe" 
+                    Clicked="btnRecipe_ClickAsync"  IsEnabled="True"></Button>
 
             <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3" Text="Food" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="1" Text="CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>

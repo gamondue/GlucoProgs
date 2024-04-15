@@ -24,9 +24,9 @@ namespace GlucoMan.Maui
         {
             await Navigation.PushAsync(new MealPage(null));
         }
-        private async void btnWeighFood_Clicked(object sender, EventArgs e)
+        private async void btnRecipe_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new WeighFoodPage());
+            await Navigation.PushAsync(new RecipePage());
         }
         private async void btnInsulinCalc_Clicked(object sender, EventArgs e)
         {

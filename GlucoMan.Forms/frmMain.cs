@@ -40,7 +40,8 @@ namespace GlucoMan.Forms
         }
         private void btnWeighFood_Click(object sender, EventArgs e)
         {
-
+            frmWeighFood f = new frmWeighFood();
+            f.Show();
         }
         private void btnInsulinCalc(object sender, EventArgs e)
         {

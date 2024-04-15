@@ -252,6 +252,10 @@ public partial class MealPage : ContentPage
     {
         await Navigation.PushAsync(new FoodsPage(txtFoodInMealName.Text, ""));
     }
+    private async void btnRecipe_ClickAsync(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new RecipePage());
+    }
     private async void btnInsulinCalc_ClickAsync(object sender, EventArgs e)
     {
         //insulinCalcPage = new InsulinCalcPage(bl.Meal.IdBolusCalculation);
@@ -351,5 +355,10 @@ public partial class MealPage : ContentPage
         // base.OnAppearing();
         // await Task.Delay(1);
         // txtFoodChoPercent.Focus();
+    }
+
+    private void btnRecipe_Clicked(object sender, EventArgs e)
+    {
+
     }
 }

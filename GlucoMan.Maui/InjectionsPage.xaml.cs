@@ -2,8 +2,7 @@ using gamon;
 using GlucoMan.BusinessLayer;
 
 namespace GlucoMan.Maui;
-
-public partial class InjectionsPage : TabbedPage
+public partial class InjectionsPage : ContentPage
 {
     BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
     InsulinInjection CurrentInjection = new InsulinInjection();
@@ -139,5 +138,21 @@ public partial class InjectionsPage : TabbedPage
             return;
         }
         RefreshGrid();
+    }
+    private async void btnFront_ClickedAsync(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new FrontPicturePage());
+    }
+    private async void btnBack_Clicked_Async(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new BackPicturePage());
+    }
+    private async void btnHands_ClickedAsync(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new HandsPicturePage());
+    }
+    private async void btnSensors_Clicked_Async(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new SensorsPicturePage());
     }
 }

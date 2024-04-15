@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.HandsPicturePage"
+             Title="Hand blood sample past positions">
+    <VerticalStackLayout>
+        <HorizontalStackLayout HeightRequest="40">
+        </HorizontalStackLayout>
+        <Image Source="mano_destra.png" Scale="1"/>
+        <Image Source="mano_sinistra.png" Scale="1"/>
+    </VerticalStackLayout>
+</ContentPage>
