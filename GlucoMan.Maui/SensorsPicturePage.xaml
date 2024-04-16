@@ -6,6 +6,12 @@
     <VerticalStackLayout>
         <HorizontalStackLayout HeightRequest="40">
         </HorizontalStackLayout>
-        <Image Source="braccia_retro.png" Aspect="Center" Scale="1"/>
+        <Image Source="braccia_retro.png" Aspect="Center" Scale="1"
+               HeightRequest="300"
+               WidthRequest="900">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+            </Image.GestureRecognizers>
+        </Image>
     </VerticalStackLayout>
 </ContentPage>

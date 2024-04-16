@@ -6,7 +6,16 @@
     <VerticalStackLayout>
         <HorizontalStackLayout HeightRequest="40">
         </HorizontalStackLayout>
-        <Image Source="mano_destra.png" Scale="1"/>
-        <Image Source="mano_sinistra.png" Scale="1"/>
+        <Image Source="mano_destra.png" Scale="1"
+               HeightRequest="300"
+               HorizontalOptions="Center">
+        </Image>
+        <Image Source="mano_sinistra.png" Scale="1"
+               HeightRequest="300"
+               HorizontalOptions="Center">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+            </Image.GestureRecognizers>
+        </Image>
     </VerticalStackLayout>
 </ContentPage>
