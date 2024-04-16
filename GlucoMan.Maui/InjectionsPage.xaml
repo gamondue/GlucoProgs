@@ -52,7 +52,7 @@
                 <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveInjection" Clicked="btnRemoveInjection_Click"></Button>
             </Grid>
 
-            <HorizontalStackLayout Grid.Row="54" Grid.Column="1" Grid.ColumnSpan="2">
+            <HorizontalStackLayout Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2">
                 <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">

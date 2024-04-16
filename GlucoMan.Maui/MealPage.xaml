@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.MealPage"
              Title="The meal and its foods">
     <ContentPage.Content>
-        <Grid RowDefinitions="0,20,70,70,50,20,20,50,20,50,65,20,*"
+        <Grid RowDefinitions="0,20,70,70,50,20,20,50,20,50,65,21,*"
               ColumnDefinitions="*,*,*,*,*">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold"
                    Grid.ColumnSpan="5" Text="Meal data" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
