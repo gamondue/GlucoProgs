@@ -120,7 +120,8 @@ public partial class FoodsPage : ContentPage
     }
     private void RefreshGrid()
     {
-        allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description, 0);
+        if (CurrentFood.Name != "" && CurrentFood.Description != "")
+            allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description, 0);
         gridFoods.ItemsSource = allFoods;
     }
     private async void btnFoodDetails_Click(object sender, EventArgs e)
@@ -185,7 +186,9 @@ public partial class FoodsPage : ContentPage
     //}
     private void btnSearchFood_Click(object sender, EventArgs e)
     {
-        RefreshUi();
+        FromUiToClass();
+        allFoods = bl.SearchFoods(CurrentFood.Name, CurrentFood.Description, 0);
+        gridFoods.ItemsSource = allFoods;
     }
     private void btnChoose_Click(object sender, EventArgs e)
     {
@@ -202,6 +205,9 @@ public partial class FoodsPage : ContentPage
         txtDescription.Text = "";
         txtFoodCarbohydrates.Text = "";
 
+        CurrentFood.Name = "";
+        CurrentFood.Description = "";
+
         //txtCalories.Text = "";
         //txtTotalFats.Text = "";
         //txtSaturatedFats.Text = "";
@@ -211,6 +217,7 @@ public partial class FoodsPage : ContentPage
         //txtSalt.Text = "";
         loading = false;
         FromUiToClass();
+        RefreshUi();
     }
     private void txtName_TextChanged(object sender, EventArgs e)
     {

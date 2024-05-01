@@ -27,7 +27,7 @@
                     Margin="2" ToolTipProperties.Text="Opens a new meal page"></Button>
             <Button x:Name="btnFoods" Text="Foods" Clicked="btnFoods_Clicked" IsEnabled="True"
                     Margin="2" ToolTipProperties.Text="Opens the page for foods management"></Button>
-            <Button x:Name="btnRecipe" Text="Recipe" Clicked="btnRecipe_Clicked"
+            <Button x:Name="btnRecipes" Text="Recipes" Clicked="btnRecipes_Clicked"
                     Margin="2" ToolTipProperties.Text="Opens the page of food's weighing management" IsEnabled="True"/>
             <Button x:Name="btnInsulinCalc" Text="Meal insulin" Clicked="btnInsulinCalc_Clicked"
                     Margin="2" ToolTipProperties.Text="Opens a page that calculates the quantity of insulin to inject before a meal"></Button>

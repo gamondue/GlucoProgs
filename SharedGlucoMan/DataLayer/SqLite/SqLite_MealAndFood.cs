@@ -388,15 +388,15 @@ namespace GlucoMan
                 f.Energy.Double = SqlSafe.Double(Row["Energy"]);
                 f.TotalFats.Double = SqlSafe.Double(Row["TotalFats"]);
                 f.SaturatedFats.Double = SqlSafe.Double(Row["SaturatedFats"]);
-                f.MonounsaturatedFats.Double = SqlSafe.Double(Row["MonounsaturatedFats"]);
-                f.PoliunsaturatedFats.Double = SqlSafe.Double(Row["MonounsaturatedFats"]);
+                f.MonounsaturatedFats.Double = SqlSafe.Double(Row["MonoinsaturatedFats"]);
+                f.PoliunsaturatedFats.Double = SqlSafe.Double(Row["PolinsaturatedFats"]);
                 f.Cho.Double = SqlSafe.Double(Row["Carbohydrates"]);
                 f.Sugar.Double = SqlSafe.Double(Row["Sugar"]);
                 f.Fibers.Double = SqlSafe.Double(Row["Fibers"]);
                 f.Proteins.Double = SqlSafe.Double(Row["Proteins"]);
                 f.Salt.Double = SqlSafe.Double(Row["Salt"]);
                 f.Potassium.Double = SqlSafe.Double(Row["Potassium"]);
-                f.Cholesterol.Double = SqlSafe.Double(Row["Potassium"]);
+                f.Cholesterol.Double = SqlSafe.Double(Row["Cholesterol"]);
                 f.GlycemicIndex.Double = SqlSafe.Double(Row["GlycemicIndex"]);
             }
             catch (Exception ex)
@@ -436,13 +436,13 @@ namespace GlucoMan
                 {
                     string query = "SELECT *" +
                         " FROM Foods";
-                    //if ((Name != "" && Name != null) || (Description != "" && Description != null) )
-                    //{
-                    query += " WHERE ((Name LIKE '%" + Name + "%'" +
+                    if ((Name != "" && Name != null) || (Description != "" && Description != null))
+                    {
+                        query += " WHERE ((Name LIKE '%" + Name + "%'" +
                             " OR Name = null)" +
                             " AND (Description LIKE '%" + Description + "%'" +
                             " OR Description = null))";
-                    //}
+                    }
                     query += " ORDER BY Name, Description;";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;

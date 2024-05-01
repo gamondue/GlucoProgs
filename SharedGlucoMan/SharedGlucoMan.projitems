@@ -9,16 +9,19 @@
     <Import_RootNamespace>GlucoMan</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_AlarmManagement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_Alarms.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_BolusesAndInjections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_FoodToHitTargetCarbs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_General.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_MealAndFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_Recipes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\CategoryOfFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodInMeal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\InsulinDrug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\InsulinInjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\ProducerOfFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Recipe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\RecipeIngredient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\UnitOfFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonData.cs" />
@@ -29,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Bolus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodToHitTargetCarbs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_AlarmManagement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_Recipes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Devices\DiabetesM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Devices\FatSecret.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Devices\FreeStyleLibre.cs" />

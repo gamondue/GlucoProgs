@@ -56,7 +56,7 @@
                     BackgroundColor="PaleGoldenrod" FontSize="Small"/>
             
             <Label Grid.Row="3" Grid.Column="0" Text="Meal CHO" XAlign="Center" YAlign="End"/>
-            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Meal begin instant"  XAlign="Center" YAlign="End"/>
+            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Meal begin time"  XAlign="Center" YAlign="End"/>
 
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtChoOfMeal" BackgroundColor="Aqua"
                    Keyboard="Numeric"  FontSize="Medium" HorizontalTextAlignment="End"

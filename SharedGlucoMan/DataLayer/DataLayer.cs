@@ -1,13 +1,5 @@
-﻿
-using GlucoMan;
-using GlucoMan.BusinessLayer;
-using gamon;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Common;
-using System.IO;
-using System.Text;
 
 namespace GlucoMan
 {
@@ -17,6 +9,7 @@ namespace GlucoMan
         internal abstract bool DeleteDatabase();
         internal abstract int GetNextPrimaryKey();
         #endregion
+        #region Save and restore of program's parameters        
         /// <summary>
         /// Saves the values of the parameters, passed as strings, in the fields whose name is passed
         /// Saving on a table with possibly a single row, whose name is managed by the implementation 
@@ -26,25 +19,22 @@ namespace GlucoMan
         /// </summary>
         /// <param name="Paramaters"></param>
         /// <param name="Key"></param>
-        #region Save and restore of program's parameters
         internal abstract long? SaveParameter(string FieldName, string FieldValue, int? Key = null);
         internal abstract string RestoreParameter(string FieldName, int? Key = null);
         #endregion
-
         #region Glucose 
         internal abstract GlucoseRecord GetOneGlucoseRecord(int? idGlucoseRecord);
-        internal abstract List<GlucoseRecord> GetLastTwoGlucoseMeasurements(); 
+        internal abstract List<GlucoseRecord> GetLastTwoGlucoseMeasurements();
         internal abstract List<GlucoseRecord> GetGlucoseRecords(DateTime? InitialInstant, DateTime? FinalInstant);
         //internal abstract void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
-        internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);      
+        internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);
         internal abstract long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
         internal abstract void DeleteOneGlucoseMeasurement(GlucoseRecord gr);
         internal abstract int? SaveOneInjection(InsulinInjection Injection);
         internal abstract void DeleteOneInjection(InsulinInjection Injection);
         internal abstract List<InsulinInjection> GetInjections(DateTime InitialInstant,
-            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed); 
+            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed);
         #endregion
-
         #region Meals and Food in Meals
         internal abstract Meal GetOneMeal(int? IdMeal);
         internal abstract List<Meal> GetMeals(DateTime? initialTime, DateTime? finalTime);
@@ -65,6 +55,10 @@ namespace GlucoMan
         #region Alarms
         internal abstract int? SaveOneAlarm(Alarm currentAlarm);
         internal abstract List<Alarm> ReadAllAlarms();
+        #endregion
+        #region Recipes
+        internal abstract int? SaveOneRecipe(Recipe Recipe);
+        internal abstract List<Recipe> ReadSomeRecipes(string WhereClause);
         #endregion
     }
 }

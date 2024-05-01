@@ -31,7 +31,7 @@ namespace GlucoMan
                 Common.LogOfProgram.Error("Sqlite Datalayer | SaveOneAlarm", ex);
                 return null;
             }
-            return IdAlarm; 
+            return IdAlarm;
         }
         private void UpdateAlarm(Alarm alarm)
         {
@@ -58,7 +58,7 @@ namespace GlucoMan
                     SqliteSafe.Int(secondsOfInterval) + "," +
                     SqliteSafe.Int(secondsOfDuration) + "," +
                     SqliteSafe.Bool(alarm.IsRepeated) + "," +
-                    SqliteSafe.Bool(alarm.IsEnabled) + ""; 
+                    SqliteSafe.Bool(alarm.IsEnabled) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -82,7 +82,7 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     string query = "SELECT *" +
-                        " FROM Alarms"; 
+                        " FROM Alarms";
                     query += " ORDER BY IdAlarm DESC";
                     query += ";";
                     cmd = new SqliteCommand(query);
@@ -99,26 +99,26 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_AlarmManagement | ReadAllAlarms", ex);
+                Common.LogOfProgram.Error("Sqlite_Alarm | ReadAllAlarms", ex);
             }
             return alarms;
         }
         private Alarm GetAlarmFromRow(DbDataReader Row)
         {
-            Alarm m = new Alarm(); 
+            Alarm m = new Alarm();
             try
             {
                 m.IdAlarm = SqlSafe.Int(Row["IdAlarm"]);
                 m.TimeStart.DateTime = SqlSafe.DateTime(Row["TimeStart"]);
-                m.TimeAlarm.DateTime= SqlSafe.DateTime(Row["TimeAlarm"]);
+                m.TimeAlarm.DateTime = SqlSafe.DateTime(Row["TimeAlarm"]);
                 m.Interval = SqlSafe.TimeSpanFromSeconds(Row["Interval"]);
                 m.Duration = SqlSafe.TimeSpanFromMinutes(Row["Duration"]);
-                m.IsEnabled = SqlSafe.Bool(Row["IsEnabled"]);                
+                m.IsEnabled = SqlSafe.Bool(Row["IsEnabled"]);
                 m.IsRepeated = SqlSafe.Bool(Row["IsRepeated"]);
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_AlarmManagement | GetAlarmFromRow", ex);
+                Common.LogOfProgram.Error("Sqlite_Alarm | GetAlarmFromRow", ex);
             }
             return m;
         }

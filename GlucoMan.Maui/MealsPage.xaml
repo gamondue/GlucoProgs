@@ -37,7 +37,7 @@
                     BackgroundColor="PaleGoldenrod" FontSize="Small"/>
 
             <Label Grid.Row="3" Grid.Column="0" Text="Type of Meal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Meal begin instant"  HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Meal begin time"  HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Picker Grid.Row="4" Grid.Column="0" x:Name="cmbTypeOfMeal" Margin="2,2,2,2" 
                     HorizontalTextAlignment="Center"

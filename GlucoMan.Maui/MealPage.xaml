@@ -118,8 +118,8 @@
                     Clicked="btnSearchFood_ClickAsync"></Button>
             <Button Grid.Row="10" Grid.Column="3" Text="Weigh" x:Name="btnWeighFood" 
                     Clicked="btnWeighFood_Click" IsEnabled="True"></Button>
-            <Button Grid.Row="10" Grid.Column="4" Text="Recipe" x:Name="btnRecipe" 
-                    Clicked="btnRecipe_ClickAsync"  IsEnabled="True"></Button>
+            <Button Grid.Row="10" Grid.Column="4" Text="Recipes" x:Name="btnRecipes" 
+                    Clicked="btnRecipes_ClickAsync"  IsEnabled="True"></Button>
 
             <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3" Text="Food" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="1" Text="CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>

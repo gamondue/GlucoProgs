@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace GlucoMan.BusinessLayer
 {
-    public class BL_AlarmManagement
+    public class BL_Alarms
     {
         DataLayer dl = Common.Database;
         public void AddAlarm(Alarm currentAlarm)
         {
-            dl.SaveOneAlarm(currentAlarm); 
+            dl.SaveOneAlarm(currentAlarm);
         }
         public List<Alarm> ReadAllAlarms()
         {
