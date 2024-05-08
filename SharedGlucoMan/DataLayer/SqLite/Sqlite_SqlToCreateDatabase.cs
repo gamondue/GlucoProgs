@@ -1,4 +1,5 @@
-﻿using System;
+﻿using gamon;
+using System;
 using System.Data.Common;
 using System.IO;
 
@@ -205,7 +206,7 @@ COMMIT;
 		}
 		catch (Exception ex)
 			{
-				Common.LogOfProgram.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
+				General.Log.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
 			}
 		}
 	}

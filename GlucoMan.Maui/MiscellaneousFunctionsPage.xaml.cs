@@ -1,10 +1,11 @@
+using gamon;
 using System.Diagnostics;
 
 namespace GlucoMan.Maui;
 
 public partial class MiscellaneousFunctionsPage : ContentPage
 {
-    SharedGlucoMan.BusinessLayer.BL_General blGeneral = new SharedGlucoMan.BusinessLayer.BL_General();
+    GlucoMan.BusinessLayer.BL_General blGeneral = new GlucoMan.BusinessLayer.BL_General();
     bool canModify = true;
     public MiscellaneousFunctionsPage()
     {
@@ -88,7 +89,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     {
         try
         {
-            string fileContent = File.ReadAllText(Common.LogOfProgram.ErrorsFile);
+            string fileContent = File.ReadAllText(General.Log.ErrorsFile);
             await Navigation.PushAsync(new ShowTextPage(fileContent));
         }
         catch
@@ -98,7 +99,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     }
     private async void btnDeleteErrorLog_ClickAsync(object sender, EventArgs e)
     {
-        File.Delete(Common.LogOfProgram.ErrorsFile);
+        File.Delete(General.Log.ErrorsFile);
         await DisplayAlert("", "Done!", "Ok");
     }
     private async void btnReadDatabase_Click(object sender, EventArgs e)

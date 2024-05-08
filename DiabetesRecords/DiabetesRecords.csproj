@@ -31,5 +31,4 @@
   </ItemGroup>
 
   <Import Project="..\SharedGeneral\SharedGeneral.projitems" Label="Shared" />
-  <Import Project="..\SharedAndroid\SharedAndroid.projitems" Label="Shared" />
 </Project>

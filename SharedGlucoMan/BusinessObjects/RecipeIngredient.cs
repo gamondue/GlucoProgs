@@ -5,15 +5,17 @@ namespace GlucoMan
     internal class RecipeIngredient
     {
         public int IdIngredient { get; set; }
-        public int IdFood { get; set; }
+        public int? IdRecipe { get; set; }
         public string? Name { get; set; }
-        public DoubleAndText WeightInRecipe { get; set; }
-        public DoubleAndText WeightPercent { get; set; }
+        public string? Description { get; set; }
+        public DoubleAndText QuantityGrams { get; set; }
+        public DoubleAndText QuantityPercent { get; set; }
         public DoubleAndText ChoPercent { get; set; }
+        public int? IdFood { get; set; }
         public RecipeIngredient()
         {
-            WeightInRecipe = new DoubleAndText();
-            WeightPercent = new DoubleAndText();
+            QuantityGrams = new DoubleAndText();
+            QuantityPercent = new DoubleAndText();
             ChoPercent = new DoubleAndText();
         }
     }

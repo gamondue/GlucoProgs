@@ -1,16 +1,14 @@
-﻿using GlucoMan;
-using System.IO; 
-using System;
-using System.Collections.Generic;
-//using SimMetrics.Net;
+﻿using System.IO;
+using System.Collections;
+using gamon;
 
-namespace SharedGlucoMan.BusinessLayer
+namespace GlucoMan.BusinessLayer
 {
     // Business Layer, general part
     public class BL_General
     {
         DataLayer dl = Common.Database;
-        public  long? SaveParameter(string FieldName, string FieldValue)
+        public long? SaveParameter(string FieldName, string FieldValue)
         {
             return dl.SaveParameter(FieldName, FieldValue);
         }
@@ -32,8 +30,8 @@ namespace SharedGlucoMan.BusinessLayer
 
                 // log of errors 
                 string exportedLogOfProgram = Path.Combine(Common.PathImportExport, 
-                    Path.GetFileName (Common.LogOfProgram.ErrorsFile)); 
-                File.Copy(Common.LogOfProgram.ErrorsFile, exportedLogOfProgram, true);
+                    Path.GetFileName (General.Log.ErrorsFile)); 
+                File.Copy(General.Log.ErrorsFile, exportedLogOfProgram, true);
 
                 // log of insulin correction parameters 
                 string exportedLogOfParameters = Path.Combine(Common.PathImportExport,
@@ -44,7 +42,7 @@ namespace SharedGlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("ExportProgramsFiles", ex); 
+                General.Log.Error("ExportProgramsFiles", ex); 
                 return false;
             }
         }
@@ -83,7 +81,7 @@ namespace SharedGlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("ReadDatabaseFromExternal", ex);
+                General.Log.Error("ReadDatabaseFromExternal", ex);
                 return false;
             }
         }

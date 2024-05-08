@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Accuracy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Alarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonDataMaui.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctionsMaui.cs" />
   </ItemGroup>

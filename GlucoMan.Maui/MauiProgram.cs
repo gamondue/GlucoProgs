@@ -18,8 +18,9 @@ namespace GlucoMan.Maui
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+             Common.SetGlobalParameters();
              Common.GeneralInitializations();
-            ////Common.PlatformSpecificInitializations();
+             ////Common.PlatformSpecificInitializations();
 
             return builder.Build();
         }

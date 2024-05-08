@@ -1,37 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using gamon;
 
 namespace GlucoMan
 {
     public static partial class Common
     {
-        public static string NomeFileDatabase = @"GlucoManData.Sqlite";
-        public static string PathUsersDownload;
-        // program's default path and files. 
-        public static string PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-        // PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
-        
-        //public static string PathExe = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-        //public static string PathAndFileExe = System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(8);
+        // constructor
+        public static void SetGlobalParameters()
+        {
+            // program's default path and files. 
+            PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            // PathUser = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
 
-        // general paths to be used by the rest of the program 
-        public static string PathConfigurationData = Path.Combine(PathUser, @"GlucoMan\Config\");
-        public static string PathProgramsData = Path.Combine(PathUser, @"GlucoMan\Data\");
-        //PathProgramsData = Path.Combine(Common.LocalApplicationPath, @"Data");
-        public static string PathLogs = Path.Combine(PathUser, @"GlucoMan\Logs\");
-        // PathLogs = Path.Combine(Common.LocalApplicationPath, @"Logs");
-        public static string PathDatabase = Path.Combine(PathUser, @"GlucoMan\Data\");
-        // PathDatabase = Path.Combine(Common.LocalApplicationPath, @"Data");
-        public static string PathAndFileDatabase = Path.Combine(PathDatabase, NomeFileDatabase);
-        // PathAndFileDatabase = Path.Combine(Common.PathDatabase, Common.DatabaseFileName);
-        public static string PathImportExport = Path.Combine(PathUser, @"GlucoMan\ImportExport\");
-        // PathImportExport = Path.Combine(Common.ExternalPublicPath, @"Glucoman");
-        public static string PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, Common.LogOfParametersFileName);
-        // PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, LogOfParametersFileName);
+            //public static string PathExe = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+            //public static string PathAndFileExe = System.Reflection.Assembly.GetExecutingAssembly().Location.Substring(8);
 
-        public static void SetPaths()
+                // general paths to be used by the rest of the program 
+            PathConfigurationData = Path.Combine(PathUser, @"GlucoMan\Config\");
+            PathProgramsData = Path.Combine(PathUser, @"GlucoMan\Data\");
+            //PathProgramsData = Path.Combine(Common.LocalApplicationPath, @"Data");
+            PathLogs = Path.Combine(PathUser, @"GlucoMan\Logs\");
+            // PathLogs = Path.Combine(Common.LocalApplicationPath, @"Logs");
+            PathDatabase = Path.Combine(PathUser, @"GlucoMan\Data\");
+            // PathDatabase = Path.Combine(Common.LocalApplicationPath, @"Data");
+            PathAndFileDatabase = Path.Combine(PathDatabase, DatabaseFileName);
+            // PathAndFileDatabase = Path.Combine(Common.PathDatabase, Common.DatabaseFileName);
+            PathImportExport = Path.Combine(PathUser, @"GlucoMan\ImportExport\");
+            // PathImportExport = Path.Combine(Common.ExternalPublicPath, @"Glucoman");
+            PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, Common.LogOfParametersFileName);
+            // PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, LogOfParametersFileName);
+
+            General.Log = new Logger(PathLogs, true,
+                @"DiabetesRecords_Log.txt",
+                @"DiabetesRecords_Errors.txt",
+                @"DiabetesRecords_Debug.txt",
+                @"DiabetesRecords_Prompts.txt",
+                @"DiabetesRecords_Data.txt");
+        }
+    public static void SetPaths()
         {
 //            CommonApplicationPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
 //            LocalApplicationPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
@@ -50,7 +55,7 @@ namespace GlucoMan
 //        public static string PathProgramsData = Path.Combine(PathUser, @"GlucoMan\Data\");
 //        public static string PathLogs = Path.Combine(PathUser, @"GlucoMan\Logs\");
 //        public static string PathDatabase = Path.Combine(PathUser, @"GlucoMan\Data\");
-//        public static string PathAndFileDatabase = Path.Combine(PathDatabase, NomeFileDatabase);
+//        public static string PathAndFileDatabase = Path.Combine(PathDatabase, DatabaseFileName);
 //        public static string PathImportExport = Path.Combine(PathUser, @"GlucoMan\ImportExport\");
 //        public static string PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, Common.LogOfParametersFileName);
 //    }

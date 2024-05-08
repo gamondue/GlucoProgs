@@ -23,7 +23,7 @@ namespace FoglioGlicemiaTerapia
         {
             InitializeComponent();
 
-            Common.LogOfProgram = new gamon.Logger(Common.PathProgramsData, true, @"logs\GlucoMan_log.txt",
+            General.Log = new gamon.Logger(Common.PathProgramsData, true, @"logs\GlucoMan_log.txt",
                 @"logs\GlucoMan_errors.txt", @"logs\GlucoMan_debug.txt", @"logs\GlucoMan_prompts.txt",
                 @"logs\GlucoMan_data.txt");
 

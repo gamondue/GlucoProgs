@@ -4,12 +4,13 @@ namespace GlucoMan
 {
     public class Recipe
     {
-        public int? IdRecipe { get; set; }
+        public int IdRecipe { get; set; }
         public string? Name { get; set; }
-        public DoubleAndText TotalChoPercent { get; set; }
+        public string? Description { get; set; }
+        public DoubleAndText ChoPercent { get; set; }
         public Recipe()
         {
-            TotalChoPercent = new DoubleAndText();
+            ChoPercent = new DoubleAndText();
         }
     }
 }

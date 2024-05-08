@@ -1,5 +1,5 @@
-﻿using GlucoMan.BusinessLayer;
-using SharedGlucoMan.BusinessLayer;
+﻿using gamon;
+using GlucoMan.BusinessLayer;
 
 namespace GlucoMan
 {
@@ -7,12 +7,26 @@ namespace GlucoMan
     {
         public static string DatabaseFileName = @"GlucoManData.Sqlite";
         public static string LogOfParametersFileName = @"Log of the Insulin Correction Parameters.txt";
+        public static string PathUser; 
+        public static string PathUsersDownload;
+
+        public static string PathConfigurationData;
+        public static string PathProgramsData;
+        //PathProgramsData = Path.Combine(Common.LocalApplicationPath, @"Data");
+        public static string PathLogs;
+        // PathLogs = Path.Combine(Common.LocalApplicationPath, @"Logs");
+        public static string PathDatabase;
+        // PathDatabase = Path.Combine(Common.LocalApplicationPath, @"Data");
+        public static string PathAndFileDatabase;
+        // PathAndFileDatabase = Path.Combine(Common.PathDatabase, Common.DatabaseFileName);
+        public static string PathImportExport;
+        // PathImportExport = Path.Combine(Common.ExternalPublicPath, @"Glucoman");
+        public static string PathAndFileLogOfParameters;
+        // PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, LogOfParametersFileName);
 
         internal static DataLayer Database;
         public static BL_General BlGeneral;
         public static BL_MealAndFood MealAndFood_CommonBL;
-
-        public static gamon.Logger LogOfProgram;
 
         public static string Version { get; private set; }
 

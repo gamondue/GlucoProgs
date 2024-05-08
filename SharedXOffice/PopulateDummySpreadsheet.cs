@@ -10,64 +10,64 @@ namespace Comuni.XOffice
 
         internal override string Close()
         {
-            return Common.LogOfProgram.Error("PopulateSpreadsheet|Close():\n", null);
+            return General.Log.Error("PopulateSpreadsheet|Close():\n", null);
         }
 
         internal override string ReplaceSquaredParenthesisTag(string Tag, string ReplacingString)
         {
-            return Common.LogOfProgram.Error("PopulateSpreadsheet|ReplaceString():\n" + Tag + "," + ReplacingString, null);
+            return General.Log.Error("PopulateSpreadsheet|ReplaceString():\n" + Tag + "," + ReplacingString, null);
         }
 
         internal override string ShowWindow()
         {
-            return Common.LogOfProgram.Error("PopulateSpreadsheet|ShowWordWindow()\n", null);
+            return General.Log.Error("PopulateSpreadsheet|ShowWordWindow()\n", null);
         }
 
         internal override string Save()
         {
-            return Common.LogOfProgram.Error("PopulateSpreadsheet|Save():\n", null);
+            return General.Log.Error("PopulateSpreadsheet|Save():\n", null);
         }
 
         internal override string InsertTextInCell(int SheetNumber, int RowNumber, string ColumnName,
                 string CellText)
         {
-            return Common.LogOfProgram.Error("PopulateSpreadsheet|InsertTextInCell()\n" + SheetNumber + "," +
+            return General.Log.Error("PopulateSpreadsheet|InsertTextInCell()\n" + SheetNumber + "," +
                 RowNumber + "," + ColumnName + "," + CellText, null);
         }
 
         internal override string InsertTextInCell(int SheetNumber, int RowNumber, int ColumnNumber,
                 string CellText)
         {
-            return Common.LogOfProgram.Error("PopulateSpreadsheet|InsertTextInCell():\n" + SheetNumber + "," + RowNumber +
+            return General.Log.Error("PopulateSpreadsheet|InsertTextInCell():\n" + SheetNumber + "," + RowNumber +
                 "," + ColumnNumber + "," + CellText, null);
         }
 
         internal override void DeleteRow(int SheetNumber, int Row)
         {
-            Common.LogOfProgram.Error("PopulateSpreadsheet|DeleteRowInTable():\n" + SheetNumber + "," + Row, null);
+            General.Log.Error("PopulateSpreadsheet|DeleteRowInTable():\n" + SheetNumber + "," + Row, null);
         }
 
         internal override int CurrentRow()
         {
-            Common.LogOfProgram.Error("PopulateSpreadsheet|CurrentRow():\n", null);
+            General.Log.Error("PopulateSpreadsheet|CurrentRow():\n", null);
             return -1;
         }
 
         internal override int CurrentColumn()
         {
-            Common.LogOfProgram.Error("PopulateSpreadsheet|CurrentRow():\n", null);
+            General.Log.Error("PopulateSpreadsheet|CurrentRow():\n", null);
             return -1;
         }
 
         internal override int CurrentSheet()
         {
-            Common.LogOfProgram.Error("PopulateSpreadsheet|CurrentSheet():\n", null);
+            General.Log.Error("PopulateSpreadsheet|CurrentSheet():\n", null);
             return -1;
         }
 
         internal override string SaveAsPdf(int[] sheetsToBeSelected)
         {
-            return Common.LogOfProgram.Error("PopulateSpreadsheet|SaveAsPdf():\n", null);
+            return General.Log.Error("PopulateSpreadsheet|SaveAsPdf():\n", null);
         }
 
         internal override object GetCurrentCellValueAndCoordinates(ref int row, ref int column)

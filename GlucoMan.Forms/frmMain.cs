@@ -13,6 +13,8 @@ namespace GlucoMan.Forms
         }
         private void frmMain_Load(object sender, EventArgs e)
         {
+            // call method to set the paths of platform-specific folders
+            Common.SetGlobalParameters();
             this.Text += " " + Common.Version;
             txtHeaderText.Text = "GlucoMan will be a Glucose Manager program for diabetic persons." +
                 "\r\nCurrently it makes just a few calculations, but very useful to the diabetic person that has to make carbohydrate count." +

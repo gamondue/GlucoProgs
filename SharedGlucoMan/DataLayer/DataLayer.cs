@@ -59,6 +59,8 @@ namespace GlucoMan
         #region Recipes
         internal abstract int? SaveOneRecipe(Recipe Recipe);
         internal abstract List<Recipe> ReadSomeRecipes(string WhereClause);
+        internal abstract List<RecipeIngredient> ReadAllIngredientsOfARecipe(int idRecipe);
+        internal abstract int? SaveOneRecipeIngredient(RecipeIngredient recipeIngredient);
         #endregion
     }
 }

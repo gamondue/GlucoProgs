@@ -1,7 +1,4 @@
 ﻿using gamon;
-using GlucoMan;
-using System;
-using System.IO;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -31,7 +28,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("BL_FoodToHitTargetCarbs | SaveData", ex);
+                General.Log.Error("BL_FoodToHitTargetCarbs | SaveData", ex);
             }
         }
         public  void RestoreParametrs()

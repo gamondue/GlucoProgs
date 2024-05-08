@@ -1,7 +1,4 @@
 ﻿using gamon;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -143,7 +140,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception Ex)
             {
-                Common.LogOfProgram.Error("BL_BolusesAndInjections | CalculateBolus()", Ex);
+                General.Log.Error("BL_BolusesAndInjections | CalculateBolus()", Ex);
             }
         }
         public void RoundInsulinToZeroDecimal()

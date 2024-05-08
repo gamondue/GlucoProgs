@@ -14,6 +14,7 @@ namespace GlucoMan.Forms
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();  // .Net 6 app bootstrap 
 
+            Common.SetGlobalParameters();
             Common.GeneralInitializations();
             Common.PlatformSpecificInitializations();
 

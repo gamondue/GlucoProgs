@@ -1,10 +1,11 @@
-﻿using SharedGlucoMan.BusinessLayer;
+﻿using gamon;
+using GlucoMan.BusinessLayer;
 
 namespace GlucoMan.Forms
 {
     public partial class frmMiscellaneous : Form
     {
-        BL_General blGeneral = new SharedGlucoMan.BusinessLayer.BL_General();
+        BL_General blGeneral = new();
         bool canModify = true;
         public frmMiscellaneous()
         {
@@ -69,7 +70,7 @@ namespace GlucoMan.Forms
         {
             try
             {
-                string fileContent = File.ReadAllText(Common.LogOfProgram.ErrorsFile);
+                string fileContent = File.ReadAllText(General.Log.ErrorsFile);
                 frmShowText f = new frmShowText(fileContent);
                 f.Show();
             } catch
@@ -79,7 +80,7 @@ namespace GlucoMan.Forms
         }
         private void btnDeleteErrorLog_Click(object sender, EventArgs e)
         {
-            File.Delete(Common.LogOfProgram.ErrorsFile);
+            File.Delete(General.Log.ErrorsFile);
             MessageBox.Show("Done!");
         }
         private void btnImport_Click(object sender, EventArgs e)

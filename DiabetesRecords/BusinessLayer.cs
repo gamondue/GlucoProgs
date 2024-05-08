@@ -34,13 +34,6 @@ namespace DiabetesRecords
                 // !!!! TODO !!!! remove bypass of bl 
                 dl.CreateNewDatabase(PathAndFileDatabase);
             }
-
-            General.Log = new Logger(PathLogs, true,
-                @"DiabetesRecords_Log.txt",
-                @"DiabetesRecords_Errors.txt",
-                @"DiabetesRecords_Debug.txt",
-                @"DiabetesRecords_Prompts.txt",
-                @"DiabetesRecords_Data.txt");
         }
         public enum TypeOfMeal
         {

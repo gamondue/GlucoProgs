@@ -6,6 +6,9 @@ namespace GlucoMan.Maui
         public MainPage()
         {
             InitializeComponent();
+
+            // call method to set the paths of platform-specific folders
+            Common.SetGlobalParameters();
             lblAppName.Text += " " + Common.Version;
         }
         protected override void OnSizeAllocated(double width, double height)

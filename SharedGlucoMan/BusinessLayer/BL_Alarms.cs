@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GlucoMan.BusinessLayer
+﻿namespace GlucoMan.BusinessLayer
 {
     public class BL_Alarms
     {

@@ -44,7 +44,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
+                General.Log.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
             }
             return list;
         }
@@ -74,7 +74,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
+                General.Log.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
             }
             return gr;
         }
@@ -104,7 +104,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
+                General.Log.Error("Sqlite_GlucoseMeasurement | ReadGlucoseMeasurements", ex);
             }
             return list;
         }
@@ -126,7 +126,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | GetGlucoseRecordFromRow", ex);
+                General.Log.Error("Sqlite_GlucoseMeasurement | GetGlucoseRecordFromRow", ex);
             }
             return gr;
         }
@@ -141,7 +141,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
+                General.Log.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
             }
         }
         internal override long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement)
@@ -162,7 +162,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
+                General.Log.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
                 return null;
             }
         }
@@ -193,7 +193,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
+                General.Log.Error("Sqlite_GlucoseMeasurement | SaveGlucoseMeasurements", ex);
                 return null;
             }
         }
@@ -229,7 +229,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | InsertIntoGlucoseMeasurement", ex);
+                General.Log.Error("Sqlite_GlucoseMeasurement | InsertIntoGlucoseMeasurement", ex);
                 return null;
             }
         }
@@ -250,7 +250,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_GlucoseMeasurement | DeleteOneGlucoseMeasurement", ex);
+                General.Log.Error("Sqlite_GlucoseMeasurement | DeleteOneGlucoseMeasurement", ex);
             }
         }
     }

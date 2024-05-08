@@ -26,7 +26,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_BolusesAndInjections | SaveOneInjection", ex);
+                General.Log.Error("Sqlite_BolusesAndInjections | SaveOneInjection", ex);
                 return null;
             }
         }
@@ -57,7 +57,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_BolusesAndInjections | UpdateInjection", ex);
+                General.Log.Error("Sqlite_BolusesAndInjections | UpdateInjection", ex);
                 return null;
             }
         }
@@ -93,7 +93,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_BolusesAndInjections | InsertInjection", ex);
+                General.Log.Error("Sqlite_BolusesAndInjections | InsertInjection", ex);
                 return null;
             }
         }
@@ -114,7 +114,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_BolusesAndInjections | DeleteOneInjection", ex);
+                General.Log.Error("Sqlite_BolusesAndInjections | DeleteOneInjection", ex);
             }
         }
         internal override InsulinInjection GetOneInjection(int? IdInjection)
@@ -140,7 +140,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetOneInjection", ex);
+                General.Log.Error("Sqlite_BolusesAndInjections | GetOneInjection", ex);
             }
             return g;
         }
@@ -186,7 +186,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetInjections", ex);
+                General.Log.Error("Sqlite_BolusesAndInjections | GetInjections", ex);
             }
             return list;
         }
@@ -209,7 +209,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                Common.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetInjectionFromRow", ex);
+                General.Log.Error("Sqlite_BolusesAndInjections | GetInjectionFromRow", ex);
             }
             return ii;
         }
