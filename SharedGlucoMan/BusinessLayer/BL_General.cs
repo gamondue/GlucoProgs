@@ -2,9 +2,8 @@
 using System.IO; 
 using System;
 using System.Collections.Generic;
-//using SimMetrics.Net;
 
-namespace SharedGlucoMan.BusinessLayer
+namespace GlucoMan.BusinessLayer
 {
     // Business Layer, general part
     public class BL_General
@@ -66,7 +65,6 @@ namespace SharedGlucoMan.BusinessLayer
             }
             return false; 
         }
-
         internal bool ReadDatabaseFromExternal(string pathAndFileInternalDatabase, string pathAndFileExternalDatabase)
         {
             try
@@ -86,6 +84,10 @@ namespace SharedGlucoMan.BusinessLayer
                 Common.LogOfProgram.Error("ReadDatabaseFromExternal", ex);
                 return false;
             }
+        }
+        internal void CreateNewDatabase()
+        { 
+            dl.CreateNewDatabase(Common.PathAndFileDatabase);
         }
     }
 }

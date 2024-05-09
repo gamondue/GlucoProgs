@@ -1,12 +1,3 @@
-﻿using System;
-using System.Data.Common;
-using System.IO;
-
-namespace GlucoMan
-{
-  internal partial class DL_Sqlite : DataLayer
-  {
-		string creationScript = @"
 BEGIN TRANSACTION;
 DROP TABLE IF EXISTS 'ModelsOfMeasurementSystem';
 CREATE TABLE IF NOT EXISTS 'ModelsOfMeasurementSystem' (
@@ -178,8 +169,8 @@ CREATE TABLE IF NOT EXISTS 'InsulinDrugs' (
 	'InsulinDuration'	DOUBLE,
 	PRIMARY KEY('IdInsulinDrug')
 );
-DROP TABLE IF EXISTS 'Recipes';
-CREATE TABLE IF NOT EXISTS 'Recipes' (
+DROP TABLE IF EXISTS 'Recipies';
+CREATE TABLE IF NOT EXISTS 'Recipies' (
 	'IdRecipe'	INTEGER NOT NULL,
 	'Name'	TEXT,
 	'Description'	TEXT,
@@ -199,33 +190,3 @@ CREATE TABLE IF NOT EXISTS 'RecipeIngredients' (
 	PRIMARY KEY('IdIngredient')
 );
 COMMIT;
-";
-	internal override void CreateNewDatabase(string dbName)
-	{
-		// making new, means erasing existent! 
-		if (File.Exists(dbName))
-		File.Delete(dbName);
-
-		//when the file does not exist
-		// Microsoft.Data.Sqlite creates the file at first connection
-		DbConnection c = Connect();
-		c.Close();
-		c.Dispose();
-		try
-		{
-			using (DbConnection conn = Connect())
-			{
-				DbCommand cmd = conn.CreateCommand();
-				cmd.CommandText = creationScript;
-                cmd.Connection = conn;
-                cmd.ExecuteNonQuery();
-				cmd.Dispose();
-			}
-		}
-		catch (Exception ex)
-			{
-				Common.LogOfProgram.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
-			}
-		}
-	}
-}

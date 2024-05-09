@@ -1,5 +1,5 @@
 ﻿using gamon;
-using SharedGlucoMan.BusinessLayer;
+using GlucoMan.BusinessLayer;
 using System;
 
 namespace GlucoMan
@@ -8,6 +8,12 @@ namespace GlucoMan
     {
         public static void GeneralInitializations()
         {
+            General.Log = new Logger(PathLogs, true,
+                @"DiabetesRecords_Log.txt",
+                @"DiabetesRecords_Errors.txt",
+                @"DiabetesRecords_Debug.txt",
+                @"DiabetesRecords_Prompts.txt",
+                @"DiabetesRecords_Data.txt");
             // generation of folders. Since File.Create() doesn't work if the folder
             // doesn't exist, the following statements should be executed before
             // any code that creates or uses files is run 

@@ -1,10 +1,10 @@
-﻿using SharedGlucoMan.BusinessLayer;
+﻿using GlucoMan.BusinessLayer;
 
 namespace GlucoMan.Forms
 {
     public partial class frmMiscellaneous : Form
     {
-        BL_General blGeneral = new SharedGlucoMan.BusinessLayer.BL_General();
+        BL_General blGeneral = new BL_General();
         bool canModify = true;
         public frmMiscellaneous()
         {

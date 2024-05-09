@@ -46,7 +46,7 @@ COMMIT;
             }
             return connection;
         }
-        internal void CreateNewDatabase(string dbName)
+        public void CreateNewDatabase(string dbName)
         {
             // making new, means erasing existent! 
             if (File.Exists(dbName))

@@ -1,10 +1,11 @@
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace GlucoMan.Maui;
 
 public partial class MiscellaneousFunctionsPage : ContentPage
 {
-    SharedGlucoMan.BusinessLayer.BL_General blGeneral = new SharedGlucoMan.BusinessLayer.BL_General();
+    BusinessLayer.BL_General blGeneral = new BusinessLayer.BL_General();
     bool canModify = true;
     public MiscellaneousFunctionsPage()
     {
@@ -50,6 +51,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             {
                 DisplayAlert("", "Error in deleting file. File NOT deleted", "OK");
             }
+            blGeneral.CreateNewDatabase(); // re-create the database
         }
     }
     private void btnCopyProgramsFiles_Click(object sender, EventArgs e)

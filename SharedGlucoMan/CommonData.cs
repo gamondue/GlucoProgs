@@ -1,5 +1,4 @@
 ﻿using GlucoMan.BusinessLayer;
-using SharedGlucoMan.BusinessLayer;
 
 namespace GlucoMan
 {

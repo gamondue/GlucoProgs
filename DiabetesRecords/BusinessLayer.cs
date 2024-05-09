@@ -31,16 +31,12 @@ namespace DiabetesRecords
             if (!System.IO.File.Exists(PathAndFileDatabase))
             {
                 // since the file doesn't exist yet, we create the database:
-                // !!!! TODO !!!! remove bypass of bl 
                 dl.CreateNewDatabase(PathAndFileDatabase);
             }
-
-            General.Log = new Logger(PathLogs, true,
-                @"DiabetesRecords_Log.txt",
-                @"DiabetesRecords_Errors.txt",
-                @"DiabetesRecords_Debug.txt",
-                @"DiabetesRecords_Prompts.txt",
-                @"DiabetesRecords_Data.txt");
+        }
+        internal void CreateNewDatabase()
+        {
+            dl.CreateNewDatabase(PathAndFileDatabase);
         }
         public enum TypeOfMeal
         {

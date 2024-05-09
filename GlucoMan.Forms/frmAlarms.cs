@@ -13,7 +13,7 @@ namespace GlucoMan.Forms
 {
     public partial class frmAlarms : Form
     {
-        BL_AlarmManagement bl = new BL_AlarmManagement(); 
+        BL_Alarms bl = new(); 
         
         Alarm currentAlarm = new Alarm(); 
 
