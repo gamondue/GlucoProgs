@@ -1,3 +1,6 @@
+using System.Drawing;
+using Color = Microsoft.Maui.Graphics.Color;
+
 namespace GlucoMan.Maui;
 
 public partial class BackPicturePage : ContentPage
@@ -28,6 +31,42 @@ public partial class BackPicturePage : ContentPage
             double x = relativeToContainerPosition.Value.X;
             double y = relativeToContainerPosition.Value.Y;
 
+            Color initialColor = Color.FromArgb("00FF00");
+            //Color coloreIniziale = Color.Green;
+            Color finalColor = Color.FromArgb("FF0000");
+            Color currentColor;
+
+            float spanHue;          // differenza di tinta da coprire
+            float spanSaturation;   // differenza di saturazione da coprire
+            float spanLuminance;    // differenza di saturazione da coprire
+            spanHue = finalColor.GetHue() - initialColor.GetHue(); // differenza di tinta da coprire
+            //spanSaturation = coloreFinale.GetSaturation() - coloreIniziale.GetSaturation(); // differenza da coprire
+            spanSaturation = 0;
+            //spanLuminance = coloreFinale.GetBrightness() - coloreIniziale.GetBrightness(); // differenza da coprire
+            spanLuminance = 0;
+
+
+            // se in modalità "non editing", memorizza l'istante della puntura
+            // in seguito cambio il colore del cerchio in base alla differenza di tempo 
+            // fra DateTime.Now e l'istante memorizzato
+
+            // cambio di colore con ColorConverter, si passa da rosso a verde
+            // in base alla differenza di tempo fra DateTime.Now e l'istante memorizzato
+            // inoltre, si passa da un colore all'altro in 60 secondi
+            // il colore cambia con una legge lineare da rosso a verde in 60 secondi
+
+            ColorConverter.RGB colRGB = new ColorHelper.RGB();
+            ColorHelper.HSL colHSL = new ColorHelper.HSL();
+
+            // cambia colore dal colore iniziale a quello finale
+            colHSL.Hue = (int)(initialColor.GetHue() + spanHue * (timeTotalSeconds * 60 - timeLeftSeconds) / (timeTotalSeconds * 60));
+            colHSL.Saturation = initialColor.GetSaturation() + spanSaturation * (timeTotalSeconds * 60 - timeLeftSeconds) / (timeTotalSeconds * 60);
+            colHSL.Luminance = initialColor.GetBrightness() + spanLuminance * (timeTotalSeconds * 60 - timeLeftSeconds) / timeTotalSeconds;
+            ColorHelper.ColorConverter.HSL2RGB(colHSL, colRGB);
+            currentColor = colRGB.Color;
+ 
+
+             // se in modalità "editing", sposta il cerchio in quella posizione
             cerchioD.LeftCerchio = (float)x;
             cerchioD.TopCerchio = (float)y;
             // rende non valido tutto quello che c'è nel cerchiGraphicsView.

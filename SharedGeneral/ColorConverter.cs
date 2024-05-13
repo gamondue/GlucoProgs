@@ -202,9 +202,6 @@ namespace gamon
 			this.Cr	= Math.Max( -0.5, Math.Min( 0.5, cr ) );
 		}
 	}
-
-
-
 	/// <summary>
 	/// Color converter - converts colors from different color spaces
 	/// </summary>
