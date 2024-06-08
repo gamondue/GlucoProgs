@@ -11,6 +11,14 @@
     </ContentPage.Resources>
     <VerticalStackLayout>
         <HorizontalStackLayout HeightRequest="40">
+            <CheckBox x:Name="EditorCheckBox"  CheckedChanged="Is_Checked" />
+            <Label VerticalTextAlignment="Center">Editor</Label>
+
+            <Button x:Name="ButtonSave" Text="SaveRed" Clicked="SaveCircleToFile" />
+            <Button x:Name="ButtonSave2" Text="SaveBlu" Clicked="SaveCircleToFileBlu" />
+
+            <Button x:Name="ButtonClear" Text="Clear" Clicked="ClearFile" />
+
         </HorizontalStackLayout>
         <Grid>
             <!-- griglia in cui metto un'immagine ed un GraphicsView nella stessa cella 

@@ -5,6 +5,11 @@
              Title="Front past injections">
     <VerticalStackLayout>
         <HorizontalStackLayout HeightRequest="40">
+            <CheckBox x:Name="EditorCheckBox"  CheckedChanged="Is_Checked" />
+            <Label VerticalTextAlignment="Center">Editor</Label>
+
+            <Button x:Name="ButtonSave" Text="Save" Clicked="SaveCircleToFile" />
+            <Button x:Name="ButtonClear" Text="Clear" Clicked="ClearFile" />
         </HorizontalStackLayout>
         <Image Source="busto_fronte.png" Scale="1"
                HeightRequest="600"
