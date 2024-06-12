@@ -4,19 +4,36 @@
              x:Class="GlucoMan.Maui.FrontPicturePage"
              Title="Front past injections">
     <VerticalStackLayout>
-        <HorizontalStackLayout HeightRequest="40">
-            <CheckBox x:Name="EditorCheckBox"  CheckedChanged="Is_Checked" />
-            <Label VerticalTextAlignment="Center">Editor</Label>
-
-            <Button x:Name="ButtonSave" Text="Save" Clicked="SaveCircleToFile" />
-            <Button x:Name="ButtonClear" Text="Clear" Clicked="ClearFile" />
+        <HorizontalStackLayout x:Name="stackEditingOptions" HeightRequest="40">
+            <CheckBox x:Name="EditorCheckBox" CheckedChanged="CheckedChanged"
+                      HorizontalOptions="End"/>
+            <Label VerticalTextAlignment="Center" Margin ="0" HorizontalTextAlignment="Start"
+                   HorizontalOptions="Start">Editing</Label>
+            <CheckBox x:Name="DeleteCheckBox"/>
+            <Label VerticalTextAlignment="Center">Delete points</Label>
+            <Button x:Name="btnSaveReferences" Text="Save points" Clicked="btnSave_Click" />
+            <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
         </HorizontalStackLayout>
-        <Image Source="busto_fronte.png" Scale="1"
+        <Grid>
+            <Image Source="busto_fronte.png" Scale="1"
                HeightRequest="600"
-               HorizontalOptions="Center">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-            </Image.GestureRecognizers>
-        </Image>
+               WidthRequest="400"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Center">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </Image.GestureRecognizers>
+            </Image>
+            <GraphicsView x:Name="cerchiGraphicsView"
+                    Drawable="{StaticResource drawable}"
+                    HeightRequest="600"
+                    WidthRequest="400"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Center">
+                <GraphicsView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </GraphicsView.GestureRecognizers>
+            </GraphicsView>
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

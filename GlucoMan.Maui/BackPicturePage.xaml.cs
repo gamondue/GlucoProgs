@@ -2,82 +2,70 @@ namespace GlucoMan.Maui;
 
 public partial class BackPicturePage : ContentPage
 {
-    CirclesDrawable cerchioD;
-    bool editor =false;
-    private string CirclesFilePath = "C:\\Users\\daniele.pieri\\Desktop\\Nuova cartella\\GlucoProgs\\CircleFile.txt";
-
+    CirclesDrawable allCircles;
+    bool editing = false;
     public BackPicturePage()
     {
         InitializeComponent();
 
-        // Istanziazione dell'oggetto che disegnerà il (i) cerchio
-        cerchioD = new CirclesDrawable();
+#if !DEBUG
+        // in release mode we hide the stack layout that allows to 
+        // edit the coordinates of the reference points
+        // TODO don't hide but "unregister" the stack layout
+        stackEditingOptions.IsVisible = false;
+#endif
+        // we define a new object that represents the set of circles to be drawn
+        // into the GraphcsView. It derives from the Interface IDrawable
+        allCircles = new CirclesDrawable();
+        allCircles.Type = CirclesDrawable.PointType.Back; 
+
         // collegamento del Drawable al GraphicsView
-        cerchiGraphicsView.Drawable = cerchioD;
+        cerchiGraphicsView.Drawable = allCircles;
         cerchiGraphicsView.Background = Color.FromRgba(255, 255, 0, 100);
         var children = cerchiGraphicsView.GetChildElements(new Point(100, 100));
-        //cerchiGraphicsView.Width = Immagine.Width;
 
-        // "reset" del GraphicsView, che rende necessario il lancio del metodo Draw (prima prova di disegno cerchio) 
+        // reset of the GraphcsView that will be redrawn by method Draw in allCircles
         cerchiGraphicsView.Invalidate();
     }
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
+        allCircles.IsCallerEditing = editing;
         // Position relative to the container view (the image).
         // The origin point is at the top-left corner of the image.
         Point? relativeToContainerPosition = e.GetPosition((View)sender);
         if (relativeToContainerPosition.HasValue)
         {
-            double x = relativeToContainerPosition.Value.X-3;
-            double y = relativeToContainerPosition.Value.Y-3;
-
-            cerchioD.LeftCerchio = (float)x;
-            cerchioD.TopCerchio = (float)y;
-
-            if (editor)
+            if (DeleteCheckBox.IsChecked)
             {
-                cerchioD.AddCircle(cerchioD.LeftCerchio, cerchioD.TopCerchio);
-            }
-            else
-            {
-                cerchioD.CheckSquare(cerchioD.LeftCerchio, cerchioD.TopCerchio);
-            }
+                // if delete checkbox is enabled we have to delete the circle that is nearest
+                // to the click point 
 
-
-            // rende non valido tutto quello che c'è nel cerchiGraphicsView.
-            // Pertanto il sistema deve lanciare il metodo Draw() per ridisegnare 
-            // TUTTA la grafica che c'era
+                allCircles.RemovePointIfNear(relativeToContainerPosition.Value);
+            }
+            else 
+            { 
+                // passes the position of the click to the creator method of a new circle 
+                // the constructor will calculate the position of the center of the circle
+                allCircles.AddPoint((Point)relativeToContainerPosition, editing);
+            }
+            // clears the GraphicsView that will be redrawn by the Draw method
+            // the system will launch the Draw() method to redraw
             this.cerchiGraphicsView.Invalidate();
         }
     }
-
-    private void Is_Checked(object sender, EventArgs e)
+    private void CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        if (editor)
-        {
-            editor = false;
-        }
-        else
-        {
-            editor= true;
-        }
-    }
-
-    private void SaveCircleToFile(object sender, EventArgs e)
-    {
-        cerchioD.SaveCircleToFile();
-    }
-
-    private void SaveCircleToFileBlu(object sender, EventArgs e)
-    {
-        cerchioD.SaveCircleToFileBlu();
-    }
-
-    private void ClearFile(object sender, EventArgs e)
-    {
-        cerchioD.ClearFile();
+        editing = e.Value;
+        allCircles.IsCallerEditing = e.Value;
         this.cerchiGraphicsView.Invalidate();
-
     }
-
+    private void btnSave_Click(object sender, EventArgs e)
+    {
+        allCircles.SaveCoordinatesToFile();
+    }
+    private void btnClear_Click(object sender, EventArgs e)
+    {
+        allCircles.ClearFile();
+        this.cerchiGraphicsView.Invalidate();
+    }
 }

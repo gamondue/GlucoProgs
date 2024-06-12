@@ -4,21 +4,19 @@
              xmlns:drawable="clr-namespace:GlucoMan.Maui"
              x:Class="GlucoMan.Maui.BackPicturePage"
              Title="Back past injections">
-    <!-- fra le risprse della pagina aggiungiamo una risorsa di nome "drawable"
+    <!-- fra le risorse della pagina aggiungiamo una risorsa di nome "drawable"
          di tipo CerchioDrawable, accessibile tramite la chiave "cerchioDrawable" (per il binding) -->
     <ContentPage.Resources>
         <drawable:CirclesDrawable x:Key="cerchioDrawable" />
     </ContentPage.Resources>
     <VerticalStackLayout>
-        <HorizontalStackLayout HeightRequest="40">
-            <CheckBox x:Name="EditorCheckBox"  CheckedChanged="Is_Checked" />
-            <Label VerticalTextAlignment="Center">Editor</Label>
-
-            <Button x:Name="ButtonSave" Text="SaveRed" Clicked="SaveCircleToFile" />
-            <Button x:Name="ButtonSave2" Text="SaveBlu" Clicked="SaveCircleToFileBlu" />
-
-            <Button x:Name="ButtonClear" Text="Clear" Clicked="ClearFile" />
-
+        <HorizontalStackLayout x:Name="stackEditingOptions" HeightRequest="40">
+            <CheckBox x:Name="EditorCheckBox" HorizontalOptions="End" CheckedChanged="CheckedChanged"/>
+            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Editing</Label>
+            <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="End"/>
+            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Delete points</Label>
+            <Button x:Name="btnSave" Text="Save points" Clicked="btnSave_Click" />
+            <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
         </HorizontalStackLayout>
         <Grid>
             <!-- griglia in cui metto un'immagine ed un GraphicsView nella stessa cella 
@@ -30,7 +28,8 @@
                    VerticalOptions="Start"
                    HorizontalOptions="Center">
             </Image>
-            <!-- si definisce un GraphicsView che ha le stesse dimensioni della Image 
+            <!-- si definisce un GraphicsView che ha le stesse dimensioni della Image,
+                 che è posizionato sopra di essa (sta nella stessa 
                  e che è collegato (bound) con i "dati" provenienti dalla risorsa chiamata 
                  "drawable" (definita prima) -->
             <GraphicsView x:Name="cerchiGraphicsView"
@@ -40,10 +39,10 @@
                     VerticalOptions="Start"
                     HorizontalOptions="Center">
                 <!-- aggiunge un "riconoscitore di "tap" che lancia un evento quando l'utente 
-                     clicca (col mouse) o "tappa" (col dito) sul GraphicsView. 
+                     "clicca" (col mouse) o "tappa" (col dito) sul GraphicsView. 
                      L'evento forzerà una riscrittura della GraphicsView -->
                 <GraphicsView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                 </GraphicsView.GestureRecognizers>
             </GraphicsView>
         </Grid>
