@@ -10,13 +10,18 @@
         <drawable:CirclesDrawable x:Key="cerchioDrawable" />
     </ContentPage.Resources>
     <VerticalStackLayout>
-        <HorizontalStackLayout x:Name="stackEditingOptions" HeightRequest="40">
-            <CheckBox x:Name="EditorCheckBox" HorizontalOptions="End" CheckedChanged="CheckedChanged"/>
-            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Editing</Label>
-            <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="End"/>
-            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Delete points</Label>
-            <Button x:Name="btnSave" Text="Save points" Clicked="btnSave_Click" />
-            <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
+        <HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Button x:Name="btnSaveInjection" Text="Save" Clicked="btnSaveInjection_Clicked"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout x:Name="stackEditingOptions" HeightRequest="40">
+                <CheckBox x:Name="EditorCheckBox" HorizontalOptions="End" CheckedChanged="CheckedChanged"/>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Editing</Label>
+                <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="End"/>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Delete points</Label>
+                <Button x:Name="btnSavePoints" Text="Save points" Clicked="btnSavePoints_Clicked" />
+                <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
+            </HorizontalStackLayout>
         </HorizontalStackLayout>
         <Grid>
             <!-- griglia in cui metto un'immagine ed un GraphicsView nella stessa cella 
@@ -28,10 +33,9 @@
                    VerticalOptions="Start"
                    HorizontalOptions="Center">
             </Image>
-            <!-- si definisce un GraphicsView che ha le stesse dimensioni della Image,
-                 che è posizionato sopra di essa (sta nella stessa 
-                 e che è collegato (bound) con i "dati" provenienti dalla risorsa chiamata 
-                 "drawable" (definita prima) -->
+            <!-- A GraphicsView is defined with the same dimensions as the Image,
+                 positioned above it (in the same grid cell),
+                 and bound to the "drawable" resource (defined earlier) for data -->
             <GraphicsView x:Name="cerchiGraphicsView"
                     Drawable="{StaticResource drawable}"
                     HeightRequest="600"

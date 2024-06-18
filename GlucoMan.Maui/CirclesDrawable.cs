@@ -67,6 +67,7 @@ namespace GlucoMan.Maui
         //private string PointsCoordinatesFilePath = Path.Combine(Common.PathDatabase, "PointsCoordinates");
         private string PointsCoordinatesFilePath = Common.PathDatabase;
         private string ReferencePointsCoordinatesFilePath = Common.PathDatabase;
+        private bool isFirstClick = true;
 
         public CirclesDrawable()
         {
@@ -77,7 +78,8 @@ namespace GlucoMan.Maui
             string partOfFileName = "";
             if (firstTime)
             {
-                PointsCoordinates = ReadCoordinatesFromFile();
+                // the next is commented because it was used in development early stage
+                //PointsCoordinates = ReadCoordinatesFromFile();
                 if (!isCallerEditing)
                 {
                     ReferencePointsCoordinates = ReadCoordinatesFromReferenceFile(); 
@@ -104,24 +106,23 @@ namespace GlucoMan.Maui
                 }
             }
         }
-        internal void AddPoint(Point LeftTopPosition, bool IsEditing)
+        internal Point AddPoint(Point LeftTopPosition, bool IsEditing)
         {
             // center position is stored in the right list depending on the IsEditing flag
             double XCenter;
             double YCenter;
-            // calculate the center of the circle
-
+            Point nearestPoint = new(); 
             if (IsEditing)
             {
                 XCenter = (float)LeftTopPosition.X + referenceRadius;
                 YCenter = (float)LeftTopPosition.Y + referenceRadius;
                 // check if the clicked point is near enough to a reference point
-                Point nearestPoint = FindNearest(new Point(XCenter, YCenter), PointsCoordinates);
-                // calculate the cartesion distance between the clicked point and the nearest reference point
+                nearestPoint = FindNearest(new Point(XCenter, YCenter), PointsCoordinates);
+                // calculate the cartesion distance between the clicked point and the nearestPoint reference point
                 float distance = (float)Math.Sqrt((XCenter - nearestPoint.X) * (XCenter - nearestPoint.X) 
                     + (YCenter - nearestPoint.Y) * (YCenter - nearestPoint.Y));
                 // if the distance is less than thresholdDistance, the clicked point is considered
-                // to be the same as the nearest reference point
+                // to be the same as the nearestPoint reference point
                 if (distance < thresholdDistance)
                 {
                     // if the clicked point is near enough to a reference point, the reference point is removed
@@ -138,18 +139,32 @@ namespace GlucoMan.Maui
             }
             else
             {
+                // we are not editing 
+                // calculate the center of the circle
                 XCenter = (float)LeftTopPosition.X + injectionRadius;
                 YCenter = (float)LeftTopPosition.Y + injectionRadius;
-                // if the click has been done while setting the point of the injection,
-                // the center is brought to the nearest reference point and is added to the list
-                Point nearest = FindNearest(new Point(XCenter, YCenter), ReferencePointsCoordinates);
-                if (nearest.X != double.MaxValue && nearest.Y != double.MaxValue)
+                // since the click has been done while setting the point of the injection
+                // the center is brought to the nearestPoint reference point
+                nearestPoint = FindNearest(new Point(XCenter, YCenter), ReferencePointsCoordinates);
+                if (nearestPoint.X != double.MaxValue && nearestPoint.Y != double.MaxValue)
                 {
-                    XCenter = nearest.X;
-                    YCenter = nearest.Y;
-                    PointsCoordinates.Add(new Point(XCenter, YCenter));
+                    XCenter = nearestPoint.X;
+                    YCenter = nearestPoint.Y;
                 }
+                // the center is added to the list
+                if (!isFirstClick)
+                {
+                    // if it is not the first click, the last point is deleted from the list,
+                    PointsCoordinates.RemoveAt(PointsCoordinates.Count - 1);
+                }
+                else
+                {   // if it is the first click, the flag is set to false
+                    isFirstClick = false;
+                }
+                // the center is added to the list
+                PointsCoordinates.Add(new Point(XCenter, YCenter));
             }
+            return nearestPoint; 
         }
         internal void RemovePointIfNear(Point LeftTopPosition)
         {
@@ -162,7 +177,7 @@ namespace GlucoMan.Maui
 
             // check if the clicked point is near enough to a reference point
             Point nearestPoint = FindNearest(new Point(XCenter, YCenter), PointsCoordinates);
-            // calculate the cartesion distance between the clicked point and the nearest reference point
+            // calculate the cartesion distance between the clicked point and the nearestPoint reference point
             double distance = Math.Sqrt((XCenter - nearestPoint.X) * (XCenter - nearestPoint.X)
                 + (YCenter - nearestPoint.Y) * (YCenter - nearestPoint.Y));
             // if the distance is less than thresholdDistance, the clicked point is deleted
@@ -175,14 +190,14 @@ namespace GlucoMan.Maui
         private Point FindNearest(Point Passed, List<Point> GivenPoints)
         {
             Point min =  new Point(double.MaxValue, double.MaxValue);
-            // find the point in the list that is the nearest to the passed point
+            // find the point in the list that is the nearestPoint to the passed point
             {
                 double SquaredDistanceMin = float.MaxValue;
                 foreach (Point point in GivenPoints)
                 {
-                    double distanceX = (float) (point.X - Passed.X);
-                    double distanceY = (float) (point.Y - Passed.Y);
-                    double squaredDistance = distanceX * distanceX + distanceY * distanceY;
+                    double displacementX = (float) (point.X - Passed.X);
+                    double displacementY = (float) (point.Y - Passed.Y);
+                    double squaredDistance = displacementX * displacementX + displacementY * displacementY;
                     if (squaredDistance < SquaredDistanceMin)
                     {
                         SquaredDistanceMin = squaredDistance;
@@ -190,7 +205,7 @@ namespace GlucoMan.Maui
                         min.Y = point.Y;
                     }
                 }
-                // when the loop ends, XMin and YMin are the coordinates of the nearest point
+                // when the loop ends, XMin and YMin are the coordinates of the nearestPoint point
                 // we give them back to the caller
                 return min;
             }
@@ -284,7 +299,7 @@ namespace GlucoMan.Maui
                 Console.WriteLine($"An error occurred while saving the coordinates into file: {ex.Message}");
             }
         }
-        internal void ClearFile()
+        internal void ClearAll()
         {
             string partOfFileName;
             if (isCallerEditing)
@@ -301,6 +316,14 @@ namespace GlucoMan.Maui
             {
                 // Console.WriteLine($"Si è verificato un errore durante la pulizia del file: {ex.Message}");
                 Console.WriteLine($"An error occurred while clearing the coordinates from file: {ex.Message}");
+            }
+        }
+        internal void LoadCoordinates(List<InsulinInjection> allRecentInjections)
+        {
+            foreach (InsulinInjection injection in allRecentInjections)
+            {
+                if (injection.PositionX != null & injection.PositionY != null)
+                    PointsCoordinates.Add(new Point((float)injection.PositionX, (float)injection.PositionY));
             }
         }
     }

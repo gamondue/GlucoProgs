@@ -8,13 +8,18 @@
         <drawable:CirclesDrawable x:Key="cerchioDrawable" />
     </ContentPage.Resources>
     <VerticalStackLayout>
-        <HorizontalStackLayout x:Name="stackEditingOptions" HeightRequest="40">
-            <CheckBox x:Name="EditorCheckBox" CheckedChanged="CheckedChanged"/>
-            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Editing</Label>
-            <CheckBox x:Name="DeleteCheckBox"/>
-            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Delete points</Label>
-            <Button x:Name="btnSave" Text="Save points" Clicked="btnSave_Click" />
-            <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
+        <HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Button x:Name="btnSaveInjection" Text="Save" Clicked="btnSaveInjection_Clicked"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout x:Name="stackEditingOptions" HeightRequest="40">
+                <CheckBox x:Name="EditorCheckBox" HorizontalOptions="End" CheckedChanged="CheckedChanged"/>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Editing</Label>
+                <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="End"/>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Delete points</Label>
+                <Button x:Name="btnSavePoints" Text="Save points" Clicked="btnSavePoints_Clicked" />
+                <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
+            </HorizontalStackLayout>
         </HorizontalStackLayout>
         <Grid>
             <Image Grid.Row="0" Grid.Column="0" Source="mano_destra.png" Scale="1"

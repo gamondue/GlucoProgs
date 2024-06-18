@@ -33,7 +33,9 @@ namespace GlucoMan
         internal abstract int? SaveOneInjection(InsulinInjection Injection);
         internal abstract void DeleteOneInjection(InsulinInjection Injection);
         internal abstract List<InsulinInjection> GetInjections(DateTime InitialInstant,
-            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed);
+            DateTime FinalInstant, 
+            Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet, 
+            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet);
         #endregion
         #region Meals and Food in Meals
         internal abstract Meal GetOneMeal(int? IdMeal);

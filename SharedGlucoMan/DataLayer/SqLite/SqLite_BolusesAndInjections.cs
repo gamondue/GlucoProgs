@@ -41,8 +41,9 @@ namespace GlucoMan
                     "Timestamp=" + SqliteSafe.Date(Injection.Timestamp.DateTime) + "," +
                     "InsulinValue=" + SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
                     "InsulinCalculated=" + SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
-                    "InjectionPositionX=" + SqliteSafe.Int(Injection.InjectionPositionX.Int) + "," +
-                    "InjectionPositionY=" + SqliteSafe.Int(Injection.InjectionPositionY.Int) + "," +
+                    "Zone=" + (int)Injection.Zone + "," +
+                    "InjectionPositionX=" + SqliteSafe.Double(Injection.PositionX) + "," +
+                    "InjectionPositionY=" + SqliteSafe.Double(Injection.PositionY) + "," +
                     "Notes=" + SqliteSafe.String(Injection.Notes) + "," +
                     "IdTypeOfInsulinSpeed=" + SqliteSafe.Int(Injection.IdTypeOfInsulinSpeed) + "," +
                     "IdTypeOfInsulinInjection=" + SqliteSafe.Int(Injection.IdTypeOfInsulinInjection) + "," +
@@ -71,15 +72,16 @@ namespace GlucoMan
                     string query = "INSERT INTO InsulinInjections" +
                     "(" +
                     "IdInsulinInjection,Timestamp,InsulinValue,InsulinCalculated," +
-                    "InjectionPositionX,InjectionPositionY,Notes," +
+                    "Zone,InjectionPositionX,InjectionPositionY,Notes," +
                     "IdTypeOfInsulinSpeed,IdTypeOfInsulinInjection,InsulinString";
                     query += ")VALUES(" +
                     SqliteSafe.Int(Injection.IdInsulinInjection) + "," +
                     SqliteSafe.Date(Injection.Timestamp.DateTime) + "," +
                     SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
                     SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
-                    SqliteSafe.Int(Injection.InjectionPositionX.Int) + "," +
-                    SqliteSafe.Int(Injection.InjectionPositionY.Int) + "," +
+                    (int)Injection.Zone + "," +
+                    SqliteSafe.Double(Injection.PositionX) + "," +
+                    SqliteSafe.Double(Injection.PositionY) + "," +
                     SqliteSafe.String(Injection.Notes) + "," +
                     SqliteSafe.Int(Injection.IdTypeOfInsulinSpeed) + "," +
                     SqliteSafe.Int(Injection.IdTypeOfInsulinInjection) + "," +
@@ -144,7 +146,9 @@ namespace GlucoMan
             }
             return g;
         }
-        internal override List<InsulinInjection> GetInjections(DateTime InitialInstant, DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed)
+        internal override List<InsulinInjection> GetInjections(DateTime InitialInstant, DateTime FinalInstant, 
+            Common.TypeOfInsulinSpeed TypeOfSpeed = Common.TypeOfInsulinSpeed.NotSet, 
+            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet)
         {
             List<InsulinInjection> list = new List<InsulinInjection>();
             try
@@ -159,16 +163,20 @@ namespace GlucoMan
                     {   // add WHERE clause
                         query += " WHERE Timestamp BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd HH:mm:ss") +
                             "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd HH:mm:ss") + "'";
-                        if (TypeOfInsulinSpeed != Common.TypeOfInsulinSpeed.NotSet)
+                        if (TypeOfSpeed != Common.TypeOfInsulinSpeed.NotSet)
                         {
-                            query += " AND IdTypeOfInsulinSpeed=" + (int)TypeOfInsulinSpeed;
+                            query += " AND IdTypeOfInsulinSpeed=" + (int)TypeOfSpeed;
+                        }
+                        if (Zone != Common.ZoneOfPosition.NotSet)
+                        {
+                            query += " AND Zone=" + (int)Zone;
                         }
                     }
                     else
                     {
-                        if (TypeOfInsulinSpeed != Common.TypeOfInsulinSpeed.NotSet)
+                        if (TypeOfSpeed != Common.TypeOfInsulinSpeed.NotSet)
                         {
-                            query += " WHERE IdTypeOfInsulinSpeed=" + (int)TypeOfInsulinSpeed;
+                            query += " WHERE IdTypeOfInsulinSpeed=" + (int)TypeOfSpeed;
                         }
                     }
                     query += " ORDER BY Timestamp DESC, IdInsulinInjection;";
@@ -200,12 +208,14 @@ namespace GlucoMan
                 ii.Timestamp.DateTime = SqlSafe.DateTime(Row["Timestamp"]);
                 ii.InsulinValue.Double = SqlSafe.Double(Row["InsulinValue"]);
                 ii.InsulinCalculated.Double = SqlSafe.Double(Row["InsulinCalculated"]);
-                ii.InjectionPositionX.Int = SqlSafe.Int(Row["InjectionPositionX"]);
-                ii.InjectionPositionY.Int = SqlSafe.Int(Row["InjectionPositionY"]);
+                ii.PositionX = SqlSafe.Double(Row["InjectionPositionX"]);
+                ii.PositionY = SqlSafe.Double(Row["InjectionPositionY"]);
                 ii.Notes = SqlSafe.String(Row["Notes"]);
                 ii.IdTypeOfInsulinSpeed = SqlSafe.Int(Row["IdTypeOfInsulinSpeed"]);
                 ii.IdTypeOfInsulinInjection = SqlSafe.Int(Row["IdTypeOfInsulinInjection"]);
                 ii.InsulinString = SqlSafe.String(Row["InsulinString"]);
+                if (Row["Zone"] != DBNull.Value)
+                    ii.Zone = (Common.ZoneOfPosition)(SqlSafe.Int(Row["Zone"]));
             }
             catch (Exception ex)
             {

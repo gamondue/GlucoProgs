@@ -4,15 +4,18 @@
              x:Class="GlucoMan.Maui.FrontPicturePage"
              Title="Front past injections">
     <VerticalStackLayout>
-        <HorizontalStackLayout x:Name="stackEditingOptions" HeightRequest="40">
-            <CheckBox x:Name="EditorCheckBox" CheckedChanged="CheckedChanged"
-                      HorizontalOptions="End"/>
-            <Label VerticalTextAlignment="Center" Margin ="0" HorizontalTextAlignment="Start"
-                   HorizontalOptions="Start">Editing</Label>
-            <CheckBox x:Name="DeleteCheckBox"/>
-            <Label VerticalTextAlignment="Center">Delete points</Label>
-            <Button x:Name="btnSaveReferences" Text="Save points" Clicked="btnSave_Click" />
-            <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
+        <HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Button x:Name="btnSaveInjection" Text="Save" Clicked="btnSaveInjection_Clicked"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout x:Name="stackEditingOptions" HeightRequest="40">
+                <CheckBox x:Name="EditorCheckBox" HorizontalOptions="End" CheckedChanged="CheckedChanged"/>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Editing</Label>
+                <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="End"/>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Delete points</Label>
+                <Button x:Name="btnSavePoints" Text="Save points" Clicked="btnSavePoints_Clicked" />
+                <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
+            </HorizontalStackLayout>
         </HorizontalStackLayout>
         <Grid>
             <Image Source="busto_fronte.png" Scale="1"

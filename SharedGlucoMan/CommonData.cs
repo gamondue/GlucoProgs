@@ -85,6 +85,14 @@ namespace GlucoMan
             Outstanding = 90,
             Perfect = 100
         }
+        public enum ZoneOfPosition
+        {
+            NotSet = 0,
+            Front = 1,
+            Back = 2,
+            Hands = 3,
+            Sensor = 4,
+        }
         #endregion
     }
 }
