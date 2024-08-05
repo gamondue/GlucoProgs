@@ -6,7 +6,7 @@ namespace DiabetesRecords
 {
     public partial class MainPage : CarouselPage
     {
-        BusinessLayer bl;
+        BL_DiabetesRecords bl;
         DiabetesRecord currentRecord = new DiabetesRecord();
         InsulinTherapy therapy; 
 
@@ -14,7 +14,7 @@ namespace DiabetesRecords
         {
             InitializeComponent();
             
-            bl = new BusinessLayer();
+            bl = new BL_DiabetesRecords();
 
             string ProgramVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             string ProgramName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name.ToString();
@@ -105,14 +105,14 @@ namespace DiabetesRecords
             RadioButton RdbLunch, RadioButton RdbDinner, RadioButton RdbSnack)
         {
             if (RdbBreakfast.IsChecked)
-                return (int)BusinessLayer.TypeOfMeal.Breakfast;
+                return (int)BL_DiabetesRecords.TypeOfMeal.Breakfast;
             else if (RdbLunch.IsChecked)
-                return (int)BusinessLayer.TypeOfMeal.Lunch;
+                return (int)BL_DiabetesRecords.TypeOfMeal.Lunch;
             else if (RdbDinner.IsChecked)
-                return (int)BusinessLayer.TypeOfMeal.Dinner;
+                return (int)BL_DiabetesRecords.TypeOfMeal.Dinner;
             else if (RdbSnack.IsChecked)
-                return (int)BusinessLayer.TypeOfMeal.Snack;
-            return (int)BusinessLayer.TypeOfMeal.NotSet;
+                return (int)BL_DiabetesRecords.TypeOfMeal.Snack;
+            return (int)BL_DiabetesRecords.TypeOfMeal.NotSet;
         }
         private async void btnSaveRecord_ClickAsync(object sender, EventArgs e)
         {
@@ -253,13 +253,13 @@ namespace DiabetesRecords
         private void SetRadioButtonsBasedOnTypeOfMeal(DiabetesRecord currentRecord,
             RadioButton RdbBreakfast, RadioButton RdbLunch, RadioButton RdbDinner, RadioButton RdbSnack)
         {
-            if (currentRecord.IdTypeOfMeal == (int)BusinessLayer.TypeOfMeal.Breakfast)
+            if (currentRecord.IdTypeOfMeal == (int)BL_DiabetesRecords.TypeOfMeal.Breakfast)
                 RdbBreakfast.IsChecked = true;
-            else if (currentRecord.IdTypeOfMeal == (int)BusinessLayer.TypeOfMeal.Lunch)
+            else if (currentRecord.IdTypeOfMeal == (int)BL_DiabetesRecords.TypeOfMeal.Lunch)
                 RdbLunch.IsChecked = true;
-            else if (currentRecord.IdTypeOfMeal == (int)BusinessLayer.TypeOfMeal.Dinner)
+            else if (currentRecord.IdTypeOfMeal == (int)BL_DiabetesRecords.TypeOfMeal.Dinner)
                 RdbDinner.IsChecked = true;
-            else if (currentRecord.IdTypeOfMeal == (int)BusinessLayer.TypeOfMeal.Snack)
+            else if (currentRecord.IdTypeOfMeal == (int)BL_DiabetesRecords.TypeOfMeal.Snack)
                 RdbSnack.IsChecked = true;
             else
             {
@@ -272,13 +272,13 @@ namespace DiabetesRecords
         private void SetTypeOfMealBasedOnRadioButtons(DiabetesRecord currentRecord, 
             RadioButton RdbBreakfast, RadioButton RdbLunch, RadioButton RdbDinner, RadioButton RdbSnack)
         {
-            if (currentRecord.IdTypeOfMeal == (int)BusinessLayer.TypeOfMeal.Breakfast)
+            if (currentRecord.IdTypeOfMeal == (int)BL_DiabetesRecords.TypeOfMeal.Breakfast)
                 RdbBreakfast.IsChecked = true;
-            else if (currentRecord.IdTypeOfMeal == (int)BusinessLayer.TypeOfMeal.Lunch)
+            else if (currentRecord.IdTypeOfMeal == (int)BL_DiabetesRecords.TypeOfMeal.Lunch)
                 RdbLunch.IsChecked = true;
-            else if (currentRecord.IdTypeOfMeal == (int)BusinessLayer.TypeOfMeal.Dinner)
+            else if (currentRecord.IdTypeOfMeal == (int)BL_DiabetesRecords.TypeOfMeal.Dinner)
                 RdbDinner.IsChecked = true;
-            else if (currentRecord.IdTypeOfMeal == (int)BusinessLayer.TypeOfMeal.Snack)
+            else if (currentRecord.IdTypeOfMeal == (int)BL_DiabetesRecords.TypeOfMeal.Snack)
                 RdbSnack.IsChecked = true;
         }
         private int GetTypeOfInsulinSpeedFromRadioButtons( 
@@ -286,17 +286,17 @@ namespace DiabetesRecords
         {
             int code; 
             if (RdbFastInsulin.IsChecked)
-                code = (int)BusinessLayer.TypeOfInsulinSpeed.QuickAction;
+                code = (int)BL_DiabetesRecords.TypeOfInsulinSpeed.QuickAction;
             else
-                code = (int)BusinessLayer.TypeOfInsulinSpeed.SlowAction;
+                code = (int)BL_DiabetesRecords.TypeOfInsulinSpeed.SlowAction;
             return code;
         }
         private void SetRadioButtonsBasedOnTypeOfInsulinSpeed(DiabetesRecord currentRecord,
             RadioButton RdbFastInsulin, RadioButton RdbSlowInsulin)
         {
-            if (currentRecord.IdTypeOfInsulinSpeed == (int)BusinessLayer.TypeOfInsulinSpeed.QuickAction)
+            if (currentRecord.IdTypeOfInsulinSpeed == (int)BL_DiabetesRecords.TypeOfInsulinSpeed.QuickAction)
                 RdbFastInsulin.IsChecked = true;
-            else if (currentRecord.IdTypeOfInsulinSpeed == (int)BusinessLayer.TypeOfInsulinSpeed.SlowAction)
+            else if (currentRecord.IdTypeOfInsulinSpeed == (int)BL_DiabetesRecords.TypeOfInsulinSpeed.SlowAction)
                 RdbSlowInsulin.IsChecked = true;
             else
             {

@@ -7,7 +7,7 @@ using System.IO;
 
 namespace DiabetesRecords
 {
-    internal class DataLayer
+    internal class DL_DiabetesRecords
     {
         string creationScript = @"
 BEGIN TRANSACTION;
@@ -26,7 +26,7 @@ COMMIT;
 ";
         string connectionString;
         string pathAndFileDatabase;
-        public DataLayer (string PathAndFileDatabase)
+        public DL_DiabetesRecords (string PathAndFileDatabase)
         {
             connectionString = "Data Source=\"" + PathAndFileDatabase + "\"; Cache = Shared; Mode = ReadWriteCreate";
             pathAndFileDatabase = PathAndFileDatabase; 

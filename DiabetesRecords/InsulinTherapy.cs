@@ -9,22 +9,22 @@ namespace DiabetesRecords
     {
         private string TherapyFileName = "DiabetesRecords_Therapy.txt";
 
-        internal Dictionary<int, InsulinBase> InsulinBases { get; set; }
+        internal Dictionary<int, InsulinBaseBolus> InsulinBases { get; set; }
         internal List<GlucoseRangeForInsulin> Ranges { get; set; }
         internal bool GetTherapy()
         {
-            // get therapy fron the program itself 
-            InsulinBases = new Dictionary<int, InsulinBase>();
+            // get therapy from the program itself 
+            InsulinBases = new Dictionary<int, InsulinBaseBolus>();
 
             // the code of the meal is the key to recover the value of base insulin for tha meal  
-            InsulinBases.Add((int)BusinessLayer.TypeOfMeal.Breakfast, 
-                new InsulinBase((int)BusinessLayer.TypeOfMeal.Breakfast, 4, "Breakfast"));
-            InsulinBases.Add((int)BusinessLayer.TypeOfMeal.Lunch,
-                new InsulinBase((int)BusinessLayer.TypeOfMeal.Lunch, 5, "Lunch"));
-            InsulinBases.Add((int)BusinessLayer.TypeOfMeal.Dinner, 
-                new InsulinBase((int)BusinessLayer.TypeOfMeal.Dinner, 5, "Dinner"));
-            InsulinBases.Add((int)BusinessLayer.TypeOfMeal.Snack, 
-                new InsulinBase((int)BusinessLayer.TypeOfMeal.Snack, 10, "------"));
+            InsulinBases.Add((int)BL_DiabetesRecords.TypeOfMeal.Breakfast, 
+                new InsulinBaseBolus((int)BL_DiabetesRecords.TypeOfMeal.Breakfast, 4, "Breakfast"));
+            InsulinBases.Add((int)BL_DiabetesRecords.TypeOfMeal.Lunch,
+                new InsulinBaseBolus((int)BL_DiabetesRecords.TypeOfMeal.Lunch, 5, "Lunch"));
+            InsulinBases.Add((int)BL_DiabetesRecords.TypeOfMeal.Dinner, 
+                new InsulinBaseBolus((int)BL_DiabetesRecords.TypeOfMeal.Dinner, 5, "Dinner"));
+            InsulinBases.Add((int)BL_DiabetesRecords.TypeOfMeal.Snack, 
+                new InsulinBaseBolus((int)BL_DiabetesRecords.TypeOfMeal.Snack, 10, "------"));
 
             Ranges = new List<GlucoseRangeForInsulin>();
             Ranges.Add(new GlucoseRangeForInsulin(0, -1, 80));
@@ -36,7 +36,7 @@ namespace DiabetesRecords
             Ranges.Add(new GlucoseRangeForInsulin(6, 5, 400));
  
             // tries to get the terapy from an outside file 
-            string PathAndFileTherapy = Path.Combine(BusinessLayer.PathExternalPublic, TherapyFileName); 
+            string PathAndFileTherapy = Path.Combine(BL_DiabetesRecords.PathExternalPublic, TherapyFileName); 
             if (File.Exists(PathAndFileTherapy))
             { 
                 try
@@ -44,7 +44,7 @@ namespace DiabetesRecords
                     string[] fileContent = File.ReadAllLines(PathAndFileTherapy);
                     string line= fileContent[0];
                     int separatingLine = 0;
-                    InsulinBases = new Dictionary<int, InsulinBase>();
+                    InsulinBases = new Dictionary<int, InsulinBaseBolus>();
                     for (int i = 1; i < fileContent.Length; i++)
                     {
                         line = fileContent[i];
@@ -55,7 +55,7 @@ namespace DiabetesRecords
                         }
                         string[] fields = line.Split(',');
                         InsulinBases.Add(int.Parse(fields[0]), 
-                            new InsulinBase(int.Parse(fields[0]), int.Parse(fields[1]), fields[2]));
+                            new InsulinBaseBolus(int.Parse(fields[0]), int.Parse(fields[1]), fields[2]));
                     }
                     Ranges = new List<GlucoseRangeForInsulin>();
                     for (int i = separatingLine + 1; i < fileContent.Length; i++)
@@ -78,25 +78,25 @@ namespace DiabetesRecords
         }
         internal double CalcInsulinHint(double Glucose, int TypeOfInsulin, int TypeOfMeal)
         {
-            if (TypeOfInsulin == (int)BusinessLayer.TypeOfInsulinSpeed.NotSet)
+            if (TypeOfInsulin == (int)BL_DiabetesRecords.TypeOfInsulinSpeed.NotSet)
                 return 0;
             // if we have a slow acting insulin, we give the insulin of "night"
             // (that is stored in InsulinBase[] and retrieved with the TypeOfMeal code of a Snack 
-            if (TypeOfInsulin == (int)BusinessLayer.TypeOfInsulinSpeed.SlowAction)
-                return InsulinBases[(int)BusinessLayer.TypeOfMeal.Snack].BaseValue;
+            if (TypeOfInsulin == (int)BL_DiabetesRecords.TypeOfInsulinSpeed.SlowAction)
+                return InsulinBases[(int)BL_DiabetesRecords.TypeOfMeal.Snack].Value;
             // if we aren't going to eat, we do not make any insulin 
-            if (TypeOfMeal == (int)BusinessLayer.TypeOfMeal.NotSet
-                || TypeOfMeal == (int)BusinessLayer.TypeOfMeal.Snack)
+            if (TypeOfMeal == (int)BL_DiabetesRecords.TypeOfMeal.NotSet
+                || TypeOfMeal == (int)BL_DiabetesRecords.TypeOfMeal.Snack)
                 return 0;
-            // if we are going to eat, we make the base insulin of the meal (InsulinBases[TypeOfMeal].BaseValue)
+            // if we are going to eat, we make the base insulin of the meal (InsulinBases[TypeOfMeal].Value)
             // plus the correction for blood glucose (r.InsulinDelta)
             foreach (GlucoseRangeForInsulin r in Ranges)
             {
                 if (Glucose <= r.GlucoseSup)
-                    return InsulinBases[TypeOfMeal].BaseValue + r.InsulinDelta;
+                    return InsulinBases[TypeOfMeal].Value + r.InsulinDelta;
             }
             // value over the defined ranges
-            return InsulinBases[TypeOfMeal].BaseValue +
+            return InsulinBases[TypeOfMeal].Value +
                     Ranges[Ranges.Count - 1].InsulinDelta;
         }
     }

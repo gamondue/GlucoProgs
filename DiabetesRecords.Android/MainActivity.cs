@@ -25,9 +25,9 @@ namespace DiabetesRecord.Droid
             RequestPermissions(new string[]
                 {Manifest.Permission.WriteExternalStorage, Manifest.Permission.ReadExternalStorage}, 0);
 
-            BusinessLayer.PathExternalPublic = Android.OS.Environment.GetExternalStoragePublicDirectory(
+            BL_DiabetesRecords.PathExternalPublic = Android.OS.Environment.GetExternalStoragePublicDirectory(
                 Android.OS.Environment.DirectoryDocuments)?.AbsolutePath;
-            BusinessLayer.PathExternalPublic = Path.Combine(BusinessLayer.PathExternalPublic, "diabetesrecords"); 
+            BL_DiabetesRecords.PathExternalPublic = Path.Combine(BL_DiabetesRecords.PathExternalPublic, "diabetesrecords"); 
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

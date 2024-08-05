@@ -1,15 +1,15 @@
 ﻿namespace DiabetesRecords
 {
-    internal class InsulinBase
+    internal class InsulinBaseBolus
     {
         internal int IdInsulinBase;
         internal string Name;
-        internal double BaseValue;
+        internal double Value;
 
-        public InsulinBase(int IdInsulinBase, double BaseValue, string Name)
+        public InsulinBaseBolus(int IdInsulinBase, double BaseBolusValue, string Name)
         {
             this.IdInsulinBase = IdInsulinBase;
-            this.BaseValue = BaseValue;
+            this.Value = BaseBolusValue;
             this.Name = Name;
         }
     }

@@ -16,7 +16,7 @@
             <!-- griglia in cui metto un'immagine ed un GraphicsView nella stessa cella 
                  (così si sovrappongo. L'immagine sta sotto ed il GraphicsView sopra
                   (così si vedono i cerchi che vengono disegnati)) -->
-            <Image x:Name="Immagine" Source="busto_retro.png" Scale="1"        
+            <Image x:Name="Immagine" Source="Retro.png" Scale="1"        
                    HeightRequest="600"
                    WidthRequest="400"
                    VerticalOptions="Start"

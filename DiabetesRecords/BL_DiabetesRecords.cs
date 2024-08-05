@@ -5,9 +5,9 @@ using System.IO;
 
 namespace DiabetesRecords
 {
-    public class BusinessLayer
+    public class BL_DiabetesRecords
     {
-        DataLayer dl;
+        DL_DiabetesRecords dl;
         TimeSpan timeToBeRecent = new TimeSpan(0, 45, 0);
 
         internal static string DatabaseFileName = @"DiabetesRecords.Sqlite";
@@ -50,9 +50,9 @@ namespace DiabetesRecords
             QuickAction = 10,
             SlowAction = 20
         }
-        internal BusinessLayer()
+        internal BL_DiabetesRecords()
         {
-            dl = new DataLayer(PathAndFileDatabase);
+            dl = new DL_DiabetesRecords(PathAndFileDatabase);
         }
         internal List<DiabetesRecord> GetDiabetesRecords(DateTime DateFrom, DateTime DateTo)
         {

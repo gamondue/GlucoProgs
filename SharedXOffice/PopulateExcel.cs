@@ -1,8 +1,9 @@
 ﻿using System;
-using Excel = NetOffice.ExcelApi;
-using NetOffice.ExcelApi.Enums;
-using NetOffice.ExcelApi;
+//using Excel = NetOffice.ExcelApi;
+//using NetOffice.ExcelApi.Enums;
+//using NetOffice.ExcelApi;
 using System.Threading;
+using gamon;
 using GlucoMan;
 
 namespace Comuni.XOffice
@@ -318,7 +319,7 @@ namespace Comuni.XOffice
             try
             {
                 // rende attivo il primo foglio (per bellezza)
-                ((Excel.Worksheet)xclApp.ActiveWorkbook.Sheets[1]).Select(oMissing); 
+                ////////((Excel.Worksheet)xclApp.ActiveWorkbook.Sheets[1]).Select(oMissing); 
 
                 xclWorkbook.Save();
             }
@@ -344,7 +345,7 @@ namespace Comuni.XOffice
             object foglio = (object)SheetNumber;
             object riga = (object)RowNumber;
             object colonna = (object)ColumnNumber;
-            Excel.Worksheet xclSheet;
+            ////////Excel.Worksheet xclSheet;
 
             try
             {
