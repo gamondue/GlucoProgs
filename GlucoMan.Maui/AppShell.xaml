@@ -4,10 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:GlucoMan.Maui"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Disabled"
+    Title="GlucoMan">
 
     <ShellContent
-        Title="GlucoMan - Glucose Manager" 
+        Title="GlucoMan - Glucose Manager"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage"/>
+        Route="MainPage" />
+
 </Shell>

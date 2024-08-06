@@ -1,7 +1,5 @@
 ﻿using gamon;
-using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
+//using Microsoft.Data.Sqlite;
 using System.Data.Common;
 
 namespace GlucoMan
@@ -85,7 +83,7 @@ namespace GlucoMan
                         " FROM Alarms";
                     query += " ORDER BY IdAlarm DESC";
                     query += ";";
-                    cmd = new SqliteCommand(query);
+                    cmd = conn.CreateCommand();
                     cmd.Connection = conn;
                     dRead = cmd.ExecuteReader();
                     while (dRead.Read())

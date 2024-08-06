@@ -23,6 +23,11 @@ public partial class GlucoseMeasurementsPage : ContentPage
             currentGlucose = bl.GetOneGlucoseRecord(IdGlucoseRecord);
         RefreshUi();
     }
+    private void RefreshUi()
+    {
+        FromClassToUi();
+        RefreshGrid();
+    }
     private void FromUiToClass()
     {
         double? glucose = SqlSafe.Double(txtGlucose.Text);
@@ -65,11 +70,6 @@ public partial class GlucoseMeasurementsPage : ContentPage
         glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
         this.BindingContext = glucoseReadings;
         //gridMeasurements.ItemsSource = glucoseReadings;
-    }
-    private void RefreshUi()
-    {
-        FromClassToUi();
-        RefreshGrid();
     }
     public void btnAddMeasurement_Click(object sender, EventArgs e)
     {

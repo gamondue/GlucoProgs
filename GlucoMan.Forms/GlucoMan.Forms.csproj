@@ -42,15 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\Graphics\Logo\gamon LegoLogo scritta con piastra bianca 256x256.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.7" />
-    <PackageReference Include="SimMetrics.Net" Version="1.0.5" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.8" />
   </ItemGroup>
 

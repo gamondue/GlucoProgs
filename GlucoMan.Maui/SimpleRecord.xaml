@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<CarouselPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Maui.SimpleRecord"
              Title="SimpleRecord">
-    <ContentPage Title="Nuovo">
+    <!--<ContentPage Title="Nuovo">
         <StackLayout>
             <Frame BackgroundColor="#3196FF" Padding="10" CornerRadius="0">
                 <Label x:Name="txtNew" Text="Nuovi dati" HorizontalTextAlignment="Center" TextColor="White" FontSize="26"/>
@@ -36,7 +36,7 @@
                              x:Name="rdbNewLunch" FontSize="Small" WidthRequest="95"/>
                 <RadioButton Grid.Row="0" Grid.Column="2" Content="Cena" GroupName="groupNewMeal" 
                              x:Name="rdbNewDinner" FontSize="Small" WidthRequest="95"/>
-                <RadioButton Grid.Row="0" Grid.Column="3" Content="----" GroupName="groupNewMeal" 
+                <RadioButton Grid.Row="0" Grid.Column="3" Content="-" GroupName="groupNewMeal" 
                              x:Name="rdbNewSnack" FontSize="Small" WidthRequest="95"/>
             </Grid>
             <Label Text="Note" HorizontalTextAlignment="Center" FontSize="Small" />
@@ -113,18 +113,18 @@
                              x:Name="rdbLunch" FontSize="Small" WidthRequest="95"/>
                 <RadioButton Grid.Row="4" Grid.Column="2" Content="Cena" GroupName="groupMeal" 
                              x:Name="rdbDinner" FontSize="Small" WidthRequest="95"/>
-                <RadioButton Grid.Row="4" Grid.Column="3" Content="----" GroupName="groupMeal" 
+                <RadioButton Grid.Row="4" Grid.Column="3" Content="-" GroupName="groupMeal" 
                              x:Name="rdbSnack" FontSize="Small" WidthRequest="95"/>
 
                 <Entry Grid.Row="5" Grid.Column="0" x:Name="txtNote" Grid.ColumnSpan="4" FontSize="Small"/>
 
-                <!--<Picker Grid.Row="2" Grid.Column="1" x:Name="cmbTypeOfMeal"  
+                --><!--<Picker Grid.Row="2" Grid.Column="1" x:Name="cmbTypeOfMeal"  
                         Title="Type of Meal" 
                         HorizontalTextAlignment="End"
                         ItemsSource="{Binding Common.TypeOfMeal}" 
                         BackgroundColor="PaleGoldenrod"
                         SelectedIndexChanged="cmbTypeOfMeal_SelectedIndexChanged"
-                        FontSize="Small" />-->
+                        FontSize="Small" />--><!--
                 <Button Grid.Row="6" Grid.Column="0" Text="Salva" x:Name="btnSaveRecord" 
                         Clicked="btnSaveRecord_ClickAsync"></Button>
                 <Button Grid.Row="6" Grid.Column="1" Text="Canc. valori" x:Name="btnDeleteFields" 
@@ -136,7 +136,7 @@
 
                 <ListView Grid.Row="7" Grid.ColumnSpan="4" x:Name="gridRecords" ItemsSource="{Binding}"
                           ItemSelected="OnGridSelectionAsync" >
-                    <!-- description of data to be shown, in a DataTemplate -->
+                    --><!-- description of data to be shown, in a DataTemplate --><!--
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -205,5 +205,5 @@
                     BackgroundColor="Red" TextColor="Yellow"
                     x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
         </Grid>
-    </ContentPage>
-</CarouselPage>
+    </ContentPage>-->
+</ContentPage>

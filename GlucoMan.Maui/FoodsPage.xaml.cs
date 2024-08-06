@@ -2,6 +2,7 @@ using gamon;
 using GlucoMan.BusinessLayer;
 
 namespace GlucoMan.Maui;
+
 public partial class FoodsPage : ContentPage
 {
     BL_MealAndFood bl = Common.MealAndFood_CommonBL;

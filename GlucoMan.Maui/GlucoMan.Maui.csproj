@@ -1,21 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks></TargetFrameworks>
+		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+
+		<!-- Note for MacCatalyst:
+		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+
 		<OutputType>Exe</OutputType>
 		<RootNamespace>GlucoMan.Maui</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
 		<ApplicationTitle>GlucoMan.Maui</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
-		<ApplicationIdGuid>30939246-cae7-40ff-92ce-a308f5c8b0e8</ApplicationIdGuid>
+		<ApplicationId>com.companyname.glucoman.maui</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -24,121 +33,22 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">8.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">8.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<Version>0.7.3.4</Version>
-		<PackageId>$(AssemblyName)</PackageId>
-		<Title>GlucoMan, Glucose Management for diabetics</Title>
-		<Authors>Ing.Gabriele MONTI - Forlì - Italia</Authors>
-		<Company>ingmonti.it</Company>
-		<Product>GlucoMan</Product>
-		<Description>GlucoMan, Glucose Management for diabetics</Description>
-		<Copyright>Copyleft GPL v.2</Copyright>
-		<PackageProjectUrl>www.ingmonti.it/GlucoMan</PackageProjectUrl>
-		<PackageIcon>..</PackageIcon>
-		<NeutralLanguage>en</NeutralLanguage>
-		<AssemblyVersion>0.57.4</AssemblyVersion>
-		<FileVersion>0.57.4</FileVersion>
-		<PackageLicenseExpression>GPL-2.0-only</PackageLicenseExpression>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
-	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
-	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
-	  <ApplicationVersion>1</ApplicationVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
-	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
-	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
-	  <ApplicationVersion>1</ApplicationVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
-	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
-	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
-	  <ApplicationVersion>1</ApplicationVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
-	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
-	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
-	  <ApplicationVersion>1</ApplicationVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
-	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
-	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
-	  <ApplicationVersion>1</ApplicationVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
-	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
-	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
-	  <ApplicationVersion>1</ApplicationVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
-	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
-	  <ApplicationVersion>1</ApplicationVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
-	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
-	  <ApplicationVersion>1</ApplicationVersion>
-	</PropertyGroup>
-
-	<PropertyGroup>
-	  <PlatformTarget>AnyCPU</PlatformTarget>
-	  <Nullable>enable</Nullable>
-	  <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
-	  <ApplicationDisplayVersion>0.57.4</ApplicationDisplayVersion>
-	  <MtouchLink>None</MtouchLink>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
-	  <ApplicationDisplayVersion>0.57.4</ApplicationDisplayVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows7.0|AnyCPU'">
-	  <ApplicationDisplayVersion>0.57.4</ApplicationDisplayVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
-	  <ApplicationDisplayVersion>0.57.4</ApplicationDisplayVersion>
-	  <MtouchLink>None</MtouchLink>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
-	  <ApplicationDisplayVersion>0.57.4</ApplicationDisplayVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows7.0|AnyCPU'">
-	  <ApplicationDisplayVersion>0.57.4</ApplicationDisplayVersion>
-	</PropertyGroup>
-
-	<PropertyGroup>
-	  <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows8.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" BaseSize="128,128" />
-		<EmbeddedResource Include="Resources\Images\Retro.png" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
-		
+		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 
@@ -147,46 +57,45 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="InjectionsPage_BROKEN.xaml.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\Braccia vettoriale.svg" />
+	  <MauiImage Remove="Resources\Images\braccia_retro.png" />
+	  <MauiImage Remove="Resources\Images\braccio.png" />
+	  <MauiImage Remove="Resources\Images\busto_fronte.png" />
+	  <MauiImage Remove="Resources\Images\busto_retro.png" />
+	  <MauiImage Remove="Resources\Images\Fronte vettoriale.svg" />
+	  <MauiImage Remove="Resources\Images\fronte.png" />
+	  <MauiImage Remove="Resources\Images\mano_destra.png" />
+	  <MauiImage Remove="Resources\Images\mano_sinistra.png" />
+	  <MauiImage Remove="Resources\Images\Retro vettoriale originale.svg" />
+	  <MauiImage Remove="Resources\Images\Retro vettoriale.svg" />
 	  <MauiImage Remove="Resources\Images\Retro.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Remove="InjectionsPage_BROKEN.xaml" />
-	  <MauiXaml Remove="MainPage_INIZIALE.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Resources\Images\Retro.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Include="..">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+	  <EmbeddedResource Include="Resources\Images\Braccia vettoriale.svg" />
+	  <EmbeddedResource Include="Resources\Images\braccia_retro.png" />
+	  <EmbeddedResource Include="Resources\Images\braccio.png" />
+	  <EmbeddedResource Include="Resources\Images\busto_fronte.png" />
+	  <EmbeddedResource Include="Resources\Images\busto_retro.png" />
+	  <EmbeddedResource Include="Resources\Images\Fronte vettoriale.svg" />
+	  <EmbeddedResource Include="Resources\Images\fronte.png" />
+	  <EmbeddedResource Include="Resources\Images\mano_destra.png" />
+	  <EmbeddedResource Include="Resources\Images\mano_sinistra.png" />
+	  <EmbeddedResource Include="Resources\Images\Retro vettoriale originale.svg" />
+	  <EmbeddedResource Include="Resources\Images\Retro vettoriale.svg" />
+	  <EmbeddedResource Include="Resources\Images\Retro.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.7" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.71" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.71" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.8" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="SensorsPicturePage.xaml.cs">
-	    <DependentUpon>SensorsPicturePage.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiXaml Update="AboutPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="AlarmPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="BackPicturePage.xaml">
@@ -246,9 +155,6 @@
 	  <MauiXaml Update="ShowTextPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="SimpleRecord.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="WeighFoodPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -260,13 +166,4 @@
 
 	<Import Project="..\SharedMaui\SharedMaui.projitems" Label="Shared" />
 
-	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.71" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.71" />
-	</ItemGroup>
-
 </Project>
-

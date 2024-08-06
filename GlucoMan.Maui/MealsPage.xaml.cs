@@ -7,7 +7,7 @@ namespace GlucoMan.Maui;
 public partial class MealsPage : ContentPage
 {
     // since it is accessed by several pages, to avoid "concurrent" problems 
-    // we use a common business layer object, beetween different pages 
+    // we use a common business layer object, between different pages 
     private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
     Accuracy accuracyClass;
 
