@@ -8,7 +8,7 @@ namespace GlucoMan
     {
         public static void GeneralInitializations()
         {
-            General.Log = new Logger(Common.PathLogs, true,
+            General.LogOfProgram = new Logger(Common.PathLogs, true,
                 @"GlucoMan_Log.txt",
                 @"GlucoMan_Errors.txt",
                 @"GlucoMan_Debug.txt",
@@ -27,6 +27,13 @@ namespace GlucoMan
             Common.MealAndFood_CommonBL = new BusinessLayer.BL_MealAndFood();
 
             Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            General.LogOfProgram = new Logger(Common.PathLogs, true,
+                @"GlucoMan_Log.txt",
+                @"GlucoMan_Errors.txt",
+                @"GlucoMan_Debug.txt",
+                @"GlucoMan_Prompts.txt",
+                @"GlucoMan_Data.txt");
         }
         public static TypeOfMeal SelectTypeOfMealBasedOnTimeNow()
         {

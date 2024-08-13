@@ -29,7 +29,7 @@ namespace GlucoMan
             PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, Common.LogOfParametersFileName);
             // PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, LogOfParametersFileName);
 
-            General.Log = new Logger(PathLogs, true,
+            General.LogOfProgram = new Logger(PathLogs, true,
                 @"DiabetesRecords_Log.txt",
                 @"DiabetesRecords_Errors.txt",
                 @"DiabetesRecords_Debug.txt",

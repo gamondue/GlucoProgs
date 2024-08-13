@@ -26,7 +26,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_BolusesAndInjections | SaveOneInjection", ex);
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | SaveOneInjection", ex);
                 return null;
             }
         }
@@ -41,8 +41,9 @@ namespace GlucoMan
                     "Timestamp=" + SqliteSafe.Date(Injection.Timestamp.DateTime) + "," +
                     "InsulinValue=" + SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
                     "InsulinCalculated=" + SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
-                    "InjectionPositionX=" + SqliteSafe.Int(Injection.InjectionPositionX.Int) + "," +
-                    "InjectionPositionY=" + SqliteSafe.Int(Injection.InjectionPositionY.Int) + "," +
+                    "Zone=" + (int)Injection.Zone + "," +
+                    "InjectionPositionX=" + SqliteSafe.Double(Injection.InjectionPositionX) + "," +
+                    "InjectionPositionY=" + SqliteSafe.Double(Injection.InjectionPositionY) + "," +
                     "Notes=" + SqliteSafe.String(Injection.Notes) + "," +
                     "IdTypeOfInsulinSpeed=" + SqliteSafe.Int(Injection.IdTypeOfInsulinSpeed) + "," +
                     "IdTypeOfInsulinInjection=" + SqliteSafe.Int(Injection.IdTypeOfInsulinInjection) + "," +
@@ -57,7 +58,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_BolusesAndInjections | UpdateInjection", ex);
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | UpdateInjection", ex);
                 return null;
             }
         }
@@ -71,15 +72,16 @@ namespace GlucoMan
                     string query = "INSERT INTO InsulinInjections" +
                     "(" +
                     "IdInsulinInjection,Timestamp,InsulinValue,InsulinCalculated," +
-                    "InjectionPositionX,InjectionPositionY,Notes," +
+                    "Zone,InjectionPositionX,InjectionPositionY,Notes," +
                     "IdTypeOfInsulinSpeed,IdTypeOfInsulinInjection,InsulinString";
                     query += ")VALUES(" +
                     SqliteSafe.Int(Injection.IdInsulinInjection) + "," +
                     SqliteSafe.Date(Injection.Timestamp.DateTime) + "," +
                     SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
                     SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
-                    SqliteSafe.Int(Injection.InjectionPositionX.Int) + "," +
-                    SqliteSafe.Int(Injection.InjectionPositionY.Int) + "," +
+                    (int)Injection.Zone + "," +
+                    SqliteSafe.Double(Injection.InjectionPositionX) + "," +
+                    SqliteSafe.Double(Injection.InjectionPositionY) + "," +
                     SqliteSafe.String(Injection.Notes) + "," +
                     SqliteSafe.Int(Injection.IdTypeOfInsulinSpeed) + "," +
                     SqliteSafe.Int(Injection.IdTypeOfInsulinInjection) + "," +
@@ -93,7 +95,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_BolusesAndInjections | InsertInjection", ex);
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | InsertInjection", ex);
                 return null;
             }
         }
@@ -114,7 +116,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_BolusesAndInjections | DeleteOneInjection", ex);
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | DeleteOneInjection", ex);
             }
         }
         internal override InsulinInjection GetOneInjection(int? IdInjection)
@@ -140,11 +142,13 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_BolusesAndInjections | GetOneInjection", ex);
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetOneInjection", ex);
             }
             return g;
         }
-        internal override List<InsulinInjection> GetInjections(DateTime InitialInstant, DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed)
+        internal override List<InsulinInjection> GetInjections(DateTime InitialInstant, DateTime FinalInstant, 
+            Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet, 
+            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet)
         {
             List<InsulinInjection> list = new List<InsulinInjection>();
             try
@@ -162,6 +166,10 @@ namespace GlucoMan
                         if (TypeOfInsulinSpeed != Common.TypeOfInsulinSpeed.NotSet)
                         {
                             query += " AND IdTypeOfInsulinSpeed=" + (int)TypeOfInsulinSpeed;
+                        }
+                        if (Zone != Common.ZoneOfPosition.NotSet)
+                        {
+                            query += " AND Zone=" + (int)Zone;
                         }
                     }
                     else
@@ -186,7 +194,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_BolusesAndInjections | GetInjections", ex);
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetInjections", ex);
             }
             return list;
         }
@@ -200,16 +208,18 @@ namespace GlucoMan
                 ii.Timestamp.DateTime = SqlSafe.DateTime(Row["Timestamp"]);
                 ii.InsulinValue.Double = SqlSafe.Double(Row["InsulinValue"]);
                 ii.InsulinCalculated.Double = SqlSafe.Double(Row["InsulinCalculated"]);
-                ii.InjectionPositionX.Int = SqlSafe.Int(Row["InjectionPositionX"]);
-                ii.InjectionPositionY.Int = SqlSafe.Int(Row["InjectionPositionY"]);
+                ii.InjectionPositionX = SqlSafe.Double(Row["InjectionPositionX"]);
+                ii.InjectionPositionY = SqlSafe.Double(Row["InjectionPositionY"]);
                 ii.Notes = SqlSafe.String(Row["Notes"]);
                 ii.IdTypeOfInsulinSpeed = SqlSafe.Int(Row["IdTypeOfInsulinSpeed"]);
                 ii.IdTypeOfInsulinInjection = SqlSafe.Int(Row["IdTypeOfInsulinInjection"]);
                 ii.InsulinString = SqlSafe.String(Row["InsulinString"]);
+                if (Row["Zone"] != DBNull.Value)
+                    ii.Zone = (Common.ZoneOfPosition)(SqlSafe.Int(Row["Zone"]));
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_BolusesAndInjections | GetInjectionFromRow", ex);
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetInjectionFromRow", ex);
             }
             return ii;
         }

@@ -2,14 +2,15 @@
 
 namespace GlucoMan
 {
-    internal class InsulinInjection
+    public class InsulinInjection
     {
         public int? IdInsulinInjection { get; set; }
         public DateTimeAndText Timestamp { get; set; }
         public DoubleAndText InsulinValue { get; set; }
         public DoubleAndText InsulinCalculated { get; set; }
-        public IntAndText InjectionPositionX { get; set; }
-        public IntAndText InjectionPositionY { get; set; }
+        public Common.ZoneOfPosition Zone { get; set; }
+        public double? InjectionPositionX { get; set; }
+        public double? InjectionPositionY { get; set; }
         public int? IdTypeOfInsulinSpeed { get; set; }
         public int? IdTypeOfInsulinInjection { get; set; }
         public string InsulinString { get; set; }
@@ -22,8 +23,8 @@ namespace GlucoMan
             InsulinValue.Format = "#";
             InsulinCalculated = new DoubleAndText();
             InsulinCalculated.Format = "#";
-            InjectionPositionX = new IntAndText();
-            InjectionPositionY = new IntAndText();
+            //InjectionPositionX = new IntAndText();
+            //InjectionPositionY = new IntAndText();
             //IdTypeOfInsulinSpeed = new IntAndText();
             //IdTypeOfInsulinInjection = new IntAndText();
         }

@@ -40,7 +40,7 @@ namespace GlucoMan
             if (!System.IO.File.Exists(PathAndFile))
             {
                 string err = @"[" + PathAndFile + " not in the current nor in the dev directory]";
-                General.Log.Error(err, null);
+                General.LogOfProgram.Error(err, null);
                 throw new System.IO.FileNotFoundException(err);
             }
             dbName = PathAndFile;
@@ -65,7 +65,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Error connecting to the database: " + ex.Message + "\r\nFile Sqlite>: " + dbName + " " + "\n", null);
+                General.LogOfProgram.Error("Error connecting to the database: " + ex.Message + "\r\nFile Sqlite>: " + dbName + " " + "\n", null);
                 connection = null;
             }
             return connection;
@@ -464,7 +464,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_DataLayerConstructorsAndGeneral | DeleteDatabase", ex);
+                General.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | DeleteDatabase", ex);
                 return false;
             }
         }
@@ -574,7 +574,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_DataLayerConstructorsAndGeneral | SaveParameter", ex);
+                General.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | SaveParameter", ex);
                 return null;
             }
         }
@@ -613,7 +613,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_DataLayerConstructorsAndGeneral | RestoreParameter", ex);
+                General.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | RestoreParameter", ex);
                 return null;
             }
         }

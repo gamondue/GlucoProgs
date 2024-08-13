@@ -40,7 +40,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | ReadMeals", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | ReadMeals", ex);
             }
             return list;
         }
@@ -68,7 +68,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | GetOneMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | GetOneMeal", ex);
             }
             return food;
         }
@@ -83,7 +83,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | SaveMeals", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | SaveMeals", ex);
             }
         }
         internal override int? SaveOneMeal(Meal Meal)
@@ -104,7 +104,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | SaveOneMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | SaveOneMeal", ex);
                 return null;
             }
         }
@@ -125,7 +125,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | DeleteOneMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | DeleteOneMeal", ex);
             }
         }
         internal Meal GetMealFromRow(DbDataReader Row)
@@ -150,7 +150,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | GetMealFromRow", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | GetMealFromRow", ex);
             }
             return m;
         }
@@ -181,7 +181,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | UpdateMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | UpdateMeal", ex);
                 return null;
             }
         }
@@ -216,7 +216,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | InsertMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | InsertMeal", ex);
                 return null;
             }
         }
@@ -254,7 +254,7 @@ namespace GlucoMan
                 }
                 catch (Exception ex)
                 {
-                    General.Log.Error("Sqlite_MealAndFood | GetFoodsInMeal", ex);
+                    General.LogOfProgram.Error("Sqlite_MealAndFood | GetFoodsInMeal", ex);
                 }
                 return FoodsInMeal;
             }
@@ -276,7 +276,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | GetFoodInMealFromRow", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | GetFoodInMealFromRow", ex);
             }
             return f;
         }
@@ -300,14 +300,14 @@ namespace GlucoMan
                 }
                 else
                 {
-                    General.Log.Error("Sqlite_MealAndFood | SaveOneFoodInMeal",
+                    General.LogOfProgram.Error("Sqlite_MealAndFood | SaveOneFoodInMeal",
                         new Exception("FoodInMeal instance must have an IdMeal"));
                     return null;
                 }
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | SaveOneFoodInMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | SaveOneFoodInMeal", ex);
                 return null;
             }
         }
@@ -337,7 +337,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | UpdateFoodInMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | UpdateFoodInMeal", ex);
                 return null;
             }
         }
@@ -372,7 +372,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | UpdateMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | UpdateMeal", ex);
                 return null;
             }
         }
@@ -401,7 +401,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | GetFoodFromRow", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | GetFoodFromRow", ex);
             }
             return f;
         }
@@ -422,7 +422,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | DeleteOneFoodInMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | DeleteOneFoodInMeal", ex);
             }
         }
         internal override List<Food> SearchFoods(string Name, string Description)
@@ -458,7 +458,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | SearchFood", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | SearchFood", ex);
             }
             return list;
         }
@@ -480,7 +480,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | SaveOneFood", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | SaveOneFood", ex);
                 return null;
             }
         }
@@ -501,7 +501,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | DeleteOneFoodInMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | DeleteOneFoodInMeal", ex);
             }
         }
         private int? UpdateFood(Food food)
@@ -538,7 +538,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | UpdateFoodInMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | UpdateFoodInMeal", ex);
                 return null;
             }
         }
@@ -578,7 +578,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | UpdateMeal", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | UpdateMeal", ex);
             }
         }
         internal override Food GetOneFood(int? IdFood)
@@ -605,7 +605,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | ReadOneFood", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | ReadOneFood", ex);
             }
             return food;
         }
@@ -637,7 +637,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_MealAndFood | ReadOneFood", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | ReadOneFood", ex);
             }
             return list;
         }

@@ -28,7 +28,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                General.Log.Error("BL_FoodToHitTargetCarbs | SaveData", ex);
+                General.LogOfProgram.Error("BL_FoodToHitTargetCarbs | SaveData", ex);
             }
         }
         public  void RestoreParametrs()

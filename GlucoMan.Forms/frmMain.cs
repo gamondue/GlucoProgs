@@ -21,7 +21,7 @@ namespace GlucoMan.Forms
                 "\r\nI will expand the program in the future, including full management of insulin, carboihydrates, and possibly foods." +
                 "\r\nDistribution at: https://ingmonti.it/GlucoMan/" +
                 "\r\nThe first functionalities I implemented are those enabled in the following buttons:";
-            txtFooterText.Text = "GlucoMan is Free Software by:" +
+            txtFooterText.Text = "GlucoMan is Free Software initiated by:" +
                 "\r\nIng.Gabriele Monti (gamon) - Forlì - Italia" +
                 "\r\nLicence: GPL v.2";
         }

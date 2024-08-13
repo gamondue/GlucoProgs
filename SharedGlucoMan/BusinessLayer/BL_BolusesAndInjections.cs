@@ -48,9 +48,10 @@ namespace GlucoMan.BusinessLayer
         private DateTime initialDinnerPeriod;
 
         internal List<InsulinInjection> GetInjections(DateTime InitialInstant,
-            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed)
+            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet,
+            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet)
         {
-            return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinSpeed);
+            return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinSpeed, Zone);
         }
         internal InsulinInjection GetOneInjection(int? IdInjection)
         {
@@ -140,7 +141,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception Ex)
             {
-                General.Log.Error("BL_BolusesAndInjections | CalculateBolus()", Ex);
+                General.LogOfProgram.Error("BL_BolusesAndInjections | CalculateBolus()", Ex);
             }
         }
         public void RoundInsulinToZeroDecimal()

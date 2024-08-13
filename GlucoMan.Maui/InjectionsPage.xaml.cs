@@ -14,7 +14,10 @@ public partial class InjectionsPage : ContentPage
         if (IdInjection != null)
             CurrentInjection = bl.GetOneInjection(IdInjection);
         if (IdInjection == null)
+        {
+            CurrentInjection = new();
             bl.SetTypeOfInsulinSpeedBasedOnTimeNow(CurrentInjection);
+        }
         RefreshUi();
     }
     public int? IdInsulinInjection
@@ -97,9 +100,29 @@ public partial class InjectionsPage : ContentPage
             //await DisplayAlert("XXXX", "YYYY", "Ok");
             return;
         }
-        //make the tapped row the current injection 
+        // make the tapped row the current injection 
         CurrentInjection = (InsulinInjection)e.SelectedItem;
-        FromClassToUi();
+        // make the injection's location button green if the zone of the injection is set,
+        // if it insn't make it the original color
+        if (CurrentInjection.Zone == Common.ZoneOfPosition.Front)
+            btnFront.BackgroundColor = Colors.Lime;
+        else
+            btnFront.BackgroundColor = Colors.LightGrey;
+
+        if (CurrentInjection.Zone == Common.ZoneOfPosition.Back)
+            btnBack.BackgroundColor = Colors.Lime;
+        else
+            btnBack.BackgroundColor = Colors.LightGrey;
+
+        if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands)
+            btnHands.BackgroundColor = Colors.Lime;
+        else
+            btnHands.BackgroundColor = Colors.LightGrey;
+
+        if (CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
+            btnSensors.BackgroundColor = Colors.Lime;
+        else
+            btnSensors.BackgroundColor = Colors.LightGrey;
     }
     private void btnAddInjection_Click(object sender, EventArgs e)
     {

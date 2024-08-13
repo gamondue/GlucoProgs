@@ -100,7 +100,7 @@ namespace gamon
             }
             catch (Exception e)
             {
-                General.Log.Error("TextFile", e); 
+                General.LogOfProgram.Error("TextFile", e); 
             }
         }
         /// <summary>

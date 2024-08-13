@@ -70,7 +70,7 @@ namespace GlucoMan.Forms
         {
             try
             {
-                string fileContent = File.ReadAllText(General.Log.ErrorsFile);
+                string fileContent = File.ReadAllText(General.LogOfProgram.ErrorsFile);
                 frmShowText f = new frmShowText(fileContent);
                 f.Show();
             } catch
@@ -80,7 +80,7 @@ namespace GlucoMan.Forms
         }
         private void btnDeleteErrorLog_Click(object sender, EventArgs e)
         {
-            File.Delete(General.Log.ErrorsFile);
+            File.Delete(General.LogOfProgram.ErrorsFile);
             MessageBox.Show("Done!");
         }
         private void btnImport_Click(object sender, EventArgs e)

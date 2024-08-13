@@ -30,8 +30,8 @@ namespace GlucoMan.BusinessLayer
 
                 // log of errors 
                 string exportedLogOfProgram = Path.Combine(Common.PathImportExport, 
-                    Path.GetFileName (General.Log.ErrorsFile)); 
-                File.Copy(General.Log.ErrorsFile, exportedLogOfProgram, true);
+                    Path.GetFileName (General.LogOfProgram.ErrorsFile)); 
+                File.Copy(General.LogOfProgram.ErrorsFile, exportedLogOfProgram, true);
 
                 // log of insulin correction parameters 
                 string exportedLogOfParameters = Path.Combine(Common.PathImportExport,
@@ -42,7 +42,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                General.Log.Error("ExportProgramsFiles", ex); 
+                General.LogOfProgram.Error("ExportProgramsFiles", ex); 
                 return false;
             }
         }
@@ -81,9 +81,13 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                General.Log.Error("ReadDatabaseFromExternal", ex);
+                General.LogOfProgram.Error("ReadDatabaseFromExternal", ex);
                 return false;
             }
+        }
+        internal void CreateNewDatabase()
+        { 
+            dl.CreateNewDatabase(Common.PathAndFileDatabase);
         }
     }
 }

@@ -51,6 +51,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             {
                 DisplayAlert("", "Error in deleting file. File NOT deleted", "OK");
             }
+            blGeneral.CreateNewDatabase(); // re-create the database
         }
     }
     private void btnCopyProgramsFiles_Click(object sender, EventArgs e)
@@ -89,7 +90,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     {
         try
         {
-            string fileContent = File.ReadAllText(General.Log.ErrorsFile);
+            string fileContent = File.ReadAllText(General.LogOfProgram.ErrorsFile);
             await Navigation.PushAsync(new ShowTextPage(fileContent));
         }
         catch
@@ -99,7 +100,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     }
     private async void btnDeleteErrorLog_ClickAsync(object sender, EventArgs e)
     {
-        File.Delete(General.Log.ErrorsFile);
+        File.Delete(Common.LogOfProgram.ErrorsFile);
         await DisplayAlert("", "Done!", "Ok");
     }
     private async void btnReadDatabase_Click(object sender, EventArgs e)

@@ -105,7 +105,7 @@ namespace GlucoMan.BusinessLayer
                 if (secondsBetweenMeasurements > 3 * 60 * 60)
                 {
                     //Console.Beep(200, 40);
-                    General.Log.Error("Time between measurements too big", null);
+                    General.LogOfProgram.Error("Time between measurements too big", null);
                     //GlucoseSlope.Text = "----";
                     GlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
                     GlucoseSlope.Double = GlucoseSlope.Double * 60 * 60;
@@ -121,7 +121,7 @@ namespace GlucoMan.BusinessLayer
                 if (secondsBetweenMeasurements < 20 * 60)
                 {
                     //Console.Beep(200, 40);
-                    General.Log.Error("Time between measurements too short", null);
+                    General.LogOfProgram.Error("Time between measurements too short", null);
                     //GlucoseSlope.Text = "----";
                     GlucoseSlope.Double = glucoseDifference / secondsBetweenMeasurements; // [Glucose Units/s]
                     GlucoseSlope.Double = GlucoseSlope.Double * 60 * 60;
@@ -218,7 +218,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                General.Log.Error("BL_HypoPrediction | PredictHypoTime()", ex);
+                General.LogOfProgram.Error("BL_HypoPrediction | PredictHypoTime()", ex);
                 return;
             }
         }
@@ -264,7 +264,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                General.Log.Error("BL_HypoPrediction | SaveData", ex);
+                General.LogOfProgram.Error("BL_HypoPrediction | SaveData", ex);
             }
         }
         public void RestoreData()

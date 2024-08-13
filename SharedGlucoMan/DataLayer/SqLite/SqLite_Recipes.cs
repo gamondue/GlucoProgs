@@ -37,7 +37,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_Recipes | ReadSomeRecipes", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | ReadSomeRecipes", ex);
             }
             return Recipes;
         }
@@ -61,7 +61,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite Datalayer | SaveOneRecipe", ex);
+                General.LogOfProgram.Error("Sqlite Datalayer | SaveOneRecipe", ex);
                 return null;
             }
             return IdRecipe;
@@ -91,7 +91,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_Recipes | InsertOneRecipe", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | InsertOneRecipe", ex);
             }
         }
         private int? InsertOneRecipe(Recipe recipe)
@@ -121,7 +121,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_Recipes | InsertOneRecipe", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | InsertOneRecipe", ex);
                 return null;
             }
         }
@@ -137,7 +137,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_Recipes | GetRecipeFromRow", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | GetRecipeFromRow", ex);
             }
             return m;
         }
@@ -170,7 +170,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_RecipeIngredients | ReadAllRecipeIngredients", ex);
+                General.LogOfProgram.Error("Sqlite_RecipeIngredients | ReadAllRecipeIngredients", ex);
             }
             return RecipeIngredients;
         }
@@ -193,7 +193,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite Datalayer | SaveOneRecipeIngredient", ex);
+                General.LogOfProgram.Error("Sqlite Datalayer | SaveOneRecipeIngredient", ex);
                 return null;
             }
             return ingredient.IdIngredient;
@@ -227,7 +227,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_Recipes | UpdateOneRecipeIngredient", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | UpdateOneRecipeIngredient", ex);
             }
         }
         private int? InsertOneRecipeIngredient(RecipeIngredient ingredient)
@@ -261,7 +261,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_RecipeIngredients | InsertOneRecipeIngredient", ex);
+                General.LogOfProgram.Error("Sqlite_RecipeIngredients | InsertOneRecipeIngredient", ex);
                 return null;
             }
         }
@@ -281,7 +281,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_RecipeIngredients | GetRecipeIngredientFromRow", ex);
+                General.LogOfProgram.Error("Sqlite_RecipeIngredients | GetRecipeIngredientFromRow", ex);
             }
             return m;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GlucoMan
 {
-    internal abstract partial class DataLayer
+    internal abstract class DataLayer
     {
         #region General
         internal abstract bool DeleteDatabase();
@@ -33,7 +33,9 @@ namespace GlucoMan
         internal abstract int? SaveOneInjection(InsulinInjection Injection);
         internal abstract void DeleteOneInjection(InsulinInjection Injection);
         internal abstract List<InsulinInjection> GetInjections(DateTime InitialInstant,
-            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed);
+            DateTime FinalInstant, 
+            Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet, 
+            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet);
         #endregion
         #region Meals and Food in Meals
         internal abstract Meal GetOneMeal(int? IdMeal);
@@ -61,6 +63,7 @@ namespace GlucoMan
         internal abstract List<Recipe> ReadSomeRecipes(string WhereClause);
         internal abstract List<RecipeIngredient> ReadAllIngredientsOfARecipe(int idRecipe);
         internal abstract int? SaveOneRecipeIngredient(RecipeIngredient recipeIngredient);
+        internal abstract void CreateNewDatabase(string pathAndFileDatabase);
         #endregion
     }
 }

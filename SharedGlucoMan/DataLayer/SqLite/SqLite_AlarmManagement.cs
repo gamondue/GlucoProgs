@@ -26,7 +26,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite Datalayer | SaveOneAlarm", ex);
+                General.LogOfProgram.Error("Sqlite Datalayer | SaveOneAlarm", ex);
                 return null;
             }
             return IdAlarm;
@@ -66,7 +66,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_AlarmMeasurement | InsertAlarm", ex);
+                General.LogOfProgram.Error("Sqlite_AlarmMeasurement | InsertAlarm", ex);
                 return null;
             }
         }
@@ -97,7 +97,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_Alarm | ReadAllAlarms", ex);
+                General.LogOfProgram.Error("Sqlite_Alarm | ReadAllAlarms", ex);
             }
             return alarms;
         }
@@ -116,7 +116,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.Log.Error("Sqlite_Alarm | GetAlarmFromRow", ex);
+                General.LogOfProgram.Error("Sqlite_Alarm | GetAlarmFromRow", ex);
             }
             return m;
         }

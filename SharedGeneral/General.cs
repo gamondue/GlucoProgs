@@ -9,7 +9,7 @@ namespace gamon
     internal static partial class General
     {
         public static DateTime DateNull = new DateTime(1, 1, 1, 0, 0, 0, 0);
-        public static Logger Log; 
+        public static Logger LogOfProgram; 
         
         internal static string CalculateSHA1(string File)
         {
@@ -85,7 +85,7 @@ namespace gamon
             }
             catch (Exception ex)
             {
-                Log.Error("MakeFolderIfDontExist", ex); 
+                LogOfProgram.Error("MakeFolderIfDontExist", ex); 
             }
         }
         internal static string ConvertStringToFilename(string SubmittedName, bool SubstituteSpaces)

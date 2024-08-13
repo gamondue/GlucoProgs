@@ -1,13 +1,3 @@
-﻿using gamon;
-using System;
-using System.Data.Common;
-using System.IO;
-
-namespace GlucoMan
-{
-  internal partial class DL_Sqlite : DataLayer
-  {
-		string creationScript = @"
 BEGIN TRANSACTION;
 DROP TABLE IF EXISTS 'ModelsOfMeasurementSystem';
 CREATE TABLE IF NOT EXISTS 'ModelsOfMeasurementSystem' (
@@ -52,13 +42,6 @@ CREATE TABLE IF NOT EXISTS 'GlucoseRecords' (
 	'Notes'	VARCHAR(255),
 	PRIMARY KEY('IdGlucoseRecord')
 );
-DROP TABLE IF EXISTS 'InsulinDrugs';
-CREATE TABLE IF NOT EXISTS 'InsulinDrugs' (
-	'IdInsulinDrugs'	INT NOT NULL,
-	'Name'	VARCHAR(30),
-	'InsulinSpeed'	DOUBLE,
-	PRIMARY KEY('IdInsulinDrugs')
-);
 DROP TABLE IF EXISTS 'HypoPredictions';
 CREATE TABLE IF NOT EXISTS 'HypoPredictions' (
 	'IdHypoPrediction'	INT NOT NULL,
@@ -78,9 +61,9 @@ CREATE TABLE IF NOT EXISTS 'Alarms' (
 	'IdAlarm'	INT NOT NULL,
 	'TimeStart'	DATETIME,
 	'TimeAlarm'	DATETIME,
-	'Interval' DOUBLE,
-	'Duration' DOUBLE,
-	'IsRepeated' TINYINT,
+	'Interval'	DOUBLE,
+	'Duration'	DOUBLE,
+	'IsRepeated'	TINYINT,
 	'IsEnabled'	TINYINT,
 	PRIMARY KEY('IdAlarm')
 );
@@ -156,9 +139,9 @@ CREATE TABLE IF NOT EXISTS 'Meals' (
 	'TimeBegin'	DATETIME,
 	'Notes'	VARCHAR(255),
 	'AccuracyOfChoEstimate'	DOUBLE,
-	'IdBolusCalculation' INT,
-	'IdGlucoseRecord' INT,
-	'IdInsulinInjection' INT,
+	'IdBolusCalculation'	INT,
+	'IdGlucoseRecord'	INT,
+	'IdInsulinInjection'	INT,
 	'TimeEnd'	DATETIME,
 	PRIMARY KEY('IdMeal')
 );
@@ -179,35 +162,31 @@ CREATE TABLE IF NOT EXISTS 'Foods' (
 	'GlycemicIndex'	DOUBLE,
 	PRIMARY KEY('IdFood')
 );
+DROP TABLE IF EXISTS 'InsulinDrugs';
+CREATE TABLE IF NOT EXISTS 'InsulinDrugs' (
+	'IdInsulinDrug'	INT NOT NULL,
+	'Name'	VARCHAR(30),
+	'InsulinDuration'	DOUBLE,
+	PRIMARY KEY('IdInsulinDrug')
+);
+DROP TABLE IF EXISTS 'Recipies';
+CREATE TABLE IF NOT EXISTS 'Recipies' (
+	'IdRecipe'	INTEGER NOT NULL,
+	'Name'	TEXT,
+	'Description'	TEXT,
+	'ChoPercent'	REAL,
+	PRIMARY KEY('IdRecipe')
+);
+DROP TABLE IF EXISTS 'RecipeIngredients';
+CREATE TABLE IF NOT EXISTS 'RecipeIngredients' (
+	'IdIngredient'	INTEGER NOT NULL,
+	'IdRecipe'	INTEGER NOT NULL,
+	'Name'	TEXT,
+	'Description'	TEXT,
+	'QuantityGrams'	REAL,
+	'QuantityPercent'	REAL,
+	'ChoPercent'	REAL,
+	'IdFood'	INTEGER,
+	PRIMARY KEY('IdIngredient')
+);
 COMMIT;
-";
-	internal override void CreateNewDatabase(string dbName)
-	{
-		// making new, means erasing existent! 
-		if (File.Exists(dbName))
-		File.Delete(dbName);
-
-		//when the file does not exist
-		// Microsoft.Data.Sqlite creates the file at first connection
-		DbConnection c = Connect();
-		c.Close();
-		c.Dispose();
-
-		try
-		{
-			using (DbConnection conn = Connect())
-			{
-				DbCommand cmd = conn.CreateCommand();
-
-				cmd.CommandText = creationScript;
-				cmd.ExecuteNonQuery();
-				cmd.Dispose();
-			}
-		}
-		catch (Exception ex)
-			{
-				General.LogOfProgram.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
-			}
-		}
-	}
-}
