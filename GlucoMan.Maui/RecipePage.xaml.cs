@@ -1,13 +1,15 @@
+using GlucoMan.BusinessLayer;
+
 namespace GlucoMan.Maui;
 
 public partial class RecipePage : ContentPage
 {
     BL_Recipes bl = new BL_Recipes();
     public RecipePage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
-		List<RecipeIngredient> ingredients = bl.ReadIngredientsOfARecipe(1);
+        List<RecipeIngredient> ingredients = bl.ReadIngredientsOfARecipe(1);
         if (ingredients.Count == 0)
         {
             RecipeIngredient ingredient = new RecipeIngredient();

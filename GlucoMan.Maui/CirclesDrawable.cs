@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using GlucoMan.BusinessLayer;
+﻿using gamon;
 
 namespace GlucoMan.Maui
 {
@@ -17,7 +14,7 @@ namespace GlucoMan.Maui
             Hands,
             Sensor,
         }
-        bool isCallerEditing; 
+        bool isCallerEditing;
         internal bool IsCallerEditing
         {
             get
@@ -33,14 +30,15 @@ namespace GlucoMan.Maui
                 isCallerEditing = value;
             }
         }
-        PointType type; 
-        internal PointType Type 
-        { get
-            {  
-                return type; 
+        PointType type;
+        internal PointType Type
+        {
+            get
+            {
+                return type;
             }
             set
-            { 
+            {
                 firstTime = true;
                 type = value;
             }
@@ -75,15 +73,15 @@ namespace GlucoMan.Maui
         }
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
-        	// ???? parte eda eliminare? ????
+            // ???? parte eda eliminare? ????
             // colore con cui disegnerò la linea del cerchio
-            canvas.StrokeColor = Colors.Red;
-            // dimensione della linea che disegnerò
-            canvas.StrokeSize = 4;
-            // colore di riempimento delle forme che disegnerò
-            canvas.FillColor = Colors.Blue; // NON MI FUNZIONA, MA DOVREBBE!!
-			// ???? FINE parte eda eliminare? ????
-            
+            //canvas.StrokeColor = Colors.Red;
+            //// dimensione della linea che disegnerò
+            //canvas.StrokeSize = 4;
+            //// colore di riempimento delle forme che disegnerò
+            //canvas.FillColor = Colors.Blue; // NON MI FUNZIONA, MA DOVREBBE!!
+            // ???? FINE parte eda eliminare? ????
+
             string partOfFileName = "";
             if (firstTime)
             {
@@ -91,7 +89,7 @@ namespace GlucoMan.Maui
                 //PointsCoordinates = ReadCoordinatesFromFile();
                 if (!isCallerEditing)
                 {
-                    ReferencePointsCoordinates = ReadCoordinatesFromReferenceFile(); 
+                    ReferencePointsCoordinates = ReadCoordinatesFromReferenceFile();
                 }
                 firstTime = false;
             }
@@ -120,7 +118,7 @@ namespace GlucoMan.Maui
             // center position is stored in the right list depending on the IsEditing flag
             double XCenter;
             double YCenter;
-            Point nearestPoint = new(); 
+            Point nearestPoint = new();
             if (IsEditing)
             {
                 XCenter = (float)LeftTopPosition.X + referenceRadius;
@@ -128,7 +126,7 @@ namespace GlucoMan.Maui
                 // check if the clicked point is near enough to a reference point
                 nearestPoint = FindNearest(new Point(XCenter, YCenter), PointsCoordinates);
                 // calculate the cartesion distance between the clicked point and the nearestPoint reference point
-                float distance = (float)Math.Sqrt((XCenter - nearestPoint.X) * (XCenter - nearestPoint.X) 
+                float distance = (float)Math.Sqrt((XCenter - nearestPoint.X) * (XCenter - nearestPoint.X)
                     + (YCenter - nearestPoint.Y) * (YCenter - nearestPoint.Y));
                 // if the distance is less than thresholdDistance, the clicked point is considered
                 // to be the same as the nearestPoint reference point
@@ -173,7 +171,7 @@ namespace GlucoMan.Maui
                 // the center is added to the list
                 PointsCoordinates.Add(new Point(XCenter, YCenter));
             }
-            return nearestPoint; 
+            return nearestPoint;
         }
         internal void RemovePointIfNear(Point LeftTopPosition)
         {
@@ -198,14 +196,14 @@ namespace GlucoMan.Maui
         }
         private Point FindNearest(Point Passed, List<Point> GivenPoints)
         {
-            Point min =  new Point(double.MaxValue, double.MaxValue);
+            Point min = new Point(double.MaxValue, double.MaxValue);
             // find the point in the list that is the nearestPoint to the passed point
             {
                 double SquaredDistanceMin = float.MaxValue;
                 foreach (Point point in GivenPoints)
                 {
-                    double displacementX = (float) (point.X - Passed.X);
-                    double displacementY = (float) (point.Y - Passed.Y);
+                    double displacementX = (float)(point.X - Passed.X);
+                    double displacementY = (float)(point.Y - Passed.Y);
                     double squaredDistance = displacementX * displacementX + displacementY * displacementY;
                     if (squaredDistance < SquaredDistanceMin)
                     {
@@ -281,7 +279,9 @@ namespace GlucoMan.Maui
             catch (Exception ex)
             {
                 // Console.WriteLine($"Si è verificato un errore durante la lettura delle coordinate dal file: {ex.Message}");
-                Console.WriteLine($"An error occurred while reading the coordinates from file: {ex.Message}");
+                string prompt = $"An error occurred while reading the coordinates from file: ";
+                Console.WriteLine(prompt + ex.Message);
+                General.LogOfProgram.Error(prompt, ex);
                 return null;
             }
         }

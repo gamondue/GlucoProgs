@@ -5,9 +5,9 @@
              x:Class="GlucoMan.Maui.BackPicturePage"
              Title="Back past injections">
     <!-- fra le risorse della pagina aggiungiamo una risorsa di nome "drawable"
-         di tipo CerchioDrawable, accessibile tramite la chiave "cerchioDrawable" (per il binding) -->
+         di tipo CirclesDrawable, accessibile tramite la chiave "allCircles" (per il binding) -->
     <ContentPage.Resources>
-        <drawable:CirclesDrawable x:Key="cerchioDrawable" />
+        <drawable:CirclesDrawable x:Key="allCircles" />
     </ContentPage.Resources>
     <VerticalStackLayout>
         <HorizontalStackLayout>
@@ -16,11 +16,11 @@
             </HorizontalStackLayout>
             <HorizontalStackLayout x:Name="stackEditingOptions" HeightRequest="40">
                 <CheckBox x:Name="EditorCheckBox" HorizontalOptions="End" CheckedChanged="CheckedChanged"/>
-                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Editing</Label>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start" Margin="0" Padding="0">Editing</Label>
                 <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="End"/>
-                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Delete points</Label>
-                <Button x:Name="btnSavePoints" Text="Save points" Clicked="btnSavePoints_Clicked" />
-                <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Del.points</Label>
+                <Button x:Name="btnSavePoints" Text="Sv.Pnts" Clicked="btnSavePoints_Clicked" />
+                <Button x:Name="btnClear" Text="Cl.Pnts" Clicked="btnClear_Click" />
             </HorizontalStackLayout>
         </HorizontalStackLayout>
         <Grid>
@@ -29,7 +29,7 @@
                   (così si vedono i cerchi che vengono disegnati)) -->
             <Image x:Name="Immagine" Source="Retro.png" Scale="1"        
                    HeightRequest="600"
-                   WidthRequest="400"
+                   WidthRequest="295"
                    VerticalOptions="Start"
                    HorizontalOptions="Center">
             </Image>
@@ -39,7 +39,7 @@
             <GraphicsView x:Name="cerchiGraphicsView"
                     Drawable="{StaticResource drawable}"
                     HeightRequest="600"
-                    WidthRequest="400"
+                    WidthRequest="295"
                     VerticalOptions="Start"
                     HorizontalOptions="Center">
                 <!-- aggiunge un "riconoscitore di "tap" che lancia un evento quando l'utente 

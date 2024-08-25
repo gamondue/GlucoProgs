@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GlucoMan.BusinessLayer
+﻿namespace GlucoMan.BusinessLayer
 {
     internal class BL_Recipes
     {

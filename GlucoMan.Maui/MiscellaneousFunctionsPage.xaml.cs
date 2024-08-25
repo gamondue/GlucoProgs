@@ -100,7 +100,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     }
     private async void btnDeleteErrorLog_ClickAsync(object sender, EventArgs e)
     {
-        File.Delete(Common.LogOfProgram.ErrorsFile);
+        File.Delete(General.LogOfProgram.ErrorsFile);
         await DisplayAlert("", "Done!", "Ok");
     }
     private async void btnReadDatabase_Click(object sender, EventArgs e)

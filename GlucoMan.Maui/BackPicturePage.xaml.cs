@@ -1,21 +1,19 @@
-using System.Drawing;
-using Color = Microsoft.Maui.Graphics.Color;
+//using System.Drawing;
+//using Color = Microsoft.Maui.Graphics.Color;
 
 namespace GlucoMan.Maui;
 using GlucoMan.BusinessLayer;
 public partial class BackPicturePage : ContentPage
 {
-    CirclesDrawable cerchioD;
-    public BackPicturePage();
     BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
     CirclesDrawable allCircles;
     bool editing = false;
     InsulinInjection currentInjection;
-    Point currentNearestReferencePosition; 
+    Point currentNearestReferencePosition;
     List<InsulinInjection> allRecentInjections;
     public BackPicturePage(ref InsulinInjection currentInjection)
     {
-        InitializeComponent(); 
+        InitializeComponent();
         this.currentInjection = currentInjection;
 
 #if !DEBUG
@@ -27,17 +25,17 @@ public partial class BackPicturePage : ContentPage
         // we define a new object that represents the set of circles to be drawn
         // into the GraphcsView. It derives from the Interface IDrawable
         allCircles = new CirclesDrawable();
-        allCircles.Type = CirclesDrawable.PointType.Back; 
+        allCircles.Type = CirclesDrawable.PointType.Back;
 
         // connection of the Drawable to GraphicsView
         cerchiGraphicsView.Drawable = allCircles;
         cerchiGraphicsView.Background = Color.FromRgba(255, 255, 0, 100);
         var children = cerchiGraphicsView.GetChildElements(new Point(100, 100));
-        
+
         // read the last days of injections in the back zone
-         allRecentInjections = bl.GetInjections(
-            DateTime.Now.Subtract(new TimeSpan(30,0,0,0,0,0)),
-            DateTime.Now, Zone : Common.ZoneOfPosition.Back);
+        allRecentInjections = bl.GetInjections(
+           DateTime.Now.Subtract(new TimeSpan(30, 0, 0, 0, 0, 0)),
+           DateTime.Now, Zone: Common.ZoneOfPosition.Back);
 
         // copy the coordinates of the injections into the Drawable object
         allCircles.LoadCoordinates(allRecentInjections);
@@ -53,28 +51,22 @@ public partial class BackPicturePage : ContentPage
         Point? relativeToContainerPosition = e.GetPosition((View)sender);
         if (relativeToContainerPosition.HasValue)
         {
-        //	        // Istanziazione dell'oggetto che disegnerà il (i) cerchio
-        //cerchioD = new CirclesDrawable();
-        //// collegamento del Drawable al GraphicsView
-        //cerchiGraphicsView.Drawable = cerchioD;
-        
-        
-        //    float spanHue;          // differenza di tinta da coprire
-        //  float spanSaturation;   // differenza di saturazione da coprire
-        //  float spanLuminance;    // differenza di saturazione da coprire
-        //   spanHue = finalColor.GetHue() - initialColor.GetHue(); // differenza di tinta da coprire
-        //  //spanSaturation = coloreFinale.GetSaturation() - coloreIniziale.GetSaturation(); // differenza da coprire
-        //  spanSaturation = 0;
-        //    //spanLuminance = coloreFinale.GetBrightness() - coloreIniziale.GetBrightness(); // differenza da coprire
-        //    spanLuminance = 0;
+            //    float spanHue;          // differenza di tinta da coprire
+            //  float spanSaturation;   // differenza di saturazione da coprire
+            //  float spanLuminance;    // differenza di saturazione da coprire
+            //   spanHue = finalColor.GetHue() - initialColor.GetHue(); // differenza di tinta da coprire
+            //  //spanSaturation = coloreFinale.GetSaturation() - coloreIniziale.GetSaturation(); // differenza da coprire
+            //  spanSaturation = 0;
+            //    //spanLuminance = coloreFinale.GetBrightness() - coloreIniziale.GetBrightness(); // differenza da coprire
+            //    spanLuminance = 0;
             if (DeleteCheckBox.IsChecked)
             {
                 // if delete checkbox is enabled we have to delete the circle that is nearest
                 // to the click point 
                 allCircles.RemovePointIfNear(relativeToContainerPosition.Value);
             }
-            else 
-            { 
+            else
+            {
                 // passes the position of the click to the creator method of a new circle 
                 // the constructor will calculate the position of the center of the circle
                 // the method will give back the nearest point to the click point

@@ -164,18 +164,18 @@ public partial class InjectionsPage : ContentPage
     }
     private async void btnFront_ClickedAsync(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new FrontPicturePage());
+        await Navigation.PushAsync(new FrontPicturePage(ref CurrentInjection));
     }
     private async void btnBack_Clicked_Async(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new BackPicturePage());
+        await Navigation.PushAsync(new BackPicturePage(ref CurrentInjection));
     }
     private async void btnHands_ClickedAsync(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new HandsPicturePage());
+        await Navigation.PushAsync(new HandsPicturePage(ref CurrentInjection));
     }
     private async void btnSensors_Clicked_Async(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new SensorsPicturePage());
+        await Navigation.PushAsync(new SensorsPicturePage(ref CurrentInjection));
     }
 }

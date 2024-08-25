@@ -5,7 +5,7 @@
              x:Class="GlucoMan.Maui.SensorsPicturePage"
              Title="Sensors' previous positions">
     <ContentPage.Resources>
-        <drawable:CirclesDrawable x:Key="cerchioDrawable" />
+        <drawable:CirclesDrawable x:Key="allCircles" />
     </ContentPage.Resources>
     <VerticalStackLayout>
         <HorizontalStackLayout>
@@ -16,13 +16,13 @@
                 <CheckBox x:Name="EditorCheckBox" HorizontalOptions="End" CheckedChanged="CheckedChanged"/>
                 <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Editing</Label>
                 <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="End"/>
-                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Delete points</Label>
-                <Button x:Name="btnSavePoints" Text="Save points" Clicked="btnSavePoints_Clicked" />
-                <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Del.points</Label>
+                <Button x:Name="btnSavePoints" Text="Sv.Pnts" Clicked="btnSavePoints_Clicked" />
+                <Button x:Name="btnClear" Text="Cl.Pnts" Clicked="btnClear_Click" />
             </HorizontalStackLayout>
         </HorizontalStackLayout>
         <Grid>
-            <Image Source="braccia_retro.png" Aspect="Center" Scale="1"
+            <Image Source="braccia.png" Aspect="Center" Scale="1"
                    Margin="0,180"
                 HeightRequest="180"
                 WidthRequest="450"
@@ -31,7 +31,7 @@
             </Image>
             <GraphicsView x:Name="cerchiGraphicsView"
                     Drawable="{StaticResource drawable}"
-                    HeightRequest="360"
+                    HeightRequest="180"
                     WidthRequest="450"
                     VerticalOptions="Start"
                     HorizontalOptions="Center">

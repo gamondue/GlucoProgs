@@ -12,13 +12,14 @@
                 <CheckBox x:Name="EditorCheckBox" HorizontalOptions="End" CheckedChanged="CheckedChanged"/>
                 <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Editing</Label>
                 <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="End"/>
-                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Delete points</Label>
-                <Button x:Name="btnSavePoints" Text="Save points" Clicked="btnSavePoints_Clicked" />
-                <Button x:Name="btnClear" Text="Clear" Clicked="btnClear_Click" />
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Del.points</Label>
+                <Button x:Name="btnSavePoints" Text="Sv.Pnts" Clicked="btnSavePoints_Clicked" />
+                <Button x:Name="btnClear" Text="Cl.Pnts" Clicked="btnClear_Click" />
             </HorizontalStackLayout>
         </HorizontalStackLayout>
         <Grid>
-            <Image Source="busto_fronte.png" Scale="1"
+            
+            <Image Source="Fronte.png" Scale="1"
                HeightRequest="600"
                WidthRequest="400"
                    VerticalOptions="Start"

@@ -36,6 +36,68 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Version>0.7.3.4</Version>
+		<PackageId>GlucoMan</PackageId>
+		<Title>GlucoMan, Glucose Management for diabetics</Title>
+		<Authors>Ing.Gabriele MONTI - Forlì - Italia</Authors>
+		<Company>ingmonti.it</Company>
+		<Product>GlucoMan</Product>
+		<Description>GlucoMan, Glucose Management for diabetics</Description>
+		<Copyright>Copyleft GPL v.2</Copyright>
+		<PackageProjectUrl>www.ingmonti.it/GlucoMan</PackageProjectUrl>
+		<PackageIcon>..</PackageIcon>
+		<NeutralLanguage>en</NeutralLanguage>
+		<AssemblyVersion>0.57.4</AssemblyVersion>
+		<FileVersion>0.57.4</FileVersion>
+		<PackageLicenseExpression>GPL-2.0-only</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+	  <ApplicationDisplayVersion>0.7.4</ApplicationDisplayVersion>
+	  <ApplicationVersion>1</ApplicationVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -58,6 +120,7 @@
 
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\Braccia vettoriale.svg" />
+	  <MauiImage Remove="Resources\Images\braccia.png" />
 	  <MauiImage Remove="Resources\Images\braccia_retro.png" />
 	  <MauiImage Remove="Resources\Images\braccio.png" />
 	  <MauiImage Remove="Resources\Images\busto_fronte.png" />
@@ -70,20 +133,19 @@
 	  <MauiImage Remove="Resources\Images\Retro vettoriale.svg" />
 	  <MauiImage Remove="Resources\Images\Retro.png" />
 	</ItemGroup>
-
 	<ItemGroup>
-	  <EmbeddedResource Include="Resources\Images\Braccia vettoriale.svg" />
-	  <EmbeddedResource Include="Resources\Images\braccia_retro.png" />
-	  <EmbeddedResource Include="Resources\Images\braccio.png" />
-	  <EmbeddedResource Include="Resources\Images\busto_fronte.png" />
-	  <EmbeddedResource Include="Resources\Images\busto_retro.png" />
-	  <EmbeddedResource Include="Resources\Images\Fronte vettoriale.svg" />
-	  <EmbeddedResource Include="Resources\Images\fronte.png" />
-	  <EmbeddedResource Include="Resources\Images\mano_destra.png" />
-	  <EmbeddedResource Include="Resources\Images\mano_sinistra.png" />
-	  <EmbeddedResource Include="Resources\Images\Retro vettoriale originale.svg" />
-	  <EmbeddedResource Include="Resources\Images\Retro vettoriale.svg" />
-	  <EmbeddedResource Include="Resources\Images\Retro.png" />
+	  <Resource Include="Resources\Images\Braccia vettoriale.svg" />
+	  <Resource Include="Resources\Images\braccia_retro.png" />
+	  <Resource Include="Resources\Images\busto_fronte.png" />
+	  <Resource Include="Resources\Images\busto_retro.png" />
+	  <Resource Include="Resources\Images\Fronte vettoriale.svg" />
+	  <Resource Include="Resources\Images\fronte.png" />
+	  <Resource Include="Resources\Images\mano_destra.png" />
+	  <Resource Include="Resources\Images\mano_sinistra.png" />
+	  <Resource Include="Resources\Images\Retro vettoriale originale.svg" />
+	  <Resource Include="Resources\Images\Retro vettoriale.svg" />
+	  <Resource Include="Resources\Images\Retro.png" />
+	  <Resource Include="Resources\Images\braccia.png" />
 	</ItemGroup>
 
 	<ItemGroup>
