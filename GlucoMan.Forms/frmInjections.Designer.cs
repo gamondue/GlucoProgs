@@ -214,7 +214,6 @@
             // 
             // dtpInjectionDate
             // 
-            this.dtpInjectionDate.CustomFormat = "yyyy.MM.dd";
             this.dtpInjectionDate.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.dtpInjectionDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpInjectionDate.Location = new System.Drawing.Point(216, 65);

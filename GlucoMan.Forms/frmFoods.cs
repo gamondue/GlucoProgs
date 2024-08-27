@@ -59,7 +59,7 @@ namespace GlucoMan.Forms
             txtCalories.Text = CurrentFood.Energy.Text;
             txtTotalFats.Text = CurrentFood.TotalFats.Text;
             txtSaturatedFats.Text = CurrentFood.SaturatedFats.Text;
-            txtFoodCarbohydrates.Text = CurrentFood.Cho.Text;
+            txtFoodCarbohydrates.Text = CurrentFood.Carbohydrates.Text;
             txtSugar.Text = CurrentFood.Sugar.Text;
             txtFibers.Text = CurrentFood.Fibers.Text;
             txtProteins.Text = CurrentFood.Proteins.Text;
@@ -75,7 +75,7 @@ namespace GlucoMan.Forms
             CurrentFood.Energy.Double = SqlSafe.Double(txtCalories.Text);
             CurrentFood.TotalFats.Double = SqlSafe.Double(txtTotalFats.Text);
             CurrentFood.SaturatedFats.Double = SqlSafe.Double(txtSaturatedFats.Text);
-            CurrentFood.Cho.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
+            CurrentFood.Carbohydrates.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
             CurrentFood.Sugar.Double = SqlSafe.Double(txtSugar.Text);
             CurrentFood.Fibers.Double = SqlSafe.Double(txtFibers.Text);
             CurrentFood.Proteins.Double = SqlSafe.Double(txtProteins.Text);

@@ -28,7 +28,7 @@ namespace GlucoMan.Forms
         {
             txtIdFood.Text = thisFood.IdFood.ToString();
 
-            txtFoodCarbohydrates.Text = thisFood.Cho.Text;
+            txtFoodCarbohydrates.Text = thisFood.Carbohydrates.Text;
             txtCalories.Text = thisFood.Energy.Text;
             txtFibers.Text = thisFood.Fibers.Text;
             txtName.Text = thisFood.Name;
@@ -42,7 +42,7 @@ namespace GlucoMan.Forms
         {
             thisFood.IdFood = int.Parse(txtIdFood.Text);
 
-            thisFood.Cho.Text = txtFoodCarbohydrates.Text;
+            thisFood.Carbohydrates.Text = txtFoodCarbohydrates.Text;
             thisFood.Energy.Text = txtCalories.Text;
             thisFood.Fibers.Text = txtFibers.Text;
             thisFood.Name = txtName.Text;

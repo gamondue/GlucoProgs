@@ -63,6 +63,12 @@ namespace GlucoMan.BusinessLayer
         }
         public void PredictHypoTime()
         {
+            bool calcAlarm = true;
+            DateTime? alarmTime = null;
+            if (AlarmAdvanceTime.Double == 0)
+            {
+                calcAlarm = false; 
+            }
             try
             {
                 statusMessage = "";
@@ -177,32 +183,38 @@ namespace GlucoMan.BusinessLayer
                 // change seconds to hours in slope
                 GlucoseSlope.Double = GlucoseSlope.Double * 60 * 60;
 
-                PredictedTime.Format = "yyyy.MM.dd HH:mm:ss";
+                //PredictedTime.Format = "yyyy.MM.dd HH:mm:ss";
                 PredictedTime.DateTime = TimeLast.AddSeconds((int)predictedIntervalSeconds);
                 DateTime dummy = (DateTime)PredictedTime.DateTime;
 
-                AlarmTime.DateTime = dummy.Subtract(new TimeSpan(0, (int)AlarmAdvanceTime.Double, 0));
-                if (PredictedTime.DateTime == DateTime.MinValue ||
-                        AlarmTime.DateTime == DateTime.MinValue)
+                if (calcAlarm)
                 {
-                    // Console.Beep(200, 40);
-                    GlucoseSlope.Text = "----";
-                    PredictedHour.Text = "----";
-                    PredictedMinute.Text = "----"; ;
-                    AlarmHour.Text = "----"; ;
-                    AlarmMinute.Text = "----"; ;
-                    statusMessage = "----"; ; // put somethong better!!!!
-                    return;
+                    AlarmTime.DateTime = dummy.Subtract(new TimeSpan(0, (int)AlarmAdvanceTime.Double, 0));
+                    if (PredictedTime.DateTime == DateTime.MinValue ||
+                            AlarmTime.DateTime == DateTime.MinValue)
+                    {
+                        // Console.Beep(200, 40);
+                        GlucoseSlope.Text = "----";
+                        PredictedHour.Text = "----";
+                        PredictedMinute.Text = "----"; ;
+                        AlarmHour.Text = "----"; ;
+                        AlarmMinute.Text = "----"; ;
+                        statusMessage = "----"; ; // put somethong better!!!!
+                        return;
+                    }
+                    alarmTime = AlarmTime.DateTime;
                 }
                 DateTime? finalTime = PredictedTime.DateTime;
-                DateTime? alarmTime = AlarmTime.DateTime;
 
                 if (finalTime != null)
                 {
                     PredictedHour.Text = ((DateTime)finalTime).Hour.ToString();
                     PredictedMinute.Text = ((DateTime)finalTime).Minute.ToString();
-                    AlarmHour.Text = ((DateTime)alarmTime).Hour.ToString();
-                    AlarmMinute.Text = ((DateTime)alarmTime).Minute.ToString();
+                    if (calcAlarm)
+                    {
+                        AlarmHour.Text = ((DateTime)alarmTime).Hour.ToString();
+                        AlarmMinute.Text = ((DateTime)alarmTime).Minute.ToString();
+                    }
                 }
                 else
                 {

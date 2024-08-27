@@ -30,8 +30,7 @@
                          HorizontalOptions="Center" VerticalOptions="End" GroupName="groupInsulin" WidthRequest="180"/>
 
             <DatePicker Grid.Row="3" Grid.Column="0" x:Name="dtpInjectionDate" 
-                        BackgroundColor="PaleGreen" FontSize="Small" Format="yyyy-MM-dd" 
-                        HorizontalOptions="Center" />
+                        BackgroundColor="PaleGreen" FontSize="Small"  HorizontalOptions="Center" />
             <TimePicker Grid.Row="3" Grid.Column="1" x:Name="dtpInjectionTime" 
                         BackgroundColor="PaleGreen" FontSize="Small" Format="HH:mm:ss" 
                         HorizontalOptions="Center" />

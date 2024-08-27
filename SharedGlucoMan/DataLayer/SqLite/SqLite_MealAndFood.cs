@@ -388,9 +388,9 @@ namespace GlucoMan
                 f.Energy.Double = SqlSafe.Double(Row["Energy"]);
                 f.TotalFats.Double = SqlSafe.Double(Row["TotalFats"]);
                 f.SaturatedFats.Double = SqlSafe.Double(Row["SaturatedFats"]);
-                f.MonounsaturatedFats.Double = SqlSafe.Double(Row["MonoinsaturatedFats"]);
-                f.PoliunsaturatedFats.Double = SqlSafe.Double(Row["PolinsaturatedFats"]);
-                f.Cho.Double = SqlSafe.Double(Row["Carbohydrates"]);
+                f.MonounsaturatedFats.Double = SqlSafe.Double(Row["MonounsaturatedFats"]);
+                f.PolyunsaturatedFats.Double = SqlSafe.Double(Row["PolyunsaturatedFats"]);
+                f.Carbohydrates.Double = SqlSafe.Double(Row["Carbohydrates"]);
                 f.Sugar.Double = SqlSafe.Double(Row["Sugar"]);
                 f.Fibers.Double = SqlSafe.Double(Row["Fibers"]);
                 f.Proteins.Double = SqlSafe.Double(Row["Proteins"]);
@@ -511,16 +511,15 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    SqliteSafe.Double(food.Cholesterol.Double);
                     string query = "UPDATE Foods SET " +
                     "Name=" + SqliteSafe.String(food.Name) + "," +
                     "Description=" + SqliteSafe.String(food.Description) + "," +
                     "Energy=" + SqliteSafe.Double(food.Energy.Double) + "," +
                     "TotalFats=" + SqliteSafe.Double(food.TotalFats.Double) + "," +
                     "SaturatedFats=" + SqliteSafe.Double(food.SaturatedFats.Double) + "," +
-                    "MonoinsaturatedFats=" + SqliteSafe.Double(food.MonounsaturatedFats.Double) + "," +
-                    "PolinsaturatedFats=" + SqliteSafe.Double(food.PoliunsaturatedFats.Double) + "," +
-                    "Carbohydrates=" + SqliteSafe.Double(food.Cho.Double) + "," +
+                    "MonounsaturatedFats=" + SqliteSafe.Double(food.MonounsaturatedFats.Double) + "," +
+                    "PolyunsaturatedFats=" + SqliteSafe.Double(food.PolyunsaturatedFats.Double) + "," +
+                    "Carbohydrates=" + SqliteSafe.Double(food.Carbohydrates.Double) + "," +
                     "Sugar=" + SqliteSafe.Double(food.Sugar.Double) + "," +
                     "Fibers=" + SqliteSafe.Double(food.Fibers.Double) + "," +
                     "Proteins=" + SqliteSafe.Double(food.Proteins.Double) + "," +
@@ -551,7 +550,7 @@ namespace GlucoMan
                     DbCommand cmd = conn.CreateCommand();
                     string query = "INSERT INTO Foods" +
                     "(" +
-                    "IdFood,Name,Description,Energy,TotalFats,SaturatedFats,MonoinsaturatedFats,PolinsaturatedFats" +
+                    "IdFood,Name,Description,Energy,TotalFats,SaturatedFats,MonounsaturatedFats,PolyunsaturatedFats" +
                     ",Carbohydrates,Sugar,Fibers,Proteins,Salt,Potassium,Cholesterol,GlycemicIndex";
                     query += ")VALUES(" +
                     SqliteSafe.Int(food.IdFood) + "," +
@@ -561,8 +560,8 @@ namespace GlucoMan
                     SqliteSafe.Double(food.TotalFats.Double) + "," +
                     SqliteSafe.Double(food.SaturatedFats.Double) + "," +
                     SqliteSafe.Double(food.MonounsaturatedFats.Double) + "," +
-                    SqliteSafe.Double(food.PoliunsaturatedFats.Double) + "," +
-                    SqliteSafe.Double(food.Cho.Double) + "," +
+                    SqliteSafe.Double(food.PolyunsaturatedFats.Double) + "," +
+                    SqliteSafe.Double(food.Carbohydrates.Double) + "," +
                     SqliteSafe.Double(food.Sugar.Double) + "," +
                     SqliteSafe.Double(food.Fibers.Double) + "," +
                     SqliteSafe.Double(food.Proteins.Double) + "," +

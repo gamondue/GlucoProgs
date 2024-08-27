@@ -231,7 +231,7 @@ namespace GlucoMan.BusinessLayer
         internal void FromFoodToFoodInMeal(Food SourceFood, FoodInMeal DestinationFoodInMeal)
         {
             DestinationFoodInMeal.IdFood = SourceFood.IdFood;
-            DestinationFoodInMeal.ChoPercent = SourceFood.Cho;
+            DestinationFoodInMeal.ChoPercent = SourceFood.Carbohydrates;
             DestinationFoodInMeal.Name = SourceFood.Name;
             DestinationFoodInMeal.Description = SourceFood.Description;
             DestinationFoodInMeal.SugarPercent = SourceFood.Sugar;
@@ -242,7 +242,7 @@ namespace GlucoMan.BusinessLayer
             DestinationFood.IdFood = SourceFoodInMeal.IdFood;
             DestinationFood.Name = SourceFoodInMeal.Name;
             DestinationFood.Description = SourceFoodInMeal.Description;
-            DestinationFood.Cho = SourceFoodInMeal.ChoPercent;
+            DestinationFood.Carbohydrates = SourceFoodInMeal.ChoPercent;
             DestinationFood.Sugar = SourceFoodInMeal.SugarPercent;
             DestinationFood.Fibers = SourceFoodInMeal.FibersPercent;
         }

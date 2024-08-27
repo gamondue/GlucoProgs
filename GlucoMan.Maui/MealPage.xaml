@@ -2,99 +2,99 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Maui.MealPage"
-             Title="The meal and its foods">
+             Title="One meal, its foods">
     <ContentPage.Content>
-        <Grid RowDefinitions="0,20,70,70,50,20,20,50,20,50,65,21,*"
-              ColumnDefinitions="*,*,*,*,*">
+        <Grid RowDefinitions="0,20,50,70,70,20,20,50,20,50,70,20,*"
+              ColumnDefinitions="60,60,60,*,*">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold"
                    Grid.ColumnSpan="5" Text="Meal data" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                    LineBreakMode="WordWrap"/>
 
-            <Label Grid.Row="1" Grid.Column="0" Text="Meal CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                   LineBreakMode="TailTruncation"/>
+            <Label Grid.Row="1" Grid.Column="0" Text="CHO of Meal [g]" HorizontalTextAlignment="Center" 
+                   VerticalTextAlignment="End" LineBreakMode="TailTruncation"/>
             <Label Grid.Row="1" Grid.Column="1" Text="Accuracy" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="3" Text="IdMeal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoOfMealGrams" BackgroundColor="Aqua"
                    Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End"
-                   VerticalTextAlignment="Center" FontSize="Large"  
+                   VerticalTextAlignment="Center"  
                    TextChanged="txtChoOfMealGrams_TextChanged"/>
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" 
                    Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
-                   BackgroundColor="PaleGoldenrod" FontSize="Medium"
+                   BackgroundColor="PaleGoldenrod"
                    VerticalTextAlignment="Center"/>
             <Picker Grid.Row="2" Grid.Column="2" x:Name="cmbAccuracyMeal"
                     Margin="2" HorizontalTextAlignment="End"
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
-                    BackgroundColor="PaleGoldenrod" FontSize="Small"/>
+                    BackgroundColor="PaleGoldenrod" />
             <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdMeal" BackgroundColor="White" 
-                   FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"
+                   HorizontalTextAlignment="Center" IsReadOnly="true"
                    VerticalTextAlignment="Center" />
-            <Button Grid.Row="2" Grid.Column="4" Text="Calc.&#10;CHO" x:Name="btnCalc" Margin="2"
-                    Clicked="btnCalc_Click" LineBreakMode="WordWrap"/>
+            <Button Grid.Row="3" Grid.Column="4" Text="Total CHO Calc.&#10;" x:Name="btnCalc" Margin="2"
+                    Clicked="btnCalc_Click" FontSize="Micro" LineBreakMode="WordWrap"/>
 
-            <Button Grid.Row="3" Grid.Column="0" Text="Start&#10; now" x:Name="btnStartMeal" 
-                    Margin="1,1,1,1" Clicked="btnStartMeal_Click"/>
-            <Button Grid.Row="3" Grid.Column="1" Text="Gluc.&#10;  value" x:Name="btnGlucose" 
-                    Margin="1,1,1,1" IsEnabled="True" Clicked="btnGlucose_ClickAsync"
+            <Button Grid.Row="3" Grid.Column="0" Text="Strt&#10; Now" x:Name="btnStartMeal" 
+                    Clicked="btnStartMeal_Click"/>
+            <Button Grid.Row="3" Grid.Column="1" Text="Glucose&#10;value" x:Name="btnGlucose" 
+                    IsEnabled="True" Clicked="btnGlucose_ClickAsync"
                     LineBreakMode="WordWrap"/>
-            <Button Grid.Row="3" Grid.Column="2" Text="Calc.&#10;insul." x:Name="btnInsulinCalc" 
-                    Margin="1,1,1,1"  IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync"
+            <Button Grid.Row="3" Grid.Column="2" Text="Bolus&#10;Calc." x:Name="btnInsulinCalc" 
+                    IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync"
                     LineBreakMode="WordWrap"/>
             <Button Grid.Row="3" Grid.Column="3" Text="Injection" x:Name="btnInjection" HorizontalOptions="Start"
-                    Margin="1,1,1,1"  IsEnabled="True" Clicked="btnInjection_ClickAsync"
+                    IsEnabled="True" Clicked="btnInjection_ClickAsync"
                     LineBreakMode="WordWrap"/>
-            <Button Grid.Row="3" Grid.Column="4" Text="Calc.&#10;Food" x:Name="btnFoodCalc" 
-                    Margin="1,1,1,1"  Clicked="btnFoodCalc_ClickAsync"
+            <Button Grid.Row="4" Grid.Column="4" Text="Food&#10;2 trgt" x:Name="btnFoodCalc" 
+                    Clicked="btnFoodCalc_ClickAsync"
                     LineBreakMode="WordWrap"/>
 
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
                    Margin="2" FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
-            <Button Grid.Row="4" Grid.Column="4" Text="Save" x:Name="btnSaveMeal" 
+            <Button Grid.Row="2" Grid.Column="4" Text="Save&#10;meal" x:Name="btnSaveMeal" 
                    Margin="2" Clicked="btnSaveAllMeal_Click"/>
-
             <Label Grid.Row="5" Grid.Column="0" TextColor="Black" 
                    Grid.ColumnSpan="5" Text="Food data" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Label Grid.Row="6" Grid.Column="0" Text="CHO %" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="6" Grid.Column="1" Text="Quant [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+            <Label Grid.Row="8" Grid.Column="0" Text="CHO %" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="1" Text="Quant [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                    LineBreakMode="TailTruncation"/>
-            <Label Grid.Row="6" Grid.Column="2" Text="CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+            <Label Grid.Row="8" Grid.Column="2" Text="CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                    LineBreakMode="TailTruncation"/>
-            <Label Grid.Row="6" Grid.Column="3" Text="Id M-F" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="6" Grid.Column="4" Text="Id Food" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="3" Text="Id M-F" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="4" Text="Id Food" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="7" Grid.Column="0" x:Name="txtFoodChoPercent" BackgroundColor="GreenYellow"
+            <Entry Grid.Row="9" Grid.Column="0" x:Name="txtFoodChoPercent" BackgroundColor="GreenYellow"
                    Margin="2" TextChanged="txtFoodChoPercent_TextChanged"
-                   Keyboard="Numeric"
-                   FontSize="Medium" HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="7" Grid.Column="1" x:Name="txtFoodQuantityGrams" BackgroundColor="GreenYellow"
-                   Margin="2" Keyboard="Numeric" TextChanged="txtFoodQuantityGrams_TextChanged" FontSize="Medium" HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="7" Grid.Column="2" x:Name="txtFoodChoGrams" BackgroundColor="LightGreen"
-                   Margin="2" Keyboard="Numeric" TextChanged="txtFoodChoGrams_TextChanged" FontSize="Medium" HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="7" Grid.Column="3" x:Name="txtIdFoodInMeal" BackgroundColor="White" 
-                   Margin="2" FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
-            <Entry Grid.Row="7" Grid.Column="4" x:Name="txtIdFood" BackgroundColor="White" 
+                   Keyboard="Numeric" HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="9" Grid.Column="1" x:Name="txtFoodQuantityGrams" BackgroundColor="GreenYellow"
+                   Margin="2" Keyboard="Numeric" TextChanged="txtFoodQuantityGrams_TextChanged" 
+                   HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="9" Grid.Column="2" x:Name="txtFoodChoGrams" BackgroundColor="LightGreen"
+                   Margin="2" Keyboard="Numeric" TextChanged="txtFoodChoGrams_TextChanged" 
+                   HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="9" Grid.Column="3" x:Name="txtIdFoodInMeal" BackgroundColor="White" 
+                   Margin="2" HorizontalTextAlignment="Center" IsReadOnly="true"/>
+            <Entry Grid.Row="9" Grid.Column="4" x:Name="txtIdFood" BackgroundColor="White" 
                    Margin="2" Keyboard="Numeric"
-                   FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
+                   HorizontalTextAlignment="Center" IsReadOnly="true"/>
 
-            <Label Grid.Row="8" Grid.Column="0" Text="Name of food" Grid.ColumnSpan="2" 
+            <Label Grid.Row="6" Grid.Column="0" Text="Name of food" Grid.ColumnSpan="2" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="8" Grid.Column="2" Text="Accuracy" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="6" Grid.Column="2" Text="Accuracy" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtFoodInMealName" BackgroundColor="LightGreen"
-                   Margin="2" FontSize="Small" HorizontalTextAlignment="Start"/>
-            <Entry Grid.Row="9" Grid.Column="2" x:Name="txtAccuracyOfChoFoodInMeal" 
+            <Entry Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtFoodInMealName" BackgroundColor="LightGreen"
+                   Margin="2"  HorizontalTextAlignment="Start"/>
+            <Entry Grid.Row="7" Grid.Column="2" x:Name="txtAccuracyOfChoFoodInMeal" 
                    Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
-                   BackgroundColor="PaleGoldenrod" FontSize="Medium" />
-            <Picker Grid.Row="9" Grid.Column="3" x:Name="cmbAccuracyFoodInMeal"
+                   BackgroundColor="PaleGoldenrod" />
+            <Picker Grid.Row="7" Grid.Column="3" x:Name="cmbAccuracyFoodInMeal"
                     Margin="2" HorizontalTextAlignment="End"
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
-                    BackgroundColor="PaleGoldenrod" FontSize="Small"/>
-            <Grid Grid.Row="9" Grid.Column="4">
+                    BackgroundColor="PaleGoldenrod" />
+            <Grid Grid.Row="7" Grid.Column="4">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                 </Grid.RowDefinitions>
@@ -103,6 +103,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddFoodInMeal" 
+                        FontSize="Micro"
                         Margin="2" Clicked="btnAddFoodInMeal_Click"></Button>
                 <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveFoodInMeal"
                         Margin="2" Clicked="btnRemoveFoodInMeal_Click"></Button>
@@ -113,13 +114,13 @@
             <Button Grid.Row="10" Grid.Column="0" Text="Clean&#10;fields" x:Name="btnDefaults" 
                     Clicked="btnDefaults_Click" LineBreakMode="WordWrap"></Button>
             <Button Grid.Row="10" Grid.Column="1" Text="Foods" x:Name="btnFoodDetail" 
-                    Clicked="btnFoodDetail_ClickAsync"></Button>
+                    LineBreakMode="WordWrap" Clicked="btnFoodDetail_ClickAsync"></Button>
             <Button Grid.Row="10" Grid.Column="2" Text="Search" x:Name="btnSearchFood" 
-                    Clicked="btnSearchFood_ClickAsync"></Button>
+                    LineBreakMode="WordWrap" Clicked="btnSearchFood_ClickAsync"></Button>
             <Button Grid.Row="10" Grid.Column="3" Text="Weigh" x:Name="btnWeighFood" 
-                    Clicked="btnWeighFood_Click" IsEnabled="True"></Button>
+                    LineBreakMode="WordWrap" Clicked="btnWeighFood_Click" IsEnabled="True"></Button>
             <Button Grid.Row="10" Grid.Column="4" Text="Recipes" x:Name="btnRecipes" 
-                    Clicked="btnRecipes_ClickAsync"  IsEnabled="True"></Button>
+                    LineBreakMode="WordWrap" Clicked="btnRecipes_ClickAsync" IsEnabled="True"></Button>
 
             <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3" Text="Food" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="1" Text="CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -140,7 +141,7 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding ChoGrams.Text}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding Carbohydrates.Text}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

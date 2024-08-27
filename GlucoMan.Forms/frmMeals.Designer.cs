@@ -117,7 +117,6 @@
             // 
             // dtpMealTimeBegin
             // 
-            this.dtpMealTimeBegin.CustomFormat = "yyyy.MM.dd HH:mm:ss";
             this.dtpMealTimeBegin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpMealTimeBegin.Location = new System.Drawing.Point(6, 149);
             this.dtpMealTimeBegin.Name = "dtpMealTimeBegin";
@@ -147,7 +146,6 @@
             // 
             // dtpMealTimeEnd
             // 
-            this.dtpMealTimeEnd.CustomFormat = "yyyy.MM.dd HH:mm:ss";
             this.dtpMealTimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpMealTimeEnd.Location = new System.Drawing.Point(277, 149);
             this.dtpMealTimeEnd.Name = "dtpMealTimeEnd";

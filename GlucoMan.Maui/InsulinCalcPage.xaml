@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.InsulinCalcPage"
              Title="Insulin bolus calculation">
     <ContentPage.Content>
-        <Grid Padding="8,0,8,0" RowDefinitions="25,20,70,35,70,25,60,70,40,30,40,60"
+        <Grid Padding="8,0,8,0" RowDefinitions="25,20,70,25*,70,25*,70,70,40,30,40*,60"
               ColumnDefinitions="*,*,*,*">
         <Label x:Name="tempText" Grid.Row="0" Grid.ColumnSpan="4" Text="Ratio CHO / insulin (from dietist)" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>

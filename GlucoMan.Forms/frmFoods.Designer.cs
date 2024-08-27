@@ -241,7 +241,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(104, 21);
             this.label10.TabIndex = 21;
-            this.label10.Text = "Poli fats  [g]%";
+            this.label10.Text = "Poly fats  [g]%";
             this.label10.Visible = false;
             // 
             // txtMonounsaturatedFats

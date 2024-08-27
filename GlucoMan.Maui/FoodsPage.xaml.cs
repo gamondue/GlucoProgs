@@ -81,7 +81,7 @@ public partial class FoodsPage : ContentPage
         txtIdFood.Text = CurrentFood.IdFood.ToString();
         txtName.Text = CurrentFood.Name;
         txtDescription.Text = CurrentFood.Description;
-        txtFoodCarbohydrates.Text = CurrentFood.Cho.Text;
+        txtFoodCarbohydrates.Text = CurrentFood.Carbohydrates.Text;
 
         //txtCalories.Text = CurrentFood.Energy.Text;
         //txtTotalFats.Text = CurrentFood.TotalFats.Text;
@@ -100,7 +100,7 @@ public partial class FoodsPage : ContentPage
         CurrentFood.IdFood = SqlSafe.Int(txtIdFood.Text);
         CurrentFood.Name = txtName.Text;
         CurrentFood.Description = txtDescription.Text;
-        CurrentFood.Cho.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
+        CurrentFood.Carbohydrates.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
 
         //CurrentFood.Energy.Double = SqlSafe.Double(txtCalories.Text);
         //CurrentFood.TotalFats.Double = SqlSafe.Double(txtTotalFats.Text);

@@ -180,7 +180,6 @@ namespace GlucoMan.Forms
             // 
             // dtpMealTimeFinish
             // 
-            this.dtpMealTimeFinish.CustomFormat = "yyyy.MM.dd HH:mm:ss";
             this.dtpMealTimeFinish.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpMealTimeFinish.Location = new System.Drawing.Point(260, 120);
             this.dtpMealTimeFinish.Name = "dtpMealTimeFinish";

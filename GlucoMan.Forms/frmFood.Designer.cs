@@ -209,7 +209,7 @@ namespace GlucoMan.Forms
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(104, 20);
             this.label10.TabIndex = 21;
-            this.label10.Text = "Poli fats  [g]%";
+            this.label10.Text = "Poly fats  [g]%";
             this.label10.Visible = false;
             // 
             // textBox7
@@ -218,7 +218,7 @@ namespace GlucoMan.Forms
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(100, 26);
             this.textBox7.TabIndex = 20;
-            this.toolTip1.SetToolTip(this.textBox7, "Poli insaturated fats");
+            this.toolTip1.SetToolTip(this.textBox7, "Poly unsaturated fats");
             this.textBox7.Visible = false;
             // 
             // label8

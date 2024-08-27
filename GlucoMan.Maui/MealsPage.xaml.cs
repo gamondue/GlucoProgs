@@ -19,7 +19,7 @@ public partial class MealsPage : ContentPage
         InitializeComponent();
 
         cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
-        cmbTypeOfMeal.ItemsSource = Enum.GetValues(typeof(TypeOfMeal));
+        ////cmbTypeOfMeal.ItemsSource = Enum.GetValues(typeof(TypeOfMeal));
         bl.Meal = new Meal();
         bl.FoodInMeal = new FoodInMeal();
 
@@ -50,7 +50,7 @@ public partial class MealsPage : ContentPage
     {
         txtIdMeal.Text = bl.Meal.IdMeal.ToString();
         txtChoOfMeal.Text = SqlSafe.String(bl.Meal.Carbohydrates.Text);
-        cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
+        ////cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
         if (bl.Meal.TimeBegin.DateTime != General.DateNull)
         {
             dtpMealDateBegin.Date = (DateTime)SqlSafe.DateTime(bl.Meal.TimeBegin.DateTime);
@@ -96,10 +96,10 @@ public partial class MealsPage : ContentPage
     {
         if (e.SelectedItem == null)
         {
-            //await DisplayAlert("XXXX", "YYYY", "Ok");
+            // await DisplayAlert("XXXX", "YYYY", "Ok");
             return;
         }
-        //make the tapped row the current meal 
+        // make the tapped row the current meal 
         bl.Meal = (Meal)e.SelectedItem;
         FromClassToUi();
     }
@@ -211,6 +211,6 @@ public partial class MealsPage : ContentPage
     }
     private void cmbTypeOfMeal_SelectedIndexChanged(object sender, EventArgs e)
     {
-        bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
+        ////bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
     }
 }

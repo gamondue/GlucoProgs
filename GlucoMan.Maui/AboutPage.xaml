@@ -19,7 +19,7 @@
           <Label Text="GlucoMan will be a Glucose Manager program for the diabetic person. " FontSize="20" Padding="0,0,0,0"/>
           <Label Text="Currently it makes just a few calculations, but very useful to the diabetic person that has to make carbohydrate count. I will expand the program in the future, including full management of insulin and carbohydrates."
                  FontSize="15" Padding="0,0,0,0"/>
-          <Label Text="GlucoMan is Free Software (licence: GPL v.2) by:" FontSize="15"
+          <Label Text="GlucoMan is Free Software (licence: GPL v.2) initiated by:" FontSize="15"
                  HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
           <Label Text="Ing.Gabriele Monti (gamon) - Forlì - Italia" FontSize="17"
                  HorizontalTextAlignment="Center" Padding="0,0,0,0"/>

@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.FoodsPage"
              Title="Foods">
     <ContentPage.Content>
-        <Grid Grid.RowDefinitions="20,20,45,20,50,20,60,60,*"
+        <Grid Grid.RowDefinitions="20,20,50,20,50,20,50,70,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Food's information" 
@@ -38,7 +38,7 @@
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
                 Keyboard="Numeric" HorizontalTextAlignment="End"
-                   FontSize="Large" Text = "{Binding Cho.Text}"/>
+                Text = "{Binding Carbohydrates.Text}"/>
             <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddFood" 
                     Clicked="btnAddFood_Click"></Button>
             <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveFood" 
@@ -62,14 +62,14 @@
                             <ViewCell.View>
                                 <Grid Margin="8">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="18"/>
+                                        <RowDefinition Height="20"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="35"/>
                                     </Grid.ColumnDefinitions>
                                     <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}" />
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding Cho.Text}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding Carbohydrates.Text}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

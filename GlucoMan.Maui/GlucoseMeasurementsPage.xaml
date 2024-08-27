@@ -4,25 +4,27 @@
              x:Class="GlucoMan.Maui.GlucoseMeasurementsPage"
              Title="Glucose Measurements">
     <ContentPage.Content>
-        <Grid RowDefinitions="40,50,50,50,30,30,*"
+        <!--RowDefinitions="40,50,50,50,30,30,*"-->
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*"
               ColumnDefinitions="*,*,*,*">
             <Label Grid.Row="0" Grid.Column="0" Text="Glucose&#10;[mg/dL]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                    LineBreakMode="WordWrap"/>
-            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="Measurement date and time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="Measurement time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="0" Grid.Column="3" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucose" Text="" FontSize="Large"
+            <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucose" Text="" FontSize="Medium"
                    Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="Lime" IsEnabled="true"/>
-            <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate" BackgroundColor="PaleGreen" 
-                        FontAutoScalingEnabled="True" Format="yyyy-MM-dd" HorizontalOptions="Center"/>
+            <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate" Margin="3,0"
+                        BackgroundColor="PaleGreen" 
+                        HorizontalOptions="Center" VerticalOptions="Center"/>
             <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpEventTime" BackgroundColor="PaleGreen" 
-                        FontAutoScalingEnabled="True" Format="HH:mm:ss" HorizontalOptions="Center"/>
-            <Label Grid.Row="1" Grid.Column="3" x:Name="txtIdGlucoseRecord" Text="" HorizontalTextAlignment="Center" 
-                   VerticalTextAlignment="Center"/>
+                        HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label Grid.Row="1" Grid.Column="3" x:Name="txtIdGlucoseRecord" Text=""
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
             <!-- check box with associated label into a StackLayout -->
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
-                   FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
+                    HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
             <Button Grid.Row="3" Grid.Column="0" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
             <Button Grid.Row="3" Grid.Column="1" Text="+" x:Name="btnAddMeasurement" Clicked="btnAddMeasurement_Click"></Button>
@@ -30,7 +32,7 @@
             <Button Grid.Row="3" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_ClickAsync"></Button>
 
             <HorizontalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
-                <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
+                <CheckBox VerticalOptions="Center" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS" Value="0,-10,0,0" />
@@ -38,7 +40,7 @@
                         </OnPlatform>
                     </CheckBox.Margin>
                 </CheckBox>
-                <Label VerticalTextAlignment="Center" VerticalOptions="Start" Text="Add with Now as time">
+                <Label VerticalTextAlignment="Center" VerticalOptions="Center" Text="Add with Now as time">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer>
 
@@ -59,7 +61,7 @@
                             <ViewCell.View>
                                 <Grid Margin="10">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="18"/>
+                                        <RowDefinition Height="20"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>

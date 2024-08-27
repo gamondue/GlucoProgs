@@ -124,4 +124,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     {
         await Navigation.PushAsync(new SettingsPage());
     }
+
+    private void btnMenu_Click(object sender, EventArgs e)
+    {
+        Navigation.PushAsync(new MainPage());
+    }
 }

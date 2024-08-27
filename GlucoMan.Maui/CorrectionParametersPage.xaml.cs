@@ -9,6 +9,10 @@ public partial class CorrectionParametersPage : ContentPage
     {
         InitializeComponent();
 
+        cmbSensitivityFactor.Items.Add("1800");
+        cmbSensitivityFactor.Items.Add("1500");
+        cmbSensitivityFactor.Items.Add("1400");
+
         bolusCalculation = new BL_BolusesAndInjections();
         bolusCalculation.RestoreInsulinCorrectionParameters();
         bolusCalculation.RestoreRatioCHOInsulinParameters();
