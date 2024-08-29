@@ -8,7 +8,37 @@ namespace GlucoMan
 {
     internal partial class DL_Sqlite : DataLayer
     {
-        internal override List<Recipe> ReadSomeRecipes(string whereClause)
+        internal override int? InsertOneRecipe(Recipe Recipe)
+        {
+            Recipe.IdRecipe = GetNextTablePrimaryKey("Recipes", "IdRecipe");
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "INSERT INTO Recipes" +
+                    "(" +
+                    "IdRecipe," +
+                    "Name,Description,CarbohydratesPercent";
+                    query += ")VALUES(" +
+                    SqliteSafe.Int(Recipe.IdRecipe)
+                    + "," + SqliteSafe.String(Recipe.Name) + "," +
+                    SqliteSafe.String(Recipe.Description) + "," +
+                    SqliteSafe.Double(Recipe.CarbohydratesPercent);
+                    query += ");";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+                return Recipe.IdRecipe;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_Recipes | InsertOneRecipe", ex);
+                return null;
+            }
+        }
+        internal override List<Recipe> ReadSomeRecipes(string WhereClause)
         {
             List<Recipe> Recipes = new List<Recipe>();
             try
@@ -20,8 +50,8 @@ namespace GlucoMan
                     string query = "SELECT *" +
                         " FROM Recipes";
                     query += " ORDER BY IdRecipe DESC ";
-                    if (whereClause != null && whereClause != "")
-                        query += whereClause;
+                    if (WhereClause != null && WhereClause != "")
+                        query += WhereClause;
                     query += ";";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
@@ -41,23 +71,50 @@ namespace GlucoMan
             }
             return Recipes;
         }
-        internal override int? SaveOneRecipe(Recipe recipe)
+        internal override Recipe GetOneRecipe(int? IdRecipe)
+        {
+            Recipe recipe = new Recipe();
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
+                {
+                    string query = "SELECT *" +
+                        " FROM Recipes" +
+                        " WHERE IdRecipe=" + IdRecipe;
+                    query += ";";
+                    cmd = new SqliteCommand(query);
+                    cmd.Connection = conn;
+                    dRead = cmd.ExecuteReader();
+                    dRead.Read();
+                    recipe = GetRecipeFromRow(dRead);
+                    dRead.Dispose();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_Recipe | ReadOneRecipe", ex);
+            }
+            return recipe;
+        }
+        internal override int? SaveOneRecipe(Recipe Recipe)
         {
             int? IdRecipe = null;
             try
             {
-                if (recipe.IdRecipe == null || recipe.IdRecipe == 0)
+                if (Recipe.IdRecipe == null || Recipe.IdRecipe == 0)
                 {
-                    recipe.IdRecipe = GetNextTablePrimaryKey("Recipes", "IdRecipe");
-                    //Recipe.TimeStart.DateTime = DateTime.Now;
+                    Recipe.IdRecipe = GetNextTablePrimaryKey("Recipes", "IdRecipe");
                     // INSERT new record in the table
-                    InsertOneRecipe(recipe);
+                    InsertOneRecipe(Recipe);
                 }
                 else
                 {
-                    UpdateOneRecipe(recipe);
+                    UpdateOneRecipe(Recipe);
                 }
-                return recipe.IdRecipe;
+                return Recipe.IdRecipe;
             }
             catch (Exception ex)
             {
@@ -66,24 +123,20 @@ namespace GlucoMan
             }
             return IdRecipe;
         }
-        private void UpdateOneRecipe(Recipe recipe)
+        internal override void UpdateOneRecipe(Recipe RecipeToSave)
         {
             try
             {
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "UPDATE Recipes" +
-                    "(" +
-                    "IdRecipe," +
-                    "IsRepeated,IsEnabled";
-                    query += ")VALUES(" +
-                    SqliteSafe.Int(recipe.IdRecipe)
-                    + "," + SqliteSafe.String(recipe.Name) + "," +
-                    SqliteSafe.String(recipe.Description) + "," +
-                    SqliteSafe.Double(recipe.ChoPercent) + "," +
-                    ";";
-                    query += ");";
+                    string query = "UPDATE Recipes SET " +
+                    "IdRecipe=" + SqliteSafe.Int(RecipeToSave.IdRecipe) + "," +
+                    "Name=" + SqliteSafe.String(RecipeToSave.Name) + "," +
+                    "Description=" + SqliteSafe.String(RecipeToSave.Description) + "," +
+                    "CarbohydratesPercent=" + SqliteSafe.Double(RecipeToSave.CarbohydratesPercent.Double) +
+                    " WHERE IdRecipe=" + SqliteSafe.Int(RecipeToSave.IdRecipe);
+                    query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
@@ -91,49 +144,40 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Sqlite_Recipes | InsertOneRecipe", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | UpdateOneRecipe", ex);
             }
         }
-        private int? InsertOneRecipe(Recipe recipe)
+        internal override void DeleteOneRecipe(Recipe Recipe)
         {
-            recipe.IdRecipe = GetNextTablePrimaryKey("Recipes", "IdRecipe");
+            if (Recipe.IdRecipe == null || Recipe.IdRecipe == 0)
+                return;  
             try
             {
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "INSERT INTO Recipes" +
-                    "(" +
-                    "IdRecipe," +
-                    "IsRepeated,IsEnabled";
-                    query += ")VALUES(" +
-                    SqliteSafe.Int(recipe.IdRecipe)
-                    + "," + SqliteSafe.String(recipe.Name) + "," +
-                    SqliteSafe.String(recipe.Description) + "," +
-                    SqliteSafe.Double(recipe.ChoPercent) + "," +
-                    ";";
-                    query += ");";
+                    string query = "DELETE FROM Recipes" +
+                    " WHERE IdRecipe=" + Recipe.IdRecipe;
+                    query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
-                return recipe.IdRecipe;
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Sqlite_Recipes | InsertOneRecipe", ex);
-                return null;
+                General.LogOfProgram.Error("Sqlite_Recipe | DeleteOneRecipe", ex);
             }
         }
-        private Recipe GetRecipeFromRow(DbDataReader row)
+        internal Recipe GetRecipeFromRow(DbDataReader row)
         {
             Recipe m = new Recipe();
             try
             {
-                m.IdRecipe = (int)(row["IdRecipe"]);
+                m.IdRecipe = SqlSafe.Int(row["IdRecipe"]);
                 m.Name = SqlSafe.String(row["Name"]);
                 m.Description = SqlSafe.String(row["Description"]);
-                m.ChoPercent.Double = SqlSafe.Double(row["ChoPercent"]);
+                m.CarbohydratesPercent.Double = SqlSafe.Double(row["CarbohydratesPercent"]);
             }
             catch (Exception ex)
             {
@@ -141,9 +185,9 @@ namespace GlucoMan
             }
             return m;
         }
-        internal override List<RecipeIngredient> ReadAllIngredientsOfARecipe(int idRecipe)
+        internal override List<Ingredient> ReadAllIngredientsOfARecipe(int? idRecipe)
         {
-            List<RecipeIngredient> RecipeIngredients = new List<RecipeIngredient>();
+            List<Ingredient> Ingredients = new List<Ingredient>();
             try
             {
                 DbDataReader dRead;
@@ -151,18 +195,18 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     string query = "SELECT *" +
-                        " FROM RecipeIngredients";
+                        " FROM Ingredients";
                     query += " ORDER BY Name DESC ";
-                    //if (whereClause != null && whereClause != "")
-                    //    query += whereClause;
+                    //if (WhereClause != null && WhereClause != "")
+                    //    query += WhereClause;
                     query += ";";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
                     dRead = cmd.ExecuteReader();
                     while (dRead.Read())
                     {
-                        RecipeIngredient f = GetRecipeIngredientFromRow(dRead);
-                        RecipeIngredients.Add(f);
+                        Ingredient f = GetIngredientFromRow(dRead);
+                        Ingredients.Add(f);
                     }
                     dRead.Dispose();
                     cmd.Dispose();
@@ -170,45 +214,44 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Sqlite_RecipeIngredients | ReadAllRecipeIngredients", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | ReadAllIngredientsOfARecipe", ex);
             }
-            return RecipeIngredients;
+            return Ingredients;
         }
-        internal override int? SaveOneRecipeIngredient(RecipeIngredient ingredient)
+        internal override int? SaveOneIngredient(Ingredient ingredient)
         {
             try
             {
                 if (ingredient.IdIngredient == null || ingredient.IdIngredient == 0)
                 {
-                    ingredient.IdIngredient = GetNextTablePrimaryKey("RecipeIngredients", "IdIngredient");
-                    //RecipeIngredient.TimeStart.DateTime = DateTime.Now;
+                    ingredient.IdIngredient = GetNextTablePrimaryKey("Ingredients", "IdIngredient");
                     // INSERT new record in the table
-                    InsertOneRecipeIngredient(ingredient);
+                    InsertOneIngredient(ingredient);
                 }
                 else
                 {   
-                    UpdateOneRecipeIngredient(ingredient);
+                    UpdateOneIngredient(ingredient);
                 }
                 return ingredient.IdIngredient;
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Sqlite Datalayer | SaveOneRecipeIngredient", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | SaveOneIngredient", ex);
                 return null;
             }
             return ingredient.IdIngredient;
         }
-        private void UpdateOneRecipeIngredient(RecipeIngredient ingredient)
+        internal override void UpdateOneIngredient(Ingredient ingredient)
         {
             try
             {
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "UPDATE RecipeIngredient" +
+                    string query = "UPDATE Ingredient" +
                     "(" +
                     "IdIngredient,IdRecipe," +
-                    "Name,Description,QuantityGrams,QuantityPercent,ChoPercent,IdFood";
+                    "Name,Description,QuantityGrams,QuantityPercent,CarbohydratesPercent,IdFood";
                     query += ")VALUES(" +
                     SqliteSafe.Int(ingredient.IdIngredient) + "," +
                     SqliteSafe.Int(ingredient.IdRecipe) + "," +
@@ -216,7 +259,7 @@ namespace GlucoMan
                     SqliteSafe.String(ingredient.Description) + "," +
                     SqliteSafe.Double(ingredient.QuantityGrams) + "," +
                     SqliteSafe.Double(ingredient.QuantityPercent) + "," +
-                    SqliteSafe.Double(ingredient.ChoPercent) + "," +
+                    SqliteSafe.Double(ingredient.CarbohydratesPercent) + "," +
                     SqliteSafe.Int(ingredient.IdFood) + "," +
                     ";";
                     query += ");";
@@ -227,10 +270,10 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Sqlite_Recipes | UpdateOneRecipeIngredient", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | UpdateOneIngredient", ex);
             }
         }
-        private int? InsertOneRecipeIngredient(RecipeIngredient ingredient)
+        internal override int? InsertOneIngredient(Ingredient ingredient)
         {
             ingredient.IdIngredient = GetNextTablePrimaryKey("Ingredients", "IdIngredient");
             try
@@ -238,20 +281,21 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "INSERT INTO RecipeIngredients" +
+                    string query = "INSERT INTO Ingredients" +
                     "(" +
                     "IdIngredient, IdRecipe," +
-                    "Name,Description,QuantityGrams,QuantityPercent,ChoPercent,IdFood";
+                    "Name,Description,QuantityGrams,QuantityPercent," +
+                    "CarbohydratesPercent,AccuracyOfChoEstimate,IdFood";
                     query += ")VALUES(" +
                     SqliteSafe.Int(ingredient.IdIngredient) + "," +
                     SqliteSafe.Int(ingredient.IdRecipe) + "," +
-                    SqliteSafe.String(ingredient.Name) + "," + 
+                    SqliteSafe.String(ingredient.Name) + "," +
                     SqliteSafe.String(ingredient.Description) + "," +
                     SqliteSafe.Double(ingredient.QuantityGrams) + "," +
                     SqliteSafe.Double(ingredient.QuantityPercent) + "," +
-                    SqliteSafe.Double(ingredient.ChoPercent) + "," +
-                    SqliteSafe.Double(ingredient.IdFood) + "," +
-                    ";";
+                    SqliteSafe.Double(ingredient.CarbohydratesPercent) + "," +
+                    SqliteSafe.Double(ingredient.AccuracyOfChoEstimate) + "," +
+                    SqliteSafe.Double(ingredient.IdFood) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -261,13 +305,13 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Sqlite_RecipeIngredients | InsertOneRecipeIngredient", ex);
+                General.LogOfProgram.Error("Sqlite_Ingredient | InsertOneIngredient", ex);
                 return null;
             }
         }
-        private RecipeIngredient GetRecipeIngredientFromRow(DbDataReader Row)
+        internal override Ingredient GetIngredientFromRow(DbDataReader Row)
         {
-            RecipeIngredient m = new RecipeIngredient();
+            Ingredient m = new Ingredient();
             try
             {
                 m.IdIngredient = (int)(Row["IdIngredient"]);
@@ -276,14 +320,51 @@ namespace GlucoMan
                 m.Description = SqlSafe.String(Row["Description"]);
                 m.QuantityGrams.Double = SqlSafe.Double(Row["QuantityGrams"]);
                 m.QuantityPercent.Double = SqlSafe.Double(Row["QuantityPercent"]);
-                m.ChoPercent.Double = SqlSafe.Double(Row["ChoPercent"]);
+                m.CarbohydratesPercent.Double = SqlSafe.Double(Row["CarbohydratesPercent"]);
                 m.IdFood = SqlSafe.Int(Row["IdFood"]);
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Sqlite_RecipeIngredients | GetRecipeIngredientFromRow", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | GetIngredientFromRow", ex);
             }
             return m;
+        }
+        internal override List<Recipe> SearchRecipes(string Name, string Description)
+        {
+            List<Recipe> list = new List<Recipe>();
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
+                {
+                    string query = "SELECT *" +
+                        " FROM Recipes";
+                    if ((Name != "" && Name != null) || (Description != "" && Description != null))
+                    {
+                        query += " WHERE ((Name LIKE '%" + Name + "%'" +
+                            " OR Name = null)" +
+                            " AND (Description LIKE '%" + Description + "%'" +
+                            " OR Description = null))";
+                    }
+                    query += " ORDER BY Name, Description;";
+                    cmd = new SqliteCommand(query);
+                    cmd.Connection = conn;
+                    dRead = cmd.ExecuteReader();
+                    while (dRead.Read())
+                    {
+                        Recipe f = GetRecipeFromRow(dRead);
+                        list.Add(f);
+                    }
+                    dRead.Dispose();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_Recipes | SearchRecipes", ex);
+            }
+            return list;
         }
     }
 }

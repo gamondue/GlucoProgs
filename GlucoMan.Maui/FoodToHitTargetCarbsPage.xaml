@@ -6,7 +6,7 @@
     <ContentPage.Content>
         <Grid RowDefinitions="70,0,50,60,55,70,75,70,50,70"
               ColumnDefinitions="*,*,*">
-            <Button Grid.Row="0" Grid.Column="1" x:Name="btnCalculateGrams" Text="Food #10; Calc." 
+            <Button Grid.Row="0" Grid.Column="1" x:Name="btnCalculateGrams" Text="Food Calc." 
                    IsEnabled="True"  Clicked="btnCalculateGrams_Click" />
            
             <Label Grid.Row="2" Grid.Column="0" Text="Target CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -25,10 +25,13 @@
                    Keyboard="Numeric"  Placeholder="%" HorizontalTextAlignment ="End" 
                    FontSize="Large" BackgroundColor="PaleGreen" />
 
-            <Label Grid.Row="4" Grid.Column="0" Text="Food to eat to complete CHO budget" Grid.ColumnSpan="5"
-                   VerticalOptions="End" HorizontalTextAlignment="Center" HorizontalOptions="End"/>
-            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" x:Name="TxtFoodName" Text=""
-                   HorizontalTextAlignment ="Center" BackgroundColor="White" />
+            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
+                   Text="Food to eat to complete CHO budget" 
+                   VerticalOptions="End" HorizontalTextAlignment="End" 
+                   HorizontalOptions="End"/>
+            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" x:Name="TxtFoodName" Text=""
+                   FontAttributes="Bold" HorizontalTextAlignment ="End" 
+                   HorizontalOptions="End" BackgroundColor="White" />
 
             <Button Grid.Row="6" Grid.Column="0" x:Name="btnReadTarget" Text="Read target&#10;CHO" 
                    Clicked="btnReadTargetCho_Click" />
@@ -43,14 +46,17 @@
             <Label Grid.Row="8" Grid.Column="0" Text="CHO left to take [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="9" Grid.Column="0" x:Name="TxtChoLeftToTake" Text="" Unfocused="TxtChoOfFood_Leave"
                    Keyboard="Numeric" Placeholder="[g]" HorizontalTextAlignment ="End" 
+                   VerticalOptions="Center"
                    FontSize="Large" BackgroundColor="White" />
 
             <Button Grid.Row="9" Grid.Column="1"  Text="Injection" IsEnabled="True" 
                         x:Name="btnInjection" Clicked="btnInjection_Click" />
 
-            <Label Grid.Row="8" Grid.Column="2" Text="Food to eat to hit target CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="2" Text="Food to eat to hit target CHO [g]" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="9" Grid.Column="2" x:Name="TxtFoodToHitTarget" Text="" 
-                   Keyboard="Numeric" Placeholder="[g]" HorizontalTextAlignment ="End" 
+                   Keyboard="Numeric" Placeholder="[g]" HorizontalTextAlignment ="End"
+                   VerticalOptions="Center"
                    FontSize="Large" BackgroundColor="SkyBlue" />
         </Grid>
     </ContentPage.Content>

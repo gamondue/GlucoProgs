@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 
 namespace GlucoMan
 {
@@ -58,12 +59,20 @@ namespace GlucoMan
         internal abstract int? SaveOneAlarm(Alarm currentAlarm);
         internal abstract List<Alarm> ReadAllAlarms();
         #endregion
-        #region Recipes
-        internal abstract int? SaveOneRecipe(Recipe Recipe);
+        #region Recipes and Ingredients
+        internal abstract int? InsertOneRecipe(Recipe Recipe); 
         internal abstract List<Recipe> ReadSomeRecipes(string WhereClause);
-        internal abstract List<RecipeIngredient> ReadAllIngredientsOfARecipe(int idRecipe);
-        internal abstract int? SaveOneRecipeIngredient(RecipeIngredient recipeIngredient);
-        internal abstract void CreateNewDatabase(string pathAndFileDatabase);
+        internal abstract Recipe GetOneRecipe(int? IdRecipe);
+        internal abstract int? SaveOneRecipe(Recipe Recipe);
+        internal abstract void UpdateOneRecipe(Recipe RecipeToSave);
+        internal abstract void DeleteOneRecipe(Recipe Recipe);
+        internal abstract List<Recipe> SearchRecipes(string Name, string Description);
+        internal abstract List<Ingredient> ReadAllIngredientsOfARecipe(int? idRecipe);
+        internal abstract int? SaveOneIngredient(Ingredient Ingredient);
+        internal abstract int? InsertOneIngredient(Ingredient ingredient);
+        internal abstract void UpdateOneIngredient(Ingredient ingredient);
+        internal abstract Ingredient GetIngredientFromRow(DbDataReader Row);
         #endregion
+        internal abstract void CreateNewDatabase(string pathAndFileDatabase);
     }
 }

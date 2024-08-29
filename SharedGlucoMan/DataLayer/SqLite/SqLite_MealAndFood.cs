@@ -269,7 +269,7 @@ namespace GlucoMan
                 f.IdFoodInMeal = SqlSafe.Int(Row["IdFoodInMeal"]);
                 f.IdFood = SqlSafe.Int(Row["IdFood"]);
                 f.ChoGrams.Double = SqlSafe.Double(Row["CarbohydratesGrams"]);
-                f.ChoPercent.Double = SqlSafe.Double(Row["CarbohydratesPercent"]);
+                f.CarbohydratesPercent.Double = SqlSafe.Double(Row["CarbohydratesPercent"]);
                 f.QuantityGrams.Double = SqlSafe.Double(Row["Quantity"]);
                 f.AccuracyOfChoEstimate.Double = SqlSafe.Double(Row["AccuracyOfChoEstimate"]);
                 f.Name = SqlSafe.String(Row["Name"]);
@@ -324,7 +324,7 @@ namespace GlucoMan
                     "IdFood=" + SqliteSafe.Int(FoodToSave.IdFood) + "," +
                     "CarbohydratesGrams=" + SqliteSafe.Double(FoodToSave.ChoGrams.Double) + "," +
                     "Quantity=" + SqliteSafe.Double(FoodToSave.QuantityGrams.Double) + "," +
-                    "CarbohydratesPercent=" + SqliteSafe.Double(FoodToSave.ChoPercent.Double) + "," +
+                    "CarbohydratesPercent=" + SqliteSafe.Double(FoodToSave.CarbohydratesPercent.Double) + "," +
                     "AccuracyOfChoEstimate=" + SqliteSafe.Double(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
                     "Name=" + SqliteSafe.String(FoodToSave.Name) + "" +
                     " WHERE IdFoodInMeal=" + SqliteSafe.Int(FoodToSave.IdFoodInMeal) +
@@ -359,7 +359,7 @@ namespace GlucoMan
                     SqliteSafe.Int(FoodToSave.IdFood) + "," +
                     SqliteSafe.Double(FoodToSave.QuantityGrams.Double) + "," +
                     SqliteSafe.Double(FoodToSave.ChoGrams.Double) + "," +
-                    SqliteSafe.Double(FoodToSave.ChoPercent.Double) + "," +
+                    SqliteSafe.Double(FoodToSave.CarbohydratesPercent.Double) + "," +
                     SqliteSafe.Double(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
                     SqliteSafe.String(FoodToSave.Name) + "";
 
@@ -525,8 +525,8 @@ namespace GlucoMan
                     "Proteins=" + SqliteSafe.Double(food.Proteins.Double) + "," +
                     "Salt=" + SqliteSafe.Double(food.Salt.Double) + "," +
                     "Potassium=" + SqliteSafe.Double(food.Potassium.Double) + "," +
-                    "Cholesterol=" + SqliteSafe.Double(food.Cholesterol.Double) + "" +
-                    "GlycemicIndex=" + SqliteSafe.Double(food.GlycemicIndex.Double) + "," +
+                    "Cholesterol=" + SqliteSafe.Double(food.Cholesterol.Double) + "," +
+                    "GlycemicIndex=" + SqliteSafe.Double(food.GlycemicIndex.Double) + 
                     " WHERE IdFood=" + SqliteSafe.Int(food.IdFood) +
                     ";";
                     cmd.CommandText = query;

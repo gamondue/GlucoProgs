@@ -12,13 +12,13 @@
             <HorizontalStackLayout>
                 <Button x:Name="btnSaveInjection" Text="Save" Clicked="btnSaveInjection_Clicked"/>
             </HorizontalStackLayout>
-            <HorizontalStackLayout x:Name="stackEditingOptions" HeightRequest="40">
-                <CheckBox x:Name="EditorCheckBox" HorizontalOptions="End" CheckedChanged="CheckedChanged"/>
-                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Editing</Label>
-                <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="End"/>
-                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Del.points</Label>
-                <Button x:Name="btnSavePoints" Text="Sv.Pnts" Clicked="btnSavePoints_Clicked" />
-                <Button x:Name="btnClear" Text="Cl.Pnts" Clicked="btnClear_Click" />
+            <HorizontalStackLayout x:Name="stackEditingOptions" Margin="0" Padding="0">
+                <CheckBox x:Name="EditorCheckBox" Margin="0" HorizontalOptions="Start" CheckedChanged="CheckedChanged"/>
+                <Label Margin="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Ed.</Label>
+                <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="Start"/>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Del</Label>
+                <Button x:Name="btnSavePoints" Text="Sv.p." Clicked="btnSavePoints_Clicked" />
+                <Button x:Name="btnClear" Text="Dl.p." Clicked="btnClear_Click" />
             </HorizontalStackLayout>
         </HorizontalStackLayout>
         <Grid>

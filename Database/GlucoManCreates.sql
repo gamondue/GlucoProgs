@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.4.4 on mar ago 27 09:56:20 2024
+-- File generated with SQLiteStudio v3.4.4 on gio ago 29 22:19:30 2024
 --
 -- Text encoding used: System
 --
@@ -12,7 +12,15 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
 	'IdAlarm'	INT NOT NULL,
+
+
+
+
 
 
 
@@ -20,7 +28,15 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
 	'TimeAlarm'	DATETIME,
+
+
+
+
 
 
 
@@ -28,7 +44,15 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
 	'Duration'	DOUBLE,
+
+
+
+
 
 
 
@@ -36,11 +60,23 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
 	'IsEnabled'	TINYINT,
 
 
 
+
+
+
+
 	PRIMARY KEY('IdAlarm')
+
+
+
+
 
 
 
@@ -52,7 +88,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'IdBolusCalculation'	INT NOT NULL,
+
+
+
+
 
 
 
@@ -60,7 +104,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'TotalInsulinForMeal'	DOUBLE,
+
+
+
+
 
 
 
@@ -68,7 +120,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'BolusInsulinDueToChoOfMeal'	DOUBLE,
+
+
+
+
 
 
 
@@ -76,7 +136,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'TargetGlucose'	DOUBLE,
+
+
+
+
 
 
 
@@ -84,7 +152,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'TypicalBolusMorning'	DOUBLE,
+
+
+
+
 
 
 
@@ -92,7 +168,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'TypicalBolusEvening'	DOUBLE,
+
+
+
+
 
 
 
@@ -100,7 +184,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'TotalDailyDoseOfInsulin'	DOUBLE,
+
+
+
+
 
 
 
@@ -108,7 +200,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'ChoInsulinRatioLunch'	DOUBLE,
+
+
+
+
 
 
 
@@ -116,7 +216,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'GlucoseBeforeMeal'	DOUBLE,
+
+
+
+
 
 
 
@@ -124,11 +232,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'FactorOfInsulinCorrectionSensitivity'	DOUBLE,
 
 
 
+
+
+
+
 	PRIMARY KEY('IdBolusCalculation')
+
+
+
+
 
 
 
@@ -144,7 +264,15 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
 	'IdFoodInMeal'	INT NOT NULL,
+
+
+
+
 
 
 
@@ -152,7 +280,15 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
 	'IdFood'	INT,
+
+
+
+
 
 
 
@@ -160,7 +296,15 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
 	'CarbohydratesPercent'	INT,
+
+
+
+
 
 
 
@@ -168,7 +312,15 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
 	'AccuracyOfChoEstimate'	DOUBLE,
+
+
+
+
 
 
 
@@ -176,7 +328,15 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
 	PRIMARY KEY('IdFoodInMeal')
+
+
+
+
 
 
 
@@ -188,7 +348,15 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	'IdGlucoseRecord'	INT NOT NULL,
+
+
+
+
 
 
 
@@ -196,7 +364,15 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	'Timestamp'	DATETIME,
+
+
+
+
 
 
 
@@ -204,7 +380,15 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	'IdTypeOfGlucoseMeasurement'	INT,
+
+
+
+
 
 
 
@@ -212,7 +396,15 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	'IdModelOfMeasurementSystem'	INT,
+
+
+
+
 
 
 
@@ -220,7 +412,15 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	'IdDocumentType'	INT,
+
+
+
+
 
 
 
@@ -228,7 +428,15 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	PRIMARY KEY('IdGlucoseRecord')
+
+
+
+
 
 
 
@@ -240,7 +448,15 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	'IdHypoPrediction'	INT NOT NULL,
+
+
+
+
 
 
 
@@ -248,7 +464,15 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	'AlarmTime'	DATETIME,
+
+
+
+
 
 
 
@@ -256,7 +480,15 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	'HypoGlucoseTarget'	INT,
+
+
+
+
 
 
 
@@ -264,7 +496,15 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	'GlucosePrevious'	DOUBLE,
+
+
+
+
 
 
 
@@ -272,7 +512,15 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	'DatetimeLast'	DATETIME,
+
+
+
+
 
 
 
@@ -280,11 +528,23 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	PRIMARY KEY('IdHypoPrediction')
 
 
 
+
+
+
+
 );
+
+-- Table: Ingredients
+DROP TABLE IF EXISTS Ingredients;
+CREATE TABLE Ingredients (IdIngredient INTEGER NOT NULL, IdRecipe INTEGER NOT NULL, Name TEXT, Description TEXT, QuantityGrams REAL, QuantityPercent REAL, CarbohydratesPercent REAL, AccuracyOfChoEstimate DOUBLE, IdFood INTEGER, PRIMARY KEY (IdIngredient));
 
 -- Table: InsulinDrugs
 DROP TABLE IF EXISTS InsulinDrugs;
@@ -292,7 +552,15 @@ CREATE TABLE 'InsulinDrugs' (
 
 
 
+
+
+
+
 	'IdInsulinDrug'	INT NOT NULL,
+
+
+
+
 
 
 
@@ -300,11 +568,23 @@ CREATE TABLE 'InsulinDrugs' (
 
 
 
+
+
+
+
 	'InsulinDuration'	DOUBLE,
 
 
 
+
+
+
+
 	PRIMARY KEY('IdInsulinDrug')
+
+
+
+
 
 
 
@@ -320,7 +600,15 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
 	'IdMeal'	INT NOT NULL,
+
+
+
+
 
 
 
@@ -328,7 +616,15 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
 	'Carbohydrates'	DOUBLE,
+
+
+
+
 
 
 
@@ -336,7 +632,15 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
 	'Notes'	VARCHAR(255),
+
+
+
+
 
 
 
@@ -344,7 +648,15 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
 	'IdBolusCalculation'	INT,
+
+
+
+
 
 
 
@@ -352,7 +664,15 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
 	'IdInsulinInjection'	INT,
+
+
+
+
 
 
 
@@ -360,7 +680,15 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
 	PRIMARY KEY('IdMeal')
+
+
+
+
 
 
 
@@ -372,7 +700,15 @@ CREATE TABLE 'ModelsOfMeasurementSystem' (
 
 
 
+
+
+
+
 	'IdModelOfMeasurementSystem'	INT NOT NULL,
+
+
+
+
 
 
 
@@ -380,7 +716,15 @@ CREATE TABLE 'ModelsOfMeasurementSystem' (
 
 
 
+
+
+
+
 	PRIMARY KEY('IdModelOfMeasurementSystem')
+
+
+
+
 
 
 
@@ -392,7 +736,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'IdParameters'	INT NOT NULL,
+
+
+
+
 
 
 
@@ -400,7 +752,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Bolus_GlucoseBeforeMeal'	INT,
+
+
+
+
 
 
 
@@ -408,7 +768,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Bolus_ChoInsulinRatioBreakfast'	DOUBLE,
+
+
+
+
 
 
 
@@ -416,7 +784,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Bolus_ChoInsulinRatioDinner'	DOUBLE,
+
+
+
+
 
 
 
@@ -424,7 +800,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Bolus_InsulinCorrectionSensitivity'	DOUBLE,
+
+
+
+
 
 
 
@@ -432,7 +816,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Correction_TypicalBolusMidday'	DOUBLE,
+
+
+
+
 
 
 
@@ -440,7 +832,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Correction_TypicalBolusNight'	DOUBLE,
+
+
+
+
 
 
 
@@ -448,7 +848,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Hypo_GlucoseTarget'	DOUBLE,
+
+
+
+
 
 
 
@@ -456,7 +864,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Hypo_GlucosePrevious'	DOUBLE,
+
+
+
+
 
 
 
@@ -464,7 +880,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Hypo_HourPrevious'	DOUBLE,
+
+
+
+
 
 
 
@@ -472,7 +896,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Hypo_MinutePrevious'	DOUBLE,
+
+
+
+
 
 
 
@@ -480,7 +912,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Hypo_FutureSpanMinutes'	DOUBLE,
+
+
+
+
 
 
 
@@ -488,7 +928,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Hit_ChoOfFood'	DOUBLE,
+
+
+
+
 
 
 
@@ -496,7 +944,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'Hit_NameOfFood'	TEXT,
+
+
+
+
 
 
 
@@ -504,11 +960,23 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'FoodInMeal_QuantityGrams'	DOUBLE,
 
 
 
-	'FoodInMeal_ChoPercent'	DOUBLE,
+
+
+
+
+	'FoodInMeal_CarbohydratesPercent'	DOUBLE,
+
+
+
+
 
 
 
@@ -516,7 +984,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	'FoodInMeal_AccuracyOfChoEstimate'	DOUBLE,
+
+
+
+
 
 
 
@@ -524,51 +1000,15 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
 	PRIMARY KEY('IdParameters')
 
 
 
-);
-
--- Table: RecipeIngredients
-DROP TABLE IF EXISTS RecipeIngredients;
-CREATE TABLE 'RecipeIngredients' (
 
-
-
-	'IdIngredient'	INTEGER NOT NULL,
-
-
-
-	'IdRecipe'	INTEGER NOT NULL,
-
-
-
-	'Name'	TEXT,
-
-
-
-	'Description'	TEXT,
-
-
-
-	'QuantityGrams'	REAL,
-
-
-
-	'QuantityPercent'	REAL,
-
-
-
-	'ChoPercent'	REAL,
-
-
-
-	'IdFood'	INTEGER,
-
-
-
-	PRIMARY KEY('IdIngredient')
 
 
 
@@ -580,7 +1020,15 @@ CREATE TABLE 'Recipes' (
 
 
 
+
+
+
+
 	'IdRecipe'	INTEGER NOT NULL,
+
+
+
+
 
 
 
@@ -588,15 +1036,31 @@ CREATE TABLE 'Recipes' (
 
 
 
+
+
+
+
 	'Description'	TEXT,
 
 
 
-	'ChoPercent'	REAL,
+
+
+
+
+	'CarbohydratesPercent'	REAL,
+
+
+
+
 
 
 
 	PRIMARY KEY('IdRecipe')
+
+
+
+
 
 
 

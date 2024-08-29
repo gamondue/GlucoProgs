@@ -23,7 +23,7 @@
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
             <!-- check box with associated label into a StackLayout -->
-            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="White" 
+            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="LightGreen"
                     HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
             <Button Grid.Row="3" Grid.Column="0" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>

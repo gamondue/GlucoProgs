@@ -26,7 +26,7 @@
 
             <!-- <Label Grid.Row="3" Grid.Column="0" Text="TDD" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
             <Label Grid.Row="3" Grid.Column="0" Text="Sensitivity to insulin [mg/dl]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="3" Grid.Column="2" Text="Embarked insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+            <Label Grid.Row="3" Grid.Column="2" Text="Embrkd insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                    HorizontalOptions="Center"/>
 
             <!-- <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="-_-_" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> -->

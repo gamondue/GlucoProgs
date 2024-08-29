@@ -2,11 +2,150 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Maui.RecipePage"
-             Title="One Recipe">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="One Recipe"
+             Loaded="ContentPage_Loaded">
+    <ContentPage.Content>
+        <Grid RowDefinitions="20,20,50,70,20,20,50,20,50,70,20,*"
+              ColumnDefinitions="60*,60*,60*,80*,80*">
+            <Label Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold"
+                   Grid.ColumnSpan="5" Text="Recipe data" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                   LineBreakMode="WordWrap"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Text="CHO of Recipe [g]" HorizontalTextAlignment="Center" 
+                   VerticalTextAlignment="End" LineBreakMode="TailTruncation"/>
+            <Label Grid.Row="1" Grid.Column="1" Text="Accuracy" Grid.ColumnSpan="2" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="3" Text="IdRecipe" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoOfRecipePercent" BackgroundColor="Aqua"
+                   Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End"
+                   VerticalTextAlignment="Center"  
+                   TextChanged="txtChoOfRecipePercent_TextChanged"/>
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoRecipe" 
+                   Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   BackgroundColor="PaleGoldenrod"
+                   VerticalTextAlignment="Center"/>
+            <Picker Grid.Row="2" Grid.Column="2" x:Name="cmbAccuracyRecipe"
+                    Margin="2" HorizontalTextAlignment="End"
+                    ItemsSource="{Binding Common.QualitativeAccuracy}" 
+                    SelectedItem="{Binding NotSet, Mode=TwoWay}"
+                    BackgroundColor="PaleGoldenrod" />
+            <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdRecipe" BackgroundColor="White" 
+                   HorizontalTextAlignment="Center" IsReadOnly="true"
+                   VerticalTextAlignment="Center" />
+            <Button Grid.Row="2" Grid.Column="4" Text="Save&#10;Recipe" x:Name="btnSaveRecipe" 
+                   Margin="2" Clicked="btnSaveAllRecipe_Click"/>
+
+            <Entry Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtDescription" 
+                   BackgroundColor="LightGreen" Margin="2" 
+                   HorizontalTextAlignment="Start" IsReadOnly="false"/>
+            <Button Grid.Row="3" Grid.Column="4" Text="Total CHO" x:Name="btnCalc" Margin="2"
+                    Clicked="btnCalc_Click" FontSize="Micro" LineBreakMode="WordWrap"/>
+
+            <Label Grid.Row="4" Grid.Column="0" TextColor="Black" 
+                   Grid.ColumnSpan="5" Text="Ingredients data" FontAttributes="Bold" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Label Grid.Row="5" Grid.Column="0" Text="Name of the ingredient" Grid.ColumnSpan="2" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="5" Grid.Column="2" Text="Accuracy" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            
+            <Entry Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtIngredientName" BackgroundColor="LightGreen"
+                   Margin="2"  HorizontalTextAlignment="Start"/>
+            <Entry Grid.Row="6" Grid.Column="2" x:Name="txtAccuracyOfChoIngredient" 
+                   Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   BackgroundColor="PaleGoldenrod" />
+            <Picker Grid.Row="6" Grid.Column="3" x:Name="cmbAccuracyIngredient"
+                    Margin="2" HorizontalTextAlignment="End"
+                    ItemsSource="{Binding Common.QualitativeAccuracy}" 
+                    SelectedItem="{Binding NotSet, Mode=TwoWay}"
+                    BackgroundColor="PaleGoldenrod" />
+            <Grid Grid.Row="6" Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddIngredient" 
+                        FontSize="Micro" Margin="2" Clicked="btnAddIngredient_Click" />
+                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveIngredient"
+                        Margin="2" Clicked="btnRemoveIngredient_Click" />
+            </Grid>
+
+            <Label Grid.Row="7" Grid.Column="0" Text="Quant [g]" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                   LineBreakMode="TailTruncation"/>
+            <Label Grid.Row="7" Grid.Column="1" Text="Quant %" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="7" Grid.Column="2" Text="CHO %" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="7" Grid.Column="3" Text="CHO [g]" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                   LineBreakMode="TailTruncation"/>
+            <Label Grid.Row="7" Grid.Column="4" Text="Id ingred." 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="8" Grid.Column="0" x:Name="txtIngredientQuantityGrams" BackgroundColor="GreenYellow"
+                   Margin="1" Keyboard="Numeric" TextChanged="txtIngredientQuantityGrams_TextChanged" 
+                   HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="8" Grid.Column="1" x:Name="txtIngredientQuantityPercent" BackgroundColor="LightGreen"
+                   Margin="1" Keyboard="Numeric"
+                   HorizontalTextAlignment="Center" IsReadOnly="true"/>
+            <Entry Grid.Row="8" Grid.Column="2" x:Name="txtIngredientCarbohydratesPercent" BackgroundColor="GreenYellow"
+                   Margin="1" TextChanged="txtIngredientCarbohydratesPercent_TextChanged"
+                   Keyboard="Numeric" HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="8" Grid.Column="3" x:Name="txtIngredientChoGrams" BackgroundColor="LightGreen"
+                   Margin="1" Keyboard="Numeric" TextChanged="txtIngredientChoGrams_TextChanged" 
+                   HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="8" Grid.Column="4" x:Name="txtIdIngredient" BackgroundColor="White" 
+                   Margin="1" HorizontalTextAlignment="Center" IsReadOnly="true"/>
+
+            <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="5" 
+                  ColumnDefinitions="*,*,*,*">
+                <Button  Text="Save" x:Name="btnSaveAllFoods" 
+                        Clicked="btnSaveAllFoods_Click" IsEnabled="False" IsVisible="False"></Button>
+                <Button Grid.Column="0" Text="Clean&#10;fields" x:Name="btnDefaults" 
+                        Clicked="btnDefaults_Click" LineBreakMode="WordWrap"></Button>
+                <Button Grid.Column="1" Text="Foods" x:Name="btnFoodDetail" 
+                        LineBreakMode="WordWrap" Clicked="btnIngredient_ClickAsync"></Button>
+                <Button Grid.Column="2" Text="Weigh" x:Name="btnWeighFood" 
+                        LineBreakMode="WordWrap" Clicked="btnWeighFood_Click" IsEnabled="True"></Button>
+                <Button Grid.Column="3" Text="Recipes" x:Name="btnRecipes" 
+                        LineBreakMode="WordWrap" Clicked="btnRecipes_ClickAsync" IsEnabled="True"></Button>
+            </Grid>
+
+            <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="5" Margin="2"
+                  Grid.RowDefinitions="*" ColumnDefinitions="*,70,70,70" >
+                <Label Grid.Column="0" Text="Ingredient" Margin="2,0,0,0"
+                       HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
+                <Label Grid.Column="1" Text="Quant [g]" 
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                <Label Grid.Column="2" Text="Quant%" 
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                <Label Grid.Column="3" Text="CHO%" 
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            </Grid>
+            
+            <ListView Grid.Row="11" Grid.ColumnSpan="5" x:Name="gridIngredients" ItemsSource="{Binding}"
+                      ItemSelected="gridIngredients_CellClick" Unfocused="gridIngredients_Unfocused" >
+                <!-- description of data to be shown, in a DataTemplate -->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid Margin="0" Grid.RowDefinitions="*" ColumnDefinitions="*,70,70,70" >
+                                    <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding QuantityGrams.Text}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding QuantityPercent.Text}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding CarbohydratesPercent.Text}"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

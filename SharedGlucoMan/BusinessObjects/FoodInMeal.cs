@@ -10,7 +10,7 @@ namespace GlucoMan
         public int? IdMeal { get; set; }
         public DoubleAndText QuantityGrams { get; set; }// [g/100]
         public DoubleAndText ChoGrams { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
-        public DoubleAndText ChoPercent { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
+        public DoubleAndText CarbohydratesPercent { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
         public DoubleAndText AccuracyOfChoEstimate { get; set; } // [0..1]
         public DoubleAndText SugarPercent { get; set; }        // [g/100]
         public DoubleAndText FibersPercent { get; set; }       // [g/100]
@@ -22,13 +22,13 @@ namespace GlucoMan
         {
             QuantityGrams = new DoubleAndText(); // [g]
             ChoGrams = new DoubleAndText();   // [g]
-            ChoPercent = new DoubleAndText(); // [%]
+            CarbohydratesPercent = new DoubleAndText(); // [%]
             SugarPercent = new DoubleAndText();         // [%]
             FibersPercent = new DoubleAndText();        // [%]
             AccuracyOfChoEstimate = new DoubleAndText(); 
             ChoGrams.Format = "0.0";
             QuantityGrams.Format = "0.0";
-            ChoPercent.Format = "0.0";
+            CarbohydratesPercent.Format = "0.0";
         }
         public FoodInMeal DeepCopy()
         {
@@ -69,10 +69,10 @@ namespace GlucoMan
                 areEqual = false;
                 Differences.ChoGrams.Double = Other.ChoGrams.Double;
             }
-            else if (this.ChoPercent.Double != Other.ChoPercent.Double)
+            else if (this.CarbohydratesPercent.Double != Other.CarbohydratesPercent.Double)
             {
                 areEqual = false;
-                Differences.ChoPercent.Double = Other.ChoPercent.Double;
+                Differences.CarbohydratesPercent.Double = Other.CarbohydratesPercent.Double;
             }
             else if (this.AccuracyOfChoEstimate.Double != Other.AccuracyOfChoEstimate.Double)
             {

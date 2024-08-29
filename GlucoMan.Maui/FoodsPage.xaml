@@ -29,7 +29,7 @@
                     Text="Description of food" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
-                    x:Name="txtDescription" BackgroundColor="White"
+                    x:Name="txtDescription" BackgroundColor="LightGreen"
                     Keyboard="Text" TextChanged="txtDescription_TextChanged"
                     FontSize="Medium" HorizontalTextAlignment="Start"
                    Text = "{Binding Description}"/>

@@ -16,6 +16,8 @@ public partial class MealPage : ContentPage
     private Accuracy accuracyFoodInMeal;
 
     FoodsPage foodsPage;
+    RecipesPage recipesPage;
+
     InsulinCalcPage insulinCalcPage;
     InjectionsPage injectionsPage;
     GlucoseMeasurementsPage measurementPage;
@@ -90,7 +92,7 @@ public partial class MealPage : ContentPage
         FoodInMeal.IdFoodInMeal = SqlSafe.Int(txtIdFoodInMeal.Text);
         FoodInMeal.IdFood = SqlSafe.Int(txtIdFood.Text);
         FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text; // [g]
-        FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text;
+        FoodInMeal.CarbohydratesPercent.Text = txtFoodCarbohydratesPercent.Text;
         FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
         FoodInMeal.Name = txtFoodInMealName.Text;
         FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
@@ -113,7 +115,7 @@ public partial class MealPage : ContentPage
         else
             txtIdFood.Text = "";
 
-        txtFoodChoPercent.Text = bl.FoodInMeal.ChoPercent.Text;
+        txtFoodCarbohydratesPercent.Text = bl.FoodInMeal.CarbohydratesPercent.Text;
         txtFoodQuantityGrams.Text = bl.FoodInMeal.QuantityGrams.Text;
         txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
         txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;
@@ -133,7 +135,7 @@ public partial class MealPage : ContentPage
         txtNotes.Text = bl.Meal.Notes;
     }
     FoodInMeal localFoodInMealForCalculations = new FoodInMeal();
-    private void txtFoodChoPercent_TextChanged(object sender, EventArgs e)
+    private void txtFoodCarbohydratesPercent_TextChanged(object sender, EventArgs e)
     {
         if (!loading)
         {
@@ -156,17 +158,17 @@ public partial class MealPage : ContentPage
     {
         if (!loading)
         {
-            if (!txtFoodQuantityGrams.IsFocused && !txtFoodChoPercent.IsFocused)
+            if (!txtFoodQuantityGrams.IsFocused && !txtFoodCarbohydratesPercent.IsFocused)
             {
                 txtFoodQuantityGrams.Text = "";
                 localFoodInMealForCalculations.QuantityGrams.Double = 0;
-                txtFoodChoPercent.Text = "";
-                localFoodInMealForCalculations.ChoPercent.Double = 0;
+                txtFoodCarbohydratesPercent.Text = "";
+                localFoodInMealForCalculations.CarbohydratesPercent.Double = 0;
             }
         }
         localFoodInMealForCalculations.ChoGrams.Text = txtFoodChoGrams.Text;
         //bl.RecalcAll();
-        //ShowMealBoxes();
+        //ShowRecipeBoxes();
         //txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
     }
     private void txtChoOfMealGrams_TextChanged(object sender, EventArgs e)
@@ -210,6 +212,13 @@ public partial class MealPage : ContentPage
         foodsPage = new FoodsPage(bl.FoodInMeal);
         await Navigation.PushAsync(foodsPage);
     }
+    private void btnRecipes_ClickAsync(object sender, EventArgs e)
+    {
+        FromUiToClasses();
+        ////////recipesPage = new RecipesPage(bl.RecipeInMeal);
+        recipesPage = new RecipesPage();
+        Navigation.PushAsync(recipesPage);
+    }
     // in this UI we have no buttons to save just one food in meal 
     //private void btnSaveFoodInMeal_Click(object sender, EventArgs e)
     //{
@@ -232,7 +241,7 @@ public partial class MealPage : ContentPage
     }
     private void btnDefaults_Click(object sender, EventArgs e)
     {
-        txtFoodChoPercent.Text = "";
+        txtFoodCarbohydratesPercent.Text = "";
         txtFoodQuantityGrams.Text = "";
         txtFoodChoGrams.Text = "";
         txtAccuracyOfChoFoodInMeal.Text = "";
@@ -251,10 +260,6 @@ public partial class MealPage : ContentPage
     private async void btnSearchFood_ClickAsync(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new FoodsPage(txtFoodInMealName.Text, ""));
-    }
-    private async void btnRecipes_ClickAsync(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new RecipesPage());
     }
     private async void btnInsulinCalc_ClickAsync(object sender, EventArgs e)
     {
@@ -342,6 +347,13 @@ public partial class MealPage : ContentPage
             bl.FoodInMeal.ChoGrams.Text = "0";
             bl.FoodInMeal.QuantityGrams.Text = "0";
         }
+        if (recipesPage != null && recipesPage.RecipeIsChosen)
+        {
+            //////////bl.FromFoodToFoodInMeal(recipesPage.CurrentFood, bl.FoodInMeal);
+            ////////// change the calls because FromClassToUi() follows and we don't fire events on textboxes
+            //////////bl.RecipeInMeal.ChoGrams.Text = "0";
+            //////////bl.RecipeInMeal.QuantityGrams.Text = "0";
+        }
         //bl.Meal.IdBolusCalculation = insulinCalcPage.IdBolusCalculation;
         if (injectionsPage != null && injectionsPage.IdInsulinInjection != null)
             bl.Meal.IdInsulinInjection = injectionsPage.IdInsulinInjection;
@@ -354,11 +366,6 @@ public partial class MealPage : ContentPage
         // (currently deemed not necessary and commented out)
         // base.OnAppearing();
         // await Task.Delay(1);
-        // txtFoodChoPercent.Focus();
-    }
-
-    private async Task btnRecipes_ClickedAsync(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new RecipesPage());
+        // txtFoodCarbohydratesPercent.Focus();
     }
 }

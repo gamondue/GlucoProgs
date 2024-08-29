@@ -5,7 +5,6 @@
         public MainPage()
         {
             InitializeComponent();
-
             // call method to set the paths of platform-specific folders
             Common.SetGlobalParameters();
             lblAppName.Text += " " + Common.Version;

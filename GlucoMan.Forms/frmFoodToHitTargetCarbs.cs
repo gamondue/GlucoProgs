@@ -82,7 +82,7 @@ namespace GlucoMan.Forms
         {
             blFoodToEat.TargetCho.Double = SqlSafe.Double(Common.BlGeneral.RestoreParameter("Bolus_ChoToEat"));
             blFoodToEat.ChoAlreadyTaken.Double = SqlSafe.Double(Common.BlGeneral.RestoreParameter("Meal_ChoGrams"));
-            blFoodToEat.ChoOfFood.Double = SqlSafe.Double(Common.BlGeneral.RestoreParameter("FoodInMeal_ChoPercent"));
+            blFoodToEat.ChoOfFood.Double = SqlSafe.Double(Common.BlGeneral.RestoreParameter("FoodInMeal_CarbohydratesPercent"));
             blFoodToEat.NameOfFood = SqlSafe.String(Common.BlGeneral.RestoreParameter("FoodInMeal_Name"));
             FromClassToUi();
             TxtChoLeftToTake.Text = "";
@@ -100,7 +100,7 @@ namespace GlucoMan.Forms
         }
         private void btnReadFood_Click(object sender, EventArgs e)
         {
-            blFoodToEat.ChoOfFood.Double = SqlSafe.Double(Common.BlGeneral.RestoreParameter("FoodInMeal_ChoPercent"));
+            blFoodToEat.ChoOfFood.Double = SqlSafe.Double(Common.BlGeneral.RestoreParameter("FoodInMeal_CarbohydratesPercent"));
             blFoodToEat.NameOfFood = SqlSafe.String(Common.BlGeneral.RestoreParameter("FoodInMeal_Name"));
             FromClassToUi();
         }

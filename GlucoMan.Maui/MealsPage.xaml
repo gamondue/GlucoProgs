@@ -23,7 +23,7 @@
             <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdMeal" BackgroundColor="White" Margin="2" 
                    HorizontalTextAlignment="End" IsReadOnly="true"/>
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoOfMeal" BackgroundColor="Aqua" Margin="2" 
-                   Keyboard="Numeric" HorizontalTextAlignment="End"
+                   FontSize="Medium" Keyboard="Numeric" HorizontalTextAlignment="End"
                    TextChanged="txtChoOfMeal_TextChanged"/>
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" Margin="2" FontSize="Medium"
                    Keyboard="Numeric" BackgroundColor="PaleGoldenrod" HorizontalTextAlignment="End" />
@@ -55,7 +55,7 @@
                     LineBreakMode="WordWrap"></Button>
 
             <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" Margin="2"
-                   BackgroundColor="White" 
+                   BackgroundColor="LightGreen"
                    FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
             <Button Grid.Row="6" Grid.Column="0" Text="Save" x:Name="btnSave" Margin="2" 

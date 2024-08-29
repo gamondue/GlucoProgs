@@ -86,12 +86,12 @@ namespace GlucoMan.BusinessLayer
                     Meal.IdMeal = SaveOneMeal(Meal, false);
                 }
             }
-            // if the current FoodInMeal has not an IdMeal, we give it the Id of the current Meal 
+            // if the current Ingredient has not an IdMeal, we give it the Id of the current Meal 
             if (FoodToSave.IdMeal == null)
             {
                 FoodToSave.IdMeal = Meal.IdMeal;
             }
-            // so the new meal will be the one of the FoodInMeal we are saving
+            // so the new meal will be the one of the Ingredient we are saving
             return dl.SaveOneFoodInMeal(FoodToSave);
         }
         internal void SaveAllFoodsInMeal()
@@ -153,9 +153,9 @@ namespace GlucoMan.BusinessLayer
         }
         public void CalculateChoOfFoodGrams(FoodInMeal ThisFood)
         {
-            if (ThisFood.ChoPercent.Double != null && ThisFood.QuantityGrams.Double != null)
+            if (ThisFood.CarbohydratesPercent.Double != null && ThisFood.QuantityGrams.Double != null)
             {
-                ThisFood.ChoGrams.Double = ThisFood.ChoPercent.Double / 100 *
+                ThisFood.ChoGrams.Double = ThisFood.CarbohydratesPercent.Double / 100 *
                     ThisFood.QuantityGrams.Double;
             }
             //RecalcAll(); 
@@ -231,7 +231,7 @@ namespace GlucoMan.BusinessLayer
         internal void FromFoodToFoodInMeal(Food SourceFood, FoodInMeal DestinationFoodInMeal)
         {
             DestinationFoodInMeal.IdFood = SourceFood.IdFood;
-            DestinationFoodInMeal.ChoPercent = SourceFood.Carbohydrates;
+            DestinationFoodInMeal.CarbohydratesPercent = SourceFood.Carbohydrates;
             DestinationFoodInMeal.Name = SourceFood.Name;
             DestinationFoodInMeal.Description = SourceFood.Description;
             DestinationFoodInMeal.SugarPercent = SourceFood.Sugar;
@@ -242,7 +242,7 @@ namespace GlucoMan.BusinessLayer
             DestinationFood.IdFood = SourceFoodInMeal.IdFood;
             DestinationFood.Name = SourceFoodInMeal.Name;
             DestinationFood.Description = SourceFoodInMeal.Description;
-            DestinationFood.Carbohydrates = SourceFoodInMeal.ChoPercent;
+            DestinationFood.Carbohydrates = SourceFoodInMeal.CarbohydratesPercent;
             DestinationFood.Sugar = SourceFoodInMeal.SugarPercent;
             DestinationFood.Fibers = SourceFoodInMeal.FibersPercent;
         }
@@ -279,7 +279,7 @@ namespace GlucoMan.BusinessLayer
         {
             dl.SaveParameter("FoodInMeal_ChoGrams", FoodInMeal.ChoGrams.Text);
             dl.SaveParameter("FoodInMeal_QuantityGrams", FoodInMeal.QuantityGrams.Text);
-            dl.SaveParameter("FoodInMeal_ChoPercent", FoodInMeal.ChoPercent.Text);
+            dl.SaveParameter("FoodInMeal_CarbohydratesPercent", FoodInMeal.CarbohydratesPercent.Text);
             dl.SaveParameter("FoodInMeal_Name", FoodInMeal.Name);
             dl.SaveParameter("FoodInMeal_AccuracyOfChoEstimate", FoodInMeal.AccuracyOfChoEstimate.Text);
         }
@@ -287,7 +287,7 @@ namespace GlucoMan.BusinessLayer
         {
             FoodInMeal.ChoGrams.Text = dl.RestoreParameter("FoodInMeal_ChoGrams");
             FoodInMeal.QuantityGrams.Text = dl.RestoreParameter("FoodInMeal_QuantityGrams");
-            FoodInMeal.ChoPercent.Text = dl.RestoreParameter("FoodInMeal_ChoPercent");
+            FoodInMeal.CarbohydratesPercent.Text = dl.RestoreParameter("FoodInMeal_CarbohydratesPercent");
             FoodInMeal.Name = dl.RestoreParameter("FoodInMeal_Name");
             FoodInMeal.AccuracyOfChoEstimate.Text = dl.RestoreParameter("FoodInMeal_AccuracyOfChoEstimate");
         }

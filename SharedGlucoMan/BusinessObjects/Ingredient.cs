@@ -2,21 +2,23 @@
 
 namespace GlucoMan
 {
-    internal class RecipeIngredient
+    internal class Ingredient
     {
-        public int IdIngredient { get; set; }
+        public int? IdIngredient { get; set; }
         public int? IdRecipe { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public DoubleAndText QuantityGrams { get; set; }
         public DoubleAndText QuantityPercent { get; set; }
-        public DoubleAndText ChoPercent { get; set; }
+        public DoubleAndText CarbohydratesPercent { get; set; }
+        public DoubleAndText AccuracyOfChoEstimate { get; internal set; }
         public int? IdFood { get; set; }
-        public RecipeIngredient()
+        public Ingredient()
         {
             QuantityGrams = new DoubleAndText();
             QuantityPercent = new DoubleAndText();
-            ChoPercent = new DoubleAndText();
+            CarbohydratesPercent = new DoubleAndText();
+            AccuracyOfChoEstimate = new DoubleAndText();
         }
     }
 }

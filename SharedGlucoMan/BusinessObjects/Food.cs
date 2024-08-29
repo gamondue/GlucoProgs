@@ -21,9 +21,8 @@ namespace GlucoMan
         public DoubleAndText Potassium { get; set; }    // [g/100]  
         public DoubleAndText GlycemicIndex { get; set; } // [n]
         public UnitOfFood Unit { get; set; }
-        public ProducerOfFood Producer { get; set; }
+        public ManufacturerOfFood Manufacturer { get; set; }
         public CategoryOfFood Category { get; set; }
-
         public Food()
         {
             Energy = new DoubleAndText();        // [kcal]  
