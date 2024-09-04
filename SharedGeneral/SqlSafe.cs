@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 
 namespace gamon
 {
@@ -123,7 +122,7 @@ namespace gamon
                 return null;
             }
         }
-        internal static bool? Bool(string field)
+        internal static bool Bool(string field)
         {
             if (field == "" || field == "0")
                 return true;

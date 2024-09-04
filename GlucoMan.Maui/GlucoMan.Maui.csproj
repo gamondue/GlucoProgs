@@ -47,8 +47,8 @@
 		<PackageProjectUrl>www.ingmonti.it/GlucoMan</PackageProjectUrl>
 		<PackageIcon>..</PackageIcon>
 		<NeutralLanguage>en</NeutralLanguage>
-		<AssemblyVersion>0.57.4</AssemblyVersion>
-		<FileVersion>0.57.4</FileVersion>
+		<AssemblyVersion>0.60.0</AssemblyVersion>
+		<FileVersion>0.60.0</FileVersion>
 		<PackageLicenseExpression>GPL-2.0-only</PackageLicenseExpression>
 	</PropertyGroup>
 
@@ -105,7 +105,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash_logolego.svg" Color="LightBlue" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />

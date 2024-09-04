@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.CorrectionParametersPage"
              Title="Parameters for corrections">
     <ContentPage.Content>
-        <Grid RowDefinitions="35,20,28,45,20,60,20,35,25,20,60,20,60,45,30,60"
+        <Grid RowDefinitions="35,20,28,45,20,50,0,35,25,20,50,20,60,45,30,60"
                 ColumnDefinitions="*,*,*,*">
             <!--<Grid RowDefinitions="35,20,20,35,20,60,20,30,25,20,60,20,60,35,20,60"
                 ColumnDefinitions="*,*,*,*"/>-->
@@ -16,10 +16,12 @@
                    FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End" 
                    BackgroundColor="Red" TextColor="Yellow"/>
 
-            <Label Grid.Row="3" Grid.ColumnSpan="4" Text="Ratio CHO/insulin" 
+            <Label Grid.Row="3" Grid.ColumnSpan="4" Text="Ratio CHO/insulin" FontAttributes="Bold"
                     FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            
             <Label Grid.Row="4" Grid.Column="0" Text="Breakfast" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
             <Label Grid.Row="4" Grid.Column="1" Text="Lunch" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            
             <Label Grid.Row="4" Grid.Column="2" Text="Dinner" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="5" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" 
                    Keyboard="Numeric" Placeholder="Break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
@@ -35,6 +37,7 @@
 
             <Label Grid.Row="7" Grid.ColumnSpan="4" Text="Calculation of insulin sensitivity" 
                    FontSize="Medium"  HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontAttributes="Bold"/>
+            
             <Label Grid.Row="8" Grid.ColumnSpan="4" Text="Typical boluses made during a day [U]" 
                    FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
@@ -56,10 +59,12 @@
             <Label Grid.Row="11" Grid.Column="1" Text="Sens.factor" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="11" Grid.Column="2" Text="Sens.to insul." HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Label Grid.Row="12" Grid.Column="0" x:Name="txtTotalDailyDoseOfInsulin" Text="----" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-            <Picker Grid.Row="12" Grid.Column="1" x:Name="cmbSensitivityFactor" Title="pick value" />
-
-            <Entry Grid.Row="12" Grid.Column="2" x:Name="txtInsulinCorrectionSensitivity" HorizontalTextAlignment ="End" Text="" 
+            <Label Grid.Row="12" Grid.Column="0" x:Name="txtTotalDailyDoseOfInsulin" Text="----" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <Picker Grid.Row="12" Grid.Column="1" x:Name="cmbSensitivityFactor" Title="pick value" 
+                    VerticalOptions="Center" />
+            <Entry Grid.Row="12" Grid.Column="2" x:Name="txtInsulinCorrectionSensitivity" 
+                   VerticalOptions="Center" HorizontalTextAlignment ="End" Text="" 
                    Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"/>
             <Grid Grid.Row="12" Grid.Column="3">
                 <Grid.RowDefinitions>
@@ -69,17 +74,19 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Margin="-5,-5,-5,-5" FontSize="Caption"  x:Name="btnCalculateInsulinSensitivity" Text="Calc."
-                    Padding="0,0,0,0" Clicked="btnCalculateInsulinSensitivity_Click"/>
-                <Button Grid.Row="1" Margin="-5,-5,-5,-5" FontSize="Caption" x:Name="btnSaveInsulinSensitivity" Text="Save"
-                    Padding="0,0,0,0" Clicked="btnSaveInsulinSensitivity_Click"/>
+                <Button Grid.Row="0" Margin="1,-1,1,-1" FontSize="Micro" x:Name="btnCalculateInsulinSensitivity" Text="Calc."
+                    Clicked="btnCalculateInsulinSensitivity_Click" VerticalOptions="Center"/>
+                <Button Grid.Row="1" Margin="1,-1,1,-1" FontSize="Micro" x:Name="btnSaveInsulinSensitivity" Text="Save"
+                    Clicked="btnSaveInsulinSensitivity_Click"/>
             </Grid>
 
             <Label Grid.Row="13" Grid.ColumnSpan="4" Text="Physical Activity parameters" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Medium" FontAttributes="Bold"/>
+            
             <Label Grid.Row="14" Grid.ColumnSpan="4" Text="Calculations to be implemented yet" 
                     FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End" 
                    BackgroundColor="Red" TextColor="Yellow"/>
+            
             <Button Grid.Row="15" Grid.Column="3" x:Name="btnPhysicalActivityCalculation" Text="Save"
                     Clicked="btnPhysicalActivityCalculation_Click" IsEnabled="False"/>
         </Grid>

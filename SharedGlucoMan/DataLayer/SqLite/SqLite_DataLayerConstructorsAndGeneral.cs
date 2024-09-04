@@ -1,10 +1,8 @@
 ﻿using gamon;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.IO;
+using System.Text;
 
 namespace GlucoMan
 {
@@ -459,7 +457,47 @@ namespace GlucoMan
         {
             try
             {
-                File.Delete(dbName);
+                // simple deletion wasn't working for lock on file
+                //File.Delete(dbName);
+
+                string[] tablesNames;
+                // erase all the tables of current database 
+                using (DbConnection conn = Connect())
+                {
+                    // Disabilita temporaneamente i vincoli di chiave esterna
+                    using (DbCommand command = conn.CreateCommand())
+                    {
+                        command.CommandText = "PRAGMA foreign_keys = OFF;";
+                        command.ExecuteNonQuery();
+                    }
+                    // Recupera i nomi delle tabelle
+                    var tableNames = new StringBuilder();
+                    using (DbCommand command = conn.CreateCommand())
+                    {
+                        command.CommandText = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';";
+                        command.ExecuteNonQuery();
+                        // add names to list od tables
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                tableNames.AppendLine($"DROP TABLE IF EXISTS \"{reader["name"]}\";");
+                            }
+                        }
+                    }
+                    // Esegui i comandi DROP TABLE
+                    using (DbCommand command = conn.CreateCommand())
+                    {
+                        command.CommandText = tableNames.ToString();
+                        command.ExecuteNonQuery();
+                    }
+                    // abilita i vincoli di chiave esterna
+                    using (DbCommand command = conn.CreateCommand())
+                    {
+                        command.CommandText = "PRAGMA foreign_keys = ON;";
+                        command.ExecuteNonQuery();
+                    }
+                }
                 return true;
             }
             catch (Exception ex)

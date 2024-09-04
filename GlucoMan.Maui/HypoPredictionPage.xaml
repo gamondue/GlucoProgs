@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.HypoPredictionPage"
              Title="Hypoglicemia time prediction">
     <ContentPage.Content>
-        <Grid RowDefinitions="50,50,20,20,70,70,50,20,50,20,50,50,20,50,40" 
+        <Grid RowDefinitions="55,55,20,20,70,70,50,20,50,20,50,50,20,50,40" 
               ColumnDefinitions="80*,80*,80*,80*">
 
             <Button Grid.Row="0" Grid.Column="0" Text="Now"

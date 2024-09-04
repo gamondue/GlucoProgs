@@ -34,14 +34,35 @@
                    Text = "{Binding Description}"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="Total CHO%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="5" Grid.Column="2" Text="Raw/Cooked Ratio" 
+                   HorizontalTextAlignment="Start" VerticalTextAlignment="Start"/>
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtRecipeCarbohydrates" 
                    BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End"
-                   FontSize="Large" Text = "{Binding Cho.Text}"/>
-            <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddRecipe" 
+                   FontSize="Large" Text="{Binding Cho.Text}"/>
+            <HorizontalStackLayout Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2">
+                <CheckBox VerticalOptions="Center" HorizontalOptions="End" 
+                          x:Name="chkCooked" IsChecked="True" 
+                          CheckedChanged="chkCooked_CheckedChanged">
+                    <CheckBox.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="0,-10,0,0" />
+                            <On Platform="Android, WinPhone, Windows" Value="0,-10,0,0" />
+                        </OnPlatform>
+                    </CheckBox.Margin>
+                </CheckBox>
+                <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Margin="-15,0,0,0" 
+                       VerticalTextAlignment="Center" VerticalOptions="Center" Text="Cooked" />
+            </HorizontalStackLayout>
+
+            <Entry Grid.Row="6" Grid.Column="2" x:Name="txtRawToCookedRatio" 
+                   BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End" />
+            <HorizontalStackLayout Grid.Row="6" Grid.Column="3">
+                <Button  Text="+" x:Name="btnAddRecipe" 
                     Clicked="btnAddRecipe_Click"></Button>
-            <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveRecipe" 
+                <Button Text="-" x:Name="btnRemoveRecipe" 
                     Clicked="btnRemoveRecipe_Click"></Button>
+            </HorizontalStackLayout>
 
             <Button Grid.Row="7" Grid.Column="0" Text="Save" x:Name="btnSaveRecipe" 
                     Clicked="btnSaveRecipe_Click"></Button>
@@ -52,32 +73,36 @@
             <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchRecipe" 
                     Clicked="btnSearchRecipe_Click"></Button>
 
-            <Label Grid.Row="8" Grid.Column="0" Text="Recipes" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="0" Text="Recipes" Grid.ColumnSpan="4" 
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <ListView Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" x:Name="gridRecipes" 
-                      ItemsSource="{Binding}" ItemSelected="OnGridSelectionAsync">
-                <!-- description of data to be shown, in a DataTemplate -->
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Grid Margin="8">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="18"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="35"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}" />
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesPercent.Text}"/>
-                                </Grid>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <!-- a nested Grid to get different Widths of columns -->
+            <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" Margin="5"
+                  RowDefinitions="20,*" ColumnDefinitions="180*,50,50">
+                <Label Grid.Row="0" Grid.Column="0" Text="Name"
+                       HorizontalTextAlignment="Start" VerticalOptions="End" />
+                <Label Grid.Row="0" Grid.Column="1" Text="CHO%" 
+                       HorizontalTextAlignment="Center" VerticalOptions="End" />
+                <Label Grid.Row="0" Grid.Column="2" Text="Cooked" 
+                       HorizontalTextAlignment="Center" VerticalOptions="End" />
+                <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalOptions="Start"
+                    x:Name="gridRecipes" ItemsSource="{Binding}" ItemSelected="OnGridSelection" >
+                    <!-- description of data to be shown, in a DataTemplate -->
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Grid RowDefinitions="18" ColumnDefinitions="180*,50,50" VerticalOptions="Center">
+                                        <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
+                                        <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesPercent.Text}"/>
+                                        <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding IsCooked}"/>
+                                    </Grid>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
         </Grid>
     </ContentPage.Content>
-
 </ContentPage>

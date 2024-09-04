@@ -1,6 +1,4 @@
 ﻿using gamon;
-using System;
-using System.Collections.Generic;
 using static GlucoMan.Common;
 
 namespace GlucoMan.BusinessLayer
@@ -245,6 +243,15 @@ namespace GlucoMan.BusinessLayer
             DestinationFood.Carbohydrates = SourceFoodInMeal.CarbohydratesPercent;
             DestinationFood.Sugar = SourceFoodInMeal.SugarPercent;
             DestinationFood.Fibers = SourceFoodInMeal.FibersPercent;
+        }
+        public void FromIngredientToFood(Ingredient SourceIngredient, Food DestinationFood)
+        {
+            DestinationFood.IdFood = SourceIngredient.IdFood;
+            DestinationFood.Name = SourceIngredient.Name;
+            DestinationFood.Description = SourceIngredient.Description;
+            DestinationFood.Carbohydrates = SourceIngredient.CarbohydratesPercent;
+            //DestinationFood.Sugar = SourceIngredient.SugarPercent;
+            //DestinationFood.Fibers = SourceIngredient.FibersPercent;
         }
         internal TypeOfMeal SetTypeOfMealBasedOnTimeNow()
         {

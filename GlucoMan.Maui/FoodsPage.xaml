@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.FoodsPage"
              Title="Foods">
     <ContentPage.Content>
-        <Grid Grid.RowDefinitions="20,20,50,20,50,20,50,70,*"
+        <Grid Grid.RowDefinitions="20,20,50,20,50,20,50,60,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Food's information" 
@@ -60,7 +60,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid Margin="8">
+                                <Grid Margin="8" VerticalOptions="Center">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="20"/>
                                     </Grid.RowDefinitions>

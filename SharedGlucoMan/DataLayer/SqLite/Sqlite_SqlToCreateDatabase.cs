@@ -1,24 +1,37 @@
 ﻿using gamon;
-using System;
 using System.Data.Common;
-using System.IO;
 
 namespace GlucoMan
 {
-  internal partial class DL_Sqlite : DataLayer
-  {
-		string creationScript = @"
+    internal partial class DL_Sqlite : DataLayer
+    {
+        string creationScript = @"
 --
--- File generated with SQLiteStudio v3.4.4 on gio ago 29 22:19:30 2024
+-- File generato con SQLiteStudio v3.4.4 su lun set 2 15:18:24 2024
 --
--- Text encoding used: System
+-- Codifica del testo utilizzata: System
 --
 PRAGMA foreign_keys = off;
 BEGIN TRANSACTION;
 
--- Table: Alarms
-DROP TABLE IF EXISTS Alarms;
+-- Tabella: Alarms
 CREATE TABLE 'Alarms' (
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -50,7 +63,39 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'TimeStart'	DATETIME,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -82,7 +127,39 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Interval'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -114,7 +191,39 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'IsRepeated'	TINYINT,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -146,7 +255,39 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	PRIMARY KEY('IdAlarm')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -164,9 +305,24 @@ CREATE TABLE 'Alarms' (
 
 );
 
--- Table: BolusCalculations
-DROP TABLE IF EXISTS BolusCalculations;
+-- Tabella: BolusCalculations
 CREATE TABLE 'BolusCalculations' (
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -198,7 +354,39 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Timestamp'	DATETIME,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -230,7 +418,39 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'CalculatedChoToEat'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -262,7 +482,39 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'BolusInsulinDueToCorrectionOfGlucose'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -294,7 +546,39 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'InsulinCorrectionSensitivity'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -326,7 +610,39 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'TypicalBolusMidday'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -358,7 +674,39 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'TypicalBolusNight'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -390,7 +738,39 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'ChoInsulinRatioBreakfast'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -422,7 +802,39 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'ChoInsulinRatioDinner'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -454,7 +866,39 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'GlucoseToBeCorrected'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -486,7 +930,39 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	PRIMARY KEY('IdBolusCalculation')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -504,13 +980,27 @@ CREATE TABLE 'BolusCalculations' (
 
 );
 
--- Table: Foods
-DROP TABLE IF EXISTS Foods;
+-- Tabella: Foods
 CREATE TABLE Foods (IdFood INT NOT NULL, Name VARCHAR (15), Description VARCHAR (256), Energy DOUBLE, TotalFats DOUBLE, SaturatedFats DOUBLE, MonounsaturatedFats DOUBLE, PolyunsaturatedFats DOUBLE, Carbohydrates DOUBLE, Sugar DOUBLE, Fibers INT, Proteins INT, Salt DOUBLE, Potassium DOUBLE, Cholesterol DOUBLE, GlycemicIndex DOUBLE, PRIMARY KEY (IdFood));
 
--- Table: FoodsInMeals
-DROP TABLE IF EXISTS FoodsInMeals;
+-- Tabella: FoodsInMeals
 CREATE TABLE 'FoodsInMeals' (
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -542,7 +1032,39 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'IdMeal'	INT,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -574,7 +1096,39 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'CarbohydratesGrams'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -606,7 +1160,39 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Quantity'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -638,7 +1224,39 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Name'	TEXT,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -670,11 +1288,42 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 );
 
--- Table: GlucoseRecords
-DROP TABLE IF EXISTS GlucoseRecords;
+-- Tabella: GlucoseRecords
 CREATE TABLE 'GlucoseRecords' (
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -706,7 +1355,39 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'GlucoseValue'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -738,7 +1419,39 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'GlucoseString'	VARCHAR(45),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -770,7 +1483,39 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'IdTypeOfGlucoseMeasurementDevice'	INT,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -802,7 +1547,39 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'IdDevice'	VARCHAR(45),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -834,7 +1611,39 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Notes'	VARCHAR(255),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -866,11 +1675,42 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 );
 
--- Table: HypoPredictions
-DROP TABLE IF EXISTS HypoPredictions;
+-- Tabella: HypoPredictions
 CREATE TABLE 'HypoPredictions' (
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -902,7 +1742,39 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'PredictedTime'	DATETIME,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -934,7 +1806,39 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'GlucoseSlope'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -966,7 +1870,39 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'GlucoseLast'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -998,7 +1934,39 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Interval'	VARCHAR(10),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1030,7 +1998,39 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'DatetimePrevious'	DATETIME,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1062,15 +2062,45 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 );
 
--- Table: Ingredients
-DROP TABLE IF EXISTS Ingredients;
+-- Tabella: Ingredients
 CREATE TABLE Ingredients (IdIngredient INTEGER NOT NULL, IdRecipe INTEGER NOT NULL, Name TEXT, Description TEXT, QuantityGrams REAL, QuantityPercent REAL, CarbohydratesPercent REAL, AccuracyOfChoEstimate DOUBLE, IdFood INTEGER, PRIMARY KEY (IdIngredient));
 
--- Table: InsulinDrugs
-DROP TABLE IF EXISTS InsulinDrugs;
+-- Tabella: InsulinDrugs
 CREATE TABLE 'InsulinDrugs' (
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1102,7 +2132,39 @@ CREATE TABLE 'InsulinDrugs' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Name'	VARCHAR(30),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1134,7 +2196,39 @@ CREATE TABLE 'InsulinDrugs' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	PRIMARY KEY('IdInsulinDrug')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1152,13 +2246,27 @@ CREATE TABLE 'InsulinDrugs' (
 
 );
 
--- Table: InsulinInjections
-DROP TABLE IF EXISTS InsulinInjections;
+-- Tabella: InsulinInjections
 CREATE TABLE InsulinInjections (IdInsulinInjection INT NOT NULL, Timestamp DATETIME, InsulinValue DOUBLE, InsulinCalculated DOUBLE, InjectionPositionX INT, InjectionPositionY INT, Notes VARCHAR (255), IdTypeOfInjection INT, IdTypeOfInsulinSpeed INT, IdTypeOfInsulinInjection INT, InsulinString VARCHAR (45), Zone INTEGER, PRIMARY KEY (IdInsulinInjection));
 
--- Table: Meals
-DROP TABLE IF EXISTS Meals;
+-- Tabella: Meals
 CREATE TABLE 'Meals' (
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1190,7 +2298,39 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'IdTypeOfMeal'	INT,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1222,7 +2362,39 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'TimeBegin'	DATETIME,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1254,7 +2426,39 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'AccuracyOfChoEstimate'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1286,7 +2490,39 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'IdGlucoseRecord'	INT,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1318,7 +2554,39 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'TimeEnd'	DATETIME,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1350,11 +2618,42 @@ CREATE TABLE 'Meals' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 );
 
--- Table: ModelsOfMeasurementSystem
-DROP TABLE IF EXISTS ModelsOfMeasurementSystem;
+-- Tabella: ModelsOfMeasurementSystem
 CREATE TABLE 'ModelsOfMeasurementSystem' (
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1386,7 +2685,39 @@ CREATE TABLE 'ModelsOfMeasurementSystem' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Name'	VARCHAR(45),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1418,11 +2749,42 @@ CREATE TABLE 'ModelsOfMeasurementSystem' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 );
 
--- Table: Parameters
-DROP TABLE IF EXISTS Parameters;
+-- Tabella: Parameters
 CREATE TABLE 'Parameters' (
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1454,7 +2816,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Bolus_TargetGlucose'	INT,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1486,7 +2880,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Bolus_ChoToEat'	INT,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1518,7 +2944,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Bolus_ChoInsulinRatioLunch'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1550,7 +3008,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Bolus_TotalDailyDoseOfInsulin'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1582,7 +3072,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Correction_TypicalBolusMorning'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1614,7 +3136,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Correction_TypicalBolusEvening'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1646,7 +3200,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Correction_FactorOfInsulinCorrectionSensitivity'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1678,7 +3264,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Hypo_GlucoseLast'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1710,7 +3328,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Hypo_HourLast'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1742,7 +3392,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Hypo_MinuteLast'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1774,7 +3456,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Hypo_AlarmAdvanceTime'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1806,7 +3520,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Hit_ChoAlreadyTaken'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1838,7 +3584,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'Hit_TargetCho'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1870,7 +3648,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'FoodInMeal_ChoGrams'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1902,7 +3712,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'FoodInMeal_CarbohydratesPercent'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1934,7 +3776,39 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	'FoodInMeal_AccuracyOfChoEstimate'	DOUBLE,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1966,6 +3840,22 @@ CREATE TABLE 'Parameters' (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	PRIMARY KEY('IdParameters')
 
 
@@ -1982,91 +3872,7 @@ CREATE TABLE 'Parameters' (
 
 
 
-);
 
--- Table: Recipes
-DROP TABLE IF EXISTS Recipes;
-CREATE TABLE 'Recipes' (
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	'IdRecipe'	INTEGER NOT NULL,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	'Name'	TEXT,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	'Description'	TEXT,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	'CarbohydratesPercent'	REAL,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	PRIMARY KEY('IdRecipe')
 
 
 
@@ -2083,38 +3889,39 @@ CREATE TABLE 'Recipes' (
 
 
 );
+
+-- Tabella: Recipes
+CREATE TABLE Recipes (IdRecipe INTEGER NOT NULL, Name TEXT, Description TEXT, CarbohydratesPercent REAL, AccuracyOfChoEstimate REAL, IsCooked BOOL, RawToCookedRatio REAL, PRIMARY KEY (IdRecipe));
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
-
 ";
-	internal override void CreateNewDatabase(string dbName)
-	{
-		// making new, means erasing existent! 
-		if (File.Exists(dbName))
-			File.Delete(dbName);
+        internal override void CreateNewDatabase(string dbName)
+        {
+            //// making new, means erasing existent! 
+            //if (File.Exists(dbName))
+            //    File.Delete(dbName);
 
-		//when the file does not exist
-		// Microsoft.Data.Sqlite creates the file at first connection
-		DbConnection c = Connect();
-		c.Close();
-		c.Dispose();
+            //when the file does not exist
+            // Microsoft.Data.Sqlite creates the file at first connection
+            DbConnection c = Connect();
+            c.Close();
+            c.Dispose();
 
-		try
-		{
-			using (DbConnection conn = Connect())
-			{
-				DbCommand cmd = conn.CreateCommand();
-
-				cmd.CommandText = creationScript;
-				cmd.ExecuteNonQuery();
-				cmd.Dispose();
-			}
-		}
-		catch (Exception ex)
-			{
-				General.LogOfProgram.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
-			}
-		}
-	}
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = creationScript;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_DataAndGeneral | CreateNewDatabase", ex);
+            }
+        }
+    }
 }

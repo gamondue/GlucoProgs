@@ -13,6 +13,7 @@ public partial class FoodsPage : ContentPage
     List<Food> allFoods;
     private FoodPage foodPage;
     private bool loading = false;
+    private Recipe recipe;
 
     public FoodsPage(Food Food)
     {
@@ -36,6 +37,14 @@ public partial class FoodsPage : ContentPage
         if (CurrentFood == null)
             CurrentFood = new Food();
         bl.FromFoodInMealToFood(FoodInMeal, CurrentFood);
+        PageLoad();
+    }
+    public FoodsPage(Ingredient Ingredient)
+    {
+        InitializeComponent();
+        if (CurrentFood == null)
+            CurrentFood = new Food();
+        bl.FromIngredientToFood(Ingredient, CurrentFood);
         PageLoad();
     }
     private void PageLoad()
@@ -153,6 +162,7 @@ public partial class FoodsPage : ContentPage
         FromUiToClass();
         CurrentFood.IdFood = null;
         bl.SaveOneFood(CurrentFood);
+        btnSearchFood_Click(null, null);
         RefreshUi();
     }
     private void btnRemoveFood_Click(object sender, EventArgs e)

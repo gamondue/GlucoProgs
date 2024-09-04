@@ -168,7 +168,7 @@ public partial class MealPage : ContentPage
         }
         localFoodInMealForCalculations.ChoGrams.Text = txtFoodChoGrams.Text;
         //bl.RecalcAll();
-        //ShowRecipeBoxes();
+        //FromRecipeToUi();
         //txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
     }
     private void txtChoOfMealGrams_TextChanged(object sender, EventArgs e)
@@ -229,7 +229,7 @@ public partial class MealPage : ContentPage
     //    }
     //    FromUiToClass();
     //    bl.SaveOneFoodInMeal(bl.FoodInMeal);
-    //    FromClassToUi();
+    //    FromClassesToUi();
     //    RefreshGrid();
     //}
     private void btnSaveAllFoods_Click(object sender, EventArgs e)
@@ -343,14 +343,14 @@ public partial class MealPage : ContentPage
         if (foodsPage != null && foodsPage.FoodIsChosen)
         {
             bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
-            // change the calls because FromClassToUi() follows and we don't fire events on textboxes
+            // change the calls because FromClassesToUi() follows and we don't fire events on textboxes
             bl.FoodInMeal.ChoGrams.Text = "0";
             bl.FoodInMeal.QuantityGrams.Text = "0";
         }
         if (recipesPage != null && recipesPage.RecipeIsChosen)
         {
             //////////bl.FromFoodToFoodInMeal(recipesPage.CurrentFood, bl.FoodInMeal);
-            ////////// change the calls because FromClassToUi() follows and we don't fire events on textboxes
+            ////////// change the calls because FromClassesToUi() follows and we don't fire events on textboxes
             //////////bl.RecipeInMeal.ChoGrams.Text = "0";
             //////////bl.RecipeInMeal.QuantityGrams.Text = "0";
         }

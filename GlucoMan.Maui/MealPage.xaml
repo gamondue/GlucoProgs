@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.MealPage"
              Title="One meal, its foods">
     <ContentPage.Content>
-        <Grid RowDefinitions="20,20,50,70,70,20,20,50,20,50,70,20,*"
+        <Grid RowDefinitions="20,20,50,55,55,20,20,50,20,50,55,20,*"
               ColumnDefinitions="60*,60*,60*,80*,80*">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold"
                    Grid.ColumnSpan="5" Text="Meal data" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
@@ -16,8 +16,7 @@
             <Label Grid.Row="1" Grid.Column="3" Text="IdMeal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoOfMealGrams" BackgroundColor="Aqua"
-                   Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End"
-                   VerticalTextAlignment="Center"  
+                   Margin="2" Keyboard="Numeric" FontSize="Medium"
                    TextChanged="txtChoOfMealGrams_TextChanged"/>
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" 
                    Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
@@ -34,24 +33,24 @@
             <Button Grid.Row="2" Grid.Column="4" Text="Save&#10;meal" x:Name="btnSaveMeal" 
                    Margin="2" Clicked="btnSaveAllMeal_Click"/>
 
-            <Button Grid.Row="3" Grid.Column="0" Text="Strt&#10; Now" x:Name="btnStartMeal" 
-                    Clicked="btnStartMeal_Click"/>
-            <Button Grid.Row="3" Grid.Column="1" Text="Glucose&#10;value" x:Name="btnGlucose" 
-                    IsEnabled="True" Clicked="btnGlucose_ClickAsync"
+            <Button Grid.Row="3" Grid.Column="0" Text="Start&#10; Now" x:Name="btnStartMeal" FontSize="Micro" 
+                    LineBreakMode="WordWrap" Clicked="btnStartMeal_Click"/>
+            <Button Grid.Row="3" Grid.Column="1" Text="Gluc.&#10;value" x:Name="btnGlucose" 
+                    IsEnabled="True" Clicked="btnGlucose_ClickAsync" FontSize="Micro" Margin="0"
                     LineBreakMode="WordWrap"/>
             <Button Grid.Row="3" Grid.Column="2" Text="Bolus&#10;Calc." x:Name="btnInsulinCalc" 
-                    IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync"
+                    IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync" FontSize="Micro"
                     LineBreakMode="WordWrap"/>
             <Button Grid.Row="3" Grid.Column="3" Text="Injection" x:Name="btnInjection" HorizontalOptions="Start"
-                    IsEnabled="True" Clicked="btnInjection_ClickAsync"
+                    IsEnabled="True" Clicked="btnInjection_ClickAsync" FontSize="Micro" 
                     LineBreakMode="WordWrap"/>
             <Button Grid.Row="3" Grid.Column="4" Text="Total CHO" x:Name="btnCalc" Margin="2"
                     Clicked="btnCalc_Click" FontSize="Micro" LineBreakMode="WordWrap"/>
 
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="LightGreen" 
                    Margin="2" FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
-            <Button Grid.Row="4" Grid.Column="4" Text="Food&#10;2 trgt" x:Name="btnFoodCalc" 
-                    Clicked="btnFoodCalc_ClickAsync"
+            <Button Grid.Row="4" Grid.Column="4" Text="Food to&#10;target" x:Name="btnFoodCalc" 
+                    Clicked="btnFoodCalc_ClickAsync" FontSize="Micro" 
                     LineBreakMode="WordWrap"/>
 
             <Label Grid.Row="5" Grid.Column="0" TextColor="Black" 
@@ -113,8 +112,8 @@
 
             <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="5" 
                   ColumnDefinitions="*,*,*,*">
-                <Button Grid.Column="0" Text="Clean&#10;fields" x:Name="btnDefaults" 
-                        Clicked="btnDefaults_Click" LineBreakMode="WordWrap"/>
+                <Button Grid.Column="0" Text="Clean&#10;fields" x:Name="btnDefaults" Clicked="btnDefaults_Click" 
+                        FontSize="Micro" LineBreakMode="WordWrap"/>
                 <Button Grid.Column="1" Text="Foods" x:Name="btnFoodDetail" 
                         LineBreakMode="WordWrap" Clicked="btnFoodDetail_ClickAsync" />
                 <Button Grid.Column="2" Text="Weigh" x:Name="btnWeighFood" 

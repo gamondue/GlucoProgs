@@ -4,11 +4,10 @@ namespace GlucoMan.BusinessLayer
     internal class BL_Recipes
     {
         DataLayer dl = Common.Database;
-        public List<Recipe> Recipes { get; set; }
         public Recipe Recipe { get; set; }
-
-        public List<Ingredient> Ingredients { get; set; }
+        public List<Recipe> Recipes { get; set; }
         public Ingredient Ingredient { get; set; }
+        public List<Ingredient> Ingredients { get; set; }
         internal Recipe GetOneRecipe(int? idRecipe)
         {
             return dl.GetOneRecipe(idRecipe);
@@ -20,14 +19,6 @@ namespace GlucoMan.BusinessLayer
         public List<Recipe> ReadSomeRecipes(string? whereClause)
         {
             return dl.ReadSomeRecipes(whereClause);
-        }
-        public int? SaveOneIngredient(Ingredient Ingredient)
-        {
-            return dl.SaveOneIngredient(Ingredient);
-        }
-        public List<Ingredient> ReadIngredientsOfARecipe(int? idRecipe)
-        {
-            return dl.ReadAllIngredientsOfARecipe(idRecipe);
         }
         internal List<Recipe> SearchRecipes(string Name, string Description, int MinNoOfCharacters)
         {
@@ -53,11 +44,33 @@ namespace GlucoMan.BusinessLayer
         }
         internal void RecalcAll()
         {
-            ////////throw new NotImplementedException();
-        }
-        internal void SaveAllIngredientsInRecipe()
-        {
-            throw new NotImplementedException();
+            double? totalWeight = 0;
+            double? recipeCHO = 0;
+            double? weightedSumOfAccuracies = 0;
+            if (Ingredients != null)
+            {
+                // sum of weights, weighted sum of recipe's CHO and weighted sum of squared accuracies
+                foreach (Ingredient i in Ingredients)
+                {
+                    totalWeight += i.QuantityGrams.Double;
+                    recipeCHO += i.CarbohydratesPercent.Double * i.QuantityGrams.Double / 100;
+                    double? weightedAccuracy = i.AccuracyOfChoEstimate.Double * i.QuantityGrams.Double;
+                    weightedSumOfAccuracies += weightedAccuracy * weightedAccuracy;
+                }
+                recipeCHO = recipeCHO / totalWeight;
+                double? accuracyOfRecipe = 0;
+                if (weightedSumOfAccuracies != null)
+                    accuracyOfRecipe = Math.Sqrt((double)weightedSumOfAccuracies) / totalWeight;
+                // update the Ingredients' percentages
+                foreach (Ingredient i in Ingredients)
+                {
+                    i.CarbohydratesGrams.Double = i.CarbohydratesPercent.Double * i.QuantityGrams.Double;
+                    i.QuantityPercent.Double = i.QuantityGrams.Double / totalWeight * 100;
+                }
+                Recipe.AccuracyOfChoEstimate.Double = accuracyOfRecipe;
+                Recipe.TotalWeight.Double = totalWeight;
+            }
+            dl.SaveAllIngredientsInARecipe(Ingredients);
         }
         internal void SaveRecipeParameters()
         {
@@ -70,6 +83,22 @@ namespace GlucoMan.BusinessLayer
         internal void FromFoodToIngredient(Food currentFood, Ingredient Ingredient)
         {
             throw new NotImplementedException();
+        }
+        public int? SaveOneIngredient(Ingredient Ingredient)
+        {
+            return dl.SaveOneIngredient(Ingredient);
+        }
+        public List<Ingredient> ReadAllIngredientsInARecipe(int? idRecipe)
+        {
+            return dl.ReadAllIngredientsInARecipe(idRecipe);
+        }
+        internal void SaveAllIngredientsInARecipe(List<Ingredient> Ingredients)
+        {
+            dl.SaveAllIngredientsInARecipe(Ingredients);
+        }
+        internal void DeleteOneIngredient(Ingredient Ingredient)
+        {
+            dl.DeleteOneIngredient(Ingredient);
         }
     }
 }

@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.InjectionsPage"
              Title="Insulin injections">
     <ContentPage.Content>
-        <Grid RowDefinitions="50,50,55,30,50,25,50,30,20,*"
+        <Grid RowDefinitions="50,50,50,30,50,25,50,30,20,*"
               ColumnDefinitions="*,*,*,*">
             <Button Grid.Row="0" Grid.Column="0" Text="Front" x:Name="btnFront" Clicked="btnFront_ClickedAsync"></Button>
             <Button Grid.Row="0" Grid.Column="1" Text="Back" x:Name="btnBack" Clicked="btnBack_Clicked_Async"></Button>

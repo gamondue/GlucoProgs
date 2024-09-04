@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
+﻿using System.Data.Common;
 
 namespace GlucoMan
 {
@@ -34,8 +32,8 @@ namespace GlucoMan
         internal abstract int? SaveOneInjection(InsulinInjection Injection);
         internal abstract void DeleteOneInjection(InsulinInjection Injection);
         internal abstract List<InsulinInjection> GetInjections(DateTime InitialInstant,
-            DateTime FinalInstant, 
-            Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet, 
+            DateTime FinalInstant,
+            Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet,
             Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet);
         #endregion
         #region Meals and Food in Meals
@@ -60,18 +58,21 @@ namespace GlucoMan
         internal abstract List<Alarm> ReadAllAlarms();
         #endregion
         #region Recipes and Ingredients
-        internal abstract int? InsertOneRecipe(Recipe Recipe); 
+        internal abstract int? InsertOneRecipe(Recipe Recipe);
         internal abstract List<Recipe> ReadSomeRecipes(string WhereClause);
         internal abstract Recipe GetOneRecipe(int? IdRecipe);
         internal abstract int? SaveOneRecipe(Recipe Recipe);
         internal abstract void UpdateOneRecipe(Recipe RecipeToSave);
         internal abstract void DeleteOneRecipe(Recipe Recipe);
         internal abstract List<Recipe> SearchRecipes(string Name, string Description);
-        internal abstract List<Ingredient> ReadAllIngredientsOfARecipe(int? idRecipe);
+        internal abstract List<Ingredient> ReadAllIngredientsInARecipe(int? idRecipe);
         internal abstract int? SaveOneIngredient(Ingredient Ingredient);
+        internal abstract void SaveAllIngredientsInARecipe(List<Ingredient> ingredients);
         internal abstract int? InsertOneIngredient(Ingredient ingredient);
         internal abstract void UpdateOneIngredient(Ingredient ingredient);
         internal abstract Ingredient GetIngredientFromRow(DbDataReader Row);
+        internal abstract void DeleteOneIngredient(Ingredient ingredient);
+
         #endregion
         internal abstract void CreateNewDatabase(string pathAndFileDatabase);
     }

@@ -52,7 +52,7 @@
             </HorizontalStackLayout>
             <Button Grid.Row="4" Grid.Column="3" Text="Clean fields" Margin="2" 
                     x:Name="btnDefaults" Clicked="btnDefault_Click"
-                    LineBreakMode="WordWrap"></Button>
+                    FontSize="Micro" LineBreakMode="WordWrap"></Button>
 
             <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" Margin="2"
                    BackgroundColor="LightGreen"
@@ -94,7 +94,7 @@
                     </Label.GestureRecognizers>
                 </Label>
             </HorizontalStackLayout>
-            <!-- a nested Grid to get different Widths -->
+            <!-- a nested Grid to get different Widths of columns -->
             <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" 
                   RowDefinitions="20,*" ColumnDefinitions="180*,50*,50*,50*" Margin="5">
                 <Label Grid.Row="0" Grid.Column="0" Text="Date and Time"
@@ -114,8 +114,8 @@
                                 <ViewCell.View>
                                     <!--every cell is a Grid of one row with bound data-->
                                     <Grid RowDefinitions="19" ColumnDefinitions="180*,50*,50*,50*"
-                                          Margin="1">
-                                        <Label HorizontalTextAlignment="Center" 
+                                          Margin="1" VerticalOptions="Center">
+                                        <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center"
                                                Grid.Column="0" Text="{Binding TimeBegin.DateTime}"/>
                                         <Label HorizontalTextAlignment="Center" 
                                                Grid.Column="1" Text="{Binding Carbohydrates.Text}"/>
