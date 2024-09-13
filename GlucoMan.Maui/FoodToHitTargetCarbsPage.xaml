@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.FoodToHitTargetCarbsPage"
              Title="Food to reach CHO">
     <ContentPage.Content>
-        <Grid RowDefinitions="70,0,50,60,55,70,75,70,50,70"
+        <Grid RowDefinitions="60,0,50,60,20,60,60,60,50,60"
               ColumnDefinitions="*,*,*">
             <Button Grid.Row="0" Grid.Column="1" x:Name="btnCalculateGrams" Text="Food Calc." 
                    IsEnabled="True"  Clicked="btnCalculateGrams_Click" />
@@ -27,7 +27,7 @@
 
             <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
                    Text="Food to eat to complete CHO budget" 
-                   VerticalOptions="End" HorizontalTextAlignment="End" 
+                   VerticalOptions="End" HorizontalTextAlignment="Center" 
                    HorizontalOptions="End"/>
             <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" x:Name="TxtFoodName" Text=""
                    FontAttributes="Bold" HorizontalTextAlignment ="End" 

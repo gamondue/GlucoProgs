@@ -12,7 +12,7 @@
             <Button Grid.Row="0" Grid.Column="3" Text="Sensrs" x:Name="btnSensors" Clicked="btnSensors_Clicked_Async"></Button>
 
             <Label Grid.Row="1" Grid.Column="0" Text="Actual Insulin [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="1" Grid.Column="1" Text="Calc. ins[U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="1" Text="Calculated insul. [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtInsulinActual" 
@@ -36,7 +36,7 @@
                         BackgroundColor="PaleGreen" 
                         HorizontalOptions="Center" />
             <TimePicker Grid.Row="4" Grid.Column="1" x:Name="dtpInjectionTime" 
-                        BackgroundColor="PaleGreen" Format="HH:mm:ss" 
+                        BackgroundColor="PaleGreen"  
                         HorizontalOptions="Center" />
             <Button Grid.Row="4" Grid.Column="2" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
             <Grid Grid.Row="4" Grid.Column="3">
@@ -91,9 +91,12 @@
                         <ViewCell>
                             <ViewCell.View>
                                 <Grid ColumnDefinitions="*,55,55">
-                                    <Label Grid.Column="0" Text="{Binding Timestamp.DateTime}" HorizontalTextAlignment="Center" />
-                                    <Label Grid.Column="1" Text="{Binding InsulinValue.Text}" HorizontalTextAlignment="Center" />
-                                    <Label Grid.Column="2" Text="{Binding IdTypeOfInsulinSpeed}" HorizontalTextAlignment="Center" />
+                                    <Label Grid.Column="0" Text="{Binding Timestamp.DateTime}" 
+                                           HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                    <Label Grid.Column="1" Text="{Binding InsulinValue.Text}" 
+                                           HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                    <Label Grid.Column="2" Text="{Binding IdTypeOfInsulinSpeed}" 
+                                           HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

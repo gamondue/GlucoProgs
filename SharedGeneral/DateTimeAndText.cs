@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace gamon
+﻿namespace gamon
 {
     public class DateTimeAndText
     {
@@ -10,7 +8,7 @@ namespace gamon
         public DateTimeAndText()
         {
             // default Format
-            Format = "yyyy-MM-dd HH:mm:ss";
+            //Format = "yyyy-MM-dd HH:mm:ss";
             // default values 
             dateTimeVal = General.DateNull;
             text = "";
@@ -23,7 +21,8 @@ namespace gamon
                 dateTimeVal = value;
                 try
                 {
-                    text = ((DateTime)dateTimeVal).ToString(Format);
+                    //text = ((DateTime)dateTimeVal).ToString(Format);
+                    text = ((DateTime)dateTimeVal).ToString();
                 }
                 catch
                 {

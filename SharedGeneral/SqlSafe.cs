@@ -111,7 +111,7 @@ namespace gamon
         }
         internal static double? Double(object Value)
         {
-            if (Value == null)
+            if (Value == null || Value is DBNull)
                 return null;
             try
             {

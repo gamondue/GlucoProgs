@@ -20,9 +20,14 @@ namespace GlucoMan
         public DoubleAndText Cholesterol { get; set; }  // [g/100]
         public DoubleAndText Potassium { get; set; }    // [g/100]  
         public DoubleAndText GlycemicIndex { get; set; } // [n]
-        public UnitOfFood Unit { get; set; }
-        public ManufacturerOfFood Manufacturer { get; set; }
-        public CategoryOfFood Category { get; set; }
+        public string Unit { get; set; }
+
+        private DoubleAndText gramsInOneUnit;
+
+        public DoubleAndText GramsInOneUnit { get; set; }
+        public string Manufacturer { get; set; }
+        public string Category { get; set; }
+        public List<UnitOfFood> Units { get; set; }
         public Food()
         {
             Energy = new DoubleAndText();        // [kcal]  
@@ -30,7 +35,7 @@ namespace GlucoMan
             SaturatedFats = new DoubleAndText(); // [g]
             MonounsaturatedFats = new DoubleAndText(); // [g]
             PolyunsaturatedFats = new DoubleAndText(); // [g]
-            Carbohydrates = new DoubleAndText();           // [g]
+            Carbohydrates = new DoubleAndText();       // [g]
             Sugar = new DoubleAndText();         // [g]
             Fibers = new DoubleAndText();        // [g]
             Proteins = new DoubleAndText();      // [g]
@@ -38,6 +43,7 @@ namespace GlucoMan
             Cholesterol = new DoubleAndText();   // [g]  
             Potassium = new DoubleAndText();     // [g]  
             GlycemicIndex = new DoubleAndText(); // [n]  
+            GramsInOneUnit = new DoubleAndText();  // [g]
         }
     }
 }

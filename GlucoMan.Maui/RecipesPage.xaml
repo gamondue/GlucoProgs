@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.RecipesPage"
              Title="Recipes" Loaded="PageLoaded">
     <ContentPage.Content>
-        <Grid Grid.RowDefinitions="20,20,45,20,50,20,60,60,20,*"
+        <Grid Grid.RowDefinitions="20,20,45,20,45,20,45,50,20,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Recipe's information" 
@@ -41,7 +41,7 @@
                    BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End"
                    FontSize="Large" Text="{Binding Cho.Text}"/>
             <HorizontalStackLayout Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2">
-                <CheckBox VerticalOptions="Center" HorizontalOptions="End" 
+                <CheckBox VerticalOptions="Center" HorizontalOptions="Center" 
                           x:Name="chkCooked" IsChecked="True" 
                           CheckedChanged="chkCooked_CheckedChanged">
                     <CheckBox.Margin>
@@ -51,7 +51,7 @@
                         </OnPlatform>
                     </CheckBox.Margin>
                 </CheckBox>
-                <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Margin="-15,0,0,0" 
+                <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Margin="-10,0,0,0" 
                        VerticalTextAlignment="Center" VerticalOptions="Center" Text="Cooked" />
             </HorizontalStackLayout>
 
@@ -69,7 +69,8 @@
             <Button Grid.Row="7" Grid.Column="1" Text="Details" x:Name="btnRecipeDetails" 
                     Clicked="btnRecipeDetails_Click"></Button>
             <Button Grid.Row="7" Grid.Column="2" Text="Clean&#10;Fields" x:Name="btnCleanFields" 
-                    Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"></Button>
+                    Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"
+                    FontSize="Micro"></Button>
             <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchRecipe" 
                     Clicked="btnSearchRecipe_Click"></Button>
 

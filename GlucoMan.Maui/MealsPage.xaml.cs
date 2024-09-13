@@ -108,7 +108,7 @@ public partial class MealsPage : ContentPage
         FromUiToClass();
         // reset the meal because we want a new one
         bl.Meal = new Meal();
-        // add to the new meal the data cominng from this page
+        // add to the new meal the data coming from this page
         if (chkNowInAdd.IsChecked)
         {
             DateTime now = DateTime.Now;
@@ -125,6 +125,7 @@ public partial class MealsPage : ContentPage
         bl.Meal.Carbohydrates.Text = txtChoOfMeal.Text;
         bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
         bl.Meal.IdTypeOfMeal = SetTypeOfMealBasedOnRadioButtons();
+        bl.Meal.Notes = txtNotes.Text;
         mealPage = new MealPage(bl.Meal);
         await Navigation.PushAsync(mealPage);
     }

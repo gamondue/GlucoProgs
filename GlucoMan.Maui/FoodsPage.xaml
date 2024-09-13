@@ -4,26 +4,27 @@
              x:Class="GlucoMan.Maui.FoodsPage"
              Title="Foods">
     <ContentPage.Content>
-        <Grid Grid.RowDefinitions="20,20,50,20,50,20,50,60,*"
+        <Grid Grid.RowDefinitions="20,20,50,20,50,20,50,50,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Food's information" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="1" Grid.Column="2" Text="Id food" 
+            <Label Grid.Row="1" Grid.Column="3" Text="Id food" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of food" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtIdFood" BackgroundColor="White" 
-                    FontSize="Medium" HorizontalTextAlignment="Center" 
-                    IsReadOnly="true"/>
-            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+            <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdFood" 
+                   Text="{Binding IdFood}"
+                   BackgroundColor="White" HeightRequest="20"
+                        FontSize="Micro" HorizontalTextAlignment="Center" 
+                        IsReadOnly="true"/>
+            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" 
                     x:Name="txtName" BackgroundColor="LightGreen" 
-                    Keyboard="Text" TextChanged="txtName_TextChanged"
+                    Keyboard="Text" TextChanged="txtName_TextChanged" HorizontalOptions="Start"
                     HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                    Text="{Binding Name}"
                     FontSize="Small" IsReadOnly="false"/>
-            <Button Grid.Row="2" Grid.Column="3" x:Name="btnChoose" Text="Choose" 
-                    Clicked="btnChoose_Click"></Button>
 
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="2,0,10,0"
                     Text="Description of food" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
@@ -31,14 +32,16 @@
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
                     x:Name="txtDescription" BackgroundColor="LightGreen"
                     Keyboard="Text" TextChanged="txtDescription_TextChanged"
-                    FontSize="Medium" HorizontalTextAlignment="Start"
-                   Text = "{Binding Description}"/>
+                    HorizontalTextAlignment="Start" FontSize="Micro"
+                   Text="{Binding Description}"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="CHO [g]%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
                 Keyboard="Numeric" HorizontalTextAlignment="End"
                 Text = "{Binding Carbohydrates.Text}"/>
+            <Button Grid.Row="6" Grid.Column="1" x:Name="btnChoose" Text="Choose" 
+                        Clicked="btnChoose_Click"></Button>
             <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddFood" 
                     Clicked="btnAddFood_Click"></Button>
             <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveFood" 
@@ -49,12 +52,13 @@
             <Button Grid.Row="7" Grid.Column="1" Text="Details" x:Name="btnFoodDetails" 
                     Clicked="btnFoodDetails_Click"></Button>
             <Button Grid.Row="7" Grid.Column="2" Text="Clean&#10;Fields" x:Name="btnCleanFields" 
-                    Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"></Button>
+                    Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"
+                    FontSize="Micro"></Button>
             <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchFood" 
                     Clicked="btnSearchFood_Click"></Button>
 
             <ListView Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" x:Name="gridFoods" 
-                      ItemsSource="{Binding}" ItemSelected="OnGridSelectionAsync">
+                      ItemsSource="{Binding Manufacturer}" ItemSelected="OnGridSelectionAsync">
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>

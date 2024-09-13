@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace gamon
 {
@@ -13,7 +12,7 @@ namespace gamon
         {
             Format = "0.0";
             doubleVal = null;
-            text = "NaN"; 
+            text = "NaN";
         }
         public string Format { get; set; }
         public double? Double
@@ -22,6 +21,11 @@ namespace gamon
             set
             {
                 doubleVal = value;
+                if (value == null || value is DBNull)
+                {
+                    text = null;
+                    return;
+                }
                 try
                 {
                     text = ((double)doubleVal).ToString(Format);
@@ -36,8 +40,8 @@ namespace gamon
         {
             get
             {
-                if (doubleVal == null)
-                    return ""; 
+                if (doubleVal == null || doubleVal is DBNull)
+                    return "";
                 try
                 {
                     return ((double)doubleVal).ToString(Format);
@@ -50,6 +54,10 @@ namespace gamon
             set
             {
                 text = value;
+                if (value == null || value is DBNull)
+                {
+                    text = null;
+                }
                 try
                 {
                     doubleVal = double.Parse(value);

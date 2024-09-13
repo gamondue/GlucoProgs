@@ -41,7 +41,7 @@
             <Entry Grid.Row="4" Grid.Column="2" x:Name="txtMinuteLast" Placeholder="minute" 
                    Keyboard="Numeric" FontSize="Large" 
                    HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
-            <Label Grid.Row="4" Grid.Column="3" Text="current measurement" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label Grid.Row="4" Grid.Column="3" Text="current measurem." HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
             <Entry Grid.Row="5" Grid.Column="0" x:Name="txtGlucosePrevious" Text="" Placeholder="gluc.meas." 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
@@ -49,7 +49,7 @@
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
             <Entry Grid.Row="5" Grid.Column="2" x:Name="txtMinutePrevious" Placeholder="minute" 
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
-            <Label Grid.Row="5" Grid.Column="3" Text="previous measurement" 
+            <Label Grid.Row="5" Grid.Column="3" Text="previous measurem." 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
             <Label Grid.Row="6" Grid.Column="1" x:Name="txtGlucoseSlope" Text="----" FontSize="Large"

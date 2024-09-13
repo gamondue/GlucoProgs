@@ -1,5 +1,4 @@
-﻿using gamon;
-using GlucoMan.BusinessLayer;
+﻿using GlucoMan.BusinessLayer;
 
 namespace GlucoMan
 {
@@ -7,7 +6,7 @@ namespace GlucoMan
     {
         public static string DatabaseFileName = @"GlucoManData.Sqlite";
         public static string LogOfParametersFileName = @"Log of the Insulin Correction Parameters.txt";
-        public static string PathUser; 
+        public static string PathUser;
         public static string PathUsersDownload;
 
         public static string PathConfigurationData;

@@ -1,7 +1,5 @@
 ﻿using gamon;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using static GlucoMan.Common;
 
@@ -311,7 +309,6 @@ namespace GlucoMan
                 return null;
             }
         }
-
         internal int? UpdateFoodInMeal(FoodInMeal FoodToSave)
         {
             try
@@ -398,6 +395,10 @@ namespace GlucoMan
                 f.Potassium.Double = SqlSafe.Double(Row["Potassium"]);
                 f.Cholesterol.Double = SqlSafe.Double(Row["Cholesterol"]);
                 f.GlycemicIndex.Double = SqlSafe.Double(Row["GlycemicIndex"]);
+                f.Unit = SqlSafe.String(Row["Unit"]);
+                f.GramsInOneUnit.Double = SqlSafe.Double(Row["GramsInOneUnit"]);
+                f.Manufacturer = SqlSafe.String(Row["Manufacturer"]);
+                f.Category = SqlSafe.String(Row["Category"]);
             }
             catch (Exception ex)
             {
@@ -526,8 +527,12 @@ namespace GlucoMan
                     "Salt=" + SqliteSafe.Double(food.Salt.Double) + "," +
                     "Potassium=" + SqliteSafe.Double(food.Potassium.Double) + "," +
                     "Cholesterol=" + SqliteSafe.Double(food.Cholesterol.Double) + "," +
-                    "GlycemicIndex=" + SqliteSafe.Double(food.GlycemicIndex.Double) + 
-                    " WHERE IdFood=" + SqliteSafe.Int(food.IdFood) +
+                    "GlycemicIndex=" + SqliteSafe.Double(food.GlycemicIndex.Double) + "," +
+                    "Unit=" + SqliteSafe.String(food.Unit) + "," +
+                    "GramsInOneUnit=" + SqliteSafe.Double(food.GramsInOneUnit.Double) + "," +
+                    "Manufacturer=" + SqliteSafe.String(food.Manufacturer) + "," +
+                    "Category=" + SqliteSafe.String(food.Category) + "" +
+                    " WHERE IdFood=" + SqliteSafe.Int(food.IdFood) + "" +
                     ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -551,7 +556,8 @@ namespace GlucoMan
                     string query = "INSERT INTO Foods" +
                     "(" +
                     "IdFood,Name,Description,Energy,TotalFats,SaturatedFats,MonounsaturatedFats,PolyunsaturatedFats" +
-                    ",Carbohydrates,Sugar,Fibers,Proteins,Salt,Potassium,Cholesterol,GlycemicIndex";
+                    ",Carbohydrates,Sugar,Fibers,Proteins,Salt,Potassium,Cholesterol,GlycemicIndex" +
+                    ",Unit,Manufacturer,Category";
                     query += ")VALUES(" +
                     SqliteSafe.Int(food.IdFood) + "," +
                     SqliteSafe.String(food.Name) + "," +
@@ -568,8 +574,12 @@ namespace GlucoMan
                     SqliteSafe.Double(food.Salt.Double) + "," +
                     SqliteSafe.Double(food.Potassium.Double) + "," +
                     SqliteSafe.Double(food.Cholesterol.Double) + "," +
-                    SqliteSafe.Double(food.GlycemicIndex.Double) + "";
-                    query += ");";
+                    SqliteSafe.Double(food.GlycemicIndex.Double) + "," +
+                    SqliteSafe.Double(food.Unit) + "," +
+                    SqliteSafe.Double(food.GramsInOneUnit.Double) + "," +
+                    SqliteSafe.Double(food.Manufacturer) + "," +
+                    SqliteSafe.Double(food.Category) + "" +
+                    ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
@@ -640,6 +650,93 @@ namespace GlucoMan
             }
             return list;
         }
+        internal override void AddUnitToFoodsUnits(Food Food)
+        {
+            try
+            {
+                int key = GetNextTablePrimaryKey("UnitsOfFood", "IdUnitOfFood");
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "INSERT INTO UnitsOfFood " +
+                                "(IdUnitOfFood,IdFood,Name,GramsInOneUnit";
+                    query += ")VALUES(" + key + "," +
+                    SqliteSafe.Int(Food.IdFood) + "," +
+                    SqliteSafe.String(Food.Unit) + "," +
+                    SqliteSafe.Double(Food.GramsInOneUnit.Double) + "" +
+                    ");";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | AddUnitToFoodsUnits", ex);
+            }
+        }
+        internal override void RemoveUnitFromFoodsUnits(Food Food)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "DELETE FROM UnitsOfFood SET " +
+                                "WHERE Unit=" + SqliteSafe.String(Food.Unit) +
+                                " AND IdFood=" + SqliteSafe.Int(Food.IdFood) +
+                    ");";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveUnitFromFoodsUnits", ex);
+            }
+        }
+        internal override List<UnitOfFood> GetAllUnitsOfOneFood(Food Food)
+        {
+            if (Food.IdFood != null)
+            {
+                List<UnitOfFood> UnitsInFood = new();
+                try
+                {
+                    DbDataReader dRead;
+                    DbCommand cmd;
+                    using (DbConnection conn = Connect())
+                    {
+                        string query = "SELECT *" +
+                            " FROM UnitsOfFood" +
+                            " WHERE IdFood=" + SqliteSafe.Int(Food.IdFood) +
+                            ";";
+                        cmd = new SqliteCommand(query);
+                        cmd.Connection = conn;
+                        dRead = cmd.ExecuteReader();
+                        while (dRead.Read())
+                        {
+                            UnitOfFood u = new();
+                            u.IdUnit = SqlSafe.Int(dRead["IdUnitOfFood"]);
+                            u.IdFood = SqlSafe.Int(dRead["IdFood"]);
+                            u.Name = SqlSafe.String(dRead["Name"]);
+                            u.Description = SqlSafe.String(dRead["Description"]);
+                            u.GramsInOneUnit.Double = SqlSafe.Double(dRead["GramsInOneUnit"]);
+                            UnitsInFood.Add(u);
+                        }
+                        dRead.Dispose();
+                        cmd.Dispose();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    General.LogOfProgram.Error("Sqlite_MealAndFood | GetAllUnitsOfOneFood", ex);
+                }
+                return UnitsInFood;
+            }
+            return null;
+        }
     }
 }
+
 

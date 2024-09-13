@@ -51,6 +51,9 @@ namespace GlucoMan
         internal abstract void DeleteOneFood(Food food);
         internal abstract Food GetOneFood(int? IdFood);
         internal abstract List<Food> GetFoods();
+        internal abstract void AddUnitToFoodsUnits(Food food);
+        internal abstract void RemoveUnitFromFoodsUnits(Food Food);
+        internal abstract List<UnitOfFood> GetAllUnitsOfOneFood(Food Food);
         internal abstract InsulinInjection GetOneInjection(int? idInjection);
         #endregion
         #region Alarms

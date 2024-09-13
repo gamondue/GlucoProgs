@@ -1,4 +1,3 @@
-using gamon;
 using GlucoMan.BusinessLayer;
 
 namespace GlucoMan.Maui;
@@ -87,10 +86,10 @@ public partial class FoodsPage : ContentPage
     }
     private void FromClassToUi()
     {
-        txtIdFood.Text = CurrentFood.IdFood.ToString();
-        txtName.Text = CurrentFood.Name;
-        txtDescription.Text = CurrentFood.Description;
-        txtFoodCarbohydrates.Text = CurrentFood.Carbohydrates.Text;
+        //txtIdFood.Text = CurrentFood.IdFood.ToString();
+        //txtName.Text = CurrentFood.Name;
+        //txtDescription.Text = CurrentFood.Description;
+        //txtFoodCarbohydrates.Text = CurrentFood.Carbohydrates.Text;
 
         //txtCalories.Text = CurrentFood.Energy.Text;
         //txtTotalFats.Text = CurrentFood.TotalFats.Text;
@@ -106,10 +105,10 @@ public partial class FoodsPage : ContentPage
     }
     private void FromUiToClass()
     {
-        CurrentFood.IdFood = SqlSafe.Int(txtIdFood.Text);
-        CurrentFood.Name = txtName.Text;
-        CurrentFood.Description = txtDescription.Text;
-        CurrentFood.Carbohydrates.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
+        //CurrentFood.IdFood = SqlSafe.Int(txtIdFood.Text);
+        //CurrentFood.Name = txtName.Text;
+        //CurrentFood.Description = txtDescription.Text;
+        //CurrentFood.Carbohydrates.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
 
         //CurrentFood.Energy.Double = SqlSafe.Double(txtCalories.Text);
         //CurrentFood.TotalFats.Double = SqlSafe.Double(txtTotalFats.Text);

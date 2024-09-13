@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.InsulinCalcPage"
              Title="Insulin bolus calculation">
     <ContentPage.Content>
-        <Grid Padding="8,0,8,0" RowDefinitions="25,20,55,45,55,25,55,55,40,30,45,55"
+        <Grid Padding="8,0,8,0" RowDefinitions="25,20,55,45,55,45,55,55,40,30,45,55"
                 ColumnDefinitions="*,*,*,*">
         <Label x:Name="tempText" Grid.Row="0" Grid.ColumnSpan="4" Text="Ratio CHO / insulin (from dietist)" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -28,7 +28,9 @@
                 Clicked="btnBolusCalculations_Click" />
 
         <!-- <Label Grid.Row="3" Grid.Column="0" Text="TDD" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
-        <Label Grid.Row="3" Grid.Column="0" Text="Sensitivity to insulin [mg/dl]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="3" Grid.Column="0" Text="Sensitivity to insulin" 
+               HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+               VerticalOptions="End" />
         <Label Grid.Row="3" Grid.Column="2" Text="Embrkd insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                 HorizontalOptions="Center"/>
 
