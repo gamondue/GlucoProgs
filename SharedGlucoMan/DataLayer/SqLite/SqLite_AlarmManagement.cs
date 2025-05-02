@@ -13,7 +13,7 @@ namespace GlucoMan
             {
                 if (Alarm.IdAlarm == null || Alarm.IdAlarm == 0)
                 {
-                    Alarm.IdAlarm = GetNextTablePrimaryKey("Alarms", "IdAlarm");
+                    Alarm.IdAlarm = GetTableNextPrimaryKey("Alarms", "IdAlarm");
                     Alarm.TimeStart.DateTime = DateTime.Now;
                     // INSERT new record in the table
                     InsertAlarm(Alarm);

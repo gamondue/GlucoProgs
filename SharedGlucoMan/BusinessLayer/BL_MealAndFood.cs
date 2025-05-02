@@ -12,36 +12,7 @@ namespace GlucoMan.BusinessLayer
         public List<FoodInMeal> FoodsInMeal { get; set; }
         public FoodInMeal FoodInMeal { get; set; }
 
-        private Food currentFood;
-        public Food CurrentFood
-        {
-            get
-            {
-                return currentFood;
-            }
-            set
-            {
-                if (value.GramsInOneUnit.Double == 1)
-                    referenceFood1gram = value;
-                else
-                {
-                    referenceFood1gram.Energy.Double = CurrentFood.Energy.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.TotalFats.Double = CurrentFood.TotalFats.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.SaturatedFats.Double = CurrentFood.SaturatedFats.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.MonounsaturatedFats.Double = CurrentFood.MonounsaturatedFats.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.PolyunsaturatedFats.Double = CurrentFood.PolyunsaturatedFats.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.Carbohydrates.Double = CurrentFood.Carbohydrates.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.Sugar.Double = CurrentFood.Sugar.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.Fibers.Double = CurrentFood.Fibers.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.Proteins.Double = CurrentFood.Proteins.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.Salt.Double = CurrentFood.Salt.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.Cholesterol.Double = CurrentFood.Cholesterol.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.Potassium.Double = CurrentFood.Potassium.Double / CurrentFood.GramsInOneUnit.Double;
-                    referenceFood1gram.GlycemicIndex.Double = CurrentFood.GlycemicIndex.Double / CurrentFood.GramsInOneUnit.Double;
-                }
-            }
-        }
-        private Food referenceFood1gram = new();
+        //public Food Food { get; set; }
 
         public BL_MealAndFood()
         {
@@ -114,12 +85,12 @@ namespace GlucoMan.BusinessLayer
                     Meal.IdMeal = SaveOneMeal(Meal, false);
                 }
             }
-            // if the current Ingredient has not an IdMeal, we give it the Id of the current Meal 
+            // if the current CurrentIngredient has not an IdMeal, we give it the Id of the current Meal 
             if (FoodToSave.IdMeal == null)
             {
                 FoodToSave.IdMeal = Meal.IdMeal;
             }
-            // so the new meal will be the one of the Ingredient we are saving
+            // so the new meal will be the one of the CurrentIngredient we are saving
             return dl.SaveOneFoodInMeal(FoodToSave);
         }
         internal void SaveAllFoodsInMeal()
@@ -145,11 +116,6 @@ namespace GlucoMan.BusinessLayer
         #region Foods
         internal int? SaveOneFood(Food Food)
         {
-            if (Food.IdFood == null || Food.Unit == null || Food.Unit == "")
-            {
-                Food.Unit = "g";
-                Food.GramsInOneUnit.Double = 1;
-            }
             return dl.SaveOneFood(Food);
         }
         internal void DeleteOneFood(Food food)
@@ -184,14 +150,13 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.GetFoods();
         }
-        public void CalculateChoOfFoodGrams(FoodInMeal ThisFood)
+        public void CalculateChoOfFoodGrams(FoodInMeal ThisFoodInMeal)
         {
-            if (ThisFood.CarbohydratesPercent.Double != null && ThisFood.QuantityGrams.Double != null)
+            if (ThisFoodInMeal.CarbohydratesPerUnit.Double != null && ThisFoodInMeal.QuantityGrams.Double != null)
             {
-                ThisFood.ChoGrams.Double = ThisFood.CarbohydratesPercent.Double / 100 *
-                    ThisFood.QuantityGrams.Double;
+                ThisFoodInMeal.CarbohydratesGrams.Double = ThisFoodInMeal.CarbohydratesPerUnit.Double / 100 *
+                    ThisFoodInMeal.QuantityGrams.Double;
             }
-            //RecalcAll(); 
         }
         #endregion
         internal string[] GetAllAccuracies()
@@ -205,8 +170,8 @@ namespace GlucoMan.BusinessLayer
             {
                 foreach (FoodInMeal f in FoodsInMeal)
                 {
-                    if (f.ChoGrams.Double != null)
-                        total += f.ChoGrams.Double;
+                    if (f.CarbohydratesGrams.Double != null)
+                        total += f.CarbohydratesGrams.Double;
                 }
                 Meal.Carbohydrates.Double = total;
             }
@@ -218,10 +183,10 @@ namespace GlucoMan.BusinessLayer
         /// <returns>Weighted quadratic average. Also modifies Meal. </returns>
         internal double? RecalcTotalAccuracy()
         {
-            // calculate weighted quadratic sum of the quadratic weighted CHOs ("components" of accuracy estimation)
+            // calculate weighted quadratic average accuracy "components"
             // the weights are the values of CHO of the various foods eaten in this meal 
-            double sumOfSquaredWeights = 0;
-            double sumOfSquaredWeightedValues = 0;
+            double sumOfWeights = 0;
+            double sumOfSquaredValuesByWeight = 0;
             double? WeightedQuadraticAverage = 0;
             bool IsValueCorrect = true;
             if (FoodsInMeal != null && FoodsInMeal.Count > 0)
@@ -230,7 +195,7 @@ namespace GlucoMan.BusinessLayer
                 {
                     // if we don't have CHO we can't calculate the propagation of uncertainty, 
                     // because CHO is the weight of the component
-                    if (f == null || f.ChoGrams.Double == null)
+                    if (f == null || f.CarbohydratesGrams.Double == null)
                     {
                         IsValueCorrect = false;
                         break;
@@ -241,14 +206,14 @@ namespace GlucoMan.BusinessLayer
                         IsValueCorrect = false;
                         break;
                     }
-                    sumOfSquaredWeights += (double)f.ChoGrams.Double * (double)f.ChoGrams.Double;
-                    double WeightedUncertaintyComponent = (double)f.AccuracyOfChoEstimate.Double / 100 * (double)f.ChoGrams.Double;
-                    sumOfSquaredWeightedValues += WeightedUncertaintyComponent * WeightedUncertaintyComponent;
+                    sumOfWeights += (double)f.CarbohydratesGrams.Double; // fixed 2024-12-14 from sum of squared weights to sum of weights
+                    double squaredValue = (double)f.AccuracyOfChoEstimate.Double * (double)f.AccuracyOfChoEstimate.Double;
+                    sumOfSquaredValuesByWeight += squaredValue * (double)f.CarbohydratesGrams.Double;
                 }
                 if (IsValueCorrect)
                 {
                     // square of the weighted quadratic sum
-                    WeightedQuadraticAverage = Math.Sqrt(sumOfSquaredWeightedValues / sumOfSquaredWeights) * 100;
+                    WeightedQuadraticAverage = Math.Sqrt(sumOfSquaredValuesByWeight / sumOfWeights) * 100;
                     Meal.AccuracyOfChoEstimate.Double = WeightedQuadraticAverage;
                 }
                 // if the value in not correct, Meal.AccuracyOfChoEstimate remains unchanged
@@ -264,29 +229,43 @@ namespace GlucoMan.BusinessLayer
         internal void FromFoodToFoodInMeal(Food SourceFood, FoodInMeal DestinationFoodInMeal)
         {
             DestinationFoodInMeal.IdFood = SourceFood.IdFood;
-            DestinationFoodInMeal.CarbohydratesPercent = SourceFood.Carbohydrates;
+            DestinationFoodInMeal.CarbohydratesPerUnit.Double =
+                SourceFood.CarbohydratesPercent.Double * SourceFood.Unit.GramsInOneUnit.Double;
             DestinationFoodInMeal.Name = SourceFood.Name;
             DestinationFoodInMeal.Description = SourceFood.Description;
-            DestinationFoodInMeal.SugarPercent = SourceFood.Sugar;
-            DestinationFoodInMeal.FibersPercent = SourceFood.Fibers;
+            DestinationFoodInMeal.SugarPercent = SourceFood.SugarPercent;
+            DestinationFoodInMeal.FibersPercent = SourceFood.FibersPercent;
+        }
+        internal void FromRecipeToFoodInMeal(Recipe sourceRecipe, FoodInMeal DestinationFoodInMeal)
+        {
+            //DestinationFoodInMeal.IdFood = SourceFood.IdFood;
+            //DestinationFoodInMeal.CarbohydratesPerUnit.Double =
+            //    sourceRecipe.CarbohydratesPercent.Double * sourceRecipe.Unit.GramsInOneUnit.Double;
+            DestinationFoodInMeal.Name = sourceRecipe.Name;
+            DestinationFoodInMeal.Description = sourceRecipe.Description;
+            DestinationFoodInMeal.AccuracyOfChoEstimate = sourceRecipe.AccuracyOfChoEstimate;
+            // !!!! maybe the following should be different !!!!
+            DestinationFoodInMeal.CarbohydratesPerUnit = sourceRecipe.CarbohydratesPercent;
+            //DestinationFoodInMeal.SugarPercent = SourceFood.SugarPercent;
+            //DestinationFoodInMeal.FibersPercent = SourceFood.FibersPercent;
         }
         public void FromFoodInMealToFood(FoodInMeal SourceFoodInMeal, Food DestinationFood)
         {
             DestinationFood.IdFood = SourceFoodInMeal.IdFood;
             DestinationFood.Name = SourceFoodInMeal.Name;
             DestinationFood.Description = SourceFoodInMeal.Description;
-            DestinationFood.Carbohydrates = SourceFoodInMeal.CarbohydratesPercent;
-            DestinationFood.Sugar = SourceFoodInMeal.SugarPercent;
-            DestinationFood.Fibers = SourceFoodInMeal.FibersPercent;
+            DestinationFood.CarbohydratesPercent = SourceFoodInMeal.CarbohydratesPerUnit;
+            DestinationFood.SugarPercent = SourceFoodInMeal.SugarPercent;
+            DestinationFood.FibersPercent = SourceFoodInMeal.FibersPercent;
         }
         public void FromIngredientToFood(Ingredient SourceIngredient, Food DestinationFood)
         {
             DestinationFood.IdFood = SourceIngredient.IdFood;
             DestinationFood.Name = SourceIngredient.Name;
             DestinationFood.Description = SourceIngredient.Description;
-            DestinationFood.Carbohydrates = SourceIngredient.CarbohydratesPercent;
-            //DestinationFood.Sugar = SourceIngredient.SugarPercent;
-            //DestinationFood.Fibers = SourceIngredient.FibersPercent;
+            DestinationFood.CarbohydratesPercent = SourceIngredient.CarbohydratesPercent;
+            //DestinationFood.SugarPercent = SourceIngredient.SugarPercent;
+            //DestinationFood.FibersPercent = SourceIngredient.FibersPercent;
         }
         internal TypeOfMeal SetTypeOfMealBasedOnTimeNow()
         {
@@ -319,17 +298,17 @@ namespace GlucoMan.BusinessLayer
         }
         public void SaveFoodInMealParameters()
         {
-            dl.SaveParameter("FoodInMeal_ChoGrams", FoodInMeal.ChoGrams.Text);
+            dl.SaveParameter("FoodInMeal_ChoGrams", FoodInMeal.CarbohydratesGrams.Text);
             dl.SaveParameter("FoodInMeal_QuantityGrams", FoodInMeal.QuantityGrams.Text);
-            dl.SaveParameter("FoodInMeal_CarbohydratesPercent", FoodInMeal.CarbohydratesPercent.Text);
+            dl.SaveParameter("FoodInMeal_CarbohydratesPercent", FoodInMeal.CarbohydratesPerUnit.Text);
             dl.SaveParameter("FoodInMeal_Name", FoodInMeal.Name);
             dl.SaveParameter("FoodInMeal_AccuracyOfChoEstimate", FoodInMeal.AccuracyOfChoEstimate.Text);
         }
         public void RestoreFoodInMealParameters()
         {
-            FoodInMeal.ChoGrams.Text = dl.RestoreParameter("FoodInMeal_ChoGrams");
+            FoodInMeal.CarbohydratesGrams.Text = dl.RestoreParameter("FoodInMeal_ChoGrams");
             FoodInMeal.QuantityGrams.Text = dl.RestoreParameter("FoodInMeal_QuantityGrams");
-            FoodInMeal.CarbohydratesPercent.Text = dl.RestoreParameter("FoodInMeal_CarbohydratesPercent");
+            FoodInMeal.CarbohydratesPerUnit.Text = dl.RestoreParameter("FoodInMeal_CarbohydratesPercent");
             FoodInMeal.Name = dl.RestoreParameter("FoodInMeal_Name");
             FoodInMeal.AccuracyOfChoEstimate.Text = dl.RestoreParameter("FoodInMeal_AccuracyOfChoEstimate");
         }
@@ -341,36 +320,17 @@ namespace GlucoMan.BusinessLayer
         {
             Meal.Carbohydrates.Text = dl.RestoreParameter("Meal_ChoGrams");
         }
-        internal void AddUnitToFoodsUnits()
+        internal void AddUnitToFood(Food Food, UnitOfFood Unit)
         {
-            dl.AddUnitToFoodsUnits(CurrentFood);
+            dl.AddUnitToFood(Food, Unit);
         }
-        internal void RemoveUnitFromFoodsUnits()
+        internal void RemoveUnitFromFoodsUnits(Food Food)
         {
-            dl.RemoveUnitFromFoodsUnits(CurrentFood);
+            dl.RemoveUnitFromFoodsUnits(Food);
         }
         internal List<UnitOfFood> GetAllUnitsOfOneFood(Food Food)
         {
             return dl.GetAllUnitsOfOneFood(Food);
-        }
-        internal void UpdateNutrientsDataWithNewUnit()
-        {
-            if (CurrentFood.GramsInOneUnit.Double > 0)
-            {
-                CurrentFood.Energy.Double = referenceFood1gram.Energy.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.TotalFats.Double = referenceFood1gram.TotalFats.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.SaturatedFats.Double = referenceFood1gram.SaturatedFats.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.MonounsaturatedFats.Double = referenceFood1gram.MonounsaturatedFats.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.PolyunsaturatedFats.Double = referenceFood1gram.PolyunsaturatedFats.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.Carbohydrates.Double = referenceFood1gram.Carbohydrates.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.Sugar.Double = referenceFood1gram.Sugar.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.Fibers.Double = referenceFood1gram.Fibers.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.Proteins.Double = referenceFood1gram.Proteins.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.Salt.Double = referenceFood1gram.Salt.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.Cholesterol.Double = referenceFood1gram.Cholesterol.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.Potassium.Double = referenceFood1gram.Potassium.Double * CurrentFood.GramsInOneUnit.Double;
-                CurrentFood.GlycemicIndex.Double = referenceFood1gram.GlycemicIndex.Double * CurrentFood.GramsInOneUnit.Double;
-            }
         }
     }
 }

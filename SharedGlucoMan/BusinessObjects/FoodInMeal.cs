@@ -1,5 +1,4 @@
 ﻿using gamon;
-using static GlucoMan.Common;
 
 namespace GlucoMan
 {
@@ -8,9 +7,9 @@ namespace GlucoMan
         public int? IdFoodInMeal { get; set; }
         public int? IdFood { get; set; }
         public int? IdMeal { get; set; }
-        public DoubleAndText QuantityGrams { get; set; }// [g/100]
-        public DoubleAndText ChoGrams { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
-        public DoubleAndText CarbohydratesPercent { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
+        public DoubleAndText QuantityGrams { get; set; }    // [g/100]
+        public DoubleAndText CarbohydratesGrams { get; set; }   // [g/100 in database,g in the list of foods in a Meal] 
+        public DoubleAndText CarbohydratesPerUnit { get; set; } // [g/100 in database,g in the list of foods in a Meal] 
         public DoubleAndText AccuracyOfChoEstimate { get; set; } // [0..1]
         public DoubleAndText SugarPercent { get; set; }        // [g/100]
         public DoubleAndText FibersPercent { get; set; }       // [g/100]
@@ -21,14 +20,14 @@ namespace GlucoMan
         public FoodInMeal()
         {
             QuantityGrams = new DoubleAndText(); // [g]
-            ChoGrams = new DoubleAndText();   // [g]
-            CarbohydratesPercent = new DoubleAndText(); // [%]
+            CarbohydratesGrams = new DoubleAndText();   // [g]
+            CarbohydratesPerUnit = new DoubleAndText(); // [%]
             SugarPercent = new DoubleAndText();         // [%]
             FibersPercent = new DoubleAndText();        // [%]
-            AccuracyOfChoEstimate = new DoubleAndText(); 
-            ChoGrams.Format = "0.0";
+            AccuracyOfChoEstimate = new DoubleAndText();
+            CarbohydratesGrams.Format = "0.0";
             QuantityGrams.Format = "0.0";
-            CarbohydratesPercent.Format = "0.0";
+            CarbohydratesPerUnit.Format = "0.0";
         }
         public FoodInMeal DeepCopy()
         {
@@ -41,7 +40,7 @@ namespace GlucoMan
         }
         public bool DeepEquals(FoodInMeal Other, out FoodInMeal Differences)
         {
-            Differences = new FoodInMeal(); 
+            Differences = new FoodInMeal();
             bool areEqual = true;
             // Id is included in equality! 
             if (this.IdFoodInMeal != Other.IdFoodInMeal)
@@ -64,15 +63,15 @@ namespace GlucoMan
                 areEqual = false;
                 Differences.QuantityGrams.Double = Other.QuantityGrams.Double;
             }
-            else if (this.ChoGrams.Double != Other.ChoGrams.Double)
+            else if (this.CarbohydratesGrams.Double != Other.CarbohydratesGrams.Double)
             {
                 areEqual = false;
-                Differences.ChoGrams.Double = Other.ChoGrams.Double;
+                Differences.CarbohydratesGrams.Double = Other.CarbohydratesGrams.Double;
             }
-            else if (this.CarbohydratesPercent.Double != Other.CarbohydratesPercent.Double)
+            else if (this.CarbohydratesPerUnit.Double != Other.CarbohydratesPerUnit.Double)
             {
                 areEqual = false;
-                Differences.CarbohydratesPercent.Double = Other.CarbohydratesPercent.Double;
+                Differences.CarbohydratesPerUnit.Double = Other.CarbohydratesPerUnit.Double;
             }
             else if (this.AccuracyOfChoEstimate.Double != Other.AccuracyOfChoEstimate.Double)
             {

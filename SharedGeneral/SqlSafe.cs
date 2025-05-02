@@ -98,7 +98,7 @@ namespace gamon
         }
         internal static Nullable<double> Double(string d)
         {
-            if (d == "")
+            if (d == "" || d == "\r")
                 return null;
             try
             {

@@ -14,7 +14,7 @@ namespace GlucoMan
             {
                 if (Injection.IdInsulinInjection == null || Injection.IdInsulinInjection == 0)
                 {
-                    Injection.IdInsulinInjection = GetNextTablePrimaryKey("InsulinInjections", "IdInsulinInjection");
+                    Injection.IdInsulinInjection = GetTableNextPrimaryKey("InsulinInjections", "IdInsulinInjection");
                     // INSERT new record in the table
                     InsertInjection(Injection);
                 }

@@ -8,28 +8,40 @@
         <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*"
               ColumnDefinitions="*,*,*,*">
             <Label Grid.Row="0" Grid.Column="0" Text="Glucose&#10;[mg/dL]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                   LineBreakMode="WordWrap"/>
-            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="Measurement time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                   ToolTipProperties.Text="Glucose measurement taken from the instrument" LineBreakMode="WordWrap"/>
+            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="Measurement time" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                   ToolTipProperties.Text="Date and time of measurement of glucose"/>
             <Label Grid.Row="0" Grid.Column="3" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucose" Text="" FontSize="Medium"
-                   Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="Lime" IsEnabled="true"/>
+                   Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="Lime" 
+                   ToolTipProperties.Text="Glucose measurement taken from the instrument" IsEnabled="true"/>
             <DatePicker Grid.Row="1" Grid.Column="1" x:Name="dtpEventDate" Margin="3,0"
                         BackgroundColor="PaleGreen" 
-                        HorizontalOptions="Center" VerticalOptions="Center"/>
+                        HorizontalOptions="Center" VerticalOptions="Center"
+                        ToolTipProperties.Text="Date of measurement of glucose"/>
             <TimePicker Grid.Row="1" Grid.Column="2" x:Name="dtpEventTime" BackgroundColor="PaleGreen" 
-                        HorizontalOptions="Center" VerticalOptions="Center"/>
+                        HorizontalOptions="Center" VerticalOptions="Center"
+                        ToolTipProperties.Text="Time of measurement of glucose"/>
             <Label Grid.Row="1" Grid.Column="3" x:Name="txtIdGlucoseRecord" Text=""
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
             <!-- check box with associated label into a StackLayout -->
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="LightGreen"
-                    HorizontalTextAlignment="Start" IsReadOnly="false"/>
+                   HorizontalTextAlignment="Start" IsReadOnly="false"
+                   ToolTipProperties.Text="Note about the measurement" />
 
-            <Button Grid.Row="3" Grid.Column="0" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="1" Text="+" x:Name="btnAddMeasurement" Clicked="btnAddMeasurement_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="2" Text="-" x:Name="btnRemoveMeasurement" Clicked="btnRemoveMeasurement_Click"></Button>
-            <Button Grid.Row="3" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_ClickAsync"></Button>
+            <Button Grid.Row="3" Grid.Column="0" Text="Now" x:Name="btnNow" 
+                    ToolTipProperties.Text="Sets the date and time at the current instant" 
+                    Clicked="btnNow_Click"/>
+            <Button Grid.Row="3" Grid.Column="1" Text="+" x:Name="btnAddMeasurement" 
+                    ToolTipProperties.Text="Adds a new measurement with the data taken from UI" 
+                    Clicked="btnAddMeasurement_Click"/>
+            <Button Grid.Row="3" Grid.Column="2" Text="-" x:Name="btnRemoveMeasurement" 
+                    ToolTipProperties.Text="Deletes the selected measurement" Clicked="btnRemoveMeasurement_Click"/>
+            <Button Grid.Row="3" Grid.Column="3" Text="Save" x:Name="btnSave" 
+                    ToolTipProperties.Text="Saves the modifications made on current measurement" Clicked="btnSave_ClickAsync"/>
 
             <HorizontalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
                 <CheckBox VerticalOptions="Center" x:Name="chkNowInAdd" IsChecked="True">
@@ -49,11 +61,12 @@
                 </Label>
             </HorizontalStackLayout>
 
-            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Text="Gluc.[mg/dL]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <ListView Grid.Row="6" Grid.ColumnSpan="4" x:Name="gridMeasurements" ItemsSource="{Binding}"
-                      ItemSelected="OnGridSelection" >
+                      ItemSelected="OnGridSelection" ToolTipProperties.Text="List of past glucose measurements">
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>

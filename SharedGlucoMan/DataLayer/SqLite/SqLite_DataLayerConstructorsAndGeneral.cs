@@ -22,6 +22,7 @@ namespace GlucoMan
         internal DL_Sqlite()
         {
             dbName = Common.PathAndFileDatabase;
+            SQLitePCL.Batteries.Init();
             if (!System.IO.File.Exists(Common.PathAndFileDatabase))
             {
                 // since the file doesn't exist yet, we create it:
@@ -62,8 +63,8 @@ namespace GlucoMan
                 connection.Open();
             }
             catch (Exception ex)
-            {
-                General.LogOfProgram.Error("Error connecting to the database: " + ex.Message + "\r\nFile Sqlite>: " + dbName + " " + "\n", null);
+             {
+                General.LogOfProgram.Error("Error connecting to the database: " + ex.Message + "\r\nFile Sqlite>: " + dbName + " " + "\n", ex);
                 connection = null;
             }
             return connection;
@@ -91,13 +92,37 @@ namespace GlucoMan
             }
             //Application.Exit();
         }
-        internal int GetNextTablePrimaryKey(string Table, string KeyName)
+        internal int GetTableNextPrimaryKey(string Table, string KeyName)
         {
             int nextId;
             using (DbConnection conn = Connect())
             {
                 DbCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT MAX(" + KeyName + ") FROM " + Table + ";";
+                var firstColumn = cmd.ExecuteScalar();
+                if (firstColumn != DBNull.Value)
+                {
+                    nextId = int.Parse(firstColumn.ToString()) + 1;
+                }
+                else
+                {
+                    nextId = 1;
+                }
+                cmd.Dispose();
+            }
+            return nextId;
+        }
+        internal int GetTwoTablesNextPrimaryKey(
+            string TableMaster, string TableSlave, string KeyMaster, string KeySlave, string ValueKeyMaster)
+        {
+            int nextId;
+            using (DbConnection conn = Connect())
+            {
+                DbCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT MAX(" + KeySlave + ") FROM " + TableSlave +
+                    " ," + TableMaster + "" +
+                    " WHERE " + TableMaster + "." + KeyMaster + "=" + ValueKeyMaster +
+                    ";";
                 var firstColumn = cmd.ExecuteScalar();
                 if (firstColumn != DBNull.Value)
                 {

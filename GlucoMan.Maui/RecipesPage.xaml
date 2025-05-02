@@ -8,41 +8,49 @@
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Recipe's information" 
-                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="Id Recipe" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of Recipe" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtIdRecipe" BackgroundColor="White" 
+            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                    x:Name="txtName" BackgroundColor="GreenYellow"
+                    ToolTipProperties.Text="Name of this recipe"
+                    Keyboard="Text" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                    FontSize="Small" IsReadOnly="false"/>
+            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtIdRecipe" BackgroundColor="White"
+                    ToolTipProperties.Text="Code of this recipe"
                     FontSize="Medium" HorizontalTextAlignment="Center" 
                     IsReadOnly="true"/>
-            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
-                    x:Name="txtName" BackgroundColor="LightGreen" 
-                    Keyboard="Text"                     HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                    FontSize="Small" IsReadOnly="false"/>
             <Button Grid.Row="2" Grid.Column="3" x:Name="btnChoose" Text="Choose" 
-                    Clicked="btnChoose_Click"></Button>
+                    ToolTipProperties.Text="Chooses this recipe for the meal"
+                    Clicked="btnChoose_Click"/>
 
-            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="2"
+            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="5,0,0,0"
                     Text="Description of Recipe" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
-                    x:Name="txtDescription" BackgroundColor="LightGreen"
+            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
+                    ToolTipProperties.Text="Description of this recipe"
+                    x:Name="txtDescription" BackgroundColor="GreenYellow"
                     Keyboard="Text" TextChanged="txtDescription_TextChanged"
                     HorizontalTextAlignment="Start"
                    Text = "{Binding Description}"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="Total CHO%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="5" Grid.Column="2" Text="Raw/Cooked Ratio" 
+            <Label Grid.Row="5" Grid.Column="2" Text="Cooked/Raw Ratio" 
+                   x:Name="lblCookedRaw"
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Start"/>
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtRecipeCarbohydrates" 
-                   BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End"
-                   FontSize="Large" Text="{Binding Cho.Text}"/>
+                    ToolTipProperties.Text="Total Carbohydrates % of this recipe"
+                    BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End"
+                    FontSize="Large" Text="{Binding Cho.Text}"/>
             <HorizontalStackLayout Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2">
                 <CheckBox VerticalOptions="Center" HorizontalOptions="Center" 
                           x:Name="chkCooked" IsChecked="True" 
+                          ToolTipProperties.Text="States if this recipes' carbohydrates regard a cooked or raw recipe"
                           CheckedChanged="chkCooked_CheckedChanged">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
@@ -52,27 +60,35 @@
                     </CheckBox.Margin>
                 </CheckBox>
                 <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Margin="-10,0,0,0" 
+                       ToolTipProperties.Text="States if this recipes' carbohydrates regard a cooked or raw recipe"
                        VerticalTextAlignment="Center" VerticalOptions="Center" Text="Cooked" />
             </HorizontalStackLayout>
 
             <Entry Grid.Row="6" Grid.Column="2" x:Name="txtRawToCookedRatio" 
-                   BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End" />
+                    ToolTipProperties.Text="Ratio between the cooked weight and the raw weight of the recipe"
+                    BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End" />
             <HorizontalStackLayout Grid.Row="6" Grid.Column="3">
                 <Button  Text="+" x:Name="btnAddRecipe" 
-                    Clicked="btnAddRecipe_Click"></Button>
+                    ToolTipProperties.Text="Adds a new recipe to the recipes stored in the program"
+                    Clicked="btnAddRecipe_Click"/>
                 <Button Text="-" x:Name="btnRemoveRecipe" 
-                    Clicked="btnRemoveRecipe_Click"></Button>
+                    ToolTipProperties.Text="Removes the recipe from those stored in the program"
+                    Clicked="btnRemoveRecipe_Click"/>
             </HorizontalStackLayout>
 
             <Button Grid.Row="7" Grid.Column="0" Text="Save" x:Name="btnSaveRecipe" 
-                    Clicked="btnSaveRecipe_Click"></Button>
+                    ToolTipProperties.Text="Saves this recipe"
+                    Clicked="btnSaveRecipe_Click"/>
             <Button Grid.Row="7" Grid.Column="1" Text="Details" x:Name="btnRecipeDetails" 
-                    Clicked="btnRecipeDetails_Click"></Button>
+                    ToolTipProperties.Text="Opens the page of recipe's details"
+                    Clicked="btnRecipeDetails_Click"/>
             <Button Grid.Row="7" Grid.Column="2" Text="Clean&#10;Fields" x:Name="btnCleanFields" 
+                    ToolTipProperties.Text="Cleans all data in the UI"
                     Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"
-                    FontSize="Micro"></Button>
+                    FontSize="Micro"/>
             <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchRecipe" 
-                    Clicked="btnSearchRecipe_Click"></Button>
+                    ToolTipProperties.Text="Searchs the recipes matching the filter in the UI"
+                    Clicked="btnSearchRecipe_Click"/>
 
             <Label Grid.Row="8" Grid.Column="0" Text="Recipes" Grid.ColumnSpan="4" 
                    FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -87,7 +103,9 @@
                 <Label Grid.Row="0" Grid.Column="2" Text="Cooked" 
                        HorizontalTextAlignment="Center" VerticalOptions="End" />
                 <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalOptions="Start"
-                    x:Name="gridRecipes" ItemsSource="{Binding}" ItemSelected="OnGridSelection" >
+                    x:Name="gridRecipes" 
+                    ToolTipProperties.Text="List of filtered recipes"
+                    ItemsSource="{Binding}" ItemSelected="OnGridSelection" >
                     <!-- description of data to be shown, in a DataTemplate -->
                     <ListView.ItemTemplate>
                         <DataTemplate>

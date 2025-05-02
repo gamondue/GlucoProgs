@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Maui.FoodsPage"
-             Title="Foods">
+             Title="Foods" Loaded="PageLoad">
     <ContentPage.Content>
         <Grid Grid.RowDefinitions="20,20,50,20,50,20,50,50,*"
             Grid.ColumnDefinitions="*, *, *, *">
@@ -12,67 +12,81 @@
             <Label Grid.Row="1" Grid.Column="3" Text="Id food" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of food" 
-                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                HorizontalTextAlignment="Start" Margin="5,0,0,0" VerticalTextAlignment="End"/>
 
+            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" WidthRequest="270" 
+                x:Name="txtName" BackgroundColor="LightGreen"
+                ToolTipProperties.Text="Name of this food"
+                Keyboard="Text" TextChanged="txtName_TextChanged" HorizontalOptions="Start"
+                HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                Text="{Binding Name}"
+                FontSize="Small" IsReadOnly="false"/>
             <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdFood" 
-                   Text="{Binding IdFood}"
-                   BackgroundColor="White" HeightRequest="20"
-                        FontSize="Micro" HorizontalTextAlignment="Center" 
-                        IsReadOnly="true"/>
-            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" 
-                    x:Name="txtName" BackgroundColor="LightGreen" 
-                    Keyboard="Text" TextChanged="txtName_TextChanged" HorizontalOptions="Start"
-                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                    Text="{Binding Name}"
-                    FontSize="Small" IsReadOnly="false"/>
+                Text="{Binding IdFood}"
+                ToolTipProperties.Text="Code of this food"
+                BackgroundColor="White" HeightRequest="20"
+                FontSize="Micro" HorizontalTextAlignment="Center" 
+                IsReadOnly="true"/>
 
-            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="2,0,10,0"
-                    Text="Description of food" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
+            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,0,0,0"
+                Text="Description of food" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
+            <Label Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="1" Margin="5,0,10,0"
+                Text="Unit" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
-                    x:Name="txtDescription" BackgroundColor="LightGreen"
-                    Keyboard="Text" TextChanged="txtDescription_TextChanged"
-                    HorizontalTextAlignment="Start" FontSize="Micro"
-                   Text="{Binding Description}"/>
+            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
+                x:Name="txtDescription" BackgroundColor="LightGreen"
+                ToolTipProperties.Text="Description of this food" Margin="0"
+                Keyboard="Text" TextChanged="txtDescription_TextChanged"
+                HorizontalTextAlignment="Start" FontSize="Micro"
+                Text="{Binding Description}"/>
+            <Picker Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="1" 
+                    x:Name="cmbUnit" Margin="0"
+                    HorizontalTextAlignment="Center"
+                    SelectedIndexChanged="cmbUnit_SelectedIndexChanged"
+                    ToolTipProperties.Text="List of units used for this food"
+                    ItemsSource="{Binding}"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="CHO [g]%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
                 Keyboard="Numeric" HorizontalTextAlignment="End"
-                Text = "{Binding Carbohydrates.Text}"/>
+                ToolTipProperties.Text="Percent Carbohydrates of this food [%]"
+                Text = "{Binding CarbohydratesPercent.Text}"/>
             <Button Grid.Row="6" Grid.Column="1" x:Name="btnChoose" Text="Choose" 
-                        Clicked="btnChoose_Click"></Button>
+                ToolTipProperties.Text="Chooses this food to be used by the calling page"
+                Clicked="btnChoose_Click"/>
             <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddFood" 
-                    Clicked="btnAddFood_Click"></Button>
+                ToolTipProperties.Text="Adds a new food with data from UI"
+                Clicked="btnAddFood_Click"/>
             <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveFood" 
-                    Clicked="btnRemoveFood_Click"></Button>
+                ToolTipProperties.Text="Deletes the selected food"
+                Clicked="btnRemoveFood_Click"/>
 
             <Button Grid.Row="7" Grid.Column="0" Text="Save" x:Name="btnSaveFood" 
-                    Clicked="btnSaveFood_Click"></Button>
+                ToolTipProperties.Text="Saves the food with the current data of the UI"
+                Clicked="btnSaveFood_Click"/>
             <Button Grid.Row="7" Grid.Column="1" Text="Details" x:Name="btnFoodDetails" 
-                    Clicked="btnFoodDetails_Click"></Button>
+                ToolTipProperties.Text="Opens the page with additional data about the food"
+                Clicked="btnFoodDetails_Click"/>
             <Button Grid.Row="7" Grid.Column="2" Text="Clean&#10;Fields" x:Name="btnCleanFields" 
-                    Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"
-                    FontSize="Micro"></Button>
+                ToolTipProperties.Text="Cleans all data in the UI"
+                Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"
+                FontSize="Micro"/>
             <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchFood" 
-                    Clicked="btnSearchFood_Click"></Button>
+                ToolTipProperties.Text="Searchs the foods matching the filter in the UI"
+                Clicked="btnSearchFood_Click"/>
 
-            <ListView Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" x:Name="gridFoods" 
-                      ItemsSource="{Binding Manufacturer}" ItemSelected="OnGridSelectionAsync">
+            <ListView Grid.Row="8" Grid.ColumnSpan="4" x:Name="gridFoods" 
+                      ItemsSource="{Binding}" 
+                      ItemSelected="OnGridSelectionAsync">
                 <!-- description of data to be shown, in a DataTemplate -->
-                <ListView.ItemTemplate>
+                <ListView.ItemTemplate Margin="4">
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid Margin="8" VerticalOptions="Center">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="20"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="35"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}" />
+                                <Grid RowDefinitions="19" ColumnDefinitions="*,36"
+                                      Margin="2" VerticalOptions="Center">
+                                    <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}" Margin="5,0" />
                                     <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding Carbohydrates.Text}"/>
                                 </Grid>
                             </ViewCell.View>

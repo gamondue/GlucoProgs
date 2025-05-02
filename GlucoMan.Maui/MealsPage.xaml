@@ -7,12 +7,16 @@
         <Grid RowDefinitions="40,20,70,20,50,50,50,20,*"
             ColumnDefinitions="*,*,*,*">
             <RadioButton Grid.Row="0" Grid.Column="0" Content="b.fast" x:Name="rdbIsBreakfast" 
+                         ToolTipProperties.Text="Type of meal: breakfast" 
                          CheckedChanged="rdb_CheckedChanged"/>
             <RadioButton Grid.Row="0" Grid.Column="1" Content="lunch" x:Name="rdbIsLunch" 
+                         ToolTipProperties.Text="Type of meal: lunch" 
                          CheckedChanged="rdb_CheckedChanged"/>
             <RadioButton Grid.Row="0" Grid.Column="2" Content="dinn." x:Name="rdbIsDinner"
+                         ToolTipProperties.Text="Type of meal: dinner" 
                          CheckedChanged="rdb_CheckedChanged"/>
             <RadioButton Grid.Row="0" Grid.Column="3" Content="snack" x:Name="rdbIsSnack"
+                         ToolTipProperties.Text="Type of meal: snack, out of main meals" 
                          CheckedChanged="rdb_CheckedChanged"/>
 
             <Label Grid.Row="1" Grid.Column="3" Text="IdMeal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -20,20 +24,26 @@
                    LineBreakMode="WordWrap"/>
             <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="Accuracy" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdMeal" BackgroundColor="White" Margin="2" 
-                   HorizontalTextAlignment="End" IsReadOnly="true"/>
-            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoOfMeal" BackgroundColor="Aqua" Margin="2" 
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoOfMeal" 
+                   ToolTipProperties.Text="Total Carbohydrates of this meal [g]" BackgroundColor="Aqua" Margin="2" 
                    FontSize="Medium" Keyboard="Numeric" HorizontalTextAlignment="End"
                    TextChanged="txtChoOfMeal_TextChanged"/>
-            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" Margin="2" FontSize="Medium"
-                   Keyboard="Numeric" BackgroundColor="PaleGoldenrod" HorizontalTextAlignment="End" />
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" 
+                   ToolTipProperties.Text="Numerical accuracy of meal in percent"
+                   Margin="2" FontSize="Medium" 
+                   Keyboard="Numeric" BackgroundColor="LightGreen"
+                   HorizontalTextAlignment="End" />
             <Picker Grid.Row="2" Grid.Column="2" x:Name="cmbAccuracyMeal"
                     HorizontalTextAlignment="End"
-                    VerticalOptions="Center" 
-                    HorizontalOptions="Center"
+                    VerticalOptions="Center" HorizontalOptions="Center"
+                    ToolTipProperties.Text="Qualitative accuracy of meal as a word" 
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
                     BackgroundColor="PaleGoldenrod"/>
+            <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdMeal" 
+                   BackgroundColor="White" Margin="2" 
+                   ToolTipProperties.Text="Code of this meal" 
+                   HorizontalTextAlignment="End" IsReadOnly="true"/>
 
             <!--<Label Grid.Row="3" Grid.Column="0" Text="Type of Meal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Text="Meal begin time"  HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -45,23 +55,29 @@
                     SelectedIndexChanged="cmbTypeOfMeal_SelectedIndexChanged" />-->
             <HorizontalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
                 <DatePicker x:Name="dtpMealDateBegin" Margin="0,2,0,2" 
+                            ToolTipProperties.Text="Date of the beginning of the meal" 
                             BackgroundColor="PaleGreen" HorizontalOptions="Center" />
                 <TimePicker x:Name="dtpMealTimeBegin" Margin="0,2,0,2" 
+                            ToolTipProperties.Text="Time of the beginning of the meal" 
                             BackgroundColor="PaleGreen" Format="HH:mm:ss" 
                             HorizontalOptions="Center" />
             </HorizontalStackLayout>
             <Button Grid.Row="4" Grid.Column="3" Text="Clean fields" Margin="2" 
                     x:Name="btnDefaults" Clicked="btnDefault_Click"
-                    FontSize="Micro" LineBreakMode="WordWrap"></Button>
+                    ToolTipProperties.Text="Cleans all data in the UI" 
+                    FontSize="Micro" LineBreakMode="WordWrap"/>
 
             <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" Margin="2"
                    BackgroundColor="LightGreen"
+                   ToolTipProperties.Text="Note about the meal" 
                    FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
             <Button Grid.Row="6" Grid.Column="0" Text="Save" x:Name="btnSave" Margin="2" 
-                    Clicked="btnSaveMeal_ClickAsync"></Button>
+                    ToolTipProperties.Text="Saves the meal with the current data of the UI" 
+                    Clicked="btnSaveMeal_ClickAsync"/>
             <Button Grid.Row="6" Grid.Column="1" Text="Now" x:Name="btnNowBegin" Margin="2" 
-                    Clicked="btnNowBegin_Click"></Button>
+                    ToolTipProperties.Text="Sets the date and time at the current instant"
+                    Clicked="btnNowBegin_Click"/>
             <Grid Grid.Row="6" Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -71,14 +87,21 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Row="0" Grid.Column="0" Text="+" Margin="2,2,2,2" 
-                        x:Name="btnAddMeal" Clicked="btnAddMeal_ClickAsync"></Button>
+                        x:Name="btnAddMeal" 
+                        ToolTipProperties.Text="Adds a new meal with data from UI" 
+                        Clicked="btnAddMeal_ClickAsync"/>
                 <Button Grid.Row="0" Grid.Column="1" Text="-" Margin="2,2,2,2" 
-                        x:Name="btnRemoveMeal" Clicked="btnRemoveMeal_ClickAsync"></Button>
+                        x:Name="btnRemoveMeal" 
+                        ToolTipProperties.Text="Deletes the selected meal" 
+                        Clicked="btnRemoveMeal_ClickAsync"/>
             </Grid>
             <Button Grid.Row="6" Grid.Column="3" Text="Details" x:Name="btnShowThisMeal"  Margin="2,2,2,2" 
-                    Clicked="btnShowThisMeal_ClickAsync"></Button>
+                    ToolTipProperties.Text="Opens the page with additional data about the meal" 
+                    Clicked="btnShowThisMeal_ClickAsync"/>
             <HorizontalStackLayout Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2">
-                <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
+                <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" 
+                          ToolTipProperties.Text="If set uses the current instant (now) in the new injection (+), if not set uses the value in the UI"
+                          IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS" Value="0,-10,0,0" />
@@ -86,7 +109,9 @@
                         </OnPlatform>
                     </CheckBox.Margin>
                 </CheckBox>
-                <Label VerticalTextAlignment="Center" VerticalOptions="Start" Text="Add with Now as time">
+                <Label VerticalTextAlignment="Center" VerticalOptions="Start" 
+                       Text="Add with Now as time"
+                       ToolTipProperties.Text="If set uses the current instant (now) in the new injection (+), if not set uses the value in the UI">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer>
 
@@ -105,7 +130,8 @@
                        HorizontalTextAlignment="Center" VerticalOptions="End" />
                 <Label Grid.Row="0" Grid.Column="3" Text="Accur.%" 
                        HorizontalTextAlignment="Center" VerticalOptions="End" />
-                <ListView Grid.Row="1" Grid.ColumnSpan="4" x:Name="gridMeals" ItemsSource="{Binding}"
+                <ListView Grid.Row="1" Grid.ColumnSpan="4" x:Name="gridMeals" 
+                          ItemsSource="{Binding}"
                           ItemSelected="OnGridSelectionAsync" >
                     <!-- data to be shown, in a DataTemplate -->
                     <ListView.ItemTemplate>

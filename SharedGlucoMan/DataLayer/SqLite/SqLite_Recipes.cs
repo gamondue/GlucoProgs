@@ -8,7 +8,7 @@ namespace GlucoMan
     {
         internal override int? InsertOneRecipe(Recipe Recipe)
         {
-            Recipe.IdRecipe = GetNextTablePrimaryKey("Recipes", "IdRecipe");
+            Recipe.IdRecipe = GetTableNextPrimaryKey("Recipes", "IdRecipe");
             try
             {
                 using (DbConnection conn = Connect())
@@ -20,8 +20,8 @@ namespace GlucoMan
                     "Name,Description,CarbohydratesPercent," +
                     "AccuracyOfChoEstimate,IsCooked,RawToCookedRatio";
                     query += ")VALUES(" +
-                    SqliteSafe.Int(Recipe.IdRecipe)
-                    + "," + SqliteSafe.String(Recipe.Name) + "," +
+                    SqliteSafe.Int(Recipe.IdRecipe) + "," +
+                    SqliteSafe.String(Recipe.Name) + "," +
                     SqliteSafe.String(Recipe.Description) + "," +
                     SqliteSafe.Double(Recipe.CarbohydratesPercent) + "," +
                     SqliteSafe.Double(Recipe.AccuracyOfChoEstimate) + "," +
@@ -108,7 +108,7 @@ namespace GlucoMan
             {
                 if (Recipe.IdRecipe == null || Recipe.IdRecipe == 0)
                 {
-                    Recipe.IdRecipe = GetNextTablePrimaryKey("Recipes", "IdRecipe");
+                    Recipe.IdRecipe = GetTableNextPrimaryKey("Recipes", "IdRecipe");
                     // INSERT new record in the table
                     InsertOneRecipe(Recipe);
                 }
@@ -146,6 +146,7 @@ namespace GlucoMan
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
+                SaveListOfIngredients(RecipeToSave.Ingredients);
             }
             catch (Exception ex)
             {
@@ -231,7 +232,8 @@ namespace GlucoMan
             {
                 if (ingredient.IdIngredient == null || ingredient.IdIngredient == 0)
                 {
-                    ingredient.IdIngredient = GetNextTablePrimaryKey("Ingredients", "IdIngredient");
+                    ingredient.IdIngredient = GetTwoTablesNextPrimaryKey(
+                        "Recipes", "Ingredients", "idRecipe", "idIngredient", ingredient.IdRecipe.ToString());
                     // INSERT new record in the table
                     InsertOneIngredient(ingredient);
                 }
@@ -248,8 +250,10 @@ namespace GlucoMan
             }
             return ingredient.IdIngredient;
         }
-        internal override void SaveAllIngredientsInARecipe(List<Ingredient> IngredientsList)
+        internal override void SaveListOfIngredients(List<Ingredient> IngredientsList)
         {
+            if (IngredientsList == null)
+                return;
             try
             {
                 // if performance is an issue, we could use e unique connection
@@ -272,21 +276,17 @@ namespace GlucoMan
                 {
                     using (DbCommand cmd = conn.CreateCommand())
                     {
-                        string query = "UPDATE Ingredient" +
-                            "(" +
-                            "IdIngredient,IdRecipe," +
-                            "Name,Description,QuantityGrams,QuantityPercent,CarbohydratesPercent,IdFood";
-                        query += ")VALUES(" +
-                        SqliteSafe.Int(ingredient.IdIngredient) + "," +
-                        SqliteSafe.Int(ingredient.IdRecipe) + "," +
-                        SqliteSafe.String(ingredient.Name) + "," +
-                        SqliteSafe.String(ingredient.Description) + "," +
-                        SqliteSafe.Double(ingredient.QuantityGrams) + "," +
-                        SqliteSafe.Double(ingredient.QuantityPercent) + "," +
-                        SqliteSafe.Double(ingredient.CarbohydratesPercent) + "," +
-                        SqliteSafe.Int(ingredient.IdFood) + "," +
-                        ";";
-                        query += ");";
+                        string query = "UPDATE Ingredients SET " +
+                            "IdIngredient=" + SqliteSafe.Int(ingredient.IdIngredient) + "," +
+                            "IdRecipe=" + SqliteSafe.Int(ingredient.IdRecipe) + "," +
+                            "Name=" + SqliteSafe.String(ingredient.Name) + "," +
+                            "Description=" + SqliteSafe.String(ingredient.Description) + "," +
+                            "QuantityGrams=" + SqliteSafe.Double(ingredient.QuantityGrams.Double) + "," +
+                            "QuantityPercent=" + SqliteSafe.Double(ingredient.QuantityPercent.Double) + "," +
+                            "CarbohydratesPercent=" + SqliteSafe.Double(ingredient.CarbohydratesPercent.Double) + "," +
+                            "AccuracyOfChoEstimate=" + SqliteSafe.Double(ingredient.AccuracyOfChoEstimate.Double) + "," +
+                            "IdFood=" + SqliteSafe.Int(ingredient.IdFood) + "" +
+                            " WHERE idIngredient=" + SqliteSafe.Int(ingredient.IdIngredient) + ";";
                         cmd.CommandText = query;
                         cmd.ExecuteNonQuery();
                     }
@@ -299,7 +299,7 @@ namespace GlucoMan
         }
         internal override int? InsertOneIngredient(Ingredient ingredient)
         {
-            ingredient.IdIngredient = GetNextTablePrimaryKey("Ingredients", "IdIngredient");
+            ingredient.IdIngredient = GetTableNextPrimaryKey("Ingredients", "IdIngredient");
             try
             {
                 using (DbConnection conn = Connect())

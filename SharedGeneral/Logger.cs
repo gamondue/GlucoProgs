@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 
 namespace gamon
 {
@@ -12,25 +10,25 @@ namespace gamon
         private string errorsFile = "logger.txt";
         private string debugFile = "logger.txt";
         private string promptsFile = "logger.txt";
-         
+
         /// <summary>
         /// No parameters constructor, uses predefined fields 
         /// </summary>
         public Logger()
         {
-            eventsLogFile = Path.Combine(commonPath , eventsLogFile);
-            dataLogFile = Path.Combine(commonPath , dataLogFile);
-            errorsFile = Path.Combine(commonPath , errorsFile);
-            debugFile = Path.Combine(commonPath , debugFile);
+            eventsLogFile = Path.Combine(commonPath, eventsLogFile);
+            dataLogFile = Path.Combine(commonPath, dataLogFile);
+            errorsFile = Path.Combine(commonPath, errorsFile);
+            debugFile = Path.Combine(commonPath, debugFile);
 
             defaultProperties();
         }
         #region Properties
-        public string EventsLogFile { get => eventsLogFile;}
-        public string DataLogFile { get => dataLogFile;}
-        public string ErrorsFile { get => errorsFile;}
-        public string DebugFile { get => debugFile;}
-        public string PromptsFile { get => promptsFile;}
+        public string EventsLogFile { get => eventsLogFile; }
+        public string DataLogFile { get => dataLogFile; }
+        public string ErrorsFile { get => errorsFile; }
+        public string DebugFile { get => debugFile; }
+        public string PromptsFile { get => promptsFile; }
         public bool ShowingEvents { get; set; }
         public bool ShowingData { get; set; }
         public bool ShowingErrors { get; set; }
@@ -50,7 +48,7 @@ namespace gamon
         /// <param name="ErrorFile">[Path] & filename for errors (if "" => no log)</param>
         /// <param name="TestFile">[Path] & filename for debugging (if "" => no log)</param>
         /// <param name="PromptsFile">[Path] & filename for console prompts (if "" => no log)</param>
-        public Logger (string CommonPath, bool ShowAll, string EventLogFile, string ErrorFile, 
+        public Logger(string CommonPath, bool ShowAll, string EventLogFile, string ErrorFile,
             string DebugFile, string PromptsFile, string DataLogFile)
         {
             defaultProperties();
@@ -60,14 +58,14 @@ namespace gamon
             LoggingDebug = (DebugFile != "" && DebugFile != null);
             LoggingPrompts = (PromptsFile != "" && PromptsFile != null);
             LoggingEvents = (EventLogFile != "" && EventLogFile != null);
-            LoggingData = (DataLogFile != "" && DataLogFile != null) ;
-            
+            LoggingData = (DataLogFile != "" && DataLogFile != null);
+
             commonPath = CommonPath;
-            eventsLogFile = Path.Combine(commonPath , EventLogFile);
-            errorsFile = Path.Combine(commonPath , ErrorFile);
-            debugFile = Path.Combine(commonPath , DebugFile);
-            promptsFile = Path.Combine(commonPath , PromptsFile);
-            dataLogFile = Path.Combine(commonPath , DataLogFile);
+            eventsLogFile = Path.Combine(commonPath, EventLogFile);
+            errorsFile = Path.Combine(commonPath, ErrorFile);
+            debugFile = Path.Combine(commonPath, DebugFile);
+            promptsFile = Path.Combine(commonPath, PromptsFile);
+            dataLogFile = Path.Combine(commonPath, DataLogFile);
 
             if (ShowAll)
             {
@@ -81,7 +79,7 @@ namespace gamon
         /// </summary>
         private void defaultProperties()
         {
-            ShowingEvents = false; 
+            ShowingEvents = false;
             ShowingErrors = true;
             ShowingDebug = false;
         }
@@ -96,8 +94,8 @@ namespace gamon
                 LogToFile(EventsLogFile, testo);
             }
             if (ShowingEvents)
-            { 
-                Console.Out.WriteLine(testo); 
+            {
+                Console.Out.WriteLine(testo);
             }
         }
         public void Data(string testo)
@@ -127,6 +125,12 @@ namespace gamon
                 ErrorText += "\nMessage: " + Exception.Message +
                 "\nType: " + Exception.GetType().ToString() +
                 "\nError: " + Exception.ToString() + "\n";
+#if DEBUG
+                //Get call stack
+                StackTrace stackTrace = new StackTrace();
+                //Log calling method name
+                ErrorText += "\nMethod: " + stackTrace.GetFrame(1).GetMethod().Name;
+#endif
                 if (LoggingErrors)
                 {
                     LogToFile(errorsFile, ErrorText);
@@ -136,13 +140,7 @@ namespace gamon
                     Console.Out.WriteLine(ErrorText);
                 }
             }
-#if DEBUG
-            //Get call stack
-            StackTrace stackTrace = new StackTrace();
-            //Log calling method name
-            ErrorText += "\nMethod: " + stackTrace.GetFrame(1).GetMethod().Name;
-#endif
-            return ErrorText; 
+            return ErrorText;
         }
         /// <summary>
         /// debugging log
@@ -161,7 +159,7 @@ namespace gamon
         }
         public void Prompt(string testo)
         {
-            Console.Out.WriteLine(testo); 
+            Console.Out.WriteLine(testo);
             if (LoggingPrompts)
             {
                 using (StreamWriter sw = File.AppendText(promptsFile))
@@ -171,11 +169,11 @@ namespace gamon
                 }
             }
         }
-        private void LogToFile(string file,string testo)
+        private void LogToFile(string file, string testo)
         {
             try
             {
-                if(!File.Exists(file))
+                if (!File.Exists(file))
                 {
                     File.CreateText(file);
                 }
@@ -189,6 +187,29 @@ namespace gamon
             {
                 Console.Out.WriteLine("Couldn't save log file");
             }
+        }
+        public void EraseContentOfLog(string file)
+        {
+            try
+            {
+                using (StreamWriter sw = File.CreateText(file))
+                {
+                    sw.WriteLine("");
+                    sw.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Out.WriteLine("Couldn't erase log file");
+            }
+        }
+        public void EraseContentOfAllLogs()
+        {
+            EraseContentOfLog(eventsLogFile);
+            EraseContentOfLog(dataLogFile);
+            EraseContentOfLog(errorsFile);
+            EraseContentOfLog(debugFile);
+            EraseContentOfLog(promptsFile);
         }
     }
 }

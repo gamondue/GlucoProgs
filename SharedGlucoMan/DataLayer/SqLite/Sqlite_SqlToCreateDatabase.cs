@@ -1,5 +1,7 @@
 ﻿using gamon;
 using System.Data.Common;
+using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GlucoMan
 {
@@ -220,20 +222,20 @@ COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
 
 ";
-        internal override void CreateNewDatabase(string dbName)
+        internal override void CreateNewDatabase(string dbFile)
         {
-            //// making new, means erasing existent! 
-            //if (File.Exists(dbName))
-            //    File.Delete(dbName);
+			// making new, means erasing existent! 
+			if (File.Exists(dbFile))
+				File.Delete(dbFile);
 
-            // when the file does not exist
-            // Microsoft.Data.Sqlite creates the file at first connection
-            DbConnection c = Connect();
-            c.Close();
-            c.Dispose();
+			// create the database; when the file does not exist
+			// Microsoft.Data.Sqlite creates the file at first connection
+			DbConnection c = Connect();
+			c.Close();
+			c.Dispose();
 
-            try
-            {
+			try
+			{
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();

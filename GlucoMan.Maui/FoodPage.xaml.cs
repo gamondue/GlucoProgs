@@ -5,12 +5,13 @@ namespace GlucoMan.Maui;
 public partial class FoodPage : ContentPage
 {
     BL_MealAndFood bl = Common.MealAndFood_CommonBL;
+    public Food CurrentFood { get; set; }
     public bool FoodIsChosen { get; internal set; }
     public FoodPage(Food Food)
     {
         InitializeComponent();
         FoodIsChosen = false;
-        bl.CurrentFood = Food;
+        CurrentFood = Food;
 
         this.BindingContext = Food;
 
@@ -21,11 +22,15 @@ public partial class FoodPage : ContentPage
 
         // bind to cmbUnit the units of this food, retrieved from the business layer
         cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
+        if (cmbUnit.Items.Count > 0)
+            cmbUnit.SelectedIndex = 0;
 
         // just for test !!!!!!!!!!!!!!
         cmbManufacturer.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
-    }
 
+        // just for test !!!!!!!!!!!!!!
+        cmbCategory.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
+    }
     private void btnOk_Click(object sender, EventArgs e)
     {
         FoodIsChosen = true;
@@ -51,11 +56,13 @@ public partial class FoodPage : ContentPage
     }
     private void btnAddUnit_Clicked(object sender, EventArgs e)
     {
-        bl.AddUnitToFoodsUnits();
+        UnitOfFood unit = new UnitOfFood(txtUnit.Text, Convert.ToDouble(txtGramsPerUnit.Text));
+        bl.AddUnitToFood(CurrentFood, unit);
+        cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood((Food)this.BindingContext);
     }
     private void btnRemoveUnit_Clicked(object sender, EventArgs e)
     {
-        bl.RemoveUnitFromFoodsUnits();
+        bl.RemoveUnitFromFoodsUnits(CurrentFood);
     }
     private void txtFoodManufacturer_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -67,10 +74,17 @@ public partial class FoodPage : ContentPage
     }
     private void cmbUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
+        UnitOfFood unit = (UnitOfFood)cmbUnit.SelectedItem;
+        CurrentFood.Unit.Name = unit.Name;
+        CurrentFood.Unit.GramsInOneUnit = unit.GramsInOneUnit;
 
     }
     private void txtGramsPerUnit_TextChanged(object sender, TextChangedEventArgs e)
     {
-        bl.UpdateNutrientsDataWithNewUnit();
+
+    }
+    private void btnRemoveFoodManufacturer_Clicked(object sender, EventArgs e)
+    {
+
     }
 }

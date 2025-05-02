@@ -1,7 +1,5 @@
 ﻿using gamon;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
 
 namespace GlucoMan
@@ -10,7 +8,7 @@ namespace GlucoMan
     {
         internal override int GetNextPrimaryKey()
         {
-            return GetNextTablePrimaryKey("GlucoseRecords", "IdGlucoseRecord");
+            return GetTableNextPrimaryKey("GlucoseRecords", "IdGlucoseRecord");
         }
         internal override List<GlucoseRecord> GetGlucoseRecords(
             DateTime? InitialInstant, DateTime? FinalInstant)
@@ -26,8 +24,8 @@ namespace GlucoMan
                         " FROM GlucoseRecords";
                     if (InitialInstant != null && FinalInstant != null)
                     {   // add WHERE clause
-                        query += " WHERE Timestamp BETWEEN " + ((DateTime)InitialInstant).ToString("YYYY-MM-DD") +
-                            " AND " + ((DateTime)FinalInstant).ToString("YYYY-MM-DD");
+                        query += " WHERE Timestamp BETWEEN " + SqliteSafe.Date(InitialInstant) +
+                            " AND " + SqliteSafe.Date(FinalInstant);
                     }
                     query += " ORDER BY Timestamp DESC";
                     cmd = new SqliteCommand(query);
@@ -118,8 +116,8 @@ namespace GlucoMan
                 gr.GlucoseValue.Double = SqlSafe.Double(Row["GlucoseValue"]);
                 gr.GlucoseString = SqlSafe.String(Row["GlucoseString"]);
                 gr.IdDevice = SqlSafe.String(Row["IdDevice"]);
-                gr.IdTypeOfGlucoseMeasurement = SqlSafe.String(Row["IdTypeOfGlucoseMeasurement"]);
-                gr.IdTypeOfGlucoseMeasurementDevice = SqlSafe.String(Row["IdTypeOfGlucoseMeasurementDevice"]);
+                gr.TypeOfGlucoseMeasurement = (Common.TypeOfGlucoseMeasurement)SqlSafe.Int(Row["IdTypeOfGlucoseMeasurement"]);
+                gr.TypeOfGlucoseMeasurementDevice = (Common.TypeOfGlucoseMeasurementDevice)SqlSafe.Int(Row["IdTypeOfGlucoseMeasurementDevice"]);
                 gr.IdModelOfMeasurementSystem = SqlSafe.String(Row["IdModelOfMeasurementSystem"]);
                 gr.IdDocumentType = SqlSafe.Int(Row["IdDocumentType"]);
                 gr.Notes = SqlSafe.String(Row["Notes"]);
@@ -177,8 +175,8 @@ namespace GlucoMan
                     "GlucoseValue=" + SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
                     "Timestamp=" + SqliteSafe.Date(Measurement.Timestamp) + "," +
                     "GlucoseString=" + SqliteSafe.String(Measurement.GlucoseString) + "," +
-                    "IdTypeOfGlucoseMeasurement=" + SqliteSafe.String(Measurement.IdTypeOfGlucoseMeasurement) + "," +
-                    "IdTypeOfGlucoseMeasurementDevice=" + SqliteSafe.String(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
+                    "IdTypeOfGlucoseMeasurement=" + SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurement) + "," +
+                    "IdTypeOfGlucoseMeasurementDevice=" + SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurementDevice) + "," +
                     "IdModelOfMeasurementSystem=" + SqliteSafe.String(Measurement.IdModelOfMeasurementSystem) + "," +
                     "IdDevice=" + SqliteSafe.String(Measurement.IdDevice) + "," +
                     "IdDocumentType=" + SqliteSafe.Int(Measurement.IdDocumentType) + "," +
@@ -214,8 +212,8 @@ namespace GlucoMan
                     SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
                     SqliteSafe.Date(Measurement.Timestamp) + "," +
                     SqliteSafe.String(Measurement.GlucoseString) + "," +
-                    SqliteSafe.String(Measurement.IdTypeOfGlucoseMeasurement) + "," +
-                    SqliteSafe.String(Measurement.IdTypeOfGlucoseMeasurementDevice) + "," +
+                    SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurement) + "," +
+                    SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurementDevice) + "," +
                     SqliteSafe.String(Measurement.IdModelOfMeasurementSystem) + "," +
                     SqliteSafe.String(Measurement.IdDevice) + "," +
                     SqliteSafe.Int(Measurement.IdDocumentType) + "," +

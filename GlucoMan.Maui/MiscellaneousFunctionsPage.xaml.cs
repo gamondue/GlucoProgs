@@ -54,17 +54,21 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             blGeneral.CreateNewDatabase(); // re-create the database
         }
     }
-    private void btnCopyProgramsFiles_Click(object sender, EventArgs e)
+    private async void btnCopyProgramsFiles_Click(object sender, EventArgs e)
     {
-        // write the SpecialFolders that are used in Android
-        // !!!! comment the next loop when devepolment of this part has finished !!!!
-        //foreach (var folder in Enum.GetValues(typeof(Environment.SpecialFolder))) 
+        //// write the SpecialFolders that are used
+        //// !!!! comment the next loop when development of this part has finished !!!!
+        //foreach (var folder in Enum.GetValues(typeof(Environment.SpecialFolder)))
         //{
-        //    Console.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
+        //    Debug.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
         //}
-        if (!blGeneral.ExportProgramsFiles())
+        if (!await blGeneral.ExportProgramsFilesAsync())
         {
-            DisplayAlert("", "Error in exporting program's files. NOT all files copied, check logs", "OK");
+            await DisplayAlert("", "Error in exporting program's files. NOT all files copied, check logs", "OK");
+        }
+        else
+        {
+            await DisplayAlert("", "Done", "OK");
         }
     }
     private async void btnImport_Click(object sender, EventArgs e)
@@ -77,12 +81,16 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             if (!blGeneral.ImportDatabaseFromExternal(Common.PathAndFileDatabase,
                 Path.Combine(Common.PathImportExport, "import.sqlite")))
             {
-                DisplayAlert("", "Error in importing form import-sqlite to app's database", "OK");
+                DisplayAlert("", "Error in importing from import.sqlite to app's database", "OK");
             }
         }
     }
     private async void btnStopApplication_Click(object sender, EventArgs e)
     {
+        // stops the application shutting all its processes
+        ////Application.Current.MainPage = new AppPage();
+        Application.Current.Quit();
+        // Stops the application shutting all its processes
         Process.GetCurrentProcess().CloseMainWindow();
         Process.GetCurrentProcess().Close();
     }
@@ -100,31 +108,39 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     }
     private async void btnDeleteErrorLog_ClickAsync(object sender, EventArgs e)
     {
-        File.Delete(General.LogOfProgram.ErrorsFile);
+        General.LogOfProgram.EraseContentOfAllLogs();
         await DisplayAlert("", "Done!", "Ok");
     }
     private async void btnReadDatabase_Click(object sender, EventArgs e)
     {
         bool read = await DisplayAlert("Read database from external folder",
-            "Please put a database named 'readGlucoman.sqlite' in the same " +
+            "Please put a database named 'readGlucomanData.sqlite' in the same " +
             "folder where this program exports its data." +
             "\nAttention, this file will replace the current database." +
-            "\nYou should backup it before continuing! " +
+            "\nYou should backup the current before continuing! " +
             "\nShould we continue in the process?", "Yes", "No");
         if (read)
         {
-            if (!blGeneral.ReadDatabaseFromExternal(Common.PathAndFileDatabase,
-                Path.Combine(Common.PathImportExport, "readGlucoman.sqlite")))
+            bool success = await blGeneral.ReadDatabaseFromExternal(Common.PathAndFileDatabase,
+                Path.Combine(Common.PathImportExport, "readGlucoManData.Sqlite"));
+            if (!success)
             {
-                DisplayAlert("Error!", "Error in reading database from external folder", "OK");
+                await DisplayAlert("Error!", "Error in reading database from external folder", "OK");
             }
+            else
+            {
+                await DisplayAlert("Done!", "The import of database from external folder is finished", "OK");
+            }
+#if ANDROID
+            await DisplayAlert("", "Program will now stop. Restart il manually.", "OK");
+            btnStopApplication_Click(null, null);
+#endif
         }
     }
     private async void btnSettings_Click(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new SettingsPage());
     }
-
     private void btnMenu_Click(object sender, EventArgs e)
     {
         Navigation.PushAsync(new MainPage());

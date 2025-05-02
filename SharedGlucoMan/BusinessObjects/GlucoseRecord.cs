@@ -10,10 +10,11 @@ namespace GlucoMan
         public DoubleAndText GlucoseValue { get; set; }  // in mg/l
         public DateTime? Timestamp { get; set; }
         public string GlucoseString { get; set; }   // qualitative indication of glucose measured quantity
-        public string IdTypeOfGlucoseMeasurement { get; internal set; }
-        public string IdTypeOfGlucoseMeasurementDevice { get; internal set; }
+        public Common.TypeOfGlucoseMeasurement TypeOfGlucoseMeasurement { get; internal set; }
+        public Common.TypeOfGlucoseMeasurementDevice TypeOfGlucoseMeasurementDevice { get; internal set; }
         public string IdModelOfMeasurementSystem { get; internal set; }
         public string IdDevice { get; set; }
+        public string IdDeviceType { get; set; }
         public int? IdDocumentType { get; set; }
         public string Notes { get; set; }
 
@@ -27,8 +28,9 @@ namespace GlucoMan
         public Common.TypeOfInsulinSpeed InsulinSpeed { get; set; }
         public Common.QualitativeAccuracy InsulinAccuracy { get; set; }
         public Common.QualitativeAccuracy CarbohydratesAccuracy { get; set; }
+        public Common.QualitativeAccuracy GlucoseQualitativeAccuracy { get; set; }
         public Common.TypeOfMeal TypeOfMeal { get; set; }
-        public double? CarbohydratesValue_g { get; set; }
+        public double? CarbohydratesValue_grams { get; set; }
         public string CarbohydratesString { get; set; }
         public string MealFoodString { get; set; }
         public int? AccessoryIndex { get; set; }
@@ -36,8 +38,6 @@ namespace GlucoMan
         public double? BloodPressure { get; set; }
         public double? PhysicalActivity { get; set; }
         public int? Photo { get; set; }
-        public Common.TypeOfGlucoseMeasurement GlucoseMeasurementType { get; set; }
-        public Common.QualitativeAccuracy GlucoseQualitativeAccuracy { get; set; }
         public GlucoseRecord()
         {
             GlucoseValue = new DoubleAndText();

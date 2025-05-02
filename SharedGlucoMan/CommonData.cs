@@ -11,17 +11,19 @@ namespace GlucoMan
 
         public static string PathConfigurationData;
         public static string PathProgramsData;
-        //PathProgramsData = Path.Combine(Common.LocalApplicationPath, @"Data");
         public static string PathLogs;
-        // PathLogs = Path.Combine(Common.LocalApplicationPath, @"Logs");
         public static string PathDatabase;
-        // PathDatabase = Path.Combine(Common.LocalApplicationPath, @"Data");
         public static string PathAndFileDatabase;
-        // PathAndFileDatabase = Path.Combine(Common.PathDatabase, Common.DatabaseFileName);
         public static string PathImportExport;
-        // PathImportExport = Path.Combine(Common.ExternalPublicPath, @"Glucoman");
         public static string PathAndFileLogOfParameters;
-        // PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, LogOfParametersFileName);
+
+        // paths for Android
+        public static string CommonApplicationPath;
+        public static string LocalApplicationPath;
+        public static string ExternalPublicPath;
+        //public static string AppDataDirectoryPath;
+        //public static string CacheDirectoryPath;
+        //public static string myDocPath;
 
         internal static DataLayer Database;
         public static BL_General BlGeneral;
@@ -41,7 +43,8 @@ namespace GlucoMan
         {
             NotSet = 0,
             SensorIntermediateValue = 20,
-            SensorScanValue = 30
+            SensorScanValue = 30,
+            GlucoseReactiveStripValue = 40
         }
         public enum TypeOfGlucoseMeasurementDevice
         {
@@ -78,9 +81,9 @@ namespace GlucoMan
         public enum TypeOfInsulinInjection
         {
             NotSet = 0,
-            CarbohydratesBolus = 10,
+            BolusInsulin = 10,
             CorrectionBolus = 20,
-            ExtendedEffectBolus = 30,
+            BasalInsulin = 30,
             BasalBolus = 40,
             Other = 90
         }

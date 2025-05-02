@@ -20,7 +20,7 @@ namespace GlucoMan
                 dbMRec.Glucose = SqlSafe.Double(inputContent[i][1]);
                 dbMRec.GlucoseValue.Double = SqlSafe.Double(dbMRec.Glucose);
                 dbMRec.Carbs = SqlSafe.Double(inputContent[i][2]);
-                dbMRec.CarbohydratesValue_g = dbMRec.Carbs;
+                dbMRec.CarbohydratesValue_grams  = dbMRec.Carbs;
                 dbMRec.Proteins = SqlSafe.Double(inputContent[i][3]);
                 dbMRec.Fats = SqlSafe.Double(inputContent[i][4]);
                 dbMRec.Calories = SqlSafe.Double(inputContent[i][5]);

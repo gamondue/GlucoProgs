@@ -1,100 +1,10 @@
 ﻿using gamon;
 using System;
 using System.Collections.Generic;
+using static GlucoMan.Common;
 
 namespace GlucoMan
 {
-    class FreeStyleLibre
-    {
-        internal static List<FreeStyleLibreRecord> ImportData(string FileName)
-        {
-            List<List<string>> inputContent = TextFile.FileToListOfLists_GlobalParse(FileName, ',', '\"', '\n');
-            List<FreeStyleLibreRecord> listFreeStyle = new List<FreeStyleLibreRecord>();
-            //List<FreeStyleLibreRecord> listFreeStyle = new List<FreeStyleLibreRecord>(new FreeStyleLibreRecord[inputContent.Count - 2]);
-
-            for (int i = 2; i < inputContent.Count; i++)
-            {
-                //int j = i - 2;
-                //listFreeStyle[j].IdDeviceType = inputContent[i][0];
-                //listFreeStyle[j].IdDevice = inputContent[i][1];
-                //listFreeStyle[j].Timestamp = SqlSafe.DateTime(inputContent[i][2]);
-                //listFreeStyle[j].TypeOfDocument = SqlSafe.Int(inputContent[i][3]);
-                //listFreeStyle[j].GlucoseHistoricValue = SqlSafe.Double(inputContent[i][4]);
-                //listFreeStyle[j].GlucoseScanValue = SqlSafe.Double(inputContent[i][5]);
-                //listFreeStyle[j].InsulinRapidActionString = inputContent[i][6];
-                //listFreeStyle[j].InsulinRapidActionValue = SqlSafe.Double(inputContent[i][7]);
-                //listFreeStyle[j].MealFoodString = inputContent[i][8];
-                //listFreeStyle[j].CarbohydratesValue_grams = SqlSafe.Double(inputContent[i][9]);
-                //listFreeStyle[j].CarbohydratesString = inputContent[i][10];
-                //listFreeStyle[j].InsulinSlowActionString = inputContent[i][11];
-                //listFreeStyle[j].InsulinSlowActionValue = SqlSafe.Double(inputContent[i][12]);
-                //listFreeStyle[j].Notes = inputContent[i][13];
-                //listFreeStyle[j].GlucoseStripValue_mg_dL = SqlSafe.Double(inputContent[i][14]);
-                //listFreeStyle[j].Chetons_mmol_L = SqlSafe.Double(inputContent[i][15]);
-                //listFreeStyle[j].MealInsulin = SqlSafe.Double(inputContent[i][16]);
-                //listFreeStyle[j].InsulinCorrection = SqlSafe.Double(inputContent[i][17]);
-                //listFreeStyle[j].InsulinWithUsersModifications = SqlSafe.Double(inputContent[i][18]);
-
-                FreeStyleLibreRecord grec = new FreeStyleLibreRecord();
-                grec.IdTypeOfGlucoseMeasurementDevice = inputContent[i][0];
-                grec.IdDevice = inputContent[i][1];
-                grec.Timestamp = SqlSafe.DateTime(inputContent[i][2]);
-                grec.TypeOfDocument = SqlSafe.Int(inputContent[i][3]);
-                grec.GlucoseHistoricValue = SqlSafe.Double(inputContent[i][4]);
-                grec.GlucoseScanValue = SqlSafe.Double(inputContent[i][5]);
-                grec.InsulinRapidActionString = inputContent[i][6];
-                grec.InsulinRapidActionValue = SqlSafe.Double(inputContent[i][7]);
-                grec.MealFoodString = inputContent[i][8];
-                grec.CarbohydratesValue_g = SqlSafe.Double(inputContent[i][9]);
-                grec.CarbohydratesString = inputContent[i][10];
-                grec.InsulinSlowActionString = inputContent[i][11];
-                grec.InsulinSlowActionValue = SqlSafe.Double(inputContent[i][12]);
-                grec.Notes = inputContent[i][13];
-                grec.GlucoseStripValue_mg_dL = SqlSafe.Double(inputContent[i][14]);
-                grec.Chetons_mmol_L = SqlSafe.Double(inputContent[i][15]);
-                grec.MealInsulin = SqlSafe.Double(inputContent[i][16]);
-                grec.InsulinCorrection = SqlSafe.Double(inputContent[i][17]);
-                grec.InsulinWithUsersModifications = SqlSafe.Double(inputContent[i][18]);
-
-                switch (grec.TypeOfDocument)
-                {
-                    case 0: // SensorIntermediateValue
-                        grec.GlucoseValue.Double = grec.GlucoseHistoricValue;
-                        grec.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.SensorIntermediateValue;
-                        break;
-                    case 1: // SensorScanValue
-                        grec.GlucoseValue.Double = grec.GlucoseScanValue;
-                        grec.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.SensorScanValue;
-                        break;
-                    case 4: // insulin, rapid or extended effect 
-                        grec.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.NotSet;
-
-                        if (grec.InsulinRapidActionValue != null && grec.InsulinRapidActionValue != 0)
-                        {
-                            grec.InsulinValue = grec.InsulinRapidActionValue;
-                            // default, possibly to be changed by processing other data
-                            grec.InsulinInjectionType = Common.TypeOfInsulinInjection.CarbohydratesBolus;
-                        }
-                        else
-                        {
-                            grec.InsulinValue = grec.InsulinSlowActionValue;
-                            grec.InsulinInjectionType = Common.TypeOfInsulinInjection.ExtendedEffectBolus;
-                        }
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        break;
-                    default:
-                        break;
-                }
-                listFreeStyle.Add(grec);
-            }
-            listFreeStyle.Sort((x, y) => DateTime.Compare((DateTime)x.Timestamp, (DateTime)y.Timestamp));
-
-            return listFreeStyle;
-        }
-    }
     class FreeStyleLibreRecord : GlucoseRecord
     {
         int? typeOfDocument;
@@ -119,5 +29,86 @@ namespace GlucoMan
         public double? MealInsulin { get; internal set; }
         public double? InsulinCorrection { get; internal set; }
         public double? InsulinWithUsersModifications { get; internal set; }
+        public TypeOfGlucoseMeasurement GlucoseMeasurementType { get; internal set; }
+    }
+    class FreeStyleLibre
+    {
+        internal static List<FreeStyleLibreRecord> ImportData(string FileName)
+        {
+            List<List<string>> inputContent = TextFile.FileToListOfLists_GlobalParse(FileName, ',', '\"', '\n');
+            List<FreeStyleLibreRecord> listFreeStyle = new List<FreeStyleLibreRecord>();
+            // data starts from the third row
+            for (int i = 2; i < inputContent.Count - 1; i++)
+            {
+                FreeStyleLibreRecord singleRecord = new FreeStyleLibreRecord();
+                // the TypeOfGlucoseMeasurementDevice is decided in code, based on the TypeOfDocument field
+                //singleRecord.TypeOfGlucoseMeasurementDevice = inputContent[i][0];
+                singleRecord.IdDevice = inputContent[i][1];
+                singleRecord.Timestamp = SqlSafe.DateTime(inputContent[i][2]);
+                singleRecord.TypeOfDocument = SqlSafe.Int(inputContent[i][3]);
+                singleRecord.GlucoseHistoricValue = SqlSafe.Double(inputContent[i][4]);
+                singleRecord.GlucoseScanValue = SqlSafe.Double(inputContent[i][5]);
+                singleRecord.InsulinRapidActionString = inputContent[i][6];
+                singleRecord.InsulinRapidActionValue = SqlSafe.Double(inputContent[i][7]);
+                singleRecord.MealFoodString = inputContent[i][8];
+                singleRecord.CarbohydratesValue_grams = SqlSafe.Double(inputContent[i][9]);
+                singleRecord.CarbohydratesString = inputContent[i][10];
+                singleRecord.InsulinSlowActionString = inputContent[i][11];
+                singleRecord.InsulinSlowActionValue = SqlSafe.Double(inputContent[i][12]);
+                singleRecord.Notes = inputContent[i][13];
+                singleRecord.GlucoseStripValue_mg_dL = SqlSafe.Double(inputContent[i][14]);
+                singleRecord.Chetons_mmol_L = SqlSafe.Double(inputContent[i][15]);
+                singleRecord.MealInsulin = SqlSafe.Double(inputContent[i][16]);
+                singleRecord.InsulinCorrection = SqlSafe.Double(inputContent[i][17]);
+                singleRecord.InsulinWithUsersModifications = SqlSafe.Double(inputContent[i][18]);
+                switch (singleRecord.TypeOfDocument)
+                {
+                    case 0: // SensorIntermediateValue, taken autonomously from the sensor
+                        singleRecord.GlucoseValue.Double = singleRecord.GlucoseHistoricValue;
+                        singleRecord.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.SensorIntermediateValue;
+                        singleRecord.TypeOfGlucoseMeasurementDevice = TypeOfGlucoseMeasurementDevice.UnderSkinSensor;
+                        break;
+                    case 1: // SensorScanValue, explicitly scanned with NFC from user
+                        singleRecord.GlucoseValue.Double = singleRecord.GlucoseScanValue;
+                        singleRecord.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.SensorScanValue;
+                        singleRecord.TypeOfGlucoseMeasurementDevice = TypeOfGlucoseMeasurementDevice.UnderSkinSensor;
+                        break;
+                    case 2: // glucose reactive strip 
+                        singleRecord.GlucoseValue.Double = singleRecord.GlucoseStripValue_mg_dL;
+                        singleRecord.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.GlucoseReactiveStripValue;
+                        singleRecord.TypeOfGlucoseMeasurementDevice = TypeOfGlucoseMeasurementDevice.FingerPuncture;
+                        break;
+                    case 3: // no rows in my files, can't infere the meaning
+                        break;
+                    case 4: // insulin injection, rapid or extended effect 
+                        // program gives the data of the two cases the same format
+                        // default
+                        singleRecord.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.NotSet;
+                        if (singleRecord.InsulinRapidActionValue != null && singleRecord.InsulinRapidActionValue != 0)
+                        {
+                            singleRecord.InsulinValue = singleRecord.InsulinRapidActionValue;
+                            singleRecord.InsulinInjectionType = Common.TypeOfInsulinInjection.BolusInsulin;
+                        }
+                        else
+                        {
+                            singleRecord.InsulinValue = singleRecord.InsulinSlowActionValue;
+                            singleRecord.InsulinInjectionType = Common.TypeOfInsulinInjection.BasalInsulin;
+                        }
+                        break;
+                    case 5: // carbohydrates ingested with food 
+                        // value is in CarbohydratesValue_grams and doesn't need further processing
+                        break;
+                    case 6: // I have some rows in my files with no data in the other columns, can't infere the meaning
+                        break;
+                    default:
+                        break;
+                }
+                listFreeStyle.Add(singleRecord);
+            }
+            // sort by date, since the original file is ordered by TypeOfDocument
+            listFreeStyle.Sort((x, y) => DateTime.Compare((DateTime)x.Timestamp, (DateTime)y.Timestamp));
+
+            return listFreeStyle;
+        }
     }
 }
