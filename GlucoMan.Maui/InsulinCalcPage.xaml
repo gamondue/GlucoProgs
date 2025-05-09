@@ -4,7 +4,8 @@
              x:Class="GlucoMan.Maui.InsulinCalcPage"
              Title="Insulin bolus calculation">
     <ContentPage.Content>
-        <Grid Padding="8,0,8,0" RowDefinitions="25,20,55,45,55,45,55,55,40,30,45,55,55"
+        <!--RowDefinitions="25,20,55,45,55,45,55,55,40,30,45,55,55"-->
+        <Grid Padding="8,0,8,0" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,60"
                 ColumnDefinitions="*,*,*,*">
         <Label x:Name="tempText" Grid.Row="0" Grid.ColumnSpan="4" Text="Ratio CHO / insulin (from dietist)" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -12,22 +13,23 @@
         <Label Grid.Row="1" Grid.Column="1" Text="Lunch" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
         <Label Grid.Row="1" Grid.Column="2" Text="Dinner" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-        <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" IsReadOnly="True" Margin="2" 
+        <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" Text="" IsReadOnly="True" Margin="1" 
                Keyboard="Numeric" Placeholder="break.ratio" 
                ToolTipProperties.Text="Carbohydrates per unit of insulin - breakfast time [XXXX]"
                HorizontalTextAlignment="End" VerticalOptions="Center" VerticalTextAlignment="Center"
                BackgroundColor="PaleGoldenrod" FontSize="Large"/>
-        <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" IsReadOnly="True" Margin="2" 
+        <Entry Grid.Row="2" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" IsReadOnly="True" Margin="1" 
                Keyboard="Numeric" Placeholder="Lunch ratio" 
                ToolTipProperties.Text="Carbohydrates per unit of insulin - lunch time [XXXX]"
                HorizontalTextAlignment="End" VerticalOptions="Center" VerticalTextAlignment="Center"
                BackgroundColor="PaleGoldenrod" FontSize="Large"/>
-        <Entry Grid.Row="2" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" IsReadOnly="True" Margin="2" 
+        <Entry Grid.Row="2" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" IsReadOnly="True" Margin="1" 
                Placeholder="Dinn.ratio" 
                ToolTipProperties.Text="Carbohydrates per unit of insulin - dinner time [XXXX]"
                HorizontalTextAlignment="End" VerticalOptions="Center" VerticalTextAlignment="Center"
                BackgroundColor="PaleGoldenrod" FontSize="Large"/>
-        <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calc.&#10;bolus" Margin="2" 
+        <Button Grid.Row="2" Grid.Column="3" x:Name="btnBolusCalculations" Text="Calculate&#10;bolus" Margin="1" 
+                LineBreakMode="WordWrap" FontSize="Micro"
                ToolTipProperties.Text="Calculates the insulin bolus for this meal"
                Clicked="btnBolusCalculations_Click" />
 
@@ -45,10 +47,11 @@
                Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"
                FontSize="Large"/>
         <Button Grid.Row="4" Grid.Column="1" x:Name="btnSetParameters" Text="Set&#10;param." 
+                LineBreakMode="WordWrap" FontSize="Micro" Margin="1"
                ToolTipProperties.Text="Opens the page that calculates or sets sensitivity parameters"
                HorizontalOptions="Center" Clicked="btnSetParameters_Click"/>
         <Label Grid.Row="4" Grid.Column="2" x:Name="txtEmbarkedInsulin" Text="----" 
-               ToolTipProperties.Text="Amount of insulin taken but still effective"
+               ToolTipProperties.Text="Amount of insulin taken previously and still effective"
                HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Medium" />
         <Button Grid.Row="4" Grid.Column="3" Text="Round" 
                ToolTipProperties.Text="Calculate the CHO to eat to get a rounded value of the insulin bolus"
@@ -59,12 +62,12 @@
         <Label Grid.Row="5" Grid.Column="2" Text="Gl. to correct" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
         <Label Grid.Row="5" Grid.Column="3" Text="CHO to eat" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-        <Entry Grid.Row="6" Grid.Column="0" Margin="2" 
+        <Entry Grid.Row="6" Grid.Column="0" Margin="1" 
                Keyboard="Numeric" x:Name="txtGlucoseBeforeMeal" Text="" FontSize="Large" 
                ToolTipProperties.Text="Glucose measured before the meal"
                HorizontalTextAlignment="End" VerticalOptions="Center" VerticalTextAlignment="Center"
                Placeholder="mg/dl" BackgroundColor="GreenYellow" />
-        <Entry Grid.Row="6" Grid.Column="1" Margin="2"  
+        <Entry Grid.Row="6" Grid.Column="1" Margin="1"  
                ToolTipProperties.Text="Glucose to reach with calculated bolus"
                HorizontalTextAlignment="End" VerticalOptions="Center" VerticalTextAlignment="Center"
                Keyboard="Numeric" x:Name="txtTargetGlucose" Text="mg/dl" 
@@ -72,21 +75,22 @@
         <Label Grid.Row="6" Grid.Column="2" x:Name="txtGlucoseToBeCorrected" Text="----" 
                 ToolTipProperties.Text="Glucose "
                 HorizontalTextAlignment="End" VerticalOptions="Center" VerticalTextAlignment="Center"/>
-        <Entry Grid.Row="6" Grid.Column="3" x:Name="txtChoToEat" Text="" FontSize="Large" Margin="2"
+        <Entry Grid.Row="6" Grid.Column="3" x:Name="txtChoToEat" Text="" FontSize="Large" Margin="1"
                ToolTipProperties.Text="Carboydrates amount to eat to reach target glucose level"
                Keyboard="Numeric" Placeholder="g" BackgroundColor="GreenYellow"
                HorizontalTextAlignment="End" VerticalOptions="Center" VerticalTextAlignment="Center" />
 
-        <Button Grid.Row="7" Grid.Column="0"  Text="Read" Margin="2"
+        <Button Grid.Row="7" Grid.Column="0"  Text="Read" Margin="1"
             ToolTipProperties.Text="Read last value of blood glucose stored in database"
             x:Name="btnReadGlucose" Clicked="btnReadGlucose_Click" />
-        <Button Grid.Row="7" Grid.Column="1"  Text="Measure&#10;Glucose" IsEnabled="True" Margin="2"
+        <Button Grid.Row="7" Grid.Column="1"  Text="Measure&#10;Glucose" IsEnabled="True" Margin="1"
+                LineBreakMode="WordWrap" FontSize="Micro"
             ToolTipProperties.Text="Opens the page that stores measured glucose in database"
             x:Name="btnMeasureGlucose" Clicked="btnMeasureGlucose_Click" />
-        <Button Grid.Row="7" Grid.Column="2"  Text="Injection" IsEnabled="True" Margin="2"
+        <Button Grid.Row="7" Grid.Column="2"  Text="Injection" IsEnabled="True" Margin="1"
             ToolTipProperties.Text="Opens the page that stores the insulin injections"
             x:Name="btnInjection" Clicked="btnInjection_Click" />
-        <Button Grid.Row="7" Grid.Column="3" x:Name="btnReadCho" Text="Read" Margin="2"
+        <Button Grid.Row="7" Grid.Column="3" x:Name="btnReadCho" Text="Read" Margin="1"
             ToolTipProperties.Text="Reads the value of carbohydrates of the current meal"
             Clicked="btnReadCho_Click"/>
             
@@ -113,16 +117,17 @@
                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
         <Label Grid.Row="10" Grid.Column="3" Text="Total bolus insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-        <Label Grid.Row="11" Grid.Column="0" x:Name="txtCorrectionInsulin" Text="----" Margin="2"
+        <Label Grid.Row="11" Grid.Column="0" x:Name="txtCorrectionInsulin" Text="----" Margin="1"
             ToolTipProperties.Text="Insulin that correct the current level of insulin"
-            HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Large" BackgroundColor="CadetBlue" />
-        <Label Grid.Row="11" Grid.Column="1" x:Name="txtChoInsulinMeal" Text="----" Margin="2"
+            HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+               FontSize="Large" BackgroundColor="CadetBlue" />
+        <Label Grid.Row="11" Grid.Column="1" x:Name="txtChoInsulinMeal" Text="----" Margin="1"
             ToolTipProperties.Text="Insulin that reduces the ingested amount of carbohydrates"
             HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Medium" />
-        <Label Grid.Row="11" Grid.Column="2" x:Name="txtTotalInsulinExceptEmbarked" Text="----" Margin="2"
+        <Label Grid.Row="11" Grid.Column="2" x:Name="txtTotalInsulinExceptEmbarked" Text="----" Margin="1"
             ToolTipProperties.Text="Total insulin "
             HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Medium" />
-        <Label Grid.Row="11" Grid.Column="3" x:Name="txtTotalInsulin" Margin="2"
+        <Label Grid.Row="11" Grid.Column="3" x:Name="txtTotalInsulin" Margin="1"
             Text="----" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Large" 
             ToolTipProperties.Text="Calculated insulin bolus to inject"
             BackgroundColor="DeepSkyBlue"/>

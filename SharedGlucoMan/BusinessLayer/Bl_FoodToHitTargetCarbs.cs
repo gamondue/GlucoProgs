@@ -31,7 +31,7 @@ namespace GlucoMan.BusinessLayer
                 General.LogOfProgram.Error("BL_FoodToHitTargetCarbs | SaveData", ex);
             }
         }
-        public  void RestoreParametrs()
+        public  void RestoreParameters()
         {
             ChoAlreadyTaken.Text = dl.RestoreParameter("Hit_ChoAlreadyTaken");
             ChoOfFood.Text = dl.RestoreParameter("Hit_ChoOfFood");

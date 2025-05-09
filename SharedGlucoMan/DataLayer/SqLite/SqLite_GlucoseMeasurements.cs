@@ -111,16 +111,16 @@ namespace GlucoMan
             GlucoseRecord gr = new GlucoseRecord();
             try
             {
-                gr.IdGlucoseRecord = SqlSafe.Int(Row["IdGlucoseRecord"]);
-                gr.Timestamp = SqlSafe.DateTime(Row["Timestamp"]);
-                gr.GlucoseValue.Double = SqlSafe.Double(Row["GlucoseValue"]);
-                gr.GlucoseString = SqlSafe.String(Row["GlucoseString"]);
-                gr.IdDevice = SqlSafe.String(Row["IdDevice"]);
-                gr.TypeOfGlucoseMeasurement = (Common.TypeOfGlucoseMeasurement)SqlSafe.Int(Row["IdTypeOfGlucoseMeasurement"]);
-                gr.TypeOfGlucoseMeasurementDevice = (Common.TypeOfGlucoseMeasurementDevice)SqlSafe.Int(Row["IdTypeOfGlucoseMeasurementDevice"]);
-                gr.IdModelOfMeasurementSystem = SqlSafe.String(Row["IdModelOfMeasurementSystem"]);
-                gr.IdDocumentType = SqlSafe.Int(Row["IdDocumentType"]);
-                gr.Notes = SqlSafe.String(Row["Notes"]);
+                gr.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
+                gr.Timestamp = Safe.DateTime(Row["Timestamp"]);
+                gr.GlucoseValue.Double = Safe.Double(Row["GlucoseValue"]);
+                gr.GlucoseString = Safe.String(Row["GlucoseString"]);
+                gr.IdDevice = Safe.String(Row["IdDevice"]);
+                gr.TypeOfGlucoseMeasurement = (Common.TypeOfGlucoseMeasurement)Safe.Int(Row["IdTypeOfGlucoseMeasurement"]);
+                gr.TypeOfGlucoseMeasurementDevice = (Common.TypeOfGlucoseMeasurementDevice)Safe.Int(Row["IdTypeOfGlucoseMeasurementDevice"]);
+                gr.IdModelOfMeasurementSystem = Safe.String(Row["IdModelOfMeasurementSystem"]);
+                gr.IdDocumentType = Safe.Int(Row["IdDocumentType"]);
+                gr.Notes = Safe.String(Row["Notes"]);
             }
             catch (Exception ex)
             {

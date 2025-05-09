@@ -17,7 +17,8 @@ public partial class InjectionsPage : ContentPage
         {
             CurrentInjection = new();
             bl.SetTypeOfInsulinSpeedBasedOnTimeNow(CurrentInjection);
-        }
+            CurrentInjection.Timestamp.DateTime = DateTime.Now;
+        }      
         RefreshUi();
     }
     public int? IdInsulinInjection
@@ -50,7 +51,7 @@ public partial class InjectionsPage : ContentPage
     }
     private void FromUiToClass()
     {
-        CurrentInjection.IdInsulinInjection = SqlSafe.Int(txtIdInjection.Text);
+        CurrentInjection.IdInsulinInjection = Safe.Int(txtIdInjection.Text);
         CurrentInjection.InsulinValue.Text = txtInsulinActual.Text;
         CurrentInjection.InsulinCalculated.Text = txtInsulinCalculated.Text;
         DateTime instant = new DateTime(

@@ -3,9 +3,9 @@
 namespace gamon
 {
     /// <summary>
-    /// SqlSafe read of a database field to a string, managing nulls without stopping
+    /// Safe read of a database field to a string, managing nulls without stopping
     /// </summary>
-    internal static class SqlSafe
+    internal static class Safe 
     {
         internal static int? Int(object Value)
         {

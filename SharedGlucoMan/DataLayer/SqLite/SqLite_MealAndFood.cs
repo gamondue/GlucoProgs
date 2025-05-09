@@ -132,19 +132,19 @@ namespace GlucoMan
             GlucoseRecord gr = new GlucoseRecord();
             try
             {
-                m.IdMeal = SqlSafe.Int(Row["IdMeal"]);
+                m.IdMeal = Safe.Int(Row["IdMeal"]);
                 if (Row["IdTypeOfMeal"] is DBNull)
                     m.IdTypeOfMeal = 0;
                 else
-                    m.IdTypeOfMeal = (TypeOfMeal)SqlSafe.Int(Row["IdTypeOfMeal"]);
-                m.Carbohydrates.Double = SqlSafe.Double(Row["Carbohydrates"]);
-                m.TimeBegin.DateTime = SqlSafe.DateTime(Row["TimeBegin"]);
-                m.Notes = SqlSafe.String(Row["Notes"]);
-                m.AccuracyOfChoEstimate.Double = SqlSafe.Double(Row["AccuracyOfChoEstimate"]);
-                m.IdBolusCalculation = SqlSafe.Int(Row["IdBolusCalculation"]);
-                m.IdGlucoseRecord = SqlSafe.Int(Row["IdGlucoseRecord"]);
-                m.IdInsulinInjection = SqlSafe.Int(Row["IdInsulinInjection"]);
-                m.TimeEnd.DateTime = SqlSafe.DateTime(Row["TimeEnd"]);
+                    m.IdTypeOfMeal = (TypeOfMeal)Safe.Int(Row["IdTypeOfMeal"]);
+                m.Carbohydrates.Double = Safe.Double(Row["Carbohydrates"]);
+                m.TimeBegin.DateTime = Safe.DateTime(Row["TimeBegin"]);
+                m.Notes = Safe.String(Row["Notes"]);
+                m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
+                m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
+                m.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
+                m.IdInsulinInjection = Safe.Int(Row["IdInsulinInjection"]);
+                m.TimeEnd.DateTime = Safe.DateTime(Row["TimeEnd"]);
             }
             catch (Exception ex)
             {
@@ -263,14 +263,14 @@ namespace GlucoMan
             FoodInMeal f = new FoodInMeal();
             try
             {
-                f.IdMeal = SqlSafe.Int(Row["IdMeal"]);
-                f.IdFoodInMeal = SqlSafe.Int(Row["IdFoodInMeal"]);
-                f.IdFood = SqlSafe.Int(Row["IdFood"]);
-                f.CarbohydratesGrams.Double = SqlSafe.Double(Row["CarbohydratesGrams"]);
-                f.CarbohydratesPerUnit.Double = SqlSafe.Double(Row["CarbohydratesPercent"]);
-                f.QuantityGrams.Double = SqlSafe.Double(Row["Quantity"]);
-                f.AccuracyOfChoEstimate.Double = SqlSafe.Double(Row["AccuracyOfChoEstimate"]);
-                f.Name = SqlSafe.String(Row["Name"]);
+                f.IdMeal = Safe.Int(Row["IdMeal"]);
+                f.IdFoodInMeal = Safe.Int(Row["IdFoodInMeal"]);
+                f.IdFood = Safe.Int(Row["IdFood"]);
+                f.CarbohydratesGrams.Double = Safe.Double(Row["CarbohydratesGrams"]);
+                f.CarbohydratesPerUnit.Double = Safe.Double(Row["CarbohydratesPercent"]);
+                f.QuantityGrams.Double = Safe.Double(Row["Quantity"]);
+                f.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
+                f.Name = Safe.String(Row["Name"]);
             }
             catch (Exception ex)
             {
@@ -379,28 +379,28 @@ namespace GlucoMan
             GlucoseRecord gr = new GlucoseRecord();
             try
             {
-                f.IdFood = SqlSafe.Int(Row["IdFood"]);
-                f.Name = SqlSafe.String(Row["Name"]);
-                f.Description = SqlSafe.String(Row["Description"]);
-                f.Energy.Double = SqlSafe.Double(Row["Energy"]);
-                f.TotalFatsPercent.Double = SqlSafe.Double(Row["TotalFats"]);
-                f.SaturatedFatsPercent.Double = SqlSafe.Double(Row["SaturatedFats"]);
-                f.MonounsaturatedFatsPercent.Double = SqlSafe.Double(Row["MonounsaturatedFats"]);
-                f.PolyunsaturatedFatsPercent.Double = SqlSafe.Double(Row["PolyunsaturatedFats"]);
-                f.CarbohydratesPercent.Double = SqlSafe.Double(Row["Carbohydrates"]);
-                f.SugarPercent.Double = SqlSafe.Double(Row["Sugar"]);
-                f.FibersPercent.Double = SqlSafe.Double(Row["Fibers"]);
-                f.ProteinsPercent.Double = SqlSafe.Double(Row["Proteins"]);
-                f.SaltPercent.Double = SqlSafe.Double(Row["Salt"]);
-                f.PotassiumPercent.Double = SqlSafe.Double(Row["Potassium"]);
-                f.CholesterolPercent.Double = SqlSafe.Double(Row["Cholesterol"]);
-                f.GlycemicIndex.Double = SqlSafe.Double(Row["GlycemicIndex"]);
+                f.IdFood = Safe.Int(Row["IdFood"]);
+                f.Name = Safe.String(Row["Name"]);
+                f.Description = Safe.String(Row["Description"]);
+                f.Energy.Double = Safe.Double(Row["Energy"]);
+                f.TotalFatsPercent.Double = Safe.Double(Row["TotalFats"]);
+                f.SaturatedFatsPercent.Double = Safe.Double(Row["SaturatedFats"]);
+                f.MonounsaturatedFatsPercent.Double = Safe.Double(Row["MonounsaturatedFats"]);
+                f.PolyunsaturatedFatsPercent.Double = Safe.Double(Row["PolyunsaturatedFats"]);
+                f.CarbohydratesPercent.Double = Safe.Double(Row["Carbohydrates"]);
+                f.SugarPercent.Double = Safe.Double(Row["Sugar"]);
+                f.FibersPercent.Double = Safe.Double(Row["Fibers"]);
+                f.ProteinsPercent.Double = Safe.Double(Row["Proteins"]);
+                f.SaltPercent.Double = Safe.Double(Row["Salt"]);
+                f.PotassiumPercent.Double = Safe.Double(Row["Potassium"]);
+                f.CholesterolPercent.Double = Safe.Double(Row["Cholesterol"]);
+                f.GlycemicIndex.Double = Safe.Double(Row["GlycemicIndex"]);
                 UnitOfFood unit = new UnitOfFood();
-                unit.Name = SqlSafe.String(Row["Unit"]);
-                unit.GramsInOneUnit.Double = SqlSafe.Double(Row["GramsInOneUnit"]);
+                unit.Name = Safe.String(Row["Unit"]);
+                unit.GramsInOneUnit.Double = Safe.Double(Row["GramsInOneUnit"]);
                 f.Unit = unit;
-                f.Manufacturer = SqlSafe.String(Row["Manufacturer"]);
-                f.Category = SqlSafe.String(Row["Category"]);
+                f.Manufacturer = Safe.String(Row["Manufacturer"]);
+                f.Category = Safe.String(Row["Category"]);
             }
             catch (Exception ex)
             {
@@ -724,10 +724,10 @@ namespace GlucoMan
                         dRead = cmd.ExecuteReader();
                         while (dRead.Read())
                         {
-                            UnitOfFood u = new(SqlSafe.String(dRead["Name"]), (double)SqlSafe.Double(dRead["GramsInOneUnit"]));
-                            u.IdUnit = SqlSafe.Int(dRead["IdUnitOfFood"]);
-                            u.IdFood = SqlSafe.Int(dRead["IdFood"]);
-                            u.Description = SqlSafe.String(dRead["Description"]);
+                            UnitOfFood u = new(Safe.String(dRead["Name"]), (double)Safe.Double(dRead["GramsInOneUnit"]));
+                            u.IdUnit = Safe.Int(dRead["IdUnitOfFood"]);
+                            u.IdFood = Safe.Int(dRead["IdFood"]);
+                            u.Description = Safe.String(dRead["Description"]);
                             UnitsInFood.Add(u);
                         }
                         dRead.Dispose();

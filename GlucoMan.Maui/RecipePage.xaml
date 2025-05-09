@@ -45,6 +45,7 @@
                        Text="{Binding TotalWeight.Double}"
                        HorizontalTextAlignment="Center" IsReadOnly="false"/>
                     <Button Grid.Row="2" Grid.Column="4" Text="Save&#10;Recipe" x:Name="btnSaveRecipe" 
+                            LineBreakMode="WordWrap"
                        ToolTipProperties.Text="Saves all data of this recipe"
                        Margin="2" Clicked="btnSaveAllRecipe_Click"/>
 
@@ -156,7 +157,7 @@
                         ColumnDefinitions="*,*,*,*">
                         <Button  Text="Save" x:Name="btnSaveAllFoods" 
                         Clicked="btnSaveAllFoods_Click" IsEnabled="False" IsVisible="False"/>
-                        <Button Grid.Column="0" Text="Clean&#10;fields" x:Name="btnDefaults" 
+                        <Button Grid.Column="0" Text="Clean&#10;fields" x:Name="btnDefaults"
                         Clicked="btnDefaults_Click" LineBreakMode="WordWrap"/>
                         <Button Grid.Column="1" Text="Foods" x:Name="btnFoods" 
                         LineBreakMode="WordWrap" Clicked="btnFoods_Click"/>

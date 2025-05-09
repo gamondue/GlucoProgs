@@ -30,7 +30,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
     }
     private void FromUiToClass()
     {
-        double? glucose = SqlSafe.Double(txtGlucose.Text);
+        double? glucose = Safe.Double(txtGlucose.Text);
         if (glucose == null)
         {
             txtGlucose.Text = "";
@@ -38,7 +38,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
             return;
         }
         currentGlucose = new GlucoseRecord();
-        currentGlucose.IdGlucoseRecord = SqlSafe.Int(txtIdGlucoseRecord.Text);
+        currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
         currentGlucose.GlucoseValue.Double = glucose;
         DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
             dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds);
@@ -54,7 +54,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
             && currentGlucose.Timestamp != new DateTime(1, 1, 1, 0, 0, 0)
             && currentGlucose.Timestamp != General.DateNull)
         {
-            dtpEventDate.Date = (DateTime)SqlSafe.DateTime(currentGlucose.Timestamp);
+            dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
             dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;
         }
         else

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Maui.AboutPage"
              Title="About">
-    <Grid RowDefinitions="25,*">
+    <Grid RowDefinitions="*">
       <VerticalStackLayout VerticalOptions="Fill" HorizontalOptions="Fill">
         <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
           <ContentView Padding="0,20,0,20" VerticalOptions="Fill">
@@ -11,7 +11,7 @@
           </ContentView>
         </HorizontalStackLayout>
       </VerticalStackLayout>
-      <ScrollView Grid.Row="1">
+      <ScrollView Grid.Row="0">
         <VerticalStackLayout Padding="20,24,20,24" Spacing="8">
           <Border BackgroundColor="#2196F3" Padding="0">
             <Label x:Name="lblAppName" Text="GlucoMan" HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>

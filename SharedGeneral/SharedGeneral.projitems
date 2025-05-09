@@ -15,7 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)General.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IntAndText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SqlSafe.cs" />
+    <Compile Include="..\SharedGeneral\Safe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlLiteSafe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TextFile.cs" />
   </ItemGroup>

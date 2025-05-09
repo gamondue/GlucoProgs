@@ -8,8 +8,7 @@
     Title="GlucoMan">
 
     <ShellContent
-        Title="Glucose Manager"
+        Title="GlucoMan: Glucose Manager"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
-
 </Shell>

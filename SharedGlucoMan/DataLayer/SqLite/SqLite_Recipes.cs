@@ -180,13 +180,13 @@ namespace GlucoMan
             Recipe m = new Recipe();
             try
             {
-                m.IdRecipe = SqlSafe.Int(row["IdRecipe"]);
-                m.Name = SqlSafe.String(row["Name"]);
-                m.Description = SqlSafe.String(row["Description"]);
-                m.CarbohydratesPercent.Double = SqlSafe.Double(row["CarbohydratesPercent"]);
-                m.AccuracyOfChoEstimate.Double = SqlSafe.Double(row["AccuracyOfChoEstimate"]);
-                m.IsCooked = (bool)SqlSafe.Bool(row["IsCooked"]);
-                m.RawToCookedRatio.Double = SqlSafe.Double(row["RawToCookedRatio"]);
+                m.IdRecipe = Safe.Int(row["IdRecipe"]);
+                m.Name = Safe.String(row["Name"]);
+                m.Description = Safe.String(row["Description"]);
+                m.CarbohydratesPercent.Double = Safe.Double(row["CarbohydratesPercent"]);
+                m.AccuracyOfChoEstimate.Double = Safe.Double(row["AccuracyOfChoEstimate"]);
+                m.IsCooked = (bool)Safe.Bool(row["IsCooked"]);
+                m.RawToCookedRatio.Double = Safe.Double(row["RawToCookedRatio"]);
             }
             catch (Exception ex)
             {
@@ -338,15 +338,15 @@ namespace GlucoMan
             Ingredient m = new Ingredient();
             try
             {
-                m.IdIngredient = SqlSafe.Int(Row["IdIngredient"]);
-                m.IdRecipe = SqlSafe.Int(Row["IdRecipe"]);
-                m.Name = SqlSafe.String(Row["Name"]);
-                m.Description = SqlSafe.String(Row["Description"]);
-                m.QuantityGrams.Double = SqlSafe.Double(Row["QuantityGrams"]);
-                m.QuantityPercent.Double = SqlSafe.Double(Row["QuantityPercent"]);
-                m.CarbohydratesPercent.Double = SqlSafe.Double(Row["CarbohydratesPercent"]);
-                m.AccuracyOfChoEstimate.Double = SqlSafe.Double(Row["AccuracyOfChoEstimate"]);
-                m.IdFood = SqlSafe.Int(Row["IdFood"]);
+                m.IdIngredient = Safe.Int(Row["IdIngredient"]);
+                m.IdRecipe = Safe.Int(Row["IdRecipe"]);
+                m.Name = Safe.String(Row["Name"]);
+                m.Description = Safe.String(Row["Description"]);
+                m.QuantityGrams.Double = Safe.Double(Row["QuantityGrams"]);
+                m.QuantityPercent.Double = Safe.Double(Row["QuantityPercent"]);
+                m.CarbohydratesPercent.Double = Safe.Double(Row["CarbohydratesPercent"]);
+                m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
+                m.IdFood = Safe.Int(Row["IdFood"]);
             }
             catch (Exception ex)
             {

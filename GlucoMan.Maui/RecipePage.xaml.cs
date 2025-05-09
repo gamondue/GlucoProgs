@@ -64,8 +64,8 @@ public partial class RecipePage : ContentPage
     }
     private void FromUiToIngredient(Ingredient Ingredient)
     {
-        Ingredient.IdIngredient = SqlSafe.Int(txtIdIngredient.Text);
-        Ingredient.IdRecipe = SqlSafe.Int(txtIdRecipe.Text);
+        Ingredient.IdIngredient = Safe.Int(txtIdIngredient.Text);
+        Ingredient.IdRecipe = Safe.Int(txtIdRecipe.Text);
         Ingredient.QuantityGrams.Text = txtIngredientQuantityGrams.Text;
         Ingredient.CarbohydratesPercent.Text = txtIngredientCarbohydratesPercent.Text;
         Ingredient.QuantityPercent.Text = txtIngredientQuantityPercent.Text;
@@ -74,7 +74,7 @@ public partial class RecipePage : ContentPage
     }
     private void FromUiToRecipe(Recipe Recipe)
     {
-        Recipe.IdRecipe = SqlSafe.Int(txtIdRecipe.Text);
+        Recipe.IdRecipe = Safe.Int(txtIdRecipe.Text);
         Recipe.Name = txtRecipeName.Text;
         Recipe.Description = txtRecipeDescription.Text;
         Recipe.CarbohydratesPercent.Text = txtChoOfRecipePercent.Text;

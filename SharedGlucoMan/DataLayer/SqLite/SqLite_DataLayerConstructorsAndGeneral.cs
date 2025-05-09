@@ -235,7 +235,7 @@ namespace GlucoMan
                         for (int i = 0; i < dRead.FieldCount; i++)
                         {
                             fileContent += "\"" + dRead.GetName(i) + "\"\t";
-                            types += "\"" + SqlSafe.String(dRead.GetDataTypeName(i)) + "\"\t";
+                            types += "\"" + Safe.String(dRead.GetDataTypeName(i)) + "\"\t";
                         }
                         fileContent = fileContent.Substring(0, fileContent.Length - 1) + "\r\n";
                         fileContent += types.Substring(0, types.Length - 1) + "\r\n";
@@ -247,7 +247,7 @@ namespace GlucoMan
                         Console.Write(dRead.GetValue(0));
                         for (int i = 0; i < dRead.FieldCount; i++)
                         {
-                            values += "\"" + SqlSafe.String(dRead.GetValue(i).ToString()) + "\"\t";
+                            values += "\"" + Safe.String(dRead.GetValue(i).ToString()) + "\"\t";
                         }
                         fileContent += values.Substring(0, values.Length - 1) + "\r\n";
                     }
@@ -452,7 +452,7 @@ namespace GlucoMan
                                 };
                             case TypeCode.DateTime:
                                 {
-                                    DateTime? d = SqlSafe.DateTime(row[c.ColumnName]);
+                                    DateTime? d = Safe.DateTime(row[c.ColumnName]);
                                     cmd.CommandText += "'" +
                                         ((DateTime)(d)).ToString("yyyy-MM-dd_HH.mm.ss") + "',";
                                     break;
@@ -658,7 +658,7 @@ namespace GlucoMan
                     {
                         // no key between parameter: we use the highest key
                         cmd.CommandText = "SELECT MAX(IdParameters) FROM Parameters;";
-                        int? maxKey = SqlSafe.Int(cmd.ExecuteScalar());
+                        int? maxKey = Safe.Int(cmd.ExecuteScalar());
                         //int? maxKey = NextKey("Parameters", "IdParameters");
                         whereClause = " WHERE IdParameters=" + maxKey;
                     }
@@ -669,7 +669,7 @@ namespace GlucoMan
                     }
                     query += whereClause + ";";
                     cmd.CommandText = query;
-                    string result = SqlSafe.String(cmd.ExecuteScalar());
+                    string result = Safe.String(cmd.ExecuteScalar());
                     cmd.Dispose();
                     return result;
                 }

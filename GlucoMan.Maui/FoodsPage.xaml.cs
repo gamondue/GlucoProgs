@@ -107,7 +107,7 @@ public partial class FoodsPage : ContentPage
     }
     private void FromUiToClass()
     {
-        CurrentFood.IdFood = SqlSafe.Int(txtIdFood.Text);
+        CurrentFood.IdFood = Safe.Int(txtIdFood.Text);
         CurrentFood.Name = txtName.Text;
         CurrentFood.Description = txtDescription.Text;
         if (cmbUnit.SelectedItem == null)
@@ -115,19 +115,19 @@ public partial class FoodsPage : ContentPage
         ////////else
         ////////CurrentFood.Unit = cmbUnit.SelectedItem;
 
-        //CurrentFood.CarbohydratesPerUnit.Double = SqlSafe.Double(txtFoodCarbohydrates.Text);
+        //CurrentFood.CarbohydratesPerUnit.Double = Safe.Double(txtFoodCarbohydrates.Text);
 
-            //CurrentFood.Energy.Double = SqlSafe.Double(txtCalories.Text);
-            //CurrentFood.TotalFatsPercent.Double = SqlSafe.Double(txtTotalFats.Text);
-            //CurrentFood.SaturatedFatsPercent.Double = SqlSafe.Double(txtSaturatedFats.Text);
-            //CurrentFood.SugarPercent.Double = SqlSafe.Double(txtSugar.Text);
-            //CurrentFood.FibersPercent.Double = SqlSafe.Double(txtFibers.Text);
-            //CurrentFood.ProteinsPercent.Double = SqlSafe.Double(txtProteins.Text);
-            //CurrentFood.SaltPercent.Double = SqlSafe.Double(txtSalt.Text);
-            //CurrentFood.PotassiumPercent.Double = SqlSafe.Double(txtPotassium.Text);
+            //CurrentFood.Energy.Double = Safe.Double(txtCalories.Text);
+            //CurrentFood.TotalFatsPercent.Double = Safe.Double(txtTotalFats.Text);
+            //CurrentFood.SaturatedFatsPercent.Double = Safe.Double(txtSaturatedFats.Text);
+            //CurrentFood.SugarPercent.Double = Safe.Double(txtSugar.Text);
+            //CurrentFood.FibersPercent.Double = Safe.Double(txtFibers.Text);
+            //CurrentFood.ProteinsPercent.Double = Safe.Double(txtProteins.Text);
+            //CurrentFood.SaltPercent.Double = Safe.Double(txtSalt.Text);
+            //CurrentFood.PotassiumPercent.Double = Safe.Double(txtPotassium.Text);
 
-            //CurrentFood.CholesterolPercent.Double = SqlSafe.Double(txtCholesterol.Text);
-            //CurrentFood.GlycemicIndex.Double = SqlSafe.Double(txtGlicemicIndex.Text);
+            //CurrentFood.CholesterolPercent.Double = Safe.Double(txtCholesterol.Text);
+            //CurrentFood.GlycemicIndex.Double = Safe.Double(txtGlicemicIndex.Text);
     }
     private void RefreshUi()
     {

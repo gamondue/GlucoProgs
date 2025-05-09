@@ -44,23 +44,23 @@ namespace GlucoMan
                 // the TypeOfGlucoseMeasurementDevice is decided in code, based on the TypeOfDocument field
                 //singleRecord.TypeOfGlucoseMeasurementDevice = inputContent[i][0];
                 singleRecord.IdDevice = inputContent[i][1];
-                singleRecord.Timestamp = SqlSafe.DateTime(inputContent[i][2]);
-                singleRecord.TypeOfDocument = SqlSafe.Int(inputContent[i][3]);
-                singleRecord.GlucoseHistoricValue = SqlSafe.Double(inputContent[i][4]);
-                singleRecord.GlucoseScanValue = SqlSafe.Double(inputContent[i][5]);
+                singleRecord.Timestamp = Safe.DateTime(inputContent[i][2]);
+                singleRecord.TypeOfDocument = Safe.Int(inputContent[i][3]);
+                singleRecord.GlucoseHistoricValue = Safe.Double(inputContent[i][4]);
+                singleRecord.GlucoseScanValue = Safe.Double(inputContent[i][5]);
                 singleRecord.InsulinRapidActionString = inputContent[i][6];
-                singleRecord.InsulinRapidActionValue = SqlSafe.Double(inputContent[i][7]);
+                singleRecord.InsulinRapidActionValue = Safe.Double(inputContent[i][7]);
                 singleRecord.MealFoodString = inputContent[i][8];
-                singleRecord.CarbohydratesValue_grams = SqlSafe.Double(inputContent[i][9]);
+                singleRecord.CarbohydratesValue_grams = Safe.Double(inputContent[i][9]);
                 singleRecord.CarbohydratesString = inputContent[i][10];
                 singleRecord.InsulinSlowActionString = inputContent[i][11];
-                singleRecord.InsulinSlowActionValue = SqlSafe.Double(inputContent[i][12]);
+                singleRecord.InsulinSlowActionValue = Safe.Double(inputContent[i][12]);
                 singleRecord.Notes = inputContent[i][13];
-                singleRecord.GlucoseStripValue_mg_dL = SqlSafe.Double(inputContent[i][14]);
-                singleRecord.Chetons_mmol_L = SqlSafe.Double(inputContent[i][15]);
-                singleRecord.MealInsulin = SqlSafe.Double(inputContent[i][16]);
-                singleRecord.InsulinCorrection = SqlSafe.Double(inputContent[i][17]);
-                singleRecord.InsulinWithUsersModifications = SqlSafe.Double(inputContent[i][18]);
+                singleRecord.GlucoseStripValue_mg_dL = Safe.Double(inputContent[i][14]);
+                singleRecord.Chetons_mmol_L = Safe.Double(inputContent[i][15]);
+                singleRecord.MealInsulin = Safe.Double(inputContent[i][16]);
+                singleRecord.InsulinCorrection = Safe.Double(inputContent[i][17]);
+                singleRecord.InsulinWithUsersModifications = Safe.Double(inputContent[i][18]);
                 switch (singleRecord.TypeOfDocument)
                 {
                     case 0: // SensorIntermediateValue, taken autonomously from the sensor

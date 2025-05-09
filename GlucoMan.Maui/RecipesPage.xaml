@@ -4,7 +4,8 @@
              x:Class="GlucoMan.Maui.RecipesPage"
              Title="Recipes" Loaded="PageLoaded">
     <ContentPage.Content>
-        <Grid Grid.RowDefinitions="20,20,45,20,45,20,45,50,20,*"
+        <!--Grid.RowDefinitions="20,20,45,20,45,20,45,50,20,*"-->
+        <Grid Grid.RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Recipe's information" 
@@ -43,50 +44,49 @@
                    x:Name="lblCookedRaw"
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Start"/>
 
-            <Entry Grid.Row="6" Grid.Column="0" x:Name="txtRecipeCarbohydrates" 
+            <Entry Grid.Row="6" Grid.Column="0" x:Name="txtRecipeCarbohydrates" Margin="1"
                     ToolTipProperties.Text="Total Carbohydrates % of this recipe"
                     BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End"
                     FontSize="Large" Text="{Binding Cho.Text}"/>
-            <HorizontalStackLayout Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2">
-                <CheckBox VerticalOptions="Center" HorizontalOptions="Center" 
+            <HorizontalStackLayout Grid.Row="6" Grid.Column="1">
+                <CheckBox HorizontalOptions="Center" VerticalOptions="Center"
                           x:Name="chkCooked" IsChecked="True" 
                           ToolTipProperties.Text="States if this recipes' carbohydrates regard a cooked or raw recipe"
                           CheckedChanged="chkCooked_CheckedChanged">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
-                            <On Platform="iOS" Value="0,-10,0,0" />
-                            <On Platform="Android, WinPhone, Windows" Value="0,-10,0,0" />
+                                <On Platform="iOS" Value="0,-10,0,0" />
+                                <On Platform="Android, WinPhone, Windows" Value="0,-10,0,0" />
                         </OnPlatform>
                     </CheckBox.Margin>
                 </CheckBox>
-                <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Margin="-10,0,0,0" 
+                <Label HorizontalOptions="Center" HorizontalTextAlignment="Start" Margin="-10,0,0,0" 
                        ToolTipProperties.Text="States if this recipes' carbohydrates regard a cooked or raw recipe"
                        VerticalTextAlignment="Center" VerticalOptions="Center" Text="Cooked" />
             </HorizontalStackLayout>
-
-            <Entry Grid.Row="6" Grid.Column="2" x:Name="txtRawToCookedRatio" 
+            <Entry Grid.Row="6" Grid.Column="2" x:Name="txtRawToCookedRatio" Margin="1"
                     ToolTipProperties.Text="Ratio between the cooked weight and the raw weight of the recipe"
                     BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End" />
             <HorizontalStackLayout Grid.Row="6" Grid.Column="3">
-                <Button  Text="+" x:Name="btnAddRecipe" 
+                <Button  Text="+" x:Name="btnAddRecipe" Margin="1"
                     ToolTipProperties.Text="Adds a new recipe to the recipes stored in the program"
                     Clicked="btnAddRecipe_Click"/>
-                <Button Text="-" x:Name="btnRemoveRecipe" 
+                <Button Text="-" x:Name="btnRemoveRecipe" Margin="1"
                     ToolTipProperties.Text="Removes the recipe from those stored in the program"
                     Clicked="btnRemoveRecipe_Click"/>
             </HorizontalStackLayout>
 
             <Button Grid.Row="7" Grid.Column="0" Text="Save" x:Name="btnSaveRecipe" 
-                    ToolTipProperties.Text="Saves this recipe"
+                    ToolTipProperties.Text="Saves this recipe" Margin="1"
                     Clicked="btnSaveRecipe_Click"/>
             <Button Grid.Row="7" Grid.Column="1" Text="Details" x:Name="btnRecipeDetails" 
-                    ToolTipProperties.Text="Opens the page of recipe's details"
+                    ToolTipProperties.Text="Opens the page of recipe's details" Margin="1"
                     Clicked="btnRecipeDetails_Click"/>
             <Button Grid.Row="7" Grid.Column="2" Text="Clean&#10;Fields" x:Name="btnCleanFields" 
-                    ToolTipProperties.Text="Cleans all data in the UI"
+                    ToolTipProperties.Text="Cleans all data in the UI" Margin="1"
                     Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"
                     FontSize="Micro"/>
-            <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchRecipe" 
+            <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchRecipe" Margin="1"
                     ToolTipProperties.Text="Searchs the recipes matching the filter in the UI"
                     Clicked="btnSearchRecipe_Click"/>
 

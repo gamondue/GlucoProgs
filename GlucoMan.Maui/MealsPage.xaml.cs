@@ -49,11 +49,11 @@ public partial class MealsPage : ContentPage
     private void FromClassToUi()
     {
         txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-        txtChoOfMeal.Text = SqlSafe.String(bl.Meal.Carbohydrates.Text);
+        txtChoOfMeal.Text = Safe.String(bl.Meal.Carbohydrates.Text);
         ////cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
         if (bl.Meal.TimeBegin.DateTime != General.DateNull)
         {
-            dtpMealDateBegin.Date = (DateTime)SqlSafe.DateTime(bl.Meal.TimeBegin.DateTime);
+            dtpMealDateBegin.Date = (DateTime)Safe.DateTime(bl.Meal.TimeBegin.DateTime);
             dtpMealTimeBegin.Time = ((DateTime)bl.Meal.TimeBegin.DateTime).TimeOfDay;  // - dtpMealDateBegin.Date;
         }
         if (bl.Meal.AccuracyOfChoEstimate.Double != null)
@@ -63,10 +63,10 @@ public partial class MealsPage : ContentPage
     }
     private void FromUiToClass()
     {
-        bl.Meal.IdMeal = SqlSafe.Int(txtIdMeal.Text);
-        bl.Meal.Carbohydrates.Text = SqlSafe.Double(txtChoOfMeal.Text).ToString();
+        bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
+        bl.Meal.Carbohydrates.Text = Safe.Double(txtChoOfMeal.Text).ToString();
 
-        bl.Meal.AccuracyOfChoEstimate.Double = SqlSafe.Double(txtAccuracyOfChoMeal.Text);
+        bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text);
 
         DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
             dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);

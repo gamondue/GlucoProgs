@@ -71,18 +71,18 @@ public partial class RecipesPage : ContentPage
         txtName.Text = bl.CurrentRecipe.Name;
         txtDescription.Text = bl.CurrentRecipe.Description;
         txtRecipeCarbohydrates.Text = bl.CurrentRecipe.CarbohydratesPercent.Text;
-        chkCooked.IsChecked = (bool)SqlSafe.Bool(bl.CurrentRecipe.IsCooked);
+        chkCooked.IsChecked = (bool)Safe.Bool(bl.CurrentRecipe.IsCooked);
         txtRawToCookedRatio.Text = bl.CurrentRecipe.RawToCookedRatio.Text;
         // XXXX = bl.CurrentRecipe.AccuracyOfChoEstimate;
     }
     private void FromUiToCurrentRecipe()
     {
-        bl.CurrentRecipe.IdRecipe = SqlSafe.Int(txtIdRecipe.Text);
+        bl.CurrentRecipe.IdRecipe = Safe.Int(txtIdRecipe.Text);
         bl.CurrentRecipe.Name = txtName.Text;
         bl.CurrentRecipe.Description = txtDescription.Text;
-        bl.CurrentRecipe.CarbohydratesPercent.Double = SqlSafe.Double(txtRecipeCarbohydrates.Text);
-        bl.CurrentRecipe.IsCooked = (bool)SqlSafe.Bool(chkCooked.IsChecked);
-        bl.CurrentRecipe.RawToCookedRatio.Double = SqlSafe.Double(txtRawToCookedRatio.Text);
+        bl.CurrentRecipe.CarbohydratesPercent.Double = Safe.Double(txtRecipeCarbohydrates.Text);
+        bl.CurrentRecipe.IsCooked = (bool)Safe.Bool(chkCooked.IsChecked);
+        bl.CurrentRecipe.RawToCookedRatio.Double = Safe.Double(txtRawToCookedRatio.Text);
         // bl.CurrentRecipe.AccuracyOfChoEstimate = XXXX;
     }
     private void OnGridSelection(object sender, SelectedItemChangedEventArgs e)

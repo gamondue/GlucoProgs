@@ -4,7 +4,8 @@
              x:Class="GlucoMan.Maui.FoodsPage"
              Title="Foods" Loaded="PageLoad">
     <ContentPage.Content>
-        <Grid Grid.RowDefinitions="20,20,50,20,50,20,50,50,*"
+        <!--Grid.RowDefinitions="20,20,50,20,50,20,50,50,*"-->
+        <Grid Grid.RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Food's information" 
@@ -49,30 +50,31 @@
             <Label Grid.Row="5" Grid.Column="0" Text="CHO [g]%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
-                Keyboard="Numeric" HorizontalTextAlignment="End"
+                Keyboard="Numeric" HorizontalTextAlignment="End" Margin="1"
                 ToolTipProperties.Text="Percent Carbohydrates of this food [%]"
                 Text = "{Binding CarbohydratesPercent.Text}"/>
-            <Button Grid.Row="6" Grid.Column="1" x:Name="btnChoose" Text="Choose" 
+            <Button Grid.Row="6" Grid.Column="1" x:Name="btnChoose" Text="Choose" Margin="1"
                 ToolTipProperties.Text="Chooses this food to be used by the calling page"
                 Clicked="btnChoose_Click"/>
-            <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddFood" 
+            <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddFood" Margin="1"
                 ToolTipProperties.Text="Adds a new food with data from UI"
                 Clicked="btnAddFood_Click"/>
-            <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveFood" 
+            <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveFood" Margin="1"
                 ToolTipProperties.Text="Deletes the selected food"
                 Clicked="btnRemoveFood_Click"/>
 
-            <Button Grid.Row="7" Grid.Column="0" Text="Save" x:Name="btnSaveFood" 
+            <Button Grid.Row="7" Grid.Column="0" Text="Save" x:Name="btnSaveFood" Margin="1"
                 ToolTipProperties.Text="Saves the food with the current data of the UI"
                 Clicked="btnSaveFood_Click"/>
-            <Button Grid.Row="7" Grid.Column="1" Text="Details" x:Name="btnFoodDetails" 
+            <Button Grid.Row="7" Grid.Column="1" Text="Details" x:Name="btnFoodDetails" Margin="1"
                 ToolTipProperties.Text="Opens the page with additional data about the food"
                 Clicked="btnFoodDetails_Click"/>
-            <Button Grid.Row="7" Grid.Column="2" Text="Clean&#10;Fields" x:Name="btnCleanFields" 
+            <Button Grid.Row="7" Grid.Column="2" Text="Clean&#10;Fields"
+                    x:Name="btnCleanFields" Margin="1"
                 ToolTipProperties.Text="Cleans all data in the UI"
                 Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"
                 FontSize="Micro"/>
-            <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchFood" 
+            <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchFood" Margin="1"
                 ToolTipProperties.Text="Searchs the foods matching the filter in the UI"
                 Clicked="btnSearchFood_Click"/>
 

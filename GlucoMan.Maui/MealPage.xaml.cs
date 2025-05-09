@@ -88,9 +88,9 @@ public partial class MealPage : ContentPage
     }
     private void FromUiToFood(FoodInMeal FoodInMeal)
     {
-        FoodInMeal.IdMeal = SqlSafe.Int(txtIdMeal.Text);
-        FoodInMeal.IdFoodInMeal = SqlSafe.Int(txtIdFoodInMeal.Text);
-        FoodInMeal.IdFood = SqlSafe.Int(txtIdFood.Text);
+        FoodInMeal.IdMeal = Safe.Int(txtIdMeal.Text);
+        FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
+        FoodInMeal.IdFood = Safe.Int(txtIdFood.Text);
         FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text; // [g]
         FoodInMeal.CarbohydratesPerUnit.Text = txtFoodCarbohydratesPercent.Text;
         FoodInMeal.CarbohydratesGrams.Text = txtFoodChoGrams.Text;
@@ -99,7 +99,7 @@ public partial class MealPage : ContentPage
     }
     private void FromUiToMeal(Meal Meal)
     {
-        Meal.IdMeal = SqlSafe.Int(txtIdMeal.Text);
+        Meal.IdMeal = Safe.Int(txtIdMeal.Text);
         Meal.Carbohydrates.Text = txtChoOfMealGrams.Text;
         Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
         Meal.Notes = txtNotes.Text;
@@ -300,6 +300,10 @@ public partial class MealPage : ContentPage
         FromClassToUi();
         bl.SaveFoodInMealParameters();
         loading = false;
+    }
+    private void gridFoodsInMeal_Unfocused(object sender, FocusEventArgs e)
+    {
+
     }
     protected override async void OnAppearing()
     {

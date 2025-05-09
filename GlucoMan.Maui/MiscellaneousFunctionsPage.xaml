@@ -5,7 +5,7 @@
              Title="Miscellaneous functions">
     <ContentPage.Content>
         <Grid Padding="8,0,8,0"
-              RowDefinitions="30,20,50,30,60,60,60,60,60,60,60"
+              RowDefinitions="30*,20*,50*,30*,60*,60*,60*,60*,60*,60*,60*"
               ColumnDefinitions="*,*" Margin="2">
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Blood glucose unit conversion"
                    FontSize="Title" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>

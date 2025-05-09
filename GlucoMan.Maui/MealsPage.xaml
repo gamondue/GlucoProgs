@@ -4,7 +4,8 @@
              x:Class="GlucoMan.Maui.MealsPage"
              Title="Meals">
     <ContentPage.Content>
-        <Grid RowDefinitions="40,20,70,20,50,50,50,20,*"
+    	<!--RowDefinitions="40,20,70,20,50,50,50,20,*"-->
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
             ColumnDefinitions="*,*,*,*">
             <RadioButton Grid.Row="0" Grid.Column="0" Content="b.fast" x:Name="rdbIsBreakfast" 
                          ToolTipProperties.Text="Type of meal: breakfast" 

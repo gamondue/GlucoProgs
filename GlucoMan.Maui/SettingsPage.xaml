@@ -5,11 +5,23 @@
              Title="SettingsPage">
     <VerticalStackLayout>
         <HorizontalStackLayout >
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Duration of insulin</Label>
-            <TimePicker x:Name="tmpkInsulinDuration" VerticalOptions="Center"
-                        
+            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Name of short acting insulin</Label>
+            <Entry x:Name="txtInsulinShortName" VerticalOptions="Center"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Duration of short acting insulin</Label>
+            <TimePicker x:Name="tmpkInsulinShortDuration" VerticalOptions="Center"
                         Format="hh\:mm" />
             <Label VerticalTextAlignment="Center" Margin="3,0,5,0">hh:min</Label>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Name of long acting insulin</Label>
+            <Entry x:Name="txtInsulinLongName" VerticalOptions="Center"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Duration of long acting insulin</Label>
+            <Entry x:Name="tmpkInsulinLOngDuration" VerticalOptions="Center"/>
+            <Label VerticalTextAlignment="Center" Margin="3,0,5,0">hh</Label>
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

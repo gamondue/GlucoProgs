@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Maui.ConfigurationPage"
              Title="ConfigurationPage">
-    <VerticalStackLayout>
+    <Grid>
+        <Grid RowDefinitions="*,*" 
+              Grid.ColumnDefinitions="*,*" />
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="Times for meals"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

@@ -204,18 +204,18 @@ namespace GlucoMan
             GlucoseRecord gr = new GlucoseRecord();
             try
             {
-                ii.IdInsulinInjection = SqlSafe.Int(Row["IdInsulinInjection"]);
-                ii.Timestamp.DateTime = SqlSafe.DateTime(Row["Timestamp"]);
-                ii.InsulinValue.Double = SqlSafe.Double(Row["InsulinValue"]);
-                ii.InsulinCalculated.Double = SqlSafe.Double(Row["InsulinCalculated"]);
-                ii.InjectionPositionX = SqlSafe.Double(Row["InjectionPositionX"]);
-                ii.InjectionPositionY = SqlSafe.Double(Row["InjectionPositionY"]);
-                ii.Notes = SqlSafe.String(Row["Notes"]);
-                ii.IdTypeOfInsulinSpeed = SqlSafe.Int(Row["IdTypeOfInsulinSpeed"]);
-                ii.IdTypeOfInsulinInjection = SqlSafe.Int(Row["IdTypeOfInsulinInjection"]);
-                ii.InsulinString = SqlSafe.String(Row["InsulinString"]);
+                ii.IdInsulinInjection = Safe.Int(Row["IdInsulinInjection"]);
+                ii.Timestamp.DateTime = Safe.DateTime(Row["Timestamp"]);
+                ii.InsulinValue.Double = Safe.Double(Row["InsulinValue"]);
+                ii.InsulinCalculated.Double = Safe.Double(Row["InsulinCalculated"]);
+                ii.InjectionPositionX = Safe.Double(Row["InjectionPositionX"]);
+                ii.InjectionPositionY = Safe.Double(Row["InjectionPositionY"]);
+                ii.Notes = Safe.String(Row["Notes"]);
+                ii.IdTypeOfInsulinSpeed = Safe.Int(Row["IdTypeOfInsulinSpeed"]);
+                ii.IdTypeOfInsulinInjection = Safe.Int(Row["IdTypeOfInsulinInjection"]);
+                ii.InsulinString = Safe.String(Row["InsulinString"]);
                 if (Row["Zone"] != DBNull.Value)
-                    ii.Zone = (Common.ZoneOfPosition)(SqlSafe.Int(Row["Zone"]));
+                    ii.Zone = (Common.ZoneOfPosition)(Safe.Int(Row["Zone"]));
             }
             catch (Exception ex)
             {

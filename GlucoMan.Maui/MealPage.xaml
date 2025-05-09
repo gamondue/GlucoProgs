@@ -4,7 +4,7 @@
              x:Class="GlucoMan.Maui.MealPage"
              Title="One meal, its foods">
     <ContentPage.Content>
-        <Grid RowDefinitions="20,20,50,55,55,20,20,50,20,50,55,20,*"
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
               ColumnDefinitions="60*,60*,60*,80*,80*">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold"
                    Grid.ColumnSpan="5" Text="Meal data" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
@@ -16,16 +16,16 @@
             <Label Grid.Row="1" Grid.Column="3" Text="IdMeal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoOfMealGrams" BackgroundColor="Aqua"
-                   ToolTipProperties.Text="Total Carbohydrates of this meal"
-                   Margin="2" Keyboard="Numeric" FontSize="Medium"
+                   ToolTipProperties.Text="Total Carbohydrates of this meal" HorizontalTextAlignment="End"
+                   Margin="1" Keyboard="Numeric" FontSize="Medium"   
                    TextChanged="txtChoOfMealGrams_TextChanged"/>
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" 
                    ToolTipProperties.Text="Numerical accuracy of meal in percent"
-                   Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   Margin="1" Keyboard="Numeric" HorizontalTextAlignment="End" 
                    BackgroundColor="LightGreen"
                    VerticalTextAlignment="Center"/>
             <Picker Grid.Row="2" Grid.Column="2" x:Name="cmbAccuracyMeal"
-                   Margin="2" HorizontalTextAlignment="End"
+                   Margin="1" HorizontalTextAlignment="End"
                    ToolTipProperties.Text="Qualitative accuracy of meal as a word"
                    ItemsSource="{Binding Common.QualitativeAccuracy}" 
                    SelectedItem="{Binding NotSet, Mode=TwoWay}"
@@ -35,36 +35,39 @@
                    ToolTipProperties.Text="Code of the meal"
                    VerticalTextAlignment="Center" />
             <Button Grid.Row="2" Grid.Column="4" Text="Save&#10;meal" x:Name="btnSaveMeal" 
+                    LineBreakMode="WordWrap"
                    ToolTipProperties.Text="Saves the data in UI in the current meal"
-                   Margin="2" Clicked="btnSaveAllMeal_Click"/>
+                   Margin="1" Clicked="btnSaveAllMeal_Click"/>
 
             <Button Grid.Row="3" Grid.Column="0" Text="Start&#10; Now" 
+                    LineBreakMode="WordWrap" Margin="1"
                    x:Name="btnStartMeal" FontSize="Micro" 
                    ToolTipProperties.Text="Saves the current time as the starting time of the meal"
-                   LineBreakMode="WordWrap" Clicked="btnStartMeal_Click"/>
-            <Button Grid.Row="3" Grid.Column="1" Text="Gluc.&#10;value" x:Name="btnGlucose" 
+                   Clicked="btnStartMeal_Click"/>
+            <Button Grid.Row="3" Grid.Column="1" Text="Gluc.&#10;value" x:Name="btnGlucose" Margin="1"
                    ToolTipProperties.Text="Opens the page of glucose measurements"
-                   IsEnabled="True" Clicked="btnGlucose_ClickAsync" FontSize="Micro" Margin="0"
+                   IsEnabled="True" Clicked="btnGlucose_ClickAsync" FontSize="Micro"
                    LineBreakMode="WordWrap"/>
             <Button Grid.Row="3" Grid.Column="2" Text="Bolus&#10;Calc." x:Name="btnInsulinCalc" 
                    ToolTipProperties.Text="Opens the pages that calculates insulin bolus for the meal"
-                   IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync" FontSize="Micro"
+                   IsEnabled="True" Clicked="btnInsulinCalc_ClickAsync" FontSize="Micro" Margin="1"
                    LineBreakMode="WordWrap"/>
-            <Button Grid.Row="3" Grid.Column="3" Text="Injection" x:Name="btnInjection" HorizontalOptions="Start"
+            <Button Grid.Row="3" Grid.Column="3" Text="Injection" x:Name="btnInjection" 
+                    Margin="1" HorizontalOptions="Start"
                    ToolTipProperties.Text="Opens the page of insulin injections"
                    IsEnabled="True" Clicked="btnInjection_ClickAsync" FontSize="Micro" 
                    LineBreakMode="WordWrap"/>
-            <Button Grid.Row="3" Grid.Column="4" Text="Total CHO" x:Name="btnCalc" Margin="2"
+            <Button Grid.Row="3" Grid.Column="4" Text="Total CHO" x:Name="btnCalc" Margin="1"
                    ToolTipProperties.Text="Calculates total carbohydrates of the meal"
                    Clicked="btnCalc_Click" FontSize="Micro" LineBreakMode="WordWrap"/>
 
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
                    x:Name="txtNotes" BackgroundColor="LightGreen" 
                    ToolTipProperties.Text="Notes about the meal"
-                   Margin="2" FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
+                   Margin="1" FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
             <Button Grid.Row="4" Grid.Column="4" Text="Food to&#10;target" x:Name="btnFoodCalc" 
-                     ToolTipProperties.Text="Opens the page that calculates the food to eat to reach target carbohydrates"
-                    Clicked="btnFoodCalc_ClickAsync" FontSize="Micro" 
+                    ToolTipProperties.Text="Opens the page that calculates the food to eat to reach target carbohydrates"
+                    Clicked="btnFoodCalc_ClickAsync" FontSize="Micro" Margin="1"
                     LineBreakMode="WordWrap"/>
 
             <Label Grid.Row="5" Grid.Column="0" TextColor="Black" 
@@ -79,13 +82,13 @@
             <Entry Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" 
                    x:Name="txtFoodInMealName" BackgroundColor="LightGreen"
                    ToolTipProperties.Text="Name of current food of meal"
-                   Margin="2"  HorizontalTextAlignment="Start"/>
+                   Margin="1"  HorizontalTextAlignment="Start"/>
             <Entry Grid.Row="7" Grid.Column="2" x:Name="txtAccuracyOfChoFoodInMeal" 
-                   Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   Margin="1" Keyboard="Numeric" HorizontalTextAlignment="End" 
                    ToolTipProperties.Text="Numerical accuracy of food in percent"
                    BackgroundColor="LightGreen" />
             <Picker Grid.Row="7" Grid.Column="3" x:Name="cmbAccuracyFoodInMeal"
-                   Margin="2" HorizontalTextAlignment="End"
+                   Margin="1" HorizontalTextAlignment="End"
                    ToolTipProperties.Text="Qualitative accuracy of food as a word"
                    ItemsSource="{Binding Common.QualitativeAccuracy}" 
                    SelectedItem="{Binding NotSet, Mode=TwoWay}"
@@ -101,10 +104,10 @@
                 <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddFoodInMeal" 
                    ToolTipProperties.Text="Adds a new food in this meal, taking data from the UI"
                    FontSize="Micro"
-                   Margin="2" Clicked="btnAddFoodInMeal_Click"></Button>
+                   Margin="1" Clicked="btnAddFoodInMeal_Click"></Button>
                 <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveFoodInMeal"
                    ToolTipProperties.Text="Deletes the current food from this meal"
-                   Margin="2" Clicked="btnRemoveFoodInMeal_Click"></Button>
+                   Margin="1" Clicked="btnRemoveFoodInMeal_Click"></Button>
             </Grid>
 
             <Label Grid.Row="8" Grid.Column="0" Text="CHO/Unit%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -116,36 +119,36 @@
             <Label Grid.Row="8" Grid.Column="4" Text="Id Food" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="9" Grid.Column="0" x:Name="txtFoodCarbohydratesPercent" BackgroundColor="GreenYellow"
-                   Margin="2" TextChanged="txtFoodCarbohydratesPercent_TextChanged"
+                   Margin="1" TextChanged="txtFoodCarbohydratesPercent_TextChanged"
                    ToolTipProperties.Text="Carbohydrates per Unit of this food (typically g[%])"
                    Keyboard="Numeric" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="9" Grid.Column="1" x:Name="txtFoodQuantityGrams" BackgroundColor="GreenYellow"
-                   Margin="2" Keyboard="Numeric" TextChanged="txtFoodQuantityGrams_TextChanged" 
+                   Margin="1" Keyboard="Numeric" TextChanged="txtFoodQuantityGrams_TextChanged" 
                    ToolTipProperties.Text="Quantity of this food in this meal [g]"
                    HorizontalTextAlignment="End"/>
             <Entry Grid.Row="9" Grid.Column="2" x:Name="txtFoodChoGrams" BackgroundColor="LightGreen"
-                   Margin="2" Keyboard="Numeric" TextChanged="txtFoodChoGrams_TextChanged" 
+                   Margin="1" Keyboard="Numeric" TextChanged="txtFoodChoGrams_TextChanged" 
                    ToolTipProperties.Text="Quantity of carbohydrates in this food of this meal [g]"
                    HorizontalTextAlignment="End"/>
             <Entry Grid.Row="9" Grid.Column="3" x:Name="txtIdFoodInMeal" BackgroundColor="White" 
                    ToolTipProperties.Text="Code of this food in this meal"
-                   Margin="2" HorizontalTextAlignment="Center" IsReadOnly="true"/>
+                   Margin="1" HorizontalTextAlignment="Center" IsReadOnly="true"/>
             <Entry Grid.Row="9" Grid.Column="4" x:Name="txtIdFood" BackgroundColor="White" 
-                   Margin="2" Keyboard="Numeric"
+                   Margin="1" Keyboard="Numeric"
                    HorizontalTextAlignment="Center" IsReadOnly="true"/>
 
             <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="5" 
                   ColumnDefinitions="*,*,*,*">
                 <Button Grid.Column="0" Text="Clean&#10;fields" x:Name="btnDefaults" Clicked="btnDefaults_Click" 
-                   ToolTipProperties.Text="Cleans all data in the UI"
+                   ToolTipProperties.Text="Cleans all data in the UI" Margin="1"
                    FontSize="Micro" LineBreakMode="WordWrap"/>
-                <Button Grid.Column="1" Text="Foods" x:Name="btnFoodDetail" 
+                <Button Grid.Column="1" Text="Foods" x:Name="btnFoodDetail" Margin="1"
                    ToolTipProperties.Text="Opens the page of foods to import one"
                    LineBreakMode="WordWrap" Clicked="btnFoodDetail_ClickAsync" />
-                <Button Grid.Column="2" Text="Weigh" x:Name="btnWeighFood" 
+                <Button Grid.Column="2" Text="Weigh" x:Name="btnWeighFood" Margin="1"
                    ToolTipProperties.Text="Opens the page that helps in weighing the food"
                    LineBreakMode="WordWrap" Clicked="btnWeighFood_Click" IsEnabled="True" />
-                <Button Grid.Column="3" Text="Recipes" x:Name="btnRecipes" 
+                <Button Grid.Column="3" Text="Recipes" x:Name="btnRecipes" Margin="1"
                    ToolTipProperties.Text="Opens the page tha manages recipes, to import one"
                    LineBreakMode="WordWrap" Clicked="btnRecipes_ClickAsync" IsEnabled="True" />
             </Grid>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls;
+using System;
 
 namespace GlucoMan.Maui
 {
@@ -7,9 +8,8 @@ namespace GlucoMan.Maui
         public MainPage()
         {
             InitializeComponent();
-            // call method to set the paths of platform-specific folders
-            lblAppName.Text += " " + Common.Version;
-
+            // change the title of the page shown in the navigation bar, showing the version of the program
+            Title += " " + Common.Version;
             RequestPermissionsIfNotGiven().ConfigureAwait(false);
             Thread.Sleep(5000);
 
@@ -95,7 +95,7 @@ namespace GlucoMan.Maui
         }
         private void btnConfigurations_Clicked(object sender, EventArgs e)
         {
-            //Navigation.PushAsync(new ConfigurationPage());
+            Navigation.PushAsync(new ConfigurationPage());
         }
     }
 }

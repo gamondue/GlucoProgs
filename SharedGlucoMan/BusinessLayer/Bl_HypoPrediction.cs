@@ -288,7 +288,7 @@ namespace GlucoMan.BusinessLayer
             HourPrevious.Text = dl.RestoreParameter("Hypo_HourPrevious");
             MinuteLast.Text = dl.RestoreParameter("Hypo_MinuteLast");
             MinutePrevious.Text = dl.RestoreParameter("Hypo_MinutePrevious");
-            int? minutes = SqlSafe.Int(dl.RestoreParameter("Hypo_AlarmAdvanceTime"));
+            int? minutes = Safe.Int(dl.RestoreParameter("Hypo_AlarmAdvanceTime"));
             if (minutes == null)
                 minutes = 0;
             AlarmAdvanceTime.Text = dl.RestoreParameter("Hypo_AlarmAdvanceTime");

@@ -4,18 +4,18 @@
              x:Class="GlucoMan.Maui.InjectionsPage"
              Title="Insulin injections">
     <ContentPage.Content>
-        <Grid RowDefinitions="50,50,50,30,50,25,50,30,20,*"
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
               ColumnDefinitions="*,*,*,*">
-            <Button Grid.Row="0" Grid.Column="0" Text="Front" x:Name="btnFront" 
+            <Button Grid.Row="0" Grid.Column="0" Text="Front" x:Name="btnFront" Margin="1"
                 ToolTipProperties.Text="Opens a new Front injections' picture page"
                 Clicked="btnFront_ClickedAsync"/>
-            <Button Grid.Row="0" Grid.Column="1" Text="Back" x:Name="btnBack" 
+            <Button Grid.Row="0" Grid.Column="1" Text="Back" x:Name="btnBack" Margin="1"
                     ToolTipProperties.Text="Opens a new Back injections' picture page"
                     Clicked="btnBack_Clicked_Async"/>
-            <Button Grid.Row="0" Grid.Column="2" Text="Hands" x:Name="btnHands" 
+            <Button Grid.Row="0" Grid.Column="2" Text="Hands" x:Name="btnHands" Margin="1"
                     ToolTipProperties.Text="Opens a new Hands blood samples' positions picture page"
                     Clicked="btnHands_ClickedAsync"/>
-            <Button Grid.Row="0" Grid.Column="3" Text="Sensrs" x:Name="btnSensors" 
+            <Button Grid.Row="0" Grid.Column="3" Text="Sensrs" x:Name="btnSensors" Margin="1"
                     ToolTipProperties.Text="Opens a new Sensors positions' picture page"
                     Clicked="btnSensors_Clicked_Async"/>
 
@@ -53,7 +53,7 @@
                     ToolTipProperties.Text="Date of this injection"
                     BackgroundColor="PaleGreen"  
                     HorizontalOptions="Center" />
-            <Button Grid.Row="4" Grid.Column="2" Text="Now" x:Name="btnNow" 
+            <Button Grid.Row="4" Grid.Column="2" Text="Now" x:Name="btnNow" Margin="1"
                     ToolTipProperties.Text="Set the time of this instant as the time of this injection"
                     Clicked="btnNow_Click"></Button>
             <Grid Grid.Row="4" Grid.Column="3">
@@ -64,16 +64,16 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddInjection" 
+                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddInjection" Margin="1"
                     ToolTipProperties.Text="Add a new injection"
                     Clicked="btnAddInjection_Click"></Button>
-                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveInjection" 
+                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveInjection" Margin="1"
                     ToolTipProperties.Text="Remove this injection"
                     Clicked="btnRemoveInjection_Click"></Button>
             </Grid>
             
             <HorizontalStackLayout Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3">
-                <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" IsChecked="True">
+                <CheckBox VerticalOptions="Center" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS" Value="0,-10,0,0" />
@@ -81,7 +81,7 @@
                         </OnPlatform>
                     </CheckBox.Margin>
                 </CheckBox>
-                <Label VerticalTextAlignment="End" VerticalOptions="End" Text="Add with Now as time">
+                <Label VerticalTextAlignment="Start" VerticalOptions="Center" Text="Add with Now as time">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer>
 
