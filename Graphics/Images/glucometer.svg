@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 100 100"
+   width="100"
+   height="100"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="glucometer.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:export-filename="glucometer.png"
+   inkscape:export-xdpi="245.75999"
+   inkscape:export-ydpi="245.75999"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="8.13"
+     inkscape:cx="52.829028"
+     inkscape:cy="52.091021"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3" />
+  <!-- Corpo del glucometro -->
+  <rect
+     x="20"
+     y="20"
+     width="60"
+     height="60"
+     rx="10"
+     ry="10"
+     fill="#007BFF"
+     id="rect1" />
+  <!-- Schermo del glucometro -->
+  <rect
+     x="30"
+     y="30"
+     width="40"
+     height="30"
+     rx="5"
+     ry="5"
+     fill="#FFFFFF"
+     id="rect2"
+     style="fill:#fff6d5" />
+  <!-- Linee sullo schermo -->
+  <line
+     x1="35"
+     y1="40"
+     x2="65"
+     y2="40"
+     stroke="#000000"
+     stroke-width="2"
+     id="line2" />
+  <line
+     x1="35"
+     y1="50"
+     x2="65"
+     y2="50"
+     stroke="#000000"
+     stroke-width="2"
+     id="line3" />
+  <!-- Goccia di sangue -->
+  <path
+     d="m 49.277742,13.668579 c 22.758899,45.09477 -22.684609,44.311092 0,0 z"
+     fill="#ff0000"
+     id="path3"
+     style="stroke-width:5.82921"
+     sodipodi:nodetypes="cc" />
+</svg>

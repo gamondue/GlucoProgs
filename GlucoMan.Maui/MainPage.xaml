@@ -23,13 +23,13 @@
                 Clicked="btnNewMeal_Clicked" IsEnabled="True"
                 Margin="1" ToolTipProperties.Text="Opens a new meal page"/>
 
-        <Button x:Name="btnInsulinCalc" Text="Meal insulin" Clicked="btnInsulinCalc_Clicked"
+        <Button x:Name="btnInsulinCalc" Text="Calculate&#10;  insulin" Clicked="btnInsulinCalc_Clicked"
                 Grid.Row="2" Grid.Column="0" 
                 Margin="1" ToolTipProperties.Text="Opens a page that calculates the quantity of insulin to inject before a meal"/>
-        <Button Text="????"
+        <!--<Button Text="????"
                 Grid.Row="2" Grid.Column="1" 
                 IsEnabled="False" Clicked="btnAlarms_Clicked" 
-                Margin="1" ToolTipProperties.Text="Opens the page ?????"/>
+                Margin="1" ToolTipProperties.Text="Opens the page ?????"/>-->
 
         <Button x:Name="btnFoods" Text="Foods" 
                 Grid.Row="3" Grid.Column="0" 
@@ -40,18 +40,18 @@
                 Clicked="btnRecipes_Clicked" 
                 Margin="1" ToolTipProperties.Text="Opens the page of recipes' management" IsEnabled="True"/>
 
-        <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to reach &#10;target carbs"
+        <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to reach &#10;  target carbs"
                 LineBreakMode="WordWrap"
                 Grid.Row="4" Grid.Column="0" 
                 Clicked="btnFoodToHitTargetCarbs_Clicked"
                 Margin="1" ToolTipProperties.Text="Opens the page that calculates the food one need to eat to hit a carbohydrates target"/>
-        <Button x:Name="btnHypoPrediction" Text="Hypoglicemia &#10;time prediction" 
+        <Button x:Name="btnHypoPrediction" Text="Hypoglicemia&#10;time prediction" 
                 LineBreakMode="WordWrap"
                 Grid.Row="4" Grid.Column="1" 
                 Clicked="btnHypoPrediction_Clicked"
                 Margin="1" ToolTipProperties.Text="Opens the page that makes a simple prediction of the time of an hypoglicemia episode"/>
 
-        <Button x:Name="btnMiscellaneousFunctions" Text="Miscellaneous &#10;functions" 
+        <Button x:Name="btnMiscellaneousFunctions" Text="Miscellaneous&#10;   functions" 
                 LineBreakMode="WordWrap"
                 Grid.Row="5" Grid.Column="0" 
                 Clicked="btnMiscellaneousFunctions_Clicked" 
@@ -59,6 +59,7 @@
         <Button x:Name="btnAlarms" Text="Alarms"
                 Grid.Row="5" Grid.Column="1" 
                 IsEnabled="False" Clicked="btnAlarms_Clicked" 
+                Background="Grey"
                 Margin="1" ToolTipProperties.Text="Opens the page of the alarms' settings"/>
         
         <Button x:Name="btnConfigurations" Text="Configuration" 

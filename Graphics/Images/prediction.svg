@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 100 100"
+   width="100"
+   height="100"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="prediction.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:export-filename="prediction.png"
+   inkscape:export-xdpi="245.75999"
+   inkscape:export-ydpi="245.75999"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="4.9573172"
+     inkscape:cx="35.603935"
+     inkscape:cy="52.952028"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <!-- Sfondo del grafico -->
+  <!-- Linea tratteggiata della soglia -->
+  <!-- Curva decrescente -->
+  <!-- Assi del grafico -->
+  <rect
+     x="10"
+     y="10"
+     width="80"
+     height="80"
+     fill="#f0f0f0"
+     stroke="#000000"
+     stroke-width="2"
+     id="rect1" />
+  <line
+     x1="10.998473"
+     y1="60"
+     x2="89.001526"
+     y2="60"
+     stroke="#ff0000"
+     stroke-width="2"
+     stroke-dasharray="5, 5"
+     id="line1"
+     style="stroke-width:3.45604;stroke-dasharray:8.64009976,6.22087183;stroke-dashoffset:0" />
+  <line
+     x1="60.142971"
+     y1="89.030289"
+     x2="60.142948"
+     y2="63.540791"
+     stroke="#ff0000"
+     stroke-width="1.13902"
+     stroke-dasharray="5, 5"
+     id="line1-1"
+     style="fill:#008000;stroke:#008000;stroke-opacity:1;stroke-width:3.5;stroke-dasharray:5.25,3.5;stroke-dashoffset:0" />
+  <path
+     d="m 10.981154,17.391565 c 23.876588,0 15.918525,14.776976 47.246182,41.060894 5.04484,4.232623 7.054387,6.947829 14.986555,3.537831 10.050668,-4.320731 7.806978,-12.198795 15.816622,-12.296432"
+     fill="none"
+     stroke="#007bff"
+     stroke-width="3"
+     id="path1"
+     sodipodi:nodetypes="cssc" />
+  <line
+     x1="10"
+     y1="90"
+     x2="10"
+     y2="10"
+     stroke="#000000"
+     stroke-width="2"
+     id="line2" />
+  <line
+     x1="10"
+     y1="90"
+     x2="90"
+     y2="90"
+     stroke="#000000"
+     stroke-width="2"
+     id="line3" />
+  <!-- Etichette degli assi -->
+  <circle
+     style="fill:#ffd700;fill-opacity:1;stroke:#000000;stroke-width:1.23726"
+     id="path4"
+     cx="60.279331"
+     cy="59.733814"
+     r="3.3564799" />
+  <text
+     xml:space="preserve"
+     style="font-size:24.1426px;fill:#008000;fill-opacity:1;stroke:#008000;stroke-width:1.06428;stroke-opacity:1"
+     x="66.094704"
+     y="85.685059"
+     id="text4"><tspan
+       sodipodi:role="line"
+       id="tspan4"
+       x="66.094704"
+       y="85.685059"
+       style="fill:#008000;fill-opacity:1;stroke:#008000;stroke-width:1.06428;stroke-opacity:1">?</tspan></text>
+</svg>

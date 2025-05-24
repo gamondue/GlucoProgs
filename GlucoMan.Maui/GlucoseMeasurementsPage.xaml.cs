@@ -55,12 +55,12 @@ public partial class GlucoseMeasurementsPage : ContentPage
             && currentGlucose.Timestamp != General.DateNull)
         {
             dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
-            dtpEventTime.Time = (DateTime)currentGlucose.Timestamp - dtpEventDate.Date;
+            dtpEventTime.Time = ((DateTime)currentGlucose.Timestamp).TimeOfDay;
         }
         else
         {
             dtpEventDate.Date = DateTime.Now;
-            dtpEventTime.Time = new TimeSpan(0);
+            dtpEventTime.Time = DateTime.Now.TimeOfDay;
         }
         txtNotes.Text = currentGlucose.Notes;
         txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
@@ -71,6 +71,14 @@ public partial class GlucoseMeasurementsPage : ContentPage
         glucoseReadings = bl.ReadGlucoseMeasurements(now.Subtract(new TimeSpan(180, 0, 0, 0)), now.AddDays(1));
         this.BindingContext = glucoseReadings;
         //gridMeasurements.ItemsSource = glucoseReadings;
+    }
+    public void btnClearData_Click(object sender, EventArgs e)
+    {
+        txtGlucose.Text = "";
+        dtpEventDate.Date = DateTime.Now;
+        dtpEventTime.Time = ((DateTime)currentGlucose.Timestamp).TimeOfDay;
+        txtIdGlucoseRecord.Text = "";
+        txtNotes.Text = "";
     }
     public void btnAddMeasurement_Click(object sender, EventArgs e)
     {

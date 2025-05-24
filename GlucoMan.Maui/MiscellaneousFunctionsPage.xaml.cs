@@ -41,7 +41,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     }
     private async void btnResetDatabase_Click(object sender, EventArgs e)
     {
-        bool remove = await DisplayAlert("Should I delete the WHOLE database? All data will be lost!",
+        bool remove = await DisplayAlert("Should I delete the WHOLE database?" +
+            "\nAfter creation of the new database the program will shut down." +
+            "\nWARNING: All data will be lost!",
             "", "Yes", "No");
         if (remove)
         {
@@ -49,19 +51,21 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             // after deletion the software will automatically re-create the database
             if (!blGeneral.DeleteDatabase())
             {
-                DisplayAlert("", "Error in deleting file. File NOT deleted", "OK");
+                DisplayAlert("", "Error in deleting database file. File NOT deleted", "OK");
             }
             blGeneral.CreateNewDatabase(); // re-create the database
+            // close program
+            btnStopApplication_Click(null, null);
         }
     }
     private async void btnCopyProgramsFiles_Click(object sender, EventArgs e)
     {
-        //// write the SpecialFolders that are used
-        //// !!!! comment the next loop when development of this part has finished !!!!
-        //foreach (var folder in Enum.GetValues(typeof(Environment.SpecialFolder)))
-        //{
-        //    Debug.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
-        //}
+        // write the SpecialFolders that are used
+        // !!!! comment the next loop when development of this part has finished !!!!
+        foreach (var folder in Enum.GetValues(typeof(Environment.SpecialFolder)))
+        {
+            Debug.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
+        }
         if (!await blGeneral.ExportProgramsFilesAsync())
         {
             await DisplayAlert("", "Error in exporting program's files. NOT all files copied, check logs", "OK");

@@ -1,20 +1,19 @@
 ﻿using gamon;
+using GlucoMan.BusinessObjects;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
 
 namespace GlucoMan
 {
     internal partial class DL_Sqlite : DataLayer
     {
-        internal override int? SaveOneInjection(InsulinInjection Injection)
+        internal override int? SaveOneInjection(Injection Injection)
         {
             try
             {
-                if (Injection.IdInsulinInjection == null || Injection.IdInsulinInjection == 0)
+                if (Injection.IdInjection == null || Injection.IdInjection == 0)
                 {
-                    Injection.IdInsulinInjection = GetTableNextPrimaryKey("InsulinInjections", "IdInsulinInjection");
+                    Injection.IdInjection = GetTableNextPrimaryKey("Injections", "IdInjection");
                     // INSERT new record in the table
                     InsertInjection(Injection);
                 }
@@ -22,7 +21,7 @@ namespace GlucoMan
                 {   // GlucoseMeasurement.IdGlucoseRecord exists
                     UpdateInjection(Injection);
                 }
-                return Injection.IdInsulinInjection;
+                return Injection.IdInjection;
             }
             catch (Exception ex)
             {
@@ -30,31 +29,31 @@ namespace GlucoMan
                 return null;
             }
         }
-        private int? UpdateInjection(InsulinInjection Injection)
+        private int? UpdateInjection(Injection Injection)
         {
             try
             {
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "UPDATE InsulinInjections SET " +
+                    string query = "UPDATE Injections SET " +
                     "Timestamp=" + SqliteSafe.Date(Injection.Timestamp.DateTime) + "," +
                     "InsulinValue=" + SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
                     "InsulinCalculated=" + SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
                     "Zone=" + (int)Injection.Zone + "," +
-                    "InjectionPositionX=" + SqliteSafe.Double(Injection.InjectionPositionX) + "," +
-                    "InjectionPositionY=" + SqliteSafe.Double(Injection.InjectionPositionY) + "," +
+                    "InjectionPositionX=" + SqliteSafe.Double(Injection.PositionX) + "," +
+                    "InjectionPositionY=" + SqliteSafe.Double(Injection.PositionY) + "," +
                     "Notes=" + SqliteSafe.String(Injection.Notes) + "," +
                     "IdTypeOfInsulinSpeed=" + SqliteSafe.Int(Injection.IdTypeOfInsulinSpeed) + "," +
                     "IdTypeOfInsulinInjection=" + SqliteSafe.Int(Injection.IdTypeOfInsulinInjection) + "," +
                     "InsulinString=" + SqliteSafe.String(Injection.InsulinString) + "" +
-                    " WHERE IdInsulinInjection=" + SqliteSafe.Int(Injection.IdInsulinInjection) +
+                    " WHERE IdInjection=" + SqliteSafe.Int(Injection.IdInjection) +
                     ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
-                return Injection.IdInsulinInjection;
+                return Injection.IdInjection;
             }
             catch (Exception ex)
             {
@@ -62,26 +61,26 @@ namespace GlucoMan
                 return null;
             }
         }
-        private int? InsertInjection(InsulinInjection Injection)
+        private int? InsertInjection(Injection Injection)
         {
             try
             {
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "INSERT INTO InsulinInjections" +
+                    string query = "INSERT INTO Injections" +
                     "(" +
-                    "IdInsulinInjection,Timestamp,InsulinValue,InsulinCalculated," +
+                    "IdInjection,Timestamp,InsulinValue,InsulinCalculated," +
                     "Zone,InjectionPositionX,InjectionPositionY,Notes," +
                     "IdTypeOfInsulinSpeed,IdTypeOfInsulinInjection,InsulinString";
                     query += ")VALUES(" +
-                    SqliteSafe.Int(Injection.IdInsulinInjection) + "," +
+                    SqliteSafe.Int(Injection.IdInjection) + "," +
                     SqliteSafe.Date(Injection.Timestamp.DateTime) + "," +
                     SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
                     SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
                     (int)Injection.Zone + "," +
-                    SqliteSafe.Double(Injection.InjectionPositionX) + "," +
-                    SqliteSafe.Double(Injection.InjectionPositionY) + "," +
+                    SqliteSafe.Double(Injection.PositionX) + "," +
+                    SqliteSafe.Double(Injection.PositionY) + "," +
                     SqliteSafe.String(Injection.Notes) + "," +
                     SqliteSafe.Int(Injection.IdTypeOfInsulinSpeed) + "," +
                     SqliteSafe.Int(Injection.IdTypeOfInsulinInjection) + "," +
@@ -91,7 +90,7 @@ namespace GlucoMan
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
-                return Injection.IdInsulinInjection;
+                return Injection.IdInjection;
             }
             catch (Exception ex)
             {
@@ -99,15 +98,15 @@ namespace GlucoMan
                 return null;
             }
         }
-        internal override void DeleteOneInjection(InsulinInjection Injection)
+        internal override void DeleteOneInjection(Injection Injection)
         {
             try
             {
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "DELETE FROM InsulinInjections" +
-                    " WHERE IdInsulinInjection=" + Injection.IdInsulinInjection;
+                    string query = "DELETE FROM Injections" +
+                    " WHERE IdInjection=" + Injection.IdInjection;
                     query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -119,9 +118,9 @@ namespace GlucoMan
                 General.LogOfProgram.Error("Sqlite_BolusesAndInjections | DeleteOneInjection", ex);
             }
         }
-        internal override InsulinInjection GetOneInjection(int? IdInjection)
+        internal override Injection GetOneInjection(int? IdInjection)
         {
-            InsulinInjection g = null;
+            Injection g = null;
             try
             {
                 DbDataReader dRead;
@@ -129,8 +128,8 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     string query = "SELECT *" +
-                        " FROM InsulinInjections" +
-                        " WHERE IdInsulinInjection=" + SqliteSafe.Int(IdInjection);
+                        " FROM Injections" +
+                        " WHERE IdInjection=" + SqliteSafe.Int(IdInjection);
                     query += ";";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
@@ -146,11 +145,11 @@ namespace GlucoMan
             }
             return g;
         }
-        internal override List<InsulinInjection> GetInjections(DateTime InitialInstant, DateTime FinalInstant, 
+        internal override List<Injection> GetInjections(DateTime InitialInstant, DateTime FinalInstant, 
             Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet, 
             Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet)
         {
-            List<InsulinInjection> list = new List<InsulinInjection>();
+            List<Injection> list = new List<Injection>();
             try
             {
                 DbDataReader dRead;
@@ -158,7 +157,7 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     string query = "SELECT *" +
-                        " FROM InsulinInjections";
+                        " FROM Injections";
                     if (FinalInstant != null)
                     {   // add WHERE clause
                         query += " WHERE Timestamp BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd HH:mm:ss") +
@@ -179,13 +178,13 @@ namespace GlucoMan
                             query += " WHERE IdTypeOfInsulinSpeed=" + (int)TypeOfInsulinSpeed;
                         }
                     }
-                    query += " ORDER BY Timestamp DESC, IdInsulinInjection;";
+                    query += " ORDER BY Timestamp DESC, IdInjection;";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
                     dRead = cmd.ExecuteReader();
                     while (dRead.Read())
                     {
-                        InsulinInjection g = GetInjectionFromRow(dRead);
+                        Injection g = GetInjectionFromRow(dRead);
                         list.Add(g);
                     }
                     dRead.Dispose();
@@ -198,18 +197,18 @@ namespace GlucoMan
             }
             return list;
         }
-        private InsulinInjection GetInjectionFromRow(DbDataReader Row)
+        private Injection GetInjectionFromRow(DbDataReader Row)
         {
-            InsulinInjection ii = new InsulinInjection();
+            Injection ii = new Injection();
             GlucoseRecord gr = new GlucoseRecord();
             try
             {
-                ii.IdInsulinInjection = Safe.Int(Row["IdInsulinInjection"]);
+                ii.IdInjection = Safe.Int(Row["IdInjection"]);
                 ii.Timestamp.DateTime = Safe.DateTime(Row["Timestamp"]);
                 ii.InsulinValue.Double = Safe.Double(Row["InsulinValue"]);
                 ii.InsulinCalculated.Double = Safe.Double(Row["InsulinCalculated"]);
-                ii.InjectionPositionX = Safe.Double(Row["InjectionPositionX"]);
-                ii.InjectionPositionY = Safe.Double(Row["InjectionPositionY"]);
+                ii.PositionX = Safe.Double(Row["InjectionPositionX"]);
+                ii.PositionY = Safe.Double(Row["InjectionPositionY"]);
                 ii.Notes = Safe.String(Row["Notes"]);
                 ii.IdTypeOfInsulinSpeed = Safe.Int(Row["IdTypeOfInsulinSpeed"]);
                 ii.IdTypeOfInsulinInjection = Safe.Int(Row["IdTypeOfInsulinInjection"]);
@@ -222,6 +221,96 @@ namespace GlucoMan
                 General.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetInjectionFromRow", ex);
             }
             return ii;
+        }
+        internal override void SaveOneReferenceCoordinate(PositionOfInjection position)
+        {
+            // save in table PositionsOfReferences one record with the data contained in position
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    int newId = GetTableNextPrimaryKey("PositionsOfReferences", "IdPosition");
+                    string query = "INSERT INTO PositionsOfReferences " +
+                                   "(IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) " +
+                                   "VALUES (" +
+                                   newId + "," +
+                                   SqliteSafe.Date(DateTime.Now) + "," +
+                                   SqliteSafe.Int((int)position.Zone) + "," +
+                                   SqliteSafe.Double(position.PositionX) + ", " +
+                                   SqliteSafe.Double(position.PositionY) + "," +
+                                   SqliteSafe.String(position.Notes) + ");";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | SaveOneReferenceCoordinate", ex);
+            }
+        }
+        internal override void DeleteAllReferenceCoordinates(Common.ZoneOfPosition zone)
+        {
+            // deletes all the records of table PositionsOfReferences in which
+            // the Zone field has value Zone (paramater)
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "DELETE FROM PositionsOfReferences WHERE Zone = " + (int)zone + ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | DeleteAllReferenceCoordinates", ex);
+            }
+        }
+        internal override List<PositionOfInjection> GetReferencePositions(Common.ZoneOfPosition Zone)
+        {
+            // read all the records in Table PositionsOfReferences into a list PositionOfInjection
+            List<PositionOfInjection> positions = new List<PositionOfInjection>();
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "SELECT * FROM PositionsOfReferences";
+                    if (Zone != Common.ZoneOfPosition.NotSet)
+                    {
+                        query += " WHERE Zone = " + (int)Zone;
+                    }
+                    query += ";";
+                    cmd.CommandText = query;
+
+                    using (DbDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            PositionOfInjection position = new PositionOfInjection
+                            {
+                                IdPosition = Safe.Int(reader["IdPosition"]),
+                                Timestamp = Safe.DateTime(reader["Timestamp"]),
+                                Zone = (Common.ZoneOfPosition)Safe.Int(reader["Zone"]),
+                                PositionX = Safe.Double(reader["PositionX"]),
+                                PositionY = Safe.Double(reader["PositionY"]),
+                                Notes = Safe.String(reader["Notes"])
+                            };
+                            positions.Add(position);
+                        }
+                    }
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetReferencePositions", ex);
+            }
+            return positions;
         }
     }
 }

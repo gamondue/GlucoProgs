@@ -9,47 +9,49 @@
     </ContentPage.Resources>
     <VerticalStackLayout>
         <HorizontalStackLayout>
-            <HorizontalStackLayout>
-                <Button x:Name="btnSaveInjection" Text="Save" 
-                        ToolTipProperties.Text="Saves the injection point"
-                        Clicked="btnSaveInjection_Clicked"/>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout x:Name="stackEditingOptions" Margin="0" Padding="0">
-                <CheckBox x:Name="EditorCheckBox" Margin="0" HorizontalOptions="Start" 
-                          ToolTipProperties.Text="Edits the reference points if checked"
-                          CheckedChanged="CheckedChanged"/>
-                <Label Margin="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"
-                       ToolTipProperties.Text="Edits the reference points if checked">Ed.</Label>
-                <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="Start"
-                          ToolTipProperties.Text="Deletes the reference points if checked"/>
-                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start"
-                       ToolTipProperties.Text="Deletes the reference points if checked">Del</Label>
-                <Button x:Name="btnSavePoints" Text="Sv.p." 
-                        ToolTipProperties.Text="Saves the reference points"
-                        Clicked="btnSavePoints_Clicked" />
-                <Button x:Name="btnClear" Text="Cl.p." 
-                        ToolTipProperties.Text="Clears all reference points"
-                        Clicked="btnClear_Click" />
-            </HorizontalStackLayout>
+            <Button x:Name="btnSaveInjection" Text="Save" 
+                    ToolTipProperties.Text="Saves the injection point"
+                    Clicked="BtnSaveInjection_Clicked"/>
+            <CheckBox x:Name="EditorCheckBox" Margin="0" HorizontalOptions="Start" 
+                        ToolTipProperties.Text="Edits the reference points if checked"
+                        CheckedChanged="CheckedChanged"/>
+            <Label x:Name="LabelEditorCheckBox" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"
+                    Margin="-8,0,8,0"
+                    ToolTipProperties.Text="Edits the reference points if checked">Edit</Label>
+            <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="Start"
+                        ToolTipProperties.Text="Deletes the reference points if checked"/>
+            <Label x:Name="lblDelete" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"
+                    Margin="-10,0,8,0"
+                    ToolTipProperties.Text="Deletes the reference points if checked">Delete</Label>
+            <Button x:Name="btnSavePoints" Text="Save ref.p." 
+                    ToolTipProperties.Text="Saves the reference points"
+                    Clicked="BtnSaveReferencePoints_Clicked" />
+            <Button x:Name="btnClear" Text="Clear ref.p." 
+                    ToolTipProperties.Text="Clears all reference points"
+                    Clicked="BtnClearReferencePoints_Click" />
         </HorizontalStackLayout>
         <Grid>
-            <Image Source="braccia.png" Aspect="Center" Scale="1"
+            <!-- Immagine con Aspect impostato su "AspectFit" per mantenere le proporzioni -->
+            <Image x:Name="imgToBeTapped"
+                   Source="braccia.png" 
+                   Aspect="AspectFit"
                    Margin="0,180"
-                HeightRequest="180"
-                WidthRequest="450"
                 VerticalOptions="Start"
                 HorizontalOptions="Center"
                 ToolTipProperties.Text="Click on this image to set the point">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </Image.GestureRecognizers>
             </Image>
+            <!-- GraphicsView con le stesse dimensioni dell'immagine in griglia 
+            (è nella stessa cella così si sovrappongono. 
+            L'immagine sta sotto ed il GraphicsView sopra
+            (così si vedono i cerchi che vengono disegnati)) -->
             <GraphicsView x:Name="cerchiGraphicsView"
-                    Drawable="{StaticResource drawable}"
-                    HeightRequest="180"
-                    WidthRequest="450"
-                    VerticalOptions="Start"
-                    HorizontalOptions="Center">
+                    Drawable="{StaticResource drawable}">
                 <!-- aggiunge un "riconoscitore di "tap" che lancia un evento quando l'utente 
                      "clicca" (col mouse) o "tappa" (col dito) sul GraphicsView. 
-                     L'evento forzer� una riscrittura della GraphicsView -->
+                     L'evento forzerà una riscrittura della GraphicsView -->
                 <GraphicsView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                 </GraphicsView.GestureRecognizers>

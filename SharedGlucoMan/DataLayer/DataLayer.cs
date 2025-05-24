@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using GlucoMan.BusinessObjects;
+using System.Data.Common;
 
 namespace GlucoMan
 {
@@ -29,9 +30,9 @@ namespace GlucoMan
         internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);
         internal abstract long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
         internal abstract void DeleteOneGlucoseMeasurement(GlucoseRecord gr);
-        internal abstract int? SaveOneInjection(InsulinInjection Injection);
-        internal abstract void DeleteOneInjection(InsulinInjection Injection);
-        internal abstract List<InsulinInjection> GetInjections(DateTime InitialInstant,
+        internal abstract int? SaveOneInjection(Injection Injection);
+        internal abstract void DeleteOneInjection(Injection Injection);
+        internal abstract List<Injection> GetInjections(DateTime InitialInstant,
             DateTime FinalInstant,
             Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet,
             Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet);
@@ -54,7 +55,7 @@ namespace GlucoMan
         internal abstract void AddUnitToFood(Food food, UnitOfFood unit);
         internal abstract void RemoveUnitFromFoodsUnits(Food Food);
         internal abstract List<UnitOfFood> GetAllUnitsOfOneFood(Food Food);
-        internal abstract InsulinInjection GetOneInjection(int? idInjection);
+        internal abstract Injection GetOneInjection(int? idInjection);
         #endregion
         #region Alarms
         internal abstract int? SaveOneAlarm(Alarm currentAlarm);
@@ -78,5 +79,8 @@ namespace GlucoMan
 
         #endregion
         internal abstract void CreateNewDatabase(string pathAndFileDatabase);
+        internal abstract void SaveOneReferenceCoordinate(PositionOfInjection position);
+        internal abstract void DeleteAllReferenceCoordinates(Common.ZoneOfPosition zone);
+        internal abstract List<PositionOfInjection> GetReferencePositions(Common.ZoneOfPosition Zone);
     }
 }

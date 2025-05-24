@@ -1,9 +1,14 @@
 ﻿using gamon;
+using GlucoMan.BusinessLayer;
+using GlucoMan.BusinessObjects;
+using System.Security.AccessControl;
+using Microsoft.Maui.Graphics;
 
 namespace GlucoMan.Maui
 {
-    internal class CirclesDrawable : IDrawable
+    public class CirclesDrawable : IDrawable
     {
+        BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
         // this is an IDrawable object that draws the circles of injections on the containing GraphicsView
         // it includes the logic to re-draw all the circles anytime anything has changhed in the graphics
         // it also includes the logic to save the circles and read them from data file
@@ -23,10 +28,6 @@ namespace GlucoMan.Maui
             }
             set
             {
-                if (isCallerEditing != value)
-                {
-                    firstTime = true;
-                }
                 isCallerEditing = value;
             }
         }
@@ -39,77 +40,66 @@ namespace GlucoMan.Maui
             }
             set
             {
-                firstTime = true;
                 type = value;
             }
         }
         // the coordinates of the reference points are the centers of the circles that will be added to the graphics
-        private List<Point> PointsCoordinates = new();
+        private List<Point> InjectionPointsCoordinates = new();
         // when we aren't editing we also need a collection of reference points  
         private List<Point> ReferencePointsCoordinates = new();
 
-        //private List<(float X, float Y)> InjectionPointsCoordinates = new List<(float, float)>();
-
         // the distance in pixels that is considered to be near enough to one reference point
         // to be considered the same point
-        private double thresholdDistance = 8;
+        private double nearEnoughDistance = 16;
         // the radiuses of the circles for reference points and injection points
-        private float referenceRadius = 4;
-        private float injectionRadius = 8;
+        private float referencePointsRadius = 5;
+        private float injectionPointsRadius = 8;
 
-        private float XCenter { get; set; } = 0;
-        private float YCenter { get; set; } = 0;
-
-        private bool firstTime = true;
-
-        //private string PointsCoordinatesFilePath = Path.Combine(Common.PathDatabase, "PointsCoordinates");
-        private string PointsCoordinatesFilePath = Common.PathDatabase;
-        private string ReferencePointsCoordinatesFilePath = Common.PathDatabase;
         private bool isFirstClick = true;
 
-        public CirclesDrawable()
+        private static double DefaultImageWidth { get; set; }
+        private static double DefaultImageHeight { get; set; }
+
+        private double imageWidth;
+        private double imageHeight;
+
+        public CirclesDrawable() // Costruttore senza parametri richiesto da XAML
         {
-            firstTime = true;
+            imageWidth = DefaultImageWidth;
+            imageHeight = DefaultImageHeight;
+        }
+        public CirclesDrawable(double ImageWidth, double ImageHeight) // Costruttore con parametri
+        {
+            imageWidth = ImageWidth;
+            imageHeight = ImageHeight;
+        }
+        public static void SetDefaults(double imageWidth, double imageHeight)
+        {
+            DefaultImageWidth = imageWidth;
+            DefaultImageHeight = imageHeight;
         }
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
-            // ???? parte eda eliminare? ????
-            // colore con cui disegnerò la linea del cerchio
-            //canvas.StrokeColor = Colors.Red;
-            //// dimensione della linea che disegnerò
-            //canvas.StrokeSize = 4;
-            //// colore di riempimento delle forme che disegnerò
-            //canvas.FillColor = Colors.Blue; // NON MI FUNZIONA, MA DOVREBBE!!
-            // ???? FINE parte eda eliminare? ????
-
-            string partOfFileName = "";
-            if (firstTime)
+            if (isCallerEditing)
             {
-                // the next is commented because it was used in development early stage
-                //PointsCoordinates = ReadCoordinatesFromFile();
-                if (!isCallerEditing)
-                {
-                    ReferencePointsCoordinates = ReadCoordinatesFromReferenceFile();
-                }
-                firstTime = false;
-            }
-            foreach (Point point in PointsCoordinates)
-            {
-                if (isCallerEditing)
+                foreach (Point point in ReferencePointsCoordinates)
                 {
                     canvas.StrokeColor = Colors.Blue;
-                    canvas.StrokeSize = referenceRadius;
+                    canvas.StrokeSize = referencePointsRadius;
                     canvas.FillColor = Colors.Blue;
-                    canvas.DrawEllipse((float)(point.X - referenceRadius), (float)(point.Y - referenceRadius),
-                        referenceRadius, referenceRadius);
+                    canvas.DrawEllipse((float)(point.X - referencePointsRadius), (float)(point.Y - referencePointsRadius),
+                        referencePointsRadius, referencePointsRadius);
                 }
-                else
+            }
+            else
+            {
+                foreach (Point point in InjectionPointsCoordinates)
                 {
                     canvas.StrokeColor = Colors.Red;
-                    canvas.StrokeSize = injectionRadius;
+                    canvas.StrokeSize = injectionPointsRadius;
                     canvas.FillColor = Colors.Red;
-                    canvas.DrawEllipse((float)(point.X - injectionRadius), (float)(point.Y - injectionRadius),
-                         injectionRadius, injectionRadius);
+                    canvas.DrawEllipse((float)(point.X - injectionPointsRadius), (float)(point.Y - injectionPointsRadius),
+                            injectionPointsRadius, injectionPointsRadius);
                 }
             }
         }
@@ -121,35 +111,35 @@ namespace GlucoMan.Maui
             Point nearestPoint = new();
             if (IsEditing)
             {
-                XCenter = (float)LeftTopPosition.X + referenceRadius;
-                YCenter = (float)LeftTopPosition.Y + referenceRadius;
+                XCenter = (float)LeftTopPosition.X + referencePointsRadius;
+                YCenter = (float)LeftTopPosition.Y + referencePointsRadius;
                 // check if the clicked point is near enough to a reference point
-                nearestPoint = FindNearest(new Point(XCenter, YCenter), PointsCoordinates);
+                nearestPoint = FindNearest(new Point(XCenter, YCenter), ReferencePointsCoordinates);
                 // calculate the cartesion distance between the clicked point and the nearestPoint reference point
                 float distance = (float)Math.Sqrt((XCenter - nearestPoint.X) * (XCenter - nearestPoint.X)
                     + (YCenter - nearestPoint.Y) * (YCenter - nearestPoint.Y));
-                // if the distance is less than thresholdDistance, the clicked point is considered
+                // if the distance is less than nearEnoughDistance, the clicked point is considered
                 // to be the same as the nearestPoint reference point
-                if (distance < thresholdDistance)
+                if (distance < nearEnoughDistance)
                 {
                     // if the clicked point is near enough to a reference point, the reference point is removed
-                    PointsCoordinates.Remove(nearestPoint);
+                    ReferencePointsCoordinates.Remove(nearestPoint);
                     // the clicked point is added to the list of reference points
-                    PointsCoordinates.Add(new Point(XCenter, YCenter));
+                    ReferencePointsCoordinates.Add(new Point(XCenter, YCenter));
                 }
                 else
                 {
                     // if the clicked point is not near enough to a reference point,
                     // it is just added to the list of reference points
-                    PointsCoordinates.Add(new Point(XCenter, YCenter));
+                    ReferencePointsCoordinates.Add(new Point(XCenter, YCenter));
                 }
             }
             else
             {
                 // we are not editing 
                 // calculate the center of the circle
-                XCenter = (float)LeftTopPosition.X + injectionRadius;
-                YCenter = (float)LeftTopPosition.Y + injectionRadius;
+                XCenter = (float)LeftTopPosition.X + injectionPointsRadius;
+                YCenter = (float)LeftTopPosition.Y + injectionPointsRadius;
                 // since the click has been done while setting the point of the injection
                 // the center is brought to the nearestPoint reference point
                 nearestPoint = FindNearest(new Point(XCenter, YCenter), ReferencePointsCoordinates);
@@ -162,14 +152,14 @@ namespace GlucoMan.Maui
                 if (!isFirstClick)
                 {
                     // if it is not the first click, the last point is deleted from the list,
-                    PointsCoordinates.RemoveAt(PointsCoordinates.Count - 1);
+                    InjectionPointsCoordinates.RemoveAt(InjectionPointsCoordinates.Count - 1);
                 }
                 else
                 {   // if it is the first click, the flag is set to false
                     isFirstClick = false;
                 }
                 // the center is added to the list
-                PointsCoordinates.Add(new Point(XCenter, YCenter));
+                InjectionPointsCoordinates.Add(new Point(XCenter, YCenter));
             }
             return nearestPoint;
         }
@@ -179,19 +169,19 @@ namespace GlucoMan.Maui
             double XCenter;
             double YCenter;
             // calculate the center of the circle
-            XCenter = (float)LeftTopPosition.X + referenceRadius;
-            YCenter = (float)LeftTopPosition.Y + referenceRadius;
+            XCenter = (float)LeftTopPosition.X + referencePointsRadius;
+            YCenter = (float)LeftTopPosition.Y + referencePointsRadius;
 
             // check if the clicked point is near enough to a reference point
-            Point nearestPoint = FindNearest(new Point(XCenter, YCenter), PointsCoordinates);
+            Point nearestPoint = FindNearest(new Point(XCenter, YCenter), ReferencePointsCoordinates);
             // calculate the cartesion distance between the clicked point and the nearestPoint reference point
             double distance = Math.Sqrt((XCenter - nearestPoint.X) * (XCenter - nearestPoint.X)
                 + (YCenter - nearestPoint.Y) * (YCenter - nearestPoint.Y));
-            // if the distance is less than thresholdDistance, the clicked point is deleted
-            if (distance < thresholdDistance)
+            // if the distance is less than nearEnoughDistance, the clicked point is deleted
+            if (distance < nearEnoughDistance)
             {
                 // if the clicked point is near enough to a point, the reference point is removed
-                PointsCoordinates.Remove(nearestPoint);
+                ReferencePointsCoordinates.Remove(nearestPoint);
             }
         }
         private Point FindNearest(Point Passed, List<Point> GivenPoints)
@@ -217,122 +207,49 @@ namespace GlucoMan.Maui
                 return min;
             }
         }
-        private List<Point> ReadCoordinatesFromFile()
+        internal void SaveReferenceCoordinates(Common.ZoneOfPosition ZoneOfPositions
+            , double imgWidth, double imgHeight)
         {
-            string partOfFileName;
             if (isCallerEditing)
-                partOfFileName = Type.ToString() + "Reference";
-            else
-                partOfFileName = Type.ToString() + "Injection";
-            string fileNameAndPath = Path.Combine(PointsCoordinatesFilePath, partOfFileName + "Coordinates.tsv");
-
-            List<Point> coordinates = new();
-            coordinates.Clear();
+                bl.SaveNewReferenceCoordinates(ReferencePointsCoordinates, ZoneOfPositions
+                    , imgWidth, imgHeight);
+        }
+        internal void ClearAll(Common.ZoneOfPosition ZoneOfPositions)
+        {
             try
             {
-                if (File.Exists(fileNameAndPath))
-                {
-                    string[] lines = File.ReadAllLines(fileNameAndPath);
-                    foreach (string line in lines)
-                    {
-                        string[] pointCoordinates = line.Split('\t');
-                        if (pointCoordinates.Length == 2 && float.TryParse(pointCoordinates[0], out float x)
-                            && float.TryParse(pointCoordinates[1], out float y))
-                        {
-                            coordinates.Add(new Point(x, y));
-                        }
-                    }
-                }
-                return coordinates;
+                bl.DeleteAllReferenceCoordinates(ZoneOfPositions);
+                InjectionPointsCoordinates.Clear();
             }
             catch (Exception ex)
             {
-                // Console.WriteLine($"Si è verificato un errore durante la lettura delle coordinate dal file: {ex.Message}");
-                Console.WriteLine($"An error occurred while reading the coordinates from file: {ex.Message}");
-                return null;
+                Console.WriteLine($"An error occurred while clearing the coordinates from database");
             }
         }
-        private List<Point> ReadCoordinatesFromReferenceFile()
+        internal void LoadInjectionsCoordinates(List<Injection> allRecentInjections)
         {
-            string partOfFileName = Type.ToString() + "Reference";
-            string fileNameAndPath = Path.Combine(PointsCoordinatesFilePath, partOfFileName + "Coordinates.tsv");
-
-            List<Point> coordinates = new();
-            coordinates.Clear();
-            try
+            foreach (Injection injection in allRecentInjections)
             {
-                if (File.Exists(fileNameAndPath))
+                if (injection.PositionX != null && injection.PositionY != null)
                 {
-                    string[] lines = File.ReadAllLines(fileNameAndPath);
-                    foreach (string line in lines)
-                    {
-                        string[] pointCoordinates = line.Split('\t');
-                        if (pointCoordinates.Length == 2 && float.TryParse(pointCoordinates[0], out float x)
-                            && float.TryParse(pointCoordinates[1], out float y))
-                        {
-                            coordinates.Add(new Point(x, y));
-                        }
-                    }
-                }
-                return coordinates;
-            }
-            catch (Exception ex)
-            {
-                // Console.WriteLine($"Si è verificato un errore durante la lettura delle coordinate dal file: {ex.Message}");
-                string prompt = $"An error occurred while reading the coordinates from file: ";
-                Console.WriteLine(prompt + ex.Message);
-                General.LogOfProgram.Error(prompt, ex);
-                return null;
-            }
-        }
-        internal void SaveCoordinatesToFile()
-        {
-            string partOfFileName;
-            if (isCallerEditing)
-                partOfFileName = Type.ToString() + "Reference";
-            else
-                partOfFileName = Type.ToString() + "Injection";
-            string fileNameAndPath = Path.Combine(PointsCoordinatesFilePath, partOfFileName + "Coordinates.tsv");
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(fileNameAndPath))
-                {
-                    foreach (var (left, top) in PointsCoordinates)
-                    {
-                        sw.WriteLine($"{left}\t{top}");
-                    }
+                    // Moltiplica per la larghezza e altezza dell'immagine per riportare a coordinate reali
+                    // a partire dalle coordinate normalizzate fra 0 e 1 che sono memorizzate nel database
+                    InjectionPointsCoordinates.Add(new Point(
+                        (float)(injection.PositionX * imageWidth),
+                        (float)(injection.PositionY * imageHeight)
+                    ));
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred while saving the coordinates into file: {ex.Message}");
-            }
         }
-        internal void ClearAll()
+        internal void LoadReferenceCoordinates(List<PositionOfInjection> allReferencePositions)
         {
-            string partOfFileName;
-            if (isCallerEditing)
-                partOfFileName = Type.ToString() + "Reference";
-            else
-                partOfFileName = Type.ToString() + "Injection";
-            string fileNameAndPath = Path.Combine(PointsCoordinatesFilePath, partOfFileName + "Coordinates.tsv");
-            try
+            foreach (PositionOfInjection injection in allReferencePositions)
             {
-                File.Delete(fileNameAndPath);
-                PointsCoordinates.Clear();
-            }
-            catch (Exception ex)
-            {
-                // Console.WriteLine($"Si è verificato un errore durante la pulizia del file: {ex.Message}");
-                Console.WriteLine($"An error occurred while clearing the coordinates from file: {ex.Message}");
-            }
-        }
-        internal void LoadCoordinates(List<InsulinInjection> allRecentInjections)
-        {
-            foreach (InsulinInjection injection in allRecentInjections)
-            {
-                if (injection.InjectionPositionX != null & injection.InjectionPositionY != null)
-                    PointsCoordinates.Add(new Point((float)injection.InjectionPositionX, (float)injection.InjectionPositionY));
+                if (injection.PositionX != null & injection.PositionY != null)
+                    ReferencePointsCoordinates.Add(new Point(
+                        (float)(injection.PositionX * imageWidth),
+                        (float)(injection.PositionY * imageHeight)
+                    ));
             }
         }
     }

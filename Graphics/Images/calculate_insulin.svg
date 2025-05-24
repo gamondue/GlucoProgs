@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 100 100"
+   width="100"
+   height="100"
+   version="1.1"
+   id="svg11"
+   sodipodi:docname="calculate_insulin.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs11" />
+  <sodipodi:namedview
+     id="namedview11"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="5.7487781"
+     inkscape:cx="9.9151505"
+     inkscape:cy="51.924078"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg11" />
+  <!-- Corpo della calcolatrice -->
+  <rect
+     x="20"
+     y="10"
+     width="60"
+     height="80"
+     rx="10"
+     ry="10"
+     fill="#007BFF"
+     stroke="#000000"
+     stroke-width="2"
+     id="rect1" />
+  <!-- Schermo -->
+  <rect
+     x="30"
+     y="20"
+     width="40"
+     height="15"
+     rx="3"
+     ry="3"
+     fill="#FFFFFF"
+     id="rect2"
+     style="fill:#fff6d5" />
+  <!-- Pulsanti -->
+  <!-- Riga 1 -->
+  <rect
+     x="30"
+     y="40"
+     width="10"
+     height="10"
+     rx="2"
+     ry="2"
+     fill="#CCCCCC"
+     id="rect3" />
+  <rect
+     x="45"
+     y="40"
+     width="10"
+     height="10"
+     rx="2"
+     ry="2"
+     fill="#CCCCCC"
+     id="rect4" />
+  <rect
+     x="60"
+     y="40"
+     width="10"
+     height="10"
+     rx="2"
+     ry="2"
+     fill="#CCCCCC"
+     id="rect5" />
+  <!-- Riga 2 -->
+  <rect
+     x="30"
+     y="55"
+     width="10"
+     height="10"
+     rx="2"
+     ry="2"
+     fill="#CCCCCC"
+     id="rect6" />
+  <rect
+     x="45"
+     y="55"
+     width="10"
+     height="10"
+     rx="2"
+     ry="2"
+     fill="#CCCCCC"
+     id="rect7" />
+  <rect
+     x="60"
+     y="55"
+     width="10"
+     height="10"
+     rx="2"
+     ry="2"
+     fill="#CCCCCC"
+     id="rect8" />
+  <!-- Riga 3 -->
+  <rect
+     x="30"
+     y="70"
+     width="10"
+     height="10"
+     rx="2"
+     ry="2"
+     fill="#CCCCCC"
+     id="rect9" />
+  <rect
+     x="45"
+     y="70"
+     width="10"
+     height="10"
+     rx="2"
+     ry="2"
+     fill="#CCCCCC"
+     id="rect10" />
+  <rect
+     x="60"
+     y="70"
+     width="10"
+     height="10"
+     rx="2"
+     ry="2"
+     fill="#CCCCCC"
+     id="rect11" />
+  <g
+     id="g5"
+     transform="rotate(-179.7473,85.927661,50.60547)">
+    <rect
+       x="113.27962"
+       y="51.334171"
+       width="16.993584"
+       height="36.89259"
+       fill="#ffd700"
+       rx="2.124198"
+       ry="0.92231476"
+       id="rect2-8"
+       style="stroke:#000000;stroke-width:1.3997;stroke-opacity:1" />
+    <path
+       d="m 121.76755,48.906483 c -22.957559,-44.993956 22.48895,-44.410711 0,0 z"
+       fill="#ff0000"
+       id="path3"
+       style="fill:#ffd700;fill-opacity:1;stroke:#000000;stroke-width:0.529;stroke-dasharray:none;stroke-opacity:1"
+       sodipodi:nodetypes="cc" />
+  </g>
+</svg>

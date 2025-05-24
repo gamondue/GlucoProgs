@@ -16,7 +16,7 @@ namespace GlucoMan.Maui
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
             Common.SetGlobalParameters();
             Common.GeneralInitializationsAsync();

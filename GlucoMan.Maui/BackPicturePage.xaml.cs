@@ -1,47 +1,95 @@
-//using System.Drawing;
-//using Color = Microsoft.Maui.Graphics.Color;
-
 namespace GlucoMan.Maui;
+
 using GlucoMan.BusinessLayer;
+using GlucoMan.BusinessObjects;
+
 public partial class BackPicturePage : ContentPage
 {
     BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
     CirclesDrawable allCircles;
     bool editing = false;
-    InsulinInjection currentInjection;
+    Injection currentInjection;
     Point currentNearestReferencePosition;
-    List<InsulinInjection> allRecentInjections;
-    public BackPicturePage(ref InsulinInjection currentInjection)
+    List<Injection> allRecentInjections;
+    List<PositionOfInjection> allReferencePositions;
+    public BackPicturePage(ref Injection currentInjection)
     {
         InitializeComponent();
         this.currentInjection = currentInjection;
-
 #if !DEBUG
-        // in release mode we hide the stack layout that allows to 
-        // edit the coordinates of the reference points
-        // TODO don't hide but "unregister" the stack layout
-        stackEditingOptions.IsVisible = false;
+                // in release mode we hide the stack layout that allows to 
+                // edit the coordinates of the reference points
+                // TODO don't hide but "unregister" the stack layout
+                EditorCheckBox.IsVisible = false;
+                LabelEditorCheckBox.IsVisible = false;
 #endif
         // we define a new object that represents the set of circles to be drawn
         // into the GraphcsView. It derives from the Interface IDrawable
-        allCircles = new CirclesDrawable();
+        allCircles = new CirclesDrawable(imgToBeTapped.Width, imgToBeTapped.Height);
         allCircles.Type = CirclesDrawable.PointType.Back;
 
-        // connection of the Drawable to GraphicsView
+        LoadTheReferencePositions();
+        LoadTheLastSensorsPositions();
+
+        //// connection of the Drawable to GraphicsView
+        //cerchiGraphicsView.Drawable = allCircles;
+        //cerchiGraphicsView.Background = Color.FromRgba(255, 255, 0, 100);
+        //var children = cerchiGraphicsView.GetChildElements(new Point(100, 100));
+
+        //// read the last days of injections in the back zone
+        //allRecentInjections = bl.GetInjections(
+        //   DateTime.Now.Subtract(new TimeSpan(30, 0, 0, 0, 0, 0)),
+        //   DateTime.Now, Zone: Common.ZoneOfPosition.Back);
+
+        //// copy the coordinates of the injections into the Drawable object
+        //allCircles.LoadInjectionsCoordinates(allRecentInjections);
+
+        //// reset of the GraphcsView that will be redrawn by method Draw in allCircles
+        //cerchiGraphicsView.Invalidate();
+    }
+    private void LoadTheLastSensorsPositions()
+    {
+        SetButtonsVisibility();
+        // bind the Drawable to the GraphicsView
         cerchiGraphicsView.Drawable = allCircles;
         cerchiGraphicsView.Background = Color.FromRgba(255, 255, 0, 100);
         var children = cerchiGraphicsView.GetChildElements(new Point(100, 100));
 
-        // read the last days of injections in the back zone
+        // read the last days of sensors' positions
         allRecentInjections = bl.GetInjections(
-           DateTime.Now.Subtract(new TimeSpan(30, 0, 0, 0, 0, 0)),
+           DateTime.Now.Subtract(new TimeSpan(12 * 7, 0, 0, 0, 0, 0)),
            DateTime.Now, Zone: Common.ZoneOfPosition.Back);
 
-        // copy the coordinates of the injections into the Drawable object
-        allCircles.LoadCoordinates(allRecentInjections);
+        // copy the coordinates of the sensors' positions into the Drawable object
+        allCircles.LoadInjectionsCoordinates(allRecentInjections);
 
         // reset of the GraphcsView that will be redrawn by method Draw in allCircles
         cerchiGraphicsView.Invalidate();
+    }
+    private void LoadTheReferencePositions()
+    {
+        // read all the reference positions
+        allReferencePositions = bl.GetReferencePositions(Common.ZoneOfPosition.Back);
+        allCircles.LoadReferenceCoordinates(allReferencePositions);
+    }
+    private void SetButtonsVisibility()
+    {
+        if (editing)
+        {
+            btnSaveInjection.IsVisible = false;
+            DeleteCheckBox.IsVisible = true;
+            lblDelete.IsVisible = true;
+            btnSavePoints.IsVisible = true;
+            btnClear.IsVisible = true;
+        }
+        else
+        {
+            btnSaveInjection.IsVisible = true;
+            DeleteCheckBox.IsVisible = false;
+            lblDelete.IsVisible = false;
+            btnSavePoints.IsVisible = false;
+            btnClear.IsVisible = false;
+        }
     }
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
@@ -51,14 +99,6 @@ public partial class BackPicturePage : ContentPage
         Point? relativeToContainerPosition = e.GetPosition((View)sender);
         if (relativeToContainerPosition.HasValue)
         {
-            //    float spanHue;          // differenza di tinta da coprire
-            //  float spanSaturation;   // differenza di saturazione da coprire
-            //  float spanLuminance;    // differenza di saturazione da coprire
-            //   spanHue = finalColor.GetHue() - initialColor.GetHue(); // differenza di tinta da coprire
-            //  //spanSaturation = coloreFinale.GetSaturation() - coloreIniziale.GetSaturation(); // differenza da coprire
-            //  spanSaturation = 0;
-            //    //spanLuminance = coloreFinale.GetBrightness() - coloreIniziale.GetBrightness(); // differenza da coprire
-            //    spanLuminance = 0;
             if (DeleteCheckBox.IsChecked)
             {
                 // if delete checkbox is enabled we have to delete the circle that is nearest
@@ -71,60 +111,45 @@ public partial class BackPicturePage : ContentPage
                 // the constructor will calculate the position of the center of the circle
                 // the method will give back the nearest point to the click point
                 currentNearestReferencePosition = allCircles.AddPoint((Point)relativeToContainerPosition, editing);
-                currentInjection.InjectionPositionX = currentNearestReferencePosition.X;
-                currentInjection.InjectionPositionY = currentNearestReferencePosition.Y;
+                currentInjection.PositionX = currentNearestReferencePosition.X;
+                currentInjection.PositionY = currentNearestReferencePosition.Y;
             }
             // clears the GraphicsView that will be redrawn by the Draw method
             // the system will launch the Draw() method to redraw
-
-            //// dal branch colori
-            //            // cambia colore dal colore iniziale a quello finale
-            //            colHSL.Hue = (int)(initialColor.GetHue() + spanHue * (timeTotalSeconds * 60 - timeLeftSeconds) / (timeTotalSeconds * 60));
-            //            colHSL.Saturation = initialColor.GetSaturation() + spanSaturation * (timeTotalSeconds * 60 - timeLeftSeconds) / (timeTotalSeconds * 60);
-            //            colHSL.Luminance = initialColor.GetBrightness() + spanLuminance * (timeTotalSeconds * 60 - timeLeftSeconds) / timeTotalSeconds;
-            //            ColorHelper.ColorConverter.HSL2RGB(colHSL, colRGB);
-            //            currentColor = colRGB.Color;
-
-            //             // se in modalità "editing", sposta il cerchio in quella posizione
-            //            cerchioD.LeftCerchio = (float)x;
-            //            cerchioD.TopCerchio = (float)y;
-            //            // rende non valido tutto quello che c'è nel cerchiGraphicsView.
-            //            // Pertanto il sistema deve lanciare il metodo Draw() per ridisegnare 
-            //            // TUTTA la grafica che c'era
-            //// FINE dal branch colori
             this.cerchiGraphicsView.Invalidate();
         }
     }
     private void CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         editing = e.Value;
+        SetButtonsVisibility();
         allCircles.IsCallerEditing = e.Value;
         this.cerchiGraphicsView.Invalidate();
     }
-    private void btnSaveInjection_Clicked(object sender, EventArgs e)
+    private void BtnSaveInjection_Clicked(object sender, EventArgs e)
     {
         // we put the coordinate of the point in the injection object
-        currentInjection.InjectionPositionX = currentNearestReferencePosition.X;
-        currentInjection.InjectionPositionY = currentNearestReferencePosition.Y;
+        currentInjection.PositionX = currentNearestReferencePosition.X;
+        currentInjection.PositionY = currentNearestReferencePosition.Y;
         // we pass the coordinates of the point to the calling Page, through the injection object
         currentInjection.Zone = Common.ZoneOfPosition.Back;
-
+        // if we have no date we put the current time
+        if (currentInjection.Timestamp.DateTime == null
+            || currentInjection.Timestamp.DateTime == new DateTime(1, 1, 1))
+        {
+            currentInjection.Timestamp.DateTime = DateTime.Now;
+        }
         // we save the injection with the coordinates of the points
-        // uncomment if we want to really save the injection in the database
-        // if we uncomment we will have to avoid to save the same injection twice
-        //// if we have no date we put the current date
-        //if (currentInjection.Timestamp.DateTime == null
-        //    || currentInjection.Timestamp.DateTime == new DateTime(1, 1, 1))
-        //    currentInjection.Timestamp.DateTime = DateTime.Now;
-        //bl.SaveOneInjection(currentInjection);
+        bl.SaveOneInjection(currentInjection);
     }
-    private void btnClear_Click(object sender, EventArgs e)
+    private void BtnClearReferencePoints_Click(object sender, EventArgs e)
     {
-        allCircles.ClearAll();
+        allCircles.ClearAll(Common.ZoneOfPosition.Back);
         this.cerchiGraphicsView.Invalidate();
     }
-    private void btnSavePoints_Clicked(object sender, EventArgs e)
+    private void BtnSaveReferencePoints_Clicked(object sender, EventArgs e)
     {
-        allCircles.SaveCoordinatesToFile();
+        allCircles.SaveReferenceCoordinates(Common.ZoneOfPosition.Back, 
+            imgToBeTapped.Width, imgToBeTapped.Height);
     }
 }

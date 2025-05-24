@@ -1,4 +1,5 @@
 ﻿using gamon;
+using GlucoMan.BusinessObjects;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -19,7 +20,7 @@ namespace GlucoMan.BusinessLayer
         public DoubleAndText TotalDailyDoseOfInsulin { get; set; }
         public DoubleAndText GlucoseBeforeMeal { get; set; }
         public DoubleAndText GlucoseToBeCorrected { get; set; }
-        internal void SetTypeOfInsulinSpeedBasedOnTimeNow(InsulinInjection Injection)
+        internal void SetTypeOfInsulinSpeedBasedOnTimeNow(Injection Injection)
         {
             TimeSpan timeOfDay = DateTime.Now.TimeOfDay;
             if (timeOfDay > new TimeSpan(2, 0, 0) && timeOfDay < new TimeSpan(22, 0, 0))
@@ -47,13 +48,13 @@ namespace GlucoMan.BusinessLayer
         private DateTime finalLunchPeriod;
         private DateTime initialDinnerPeriod;
 
-        internal List<InsulinInjection> GetInjections(DateTime InitialInstant,
+        internal List<Injection> GetInjections(DateTime InitialInstant,
             DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet,
             Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet)
         {
             return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinSpeed, Zone);
         }
-        internal InsulinInjection GetOneInjection(int? IdInjection)
+        internal Injection GetOneInjection(int? IdInjection)
         {
             return dl.GetOneInjection(IdInjection);
         }
@@ -94,7 +95,7 @@ namespace GlucoMan.BusinessLayer
 
             MealOfBolus = new Meal();
         }
-        internal void DeleteOneInjection(InsulinInjection Injection)
+        internal void DeleteOneInjection(Injection Injection)
         {
             dl.DeleteOneInjection(Injection);
         }
@@ -278,7 +279,7 @@ namespace GlucoMan.BusinessLayer
             ChoInsulinRatioLunch.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioLunch");
             ChoInsulinRatioDinner.Text = dl.RestoreParameter("Bolus_ChoInsulinRatioDinner");
         }
-        internal void SaveOneInjection(InsulinInjection Injection)
+        internal void SaveOneInjection(Injection Injection)
         {
             dl.SaveOneInjection(Injection);
         }
@@ -293,10 +294,10 @@ namespace GlucoMan.BusinessLayer
             //    case Common.TypeOfInsulinSpeed.ShortActing: InitialInstant = FinalInstant.Subtract(new TimeSpan(24, 0, 0)); break;
             //    default: InitialInstant = FinalInstant.Subtract(new TimeSpan(24, 0, 0)); break;
             //}
-            List<InsulinInjection> nonExaustedInsulin =
+            List<Injection> nonExaustedInsulin =
                 dl.GetInjections(InitialInstant, FinalInstant, InsulinSpeed);
             EmbarkedInsulin.Double = 0;
-            foreach (InsulinInjection ii in nonExaustedInsulin)
+            foreach (Injection ii in nonExaustedInsulin)
             {
                 TimeSpan timeFromInjection = FinalInstant.Subtract((DateTime)ii.Timestamp.DateTime);
                 // TODO should generalize with specific type of insuline drug 
@@ -342,6 +343,65 @@ namespace GlucoMan.BusinessLayer
                     //IntermediateActing = 30, // about 2-4 hours to start working, peaks in 4-12 hours, and lasts for 12-18 hours.
                     //LongActing = 40 // 1-2 hours to start working, has no peak effect, and lasts for 24+ hours
             };
+        }
+        internal void DeleteAllReferenceCoordinates(Common.ZoneOfPosition Zone)
+        {
+            dl.DeleteAllReferenceCoordinates(Zone);
+        }
+        internal void SaveOneReferenceCoordinate(PositionOfInjection position)
+        {
+            dl.SaveOneReferenceCoordinate(position);
+        }
+        internal void SaveNewReferenceCoordinates(List<Point> pointsCoordinates, 
+            Common.ZoneOfPosition zone, double imgWidth, double imgHeight)
+        {
+            DeleteAllReferenceCoordinates(zone);
+            try
+            {
+                // normalize the coordinates of the points to be saved in the database
+                // to be in the range [0,1] and adimensional
+                foreach (var (left, top) in pointsCoordinates)
+                {
+                    var p = new PositionOfInjection();
+                    p.PositionX = left / imgWidth;
+                    p.PositionY = top / imgHeight;
+                    p.Zone = zone;
+                    p.Notes = "";
+                    SaveOneReferenceCoordinate(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while saving the coordinates into the database: {ex.Message}");
+            }
+        }
+        internal List<PositionOfInjection> GetReferencePositions(Common.ZoneOfPosition Zone)
+        {
+            return dl.GetReferencePositions(Zone);
+        }
+        internal void SaveOneInjectionNormalizingXandY(Injection currentInjection, double width, double height)
+        {
+            // clone the currentInjection object to avoid modifying it
+            // Clonare l'oggetto Injection manualmente
+            Injection ii = new Injection
+            {
+                IdInjection = currentInjection.IdInjection,
+                Timestamp = currentInjection.Timestamp,
+                InsulinValue = currentInjection.InsulinValue,
+                InsulinCalculated = currentInjection.InsulinCalculated,
+                Zone = currentInjection.Zone,
+                PositionX = currentInjection.PositionX,
+                PositionY = currentInjection.PositionY,
+                IdTypeOfInsulinSpeed = currentInjection.IdTypeOfInsulinSpeed,
+                IdTypeOfInsulinInjection = currentInjection.IdTypeOfInsulinInjection,
+                InsulinString = currentInjection.InsulinString,
+                Notes = currentInjection.Notes
+            };
+            // normalize the X and Y coordinates of the injection
+            // to the size of the image (width and height)
+            ii.PositionX = currentInjection.PositionX / width;
+            ii.PositionY = currentInjection.PositionY / height;
+            SaveOneInjection(ii);
         }
     }
 }

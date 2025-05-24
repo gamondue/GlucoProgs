@@ -5,8 +5,8 @@ namespace GlucoMan.Maui;
 public partial class InjectionsPage : ContentPage
 {
     BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
-    InsulinInjection CurrentInjection = new InsulinInjection();
-    List<InsulinInjection> allInjections;
+    Injection CurrentInjection = new Injection();
+    List<Injection> allInjections;
 
     internal InjectionsPage(int? IdInjection)
     {
@@ -21,17 +21,17 @@ public partial class InjectionsPage : ContentPage
         }      
         RefreshUi();
     }
-    public int? IdInsulinInjection
+    public int? IdInjection
     {
         get
         {
-            return CurrentInjection.IdInsulinInjection;
+            return CurrentInjection.IdInjection;
         }
     }
     private void FromClassToUi()
     {
-        if (CurrentInjection.IdInsulinInjection != null)
-            txtIdInjection.Text = CurrentInjection.IdInsulinInjection.ToString();
+        if (CurrentInjection.IdInjection != null)
+            txtIdInjection.Text = CurrentInjection.IdInjection.ToString();
         else
             txtIdInjection.Text = "";
         txtInsulinActual.Text = CurrentInjection.InsulinValue.Text;
@@ -51,7 +51,7 @@ public partial class InjectionsPage : ContentPage
     }
     private void FromUiToClass()
     {
-        CurrentInjection.IdInsulinInjection = Safe.Int(txtIdInjection.Text);
+        CurrentInjection.IdInjection = Safe.Int(txtIdInjection.Text);
         CurrentInjection.InsulinValue.Text = txtInsulinActual.Text;
         CurrentInjection.InsulinCalculated.Text = txtInsulinCalculated.Text;
         DateTime instant = new DateTime(
@@ -102,7 +102,7 @@ public partial class InjectionsPage : ContentPage
             return;
         }
         // make the tapped row the current injection 
-        CurrentInjection = (InsulinInjection)e.SelectedItem;
+        CurrentInjection = (Injection)e.SelectedItem;
 
         // make the injection's location button green if the zone of the injection is set,
         // if it insn't make it the original color
@@ -134,20 +134,20 @@ public partial class InjectionsPage : ContentPage
         }
         FromUiToClass();
         // erase Id to save a new record
-        CurrentInjection.IdInsulinInjection = null;
+        CurrentInjection.IdInjection = null;
         bl.SaveOneInjection(CurrentInjection);
         RefreshGrid();
     }
     private async void btnRemoveInjection_Click(object sender, EventArgs e)
     {
-        InsulinInjection inj = (InsulinInjection)gridInjections.SelectedItem;
+        Injection inj = (Injection)gridInjections.SelectedItem;
         if (inj != null)
         {
             bool remove = await DisplayAlert(String.Format(
                 "Should I delete the injection of {1}, insulin {0}, Id {2}?",
                 inj.InsulinValue.ToString(),
                 inj.Timestamp.ToString(),
-                inj.IdInsulinInjection.ToString()),
+                inj.IdInjection.ToString()),
                 "", "Yes", "No");
             if (remove)
             {
@@ -164,18 +164,22 @@ public partial class InjectionsPage : ContentPage
     }
     private async void btnFront_ClickedAsync(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new FrontPicturePage(ref CurrentInjection));
+        CurrentInjection.Zone = Common.ZoneOfPosition.Front;
+        await Navigation.PushAsync(new ClickableImagePage(ref CurrentInjection));
     }
     private async void btnBack_Clicked_Async(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new BackPicturePage(ref CurrentInjection));
+        CurrentInjection.Zone = Common.ZoneOfPosition.Back;
+        await Navigation.PushAsync(new ClickableImagePage(ref CurrentInjection));
     }
     private async void btnHands_ClickedAsync(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new HandsPicturePage(ref CurrentInjection));
+        CurrentInjection.Zone = Common.ZoneOfPosition.Hands;
+        await Navigation.PushAsync(new ClickableImagePage(ref CurrentInjection));
     }
     private async void btnSensors_Clicked_Async(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new SensorsPicturePage(ref CurrentInjection));
+        CurrentInjection.Zone = Common.ZoneOfPosition.Sensor;
+        await Navigation.PushAsync(new ClickableImagePage(ref CurrentInjection));
     }
 }

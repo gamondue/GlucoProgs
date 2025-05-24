@@ -36,7 +36,7 @@ Prototype functions for weighing foods and managing recipes are also included, s
               </FormattedString>
             </Label.FormattedText>
           </Label>
-          <Button x:Name="btnExit" BackgroundColor="#2196F3" TextColor="White" Text="Menù" Clicked="btnExit_Click" />
+          <Button x:Name="btnExit" TextColor="White" Text="Menù" Clicked="btnExit_Click" />
         </VerticalStackLayout>
       </ScrollView>
     </Grid>

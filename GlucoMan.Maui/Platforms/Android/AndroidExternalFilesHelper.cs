@@ -5,57 +5,81 @@ using Android.Provider;
 using Android.Widget;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
+using gamon;
 
 namespace GlucoMan
 {
     internal static class AndroidExternalFilesHelper
     {
+        internal static TaskCompletionSource<bool> permissionTaskCompletionSource;
         internal static async Task<bool> RequestStoragePermissionsAsync()
         {
             var activity = Platform.CurrentActivity;
-            if (ContextCompat.CheckSelfPermission(activity, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted ||
-                ContextCompat.CheckSelfPermission(activity, Manifest.Permission.ReadExternalStorage) != (int)Permission.Granted ||
-                ContextCompat.CheckSelfPermission(activity, Manifest.Permission.ManageExternalStorage) != (int)Permission.Granted)
+            // check if authorizations are already granted 
+            if (ContextCompat.CheckSelfPermission(activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted &&
+                ContextCompat.CheckSelfPermission(activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted &&
+                ContextCompat.CheckSelfPermission(activity, Manifest.Permission.ManageExternalStorage) == (int)Permission.Granted)
             {
-                ActivityCompat.RequestPermissions(activity, new string[] {
-                    Manifest.Permission.WriteExternalStorage,
-                    Manifest.Permission.ReadExternalStorage,
-                    Manifest.Permission.ManageExternalStorage
-                }, 1);
-                // wait user's authorization
-                await Task.Delay(3000);
+                return true; // authorizations are already granted 
             }
-            return ContextCompat.CheckSelfPermission(activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted &&
-                   ContextCompat.CheckSelfPermission(activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted;
+
+            // create a new TaskCompletionSource to wait for the user's response
+            permissionTaskCompletionSource = new TaskCompletionSource<bool>();
+            // ask for authorizations
+            ActivityCompat.RequestPermissions(activity, new string[]
+            {
+                Manifest.Permission.WriteExternalStorage,
+                Manifest.Permission.ReadExternalStorage,
+                Manifest.Permission.ManageExternalStorage
+            }, 1);
+            // wait for user's response
+            return await permissionTaskCompletionSource.Task;
+        }
+        // Callback to catch user's response
+        public static void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            if (requestCode == 1)
+            {
+                // check if all the authorizations have been granted
+                bool allGranted = grantResults.All(result => result == Permission.Granted);
+                permissionTaskCompletionSource?.SetResult(allGranted);
+            }
         }
         internal static async Task SaveFileToExternalPublicDirectoryAsync
             (string sourceInternalPathAndName, string destinationExternalPathAndName)
         {
-            // source is from internal storage, destination is to external storage
-            // source can be read with file class
-            byte[] fileContent = await File.ReadAllBytesAsync(sourceInternalPathAndName); // read the file content
-            // destination must be written with ContentResolver
-            string fileName = Path.GetFileName(destinationExternalPathAndName);
-            int startOfExternalDocumentsPath = destinationExternalPathAndName.IndexOf(Android.OS.Environment.DirectoryDocuments);
-            string relativePath = Path.GetDirectoryName(destinationExternalPathAndName);
-            relativePath = relativePath.Substring(startOfExternalDocumentsPath);
-            relativePath = relativePath.Replace("Documents/", "");
-
-            ContentValues contentValues = new ContentValues();
-            contentValues.Put(MediaStore.IMediaColumns.DisplayName, fileName);
-            contentValues.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
-            contentValues.Put(MediaStore.IMediaColumns.RelativePath, Path.Combine(Android.OS.Environment.DirectoryDocuments, relativePath));
-
-            ContentResolver resolver = Android.App.Application.Context.ContentResolver;
-
-            Android.Net.Uri uri = resolver.Insert(MediaStore.Files.GetContentUri("external"), contentValues);
-
-            if (uri != null)
+            try
             {
-                using (Stream outputStream = resolver.OpenOutputStream(uri))
+                // source is from internal storage, destination is to external storage
+                // source can be read with file class
+                byte[] fileContent = await File.ReadAllBytesAsync(sourceInternalPathAndName); // read the file content
+                                                                                              // destination must be written with ContentResolver
+                string fileName = Path.GetFileName(destinationExternalPathAndName);
+                int startOfExternalDocumentsPath = destinationExternalPathAndName.IndexOf(Android.OS.Environment.DirectoryDocuments);
+                string relativePath = Path.GetDirectoryName(destinationExternalPathAndName);
+                relativePath = relativePath.Substring(startOfExternalDocumentsPath);
+                relativePath = relativePath.Replace("Documents/", "");
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.Put(MediaStore.IMediaColumns.DisplayName, fileName);
+                contentValues.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
+                contentValues.Put(MediaStore.IMediaColumns.RelativePath, Path.Combine(Android.OS.Environment.DirectoryDocuments, relativePath));
+
+                ContentResolver resolver = Android.App.Application.Context.ContentResolver;
+
+                Android.Net.Uri uri = resolver.Insert(MediaStore.Files.GetContentUri("external"), contentValues);
+
+                if (uri != null)
                 {
-                    await outputStream.WriteAsync(fileContent, 0, fileContent.Length);
+                    using (Stream outputStream = resolver.OpenOutputStream(uri))
+                    {
+                        await outputStream.WriteAsync(fileContent, 0, fileContent.Length);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("AndroidExternalFilesHelper | SaveFileToExternalPublicDirectoryAsync", ex);
             }
         }
         internal static async Task<bool> ReadFileFromExternalStorageAsync

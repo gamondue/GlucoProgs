@@ -51,10 +51,9 @@
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Images -->
-		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 
-		<!-- Custom Fonts -->
+
+    <!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
@@ -62,10 +61,87 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="BackPicturePage.xaml.cs" />
+	  <Compile Remove="FrontPicturePage.xaml.cs" />
+	  <Compile Remove="HandsPicturePage.xaml.cs" />
+	  <Compile Remove="SensorsPicturePage.xaml.cs" />
+	  <Compile Remove="SimpleRecord.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="BackPicturePage.xaml" />
+	  <MauiXaml Remove="FrontPicturePage.xaml" />
+	  <MauiXaml Remove="HandsPicturePage.xaml" />
+	  <MauiXaml Remove="SensorsPicturePage.xaml" />
+	  <MauiXaml Remove="SimpleRecord.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\Images\arms_back.png" />
+	  <None Remove="Resources\Images\back.png" />
+	  <None Remove="Resources\Images\calculate_insulin.png" />
+	  <None Remove="Resources\Images\calculate_insulin.svg" />
+	  <None Remove="Resources\Images\calculator.png" />
+	  <None Remove="Resources\Images\calculator.svg" />
+	  <None Remove="Resources\Images\chart.png" />
+	  <None Remove="Resources\Images\chart.svg" />
+	  <None Remove="Resources\Images\food.png" />
+	  <None Remove="Resources\Images\food.svg" />
+	  <None Remove="Resources\Images\foods.png" />
+	  <None Remove="Resources\Images\foods.svg" />
+	  <None Remove="Resources\Images\food_to_sugar.png" />
+	  <None Remove="Resources\Images\food_to_sugar.svg" />
+	  <None Remove="Resources\Images\front.png" />
+	  <None Remove="Resources\Images\gear.png" />
+	  <None Remove="Resources\Images\gear.svg" />
+	  <None Remove="Resources\Images\glucometer.png" />
+	  <None Remove="Resources\Images\glucometer.svg" />
+	  <None Remove="Resources\Images\hands.png" />
+	  <None Remove="Resources\Images\meal.png" />
+	  <None Remove="Resources\Images\meal.svg" />
+	  <None Remove="Resources\Images\meals.svg" />
+	  <None Remove="Resources\Images\other.png" />
+	  <None Remove="Resources\Images\other.svg" />
+	  <None Remove="Resources\Images\prediction.png" />
+	  <None Remove="Resources\Images\prediction.svg" />
+	  <None Remove="Resources\Images\recipe.png" />
+	  <None Remove="Resources\Images\recipe.svg" />
+	  <None Remove="Resources\Images\sugar.svg" />
+	  <None Remove="Resources\Images\syringe.png" />
+	  <None Remove="Resources\Images\syringe.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\arms_back.png" />
+	  <MauiImage Include="Resources\Images\back.png" />
+	  <MauiImage Include="Resources\Images\calculate_insulin.png" />
+	  <MauiImage Include="Resources\Images\calculator.png" />
+	  <MauiImage Include="Resources\Images\chart.png" />
+	  <MauiImage Include="Resources\Images\food.png" />
+	  <MauiImage Include="Resources\Images\foods.png" />
+	  <MauiImage Include="Resources\Images\food_to_sugar.png" />
+	  <MauiImage Include="Resources\Images\front.png" />
+	  <MauiImage Include="Resources\Images\gear.png" />
+	  <MauiImage Include="Resources\Images\glucometer.png" />
+	  <MauiImage Include="Resources\Images\hands.png" />
+	  <MauiImage Include="Resources\Images\meal.png" />
+	  <MauiImage Include="Resources\Images\other.png" />
+	  <MauiImage Include="Resources\Images\prediction.png" />
+	  <MauiImage Include="Resources\Images\recipe.png" />
+	  <MauiImage Include="Resources\Images\syringe.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.3" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.50" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.3" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="ClickableImagePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />

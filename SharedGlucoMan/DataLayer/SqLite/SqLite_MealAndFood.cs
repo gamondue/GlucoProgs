@@ -143,7 +143,7 @@ namespace GlucoMan
                 m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
                 m.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
-                m.IdInsulinInjection = Safe.Int(Row["IdInsulinInjection"]);
+                m.IdInjection = Safe.Int(Row["IdInjection"]);
                 m.TimeEnd.DateTime = Safe.DateTime(Row["TimeEnd"]);
             }
             catch (Exception ex)
@@ -167,7 +167,7 @@ namespace GlucoMan
                     "AccuracyOfChoEstimate=" + SqliteSafe.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
                     "IdBolusCalculation=" + SqliteSafe.Int(Meal.IdBolusCalculation) + "," +
                     "IdGlucoseRecord=" + SqliteSafe.Int(Meal.IdGlucoseRecord) + "," +
-                    "IdInsulinInjection=" + SqliteSafe.Int(Meal.IdInsulinInjection) + "," +
+                    "IdInjection=" + SqliteSafe.Int(Meal.IdInjection) + "," +
                     "TimeEnd=" + SqliteSafe.Date(Meal.TimeEnd.DateTime) + "" +
                     " WHERE IdMeal=" + SqliteSafe.Int(Meal.IdMeal) +
                     ";";
@@ -193,7 +193,7 @@ namespace GlucoMan
                     string query = "INSERT INTO Meals" +
                     "(" +
                     "IdMeal,IdTypeOfMeal,Carbohydrates,TimeBegin,Notes,AccuracyOfChoEstimate," +
-                    "IdBolusCalculation,IdGlucoseRecord,IdInsulinInjection,TimeEnd";
+                    "IdBolusCalculation,IdGlucoseRecord,IdInjection,TimeEnd";
                     query += ")VALUES(" +
                     SqliteSafe.Int(Meal.IdMeal) + "," +
                     SqliteSafe.Int((int)Meal.IdTypeOfMeal) + "," +
@@ -203,7 +203,7 @@ namespace GlucoMan
                     SqliteSafe.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
                     SqliteSafe.Int(Meal.IdBolusCalculation) + "," +
                     SqliteSafe.Int(Meal.IdGlucoseRecord) + "," +
-                    SqliteSafe.Int(Meal.IdInsulinInjection) + "," +
+                    SqliteSafe.Int(Meal.IdInjection) + "," +
                     SqliteSafe.Date(Meal.TimeEnd.DateTime) + "";
                     query += ");";
                     cmd.CommandText = query;

@@ -237,7 +237,7 @@ public partial class MealPage : ContentPage
     }
     private async void btnInjection_ClickAsync(object sender, EventArgs e)
     {
-        injectionsPage = new InjectionsPage(bl.Meal.IdInsulinInjection);
+        injectionsPage = new InjectionsPage(bl.Meal.IdInjection);
         await Navigation.PushAsync(injectionsPage);
     }
     private async void btnWeighFood_Click(object sender, EventArgs e)
@@ -320,8 +320,8 @@ public partial class MealPage : ContentPage
             bl.FoodInMeal.QuantityGrams.Text = "0";
         }
         //bl.Meal.IdBolusCalculation = insulinCalcPage.IdBolusCalculation;
-        if (injectionsPage != null && injectionsPage.IdInsulinInjection != null)
-            bl.Meal.IdInsulinInjection = injectionsPage.IdInsulinInjection;
+        if (injectionsPage != null && injectionsPage.IdInjection != null)
+            bl.Meal.IdInjection = injectionsPage.IdInjection;
         if (measurementPage != null && measurementPage.IdGlucoseRecord != null)
             bl.Meal.IdGlucoseRecord = measurementPage.IdGlucoseRecord;
 
