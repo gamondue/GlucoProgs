@@ -49,7 +49,7 @@ public partial class MealsPage : ContentPage
     private void FromClassToUi()
     {
         txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-        txtChoOfMeal.Text = Safe.String(bl.Meal.Carbohydrates.Text);
+        txtChoOfMeal.Text = Safe.String(bl.Meal.CarbohydratesGrams.Text);
         ////cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
         if (bl.Meal.TimeBegin.DateTime != General.DateNull)
         {
@@ -64,7 +64,7 @@ public partial class MealsPage : ContentPage
     private void FromUiToClass()
     {
         bl.Meal.IdMeal = Safe.Int(txtIdMeal.Text);
-        bl.Meal.Carbohydrates.Text = Safe.Double(txtChoOfMeal.Text).ToString();
+        bl.Meal.CarbohydratesGrams.Text = Safe.Double(txtChoOfMeal.Text).ToString();
 
         bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text);
 
@@ -122,7 +122,7 @@ public partial class MealsPage : ContentPage
             bl.Meal.TimeBegin.DateTime = instant;
             bl.Meal.TimeEnd.DateTime = bl.Meal.TimeBegin.DateTime;
         }
-        bl.Meal.Carbohydrates.Text = txtChoOfMeal.Text;
+        bl.Meal.CarbohydratesGrams.Text = txtChoOfMeal.Text;
         bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
         bl.Meal.IdTypeOfMeal = SetTypeOfMealBasedOnRadioButtons();
         bl.Meal.Notes = txtNotes.Text;

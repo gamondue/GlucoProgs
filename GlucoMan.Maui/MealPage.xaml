@@ -15,10 +15,10 @@
             <Label Grid.Row="1" Grid.Column="1" Text="Accuracy" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="3" Text="IdMeal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoOfMealGrams" BackgroundColor="Aqua"
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtMealCarbohydratesGrams" BackgroundColor="Aqua"
                    ToolTipProperties.Text="Total Carbohydrates of this meal" HorizontalTextAlignment="End"
                    Margin="1" Keyboard="Numeric" FontSize="Medium"   
-                   TextChanged="txtChoOfMealGrams_TextChanged"/>
+                   TextChanged="txtMealCarbohydratesGrams_TextChanged"/>
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" 
                    ToolTipProperties.Text="Numerical accuracy of meal in percent"
                    Margin="1" Keyboard="Numeric" HorizontalTextAlignment="End" 
@@ -115,27 +115,37 @@
                    LineBreakMode="TailTruncation"/>
             <Label Grid.Row="8" Grid.Column="2" Text="CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                    LineBreakMode="TailTruncation"/>
-            <Label Grid.Row="8" Grid.Column="3" Text="Id F-M" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="8" Grid.Column="4" Text="Id Food" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="8" Grid.Column="4" Text="Id F-M" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Image Grid.Row="8" Grid.Column="3" 
+                   Grid.RowSpan="2"
+                Source="calculator.png"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Calculator_Click" />
+                </Image.GestureRecognizers>
+            </Image>
+            <!--<Label Grid.Row="8" Grid.Column="4" Text="Id Food" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
+            <Label Grid.Row="8" Grid.Column="4" Text="Id F-M" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="9" Grid.Column="0" x:Name="txtFoodCarbohydratesPercent" BackgroundColor="GreenYellow"
-                   Margin="1" TextChanged="txtFoodCarbohydratesPercent_TextChanged"
+                   Margin="1" TextChanged="txtFoodChoOrQuantity_TextChanged"
                    ToolTipProperties.Text="Carbohydrates per Unit of this food (typically g[%])"
                    Keyboard="Numeric" HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="9" Grid.Column="1" x:Name="txtFoodQuantityGrams" BackgroundColor="GreenYellow"
-                   Margin="1" Keyboard="Numeric" TextChanged="txtFoodQuantityGrams_TextChanged" 
+            <Entry Grid.Row="9" Grid.Column="1" x:Name="txtFoodQuantityInUnits" BackgroundColor="GreenYellow"
+                   Margin="1" Keyboard="Numeric" TextChanged="txtFoodChoOrQuantity_TextChanged" 
                    ToolTipProperties.Text="Quantity of this food in this meal [g]"
                    HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="9" Grid.Column="2" x:Name="txtFoodChoGrams" BackgroundColor="LightGreen"
-                   Margin="1" Keyboard="Numeric" TextChanged="txtFoodChoGrams_TextChanged" 
+            <Entry Grid.Row="9" Grid.Column="2" x:Name="txtFoodCarbohydratesGrams" BackgroundColor="LightGreen"
+                   Margin="1" Keyboard="Numeric" TextChanged="txtFoodCarbohydratesGrams_TextChanged" 
                    ToolTipProperties.Text="Quantity of carbohydrates in this food of this meal [g]"
                    HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="9" Grid.Column="3" x:Name="txtIdFoodInMeal" BackgroundColor="White" 
+            <Entry Grid.Row="9" Grid.Column="4" x:Name="txtIdFoodInMeal" BackgroundColor="White" 
                    ToolTipProperties.Text="Code of this food in this meal"
                    Margin="1" HorizontalTextAlignment="Center" IsReadOnly="true"/>
-            <Entry Grid.Row="9" Grid.Column="4" x:Name="txtIdFood" BackgroundColor="White" 
+            <!--<Entry Grid.Row="9" Grid.Column="4" x:Name="txtIdFood" BackgroundColor="White" 
                    Margin="1" Keyboard="Numeric"
-                   HorizontalTextAlignment="Center" IsReadOnly="true"/>
+                   HorizontalTextAlignment="Center" IsReadOnly="true"/>-->
 
             <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="5" 
                   ColumnDefinitions="*,*,*,*">

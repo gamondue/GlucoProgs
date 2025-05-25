@@ -116,12 +116,7 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
-#if ANDROID
-                // if the user has not given the permissions, then return false
-                if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
-                    return false;
-#endif
-                // log of errors file
+                // export log of errors file
                 string exportedLogOfProgram = Path.Combine(Common.PathImportExport, Path.GetFileName(General.LogOfProgram.ErrorsFile));
                 if (File.Exists(General.LogOfProgram.ErrorsFile))
                 {

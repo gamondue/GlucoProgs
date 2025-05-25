@@ -117,16 +117,16 @@ public partial class RecipePage : ContentPage
     }
     private void txtIngredientChoGrams_TextChanged(object sender, EventArgs e)
     {
-        //if (!loading)
+        //if (!loadingUi)
         {
             if (!txtIngredientQuantityGrams.IsFocused && !txtIngredientCarbohydratesPercent.IsFocused)
             {
                 //txtIngredientQuantityGrams.Text = "";
-                //////////localIngredientForCalculations.QuantityGrams.Double = 0;
+                //////////localIngredientForCalculations.QuantityInUnits.Double = 0;
                 //txtIngredientCarbohydratesPercent.Text = "";
             }
         }
-        ////localIngredientForCalculations.CarbohydratesPercent.Text = txtIngredientChoGrams.Text;
+        ////localIngredientForCalculations.CarbohydratesGrams.Text = txtIngredientChoGrams.Text;
         //bl.RecalcAll();
         //FromRecipeToUi();
         //txtChoOfRecipePercent.Text = bl.CurrentRecipe.CarbohydratesPerUnit.Text;
@@ -244,7 +244,7 @@ public partial class RecipePage : ContentPage
             //if (!txtIngredientChoPercent.IsFocused && !txtFoodCarbohydratesPercent.IsFocused)
             //{
             //    //txtFoodQuantityGrams.Text = "";
-            //    //localFoodInMealForCalculations.QuantityGrams.Double = 0;
+            //    //localFoodInMealForCalculations.QuantityInUnits.Double = 0;
             //    //txtFoodCarbohydratesPercent.Text = "";
             //    //localFoodInMealForCalculations.CarbohydratesPerUnit.Double = 0;
             //}
@@ -253,7 +253,7 @@ public partial class RecipePage : ContentPage
     }
     private void txtIngredientQuantityPercent_TextChanged(object sender, TextChangedEventArgs e)
     {
-        //bl.CurrentIngredient.QuantityGrams.Double = null;
-        //txtIngredientQuantityGrams.Text = bl.CurrentIngredient.QuantityGrams.Text;
+        //bl.CurrentIngredient.QuantityInUnits.Double = null;
+        //txtIngredientQuantityGrams.Text = bl.CurrentIngredient.QuantityInUnits.Text;
     }
 }

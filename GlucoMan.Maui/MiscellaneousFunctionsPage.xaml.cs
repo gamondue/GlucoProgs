@@ -80,6 +80,14 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         bool import = await DisplayAlert("",
             "Please put a database named 'import.sqlite' in the same folder where this program exports its data. " +
             "\nShould we continue with the import?", "Yes", "No");
+        /* !!!!!!!!!!!!!!!!!!!!!!
+#if ANDROID
+        if (!await blGeneral.AndroidRequestPermissions())
+            DisplayAlert("", "Insufficient permissions to write file", "OK");
+        return;
+#endif
+        !!!!!!!!!!!!!!!!!!!!!!! */
+
         if (import)
         {
             if (!blGeneral.ImportDatabaseFromExternal(Common.PathAndFileDatabase,

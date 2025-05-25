@@ -7,7 +7,7 @@ using AndroidX.Core.App;
 using AndroidX.Core.Content;
 using gamon;
 
-namespace GlucoMan
+namespace GlucoMan.BusinessLayer
 {
     internal static class AndroidExternalFilesHelper
     {
@@ -102,7 +102,6 @@ namespace GlucoMan
                     MediaStore.MediaColumns.DisplayName,
                     MediaStore.MediaColumns.RelativePath
                 };
-
                 // Costruisci la query per cercare il file nel MediaStore
                 string selection = MediaStore.MediaColumns.DisplayName + "=? AND " +
                                    MediaStore.MediaColumns.RelativePath + "=?";
@@ -110,7 +109,6 @@ namespace GlucoMan
 
                 // Ottieni l'URI del MediaStore
                 Android.Net.Uri externalUri = MediaStore.Files.GetContentUri("external");
-
                 // Esegui la query per trovare il file
                 using (var cursor = resolver.Query(externalUri, projection, selection, selectionArgs, null))
                 {
@@ -141,43 +139,6 @@ namespace GlucoMan
                     }
                 }
                 return true;
-
-                //// source must be read with ContentResolver
-                //string sourceFileName = Path.GetFileName(sourceExternalPathAndName);
-                //int startOfExternalDocumentsPath = sourceExternalPathAndName.IndexOf(Android.OS.Environment.DirectoryDocuments);
-                //string relativePath = Path.GetDirectoryName(sourceExternalPathAndName)?.Replace("\\", "/");
-                //relativePath = relativePath.Substring(startOfExternalDocumentsPath);
-                //relativePath = relativePath.Replace("Documents/", "");
-
-                //ContentValues contentValues = new ContentValues();
-                //contentValues.Put(MediaStore.IMediaColumns.DisplayName, sourceFileName);
-                //contentValues.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
-                //contentValues.Put(MediaStore.IMediaColumns.RelativePath, Path.Combine(Android.OS.Environment.DirectoryDocuments, relativePath));
-
-                //ContentResolver resolver = Android.App.Application.Context.ContentResolver;
-                //Android.Net.Uri uri = resolver.Insert(MediaStore.Files.GetContentUri("external"), contentValues);
-
-                //byte[] fileContent;
-
-                //if (uri != null)
-                //{
-                //    using (Stream inputStream = resolver.OpenInputStream(uri))
-                //    {
-                //        using (MemoryStream memoryStream = new MemoryStream())
-                //        {
-                //            await inputStream.CopyToAsync(memoryStream);
-                //            fileContent = memoryStream.ToArray();
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    throw new Exception("Failed to retrieve file URI.");
-                //}
-                //// destination can be written with File class
-                //await File.WriteAllBytesAsync(destinationInternalPathAndName, fileContent);
-
-                //return true;
             }
             catch (Exception ex)
             {
@@ -211,6 +172,14 @@ namespace GlucoMan
                 Toast.MakeText(context, $"Error reading file: {ex.Message}", ToastLength.Short).Show();
             }
             return fileData;
+        }
+
+        internal static async Task<bool> AndroidRequestPermissions()
+        {
+            // if the user has not given the permissions, then return false
+            if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
+                return false;
+            return true;
         }
     }
 }

@@ -137,7 +137,7 @@ namespace GlucoMan
                     m.IdTypeOfMeal = 0;
                 else
                     m.IdTypeOfMeal = (TypeOfMeal)Safe.Int(Row["IdTypeOfMeal"]);
-                m.Carbohydrates.Double = Safe.Double(Row["Carbohydrates"]);
+                m.CarbohydratesGrams.Double = Safe.Double(Row["Carbohydrates"]);
                 m.TimeBegin.DateTime = Safe.DateTime(Row["TimeBegin"]);
                 m.Notes = Safe.String(Row["Notes"]);
                 m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
@@ -161,7 +161,7 @@ namespace GlucoMan
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE Meals SET " +
                     "IdTypeOfMeal=" + SqliteSafe.Int((int)Meal.IdTypeOfMeal) + "," +
-                    "Carbohydrates=" + SqliteSafe.Double(Meal.Carbohydrates.Double) + "," +
+                    "Carbohydrates=" + SqliteSafe.Double(Meal.CarbohydratesGrams.Double) + "," +
                     "TimeBegin=" + SqliteSafe.Date(Meal.TimeBegin.DateTime) + "," +
                     "Notes=" + SqliteSafe.String(Meal.Notes) + "," +
                     "AccuracyOfChoEstimate=" + SqliteSafe.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
@@ -197,7 +197,7 @@ namespace GlucoMan
                     query += ")VALUES(" +
                     SqliteSafe.Int(Meal.IdMeal) + "," +
                     SqliteSafe.Int((int)Meal.IdTypeOfMeal) + "," +
-                    SqliteSafe.Double(Meal.Carbohydrates.Double) + "," +
+                    SqliteSafe.Double(Meal.CarbohydratesGrams.Double) + "," +
                     SqliteSafe.Date(Meal.TimeBegin.DateTime) + "," +
                     SqliteSafe.String(Meal.Notes) + "," +
                     SqliteSafe.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
@@ -268,7 +268,7 @@ namespace GlucoMan
                 f.IdFood = Safe.Int(Row["IdFood"]);
                 f.CarbohydratesGrams.Double = Safe.Double(Row["CarbohydratesGrams"]);
                 f.CarbohydratesPerUnit.Double = Safe.Double(Row["CarbohydratesPercent"]);
-                f.QuantityGrams.Double = Safe.Double(Row["Quantity"]);
+                f.QuantityInUnits.Double = Safe.Double(Row["Quantity"]);
                 f.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 f.Name = Safe.String(Row["Name"]);
             }
@@ -320,7 +320,7 @@ namespace GlucoMan
                     "IdMeal=" + SqliteSafe.Int(FoodToSave.IdMeal) + "," +
                     "IdFood=" + SqliteSafe.Int(FoodToSave.IdFood) + "," +
                     "CarbohydratesGrams=" + SqliteSafe.Double(FoodToSave.CarbohydratesGrams.Double) + "," +
-                    "Quantity=" + SqliteSafe.Double(FoodToSave.QuantityGrams.Double) + "," +
+                    "Quantity=" + SqliteSafe.Double(FoodToSave.QuantityInUnits.Double) + "," +
                     "CarbohydratesPercent=" + SqliteSafe.Double(FoodToSave.CarbohydratesPerUnit.Double) + "," +
                     "AccuracyOfChoEstimate=" + SqliteSafe.Double(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
                     "Name=" + SqliteSafe.String(FoodToSave.Name) + "" +
@@ -354,7 +354,7 @@ namespace GlucoMan
                     SqliteSafe.Int(FoodToSave.IdFoodInMeal) + "," +
                     SqliteSafe.Int(FoodToSave.IdMeal) + "," +
                     SqliteSafe.Int(FoodToSave.IdFood) + "," +
-                    SqliteSafe.Double(FoodToSave.QuantityGrams.Double) + "," +
+                    SqliteSafe.Double(FoodToSave.QuantityInUnits.Double) + "," +
                     SqliteSafe.Double(FoodToSave.CarbohydratesGrams.Double) + "," +
                     SqliteSafe.Double(FoodToSave.CarbohydratesPerUnit.Double) + "," +
                     SqliteSafe.Double(FoodToSave.AccuracyOfChoEstimate.Double) + "," +
