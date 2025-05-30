@@ -23,8 +23,9 @@
                 Clicked="btnNewMeal_Clicked" IsEnabled="True"
                 Margin="1" ToolTipProperties.Text="Opens a new meal page"/>
 
-        <Button x:Name="btnInsulinCalc" Text="Calculate&#10;  insulin" Clicked="btnInsulinCalc_Clicked"
+        <Button x:Name="btnInsulinCalc" Text="Calculate&#10; insulin" 
                 Grid.Row="2" Grid.Column="0" 
+                Clicked="btnInsulinCalc_Clicked" LineBreakMode="WordWrap" 
                 Margin="1" ToolTipProperties.Text="Opens a page that calculates the quantity of insulin to inject before a meal"/>
         <!--<Button Text="????"
                 Grid.Row="2" Grid.Column="1" 

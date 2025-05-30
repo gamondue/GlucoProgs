@@ -1,4 +1,5 @@
 using gamon;
+using GlucoMan.BusinessLayer;
 using System.Diagnostics;
 
 namespace GlucoMan.Maui;
@@ -43,7 +44,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     {
         bool remove = await DisplayAlert("Should I delete the WHOLE database?" +
             "\nAfter creation of the new database the program will shut down." +
-            "\nWARNING: All data will be lost!",
+            "\nWARNING: ALL DATA WILL BE LOST!",
             "", "Yes", "No");
         if (remove)
         {
@@ -66,6 +67,13 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         {
             Debug.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
         }
+#if ANDROID
+        if (!await AndroidExternalFilesHelper.ProgramHasPermissions())
+        {
+            DisplayAlert("", "Insufficient permissions to write file", "OK");
+            return;
+        }       
+#endif
         if (!await blGeneral.ExportProgramsFilesAsync())
         {
             await DisplayAlert("", "Error in exporting program's files. NOT all files copied, check logs", "OK");
@@ -80,14 +88,13 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         bool import = await DisplayAlert("",
             "Please put a database named 'import.sqlite' in the same folder where this program exports its data. " +
             "\nShould we continue with the import?", "Yes", "No");
-        /* !!!!!!!!!!!!!!!!!!!!!!
 #if ANDROID
-        if (!await blGeneral.AndroidRequestPermissions())
+        if (!await AndroidExternalFilesHelper.ProgramHasPermissions())
+        {
             DisplayAlert("", "Insufficient permissions to write file", "OK");
-        return;
+            return;
+        }       
 #endif
-        !!!!!!!!!!!!!!!!!!!!!!! */
-
         if (import)
         {
             if (!blGeneral.ImportDatabaseFromExternal(Common.PathAndFileDatabase,
@@ -138,15 +145,16 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             if (!success)
             {
                 await DisplayAlert("Error!", "Error in reading database from external folder", "OK");
+                return;
             }
             else
             {
                 await DisplayAlert("Done!", "The import of database from external folder is finished", "OK");
             }
-#if ANDROID
-            await DisplayAlert("", "Program will now stop. Restart il manually.", "OK");
+//#if ANDROID
+            await DisplayAlert("", "Program will now stop. Restart it manually.", "OK");
             btnStopApplication_Click(null, null);
-#endif
+//#endif
         }
     }
     private async void btnSettings_Click(object sender, EventArgs e)

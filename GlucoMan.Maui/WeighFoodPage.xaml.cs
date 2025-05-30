@@ -151,4 +151,62 @@ public partial class WeighFoodPage : ContentPage
             S1Sauce.NetWeightChanged();
             FromClassToUi();
         }
+    private void Calculator_Click(object sender, TappedEventArgs e)
+    {
+        // save the entries in the classes
+        ////////FromUiToClasses();
+
+        var focusedEntry = GetFocusedEntry();
+        string sValue = focusedEntry?.Text ?? "0";
+        double dValue = double.TryParse(sValue, out var val) ? val : 0;
+
+        // start the CalculatorPage passing to it the value of the 
+        // controller that currently has the focus
+        var calculator = new CalculatorPage(dValue);
+        ////////await Navigation.PushModalAsync(calculator);
+        ////////var result = await calculator.ResultSource.Task;
+
+        // check if the page has given back a result
+        ////////if (result.HasValue)
+        ////////{
+        ////////// update the data model
+        ////////if (focusedEntry == txtMealCarbohydratesGrams)
+        ////////{
+        ////////    //bl.FoodInMeal.CarbohydratesGrams.Text = result.Value.ToString();
+        ////////    txtMealCarbohydratesGrams.Text = result.Value.ToString();
+        ////////    txtMealCarbohydratesGrams_TextChanged(null, null);
+        ////////}
+        ////////else if (focusedEntry == txtFoodCarbohydratesPercent)
+        ////////{
+        ////////    //bl.FoodInMeal.CarbohydratesPerUnit.Text = result.Value.ToString();
+        ////////    txtFoodCarbohydratesPercent.Text = result.Value.ToString();
+        ////////    //txtFoodChoOrQuantity_TextChanged(null, null);
+        ////////}
+        ////////else if (focusedEntry == txtFoodQuantityInUnits)
+        ////////{
+        ////////    //bl.FoodInMeal.QuantityInUnits.Text = result.Value.ToString();
+        ////////    txtFoodQuantityInUnits.Text = result.Value.ToString();
+        ////////    //txtFoodChoOrQuantity_TextChanged(null, null);
+        ////////}
+        ////////else if (focusedEntry == txtFoodCarbohydratesGrams)
+        ////////{
+        ////////    //bl.FoodInMeal.CarbohydratesPerUnit.Text = result.Value.ToString();
+        ////////    txtFoodCarbohydratesGrams.Text = result.Value.ToString();
+        ////////    //txtFoodCarbohydratesGrams_TextChanged(null, null);
+        ////////}
+        // show the UI starting from the classes
+        //FromClassToUi();
+        ////////}
     }
+    private Entry GetFocusedEntry()
+    {
+        ////////if (txtFoodQuantityInUnits.IsFocused) return txtFoodQuantityInUnits;
+        ////////if (txtFoodCarbohydratesPercent.IsFocused) return txtFoodCarbohydratesPercent;
+        ////////if (txtFoodCarbohydratesGrams.IsFocused) return txtFoodCarbohydratesGrams;
+        ////////if (txtAccuracyOfChoFoodInMeal.IsFocused) return txtAccuracyOfChoFoodInMeal;
+        ////////if (txtMealCarbohydratesGrams.IsFocused) return txtMealCarbohydratesGrams;
+        ////////if (txtAccuracyOfChoMeal.IsFocused) return txtAccuracyOfChoMeal;
+        // aggiungi altri Entry se necessario
+        return null;
+    }
+}

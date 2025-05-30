@@ -29,10 +29,12 @@ namespace GlucoMan.BusinessLayer
 #endif
                 // log of errors file
                 string exportedLogOfProgram = Path.Combine(Common.PathImportExport, Path.GetFileName(General.LogOfProgram.ErrorsFile));
+                string fileName = Path.GetFileName(exportedLogOfProgram);
                 if (File.Exists(General.LogOfProgram.ErrorsFile))
                 {
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalPublicDirectoryAsync(General.LogOfProgram.ErrorsFile, exportedLogOfProgram);
+                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(General.LogOfProgram.ErrorsFile
+                    , fileName);
 #else
                     File.Copy(General.LogOfProgram.ErrorsFile, exportedLogOfProgram, true);
 #endif
@@ -40,19 +42,23 @@ namespace GlucoMan.BusinessLayer
                 // database file
                 // log of insulin correction parameters 
                 string exportedLogOfParameters = Path.Combine(Common.PathImportExport, Common.LogOfParametersFileName);
+                fileName = Path.GetFileName(exportedLogOfParameters);
                 if (File.Exists(exportedLogOfParameters))
                 {
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalPublicDirectoryAsync(Common.PathAndFileLogOfParameters, exportedLogOfParameters);
+                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileLogOfParameters
+                    , fileName);
 #else
                     File.Copy(Common.PathAndFileLogOfParameters, exportedLogOfParameters, true);
 #endif
                 }
                 string exportedDatabase = Path.Combine(Common.PathImportExport, Common.DatabaseFileName);
+                fileName = Path.GetFileName(exportedDatabase);
                 if (File.Exists(Common.PathAndFileDatabase))
                 {
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalPublicDirectoryAsync(Common.PathAndFileDatabase, exportedDatabase);
+                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileDatabase
+                    , fileName);
 #else
                     File.Copy(Common.PathAndFileDatabase, exportedDatabase, true);
 #endif
@@ -65,6 +71,36 @@ namespace GlucoMan.BusinessLayer
                 return false;
             }
         }
+        internal async Task<bool> ReadDatabaseFromExternal(string pathAndFileInternalDatabase, string pathAndFileExternalDatabase)
+        {
+            try
+            {
+                string backupFilename = Common.DatabaseFileName.Replace(".Sqlite", "_backup.Sqlite");
+                if (File.Exists(pathAndFileInternalDatabase))
+                {
+                    string backupFile = Path.Combine(Common.PathDatabase, backupFilename);
+                    // backup the current database, in Android it is in internal storage, so we can use the class File 
+                    File.Copy(pathAndFileInternalDatabase, backupFile, true);
+                    File.Delete(pathAndFileInternalDatabase);
+                }
+#if ANDROID
+                // if the user has not given the permissions, then return with false
+                if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
+                    return false;
+                 return await AndroidExternalFilesHelper.ReadFileFromExternalPublicDirectoryAsync
+                    (Path.GetFileName((pathAndFileExternalDatabase)), pathAndFileInternalDatabase);
+#else
+                File.Copy(pathAndFileExternalDatabase, pathAndFileInternalDatabase, true);
+#endif
+                return true;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("ReadDatabaseFromExternal", ex);
+                return false;
+            }
+        }
+
         internal bool ImportDatabaseFromExternal(string pathAndFileDatabase, string v)
         {
             // import the foods
@@ -83,31 +119,6 @@ namespace GlucoMan.BusinessLayer
             }
             return false;
         }
-        internal async Task<bool> ReadDatabaseFromExternal(string pathAndFileInternalDatabase, string pathAndFileExternalDatabase)
-        {
-            try
-            {
-                string backupFile = Path.Combine(Common.PathDatabase, Common.DatabaseFileName.Replace(".Sqlite", "_backup.Sqlite"));
-                // backup the current database, in Android it is in internal storage, so we can use the class File 
-                File.Copy(pathAndFileInternalDatabase, backupFile, true);
-                File.Delete(pathAndFileInternalDatabase);
-#if ANDROID
-                // if the user has not given the permissions, then return with false
-                if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
-                    return false;
-                return await AndroidExternalFilesHelper.ReadFileFromExternalStorageAsync
-                    (pathAndFileExternalDatabase, pathAndFileInternalDatabase);
-#else
-                File.Copy(pathAndFileExternalDatabase, pathAndFileInternalDatabase, true);
-#endif
-                return true;
-            }
-            catch (Exception ex)
-            {
-                General.LogOfProgram.Error("ReadDatabaseFromExternal", ex);
-                return false;
-            }
-        }
         internal void CreateNewDatabase()
         {
             dl.CreateNewDatabase(Common.PathAndFileDatabase);
@@ -118,30 +129,39 @@ namespace GlucoMan.BusinessLayer
             {
                 // export log of errors file
                 string exportedLogOfProgram = Path.Combine(Common.PathImportExport, Path.GetFileName(General.LogOfProgram.ErrorsFile));
+                string fileName = Path.GetFileName(exportedLogOfProgram);
                 if (File.Exists(General.LogOfProgram.ErrorsFile))
                 {
+                    if (File.Exists(exportedLogOfProgram))
+                        File.Delete(exportedLogOfProgram);
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalPublicDirectoryAsync(General.LogOfProgram.ErrorsFile, exportedLogOfProgram);
+                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(General.LogOfProgram.ErrorsFile, exportedLogOfProgram);
 #else
                     File.Copy(General.LogOfProgram.ErrorsFile, exportedLogOfProgram, true);
 #endif
                 }
-                // database file
-                // log of insulin correction parameters 
+                // export log of insulin correction parameters 
                 string exportedLogOfParameters = Path.Combine(Common.PathImportExport, Common.LogOfParametersFileName);
-                if (File.Exists(exportedLogOfParameters))
+                fileName = Path.GetFileName(exportedLogOfParameters);
+                if (File.Exists(Common.PathAndFileLogOfParameters))
                 {
+                    if (File.Exists(exportedLogOfParameters))
+                        File.Delete(exportedLogOfParameters);
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalPublicDirectoryAsync(Common.PathAndFileLogOfParameters, exportedLogOfParameters);
+                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileLogOfParameters, exportedLogOfParameters);
 #else
                     File.Copy(Common.PathAndFileLogOfParameters, exportedLogOfParameters, true);
 #endif
                 }
+                // export database file
                 string exportedDatabase = Path.Combine(Common.PathImportExport, Common.DatabaseFileName);
+                fileName = Path.GetFileName(exportedDatabase);
                 if (File.Exists(Common.PathAndFileDatabase))
                 {
+                    if (File.Exists(exportedDatabase))
+                        File.Delete(exportedDatabase);
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalPublicDirectoryAsync(Common.PathAndFileDatabase, exportedDatabase);
+                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileDatabase, exportedDatabase);
 #else
                     File.Copy(Common.PathAndFileDatabase, exportedDatabase, true);
 #endif
@@ -150,7 +170,7 @@ namespace GlucoMan.BusinessLayer
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("ExportProgramsFiles", ex);
+                General.LogOfProgram.Error("BL,ExportProgramsFiles", ex);
                 return false;
             }
         }

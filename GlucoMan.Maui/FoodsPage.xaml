@@ -22,6 +22,15 @@
                 HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                 Text="{Binding Name}"
                 FontSize="Small" IsReadOnly="false"/>
+            <Picker Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" 
+                    x:Name="cmbUnit" Margin="0"
+                    HorizontalTextAlignment="Center"
+                    SelectedIndexChanged="cmbUnit_SelectedIndexChanged"
+                    ToolTipProperties.Text="List of units used for this food"
+                    ItemsSource="{Binding}"/>
+            
+            <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Margin="5,0,10,0"
+                Text="Unit" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdFood" 
                 Text="{Binding IdFood}"
                 ToolTipProperties.Text="Code of this food"
@@ -31,21 +40,13 @@
 
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,0,0,0"
                 Text="Description of food" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
-            <Label Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="1" Margin="5,0,10,0"
-                Text="Unit" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
+            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
                 x:Name="txtDescription" BackgroundColor="LightGreen"
                 ToolTipProperties.Text="Description of this food" Margin="0"
                 Keyboard="Text" TextChanged="txtDescription_TextChanged"
                 HorizontalTextAlignment="Start" FontSize="Micro"
                 Text="{Binding Description}"/>
-            <Picker Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="1" 
-                    x:Name="cmbUnit" Margin="0"
-                    HorizontalTextAlignment="Center"
-                    SelectedIndexChanged="cmbUnit_SelectedIndexChanged"
-                    ToolTipProperties.Text="List of units used for this food"
-                    ItemsSource="{Binding}"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="CHO [g]%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 

@@ -25,10 +25,10 @@ public partial class FoodPage : ContentPage
         if (cmbUnit.Items.Count > 0)
             cmbUnit.SelectedIndex = 0;
 
-        // just for test !!!!!!!!!!!!!!
+        // just for test, remove !!!!!!!!!!!!!!
         cmbManufacturer.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
 
-        // just for test !!!!!!!!!!!!!!
+        // just for test, remove !!!!!!!!!!!!!!
         cmbCategory.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
     }
     private void btnOk_Click(object sender, EventArgs e)
@@ -42,12 +42,7 @@ public partial class FoodPage : ContentPage
         FoodIsChosen = false;
         this.Navigation.PopAsync();
     }
-    private void btnAbort_Click(object sender, EventArgs e)
-    {
-        FoodIsChosen = false;
-        this.Navigation.PopAsync();
-    }
-    private void btnAddFoodManufacturer_Clicked(object sender, EventArgs e)
+     private void btnAddFoodManufacturer_Clicked(object sender, EventArgs e)
     {
     }
     private void btnCategory_Clicked(object sender, EventArgs e)

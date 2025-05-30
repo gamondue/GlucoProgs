@@ -13,7 +13,7 @@
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="Id Recipe" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of Recipe" 
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of the recipe" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:GlucoMan.Maui"
              x:Class="GlucoMan.Maui.RecipePage"
              Title="One Recipe"
              Loaded="ContentPage_Loaded">
@@ -9,7 +10,7 @@
               ColumnDefinitions="*">
             <!-- Recipe Section. Put , Mode=TwoWay in bindings after the change of the classes vith events for two way binding -->
             <Grid x:Name="recipeSection" Grid.Row="0">
-                <Grid RowDefinitions="20,20,45,55,70"
+                <Grid RowDefinitions="20,Auto,45,55,70"
                     ColumnDefinitions="60*,60*,60*,80*,80*">
                     <Label Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold"
                    Grid.ColumnSpan="5" Text="Recipe data" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
@@ -58,12 +59,12 @@
                         ToolTipProperties.Text="Calculates the summary data of the recipe"
                         Clicked="btnCalc_Click" FontSize="Micro" LineBreakMode="WordWrap"/>
 
-                    <Entry Grid.Row="4" Grid.Column="0" x:Name="txtIdRecipe" BackgroundColor="White"
+                    <Entry Grid.Row="4" Grid.Column="4" x:Name="txtIdRecipe" BackgroundColor="White"
                        HorizontalTextAlignment="Center" IsReadOnly="true"
                        ToolTipProperties.Text=" accuracy of percent carbohydrates of the recipe"
                        VerticalTextAlignment="Center"
                        Text="{Binding IdRecipe}"/>
-                    <Entry Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4" x:Name="txtRecipeDescription" 
+                    <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtRecipeDescription" 
                        BackgroundColor="LightGreen" Margin="2" 
                        ToolTipProperties.Text="Description of the recipe"
                        Text="{Binding Description}"
@@ -122,6 +123,15 @@
                         HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                     <Label Grid.Row="3" Grid.Column="2" Text="CHO %" 
                         HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                    <Image Grid.Row="3" Grid.Column="3" x:Name="txtIngredientChoGrams"
+                           Grid.RowSpan="2"
+                           Source="calculator.png"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Calculator_Click" />
+                        </Image.GestureRecognizers>
+                    </Image>
                     <!--<Label Grid.Row="3" Grid.Column="3" Text="CHO [g]" 
                         HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                         LineBreakMode="TailTruncation"/>-->

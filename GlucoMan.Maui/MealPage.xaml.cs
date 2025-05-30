@@ -134,10 +134,6 @@ public partial class MealPage : ContentPage
         txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
         txtNotes.Text = bl.Meal.Notes;
     }
-    private void txtCarbohydrates_TextChanged(object sender, EventArgs e)
-    {
-        bl.SaveMealParameters();
-    }
     private void btnSaveAllMeal_Click(object sender, EventArgs e)
     {
         FromUiToClasses();
@@ -276,7 +272,7 @@ public partial class MealPage : ContentPage
             firstPass = false;
             string[] options = { "Save the changes", "Make a new food" };
             string chosen = await DisplayActionSheet("The food has changed. Should we:",
-                "Abort the changes", null, options);
+                "Escapea the changes", null, options);
             if (chosen == "Save the changes")
             {
                 bl.SaveOneFoodInMeal(bl.FoodInMeal);
@@ -288,7 +284,7 @@ public partial class MealPage : ContentPage
                 bl.SaveOneFoodInMeal(bl.FoodInMeal);
                 RefreshGrid();
             }
-            else if (chosen == "Abort the changes" || chosen == null)
+            else if (chosen == "Escape the changes" || chosen == null)
             {
                 // nothing 
             }
@@ -357,6 +353,14 @@ public partial class MealPage : ContentPage
             bl.FoodInMeal.CarbohydratesGrams.Text = txtFoodCarbohydratesGrams.Text;
         }
     }
+    private void txtCarbohydrates_TextChanged(object sender, EventArgs e)
+    {
+        bl.SaveMealParameters();
+    }
+    private void txtMealCarbohydratesGrams_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        // currently not used
+    }
     private Entry GetFocusedEntry()
     {
         if (txtFoodQuantityInUnits.IsFocused) return txtFoodQuantityInUnits;
@@ -365,12 +369,11 @@ public partial class MealPage : ContentPage
         if (txtAccuracyOfChoFoodInMeal.IsFocused) return txtAccuracyOfChoFoodInMeal;
         if (txtMealCarbohydratesGrams.IsFocused) return txtMealCarbohydratesGrams;
         if (txtAccuracyOfChoMeal.IsFocused) return txtAccuracyOfChoMeal;
-        // aggiungi altri Entry se necessario
         return null;
     }
     private async void Calculator_Click(object sender, TappedEventArgs e)
     {
-        // Salva lo stato attuale delle Entry nelle classi
+        // save the entries in the classes
         FromUiToClasses();
 
         var focusedEntry = GetFocusedEntry();
@@ -391,7 +394,7 @@ public partial class MealPage : ContentPage
             {
                 //bl.FoodInMeal.CarbohydratesGrams.Text = result.Value.ToString();
                 txtMealCarbohydratesGrams.Text = result.Value.ToString();
-                txtMealCarbohydratesGrams_TextChanged(null, null);
+                //txtMealCarbohydratesGrams_TextChanged(null, null);
             }
             else if (focusedEntry == txtFoodCarbohydratesPercent)
             {
@@ -414,9 +417,5 @@ public partial class MealPage : ContentPage
             // show the UI starting from the classes
             FromClassToUi();
         }
-    }
-    private void txtMealCarbohydratesGrams_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        // currently not used
     }
 }

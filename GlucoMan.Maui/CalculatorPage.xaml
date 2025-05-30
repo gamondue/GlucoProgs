@@ -26,7 +26,8 @@
                 BackgroundColor="#E57373" 
                 TextColor="White" 
                 FontSize="24" 
-                Clicked="OnClearClicked"/>
+                Clicked="OnClearClicked"
+                IsEnabled="False"/>
         <Button Grid.Row="1" Grid.Column="1" Text="CE" 
                 BackgroundColor="#E57373" 
                 TextColor="White" 
@@ -109,7 +110,8 @@
                 TextColor="White" 
                 FontSize="24" 
                 Clicked="OnNumberClicked"/>
-        <Button Grid.Row="5" Grid.Column="2" Text="," 
+        <Button Grid.Row="5" Grid.Column="2" 
+                x:Name="btnDecimal" Text="," 
                 BackgroundColor="#90CAF9" 
                 TextColor="White" 
                 FontSize="24" 
@@ -125,11 +127,11 @@
                 TextColor="White" 
                 FontSize="18" 
                 Clicked="OnOkClicked"/>
-        <Button Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Text="Abort" 
+        <Button Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Text="Escape" 
                 Margin="0,20,0,0"
                 BackgroundColor="#78909C" 
                 TextColor="White" 
                 FontSize="18" 
-                Clicked="OnAbortClicked"/>
+                Clicked="OnEscapeClicked"/>
     </Grid>
 </ContentPage>
