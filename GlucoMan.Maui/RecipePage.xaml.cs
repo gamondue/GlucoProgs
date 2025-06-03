@@ -10,8 +10,8 @@ public partial class RecipePage : ContentPage
 
     private bool loading = true;
 
-    private Accuracy accuracyRecipe;
-    private Accuracy accuracyIngredient;
+    private UiAccuracy accuracyRecipe;
+    private UiAccuracy accuracyIngredient;
 
     bool firstPass = true;
     private FoodsPage foodsPage;
@@ -29,8 +29,8 @@ public partial class RecipePage : ContentPage
         cmbAccuracyRecipe.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
         cmbAccuracyIngredient.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
 
-        accuracyRecipe = new Accuracy(txtAccuracyOfChoRecipe, cmbAccuracyRecipe);
-        accuracyIngredient = new Accuracy(txtAccuracyOfChoIngredient, cmbAccuracyIngredient);
+        accuracyRecipe = new UiAccuracy(txtAccuracyOfChoRecipe, cmbAccuracyRecipe);
+        accuracyIngredient = new UiAccuracy(txtAccuracyOfChoIngredient, cmbAccuracyIngredient);
 
         RefreshUi();
     }

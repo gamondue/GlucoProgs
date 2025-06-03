@@ -15,13 +15,14 @@
             <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of food" 
                 HorizontalTextAlignment="Start" Margin="5,0,0,0" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" WidthRequest="270" 
-                x:Name="txtName" BackgroundColor="LightGreen"
-                ToolTipProperties.Text="Name of this food"
-                Keyboard="Text" TextChanged="txtName_TextChanged" HorizontalOptions="Start"
-                HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                Text="{Binding Name}"
-                FontSize="Small" IsReadOnly="false"/>
+            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                    HorizontalOptions="Fill" VerticalOptions="Fill" 
+                    x:Name="txtName" BackgroundColor="LightGreen"
+                    ToolTipProperties.Text="Name of this food"
+                    Keyboard="Text" TextChanged="txtName_TextChanged"
+                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                    Text="{Binding Name}"
+                    FontSize="Small" IsReadOnly="false"/>
             <Picker Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" 
                     x:Name="cmbUnit" Margin="0"
                     HorizontalTextAlignment="Center"

@@ -12,9 +12,11 @@ public partial class MealPage : ContentPage
     private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
 
     private bool loadingUi = true;
+    private bool firstPass = true;
+    //private bool editingNumericAccuracy = false;
 
-    private Accuracy accuracyMeal;
-    private Accuracy accuracyFoodInMeal;
+    private UiAccuracy accuracyMeal;
+    private UiAccuracy accuracyFoodInMeal;
 
     FoodsPage foodsPage;
     RecipesPage recipesPage;
@@ -50,8 +52,8 @@ public partial class MealPage : ContentPage
         cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
         cmbAccuracyFoodInMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
 
-        accuracyMeal = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
-        accuracyFoodInMeal = new Accuracy(txtAccuracyOfChoFoodInMeal, cmbAccuracyFoodInMeal);
+        accuracyMeal = new UiAccuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
+        accuracyFoodInMeal = new UiAccuracy(txtAccuracyOfChoFoodInMeal, cmbAccuracyFoodInMeal);
 
         if (bl.Meal.IdTypeOfMeal == TypeOfMeal.NotSet)
         {
@@ -82,19 +84,20 @@ public partial class MealPage : ContentPage
     {
         loadingUi = true;
         FromUiToMeal(bl.Meal);
-        FromUiToFood(bl.FoodInMeal);
+        //FromUiToFood(bl.FoodInMeal);
         loadingUi = false;
     }
     private void FromUiToFood(FoodInMeal FoodInMeal)
     {
-        FoodInMeal.IdMeal = Safe.Int(txtIdMeal.Text);
-        FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
-        //FoodInMeal.IdFood = Safe.Int(txtIdFood.Text);
-        FoodInMeal.QuantityInUnits.Text = txtFoodQuantityInUnits.Text; // [g]
-        FoodInMeal.CarbohydratesPerUnit.Text = txtFoodCarbohydratesPercent.Text;
-        FoodInMeal.CarbohydratesGrams.Text = txtFoodCarbohydratesGrams.Text;
-        FoodInMeal.Name = txtFoodInMealName.Text;
-        FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
+        // no serve ?????????????????
+        //FoodInMeal.IdMeal = Safe.Int(txtIdMeal.Text);
+        //FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
+        ////FoodInMeal.IdFood = Safe.Int(txtIdFood.Text);
+        //FoodInMeal.QuantityInUnits.Text = txtFoodQuantityInUnits.Text; // [g]
+        //FoodInMeal.CarbohydratesPerUnit.Text = txtFoodCarbohydratesPercent.Text;
+        //FoodInMeal.CarbohydratesGrams.Text = txtFoodCarbohydratesGrams.Text;
+        //FoodInMeal.Name = txtFoodInMealName.Text;
+        //FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
     }
     private void FromUiToMeal(Meal Meal)
     {
@@ -130,20 +133,20 @@ public partial class MealPage : ContentPage
             txtIdMeal.Text = bl.Meal.IdMeal.ToString();
         else
             txtIdMeal.Text = "";
-
         txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
         txtNotes.Text = bl.Meal.Notes;
     }
     private void btnSaveAllMeal_Click(object sender, EventArgs e)
     {
-        FromUiToClasses();
+        FromUiToMeal(bl.Meal);
         if (bl.Meal.TimeBegin.DateTime == General.DateNull)
             // if the meal has no time, we put Now
             txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, true).ToString();
         else
-            // if the meal has already a time, we don't touch it  
             txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, false).ToString();
         txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
+        // refresh the bindings by focusing a non focusable control 
+        txtIdMeal.Focus();
         bl.SaveAllFoodsInMeal();
     }
     private void btnAddFoodInMeal_Click(object sender, EventArgs e)
@@ -251,7 +254,6 @@ public partial class MealPage : ContentPage
         btnStartMeal.TextColor = defaultButtonText;
         RefreshUi();
     }
-    bool firstPass = true;
     private async void gridFoodsInMeal_Unfocused(object sender, SelectedItemChangedEventArgs e)
     {
         FromUiToClasses();
@@ -357,10 +359,25 @@ public partial class MealPage : ContentPage
     {
         bl.SaveMealParameters();
     }
-    private void txtMealCarbohydratesGrams_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        // currently not used
-    }
+    //private void txtCarbohydrates_Unfocused(object sender, FocusEventArgs e)
+    //{
+    //    editingNumericAccuracy = false;
+    //}
+    //private void txtAccuracyOfChoFoodInMeal_Unfocused(object sender, FocusEventArgs e)
+    //{
+    //    editingNumericAccuracy = false;
+    //    cmbAccuracyFoodInMeal.SelectedItem = accuracyFoodInMeal.GetQualitativeAccuracyGivenQuantitavive(
+    //        double.Parse(txtAccuracyOfChoFoodInMeal.Text));
+    //}
+    //private void txtAccuracyOfChoMeal_TextChanged(object sender, TextChangedEventArgs e)
+    //{
+    //    editingNumericAccuracy = true;
+    //    if (Safe.Int(txtAccuracyOfChoMeal.Text) != null)
+    //    {
+    //        cmbAccuracyMeal.SelectedItem = accuracyFoodInMeal.GetQualitativeAccuracyGivenQuantitavive(
+    //        double.Parse(txtAccuracyOfChoMeal.Text));
+    //    }
+    //}
     private Entry GetFocusedEntry()
     {
         if (txtFoodQuantityInUnits.IsFocused) return txtFoodQuantityInUnits;
