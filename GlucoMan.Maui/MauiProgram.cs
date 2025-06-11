@@ -17,6 +17,11 @@ namespace GlucoMan.Maui
 
 #if DEBUG
             builder.Logging.AddDebug();
+            builder.Services.AddLogging(configure =>
+            {
+                configure.AddDebug();
+                configure.SetMinimumLevel(LogLevel.Trace);
+            });
 #endif
             Common.SetGlobalParameters();
             Common.GeneralInitializationsAsync();

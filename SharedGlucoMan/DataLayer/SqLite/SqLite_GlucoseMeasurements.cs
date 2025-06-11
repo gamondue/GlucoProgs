@@ -112,14 +112,14 @@ namespace GlucoMan
             try
             {
                 gr.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
-                gr.Timestamp = Safe.DateTime(Row["Timestamp"]);
+                gr.Timestamp.DateTime = Safe.DateTime(Row["Timestamp"]);
                 gr.GlucoseValue.Double = Safe.Double(Row["GlucoseValue"]);
                 gr.GlucoseString = Safe.String(Row["GlucoseString"]);
                 gr.IdDevice = Safe.String(Row["IdDevice"]);
                 gr.TypeOfGlucoseMeasurement = (Common.TypeOfGlucoseMeasurement)Safe.Int(Row["IdTypeOfGlucoseMeasurement"]);
                 gr.TypeOfGlucoseMeasurementDevice = (Common.TypeOfGlucoseMeasurementDevice)Safe.Int(Row["IdTypeOfGlucoseMeasurementDevice"]);
                 gr.IdModelOfMeasurementSystem = Safe.String(Row["IdModelOfMeasurementSystem"]);
-                gr.IdDocumentType = Safe.Int(Row["IdDocumentType"]);
+                gr.IdDocumentType.Int = Safe.Int(Row["IdDocumentType"]);
                 gr.Notes = Safe.String(Row["Notes"]);
             }
             catch (Exception ex)
@@ -173,13 +173,13 @@ namespace GlucoMan
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE GlucoseRecords SET " +
                     "GlucoseValue=" + SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
-                    "Timestamp=" + SqliteSafe.Date(Measurement.Timestamp) + "," +
+                    "Timestamp=" + SqliteSafe.Date(Measurement.Timestamp.DateTime) + "," +
                     "GlucoseString=" + SqliteSafe.String(Measurement.GlucoseString) + "," +
                     "IdTypeOfGlucoseMeasurement=" + SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurement) + "," +
                     "IdTypeOfGlucoseMeasurementDevice=" + SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurementDevice) + "," +
                     "IdModelOfMeasurementSystem=" + SqliteSafe.String(Measurement.IdModelOfMeasurementSystem) + "," +
                     "IdDevice=" + SqliteSafe.String(Measurement.IdDevice) + "," +
-                    "IdDocumentType=" + SqliteSafe.Int(Measurement.IdDocumentType) + "," +
+                    "IdDocumentType=" + SqliteSafe.Int(Measurement.IdDocumentType.Int) + "," +
                     "Notes=" + SqliteSafe.String(Measurement.Notes) + "";
                     query += " WHERE IdGlucoseRecord=" + SqliteSafe.Int(Measurement.IdGlucoseRecord);
                     query += ";";
@@ -210,13 +210,13 @@ namespace GlucoMan
                     query += ")VALUES (" +
                     SqliteSafe.Int(Measurement.IdGlucoseRecord) + "," +
                     SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
-                    SqliteSafe.Date(Measurement.Timestamp) + "," +
+                    SqliteSafe.Date(Measurement.Timestamp.DateTime) + "," +
                     SqliteSafe.String(Measurement.GlucoseString) + "," +
                     SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurement) + "," +
                     SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurementDevice) + "," +
                     SqliteSafe.String(Measurement.IdModelOfMeasurementSystem) + "," +
                     SqliteSafe.String(Measurement.IdDevice) + "," +
-                    SqliteSafe.Int(Measurement.IdDocumentType) + "," +
+                    SqliteSafe.Int(Measurement.IdDocumentType.Int) + "," +
                     SqliteSafe.String(Measurement.Notes) + ")";
                     query += ";";
                     cmd.CommandText = query;

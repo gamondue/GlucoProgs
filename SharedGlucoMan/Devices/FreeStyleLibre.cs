@@ -44,7 +44,7 @@ namespace GlucoMan
                 // the TypeOfGlucoseMeasurementDevice is decided in code, based on the TypeOfDocument field
                 //singleRecord.TypeOfGlucoseMeasurementDevice = inputContent[i][0];
                 singleRecord.IdDevice = inputContent[i][1];
-                singleRecord.Timestamp = Safe.DateTime(inputContent[i][2]);
+                singleRecord.Timestamp.DateTime = Safe.DateTime(inputContent[i][2]);
                 singleRecord.TypeOfDocument = Safe.Int(inputContent[i][3]);
                 singleRecord.GlucoseHistoricValue = Safe.Double(inputContent[i][4]);
                 singleRecord.GlucoseScanValue = Safe.Double(inputContent[i][5]);
@@ -87,12 +87,12 @@ namespace GlucoMan
                         if (singleRecord.InsulinRapidActionValue != null && singleRecord.InsulinRapidActionValue != 0)
                         {
                             singleRecord.InsulinValue = singleRecord.InsulinRapidActionValue;
-                            singleRecord.InsulinInjectionType = Common.TypeOfInsulinInjection.BolusInsulin;
+                            singleRecord.InsulinInjectionType = Common.InsulinDrug.BolusInsulin;
                         }
                         else
                         {
                             singleRecord.InsulinValue = singleRecord.InsulinSlowActionValue;
-                            singleRecord.InsulinInjectionType = Common.TypeOfInsulinInjection.BasalInsulin;
+                            singleRecord.InsulinInjectionType = Common.InsulinDrug.BasalInsulin;
                         }
                         break;
                     case 5: // carbohydrates ingested with food 
@@ -106,7 +106,7 @@ namespace GlucoMan
                 listFreeStyle.Add(singleRecord);
             }
             // sort by date, since the original file is ordered by TypeOfDocument
-            listFreeStyle.Sort((x, y) => DateTime.Compare((DateTime)x.Timestamp, (DateTime)y.Timestamp));
+            listFreeStyle.Sort((x, y) => DateTime.Compare((DateTime)x.Timestamp.DateTime, (DateTime)y.Timestamp.DateTime));
 
             return listFreeStyle;
         }

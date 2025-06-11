@@ -16,7 +16,7 @@ namespace GlucoMan
             {
                 DiabetesMRecord dbMRec = new DiabetesMRecord();
                 dbMRec.DateTimeFormatted = Safe.DateTime(inputContent[i][0].Substring(1, 10));
-                dbMRec.Timestamp = dbMRec.DateTimeFormatted;
+                dbMRec.Timestamp.DateTime = Safe.DateTime(dbMRec.DateTimeFormatted);
                 dbMRec.Glucose = Safe.Double(inputContent[i][1]);
                 dbMRec.GlucoseValue.Double = Safe.Double(dbMRec.Glucose);
                 dbMRec.Carbs = Safe.Double(inputContent[i][2]);
@@ -81,7 +81,7 @@ namespace GlucoMan
 
                 listDiabetesM.Add(dbMRec);
             }
-            listDiabetesM.Sort((x, y) => DateTime.Compare((DateTime)x.Timestamp, (DateTime)y.Timestamp));
+            listDiabetesM.Sort((x, y) => DateTime.Compare((DateTime)x.Timestamp.DateTime, (DateTime)y.Timestamp.DateTime));
             return listDiabetesM;
         }
     }

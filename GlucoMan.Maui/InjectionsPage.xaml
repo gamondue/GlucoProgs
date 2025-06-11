@@ -40,10 +40,12 @@
 
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Injection time"  
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
-            <RadioButton Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="1" Content="Fast ins." HorizontalOptions="Center"
-                         GroupName="groupInsulin" x:Name="rdbFastInsulin" WidthRequest="180" />
-            <RadioButton Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="1" Content="Slow ins." HorizontalOptions="Center"
-                         GroupName="groupInsulin" x:Name="rdbSlowInsulin" WidthRequest="180"/>
+            <RadioButton Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="1" 
+                         x:Name="rdbShortInsulin" Content="Short ins." HorizontalOptions="Center"
+                         GroupName="groupInsulin" WidthRequest="180" />
+            <RadioButton Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="1" Content="Slow ins." 
+                         HorizontalOptions="Center"
+                         x:Name="rdbLongInsulin" GroupName="groupInsulin" WidthRequest="180"/>
 
             <DatePicker Grid.Row="4" Grid.Column="0" x:Name="dtpInjectionDate" 
                     ToolTipProperties.Text="Date of this injection"
@@ -118,7 +120,7 @@
                                            HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                                     <Label Grid.Column="1" Text="{Binding InsulinValue.Text}" 
                                            HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                    <Label Grid.Column="2" Text="{Binding IdTypeOfInsulinSpeed}" 
+                                    <Label Grid.Column="2" Text="{Binding IdTypeOfInsulinAction}" 
                                            HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                                 </Grid>
                             </ViewCell.View>

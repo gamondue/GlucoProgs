@@ -1,4 +1,5 @@
 using GlucoMan.BusinessLayer;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GlucoMan.Maui;
 
@@ -107,10 +108,10 @@ public partial class HypoPredictionPage : ContentPage
         {
             txtGlucoseLast.Text = list[0].GlucoseValue.ToString();
             txtGlucosePrevious.Text = list[1].GlucoseValue.ToString();
-            txtHourLast.Text = list[0].Timestamp.Value.Hour.ToString();
-            txtHourPrevious.Text = list[1].Timestamp.Value.Hour.ToString();
-            txtMinuteLast.Text = list[0].Timestamp.Value.Minute.ToString();
-            txtMinutePrevious.Text = list[1].Timestamp.Value.Minute.ToString();
+            txtHourLast.Text = list[0].Timestamp.DateTime?.Hour.ToString();
+            txtHourPrevious.Text = list[1].Timestamp.DateTime?.Hour.ToString();
+            txtMinuteLast.Text = list[0].Timestamp.DateTime?.Minute.ToString();
+            txtMinutePrevious.Text = list[1].Timestamp.DateTime?.Minute.ToString();
         }
     }
     private void btnCalcFutureGlucose_Click(object sender, EventArgs e)

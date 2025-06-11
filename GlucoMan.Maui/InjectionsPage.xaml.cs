@@ -1,5 +1,6 @@
 using gamon;
 using GlucoMan.BusinessLayer;
+using GlucoMan.BusinessObjects;
 
 namespace GlucoMan.Maui;
 public partial class InjectionsPage : ContentPage
@@ -8,17 +9,28 @@ public partial class InjectionsPage : ContentPage
     Injection CurrentInjection = new Injection();
     List<Injection> allInjections;
 
+    int? IdCurrentShortActingInsulin;
+    int? IdCurrentLongActingInsulin;
+
     internal InjectionsPage(int? IdInjection)
     {
         InitializeComponent();
-        if (IdInjection != null)
-            CurrentInjection = bl.GetOneInjection(IdInjection);
-        if (IdInjection == null)
+
+        // set rdbShortInsulin and rdbInsulin text to the name of the right insulins 
+        // read from Parameters the Id of current short action insulin
+        Parameters parameters = Common.Database.GetParameters();
+        IdCurrentShortActingInsulin = parameters?.IdInsulinDrug_Short;
+        IdCurrentLongActingInsulin = parameters?.IdInsulinDrug_Long;
+        if (IdCurrentShortActingInsulin != null)
         {
-            CurrentInjection = new();
-            bl.SetTypeOfInsulinSpeedBasedOnTimeNow(CurrentInjection);
-            CurrentInjection.Timestamp.DateTime = DateTime.Now;
-        }      
+            CurrentInjection.IdInsulinDrug = IdCurrentShortActingInsulin;
+            rdbShortInsulin.Content = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin).Name ?? "Short act.";
+        }
+        if (IdCurrentLongActingInsulin != null)
+        {
+            CurrentInjection.IdInsulinDrug = IdCurrentLongActingInsulin;
+            rdbLongInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin).Name ?? "Long act.";
+        } 
         RefreshUi();
     }
     public int? IdInjection
@@ -39,14 +51,14 @@ public partial class InjectionsPage : ContentPage
         dtpInjectionDate.Date = ((DateTime)CurrentInjection.Timestamp.DateTime);
         dtpInjectionTime.Time = ((DateTime)CurrentInjection.Timestamp.DateTime).TimeOfDay;
         txtNotes.Text = CurrentInjection.Notes;
-        if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.RapidActing)
-            rdbFastInsulin.IsChecked = true;
-        else if (CurrentInjection.IdTypeOfInsulinSpeed == (int)Common.TypeOfInsulinSpeed.ShortActing)
-            rdbSlowInsulin.IsChecked = true;
+        if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.RapidActing)
+            rdbShortInsulin.IsChecked = true;
+        else if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.ShortActing)
+            rdbLongInsulin.IsChecked = true;
         else
         {
-            rdbFastInsulin.IsChecked = false;
-            rdbSlowInsulin.IsChecked = false;
+            rdbShortInsulin.IsChecked = false;
+            rdbLongInsulin.IsChecked = false;
         }
     }
     private void FromUiToClass()
@@ -59,17 +71,18 @@ public partial class InjectionsPage : ContentPage
             dtpInjectionTime.Time.Hours, dtpInjectionTime.Time.Minutes, dtpInjectionTime.Time.Seconds);
         CurrentInjection.Timestamp.DateTime = instant;
         CurrentInjection.Notes = txtNotes.Text;
-        if (rdbFastInsulin.IsChecked)
-            CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.RapidActing;
-        else if (rdbSlowInsulin.IsChecked)
-            CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.ShortActing;
+        if (rdbShortInsulin.IsChecked)
+            CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.RapidActing;
+        else if (rdbLongInsulin.IsChecked)
+            CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.ShortActing;
         else
-            CurrentInjection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.NotSet;
+            CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.NotSet;
+
     }
     private void RefreshGrid()
     {
         DateTime now = DateTime.Now;
-        allInjections = bl.GetInjections(now.AddMonths(-4), now.AddDays(1), Common.TypeOfInsulinSpeed.NotSet);
+        allInjections = bl.GetInjections(now.AddMonths(-4), now.AddDays(1), Common.TypeOfInsulinAction.NotSet);
         gridInjections.ItemsSource = allInjections;
     }
     private void RefreshUi()
@@ -104,7 +117,7 @@ public partial class InjectionsPage : ContentPage
         // make the tapped row the current injection 
         CurrentInjection = (Injection)e.SelectedItem;
 
-        // make the injection's location button green if the zone of the injection is set,
+        // make the injection's location button green if the zone where the injection is set,
         // if it insn't make it the original color
         if (CurrentInjection.Zone == Common.ZoneOfPosition.Front)
             btnFront.BackgroundColor = Colors.Lime;
@@ -122,7 +135,24 @@ public partial class InjectionsPage : ContentPage
             btnSensors.BackgroundColor = Colors.Lime;
         else
             btnSensors.BackgroundColor = Colors.LightGrey;
+
         FromClassToUi();
+
+        if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.ShortActing 
+            || CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.RapidActing)
+        {
+            // set the data for short acting insulin
+            rdbShortInsulin.IsChecked = true;
+            rdbShortInsulin.Content = bl.GetOneInsulinDrug(CurrentInjection.IdInsulinDrug)?.Name ?? "Short act.";
+            rdbLongInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin)?.Name ?? "Long act.";
+        }
+        else
+        {
+            // set the data for long acting insulin
+            rdbLongInsulin.IsChecked = true;
+            rdbShortInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin)?.Name ?? "Short act.";
+            rdbLongInsulin.Content = bl.GetOneInsulinDrug(CurrentInjection.IdInsulinDrug)?.Name ?? "Long act.";
+        }
     }
     private void btnAddInjection_Click(object sender, EventArgs e)
     {

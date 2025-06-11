@@ -1,4 +1,6 @@
 ﻿using gamon;
+using GlucoMan.BusinessObjects;
+
 //using Microsoft.Data.Sqlite;
 using System.Data.Common;
 

@@ -95,7 +95,8 @@ namespace GlucoMan.Maui
         }
         private void btnConfigurations_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new ConfigurationPage());
+            //Navigation.PushAsync(new ConfigurationPage());
+            Navigation.PushAsync(new SettingsPage());
         }
     }
 }

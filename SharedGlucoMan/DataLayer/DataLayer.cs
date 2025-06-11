@@ -1,4 +1,5 @@
-﻿using GlucoMan.BusinessObjects;
+﻿using gamon;
+using GlucoMan.BusinessObjects;
 using System.Data.Common;
 
 namespace GlucoMan
@@ -34,7 +35,7 @@ namespace GlucoMan
         internal abstract void DeleteOneInjection(Injection Injection);
         internal abstract List<Injection> GetInjections(DateTime InitialInstant,
             DateTime FinalInstant,
-            Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet,
+            Common.TypeOfInsulinAction TypeOfInsulinAction = Common.TypeOfInsulinAction.NotSet,
             Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet);
         #endregion
         #region Meals and Food in Meals
@@ -56,6 +57,8 @@ namespace GlucoMan
         internal abstract void RemoveUnitFromFoodsUnits(Food Food);
         internal abstract List<UnitOfFood> GetAllUnitsOfOneFood(Food Food);
         internal abstract Injection GetOneInjection(int? idInjection);
+        internal abstract InsulinDrug? GetOneInsulinDrug(int? idInsulinDrug);
+        internal abstract int? SaveInsulinDrug(InsulinDrug InsulinDrug);
         #endregion
         #region Alarms
         internal abstract int? SaveOneAlarm(Alarm currentAlarm);
@@ -82,5 +85,11 @@ namespace GlucoMan
         internal abstract void SaveOneReferenceCoordinate(PositionOfInjection position);
         internal abstract void DeleteAllReferenceCoordinates(Common.ZoneOfPosition zone);
         internal abstract List<PositionOfInjection> GetReferencePositions(Common.ZoneOfPosition Zone);
+        internal abstract int? SaveAllParameters(Parameters parameters,
+            bool saveInANewRowWithTimestamp);
+        internal abstract void UpdateAllParameters(Parameters parameters);
+        internal abstract void InsertAllParameters(Parameters parameters);
+        internal abstract Parameters GetParameters();
+        internal abstract List<InsulinDrug>? GetAllInsulinDrugs(Common.TypeOfInsulinAction shortActing);
     }
 }

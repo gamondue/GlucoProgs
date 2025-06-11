@@ -70,7 +70,7 @@ namespace GlucoMan
             Snack = 40,
             Other = 90
         }
-        public enum TypeOfInsulinSpeed
+        public enum TypeOfInsulinAction
         {
             NotSet = 0,
             RapidActing = 10, // about 15 minutes to start working, peaks in 1-2 hours, and lasts for 2-4 hours
@@ -78,7 +78,7 @@ namespace GlucoMan
             IntermediateActing = 30, // about 2-4 hours to start working, peaks in 4-12 hours, and lasts for 12-18 hours.
             LongActing = 40 // 1-2 hours to start working, has no peak effect, and lasts for 24+ hours
         }
-        public enum TypeOfInsulinInjection
+        public enum InsulinDrug
         {
             NotSet = 0,
             BolusInsulin = 10,

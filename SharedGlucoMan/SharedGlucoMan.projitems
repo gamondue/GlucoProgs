@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Alarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodInMeal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\InsulinDrug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Parameters.cs" />
     <Compile Include="..\SharedGlucoMan\BusinessObjects\Injection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\PositionOfInjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Recipe.cs" />

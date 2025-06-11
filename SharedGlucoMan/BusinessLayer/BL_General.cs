@@ -1,4 +1,5 @@
 ﻿using gamon;
+using GlucoMan.BusinessObjects;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -100,7 +101,6 @@ namespace GlucoMan.BusinessLayer
                 return false;
             }
         }
-
         internal bool ImportDatabaseFromExternal(string pathAndFileDatabase, string v)
         {
             // import the foods
@@ -173,6 +173,36 @@ namespace GlucoMan.BusinessLayer
                 General.LogOfProgram.Error("BL,ExportProgramsFiles", ex);
                 return false;
             }
+        }
+        internal Parameters GetSettingsPageParameters()
+        {
+             return dl.GetParameters();
+        }
+        internal void SaveAllParameters(Parameters p,
+            InsulinDrug ShortActingInsulin, InsulinDrug LongActingInsulin)
+        {
+            // check if the parameters relative to the insulins are changed
+            // if they are changed, then save a new row with timestamp in the parameters table
+            // otherwise save the parameters in the current row
+            bool SaveInANewRowWithTimestamp = false;
+            if (ShortActingInsulin != null && LongActingInsulin != null)
+            {
+                InsulinDrug? oldShort = dl.GetOneInsulinDrug(p.IdInsulinDrug_Short);
+                InsulinDrug? oldLong = dl.GetOneInsulinDrug(p.IdInsulinDrug_Long);
+                if (oldShort == null || oldLong == null ||
+                    oldShort.Name != ShortActingInsulin.Name ||
+                    oldLong.Name != LongActingInsulin.Name ||
+                    oldShort.DurationInHours != ShortActingInsulin.DurationInHours ||
+                    oldLong.DurationInHours != LongActingInsulin.DurationInHours)
+                {
+                    p.IdInsulinDrug_Short = ShortActingInsulin.IdInsulinDrug;
+                    p.IdInsulinDrug_Long = LongActingInsulin.IdInsulinDrug;
+                    SaveInANewRowWithTimestamp = true;
+                }
+            }
+            dl.SaveAllParameters(p, SaveInANewRowWithTimestamp);
+            dl.SaveInsulinDrug(ShortActingInsulin);
+            dl.SaveInsulinDrug(LongActingInsulin);
         }
     }
 }

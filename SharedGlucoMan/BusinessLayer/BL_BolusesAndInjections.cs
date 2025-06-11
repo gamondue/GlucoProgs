@@ -20,16 +20,16 @@ namespace GlucoMan.BusinessLayer
         public DoubleAndText TotalDailyDoseOfInsulin { get; set; }
         public DoubleAndText GlucoseBeforeMeal { get; set; }
         public DoubleAndText GlucoseToBeCorrected { get; set; }
-        internal void SetTypeOfInsulinSpeedBasedOnTimeNow(Injection Injection)
+        internal void SetTypeOfInsulinActionBasedOnTimeNow(Injection Injection)
         {
             TimeSpan timeOfDay = DateTime.Now.TimeOfDay;
             if (timeOfDay > new TimeSpan(2, 0, 0) && timeOfDay < new TimeSpan(22, 0, 0))
             {
-                Injection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.RapidActing;
+                Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.RapidActing;
             }
             else
             {
-                Injection.IdTypeOfInsulinSpeed = (int)Common.TypeOfInsulinSpeed.ShortActing;
+                Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.ShortActing;
             }
         }
         public DoubleAndText TargetGlucose { get; set; }
@@ -49,10 +49,10 @@ namespace GlucoMan.BusinessLayer
         private DateTime initialDinnerPeriod;
 
         internal List<Injection> GetInjections(DateTime InitialInstant,
-            DateTime FinalInstant, Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet,
+            DateTime FinalInstant, Common.TypeOfInsulinAction TypeOfInsulinAction = Common.TypeOfInsulinAction.NotSet,
             Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet)
         {
-            return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinSpeed, Zone);
+            return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinAction, Zone);
         }
         internal Injection GetOneInjection(int? IdInjection)
         {
@@ -115,8 +115,8 @@ namespace GlucoMan.BusinessLayer
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
                 // calculate embarked insulin for RapidActing insulin  
-                // TODO calculate embarked insulin for each TypeOfInsulinSpeed !!!!
-                CalculateEmbarkedInsulin(DateTime.Now, Common.TypeOfInsulinSpeed.RapidActing);
+                // TODO calculate embarked insulin for each TypeOfInsulinAction !!!!
+                CalculateEmbarkedInsulin(DateTime.Now, Common.TypeOfInsulinAction.RapidActing);
 
                 switch (MealOfBolus.IdTypeOfMeal)
                 {
@@ -283,54 +283,67 @@ namespace GlucoMan.BusinessLayer
         {
             dl.SaveOneInjection(Injection);
         }
-        public double CalculateEmbarkedInsulin(DateTime LastInjectionTargetTime, Common.TypeOfInsulinSpeed InsulinSpeed)
+        public double CalculateEmbarkedInsulin(DateTime LastInjectionTargetTime, Common.TypeOfInsulinAction InsulinSpeed)
         {
             DateTime FinalInstant = DateTime.Now;
-            DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(0, (int)(InsulinDurationInHours(InsulinSpeed) * 60), 0)); ;
-            // !!!! TODO insulin duration was encoded here; manage it including the datum in database !!!! 
-            //switch (InsulinSpeed)
-            //{
-            //    case Common.TypeOfInsulinSpeed.RapidActing: InitialInstant = FinalInstant.Subtract(new TimeSpan(3, 0, 0)); break;
-            //    case Common.TypeOfInsulinSpeed.ShortActing: InitialInstant = FinalInstant.Subtract(new TimeSpan(24, 0, 0)); break;
-            //    default: InitialInstant = FinalInstant.Subtract(new TimeSpan(24, 0, 0)); break;
-            //}
-            List<Injection> nonExaustedInsulin =
+            //DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(0, (int)(InsulinDurationInHours(InsulinSpeed) * 60), 0)); ;
+            DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(40, 0, 0)); ;
+
+            List<Injection> bolusesInTheLast40Hours =
                 dl.GetInjections(InitialInstant, FinalInstant, InsulinSpeed);
             EmbarkedInsulin.Double = 0;
-            foreach (Injection ii in nonExaustedInsulin)
+            foreach (Injection ii in bolusesInTheLast40Hours)
             {
                 TimeSpan timeFromInjection = FinalInstant.Subtract((DateTime)ii.Timestamp.DateTime);
-                // TODO should generalize with specific type of insuline drug 
-                if (ii.IdTypeOfInsulinSpeed == null)
+                if (ii.IdTypeOfInsulinAction == null)
                     break;
-                double insulinDurationInHours = InsulinDurationInHours((Common.TypeOfInsulinSpeed)ii.IdTypeOfInsulinSpeed);
-                double partialEmbarkedInsulin = (double)ii.InsulinValue.Double
-                    * (1 - timeFromInjection.TotalHours / insulinDurationInHours);
-                if (partialEmbarkedInsulin > 0)
-                    EmbarkedInsulin.Double += partialEmbarkedInsulin;
+                // the old hard encoded method is now overcome by reading the database
+                //double insulinDurationInHours = InsulinDurationInHours((Common.TypeOfInsulinAction)ii.IdTypeOfInsulinAction);
+                
+                // from database get duration of short action insulin
+                // 1 - get from database the Id of the current short duration insulin 
+                int? key = Safe.Int(Common.BlGeneral.RestoreParameter("Insulin_Short_Id"));
+                // 2 - get from database the insulin duration
+                double insulinDurationInHours;
+                if (key.HasValue)
+                {
+                    insulinDurationInHours = GetOneInsulinDrug(key)?.DurationInHours ?? 4; // default value if not found
+                }
+                else
+                {
+                    insulinDurationInHours = 4; // default value if not found
+                }
+                double partialEmbarkedInsulin = 0;
+                if (ii.InsulinValue.Double != null)
+                {
+                    partialEmbarkedInsulin = (double)ii.InsulinValue.Double
+                        * (1 - timeFromInjection.TotalHours / insulinDurationInHours);
+                    if (partialEmbarkedInsulin > 0)
+                        EmbarkedInsulin.Double += partialEmbarkedInsulin;
+                }
             }
             if (EmbarkedInsulin.Double < 0)
                 EmbarkedInsulin.Double = 0;
             return (double)EmbarkedInsulin.Double;
         }
-        // !!!! TODO InsulinDuration is hard encoded in this method. Bring it to the database !!!!
-        internal double InsulinDurationInHours(Common.TypeOfInsulinSpeed InsulinSpeed)
+        // "historic" method tha shows how the InsulinDuration was hard encoded. Now it is in the database
+        internal double InsulinDurationInHours(Common.TypeOfInsulinAction InsulinSpeed)
         {
             switch (InsulinSpeed)
             {
-                case Common.TypeOfInsulinSpeed.RapidActing:
+                case Common.TypeOfInsulinAction.RapidActing:
                     {
                         return 3;
                     }
-                case Common.TypeOfInsulinSpeed.ShortActing:
+                case Common.TypeOfInsulinAction.ShortActing:
                     {
                         return 4.5;
                     }
-                case Common.TypeOfInsulinSpeed.IntermediateActing:
+                case Common.TypeOfInsulinAction.IntermediateActing:
                     {
                         return 12 - 0 + (18.0 - 12) / 2.0;
                     }
-                case Common.TypeOfInsulinSpeed.LongActing:
+                case Common.TypeOfInsulinAction.LongActing:
                     {
                         return 24;
                     }
@@ -392,8 +405,8 @@ namespace GlucoMan.BusinessLayer
                 Zone = currentInjection.Zone,
                 PositionX = currentInjection.PositionX,
                 PositionY = currentInjection.PositionY,
-                IdTypeOfInsulinSpeed = currentInjection.IdTypeOfInsulinSpeed,
-                IdTypeOfInsulinInjection = currentInjection.IdTypeOfInsulinInjection,
+                IdTypeOfInsulinAction = currentInjection.IdTypeOfInsulinAction,
+                IdInsulinDrug = currentInjection.IdInsulinDrug,
                 InsulinString = currentInjection.InsulinString,
                 Notes = currentInjection.Notes
             };
@@ -402,6 +415,14 @@ namespace GlucoMan.BusinessLayer
             ii.PositionX = currentInjection.PositionX / width;
             ii.PositionY = currentInjection.PositionY / height;
             SaveOneInjection(ii);
+        }
+        internal InsulinDrug? GetOneInsulinDrug(int? IdInsulinDrug)
+        {
+            return dl.GetOneInsulinDrug(IdInsulinDrug);
+        }
+        internal List<InsulinDrug>? GetAllInsulinDrugs(Common.TypeOfInsulinAction Acting)
+        {
+            return dl.GetAllInsulinDrugs(Acting);
         }
     }
 }

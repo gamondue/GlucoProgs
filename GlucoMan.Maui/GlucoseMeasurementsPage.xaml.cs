@@ -43,7 +43,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
         DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
             dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds);
         currentGlucose.Notes = txtNotes.Text;
-        currentGlucose.Timestamp = instant;
+        currentGlucose.Timestamp.DateTime = instant;
         //currentGlucose.Timestamp = dtpEventDate.Date;
     }
     private void FromClassToUi()
@@ -51,11 +51,11 @@ public partial class GlucoseMeasurementsPage : ContentPage
         if (currentGlucose.GlucoseValue.Double != null && !double.IsNaN((double)currentGlucose.GlucoseValue.Double))
             txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
         if (currentGlucose.Timestamp != null
-            && currentGlucose.Timestamp != new DateTime(1, 1, 1, 0, 0, 0)
-            && currentGlucose.Timestamp != General.DateNull)
+            && currentGlucose.Timestamp.DateTime != new DateTime(1, 1, 1, 0, 0, 0)
+            && currentGlucose.Timestamp.DateTime != General.DateNull)
         {
-            dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp);
-            dtpEventTime.Time = ((DateTime)currentGlucose.Timestamp).TimeOfDay;
+            dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp.DateTime);
+            dtpEventTime.Time = ((DateTime)currentGlucose.Timestamp.DateTime).TimeOfDay;
         }
         else
         {
@@ -76,7 +76,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
     {
         txtGlucose.Text = "";
         dtpEventDate.Date = DateTime.Now;
-        dtpEventTime.Time = ((DateTime)currentGlucose.Timestamp).TimeOfDay;
+        dtpEventTime.Time = ((DateTime)currentGlucose.Timestamp.DateTime).TimeOfDay;
         txtIdGlucoseRecord.Text = "";
         txtNotes.Text = "";
     }

@@ -21,7 +21,7 @@
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Operations"
                    FontSize="Title" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                   ToolTipProperties.Text="Opens Settings page"
+                    ToolTipProperties.Text="Opens Settings page"
                     Text="Settings" WidthRequest="150" BackgroundColor="Grey" TextColor="White"
                     x:Name="btnSettings" Clicked="btnSettings_Click" />
             <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 

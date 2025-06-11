@@ -1,4 +1,5 @@
 ﻿using gamon;
+using GlucoMan.BusinessObjects;
 using Microsoft.Data.Sqlite;
 using System.Data;
 using System.Data.Common;
@@ -63,7 +64,7 @@ namespace GlucoMan
                 connection.Open();
             }
             catch (Exception ex)
-             {
+            {
                 General.LogOfProgram.Error("Error connecting to the database: " + ex.Message + "\r\nFile Sqlite>: " + dbName + " " + "\n", ex);
                 connection = null;
             }
@@ -449,7 +450,8 @@ namespace GlucoMan
                                 {
                                     cmd.CommandText += "" + SqliteSafe.String(row[c.ColumnName].ToString()) + ",";
                                     break;
-                                };
+                                }
+                                ;
                             case TypeCode.DateTime:
                                 {
                                     DateTime? d = Safe.DateTime(row[c.ColumnName]);
@@ -643,31 +645,32 @@ namespace GlucoMan
         }
         internal override string RestoreParameter(string FieldName, int? Key = null)
         {
+            // read the parameter whose name is passed, in the LAST row of the table Parameters
             try
             {
                 using (DbConnection conn = Connect())
                 {
-                    // read table Parameters, to see if it has rows
                     DbCommand cmd = conn.CreateCommand();
                     string query = "SELECT ";
                     query += FieldName;
                     query += " FROM Parameters";
-
-                    string whereClause;
-                    if (Key == null)
-                    {
-                        // no key between parameter: we use the highest key
-                        cmd.CommandText = "SELECT MAX(IdParameters) FROM Parameters;";
-                        int? maxKey = Safe.Int(cmd.ExecuteScalar());
-                        //int? maxKey = NextKey("Parameters", "IdParameters");
-                        whereClause = " WHERE IdParameters=" + maxKey;
-                    }
-                    else
-                    {
-                        // the user passed a key; we use that
-                        whereClause = " WHERE IdParameters=" + Key;
-                    }
-                    query += whereClause + ";";
+                    //string whereClause;
+                    //if (Key == null)
+                    //{
+                    //    // no key between parameter: we use the highest key
+                    //    cmd.CommandText = "SELECT MAX(IdParameters) FROM Parameters;";
+                    //    int? maxKey = Safe.Int(cmd.ExecuteScalar());
+                    //    //int? maxKey = NextKey("Parameters", "IdParameters");
+                    //    whereClause = " WHERE IdParameters=" + maxKey;
+                    //}
+                    //else
+                    //{
+                    //    // the user passed a key; we use that
+                    //    whereClause = " WHERE IdParameters=" + Key;
+                    //}
+                    //query += whereClause;
+                    query += " ORDER BY IdParameters DESC LIMIT 1" +
+                        ";";
                     cmd.CommandText = query;
                     string result = Safe.String(cmd.ExecuteScalar());
                     cmd.Dispose();
@@ -678,6 +681,289 @@ namespace GlucoMan
             {
                 General.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | RestoreParameter", ex);
                 return null;
+            }
+        }
+        internal override Parameters GetParameters()
+        {
+            // read in parameters all the properties of the Parameters object
+            // from THE LAST ROW of the table Parameters
+            Parameters parameters = new Parameters();
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = "SELECT * FROM Parameters ORDER BY IdParameters DESC LIMIT 1;";
+                    using (DbDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            parameters.Bolus_TargetGlucose = Safe.Int(dr["Bolus_TargetGlucose"]);
+                            parameters.Bolus_GlucoseBeforeMeal = Safe.Int(dr["Bolus_GlucoseBeforeMeal"]);
+                            parameters.Bolus_ChoToEat = Safe.Double(dr["Bolus_ChoToEat"]);
+                            parameters.Bolus_ChoInsulinRatioBreakfast = Safe.Double(dr["Bolus_ChoInsulinRatioBreakfast"]);
+                            parameters.Bolus_ChoInsulinRatioLunch = Safe.Double(dr["Bolus_ChoInsulinRatioLunch"]);
+                            parameters.Bolus_ChoInsulinRatioDinner = Safe.Double(dr["Bolus_ChoInsulinRatioDinner"]);
+                            parameters.Bolus_TotalDailyDoseOfInsulin = Safe.Double(dr["Bolus_TotalDailyDoseOfInsulin"]);
+                            parameters.Bolus_InsulinCorrectionSensitivity = Safe.Double(dr["Bolus_InsulinCorrectionSensitivity"]);
+                            parameters.Correction_TypicalBolusMorning = Safe.Double(dr["Correction_TypicalBolusMorning"]);
+                            parameters.Correction_TypicalBolusMidday = Safe.Double(dr["Correction_TypicalBolusMidday"]);
+                            parameters.Correction_TypicalBolusEvening = Safe.Double(dr["Correction_TypicalBolusEvening"]);
+                            parameters.Correction_TypicalBolusNight = Safe.Double(dr["Correction_TypicalBolusNight"]);
+                            parameters.Correction_FactorOfInsulinCorrectionSensitivity = Safe.Double(dr["Correction_FactorOfInsulinCorrectionSensitivity"]);
+                            parameters.Hypo_GlucoseTarget = Safe.Double(dr["Hypo_GlucoseTarget"]);
+                            parameters.Hypo_GlucoseLast = Safe.Double(dr["Hypo_GlucoseLast"]);
+                            parameters.Hypo_GlucosePrevious = Safe.Double(dr["Hypo_GlucosePrevious"]);
+                            parameters.Hypo_HourLast = Safe.Double(dr["Hypo_HourLast"]);
+                            parameters.Hypo_HourPrevious = Safe.Double(dr["Hypo_HourPrevious"]);
+                            parameters.Hypo_MinuteLast = Safe.Double(dr["Hypo_MinuteLast"]);
+                            parameters.Hypo_MinutePrevious = Safe.Double(dr["Hypo_MinutePrevious"]);
+                            parameters.Hypo_AlarmAdvanceTime = Safe.Double(dr["Hypo_AlarmAdvanceTime"]);
+                            parameters.Hypo_FutureSpanMinutes = Safe.Double(dr["Hypo_FutureSpanMinutes"]);
+                            parameters.Hit_ChoAlreadyTaken = Safe.Double(dr["Hit_ChoAlreadyTaken"]);
+                            parameters.Hit_ChoOfFood = Safe.Double(dr["Hit_ChoOfFood"]);
+                            parameters.Hit_TargetCho = Safe.Double(dr["Hit_TargetCho"]);
+                            parameters.Hit_NameOfFood = Safe.String(dr["Hit_NameOfFood"]);
+                            parameters.FoodInMeal_ChoGrams = Safe.Double(dr["FoodInMeal_ChoGrams"]);
+                            parameters.FoodInMeal_QuantityGrams = Safe.Double(dr["FoodInMeal_QuantityGrams"]);
+                            parameters.FoodInMeal_CarbohydratesPercent = Safe.Double(dr["FoodInMeal_CarbohydratesPercent"]);
+                            parameters.FoodInMeal_Name = Safe.String(dr["FoodInMeal_Name"]);
+                            parameters.FoodInMeal_AccuracyOfChoEstimate = Safe.Double(dr["FoodInMeal_AccuracyOfChoEstimate"]);
+                            parameters.Meal_ChoGrams = Safe.Double(dr["Meal_ChoGrams"]);
+                            // parameters managed by the SettingsPage
+                            parameters.IdParameters = Safe.Int(dr["IdParameters"]);
+                            parameters.Timestamp = Safe.DateTime(dr["Timestamp"]);
+                            parameters.IdInsulinDrug_Short = Safe.Int(dr["Insulin_Short_Id"]);
+                            parameters.IdInsulinDrug_Long = Safe.Int(dr["Insulin_Long_Id"]);
+                            parameters.Meal_Breakfast_StartTime_Hours = Safe.Double(dr["Meal_Breakfast_StartTime_Hours"]);
+                            parameters.Meal_Breakfast_EndTime_Hours = Safe.Double(dr["Meal_Breakfast_EndTime_Hours"]);
+                            parameters.Meal_Lunch_StartTime_Hours = Safe.Double(dr["Meal_Lunch_StartTime_Hours"]);
+                            parameters.Meal_Lunch_EndTime_Hours = Safe.Double(dr["Meal_Lunch_EndTime_Hours"]);
+                            parameters.Meal_Dinner_StartTime_Hours = Safe.Double(dr["Meal_Dinner_StartTime_Hours"]);
+                            parameters.Meal_Dinner_EndTime_Hours = Safe.Double(dr["Meal_Dinner_EndTime_Hours"]);
+                        }
+                    }
+                    cmd.Dispose();
+                }
+                return parameters;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | GetSettingsPageParameters", ex);
+                return null;
+            }
+        }
+        internal override int? SaveAllParameters(Parameters parameters,
+            bool saveInANewRowWithTimestamp)
+        {
+            try
+            {
+                if (parameters.IdParameters == null || parameters.IdParameters == 0
+                    || saveInANewRowWithTimestamp)
+                {
+                    parameters.IdParameters = GetTableNextPrimaryKey("Parameters", "IdParameters");
+                    // INSERT new record in the table
+                    parameters.Timestamp = DateTime.Now;
+                    InsertAllParameters(parameters);
+                }
+                else
+                    UpdateAllParameters(parameters);
+                return parameters.IdParameters;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("DataLayer | SaveSettingsPageParameters", ex);
+                return null;
+            }
+        }
+        internal override void UpdateAllParameters(Parameters parameters)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = "UPDATE Parameters SET " +
+                        "Timestamp=@Timestamp, " +
+                        "Insulin_Short_Id=@Insulin_Short_Id, " +
+                        "Insulin_Long_Id=@Insulin_Long_Id, " +
+                        "Meal_Breakfast_StartTime_Hours=@Meal_Breakfast_StartTime, " +
+                        "Meal_Breakfast_EndTime_Hours=@Meal_Breakfast_EndTime, " +
+                        "Meal_Lunch_StartTime_Hours=@Meal_Lunch_StartTime, " +
+                        "Meal_Lunch_EndTime_Hours=@Meal_Lunch_EndTime, " +
+                        "Meal_Dinner_StartTime_Hours=@Meal_Dinner_StartTime, " +
+                        "Meal_Dinner_EndTime_Hours=@Meal_Dinner_EndTime, " +
+                        "Bolus_TargetGlucose=@Bolus_TargetGlucose, " +
+                        "Bolus_GlucoseBeforeMeal=@Bolus_GlucoseBeforeMeal, " +
+                        "Bolus_ChoToEat=@Bolus_ChoToEat, " +
+                        "Bolus_ChoInsulinRatioBreakfast=@Bolus_ChoInsulinRatioBreakfast, " +
+                        "Bolus_ChoInsulinRatioLunch=@Bolus_ChoInsulinRatioLunch, " +
+                        "Bolus_ChoInsulinRatioDinner=@Bolus_ChoInsulinRatioDinner, " +
+                        "Bolus_TotalDailyDoseOfInsulin=@Bolus_TotalDailyDoseOfInsulin, " +
+                        "Bolus_InsulinCorrectionSensitivity=@Bolus_InsulinCorrectionSensitivity, " +
+                        "Correction_TypicalBolusMorning=@Correction_TypicalBolusMorning, " +
+                        "Correction_TypicalBolusMidday=@Correction_TypicalBolusMidday, " +
+                        "Correction_TypicalBolusEvening=@Correction_TypicalBolusEvening, " +
+                        "Correction_TypicalBolusNight=@Correction_TypicalBolusNight, " +
+                        "Correction_FactorOfInsulinCorrectionSensitivity=@Correction_FactorOfInsulinCorrectionSensitivity, " +
+                        "Hypo_GlucoseTarget=@Hypo_GlucoseTarget, " +
+                        "Hypo_GlucoseLast=@Hypo_GlucoseLast, " +
+                        "Hypo_GlucosePrevious=@Hypo_GlucosePrevious, " +
+                        "Hypo_HourLast=@Hypo_HourLast, " +
+                        "Hypo_HourPrevious=@Hypo_HourPrevious, " +
+                        "Hypo_MinuteLast=@Hypo_MinuteLast, " +
+                        "Hypo_MinutePrevious=@Hypo_MinutePrevious, " +
+                        "Hypo_AlarmAdvanceTime=@Hypo_AlarmAdvanceTime, " +
+                        "Hypo_FutureSpanMinutes=@Hypo_FutureSpanMinutes, " +
+                        "Hit_ChoAlreadyTaken=@Hit_ChoAlreadyTaken, " +
+                        "Hit_ChoOfFood=@Hit_ChoOfFood, " +
+                        "Hit_TargetCho=@Hit_TargetCho, " +
+                        "Hit_NameOfFood=@Hit_NameOfFood, " +
+                        "FoodInMeal_ChoGrams=@FoodInMeal_ChoGrams, " +
+                        "FoodInMeal_QuantityGrams=@FoodInMeal_QuantityGrams, " +
+                        "FoodInMeal_CarbohydratesPercent=@FoodInMeal_CarbohydratesPercent, " +
+                        "FoodInMeal_Name=@FoodInMeal_Name, " +
+                        "FoodInMeal_AccuracyOfChoEstimate=@FoodInMeal_AccuracyOfChoEstimate, " +
+                        "Meal_ChoGrams=@Meal_ChoGrams " +
+                        $"WHERE IdParameters={parameters.IdParameters};";
+
+                    cmd.Parameters.Add(new SqliteParameter("@Timestamp", parameters.Timestamp ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Insulin_Short_Id", parameters.IdInsulinDrug_Short ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Insulin_Long_Id", parameters.IdInsulinDrug_Long ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Breakfast_StartTime", parameters.Meal_Breakfast_StartTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Breakfast_EndTime", parameters.Meal_Breakfast_EndTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Lunch_StartTime", parameters.Meal_Lunch_StartTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Lunch_EndTime", parameters.Meal_Lunch_EndTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Dinner_StartTime", parameters.Meal_Dinner_StartTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Dinner_EndTime", parameters.Meal_Dinner_EndTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_TargetGlucose", parameters.Bolus_TargetGlucose ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_GlucoseBeforeMeal", parameters.Bolus_GlucoseBeforeMeal ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_ChoToEat", parameters.Bolus_ChoToEat ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_ChoInsulinRatioBreakfast", parameters.Bolus_ChoInsulinRatioBreakfast ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_ChoInsulinRatioLunch", parameters.Bolus_ChoInsulinRatioLunch ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_ChoInsulinRatioDinner", parameters.Bolus_ChoInsulinRatioDinner ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_TotalDailyDoseOfInsulin", parameters.Bolus_TotalDailyDoseOfInsulin ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_InsulinCorrectionSensitivity", parameters.Bolus_InsulinCorrectionSensitivity ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Correction_TypicalBolusMorning", parameters.Correction_TypicalBolusMorning ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Correction_TypicalBolusMidday", parameters.Correction_TypicalBolusMidday ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Correction_TypicalBolusEvening", parameters.Correction_TypicalBolusEvening ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Correction_TypicalBolusNight", parameters.Correction_TypicalBolusNight ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Correction_FactorOfInsulinCorrectionSensitivity", parameters.Correction_FactorOfInsulinCorrectionSensitivity ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_GlucoseTarget", parameters.Hypo_GlucoseTarget ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_GlucoseLast", parameters.Hypo_GlucoseLast ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_GlucosePrevious", parameters.Hypo_GlucosePrevious ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_HourLast", parameters.Hypo_HourLast ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_HourPrevious", parameters.Hypo_HourPrevious ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_MinuteLast", parameters.Hypo_MinuteLast ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_MinutePrevious", parameters.Hypo_MinutePrevious ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_AlarmAdvanceTime", parameters.Hypo_AlarmAdvanceTime ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_FutureSpanMinutes", parameters.Hypo_FutureSpanMinutes ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hit_ChoAlreadyTaken", parameters.Hit_ChoAlreadyTaken ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hit_ChoOfFood", parameters.Hit_ChoOfFood ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hit_TargetCho", parameters.Hit_TargetCho ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hit_NameOfFood", parameters.Hit_NameOfFood ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_ChoGrams", parameters.FoodInMeal_ChoGrams ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_QuantityGrams", parameters.FoodInMeal_QuantityGrams ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_CarbohydratesPercent", parameters.FoodInMeal_CarbohydratesPercent ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_Name", parameters.FoodInMeal_Name ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_AccuracyOfChoEstimate", parameters.FoodInMeal_AccuracyOfChoEstimate ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_ChoGrams", parameters.Meal_ChoGrams ?? (object)DBNull.Value));
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("DataLayer|SettingsPageParameters", ex);
+            }
+        }
+        internal override void InsertAllParameters(Parameters parameters)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = "INSERT INTO Parameters (" +
+                        "IdParameters, Timestamp, Insulin_Short_Id, Insulin_Long_Id, " +
+                        "Meal_Breakfast_StartTime_Hours, Meal_Breakfast_EndTime_Hours, " +
+                        "Meal_Lunch_StartTime_Hours, Meal_Lunch_EndTime_Hours, " +
+                        "Meal_Dinner_StartTime_Hours, Meal_Dinner_EndTime_Hours, " +
+                        "Bolus_TargetGlucose, Bolus_GlucoseBeforeMeal, Bolus_ChoToEat, " +
+                        "Bolus_ChoInsulinRatioBreakfast, Bolus_ChoInsulinRatioLunch, Bolus_ChoInsulinRatioDinner, " +
+                        "Bolus_TotalDailyDoseOfInsulin, Bolus_InsulinCorrectionSensitivity, " +
+                        "Correction_TypicalBolusMorning, Correction_TypicalBolusMidday, Correction_TypicalBolusEvening, " +
+                        "Correction_TypicalBolusNight, Correction_FactorOfInsulinCorrectionSensitivity, " +
+                        "Hypo_GlucoseTarget, Hypo_GlucoseLast, Hypo_GlucosePrevious, " +
+                        "Hypo_HourLast, Hypo_HourPrevious, Hypo_MinuteLast, Hypo_MinutePrevious, " +
+                        "Hypo_AlarmAdvanceTime, Hypo_FutureSpanMinutes, Hit_ChoAlreadyTaken, " +
+                        "Hit_ChoOfFood, Hit_TargetCho, Hit_NameOfFood, FoodInMeal_ChoGrams, " +
+                        "FoodInMeal_QuantityGrams, FoodInMeal_CarbohydratesPercent, FoodInMeal_Name, " +
+                        "FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams) VALUES (" +
+                        "@IdParameters, @Timestamp, @Insulin_Short_Id, @Insulin_Long_Id, " +
+                        "@Meal_Breakfast_StartTime, @Meal_Breakfast_EndTime, @Meal_Lunch_StartTime, " +
+                        "@Meal_Lunch_EndTime, @Meal_Dinner_StartTime, @Meal_Dinner_EndTime, " +
+                        "@Bolus_TargetGlucose, @Bolus_GlucoseBeforeMeal, @Bolus_ChoToEat, " +
+                        "@Bolus_ChoInsulinRatioBreakfast, @Bolus_ChoInsulinRatioLunch, @Bolus_ChoInsulinRatioDinner, " +
+                        "@Bolus_TotalDailyDoseOfInsulin, @Bolus_InsulinCorrectionSensitivity, " +
+                        "@Correction_TypicalBolusMorning, @Correction_TypicalBolusMidday, @Correction_TypicalBolusEvening, " +
+                        "@Correction_TypicalBolusNight, @Correction_FactorOfInsulinCorrectionSensitivity, " +
+                        "@Hypo_GlucoseTarget, @Hypo_GlucoseLast, @Hypo_GlucosePrevious, " +
+                        "@Hypo_HourLast, @Hypo_HourPrevious, @Hypo_MinuteLast, @Hypo_MinutePrevious, " +
+                        "@Hypo_AlarmAdvanceTime, @Hypo_FutureSpanMinutes, @Hit_ChoAlreadyTaken, " +
+                        "@Hit_ChoOfFood, @Hit_TargetCho, @Hit_NameOfFood, @FoodInMeal_ChoGrams, " +
+                        "@FoodInMeal_QuantityGrams, @FoodInMeal_CarbohydratesPercent, @FoodInMeal_Name, " +
+                        "@FoodInMeal_AccuracyOfChoEstimate, @Meal_ChoGrams);";
+
+                    cmd.Parameters.Add(new SqliteParameter("@IdParameters", parameters.IdParameters ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Timestamp", parameters.Timestamp ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Insulin_Short_Id", parameters.IdInsulinDrug_Short ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Insulin_Long_Id", parameters.IdInsulinDrug_Long ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Breakfast_StartTime", parameters.Meal_Breakfast_StartTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Breakfast_EndTime", parameters.Meal_Breakfast_EndTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Lunch_StartTime", parameters.Meal_Lunch_StartTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Lunch_EndTime", parameters.Meal_Lunch_EndTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Dinner_StartTime", parameters.Meal_Dinner_StartTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_Dinner_EndTime", parameters.Meal_Dinner_EndTime_Hours ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_TargetGlucose", parameters.Bolus_TargetGlucose ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_GlucoseBeforeMeal", parameters.Bolus_GlucoseBeforeMeal ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_ChoToEat", parameters.Bolus_ChoToEat ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_ChoInsulinRatioBreakfast", parameters.Bolus_ChoInsulinRatioBreakfast ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_ChoInsulinRatioLunch", parameters.Bolus_ChoInsulinRatioLunch ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_ChoInsulinRatioDinner", parameters.Bolus_ChoInsulinRatioDinner ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_TotalDailyDoseOfInsulin", parameters.Bolus_TotalDailyDoseOfInsulin ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Bolus_InsulinCorrectionSensitivity", parameters.Bolus_InsulinCorrectionSensitivity ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Correction_TypicalBolusMorning", parameters.Correction_TypicalBolusMorning ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Correction_TypicalBolusMidday", parameters.Correction_TypicalBolusMidday ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Correction_TypicalBolusEvening", parameters.Correction_TypicalBolusEvening ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Correction_TypicalBolusNight", parameters.Correction_TypicalBolusNight ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Correction_FactorOfInsulinCorrectionSensitivity", parameters.Correction_FactorOfInsulinCorrectionSensitivity ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_GlucoseTarget", parameters.Hypo_GlucoseTarget ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_GlucoseLast", parameters.Hypo_GlucoseLast ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_GlucosePrevious", parameters.Hypo_GlucosePrevious ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_HourLast", parameters.Hypo_HourLast ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_HourPrevious", parameters.Hypo_HourPrevious ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_MinuteLast", parameters.Hypo_MinuteLast ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_MinutePrevious", parameters.Hypo_MinutePrevious ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_AlarmAdvanceTime", parameters.Hypo_AlarmAdvanceTime ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hypo_FutureSpanMinutes", parameters.Hypo_FutureSpanMinutes ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hit_ChoAlreadyTaken", parameters.Hit_ChoAlreadyTaken ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hit_ChoOfFood", parameters.Hit_ChoOfFood ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hit_TargetCho", parameters.Hit_TargetCho ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Hit_NameOfFood", parameters.Hit_NameOfFood ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_ChoGrams", parameters.FoodInMeal_ChoGrams ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_QuantityGrams", parameters.FoodInMeal_QuantityGrams ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_CarbohydratesPercent", parameters.FoodInMeal_CarbohydratesPercent ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_Name", parameters.FoodInMeal_Name ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_AccuracyOfChoEstimate", parameters.FoodInMeal_AccuracyOfChoEstimate ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Meal_ChoGrams", parameters.Meal_ChoGrams ?? (object)DBNull.Value));
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("DataLayer | SettingsPageParameters", ex);
             }
         }
     }

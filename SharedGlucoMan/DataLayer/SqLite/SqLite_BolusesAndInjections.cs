@@ -1,7 +1,9 @@
 ﻿using gamon;
 using GlucoMan.BusinessObjects;
 using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
 using System.Data.Common;
+using System.Threading;
 
 namespace GlucoMan
 {
@@ -44,8 +46,8 @@ namespace GlucoMan
                     "InjectionPositionX=" + SqliteSafe.Double(Injection.PositionX) + "," +
                     "InjectionPositionY=" + SqliteSafe.Double(Injection.PositionY) + "," +
                     "Notes=" + SqliteSafe.String(Injection.Notes) + "," +
-                    "IdTypeOfInsulinSpeed=" + SqliteSafe.Int(Injection.IdTypeOfInsulinSpeed) + "," +
-                    "IdTypeOfInsulinInjection=" + SqliteSafe.Int(Injection.IdTypeOfInsulinInjection) + "," +
+                    "IdTypeOfInsulinAction=" + SqliteSafe.Int(Injection.IdTypeOfInsulinAction) + "," +
+                    "IdInsulinDrug=" + SqliteSafe.Int(Injection.IdInsulinDrug) + "," +
                     "InsulinString=" + SqliteSafe.String(Injection.InsulinString) + "" +
                     " WHERE IdInjection=" + SqliteSafe.Int(Injection.IdInjection) +
                     ";";
@@ -72,7 +74,7 @@ namespace GlucoMan
                     "(" +
                     "IdInjection,Timestamp,InsulinValue,InsulinCalculated," +
                     "Zone,InjectionPositionX,InjectionPositionY,Notes," +
-                    "IdTypeOfInsulinSpeed,IdTypeOfInsulinInjection,InsulinString";
+                    "IdTypeOfInsulinAction,IdInsulinDrug,InsulinString";
                     query += ")VALUES(" +
                     SqliteSafe.Int(Injection.IdInjection) + "," +
                     SqliteSafe.Date(Injection.Timestamp.DateTime) + "," +
@@ -82,8 +84,8 @@ namespace GlucoMan
                     SqliteSafe.Double(Injection.PositionX) + "," +
                     SqliteSafe.Double(Injection.PositionY) + "," +
                     SqliteSafe.String(Injection.Notes) + "," +
-                    SqliteSafe.Int(Injection.IdTypeOfInsulinSpeed) + "," +
-                    SqliteSafe.Int(Injection.IdTypeOfInsulinInjection) + "," +
+                    SqliteSafe.Int(Injection.IdTypeOfInsulinAction) + "," +
+                    SqliteSafe.Int(Injection.IdInsulinDrug) + "," +
                     SqliteSafe.String(Injection.InsulinString) + "";
                     query += ");";
                     cmd.CommandText = query;
@@ -146,7 +148,7 @@ namespace GlucoMan
             return g;
         }
         internal override List<Injection> GetInjections(DateTime InitialInstant, DateTime FinalInstant, 
-            Common.TypeOfInsulinSpeed TypeOfInsulinSpeed = Common.TypeOfInsulinSpeed.NotSet, 
+            Common.TypeOfInsulinAction TypeOfInsulinAction = Common.TypeOfInsulinAction.NotSet, 
             Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet)
         {
             List<Injection> list = new List<Injection>();
@@ -162,9 +164,9 @@ namespace GlucoMan
                     {   // add WHERE clause
                         query += " WHERE Timestamp BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd HH:mm:ss") +
                             "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd HH:mm:ss") + "'";
-                        if (TypeOfInsulinSpeed != Common.TypeOfInsulinSpeed.NotSet)
+                        if (TypeOfInsulinAction != Common.TypeOfInsulinAction.NotSet)
                         {
-                            query += " AND IdTypeOfInsulinSpeed=" + (int)TypeOfInsulinSpeed;
+                            query += " AND IdTypeOfInsulinAction=" + (int)TypeOfInsulinAction;
                         }
                         if (Zone != Common.ZoneOfPosition.NotSet)
                         {
@@ -173,9 +175,9 @@ namespace GlucoMan
                     }
                     else
                     {
-                        if (TypeOfInsulinSpeed != Common.TypeOfInsulinSpeed.NotSet)
+                        if (TypeOfInsulinAction != Common.TypeOfInsulinAction.NotSet)
                         {
-                            query += " WHERE IdTypeOfInsulinSpeed=" + (int)TypeOfInsulinSpeed;
+                            query += " WHERE IdTypeOfInsulinAction=" + (int)TypeOfInsulinAction;
                         }
                     }
                     query += " ORDER BY Timestamp DESC, IdInjection;";
@@ -210,8 +212,8 @@ namespace GlucoMan
                 ii.PositionX = Safe.Double(Row["InjectionPositionX"]);
                 ii.PositionY = Safe.Double(Row["InjectionPositionY"]);
                 ii.Notes = Safe.String(Row["Notes"]);
-                ii.IdTypeOfInsulinSpeed = Safe.Int(Row["IdTypeOfInsulinSpeed"]);
-                ii.IdTypeOfInsulinInjection = Safe.Int(Row["IdTypeOfInsulinInjection"]);
+                ii.IdTypeOfInsulinAction = Safe.Int(Row["IdTypeOfInsulinAction"]);
+                ii.IdInsulinDrug = Safe.Int(Row["IdInsulinDrug"]);
                 ii.InsulinString = Safe.String(Row["InsulinString"]);
                 if (Row["Zone"] != DBNull.Value)
                     ii.Zone = (Common.ZoneOfPosition)(Safe.Int(Row["Zone"]));
@@ -312,5 +314,129 @@ namespace GlucoMan
             }
             return positions;
         }
+        internal override InsulinDrug? GetOneInsulinDrug(int? idInsulinDrug)
+        {
+            InsulinDrug insulinDrug = null;
+            using (DbConnection conn = Connect())
+            {
+                DbCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, StartTimeInHours, PeakTimeInHours " +
+                    "FROM InsulinDrugs WHERE IdInsulinDrug=@IdInsulinDrug;";
+                cmd.Parameters.Add(new SqliteParameter("@IdInsulinDrug", idInsulinDrug ?? (object)DBNull.Value));
+                DbDataReader dRead = cmd.ExecuteReader();
+                while (dRead.Read()) // should make zero or one turns
+                {
+                    insulinDrug = GetInsulinDrugFromRow(dRead);
+                }
+            }
+            return insulinDrug;
+        }
+        internal override List<InsulinDrug>? GetAllInsulinDrugs
+            (Common.TypeOfInsulinAction InsulineActingType = Common.TypeOfInsulinAction.NotSet)
+        {
+            // the parameter in ot passed the query gets all the insulins in the database
+            // if the parameter is passed, only the insulins of that type are returned
+            List<InsulinDrug> lidr = new();
+            using (DbConnection conn = Connect())
+            {
+                DbCommand cmd = conn.CreateCommand();
+                if (InsulineActingType == Common.TypeOfInsulinAction.NotSet)
+                    cmd.CommandText = "SELECT * FROM InsulinDrugs;";
+                else
+                {
+                    int idTypeOfInsulinAction = (int)InsulineActingType;
+                    cmd.CommandText = "SELECT * FROM InsulinDrugs WHERE TypeOfInsulinAction=@IdTypeOfInsulinAction;";
+                    cmd.Parameters.Add(new SqliteParameter("@IdTypeOfInsulinAction", idTypeOfInsulinAction));
+                }
+                DbDataReader dRead = cmd.ExecuteReader();
+                while (dRead.Read())
+                {
+                    InsulinDrug idr = GetInsulinDrugFromRow(dRead);
+                    lidr.Add(idr);
+                }
+            }
+            return lidr;
+        }
+        private InsulinDrug GetInsulinDrugFromRow(DbDataReader row)
+        {
+            InsulinDrug idr = new InsulinDrug();
+            idr.IdInsulinDrug = Safe.Int(row["IdInsulinDrug"]);
+            idr.Name = Safe.String(row["Name"]);
+            idr.Manufacturer = Safe.String(row["Manufacturer"]);
+            idr.TypeOfInsulinAction = (Common.TypeOfInsulinAction)Safe.Int(row["TypeOfInsulinAction"]);
+            idr.DurationInHours = Safe.Double(row["DurationInHours"]);
+            idr.StartTimeInHours = Safe.Double(row["StartTimeInHours"]);
+            idr.PeakTimeInHours = Safe.Double(row["PeakTimeInHours"]);
+            return idr;
+        }
+        internal override int? SaveInsulinDrug(InsulinDrug insulinDrug)
+        {
+            try
+            {
+                if (insulinDrug.IdInsulinDrug == null || insulinDrug.IdInsulinDrug == 0)
+                {
+                    insulinDrug.IdInsulinDrug = GetTableNextPrimaryKey("InsulinDrugs", "IdInsulinDrug");
+                    InsertInsulinDrug(insulinDrug);
+                }
+                else
+                {
+                    UpdateInsulinDrug(insulinDrug);
+                }
+                return insulinDrug.IdInsulinDrug;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | SaveInsulinDrug", ex);
+                return null;
+            }
+            return null;
+        }
+        private void InsertInsulinDrug(InsulinDrug insulinDrug)
+        {
+            using (DbConnection conn = Connect())
+            {
+                DbCommand cmd = conn.CreateCommand();
+                cmd.CommandText = @"
+            INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, StartTimeInHours, PeakTimeInHours)
+            VALUES (@IdInsulinDrug, @Name, @Manufacturer, @TypeOfInsulinAction, @DurationInHours, @StartTimeInHours, @PeakTimeInHours);";
+
+                cmd.Parameters.Add(new SqliteParameter("@IdInsulinDrug", insulinDrug.IdInsulinDrug ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@Name", insulinDrug.Name ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@Manufacturer", insulinDrug.Manufacturer ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@TypeOfInsulinAction", (int)insulinDrug.TypeOfInsulinAction));
+                cmd.Parameters.Add(new SqliteParameter("@DurationInHours", insulinDrug.DurationInHours ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@StartTimeInHours", insulinDrug.StartTimeInHours ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@PeakTimeInHours", insulinDrug.PeakTimeInHours ?? (object)DBNull.Value));
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+        private void UpdateInsulinDrug(InsulinDrug insulinDrug)
+        {
+            using (DbConnection conn = Connect())
+            {
+                DbCommand cmd = conn.CreateCommand();
+                cmd.CommandText = @"
+            UPDATE InsulinDrugs
+            SET Name = @Name,
+                Manufacturer = @Manufacturer,
+                TypeOfInsulinAction = @TypeOfInsulinAction,
+                DurationInHours = @DurationInHours,
+                StartTimeInHours = @StartTimeInHours,
+                PeakTimeInHours = @PeakTimeInHours
+            WHERE IdInsulinDrug = @IdInsulinDrug;";
+
+                cmd.Parameters.Add(new SqliteParameter("@IdInsulinDrug", insulinDrug.IdInsulinDrug ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@Name", insulinDrug.Name ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@Manufacturer", insulinDrug.Manufacturer ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@TypeOfInsulinAction", (int)insulinDrug.TypeOfInsulinAction));
+                cmd.Parameters.Add(new SqliteParameter("@DurationInHours", insulinDrug.DurationInHours ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@StartTimeInHours", insulinDrug.StartTimeInHours ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@PeakTimeInHours", insulinDrug.PeakTimeInHours ?? (object)DBNull.Value));
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+        // the next is ready, if it will be needed
     }
 }

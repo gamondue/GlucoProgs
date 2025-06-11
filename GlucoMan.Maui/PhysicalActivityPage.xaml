@@ -24,9 +24,9 @@
 
             <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Activity date and time"  
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <RadioButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" x:Name="rdbFastInsulin" Content="Fast insulin" 
+            <RadioButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" x:Name="rdbShortInsulin" Content="Fast insulin" 
                          HorizontalOptions="Center" VerticalOptions="End" GroupName="groupInsulin" WidthRequest="180" />
-            <RadioButton Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" x:Name="rdbSlowInsulin" Content="Slow insulin" 
+            <RadioButton Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" x:Name="rdbLongInsulin" Content="Slow insulin" 
                          HorizontalOptions="Center" VerticalOptions="End" GroupName="groupInsulin" WidthRequest="180"/>
 
             <DatePicker Grid.Row="3" Grid.Column="0" x:Name="dtpInjectionDate" 

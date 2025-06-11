@@ -62,7 +62,7 @@ public partial class RecipesPage : ContentPage
             // let's show the current CurrentRecipe
             FromClassToUi();
             this.BindingContext = bl.CurrentRecipe;
-            gridRecipes.ItemsSource = allRecipes; ;
+            gridRecipes.ItemsSource = allRecipes;
         }
     }
     private void FromClassToUi()

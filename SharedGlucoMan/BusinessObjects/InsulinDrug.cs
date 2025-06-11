@@ -2,10 +2,17 @@
 {
     public class InsulinDrug
     {
-        public int IdInsulinDrug { get; set; }
+        public int? IdInsulinDrug { get; set; }
         public string Name { get; set; }
-        public string Maker { get; set; }
-        public Common.TypeOfInsulinSpeed TypeOfSpeed { get; set; }
+        public string Manufacturer { get; set; }
+        public Common.TypeOfInsulinAction TypeOfInsulinAction { get; set; }
         public double? DurationInHours { get; set; }
+        public double? StartTimeInHours { get; set; } 
+        public double? PeakTimeInHours { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
