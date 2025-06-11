@@ -218,9 +218,18 @@ namespace GlucoMan
                 return null;
             }
         }
-        internal override void SaveFoodsInMeal(List<FoodInMeal> Meal)
+        internal override bool SaveFoodsInMeal(List<FoodInMeal> Meal)
         {
-            throw new NotImplementedException();
+            bool error = false;
+            foreach (FoodInMeal f in Meal)
+            {
+                int? id = SaveOneFoodInMeal(f);
+                if (id == null)
+                {
+                    error = true;
+                }
+            }
+            return !error;
         }
         internal override List<FoodInMeal> GetFoodsInMeal(int? IdMeal)
         {

@@ -9,7 +9,7 @@ public partial class MealsPage : ContentPage
     // since it is accessed by several pages, to avoid "concurrent" problems 
     // we use a common business layer object, between different pages 
     private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
-    Accuracy accuracyClass;
+    UiAccuracy accuracyClass;
 
     private List<Meal> allTheMeals;
     private MealPage mealPage;
@@ -22,9 +22,7 @@ public partial class MealsPage : ContentPage
         ////cmbTypeOfMeal.ItemsSource = Enum.GetValues(typeof(TypeOfMeal));
         bl.Meal = new Meal();
         bl.FoodInMeal = new FoodInMeal();
-
-        accuracyClass = new Accuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
-
+        accuracyClass = new UiAccuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
         bl.SetTypeOfMealBasedOnTimeNow();
         RefreshGrid();
     }

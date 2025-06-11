@@ -6,7 +6,6 @@ namespace GlucoMan.BusinessLayer
     public class BL_MealAndFood
     {
         DataLayer dl;
-
         public List<Meal> Meals { get; set; }
         public Meal Meal { get; set; }
         public List<FoodInMeal> FoodsInMeal { get; set; }
@@ -59,9 +58,9 @@ namespace GlucoMan.BusinessLayer
             FoodsInMeal = dl.GetFoodsInMeal(IdMeal);
             return FoodsInMeal;
         }
-        public void SaveFoodsInMeal(List<FoodInMeal> List)
+        public bool SaveFoodsInMeal(List<FoodInMeal> List)
         {
-            dl.SaveFoodsInMeal(List);
+            return dl.SaveFoodsInMeal(List);
         }
         public int? SaveOneFoodInMeal(FoodInMeal FoodToSave)
         {

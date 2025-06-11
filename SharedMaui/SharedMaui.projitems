@@ -9,9 +9,8 @@
     <Import_RootNamespace>SharedMaui</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Accuracy.cs" />
+    <Compile Include="..\SharedMaui\UiAccuracy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonDataMaui.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctionsMaui.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IFileService.cs" />
   </ItemGroup>
 </Project>
