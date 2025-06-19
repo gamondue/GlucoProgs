@@ -320,7 +320,7 @@ namespace GlucoMan
             using (DbConnection conn = Connect())
             {
                 DbCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, StartTimeInHours, PeakTimeInHours " +
+                cmd.CommandText = "SELECT IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours " +
                     "FROM InsulinDrugs WHERE IdInsulinDrug=@IdInsulinDrug;";
                 cmd.Parameters.Add(new SqliteParameter("@IdInsulinDrug", idInsulinDrug ?? (object)DBNull.Value));
                 DbDataReader dRead = cmd.ExecuteReader();
@@ -365,7 +365,7 @@ namespace GlucoMan
             idr.Manufacturer = Safe.String(row["Manufacturer"]);
             idr.TypeOfInsulinAction = (Common.TypeOfInsulinAction)Safe.Int(row["TypeOfInsulinAction"]);
             idr.DurationInHours = Safe.Double(row["DurationInHours"]);
-            idr.StartTimeInHours = Safe.Double(row["StartTimeInHours"]);
+            idr.OnsetTimeTimeInHours = Safe.Double(row["OnsetTimeInHours"]);
             idr.PeakTimeInHours = Safe.Double(row["PeakTimeInHours"]);
             return idr;
         }
@@ -397,15 +397,15 @@ namespace GlucoMan
             {
                 DbCommand cmd = conn.CreateCommand();
                 cmd.CommandText = @"
-            INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, StartTimeInHours, PeakTimeInHours)
-            VALUES (@IdInsulinDrug, @Name, @Manufacturer, @TypeOfInsulinAction, @DurationInHours, @StartTimeInHours, @PeakTimeInHours);";
+            INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours)
+            VALUES (@IdInsulinDrug, @Name, @Manufacturer, @TypeOfInsulinAction, @DurationInHours, @OnsetTimeInHours, @PeakTimeInHours);";
 
                 cmd.Parameters.Add(new SqliteParameter("@IdInsulinDrug", insulinDrug.IdInsulinDrug ?? (object)DBNull.Value));
                 cmd.Parameters.Add(new SqliteParameter("@Name", insulinDrug.Name ?? (object)DBNull.Value));
                 cmd.Parameters.Add(new SqliteParameter("@Manufacturer", insulinDrug.Manufacturer ?? (object)DBNull.Value));
                 cmd.Parameters.Add(new SqliteParameter("@TypeOfInsulinAction", (int)insulinDrug.TypeOfInsulinAction));
                 cmd.Parameters.Add(new SqliteParameter("@DurationInHours", insulinDrug.DurationInHours ?? (object)DBNull.Value));
-                cmd.Parameters.Add(new SqliteParameter("@StartTimeInHours", insulinDrug.StartTimeInHours ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@OnsetTimeInHours", insulinDrug.OnsetTimeTimeInHours ?? (object)DBNull.Value));
                 cmd.Parameters.Add(new SqliteParameter("@PeakTimeInHours", insulinDrug.PeakTimeInHours ?? (object)DBNull.Value));
 
                 cmd.ExecuteNonQuery();
@@ -422,7 +422,7 @@ namespace GlucoMan
                 Manufacturer = @Manufacturer,
                 TypeOfInsulinAction = @TypeOfInsulinAction,
                 DurationInHours = @DurationInHours,
-                StartTimeInHours = @StartTimeInHours,
+                OnsetTimeInHours = @OnsetTimeInHours,
                 PeakTimeInHours = @PeakTimeInHours
             WHERE IdInsulinDrug = @IdInsulinDrug;";
 
@@ -431,12 +431,11 @@ namespace GlucoMan
                 cmd.Parameters.Add(new SqliteParameter("@Manufacturer", insulinDrug.Manufacturer ?? (object)DBNull.Value));
                 cmd.Parameters.Add(new SqliteParameter("@TypeOfInsulinAction", (int)insulinDrug.TypeOfInsulinAction));
                 cmd.Parameters.Add(new SqliteParameter("@DurationInHours", insulinDrug.DurationInHours ?? (object)DBNull.Value));
-                cmd.Parameters.Add(new SqliteParameter("@StartTimeInHours", insulinDrug.StartTimeInHours ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqliteParameter("@OnsetTimeInHours", insulinDrug.OnsetTimeTimeInHours ?? (object)DBNull.Value));
                 cmd.Parameters.Add(new SqliteParameter("@PeakTimeInHours", insulinDrug.PeakTimeInHours ?? (object)DBNull.Value));
 
                 cmd.ExecuteNonQuery();
             }
         }
-        // the next is ready, if it will be needed
     }
 }

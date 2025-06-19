@@ -31,12 +31,12 @@ namespace GlucoMan
 
         public static string Version { get; private set; }
 
-        public static int breakfastStartHour = 6;
-        public static int breakfastEndHour = 10;
-        public static int lunchStartHour = 11;
-        public static int lunchEndHour = 15;
-        public static int dinnerStartHour = 17;
-        public static int dinnerEndHour = 21;
+        public static double? breakfastStartHour = 6;
+        public static double? breakfastEndHour = 10;
+        public static double? lunchStartHour = 11;
+        public static double? lunchEndHour = 15;
+        public static double? dinnerStartHour = 17;
+        public static double? dinnerEndHour = 21;
 
         #region enums
         public enum TypeOfGlucoseMeasurement
@@ -68,6 +68,14 @@ namespace GlucoMan
             Lunch = 20,
             Dinner = 30,
             Snack = 40,
+            Other = 90
+        }
+        public enum TypeOfInjection
+        {
+            NotSet = 0,
+            InsulinBolus = 10,  // injection with a syringe of a bolus of insulin
+            BloodSample = 20,   // puncture of the hand to get blood sample for glucose measurement
+            SensorImplantation = 30, // implantation of a sensor that measures blood glucose
             Other = 90
         }
         public enum TypeOfInsulinAction

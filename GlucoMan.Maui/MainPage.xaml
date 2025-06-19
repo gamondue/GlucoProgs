@@ -5,72 +5,98 @@
              Title="GlucoMan">
     <Grid x:Name="grdOuter" 
           RowDefinitions="*,*,*,*,*,*,*" ColumnDefinitions="*,*">
-        <Button x:Name="btnGlucoseMeasurement" Text="Glucose" 
+        <Button x:Name="btnGlucoseMeasurement" 
+                ImageSource="glucometer.png"
                 Grid.Row="0" Grid.Column="0" 
                 Clicked="btnGlucoseMeasurement_Clicked"
                 Margin="1" ToolTipProperties.Text="Opens the page of glucose measurement events"/>
-        <Button x:Name="btnInjections" Text="Injections" 
+        <!--Text="Glucose"-->
+        <Button x:Name="btnInjections" 
+                ImageSource="syringe.png"
                 Grid.Row="0" Grid.Column="1" 
                 Clicked="btnInjections_Clicked" IsEnabled="True" Margin="1"
-                ToolTipProperties.Text="Opens the page of past ad present injections"/>
-        
-        <Button x:Name="btnMeals" Text="Meals"
+                ToolTipProperties.Text="Opens the page of past and present injections"/>
+        <!--Text="Injections"-->
+
+        <Button x:Name="btnMeals" 
+                ImageSource="meals.png"
                 Grid.Row="1" Grid.Column="0" 
                 Clicked="btnMeals_Clicked" IsEnabled="True"
                 Margin="1" ToolTipProperties.Text="Opens the page of meals done in the past"/>
-        <Button x:Name="btnNewMeal" Text="New meal" 
+        <!--Text="Meals"-->
+        <Button x:Name="btnNewMeal" 
+                ImageSource="meal.png"
                 Grid.Row="1" Grid.Column="1" 
                 Clicked="btnNewMeal_Clicked" IsEnabled="True"
                 Margin="1" ToolTipProperties.Text="Opens a new meal page"/>
+        <!--Text="New meal"-->
 
-        <Button x:Name="btnInsulinCalc" Text="Calculate&#10; insulin" 
+        <Button x:Name="btnInsulinCalc" 
                 Grid.Row="2" Grid.Column="0" 
+                ImageSource="calculate_insulin.png"
                 Clicked="btnInsulinCalc_Clicked" LineBreakMode="WordWrap" 
                 Margin="1" ToolTipProperties.Text="Opens a page that calculates the quantity of insulin to inject before a meal"/>
+        <!--Text="Calculate&#10; insulin"-->
         <!--<Button Text="????"
                 Grid.Row="2" Grid.Column="1" 
                 IsEnabled="False" Clicked="btnAlarms_Clicked" 
                 Margin="1" ToolTipProperties.Text="Opens the page ?????"/>-->
 
-        <Button x:Name="btnFoods" Text="Foods" 
-                Grid.Row="3" Grid.Column="0" 
+        <Button x:Name="btnFoods" 
+                Grid.Row="3" Grid.Column="0"
+                ImageSource="foods.png"
                 Clicked="btnFoods_Clicked" IsEnabled="True"
                 Margin="1" ToolTipProperties.Text="Opens the page for foods management"></Button>
-        <Button x:Name="btnRecipes" Text="Recipes" 
+        <!--Text="Foods"-->
+        <Button x:Name="btnRecipes" 
+                ImageSource="recipe.png"
                 Grid.Row="3" Grid.Column="1" 
                 Clicked="btnRecipes_Clicked" 
                 Margin="1" ToolTipProperties.Text="Opens the page of recipes' management" IsEnabled="True"/>
+        <!--Text="Recipes"-->
 
-        <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to reach &#10;  target carbs"
+        <Button x:Name="btnFoodToHitTargetCarbs" 
+                ImageSource="food_to_sugar.png"
                 LineBreakMode="WordWrap"
                 Grid.Row="4" Grid.Column="0" 
                 Clicked="btnFoodToHitTargetCarbs_Clicked"
                 Margin="1" ToolTipProperties.Text="Opens the page that calculates the food one need to eat to hit a carbohydrates target"/>
-        <Button x:Name="btnHypoPrediction" Text="Hypoglicemia&#10;time prediction" 
+        <!--Text="Food to reach &#10;  target carbs"-->
+        <Button x:Name="btnHypoPrediction" 
+                ImageSource="prediction.png"
                 LineBreakMode="WordWrap"
                 Grid.Row="4" Grid.Column="1" 
                 Clicked="btnHypoPrediction_Clicked"
                 Margin="1" ToolTipProperties.Text="Opens the page that makes a simple prediction of the time of an hypoglicemia episode"/>
+        <!--Text="Hypoglicemia&#10;time prediction"-->
 
-        <Button x:Name="btnMiscellaneousFunctions" Text="Miscellaneous&#10;   functions" 
+        <Button x:Name="btnMiscellaneousFunctions" 
+                ImageSource="other.png"
                 LineBreakMode="WordWrap"
                 Grid.Row="5" Grid.Column="0" 
                 Clicked="btnMiscellaneousFunctions_Clicked" 
                 Margin="1" ToolTipProperties.Text="Opens the page of miscellaneous functions"/>
-        <Button x:Name="btnAlarms" Text="Alarms"
+        <!--Text="Miscellaneous&#10;   functions"-->
+        <Button x:Name="btnAlarms" 
+                Text="Alarms"
                 Grid.Row="5" Grid.Column="1" 
                 IsEnabled="False" Clicked="btnAlarms_Clicked" 
                 Background="Grey"
                 Margin="1" ToolTipProperties.Text="Opens the page of the alarms' settings"/>
-        
-        <Button x:Name="btnConfigurations" Text="Configuration" 
+
+        <Button x:Name="btnConfigurations" 
+                ImageSource="gear.png"
                 Grid.Row="6" Grid.Column="0" 
                 Clicked="btnConfigurations_Clicked" 
                 ToolTipProperties.Text="Configurations of program's parameters"
                 Margin="1"/>
-        <Button x:Name="btnAbout" Text="About" 
+        <!--Text="Configure"-->
+        <Button x:Name="btnAbout" 
+                ImageSource="questionmark.png"
                 Grid.Row="6" Grid.Column="1" 
                 Clicked="btnAbout_Clicked"
                 Margin="1" ToolTipProperties.Text="Opens the page of information about this program"/>
+        <!--Text="About"-->
     </Grid>
+    
 </ContentPage>

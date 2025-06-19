@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Controls;
+﻿using gamon;
+using Microsoft.Maui.Controls;
 using System;
 
 namespace GlucoMan.Maui
@@ -12,8 +13,16 @@ namespace GlucoMan.Maui
             Title += " " + Common.Version;
             RequestPermissionsIfNotGiven().ConfigureAwait(false);
             Thread.Sleep(5000);
+         
+            Common.SetGlobalParameters();
 
-            //Common.SetGlobalParameters();
+            // restore parameters (TODO move these to SetGlobalParameters, making RestoreParameter static)
+            Common.breakfastStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Breakfast_StartTime_Hours"));
+            Common.breakfastEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Breakfast_EndTime_Hours"));
+            Common.lunchStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Lunch_StartTime_Hours"));
+            Common.lunchEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Lunch_EndTime_Hours"));
+            Common.dinnerStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Dinner_StartTime_Hours"));
+            Common.dinnerEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Dinner_EndTime_Hours"));
             //Common.GeneralInitializationsAsync();
             //Common.PlatformSpecificInitializations();
         }

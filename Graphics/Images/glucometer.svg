@@ -27,56 +27,57 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="8.13"
      inkscape:cx="52.829028"
-     inkscape:cy="52.091021"
+     inkscape:cy="52.214022"
      inkscape:window-width="1920"
-     inkscape:window-height="1009"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-height="1166"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg3" />
   <!-- Corpo del glucometro -->
   <rect
-     x="20"
-     y="20"
-     width="60"
-     height="60"
-     rx="10"
-     ry="10"
-     fill="#007BFF"
-     id="rect1" />
+     x="11.389914"
+     y="11.084021"
+     width="79.248085"
+     height="79.248085"
+     rx="13.208014"
+     ry="13.208014"
+     fill="#007bff"
+     id="rect1"
+     style="stroke-width:1.32081" />
   <!-- Schermo del glucometro -->
   <rect
-     x="30"
-     y="30"
-     width="40"
-     height="30"
-     rx="5"
-     ry="5"
+     x="24.597929"
+     y="24.292032"
+     width="52.832058"
+     height="39.624043"
+     rx="6.6040072"
+     ry="6.6040072"
      fill="#FFFFFF"
      id="rect2"
-     style="fill:#fff6d5" />
+     style="fill:#fff6d5;stroke-width:1.32081" />
   <!-- Linee sullo schermo -->
   <line
-     x1="35"
-     y1="40"
-     x2="65"
-     y2="40"
+     x1="31.201937"
+     y1="37.50005"
+     x2="70.825981"
+     y2="37.50005"
      stroke="#000000"
-     stroke-width="2"
+     stroke-width="2.6416"
      id="line2" />
   <line
-     x1="35"
-     y1="50"
-     x2="65"
-     y2="50"
+     x1="31.201937"
+     y1="50.708061"
+     x2="70.825981"
+     y2="50.708061"
      stroke="#000000"
-     stroke-width="2"
+     stroke-width="2.6416"
      id="line3" />
   <!-- Goccia di sangue -->
   <path
-     d="m 49.277742,13.668579 c 22.758899,45.09477 -22.684609,44.311092 0,0 z"
+     d="m 50.059997,1.1224536 c 30.059985,59.5612344 -29.961864,58.5261514 0,0 z"
      fill="#ff0000"
      id="path3"
-     style="stroke-width:5.82921"
+     style="stroke-width:7.69922"
      sodipodi:nodetypes="cc" />
 </svg>

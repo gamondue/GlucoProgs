@@ -232,8 +232,9 @@ namespace GlucoMan.Maui
             {
                 if (injection.PositionX != null && injection.PositionY != null)
                 {
-                    // Moltiplica per la larghezza e altezza dell'immagine per riportare a coordinate reali
-                    // a partire dalle coordinate normalizzate fra 0 e 1 che sono memorizzate nel database
+                    // multiply by image height and width to bring the coordinates from 
+                    // normalized (from 0 to 1) to real.
+                    // N.B.: they are the normalized coordinates that are stored in the database
                     InjectionPointsCoordinates.Add(new Point(
                         (float)(injection.PositionX * imageWidth),
                         (float)(injection.PositionY * imageHeight)
@@ -251,6 +252,14 @@ namespace GlucoMan.Maui
                         (float)(injection.PositionY * imageHeight)
                     ));
             }
+        }
+        internal double? NormalizeXPosition(double x)
+        {
+            return x / imageWidth;
+        }
+        internal double? NormalizeYPosition(double y)
+        {
+            return y / imageHeight;
         }
     }
 }

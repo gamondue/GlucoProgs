@@ -13,17 +13,16 @@ public partial class ClickableImagePage : ContentPage
     List<Injection> allRecentInjections;
     List<PositionOfInjection> allReferencePositions;
     private bool firstPass = true;
-
     public ClickableImagePage(ref Injection currentInjection)
 	{
 		InitializeComponent();
         this.currentInjection = currentInjection;
 #if !DEBUG
-                // in release mode we hide the stack layout that allows to 
-                // edit the coordinates of the reference points
-                // TODO don't hide but "unregister" the stack layout
-                EditorCheckBox.IsVisible = false;
-                LabelEditorCheckBox.IsVisible = false;
+        // in release mode we hide the stack layout that allows to 
+        // edit the coordinates of the reference points
+        // TODO don't hide but "unregister" the stack layout
+        EditorCheckBox.IsVisible = false;
+        LabelEditorCheckBox.IsVisible = false;
 #endif
         // add an handler for SizeChanged event
         imgToBeTapped.SizeChanged += ImgToBeTapped_SizeChanged;
@@ -66,6 +65,8 @@ public partial class ClickableImagePage : ContentPage
             //        break;
             //    }
         }
+        // show the point of the current injection
+
     }
     private void ImgToBeTapped_SizeChanged(object sender, EventArgs e)
     {
@@ -96,7 +97,6 @@ public partial class ClickableImagePage : ContentPage
     private void LoadTheLastSensorsPositions()
     {
         SetButtonsVisibility();
-
         // read the last days of sensors' positions
         allRecentInjections = bl.GetInjections(
            DateTime.Now.Subtract(new TimeSpan(12 * 7, 0, 0, 0, 0, 0)),
@@ -118,7 +118,8 @@ public partial class ClickableImagePage : ContentPage
     {
         if (editing)
         {
-            btnSaveInjection.IsVisible = false;
+            btnSavePosition.IsVisible = false;
+            btnForgetPosition.IsVisible = false;
             DeleteCheckBox.IsVisible = true;
             lblDelete.IsVisible = true;
             btnSavePoints.IsVisible = true;
@@ -126,7 +127,8 @@ public partial class ClickableImagePage : ContentPage
         }
         else
         {
-            btnSaveInjection.IsVisible = true;
+            btnSavePosition.IsVisible = true;
+            btnForgetPosition.IsVisible = true;
             DeleteCheckBox.IsVisible = false;
             lblDelete.IsVisible = false;
             btnSavePoints.IsVisible = false;
@@ -156,7 +158,7 @@ public partial class ClickableImagePage : ContentPage
                 currentInjection.PositionX = currentNearestReferencePosition.X;
                 currentInjection.PositionY = currentNearestReferencePosition.Y;
             }
-            // clears the GraphicsView that will be redrawn by the Draw method
+            // clears the GraphicsView that then will redraw with the Draw method
             // the system will launch the Draw() method to redraw
             this.cerchiGraphicsView.Invalidate();
         }
@@ -168,21 +170,20 @@ public partial class ClickableImagePage : ContentPage
         allCircles.IsCallerEditing = e.Value;
         this.cerchiGraphicsView.Invalidate();
     }
-    private void BtnSaveInjection_Clicked(object sender, EventArgs e)
+    private void BtnSavePosition_Clicked(object sender, EventArgs e)
     {
+        // we pass the coordinates of the point to the calling Page, through the injection object
         // we put the coordinate of the point in the injection object
-        currentInjection.PositionX = currentNearestReferencePosition.X;
-        currentInjection.PositionY = currentNearestReferencePosition.Y;
-        //// we pass the coordinates of the point to the calling Page, through the injection object
-        //currentInjection.Zone = Common.ZoneOfPosition.Front;
-        // if we have no date we put the current time
-        if (currentInjection.Timestamp.DateTime == null
-            || currentInjection.Timestamp.DateTime == new DateTime(1, 1, 1))
-        {
-            currentInjection.Timestamp.DateTime = DateTime.Now;
-        }
-        // we save the injection with the coordinates of the points
-        bl.SaveOneInjection(currentInjection);
+        currentInjection.PositionX = allCircles.NormalizeXPosition(currentNearestReferencePosition.X);
+        currentInjection.PositionY = allCircles.NormalizeYPosition(currentNearestReferencePosition.Y);
+        // the zone and other data are already included in the currentInjection that has been passed
+        // close the page
+        this.Navigation.PopAsync();
+    }
+    private void BtnForgetPosition_Clicked(object sender, EventArgs e)
+    {
+        // if the user exits with another path the current position is forgotten
+        this.Navigation.PopAsync();
     }
     private void BtnClearReferencePoints_Click(object sender, EventArgs e)
     {

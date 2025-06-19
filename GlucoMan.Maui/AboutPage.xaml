@@ -17,9 +17,9 @@
             <Label x:Name="lblAppName" Text="GlucoMan" HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
           </Border>
           <Label Text="GlucoMan is a Glucose Manager program for the diabetic person" FontSize="20" Padding="0,0,0,0"/>
-                <Label Text="Helps with the operations needed to manage carb counting. Currently manages data related to measured glucose, carbohydrates consumed during meals, foods, insulin injections.
+                <Label Text="Helps with the operations needed to manage carbs counting. Currently manages data related to measured glucose, carbohydrates consumed during meals, foods, insulin injections.
 Calculates: the insulin bolus based on carbohydrates to be consumed during meals, the foods to eat to reach the desired carbohydrates and also a rough prediction of when blood sugar will reach a hypo value.
-Prototype functions for weighing foods and managing recipes are also included, still in preliminary development."
+The program has provisions to manage recipes, still not completed. Prototype functions for weighing foods are also included in the code, but disabled in the UI, since they are  still in preliminary development."
                  FontSize="15" Padding="0,0,0,0"/>
           <Label Text="GlucoMan is Free Software (licence: GPL v.2) initiated by:" FontSize="15"
                  HorizontalTextAlignment="Center" Padding="0,0,0,0"/>

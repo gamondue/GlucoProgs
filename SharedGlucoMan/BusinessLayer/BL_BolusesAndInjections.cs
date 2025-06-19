@@ -25,11 +25,11 @@ namespace GlucoMan.BusinessLayer
             TimeSpan timeOfDay = DateTime.Now.TimeOfDay;
             if (timeOfDay > new TimeSpan(2, 0, 0) && timeOfDay < new TimeSpan(22, 0, 0))
             {
-                Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.RapidActing;
+                Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.ShortActing;
             }
             else
             {
-                Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.ShortActing;
+                Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.LongActing;
             }
         }
         public DoubleAndText TargetGlucose { get; set; }

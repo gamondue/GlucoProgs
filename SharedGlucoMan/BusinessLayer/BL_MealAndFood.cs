@@ -331,5 +331,19 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.GetAllUnitsOfOneFood(Food);
         }
+        internal static TypeOfMeal SelectTypeOfMealBasedOnTimeNow()
+        {
+            TypeOfMeal type;
+            int hour = DateTime.Now.Hour;
+            if (hour > breakfastStartHour && hour < breakfastEndHour)
+                type = TypeOfMeal.Breakfast;
+            else if (hour > lunchStartHour && hour < lunchEndHour)
+                type = TypeOfMeal.Lunch;
+            else if (hour > dinnerStartHour && hour < dinnerEndHour)
+                type = TypeOfMeal.Dinner;
+            else
+                type = TypeOfMeal.Snack;
+            return type;
+        }
     }
 }

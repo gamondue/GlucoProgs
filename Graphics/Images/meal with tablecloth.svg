@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="300"
+   height="300"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="meal with tablecloth.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:export-filename="meal with tablecloth.png"
+   inkscape:export-xdpi="81.919998"
+   inkscape:export-ydpi="81.919998"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview5"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="2.0953931"
+     inkscape:cx="98.549528"
+     inkscape:cy="164.40829"
+     inkscape:window-width="1920"
+     inkscape:window-height="1166"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5" />
+  <defs
+     id="defs2">
+    <pattern
+       id="checkered"
+       X="0"
+       y="0"
+       width="20"
+       height="20"
+       patternUnits="userSpaceOnUse">
+      <rect
+         width="10"
+         height="10"
+         fill="red"
+         id="rect1" />
+      <rect
+         x="10"
+         y="10"
+         width="10"
+         height="10"
+         fill="red"
+         id="rect2" />
+    </pattern>
+  </defs>
+  <rect
+     width="100%"
+     height="100%"
+     fill="white"
+     id="rect3" />
+  <rect
+     width="100%"
+     height="100%"
+     fill="url(#checkered)"
+     id="rect4" />
+  <circle
+     cx="150.24747"
+     cy="151.50957"
+     r="96.947273"
+     fill="#FFD700"
+     stroke="#000000"
+     stroke-width="6.46315"
+     id="circle1"
+     style="fill:#fff6d6;fill-opacity:1" />
+  <ellipse
+     cx="151.24117"
+     cy="151.11214"
+     fill="#ff6347"
+     id="circle2"
+     rx="67.354309"
+     ry="69.937973"
+     style="stroke-width:4.57562" />
+  <g
+     id="g8"
+     transform="matrix(5.2913407,0,0,3.1808473,-200.5815,-1.5786322)">
+    <g
+       id="g10"
+       transform="translate(-3.2301782,-4.1237747)">
+      <rect
+         x="84.237991"
+         y="47.820248"
+         width="3"
+         height="25.362854"
+         fill="#cccccc"
+         id="rect6"
+         style="fill:#6c5353;stroke-width:0.796286" />
+      <rect
+         x="84.240013"
+         y="23.317846"
+         width="3"
+         height="24.514145"
+         fill="#000000"
+         id="rect7"
+         style="stroke-width:1.5657" />
+    </g>
+    <g
+       id="g7"
+       transform="matrix(0.61072913,0,0,1.0159482,31.663161,-28.519514)">
+      <g
+         id="g9"
+         transform="translate(6.7650677,15.621155)">
+        <rect
+           x="20"
+           y="30"
+           width="1"
+           height="10"
+           fill="#000000"
+           id="rect3-3" />
+        <rect
+           x="23"
+           y="30"
+           width="1"
+           height="10"
+           fill="#000000"
+           id="rect4-3" />
+        <rect
+           x="20.984009"
+           y="39.102093"
+           width="5"
+           height="40"
+           fill="#cccccc"
+           id="rect2-6"
+           style="fill:#6c5353;fill-opacity:1" />
+        <rect
+           x="26"
+           y="30"
+           width="1"
+           height="10"
+           fill="#000000"
+           id="rect5-0" />
+      </g>
+    </g>
+  </g>
+  <rect
+     x="0"
+     y="0"
+     width="300"
+     height="300"
+     fill="none"
+     stroke="black"
+     stroke-width="4"
+     id="rect5" />
+</svg>

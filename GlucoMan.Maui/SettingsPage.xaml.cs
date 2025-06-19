@@ -13,7 +13,6 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
     public List<InsulinDrug> LongActingInsulins { get; set; }
     public InsulinDrug SelectedShortActingInsulin { get; set; }
     public InsulinDrug SelectedLongActingInsulin { get; set; }
-
     BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
 
     public SettingsPage()

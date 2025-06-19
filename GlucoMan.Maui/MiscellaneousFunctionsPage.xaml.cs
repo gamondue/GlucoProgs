@@ -42,10 +42,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     }
     private async void btnResetDatabase_Click(object sender, EventArgs e)
     {
-        bool remove = await DisplayAlert("Should I delete the WHOLE database?" +
-            "\nAfter creation of the new database the program will shut down." +
-            "\nWARNING: ALL DATA WILL BE LOST!",
-            "", "Yes", "No");
+        bool remove = await DisplayAlert("Should I delete the WHOLE database, LOSING ALL DATA" +
+            "\nAfter creation of the new database the program will shut down."
+            ,"", "Yes", "No");
         if (remove)
         {
             // deleting the database file

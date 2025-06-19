@@ -55,7 +55,7 @@ public partial class MealPage : ContentPage
         accuracyMeal = new UiAccuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
         accuracyFoodInMeal = new UiAccuracy(txtAccuracyOfChoFoodInMeal, cmbAccuracyFoodInMeal);
 
-        if (bl.Meal.IdTypeOfMeal == TypeOfMeal.NotSet)
+        if (bl.Meal.IdTypeOfMeal ==  null || bl.Meal.IdTypeOfMeal == TypeOfMeal.NotSet)
         {
             bl.Meal.IdTypeOfMeal = Common.SelectTypeOfMealBasedOnTimeNow();
         }

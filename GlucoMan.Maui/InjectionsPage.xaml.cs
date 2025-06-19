@@ -11,6 +11,8 @@ public partial class InjectionsPage : ContentPage
 
     int? IdCurrentShortActingInsulin;
     int? IdCurrentLongActingInsulin;
+    InsulinDrug currentShortInsulin;
+    InsulinDrug currentLongInsulin;
 
     internal InjectionsPage(int? IdInjection)
     {
@@ -21,15 +23,17 @@ public partial class InjectionsPage : ContentPage
         Parameters parameters = Common.Database.GetParameters();
         IdCurrentShortActingInsulin = parameters?.IdInsulinDrug_Short;
         IdCurrentLongActingInsulin = parameters?.IdInsulinDrug_Long;
+        currentShortInsulin = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin);
+        currentLongInsulin = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin); 
         if (IdCurrentShortActingInsulin != null)
         {
             CurrentInjection.IdInsulinDrug = IdCurrentShortActingInsulin;
-            rdbShortInsulin.Content = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin).Name ?? "Short act.";
+            rdbShortInsulin.Content = currentShortInsulin.Name ?? "Short act.";
         }
         if (IdCurrentLongActingInsulin != null)
         {
             CurrentInjection.IdInsulinDrug = IdCurrentLongActingInsulin;
-            rdbLongInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin).Name ?? "Long act.";
+            rdbLongInsulin.Content = currentLongInsulin.Name ?? "Long act.";
         } 
         RefreshUi();
     }
@@ -77,7 +81,6 @@ public partial class InjectionsPage : ContentPage
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.ShortActing;
         else
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.NotSet;
-
     }
     private void RefreshGrid()
     {
@@ -138,24 +141,38 @@ public partial class InjectionsPage : ContentPage
 
         FromClassToUi();
 
+        // distinguish from short or long action insulins, based on the type
+        // then update the UI with data taken from the UI
         if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.ShortActing 
             || CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.RapidActing)
         {
             // set the data for short acting insulin
             rdbShortInsulin.IsChecked = true;
+            // the short insulin is the one that we took from the grid
             rdbShortInsulin.Content = bl.GetOneInsulinDrug(CurrentInjection.IdInsulinDrug)?.Name ?? "Short act.";
+            // the long insulin is the default lon insulin that we are using
             rdbLongInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin)?.Name ?? "Long act.";
         }
         else
         {
             // set the data for long acting insulin
             rdbLongInsulin.IsChecked = true;
-            rdbShortInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin)?.Name ?? "Short act.";
+            // the short insulin is the default lon insulin that we are using
+            rdbShortInsulin.Content = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin)?.Name ?? "Short act.";
+            // the long insulin is the one that we took from the grid
             rdbLongInsulin.Content = bl.GetOneInsulinDrug(CurrentInjection.IdInsulinDrug)?.Name ?? "Long act.";
         }
     }
     private void btnAddInjection_Click(object sender, EventArgs e)
     {
+        if (!rdbShortInsulin.IsChecked && !rdbLongInsulin.IsChecked
+            && CurrentInjection.Zone != Common.ZoneOfPosition.Hands
+            && CurrentInjection.Zone != Common.ZoneOfPosition.Sensor)
+        {
+            // notify the user that he has to choose the type of insulin
+            DisplayAlert("", "Tap on the type of insulin of this injection", "Ok");
+            return;
+        }
         if (chkNowInAdd.IsChecked)
         {
             DateTime now = DateTime.Now;
@@ -165,6 +182,17 @@ public partial class InjectionsPage : ContentPage
         FromUiToClass();
         // erase Id to save a new record
         CurrentInjection.IdInjection = null;
+        // the new record must have the default insulin determined when the page was opened
+        if (rdbShortInsulin.IsChecked)
+        {
+            CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.ShortActing;
+            CurrentInjection.IdInsulinDrug = currentShortInsulin.IdInsulinDrug;
+        }
+        else
+        {
+            CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.LongActing;
+            CurrentInjection.IdInsulinDrug = currentLongInsulin.IdInsulinDrug;
+        }
         bl.SaveOneInjection(CurrentInjection);
         RefreshGrid();
     }
@@ -174,7 +202,7 @@ public partial class InjectionsPage : ContentPage
         if (inj != null)
         {
             bool remove = await DisplayAlert(String.Format(
-                "Should I delete the injection of {1}, insulin {0}, Id {2}?",
+                "Should I delete the injection of {1}, insulin {0}?",
                 inj.InsulinValue.ToString(),
                 inj.Timestamp.ToString(),
                 inj.IdInjection.ToString()),
@@ -195,21 +223,29 @@ public partial class InjectionsPage : ContentPage
     private async void btnFront_ClickedAsync(object sender, EventArgs e)
     {
         CurrentInjection.Zone = Common.ZoneOfPosition.Front;
+        // pass the type of injection
+        CurrentInjection.IdTypeOfInjection = (int)Common.TypeOfInjection.InsulinBolus;
         await Navigation.PushAsync(new ClickableImagePage(ref CurrentInjection));
     }
     private async void btnBack_Clicked_Async(object sender, EventArgs e)
     {
         CurrentInjection.Zone = Common.ZoneOfPosition.Back;
+        // pass the type of injection
+        CurrentInjection.IdTypeOfInjection = (int)Common.TypeOfInjection.InsulinBolus;
         await Navigation.PushAsync(new ClickableImagePage(ref CurrentInjection));
     }
     private async void btnHands_ClickedAsync(object sender, EventArgs e)
     {
         CurrentInjection.Zone = Common.ZoneOfPosition.Hands;
+        // pass the type of injection
+        CurrentInjection.IdTypeOfInjection = (int)Common.TypeOfInjection.BloodSample;
         await Navigation.PushAsync(new ClickableImagePage(ref CurrentInjection));
     }
     private async void btnSensors_Clicked_Async(object sender, EventArgs e)
     {
         CurrentInjection.Zone = Common.ZoneOfPosition.Sensor;
+        // pass the type of injection
+        CurrentInjection.IdTypeOfInjection = (int)Common.TypeOfInjection.SensorImplantation;
         await Navigation.PushAsync(new ClickableImagePage(ref CurrentInjection));
     }
 }

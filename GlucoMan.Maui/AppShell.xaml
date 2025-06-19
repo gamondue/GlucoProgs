@@ -4,39 +4,72 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:GlucoMan.Maui"
-    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutBehavior="Disabled"
     Title="GlucoMan: Glucose Manager">
-
+<!-- !!!! TODO enable the flyout and modify navigation-->
     <ShellContent
         Title="GlucoMan: Glucose Manager"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
-    <!--
-    <FlyoutItem Title="Glucose Measurements" Icon="glucometer.png">
-        <ShellContent ContentTemplate="{DataTemplate local:GlucoseMeasurementsPage}" Route="GlucoseMeasurementsPage" />
+    <FlyoutItem Title="Glucose" >
+        <ShellContent ContentTemplate="{DataTemplate local:GlucoseMeasurementsPage}"
+                      Icon="glucometer.png"
+                      Route="GlucoseMeasurementsPage" />
     </FlyoutItem>
-    
-    <FlyoutItem Title="Meals" Icon="meals.png">
-        <ShellContent ContentTemplate="{DataTemplate local:MealsPage}" Route="MealsPage" />
+    <FlyoutItem Title="Injections">
+        <ShellContent ContentTemplate="{DataTemplate local:InjectionsPage}" 
+                      Icon="syringe.png"
+                      Route="InjectionsPage" />
     </FlyoutItem>
-
-    <FlyoutItem Title="New Meal" Icon="meal.png">
-        <ShellContent ContentTemplate="{DataTemplate local:MealPage}" Route="MealPage" />
+    <FlyoutItem Title="Meals">
+        <ShellContent ContentTemplate="{DataTemplate local:MealsPage}"
+                      Icon="meals.png"
+                      Route="MealsPage" />
     </FlyoutItem>
-
-    <FlyoutItem Title="Recipes" Icon="recipe.png">
-        <ShellContent ContentTemplate="{DataTemplate local:RecipesPage}" Route="RecipesPage" />
+    <FlyoutItem Title="New meal">
+        <ShellContent ContentTemplate="{DataTemplate local:MealPage}"
+                      Icon="meal.png"
+                      Route="MealPage" />
     </FlyoutItem>
-
-    <FlyoutItem Title="Insulin Calculator" Icon="calculate_insulin.png">
-        <ShellContent ContentTemplate="{DataTemplate local:InsulinCalcPage}" Route="InsulinCalcPage" />
+    <FlyoutItem Title="Calculate insulin">
+        <ShellContent ContentTemplate="{DataTemplate local:InsulinCalcPage}"
+                      Icon="calculate_insulin.png"
+                      Route="InsulinCalcPage" />
     </FlyoutItem>
-
-    <FlyoutItem Title="Food to Hit Target Carbs" Icon="food_to_sugar.png">
-        <ShellContent ContentTemplate="{DataTemplate local:FoodToHitTargetCarbsPage}" Route="FoodToHitTargetCarbsPage" />
+    <FlyoutItem Title="Foods">
+        <ShellContent ContentTemplate="{DataTemplate local:FoodsPage}" 
+                      Icon="foods.png"
+                      Route="FoodsPage" />
     </FlyoutItem>
-
-    <FlyoutItem Title="Hypo Prediction" Icon="prediction.png">
-        <ShellContent ContentTemplate="{DataTemplate local:HypoPredictionPage}" Route="HypoPredictionPage" />
+    <FlyoutItem Title="Recipes">
+        <ShellContent ContentTemplate="{DataTemplate local:RecipesPage}" 
+                      Icon="recipe.png"
+                      Route="RecipesPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Food to reach target carbs">
+        <ShellContent ContentTemplate="{DataTemplate local:FoodToHitTargetCarbsPage}" 
+                      Icon="food_to_sugar.png"
+                      Route="FoodToHitTargetCarbsPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Hypoglicemia time prediction">
+        <ShellContent ContentTemplate="{DataTemplate local:HypoPredictionPage}" 
+                      Icon="prediction.png"
+                      Route="HypoPredictionPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Miscellaneous functions">
+        <ShellContent ContentTemplate="{DataTemplate local:MiscellaneousFunctionsPage}"
+                      Icon="other.png"
+                      Route="MiscellaneousFunctionsPage" />
+    </FlyoutItem>
+    <!--<FlyoutItem Title="Alarms" IsEnabled="False">
+        <ShellContent ContentTemplate="{DataTemplate local:AlarmsPage}" Route="AlarmsPage" />
     </FlyoutItem>-->
+    <!--<FlyoutItem Title="Configuration">
+        <ShellContent ContentTemplate="{DataTemplate local:ConfigurationsPage}" Route="ConfigurationsPage" />
+    </FlyoutItem>-->
+    <FlyoutItem Title="About">
+        <ShellContent ContentTemplate="{DataTemplate local:AboutPage}"
+                      Icon="other.png"
+                      Route="AboutPage" />
+    </FlyoutItem>
 </Shell>

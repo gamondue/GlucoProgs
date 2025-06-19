@@ -26,91 +26,96 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="8.13"
-     inkscape:cx="30.565806"
+     inkscape:cx="30.811808"
      inkscape:cy="46.801968"
      inkscape:window-width="1920"
-     inkscape:window-height="1009"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-height="1166"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg7" />
   <!-- Piatto -->
-  <circle
-     cx="50"
-     cy="50"
-     r="30"
-     fill="#FFD700"
-     stroke="#000000"
-     stroke-width="2"
-     id="circle1"
-     style="fill:#fff6d6;fill-opacity:1" />
   <!-- Cibo nel piatto -->
-  <circle
-     cx="50"
-     cy="50"
-     r="15"
-     fill="#FF6347"
-     id="circle2" />
   <!-- Forchetta -->
   <!-- Coltello -->
   <g
-     id="g8"
-     transform="matrix(1.6373871,0,0,0.9843022,-58.562812,2.6273891)">
+     id="g1">
+    <circle
+       cx="50"
+       cy="50"
+       r="30"
+       fill="#FFD700"
+       stroke="#000000"
+       stroke-width="2"
+       id="circle1"
+       style="fill:#fff6d6;fill-opacity:1" />
+    <ellipse
+       cx="50.307503"
+       cy="49.877007"
+       fill="#ff6347"
+       id="circle2"
+       rx="20.842558"
+       ry="21.642065"
+       style="stroke-width:1.41591" />
     <g
-       id="g10"
-       transform="translate(-3.2301782,-4.1237747)">
-      <rect
-         x="84.237991"
-         y="47.820248"
-         width="3"
-         height="25.362854"
-         fill="#cccccc"
-         id="rect6"
-         style="fill:#6c5353;stroke-width:0.796286" />
-      <rect
-         x="84.240013"
-         y="23.317846"
-         width="3"
-         height="24.514145"
-         fill="#000000"
-         id="rect7"
-         style="stroke-width:1.5657" />
-    </g>
-    <g
-       id="g7"
-       transform="matrix(0.61072913,0,0,1.0159482,31.663161,-28.519514)">
+       id="g8"
+       transform="matrix(1.6373871,0,0,0.9843022,-58.562812,2.6273891)">
       <g
-         id="g9"
-         transform="translate(6.7650677,15.621155)">
+         id="g10"
+         transform="translate(-3.2301782,-4.1237747)">
         <rect
-           x="20"
-           y="30"
-           width="1"
-           height="10"
-           fill="#000000"
-           id="rect3" />
-        <rect
-           x="23"
-           y="30"
-           width="1"
-           height="10"
-           fill="#000000"
-           id="rect4" />
-        <rect
-           x="20.984009"
-           y="39.102093"
-           width="5"
-           height="40"
+           x="84.237991"
+           y="47.820248"
+           width="3"
+           height="25.362854"
            fill="#cccccc"
-           id="rect2"
-           style="fill:#6c5353;fill-opacity:1" />
+           id="rect6"
+           style="fill:#6c5353;stroke-width:0.796286" />
         <rect
-           x="26"
-           y="30"
-           width="1"
-           height="10"
+           x="84.240013"
+           y="23.317846"
+           width="3"
+           height="24.514145"
            fill="#000000"
-           id="rect5" />
+           id="rect7"
+           style="stroke-width:1.5657" />
+      </g>
+      <g
+         id="g7"
+         transform="matrix(0.61072913,0,0,1.0159482,31.663161,-28.519514)">
+        <g
+           id="g9"
+           transform="translate(6.7650677,15.621155)">
+          <rect
+             x="20"
+             y="30"
+             width="1"
+             height="10"
+             fill="#000000"
+             id="rect3" />
+          <rect
+             x="23"
+             y="30"
+             width="1"
+             height="10"
+             fill="#000000"
+             id="rect4" />
+          <rect
+             x="20.984009"
+             y="39.102093"
+             width="5"
+             height="40"
+             fill="#cccccc"
+             id="rect2"
+             style="fill:#6c5353;fill-opacity:1" />
+          <rect
+             x="26"
+             y="30"
+             width="1"
+             height="10"
+             fill="#000000"
+             id="rect5" />
+        </g>
       </g>
     </g>
   </g>

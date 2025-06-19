@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net9.0-android;net9.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
-		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+    <TargetFrameworks>net9.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+
+    <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
 
 		<!-- Note for MacCatalyst:
@@ -107,9 +108,13 @@
 	  <Deterministic>False</Deterministic>
 	</PropertyGroup>
 
+	<PropertyGroup>
+	  <ApplicationIcon>gamon LegoLogo 256x256.ico</ApplicationIcon>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg"/>
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\AppIcon\appicon.svg" Color="#7dbff3" BaseSize="128,128" />
@@ -166,16 +171,22 @@
 	  <None Remove="Resources\Images\hands.png" />
 	  <None Remove="Resources\Images\meal.png" />
 	  <None Remove="Resources\Images\meal.svg" />
+	  <None Remove="Resources\Images\meals.png" />
 	  <None Remove="Resources\Images\meals.svg" />
 	  <None Remove="Resources\Images\other.png" />
 	  <None Remove="Resources\Images\other.svg" />
 	  <None Remove="Resources\Images\prediction.png" />
 	  <None Remove="Resources\Images\prediction.svg" />
+	  <None Remove="Resources\Images\questionmark.png" />
 	  <None Remove="Resources\Images\recipe.png" />
 	  <None Remove="Resources\Images\recipe.svg" />
 	  <None Remove="Resources\Images\sugar.svg" />
 	  <None Remove="Resources\Images\syringe.png" />
 	  <None Remove="Resources\Images\syringe.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="gamon LegoLogo 256x256.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -192,8 +203,10 @@
 	  <MauiImage Include="Resources\Images\glucometer.png" />
 	  <MauiImage Include="Resources\Images\hands.png" />
 	  <MauiImage Include="Resources\Images\meal.png" />
+	  <MauiImage Include="Resources\Images\meals.png" />
 	  <MauiImage Include="Resources\Images\other.png" />
 	  <MauiImage Include="Resources\Images\prediction.png" />
+	  <MauiImage Include="Resources\Images\questionmark.png" />
 	  <MauiImage Include="Resources\Images\recipe.png" />
 	  <MauiImage Include="Resources\Images\syringe.png" />
 	</ItemGroup>

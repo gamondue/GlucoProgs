@@ -11,6 +11,7 @@ namespace GlucoMan
         public Common.ZoneOfPosition Zone { get; set; }
         public double? PositionX { get; set; }
         public double? PositionY { get; set; }
+        public int? IdTypeOfInjection{ get; set; }
         public int? IdTypeOfInsulinAction { get; set; }
         public int? IdInsulinDrug { get; set; }
         public string InsulinString { get; set; }

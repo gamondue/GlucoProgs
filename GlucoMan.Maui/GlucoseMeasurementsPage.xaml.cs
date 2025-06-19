@@ -23,6 +23,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
             currentGlucose = bl.GetOneGlucoseRecord(IdGlucoseRecord);
         RefreshUi();
     }
+    public GlucoseMeasurementsPage() : this(null) { }
     private void RefreshUi()
     {
         FromClassToUi();
