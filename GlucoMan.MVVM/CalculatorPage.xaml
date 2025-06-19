@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.CalculatorPage"
+             Title="Calculator">
+    <Grid RowDefinitions="Auto,*,*,*,*,*,*"
+          ColumnDefinitions="*,*,*,*"
+          Padding="10"
+          RowSpacing="5"
+          ColumnSpacing="5">
+        <!-- Display -->
+        <Frame Grid.Row="0" Grid.ColumnSpan="4" Padding="10" Margin="0,0,0,10">
+            <VerticalStackLayout>
+                <Label x:Name="PreviousCalculationLabel" 
+                       FontSize="16" 
+                       HorizontalOptions="End" 
+                       TextColor="Gray"/>
+                <Label x:Name="DisplayLabel" 
+                       FontSize="32" 
+                       HorizontalOptions="End" 
+                       Text="0"/>
+            </VerticalStackLayout>
+        </Frame>
+        <!-- Clear and Delete buttons -->
+        <Button Grid.Row="1" Grid.Column="0" Text="C" 
+                BackgroundColor="#E57373" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnClearClicked"
+                IsEnabled="False"/>
+        <Button Grid.Row="1" Grid.Column="1" Text="CE" 
+                BackgroundColor="#E57373" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnClearEntryClicked"
+                />
+        <Button Grid.Row="1" Grid.Column="2" Text="⌫" 
+                BackgroundColor="#FFAB91" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnBackspaceClicked"/>
+        <Button Grid.Row="1" Grid.Column="3" Text="÷" 
+                BackgroundColor="#4DB6AC" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnOperatorClicked"/>
+        <!-- Number and operator buttons -->
+        <Button Grid.Row="2" Grid.Column="0" Text="7" 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnNumberClicked"/>
+        <Button Grid.Row="2" Grid.Column="1" Text="8" 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnNumberClicked"/>
+        <Button Grid.Row="2" Grid.Column="2" Text="9" 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnNumberClicked"/>
+        <Button Grid.Row="2" Grid.Column="3" Text="×" 
+                BackgroundColor="#4DB6AC" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnOperatorClicked"/>
+        <Button Grid.Row="3" Grid.Column="0" Text="4" 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnNumberClicked"/>
+        <Button Grid.Row="3" Grid.Column="1" Text="5" 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnNumberClicked"/>
+        <Button Grid.Row="3" Grid.Column="2" Text="6" 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnNumberClicked"/>
+        <Button Grid.Row="3" Grid.Column="3" Text="-" 
+                BackgroundColor="#4DB6AC" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnOperatorClicked"/>
+        <Button Grid.Row="4" Grid.Column="0" Text="1" 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnNumberClicked"/>
+        <Button Grid.Row="4" Grid.Column="1" Text="2" 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnNumberClicked"/>
+        <Button Grid.Row="4" Grid.Column="2" Text="3" 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnNumberClicked"/>
+        <Button Grid.Row="4" Grid.Column="3" Text="+" 
+                BackgroundColor="#4DB6AC" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnOperatorClicked"/>
+        <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="0" 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnNumberClicked"/>
+        <Button Grid.Row="5" Grid.Column="2" 
+                x:Name="btnDecimal" Text="," 
+                BackgroundColor="#90CAF9" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnDecimalClicked"/>
+        <Button Grid.Row="5" Grid.Column="3" Text="=" 
+                BackgroundColor="#66BB6A" 
+                TextColor="White" 
+                FontSize="24" 
+                Clicked="OnEqualsClicked"/>
+        <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Text="OK" 
+                Margin="0,20,0,0"
+                BackgroundColor="#78909C" 
+                TextColor="White" 
+                FontSize="18" 
+                Clicked="OnOkClicked"/>
+        <Button Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Text="Escape" 
+                Margin="0,20,0,0"
+                BackgroundColor="#78909C" 
+                TextColor="White" 
+                FontSize="18" 
+                Clicked="OnEscapeClicked"/>
+    </Grid>
+</ContentPage>

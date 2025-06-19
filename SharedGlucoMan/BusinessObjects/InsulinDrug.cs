@@ -7,7 +7,7 @@
         public string Manufacturer { get; set; }
         public Common.TypeOfInsulinAction TypeOfInsulinAction { get; set; }
         public double? DurationInHours { get; set; }
-        public double? StartTimeInHours { get; set; } 
+        public double? OnsetTimeTimeInHours { get; set; } 
         public double? PeakTimeInHours { get; set; }
 
         public override string ToString()

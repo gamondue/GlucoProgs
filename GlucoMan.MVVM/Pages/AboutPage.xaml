@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.MVVM.Pages.AboutPage"
+             Title="About">
+    <Grid RowDefinitions="*">
+      <VerticalStackLayout VerticalOptions="Fill" HorizontalOptions="Fill">
+        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+          <ContentView Padding="0,20,0,20" VerticalOptions="Fill">
+            <Image Source="Current_Logo_Transparent.png" VerticalOptions="Center" HeightRequest="50" />
+          </ContentView>
+        </HorizontalStackLayout>
+      </VerticalStackLayout>
+      <ScrollView Grid.Row="0">
+        <VerticalStackLayout Padding="20,24,20,24" Spacing="8">
+          <Border BackgroundColor="#2196F3" Padding="0">
+            <Label x:Name="lblAppName" Text="GlucoMan" HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
+          </Border>
+          <Label Text="GlucoMan is a Glucose Manager program for the diabetic person" FontSize="20" Padding="0,0,0,0"/>
+                <!--<Label Text="Helps with the operations needed to manage carbs counting. Currently manages data related to measured glucose, carbohydrates consumed during meals, foods, insulin injections.-->
+Calculates: the insulin bolus based on carbohydrates to be consumed during meals, the foods to eat to reach the desired carbohydrates and also a rough prediction of when blood sugar will reach a hypo value.
+The program has provisions to manage recipes, still not completed. Prototype functions for weighing foods are also included in the code, but disabled in the UI, since they are  still in preliminary development."
+                 FontSize="15" Padding="0,0,0,0"/>
+          <Label Text="GlucoMan is Free Software (licence: GPL v.2) initiated by:" FontSize="15"
+                 HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
+          <Label Text="Ing.Gabriele Monti (gamon) - Forlì - Italia" FontSize="17"
+                 HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
+          <Label FontSize="13" Padding="30,0,30,0">
+            <Label.FormattedText>
+              <FormattedString>
+                <FormattedString.Spans>
+                  <Span Text="Distribution at "/>
+                  <!--<Span x:Name="tempText" Text="https://ingmonti.it/GlucoMan/" FontAttributes="Bold"/>-->
+                  <Span x:Name="tempText" Text="https://github.com/gamondue/GlucoProgs" FontAttributes="Bold"/>
+                </FormattedString.Spans>
+              </FormattedString>
+            </Label.FormattedText>
+          </Label>
+          <Button x:Name="btnExit" TextColor="White" Text="Menù" Clicked="btnExit_Click" />
+        </VerticalStackLayout>
+      </ScrollView>
+    </Grid>
+</ContentPage>

@@ -41,6 +41,8 @@ namespace GlucoMan
         public GlucoseRecord()
         {
             GlucoseValue = new DoubleAndText();
+            Timestamp = new();
+            IdDocumentType = new();
             GlucoseValue.Format = "#"; 
         }
         public override string ToString()

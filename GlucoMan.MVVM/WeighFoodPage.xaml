@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.WeighFoodPage"
+             Title="Weighing to calculate CHO">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.ColumnSpan="5" Text="Weigh food to calculate CHO. Returns cooked food's weight to raw" VerticalOptions="Center" HorizontalOptions="Start" />
+
+            <Button Grid.Row="1" Grid.Column="3" Text="Calc"
+                    Clicked="btnCalc_Click"></Button>
+            <Button Grid.Row="1" Grid.Column="0" 
+                    Text="XXXX"></Button>
+            <Button Grid.Row="1" Grid.Column="1" 
+                    Text="XXXX"></Button>
+            <Image Grid.Row="1" Grid.Column="2" x:Name="txtIngredientChoGrams"
+                           Grid.RowSpan="1"
+                           Source="calculator.png"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Calculator_Click" />
+                </Image.GestureRecognizers>
+            </Image>
+            <Label Grid.Row="2" Grid.ColumnSpan="5" Text="Data before cooking (for ALL the  portions)" 
+                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="3" Grid.ColumnSpan="5" Text="Raw main food (all portions)" 
+                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="4" Grid.Column="0" Text="Gross weight" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Entry Grid.Row="5" Grid.Column="0" x:Name="TxtM0RawGross" 
+                   Keyboard="Numeric" HorizontalTextAlignment ="End" Text="" 
+                   Unfocused="TxtM0RawGross_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
+            <Label Grid.Row="4" Grid.Column="1" Text="Container weight" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Entry Grid.Row="5" Grid.Column="1" x:Name="TxtM0RawTare" HorizontalTextAlignment ="End" Text="" 
+                   Keyboard="Numeric" Unfocused="TxtM0RawTare_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
+            <Label Grid.Row="4" Grid.Column="2" Text="Net weight" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Entry Grid.Row="5" Grid.Column="2" x:Name="TxtM0RawNet" HorizontalTextAlignment ="End" Text="" 
+                   Keyboard="Numeric" Unfocused="TxtM0RawNet_Leave"  Placeholder="[g]" BackgroundColor="PaleGreen" />
+
+            <Label Grid.Row="6" Grid.ColumnSpan="5" Text="Sauce (ALL already cooked)" 
+                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="7" Grid.Column="0" Text="Gross weight" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Entry Grid.Row="8" Grid.Column="0" x:Name="TxtS1SauceGross" HorizontalTextAlignment ="End" Text="" 
+                       Unfocused="TxtS1SauceGross_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
+            <Label Grid.Row="7" Grid.Column="1" Text="Tare" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Entry Grid.Row="8" Grid.Column="1" x:Name="TxtS1SauceTare" HorizontalTextAlignment ="End" Text="" 
+                   Keyboard="Numeric" Unfocused="TxtS1SauceTare_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
+            <Label Grid.Row="7" Grid.Column="2" Text="Net weight" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Entry Grid.Row="8" Grid.Column="2" x:Name="TxtS1SauceNet" HorizontalTextAlignment ="End" Text="" 
+                   Keyboard="Numeric" Unfocused="TxtS1SauceNet_Leave" Placeholder="[g]" BackgroundColor="PaleGreen" />
+
+            <Label Grid.Row="9" Grid.ColumnSpan="5" Text="Total course before cooking" 
+                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="10" Grid.Column="0" Text="Gross weight" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <!--<Entry Grid.Row="11" Grid.Column="0" x:Name="TxtT0RawGross" HorizontalTextAlignment ="End" Text="" 
+                       Unfocused="TxtT0RawGross_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
+            <Label Grid.Row="10" Grid.Column="1" Text="Tare" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Entry Grid.Row="11" Grid.Column="1" x:Name="TxtT0RawTare" HorizontalTextAlignment ="End" Text="" 
+                       Unfocused="TxtT0RawTare_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
+            <Label Grid.Row="10" Grid.Column="2" Text="Sauce+T." HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Entry Grid.Row="11" Grid.Column="2" x:Name="TxtT0SaucePlusTare" HorizontalTextAlignment ="End" Text="" 
+                       Unfocused="TxtT0SaucePlusTare_Leave" Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
+            <Label Grid.Row="10" Grid.Column="3" Text="Net weight" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Entry Grid.Row="11" Grid.Column="3" x:Name="TxtT0RawNet" HorizontalTextAlignment ="End" Text="" 
+                       Unfocused="TxtT0RawNet_Leave" Placeholder="[g]" BackgroundColor="PaleGreen" />-->
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

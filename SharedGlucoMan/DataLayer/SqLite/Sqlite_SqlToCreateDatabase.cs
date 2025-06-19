@@ -9,7 +9,7 @@ namespace GlucoMan
     {
         string creationScript = @"
 --
--- File generated with SQLiteStudio v3.4.17 on lun giu 9 01:16:49 2025
+-- File generated with SQLiteStudio v3.4.4 on mer giu 11 21:16:33 2025
 --
 -- Text encoding used: System
 --
@@ -17,7 +17,12 @@ PRAGMA foreign_keys = off;
 BEGIN TRANSACTION;
 
 -- Table: Alarms
+DROP TABLE IF EXISTS Alarms;
 CREATE TABLE 'Alarms' (
+
+
+
+
 
 
 
@@ -25,7 +30,15 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
 	'TimeStart'	DATETIME,
+
+
+
+
 
 
 
@@ -33,7 +46,15 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
 	'Interval' DOUBLE,
+
+
+
+
 
 
 
@@ -41,7 +62,15 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
 	'IsRepeated' TINYINT,
+
+
+
+
 
 
 
@@ -49,14 +78,27 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
 	PRIMARY KEY('IdAlarm')
+
+
+
+
 
 
 
 );
 
 -- Table: BolusCalculations
+DROP TABLE IF EXISTS BolusCalculations;
 CREATE TABLE 'BolusCalculations' (
+
+
+
+
 
 
 
@@ -64,7 +106,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'Timestamp'	DATETIME,
+
+
+
+
 
 
 
@@ -72,7 +122,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'CalculatedChoToEat'	DOUBLE,
+
+
+
+
 
 
 
@@ -80,7 +138,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'BolusInsulinDueToCorrectionOfGlucose'	DOUBLE,
+
+
+
+
 
 
 
@@ -88,7 +154,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'InsulinCorrectionSensitivity'	DOUBLE,
+
+
+
+
 
 
 
@@ -96,7 +170,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'TypicalBolusMidday'	DOUBLE,
+
+
+
+
 
 
 
@@ -104,7 +186,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'TypicalBolusNight'	DOUBLE,
+
+
+
+
 
 
 
@@ -112,7 +202,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'ChoInsulinRatioBreakfast'	DOUBLE,
+
+
+
+
 
 
 
@@ -120,7 +218,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'ChoInsulinRatioDinner'	DOUBLE,
+
+
+
+
 
 
 
@@ -128,7 +234,15 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	'GlucoseToBeCorrected'	DOUBLE,
+
+
+
+
 
 
 
@@ -136,18 +250,32 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
 	PRIMARY KEY('IdBolusCalculation')
+
+
+
+
 
 
 
 );
 
 -- Table: Foods
+DROP TABLE IF EXISTS Foods;
 CREATE TABLE Foods (IdFood INT NOT NULL, Name VARCHAR (15), Description VARCHAR (256), Energy DOUBLE, TotalFats DOUBLE, SaturatedFats DOUBLE, MonounsaturatedFats DOUBLE, PolyunsaturatedFats DOUBLE, Carbohydrates DOUBLE, Sugar DOUBLE, Fibers INT, Proteins INT, Salt DOUBLE, Potassium DOUBLE, Cholesterol DOUBLE, GlycemicIndex DOUBLE, Unit TEXT, GramsInOneUnit DOUBLE, Manufacturer TEXT, Category REAL, PRIMARY KEY (IdFood));
 INSERT INTO Foods (IdFood, Name, Description, Energy, TotalFats, SaturatedFats, MonounsaturatedFats, PolyunsaturatedFats, Carbohydrates, Sugar, Fibers, Proteins, Salt, Potassium, Cholesterol, GlycemicIndex, Unit, GramsInOneUnit, Manufacturer, Category) VALUES (1, 'Uovo', '1 piccolo 40 g, 1 medio 50 g, 1 grande 60 g', NULL, NULL, NULL, NULL, NULL, 1.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'g', 1.0, '', '');
 
 -- Table: FoodsInMeals
+DROP TABLE IF EXISTS FoodsInMeals;
 CREATE TABLE 'FoodsInMeals' (
+
+
+
+
 
 
 
@@ -155,7 +283,15 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
 	'IdMeal'	INT,
+
+
+
+
 
 
 
@@ -163,7 +299,15 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
 	'CarbohydratesGrams'	DOUBLE,
+
+
+
+
 
 
 
@@ -171,7 +315,15 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
 	'Quantity'	DOUBLE,
+
+
+
+
 
 
 
@@ -179,7 +331,15 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
 	'Name'	TEXT,
+
+
+
+
 
 
 
@@ -187,10 +347,19 @@ CREATE TABLE 'FoodsInMeals' (
 
 
 
+
+
+
+
 );
 
 -- Table: GlucoseRecords
+DROP TABLE IF EXISTS GlucoseRecords;
 CREATE TABLE 'GlucoseRecords' (
+
+
+
+
 
 
 
@@ -198,7 +367,15 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	'GlucoseValue'	DOUBLE,
+
+
+
+
 
 
 
@@ -206,7 +383,15 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	'GlucoseString'	VARCHAR(45),
+
+
+
+
 
 
 
@@ -214,7 +399,15 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	'IdTypeOfGlucoseMeasurementDevice'	INT,
+
+
+
+
 
 
 
@@ -222,7 +415,15 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	'IdDevice'	VARCHAR(45),
+
+
+
+
 
 
 
@@ -230,11 +431,23 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
 	'Notes'	VARCHAR(255),
 
 
 
+
+
+
+
 	PRIMARY KEY('IdGlucoseRecord')
+
+
+
+
 
 
 
@@ -243,7 +456,12 @@ INSERT INTO GlucoseRecords (IdGlucoseRecord, GlucoseValue, Timestamp, GlucoseStr
 INSERT INTO GlucoseRecords (IdGlucoseRecord, GlucoseValue, Timestamp, GlucoseString, IdTypeOfGlucoseMeasurement, IdTypeOfGlucoseMeasurementDevice, IdModelOfMeasurementSystem, IdDevice, IdDocumentType, Notes) VALUES (2, 161.0, '2025-05-31 00:47:00', NULL, 0, 0, NULL, NULL, NULL, '');
 
 -- Table: HypoPredictions
+DROP TABLE IF EXISTS HypoPredictions;
 CREATE TABLE 'HypoPredictions' (
+
+
+
+
 
 
 
@@ -251,7 +469,15 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	'PredictedTime'	DATETIME,
+
+
+
+
 
 
 
@@ -259,7 +485,15 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	'GlucoseSlope'	DOUBLE,
+
+
+
+
 
 
 
@@ -267,7 +501,15 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	'GlucoseLast'	DOUBLE,
+
+
+
+
 
 
 
@@ -275,7 +517,15 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	'Interval'	VARCHAR(10),
+
+
+
+
 
 
 
@@ -283,7 +533,15 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 	'DatetimePrevious'	DATETIME,
+
+
+
+
 
 
 
@@ -291,27 +549,50 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
 );
 
 -- Table: Ingredients
+DROP TABLE IF EXISTS Ingredients;
 CREATE TABLE Ingredients (IdIngredient INTEGER NOT NULL, IdRecipe INTEGER NOT NULL, Name TEXT, Description TEXT, QuantityGrams REAL, QuantityPercent REAL, CarbohydratesPercent REAL, AccuracyOfChoEstimate DOUBLE, IdFood INTEGER, PRIMARY KEY (IdIngredient));
 INSERT INTO Ingredients (IdIngredient, IdRecipe, Name, Description, QuantityGrams, QuantityPercent, CarbohydratesPercent, AccuracyOfChoEstimate, IdFood) VALUES (1, 1, 'Uovo', '1 piccolo 40 g, 1 medio 50 g, 1 grande 60 g', NULL, NULL, NULL, NULL, NULL);
 
 -- Table: Injections
+DROP TABLE IF EXISTS Injections;
 CREATE TABLE Injections (IdInjection INT NOT NULL, Timestamp DATETIME, InsulinValue DOUBLE, InsulinCalculated DOUBLE, InjectionPositionX INT, InjectionPositionY INT, Notes VARCHAR (255), IdTypeOfInjection INT, IdTypeOfInsulinAction INT, IdInsulinDrug INT, InsulinString VARCHAR (45), Zone INTEGER, PRIMARY KEY (IdInjection));
-INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (1, '2025-05-20 22:05:57', NULL, NULL, 207.97955322265625, 241.99371337890625, NULL, NULL, 20, NULL, NULL, 1);
-INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (2, '2025-05-22 13:02:42', NULL, NULL, 0, 0, NULL, NULL, 10, NULL, NULL, 1);
+INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (1, '2025-05-20 22:05:00', 10.0, NULL, 207.97955322265625, 241.99371337890625, '', NULL, 20, NULL, '', 1);
+INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (2, '2025-05-22 13:02:00', 12.0, NULL, 0, 0, '', NULL, 40, 2, '', 1);
+INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (3, '2025-06-11 16:30:00', 8.0, NULL, NULL, NULL, 'boh', NULL, 20, 1, NULL, 3);
+INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (4, '2025-06-11 16:49:00', 8.0, NULL, NULL, NULL, 'nota', NULL, 20, 3, NULL, 4);
+INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (5, '2025-06-11 16:50:00', 3.0, NULL, NULL, NULL, NULL, NULL, 20, 4, NULL, 5);
+INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (6, '2025-06-11 16:51:00', 9.0, NULL, NULL, NULL, NULL, NULL, 40, 2, NULL, 0);
+INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (7, '2025-05-22 16:55:00', 10.0, NULL, NULL, NULL, 'prova', NULL, 40, 5, NULL, 2);
+INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (8, '2025-06-11 20:18:00', 10.0, NULL, NULL, NULL, '', NULL, 40, NULL, '', 0);
+INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (9, '2025-06-11 20:23:00', 8.0, NULL, NULL, NULL, NULL, NULL, 20, 1, NULL, 0);
 
 -- Table: InsulinDrugs
-CREATE TABLE InsulinDrugs (IdInsulinDrug INT NOT NULL, Name VARCHAR (32), Manufacturer VARCHAR (32), TypeOfInsulinAction INTEGER, DurationInHours DOUBLE, PRIMARY KEY (IdInsulinDrug));
-INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours) VALUES (2, 'Toujeo', 'Solostar', 40, 24.0);
-INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours) VALUES (1, 'Humalog', 'Lilly', 20, 4.0);
+DROP TABLE IF EXISTS InsulinDrugs;
+CREATE TABLE InsulinDrugs (IdInsulinDrug INT NOT NULL, Name VARCHAR (32), Manufacturer VARCHAR (32), TypeOfInsulinAction INTEGER, DurationInHours DOUBLE, OnsetTimeInHours DOUBLE, PeakTimeInHours DOUBLE, PRIMARY KEY (IdInsulinDrug));
+INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours) VALUES (2, 'Toujeo', 'Sanofi', 40, 36.0, 3.5, 0.0);
+INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours) VALUES (1, 'Humalog', 'Lilly', 20, 4.0, 0.25, 2.0);
+INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours) VALUES (4, 'Fiasp', 'Novo Nordisk', 20, 3.0, 0.03, 1.5);
+INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours) VALUES (3, 'Lispro', '', 20, 4.5, 0.3333333, 2.0);
+INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours) VALUES (5, 'Lantus', '', 40, 24.0, 4.0, 0.0);
 
 -- Table: Meals
+DROP TABLE IF EXISTS Meals;
 CREATE TABLE Meals (IdMeal INT NOT NULL, IdTypeOfMeal INT, Carbohydrates DOUBLE, TimeBegin DATETIME, Notes VARCHAR (255), AccuracyOfChoEstimate DOUBLE, IdBolusCalculation INT, IdGlucoseRecord INT, IdInjection INT, TimeEnd DATETIME, PRIMARY KEY (IdMeal));
 
 -- Table: ModelsOfMeasurementSystem
+DROP TABLE IF EXISTS ModelsOfMeasurementSystem;
 CREATE TABLE 'ModelsOfMeasurementSystem' (
+
+
+
+
 
 
 
@@ -319,7 +600,15 @@ CREATE TABLE 'ModelsOfMeasurementSystem' (
 
 
 
+
+
+
+
 	'Name'	VARCHAR(45),
+
+
+
+
 
 
 
@@ -327,13 +616,24 @@ CREATE TABLE 'ModelsOfMeasurementSystem' (
 
 
 
+
+
+
+
 );
 
 -- Table: Parameters
+DROP TABLE IF EXISTS Parameters;
 CREATE TABLE Parameters (IdParameters INT NOT NULL, Timestamp DATETIME, Bolus_TargetGlucose INT, Bolus_GlucoseBeforeMeal INT, Bolus_ChoToEat INT, Bolus_ChoInsulinRatioBreakfast DOUBLE, Bolus_ChoInsulinRatioLunch DOUBLE, Bolus_ChoInsulinRatioDinner DOUBLE, Bolus_TotalDailyDoseOfInsulin DOUBLE, Bolus_InsulinCorrectionSensitivity DOUBLE, Correction_TypicalBolusMorning DOUBLE, Correction_TypicalBolusMidday DOUBLE, Correction_TypicalBolusEvening DOUBLE, Correction_TypicalBolusNight DOUBLE, Correction_FactorOfInsulinCorrectionSensitivity DOUBLE, Hypo_GlucoseTarget DOUBLE, Hypo_GlucoseLast DOUBLE, Hypo_GlucosePrevious DOUBLE, Hypo_HourLast DOUBLE, Hypo_HourPrevious DOUBLE, Hypo_MinuteLast DOUBLE, Hypo_MinutePrevious DOUBLE, Hypo_AlarmAdvanceTime DOUBLE, Hypo_FutureSpanMinutes DOUBLE, Hit_ChoAlreadyTaken DOUBLE, Hit_ChoOfFood DOUBLE, Hit_TargetCho DOUBLE, Hit_NameOfFood TEXT, FoodInMeal_ChoGrams DOUBLE, FoodInMeal_QuantityGrams DOUBLE, FoodInMeal_CarbohydratesPercent DOUBLE, FoodInMeal_Name TEXT, FoodInMeal_AccuracyOfChoEstimate DOUBLE, Meal_ChoGrams DOUBLE, Meal_Breakfast_StartTime_Hours DOUBLE, Meal_Breakfast_EndTime_Hours DOUBLE, Meal_Lunch_StartTime_Hours DOUBLE, Meal_Lunch_EndTime_Hours DOUBLE, Meal_Dinner_StartTime_Hours DOUBLE, Meal_Dinner_EndTime_Hours DOUBLE, Insulin_Short_Id INTEGER, Insulin_Long_Id INTEGER, PRIMARY KEY (IdParameters));
 INSERT INTO Parameters (IdParameters, Timestamp, Bolus_TargetGlucose, Bolus_GlucoseBeforeMeal, Bolus_ChoToEat, Bolus_ChoInsulinRatioBreakfast, Bolus_ChoInsulinRatioLunch, Bolus_ChoInsulinRatioDinner, Bolus_TotalDailyDoseOfInsulin, Bolus_InsulinCorrectionSensitivity, Correction_TypicalBolusMorning, Correction_TypicalBolusMidday, Correction_TypicalBolusEvening, Correction_TypicalBolusNight, Correction_FactorOfInsulinCorrectionSensitivity, Hypo_GlucoseTarget, Hypo_GlucoseLast, Hypo_GlucosePrevious, Hypo_HourLast, Hypo_HourPrevious, Hypo_MinuteLast, Hypo_MinutePrevious, Hypo_AlarmAdvanceTime, Hypo_FutureSpanMinutes, Hit_ChoAlreadyTaken, Hit_ChoOfFood, Hit_TargetCho, Hit_NameOfFood, FoodInMeal_ChoGrams, FoodInMeal_QuantityGrams, FoodInMeal_CarbohydratesPercent, FoodInMeal_Name, FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams, Meal_Breakfast_StartTime_Hours, Meal_Breakfast_EndTime_Hours, Meal_Lunch_StartTime_Hours, Meal_Lunch_EndTime_Hours, Meal_Dinner_StartTime_Hours, Meal_Dinner_EndTime_Hours, Insulin_Short_Id, Insulin_Long_Id) VALUES (1, NULL, 105, 99, 44.2, 6.0, 72.0, 6.2, 52.0, 44.0, 10.0, 12.0, 13.0, 17.0, 1800.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 2.3, '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO Parameters (IdParameters, Timestamp, Bolus_TargetGlucose, Bolus_GlucoseBeforeMeal, Bolus_ChoToEat, Bolus_ChoInsulinRatioBreakfast, Bolus_ChoInsulinRatioLunch, Bolus_ChoInsulinRatioDinner, Bolus_TotalDailyDoseOfInsulin, Bolus_InsulinCorrectionSensitivity, Correction_TypicalBolusMorning, Correction_TypicalBolusMidday, Correction_TypicalBolusEvening, Correction_TypicalBolusNight, Correction_FactorOfInsulinCorrectionSensitivity, Hypo_GlucoseTarget, Hypo_GlucoseLast, Hypo_GlucosePrevious, Hypo_HourLast, Hypo_HourPrevious, Hypo_MinuteLast, Hypo_MinutePrevious, Hypo_AlarmAdvanceTime, Hypo_FutureSpanMinutes, Hit_ChoAlreadyTaken, Hit_ChoOfFood, Hit_TargetCho, Hit_NameOfFood, FoodInMeal_ChoGrams, FoodInMeal_QuantityGrams, FoodInMeal_CarbohydratesPercent, FoodInMeal_Name, FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams, Meal_Breakfast_StartTime_Hours, Meal_Breakfast_EndTime_Hours, Meal_Lunch_StartTime_Hours, Meal_Lunch_EndTime_Hours, Meal_Dinner_StartTime_Hours, Meal_Dinner_EndTime_Hours, Insulin_Short_Id, Insulin_Long_Id) VALUES (2, '2025-06-11 16:28:43.2657299', 105, 99, 44.2, 6.0, 72.0, 6.2, 52.0, 44.0, 10.0, 12.0, 13.0, 17.0, 1800.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, 2.3, NULL, '', NULL, NULL, 6.75, 10.0, 11.75, 14.25, 18.25, 21.3, 1, 2);
+INSERT INTO Parameters (IdParameters, Timestamp, Bolus_TargetGlucose, Bolus_GlucoseBeforeMeal, Bolus_ChoToEat, Bolus_ChoInsulinRatioBreakfast, Bolus_ChoInsulinRatioLunch, Bolus_ChoInsulinRatioDinner, Bolus_TotalDailyDoseOfInsulin, Bolus_InsulinCorrectionSensitivity, Correction_TypicalBolusMorning, Correction_TypicalBolusMidday, Correction_TypicalBolusEvening, Correction_TypicalBolusNight, Correction_FactorOfInsulinCorrectionSensitivity, Hypo_GlucoseTarget, Hypo_GlucoseLast, Hypo_GlucosePrevious, Hypo_HourLast, Hypo_HourPrevious, Hypo_MinuteLast, Hypo_MinutePrevious, Hypo_AlarmAdvanceTime, Hypo_FutureSpanMinutes, Hit_ChoAlreadyTaken, Hit_ChoOfFood, Hit_TargetCho, Hit_NameOfFood, FoodInMeal_ChoGrams, FoodInMeal_QuantityGrams, FoodInMeal_CarbohydratesPercent, FoodInMeal_Name, FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams, Meal_Breakfast_StartTime_Hours, Meal_Breakfast_EndTime_Hours, Meal_Lunch_StartTime_Hours, Meal_Lunch_EndTime_Hours, Meal_Dinner_StartTime_Hours, Meal_Dinner_EndTime_Hours, Insulin_Short_Id, Insulin_Long_Id) VALUES (3, '2025-06-11 16:49:33.6212069', 105, 99, 44.2, 6.0, 72.0, 6.2, 52.0, 44.0, 10.0, 12.0, 13.0, 17.0, 1800.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, 2.3, NULL, '', NULL, NULL, 6.75, 10.0, 11.75, 14.25, 18.25, 21.3, 4, 2);
+INSERT INTO Parameters (IdParameters, Timestamp, Bolus_TargetGlucose, Bolus_GlucoseBeforeMeal, Bolus_ChoToEat, Bolus_ChoInsulinRatioBreakfast, Bolus_ChoInsulinRatioLunch, Bolus_ChoInsulinRatioDinner, Bolus_TotalDailyDoseOfInsulin, Bolus_InsulinCorrectionSensitivity, Correction_TypicalBolusMorning, Correction_TypicalBolusMidday, Correction_TypicalBolusEvening, Correction_TypicalBolusNight, Correction_FactorOfInsulinCorrectionSensitivity, Hypo_GlucoseTarget, Hypo_GlucoseLast, Hypo_GlucosePrevious, Hypo_HourLast, Hypo_HourPrevious, Hypo_MinuteLast, Hypo_MinutePrevious, Hypo_AlarmAdvanceTime, Hypo_FutureSpanMinutes, Hit_ChoAlreadyTaken, Hit_ChoOfFood, Hit_TargetCho, Hit_NameOfFood, FoodInMeal_ChoGrams, FoodInMeal_QuantityGrams, FoodInMeal_CarbohydratesPercent, FoodInMeal_Name, FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams, Meal_Breakfast_StartTime_Hours, Meal_Breakfast_EndTime_Hours, Meal_Lunch_StartTime_Hours, Meal_Lunch_EndTime_Hours, Meal_Dinner_StartTime_Hours, Meal_Dinner_EndTime_Hours, Insulin_Short_Id, Insulin_Long_Id) VALUES (4, '2025-06-11 16:50:21.1522557', 105, 99, 44.2, 6.0, 72.0, 6.2, 52.0, 44.0, 10.0, 12.0, 13.0, 17.0, 1800.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, 2.3, NULL, '', NULL, NULL, 6.75, 10.0, 11.75, 14.25, 18.25, 21.3, 3, 2);
+INSERT INTO Parameters (IdParameters, Timestamp, Bolus_TargetGlucose, Bolus_GlucoseBeforeMeal, Bolus_ChoToEat, Bolus_ChoInsulinRatioBreakfast, Bolus_ChoInsulinRatioLunch, Bolus_ChoInsulinRatioDinner, Bolus_TotalDailyDoseOfInsulin, Bolus_InsulinCorrectionSensitivity, Correction_TypicalBolusMorning, Correction_TypicalBolusMidday, Correction_TypicalBolusEvening, Correction_TypicalBolusNight, Correction_FactorOfInsulinCorrectionSensitivity, Hypo_GlucoseTarget, Hypo_GlucoseLast, Hypo_GlucosePrevious, Hypo_HourLast, Hypo_HourPrevious, Hypo_MinuteLast, Hypo_MinutePrevious, Hypo_AlarmAdvanceTime, Hypo_FutureSpanMinutes, Hit_ChoAlreadyTaken, Hit_ChoOfFood, Hit_TargetCho, Hit_NameOfFood, FoodInMeal_ChoGrams, FoodInMeal_QuantityGrams, FoodInMeal_CarbohydratesPercent, FoodInMeal_Name, FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams, Meal_Breakfast_StartTime_Hours, Meal_Breakfast_EndTime_Hours, Meal_Lunch_StartTime_Hours, Meal_Lunch_EndTime_Hours, Meal_Dinner_StartTime_Hours, Meal_Dinner_EndTime_Hours, Insulin_Short_Id, Insulin_Long_Id) VALUES (5, '2025-06-11 16:50:53.8949135', 105, 99, 44.2, 6.0, 72.0, 6.2, 52.0, 44.0, 10.0, 12.0, 13.0, 17.0, 1800.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, 2.3, NULL, '', NULL, NULL, 6.75, 10.0, 11.75, 14.25, 18.25, 21.3, 1, 5);
+INSERT INTO Parameters (IdParameters, Timestamp, Bolus_TargetGlucose, Bolus_GlucoseBeforeMeal, Bolus_ChoToEat, Bolus_ChoInsulinRatioBreakfast, Bolus_ChoInsulinRatioLunch, Bolus_ChoInsulinRatioDinner, Bolus_TotalDailyDoseOfInsulin, Bolus_InsulinCorrectionSensitivity, Correction_TypicalBolusMorning, Correction_TypicalBolusMidday, Correction_TypicalBolusEvening, Correction_TypicalBolusNight, Correction_FactorOfInsulinCorrectionSensitivity, Hypo_GlucoseTarget, Hypo_GlucoseLast, Hypo_GlucosePrevious, Hypo_HourLast, Hypo_HourPrevious, Hypo_MinuteLast, Hypo_MinutePrevious, Hypo_AlarmAdvanceTime, Hypo_FutureSpanMinutes, Hit_ChoAlreadyTaken, Hit_ChoOfFood, Hit_TargetCho, Hit_NameOfFood, FoodInMeal_ChoGrams, FoodInMeal_QuantityGrams, FoodInMeal_CarbohydratesPercent, FoodInMeal_Name, FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams, Meal_Breakfast_StartTime_Hours, Meal_Breakfast_EndTime_Hours, Meal_Lunch_StartTime_Hours, Meal_Lunch_EndTime_Hours, Meal_Dinner_StartTime_Hours, Meal_Dinner_EndTime_Hours, Insulin_Short_Id, Insulin_Long_Id) VALUES (6, '2025-06-11 20:21:30.0565891', 105, 99, 44.2, 6.0, 72.0, 6.2, 52.0, 44.0, 10.0, 12.0, 13.0, 17.0, 1800.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, 2.3, NULL, '', NULL, NULL, 6.75, 10.0, 11.75, 14.25, 18.25, 21.3, 1, 2);
 
 -- Table: PositionsOfReferences
+DROP TABLE IF EXISTS PositionsOfReferences;
 CREATE TABLE PositionsOfReferences (IdPosition INTEGER PRIMARY KEY, Timestamp DATETIME, Zone INTEGER, PositionX REAL, PositionY REAL, Notes TEXT);
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (47, '2025-05-22 13:22:56', 1, 0.26978021059153, 0.22811406581246, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (48, '2025-05-22 13:22:56', 1, 0.27447424550747, 0.19108373236217, '');
@@ -393,11 +693,13 @@ INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, Posit
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (102, '2025-05-22 20:55:45', 3, 0.26841891895641, 0.09209502124083, '');
 
 -- Table: Recipes
+DROP TABLE IF EXISTS Recipes;
 CREATE TABLE Recipes (IdRecipe INTEGER NOT NULL, Name TEXT, Description TEXT, CarbohydratesPercent REAL, AccuracyOfChoEstimate REAL, IsCooked BOOL, RawToCookedRatio REAL, PRIMARY KEY (IdRecipe));
 INSERT INTO Recipes (IdRecipe, Name, Description, CarbohydratesPercent, AccuracyOfChoEstimate, IsCooked, RawToCookedRatio) VALUES (1, 'Salsa carbonara', 'Solo il sugo', NULL, NULL, 1, NULL);
 INSERT INTO Recipes (IdRecipe, Name, Description, CarbohydratesPercent, AccuracyOfChoEstimate, IsCooked, RawToCookedRatio) VALUES (2, '', '', NULL, NULL, 1, NULL);
 
 -- Table: UnitsOfFood
+DROP TABLE IF EXISTS UnitsOfFood;
 CREATE TABLE UnitsOfFood (IdUnitOfFood INTEGER PRIMARY KEY, IdFood INTEGER, Name TEXT, Description TEXT, GramsInOneUnit DOUBLE);
 INSERT INTO UnitsOfFood (IdUnitOfFood, IdFood, Name, Description, GramsInOneUnit) VALUES (1, 1, 'g', NULL, 1.0);
 

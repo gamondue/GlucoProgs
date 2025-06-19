@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pageModels="clr-namespace:GlucoMan.MVVM.PageModels"             
+             xmlns:models="clr-namespace:GlucoMan.MVVM.Models"
+             xmlns:controls="clr-namespace:GlucoMan.MVVM.Pages.Controls"
+             xmlns:pullToRefresh="clr-namespace:Syncfusion.Maui.Toolkit.PullToRefresh;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="GlucoMan.MVVM.Pages.MainPage"
+             x:DataType="pageModels:MainPageModel"
+             Title="{Binding Today}">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+                EventName="NavigatedTo"
+                Command="{Binding NavigatedToCommand}" />
+        <toolkit:EventToCommandBehavior
+                EventName="NavigatedFrom"
+                Command="{Binding NavigatedFromCommand}" />
+        <toolkit:EventToCommandBehavior
+                EventName="Appearing"                
+                Command="{Binding AppearingCommand}" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <pullToRefresh:SfPullToRefresh
+            IsRefreshing="{Binding IsRefreshing}"
+            RefreshCommand="{Binding RefreshCommand}">
+            <pullToRefresh:SfPullToRefresh.PullableContent>
+                <ScrollView>
+                    <VerticalStackLayout Spacing="{StaticResource LayoutSpacing}" Padding="{StaticResource LayoutPadding}">
+                        <Grid x:Name="grdOuter" 
+          RowDefinitions="*,*,*,*,*,*,*" ColumnDefinitions="*,*">
+                            <Button x:Name="btnGlucoseMeasurement" Text="Glucose" 
+                Grid.Row="0" Grid.Column="0" 
+                Clicked="btnGlucoseMeasurement_Clicked"
+                Margin="1" ToolTipProperties.Text="Opens the page of glucose measurement events"/>
+                            <Button x:Name="btnInjections" Text="Injections" 
+                Grid.Row="0" Grid.Column="1" 
+                Clicked="btnInjections_Clicked" IsEnabled="True" Margin="1"
+                ToolTipProperties.Text="Opens the page of past ad present injections"/>
+
+                            <Button x:Name="btnMeals" Text="Meals"
+                Grid.Row="1" Grid.Column="0" 
+                Clicked="btnMeals_Clicked" IsEnabled="True"
+                Margin="1" ToolTipProperties.Text="Opens the page of meals done in the past"/>
+                            <Button x:Name="btnNewMeal" Text="New meal" 
+                Grid.Row="1" Grid.Column="1" 
+                Clicked="btnNewMeal_Clicked" IsEnabled="True"
+                Margin="1" ToolTipProperties.Text="Opens a new meal page"/>
+
+                            <Button x:Name="btnInsulinCalc" Text="Calculate&#10; insulin" 
+                Grid.Row="2" Grid.Column="0" 
+                Clicked="btnInsulinCalc_Clicked" LineBreakMode="WordWrap" 
+                Margin="1" ToolTipProperties.Text="Opens a page that calculates the quantity of insulin to inject before a meal"/>
+                            <!--<Button Text="????"
+                Grid.Row="2" Grid.Column="1" 
+                IsEnabled="False" Clicked="btnAlarms_Clicked" 
+                Margin="1" ToolTipProperties.Text="Opens the page ?????"/>-->
+
+                            <Button x:Name="btnFoods" Text="Foods" 
+                Grid.Row="3" Grid.Column="0" 
+                Clicked="btnFoods_Clicked" IsEnabled="True"
+                Margin="1" ToolTipProperties.Text="Opens the page for foods management"></Button>
+                            <Button x:Name="btnRecipes" Text="Recipes" 
+                Grid.Row="3" Grid.Column="1" 
+                Clicked="btnRecipes_Clicked" 
+                Margin="1" ToolTipProperties.Text="Opens the page of recipes' management" IsEnabled="True"/>
+
+                            <Button x:Name="btnFoodToHitTargetCarbs" Text="Food to reach &#10;  target carbs"
+                LineBreakMode="WordWrap"
+                Grid.Row="4" Grid.Column="0" 
+                Clicked="btnFoodToHitTargetCarbs_Clicked"
+                Margin="1" ToolTipProperties.Text="Opens the page that calculates the food one need to eat to hit a carbohydrates target"/>
+                            <Button x:Name="btnHypoPrediction" Text="Hypoglicemia&#10;time prediction" 
+                LineBreakMode="WordWrap"
+                Grid.Row="4" Grid.Column="1" 
+                Clicked="btnHypoPrediction_Clicked"
+                Margin="1" ToolTipProperties.Text="Opens the page that makes a simple prediction of the time of an hypoglicemia episode"/>
+
+                            <Button x:Name="btnMiscellaneousFunctions" Text="Miscellaneous&#10;   functions" 
+                LineBreakMode="WordWrap"
+                Grid.Row="5" Grid.Column="0" 
+                Clicked="btnMiscellaneousFunctions_Clicked" 
+                Margin="1" ToolTipProperties.Text="Opens the page of miscellaneous functions"/>
+                            <Button x:Name="btnAlarms" Text="Alarms"
+                Grid.Row="5" Grid.Column="1" 
+                IsEnabled="False" Clicked="btnAlarms_Clicked" 
+                Background="Grey"
+                Margin="1" ToolTipProperties.Text="Opens the page of the alarms' settings"/>
+
+                            <Button x:Name="btnConfigurations" Text="Configuration" 
+                Grid.Row="6" Grid.Column="0" 
+                Clicked="btnConfigurations_Clicked" 
+                ToolTipProperties.Text="Configurations of program's parameters"
+                Margin="1"/>
+                            <Button x:Name="btnAbout" Text="About" 
+                Grid.Row="6" Grid.Column="1" 
+                Clicked="btnAbout_Clicked"
+                Margin="1" ToolTipProperties.Text="Opens the page of information about this program"/>
+                        </Grid>
+                        <controls:CategoryChart />
+                        <Label Text="Projects" Style="{StaticResource Title2}"/>
+                        <ScrollView Orientation="Horizontal" Margin="-30,0">
+                            <HorizontalStackLayout 
+                                Spacing="15" Padding="30,0"
+                                BindableLayout.ItemsSource="{Binding Projects}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Project">
+                                        <controls:ProjectCardView WidthRequest="200">
+                                            <controls:ProjectCardView.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding NavigateToProjectCommand, Source={RelativeSource AncestorType={x:Type pageModels:MainPageModel}}, x:DataType=pageModels:MainPageModel}" CommandParameter="{Binding .}"/>
+                                            </controls:ProjectCardView.GestureRecognizers>
+                                        </controls:ProjectCardView>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </HorizontalStackLayout>
+                        </ScrollView>
+                        <Grid HeightRequest="44">
+                            <Label Text="Tasks" Style="{StaticResource Title2}" VerticalOptions="Center"/>
+                            <ImageButton 
+                                Source="{StaticResource IconClean}"
+                                HorizontalOptions="End"
+                                VerticalOptions="Center"
+                                Aspect="Center"
+                                HeightRequest="44"
+                                WidthRequest="44"
+                                IsVisible="{Binding HasCompletedTasks}"
+                                Command="{Binding CleanTasksCommand}"
+                                SemanticProperties.Description="Clean tasks" />
+                        </Grid>
+                        <VerticalStackLayout Spacing="15"
+                            BindableLayout.ItemsSource="{Binding Tasks}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <controls:TaskView TaskCompletedCommand="{Binding TaskCompletedCommand, Source={RelativeSource AncestorType={x:Type pageModels:MainPageModel}}, x:DataType=pageModels:MainPageModel}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </pullToRefresh:SfPullToRefresh.PullableContent>
+        </pullToRefresh:SfPullToRefresh>
+
+        <controls:AddButton 
+            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+            Command="{Binding AddTaskCommand}" />
+    </Grid>
+</ContentPage>

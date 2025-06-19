@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.FoodsPage"
+             Title="Foods" Loaded="PageLoad">
+    <ContentPage.Content>
+        <!--Grid.RowDefinitions="20,20,50,20,50,20,50,50,*"-->
+        <Grid Grid.RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
+            Grid.ColumnDefinitions="*, *, *, *">
+            <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
+                Grid.ColumnSpan="4" Text="Food's information" 
+                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="3" Text="Id food" 
+                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of food" 
+                HorizontalTextAlignment="Start" Margin="5,0,0,0" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                    HorizontalOptions="Fill" VerticalOptions="Fill" 
+                    x:Name="txtName" BackgroundColor="LightGreen"
+                    ToolTipProperties.Text="Name of this food"
+                    Keyboard="Text" TextChanged="txtName_TextChanged"
+                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                    Text="{Binding Name}"
+                    FontSize="Small" IsReadOnly="false"/>
+            <Picker Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" 
+                    x:Name="cmbUnit" Margin="0"
+                    HorizontalTextAlignment="Center"
+                    SelectedIndexChanged="cmbUnit_SelectedIndexChanged"
+                    ToolTipProperties.Text="List of units used for this food"
+                    ItemsSource="{Binding}"/>
+            
+            <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Margin="5,0,10,0"
+                Text="Unit" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdFood" 
+                Text="{Binding IdFood}"
+                ToolTipProperties.Text="Code of this food"
+                BackgroundColor="White" HeightRequest="20"
+                FontSize="Micro" HorizontalTextAlignment="Center" 
+                IsReadOnly="true"/>
+
+            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,0,0,0"
+                Text="Description of food" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
+                x:Name="txtDescription" BackgroundColor="LightGreen"
+                ToolTipProperties.Text="Description of this food" Margin="0"
+                Keyboard="Text" TextChanged="txtDescription_TextChanged"
+                HorizontalTextAlignment="Start" FontSize="Micro"
+                Text="{Binding Description}"/>
+
+            <Label Grid.Row="5" Grid.Column="0" Text="CHO [g]%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+
+            <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
+                Keyboard="Numeric" HorizontalTextAlignment="End" Margin="1"
+                ToolTipProperties.Text="Percent Carbohydrates of this food [%]"
+                Text = "{Binding CarbohydratesPercent.Text}"/>
+            <Button Grid.Row="6" Grid.Column="1" x:Name="btnChoose" Text="Choose" Margin="1"
+                ToolTipProperties.Text="Chooses this food to be used by the calling page"
+                Clicked="btnChoose_Click"/>
+            <Button Grid.Row="6" Grid.Column="2" Text="+" x:Name="btnAddFood" Margin="1"
+                ToolTipProperties.Text="Adds a new food with data from UI"
+                Clicked="btnAddFood_Click"/>
+            <Button Grid.Row="6" Grid.Column="3" Text="-" x:Name="btnRemoveFood" Margin="1"
+                ToolTipProperties.Text="Deletes the selected food"
+                Clicked="btnRemoveFood_Click"/>
+
+            <Button Grid.Row="7" Grid.Column="0" Text="Save" x:Name="btnSaveFood" Margin="1"
+                ToolTipProperties.Text="Saves the food with the current data of the UI"
+                Clicked="btnSaveFood_Click"/>
+            <Button Grid.Row="7" Grid.Column="1" Text="Details" x:Name="btnFoodDetails" Margin="1"
+                ToolTipProperties.Text="Opens the page with additional data about the food"
+                Clicked="btnFoodDetails_Click"/>
+            <Button Grid.Row="7" Grid.Column="2" Text="Clean&#10;Fields"
+                    x:Name="btnCleanFields" Margin="1"
+                ToolTipProperties.Text="Cleans all data in the UI"
+                Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"
+                FontSize="Micro"/>
+            <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchFood" Margin="1"
+                ToolTipProperties.Text="Searchs the foods matching the filter in the UI"
+                Clicked="btnSearchFood_Click"/>
+
+            <ListView Grid.Row="8" Grid.ColumnSpan="4" x:Name="gridFoods" 
+                      ItemsSource="{Binding}" 
+                      ItemSelected="OnGridSelectionAsync">
+                <!-- description of data to be shown, in a DataTemplate -->
+                <ListView.ItemTemplate Margin="4">
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid RowDefinitions="19" ColumnDefinitions="*,36"
+                                      Margin="2" VerticalOptions="Center">
+                                    <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}" Margin="5,0" />
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding Carbohydrates.Text}"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

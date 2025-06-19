@@ -70,6 +70,14 @@ namespace GlucoMan
             Snack = 40,
             Other = 90
         }
+        public enum TypeOfInjection
+        {
+            NotSet = 0,
+            InsulinBolus = 10,  // injection with a syringe of a bolus of insulin
+            BloodSample = 20,   // puncture of the hand to get blood sample for glucose measurement
+            SensorImplantation = 30, // implantation of a sensor that measures blood glucose
+            Other = 90
+        }
         public enum TypeOfInsulinAction
         {
             NotSet = 0,
