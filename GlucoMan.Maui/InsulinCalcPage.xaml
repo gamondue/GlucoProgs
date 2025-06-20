@@ -65,7 +65,8 @@
         <Entry Grid.Row="6" Grid.Column="0" Margin="1" 
                Keyboard="Numeric" x:Name="txtGlucoseBeforeMeal" Text="" FontSize="Large" 
                ToolTipProperties.Text="Glucose measured before the meal"
-               HorizontalTextAlignment="End" VerticalOptions="Center" VerticalTextAlignment="Center"
+               HorizontalTextAlignment="End" VerticalOptions="Center" 
+               VerticalTextAlignment="Center"
                Placeholder="mg/dl" BackgroundColor="GreenYellow" />
         <Entry Grid.Row="6" Grid.Column="1" Margin="1"  
                ToolTipProperties.Text="Glucose to reach with calculated bolus"
@@ -120,8 +121,8 @@
                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
         <Label Grid.Row="10" Grid.Column="3" Text="Total bolus insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-        <Label Grid.Row="11" Grid.Column="0" x:Name="txtCorrectionInsulin" Text="----" Margin="1"
-               ToolTipProperties.Text="Insulin that brings the bool glucose level to target glucose"
+        <Label Grid.Row="11" Grid.Column="0" x:Name="txtCorrectionInsulin" Text="----"
+               Margin="1" ToolTipProperties.Text="Insulin that brings the bool glucose level to target glucose"
                HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
                FontSize="Large" BackgroundColor="CadetBlue" />
         <Label Grid.Row="11" Grid.Column="1" x:Name="txtChoInsulinMeal" Text="----" Margin="1"
@@ -131,8 +132,8 @@
             ToolTipProperties.Text="Insulin of the bolus when no insulin in left in the body (no embarked)"
             HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Medium" />
         <Label Grid.Row="11" Grid.Column="3" x:Name="txtTotalInsulin" Margin="1"
-            Text="----" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Large" 
-            ToolTipProperties.Text="Calculated insulin bolus to inject"
+            Text="----" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+            FontSize="Large" ToolTipProperties.Text="Calculated insulin bolus to inject"
             BackgroundColor="DeepSkyBlue"/>
 
         <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtStatusBar" 

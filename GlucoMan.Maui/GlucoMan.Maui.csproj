@@ -23,7 +23,7 @@
 		<ApplicationTitle>GlucoMan.Maui</ApplicationTitle>
 
 		<!-- App Identifier -->
-    <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>\
+    <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
     <ApplicationIdGuid>30939246-cae7-40ff-92ce-a308f5c8b0e8</ApplicationIdGuid>
 
 		<!-- Versions -->

@@ -202,17 +202,35 @@ namespace gamon
 			this.Cr	= Math.Max( -0.5, Math.Min( 0.5, cr ) );
 		}
 	}
+    /// <summary>
+    /// HSV components
+    /// </summary>
+    /// <remarks>La classe incapsula i componenti <b>HSV</b> (Hue, Saturation, Value).</remarks>
+	public class HSV
+    {
+        /// <summary>
+        /// Hue component [0, 359]
+        /// </summary>
+        public int Hue;
+        /// <summary>
+        /// Saturation component [0, 1]
+        /// </summary>
+        public double Saturation;
+        /// <summary>
+        /// Value component [0, 1]
+        /// </summary>
+        public double Value;
 
+        public HSV() { }
 
-
-	/// <summary>
-	/// Color converter - converts colors from different color spaces
-	/// </summary>
-	/// 
-	/// <remarks>The class provides static method, which implement conversation
-	/// between <b>RGB</b> and other color palettes.</remarks>
-	/// 
-	public sealed class ColorConverter
+        public HSV(int hue, double saturation, double value)
+        {
+            this.Hue = hue;
+            this.Saturation = saturation;
+            this.Value = value;
+        }
+    }
+    public sealed class ColorConverter
 	{
 		// Avoid class instantiation
 		private ColorConverter( ) { }
@@ -326,6 +344,11 @@ namespace gamon
 		/// <param name="ycbcr">Source color in <b>YCbCr</b> color space</param>
 		/// <param name="rgb">Destination color in <b>RGB</b> color spacs</param>
 		/// 
+		 /// <summary>
+    /// HSV components
+    /// </summary>
+    /// <remarks>La classe incapsula i componenti <b>HSV</b> (Hue, Saturation, Value).</remarks>
+    
 		public static void YCbCr2RGB( YCbCr ycbcr, RGB rgb )
 		{
 			// don't warry about zeros. compiler will remove them
@@ -337,10 +360,95 @@ namespace gamon
 			rgb.Green	= (byte) ( g * 255 );
 			rgb.Blue	= (byte) ( b * 255 );
 		}
+            /// <summary>
+            /// Converti da HSV a RGB
+            /// </summary>
+            /// <param name="hsv">Colore sorgente in spazio HSV</param>
+            /// <param name="rgb">Colore destinazione in spazio RGB</param>
+            public static void HSV2RGB(HSV hsv, RGB rgb)
+            {
+                double h = hsv.Hue;
+                double s = hsv.Saturation;
+                double v = hsv.Value;
 
-		#region Private members
-		// HSL to RGB helper routine
-		private static double Hue_2_RGB( double v1, double v2, double vH )
+                double r = 0, g = 0, b = 0;
+
+                if (s == 0)
+                {
+                    r = g = b = v;
+                }
+                else
+                {
+                    h = h % 360;
+                    double sector = h / 60.0;
+                    int i = (int)Math.Floor(sector);
+                    double f = sector - i;
+                    double p = v * (1 - s);
+                    double q = v * (1 - s * f);
+                    double t = v * (1 - s * (1 - f));
+
+                    switch (i)
+                    {
+                        case 0: r = v; g = t; b = p; break;
+                        case 1: r = q; g = v; b = p; break;
+                        case 2: r = p; g = v; b = t; break;
+                        case 3: r = p; g = q; b = v; break;
+                        case 4: r = t; g = p; b = v; break;
+                        default: r = v; g = p; b = q; break;
+                    }
+                }
+
+                rgb.Red = (byte)(r * 255);
+                rgb.Green = (byte)(g * 255);
+                rgb.Blue = (byte)(b * 255);
+            }
+
+            /// <summary>
+            /// Converti da RGB a HSV
+            /// </summary>
+            /// <param name="rgb">Colore sorgente in spazio RGB</param>
+            /// <param name="hsv">Colore destinazione in spazio HSV</param>
+            public static void RGB2HSV(RGB rgb, HSV hsv)
+            {
+                double r = rgb.Red / 255.0;
+                double g = rgb.Green / 255.0;
+                double b = rgb.Blue / 255.0;
+
+                double max = Math.Max(r, Math.Max(g, b));
+                double min = Math.Min(r, Math.Min(g, b));
+                double delta = max - min;
+
+                // Value
+                hsv.Value = max;
+
+                // Saturation
+                hsv.Saturation = (max == 0) ? 0 : delta / max;
+
+                // Hue
+                if (delta == 0)
+                {
+                    hsv.Hue = 0;
+                }
+                else if (max == r)
+                {
+                    hsv.Hue = (int)(60 * (((g - b) / delta) % 6));
+                }
+                else if (max == g)
+                {
+                    hsv.Hue = (int)(60 * (((b - r) / delta) + 2));
+                }
+                else // max == b
+                {
+                    hsv.Hue = (int)(60 * (((r - g) / delta) + 4));
+                }
+
+                if (hsv.Hue < 0)
+                    hsv.Hue += 360;
+            }
+
+            #region Private members
+            // HSL to RGB helper routine
+            private static double Hue_2_RGB( double v1, double v2, double vH )
 		{
 			if ( vH < 0 )
 				vH += 1;

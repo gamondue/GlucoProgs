@@ -1,5 +1,6 @@
 using GlucoMan.BusinessObjects;
 using GlucoMan.BusinessLayer;
+using gamon;
 
 namespace GlucoMan.Maui;
 
@@ -13,6 +14,8 @@ public partial class ClickableImagePage : ContentPage
     List<Injection> allRecentInjections;
     List<PositionOfInjection> allReferencePositions;
     private bool firstPass = true;
+    private double circlesVisibilityMaxTimeInDays;
+
     public ClickableImagePage(ref Injection currentInjection)
 	{
 		InitializeComponent();
@@ -20,7 +23,6 @@ public partial class ClickableImagePage : ContentPage
 #if !DEBUG
         // in release mode we hide the stack layout that allows to 
         // edit the coordinates of the reference points
-        // TODO don't hide but "unregister" the stack layout
         EditorCheckBox.IsVisible = false;
         LabelEditorCheckBox.IsVisible = false;
 #endif
@@ -34,6 +36,7 @@ public partial class ClickableImagePage : ContentPage
                     // Load the image "front.png" from resources
                     imgToBeTapped.Source = "front.png";
                     this.Title = "Front past injections";
+                    circlesVisibilityMaxTimeInDays = 60.0 / 3 + 1; // 60 positions / the 3 fast injections per day
                     break;
                 }
             case Common.ZoneOfPosition.Back:
@@ -41,6 +44,7 @@ public partial class ClickableImagePage : ContentPage
                     // Load the image "back.png" from resources
                     imgToBeTapped.Source = "back.png";
                     this.Title = "Back past injections";
+                    circlesVisibilityMaxTimeInDays = 40.0 / 1 + 1; // 40 positions / the 1 slow injections per day
                     break;
                 }
             case Common.ZoneOfPosition.Hands:
@@ -48,6 +52,7 @@ public partial class ClickableImagePage : ContentPage
                     // Load the image "hands.png" from resources
                     imgToBeTapped.Source = "hands.png";
                     this.Title = "Hand blood samples positions";
+                    circlesVisibilityMaxTimeInDays = 100 / 4.5 + 1; // 100 positions, 4.5 per day 
                     break;
                 }
             case Common.ZoneOfPosition.Sensor:
@@ -55,6 +60,7 @@ public partial class ClickableImagePage : ContentPage
                     // Load the image "sensor.png" from resources
                     imgToBeTapped.Source = "arms_back.png";
                     this.Title = "Sensors' past positions";
+                    circlesVisibilityMaxTimeInDays = 2 * 7 + 7; // 2 weeks by 6 point (+1 week)
                     break;
                 }
             //default:
@@ -65,15 +71,15 @@ public partial class ClickableImagePage : ContentPage
             //        break;
             //    }
         }
-        // show the point of the current injection
-
     }
     private void ImgToBeTapped_SizeChanged(object sender, EventArgs e)
     {
         if (imgToBeTapped.Width > 0 && imgToBeTapped.Height > 0)
         {
             // Inizializza CirclesDrawable solo quando Width e Height sono definiti
-            allCircles = new CirclesDrawable(imgToBeTapped.Width, imgToBeTapped.Height);
+            allCircles = new CirclesDrawable(imgToBeTapped.Width, imgToBeTapped.Height, 
+                currentInjection.IdInjection, circlesVisibilityMaxTimeInDays);
+            // ???? why the followiong works ????
             allCircles.Type = CirclesDrawable.PointType.Front;
             //if (firstPass)
             //{
@@ -99,12 +105,11 @@ public partial class ClickableImagePage : ContentPage
         SetButtonsVisibility();
         // read the last days of sensors' positions
         allRecentInjections = bl.GetInjections(
-           DateTime.Now.Subtract(new TimeSpan(12 * 7, 0, 0, 0, 0, 0)),
+           DateTime.Now.Subtract(new TimeSpan((int)circlesVisibilityMaxTimeInDays + 1, 0, 0, 0, 0, 0)),
            DateTime.Now, Zone: currentInjection.Zone);
 
         // copy the coordinates of the sensors' positions into the Drawable object
         allCircles.LoadInjectionsCoordinates(allRecentInjections);
-
         // reset of the GraphcsView that will be redrawn by method Draw in allCircles
         cerchiGraphicsView.Invalidate();
     }
@@ -154,7 +159,8 @@ public partial class ClickableImagePage : ContentPage
                 // passes the position of the click to the creator method of a new circle 
                 // the constructor will calculate the position of the center of the circle
                 // the method will give back the nearest point to the click point
-                currentNearestReferencePosition = allCircles.AddPoint((Point)relativeToContainerPosition, editing);
+                currentNearestReferencePosition = allCircles.AddPoint(
+                    (Point)relativeToContainerPosition, editing);
                 currentInjection.PositionX = currentNearestReferencePosition.X;
                 currentInjection.PositionY = currentNearestReferencePosition.Y;
             }

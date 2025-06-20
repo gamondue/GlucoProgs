@@ -3,6 +3,7 @@ using GlucoMan.BusinessLayer;
 using GlucoMan.BusinessObjects;
 using System.Security.AccessControl;
 using Microsoft.Maui.Graphics;
+//using Microsoft.Graphics.Canvas.Effects;
 
 namespace GlucoMan.Maui
 {
@@ -44,7 +45,7 @@ namespace GlucoMan.Maui
             }
         }
         // the coordinates of the reference points are the centers of the circles that will be added to the graphics
-        private List<Point> InjectionPointsCoordinates = new();
+        private List<CircleData> InjectionPointsCoordinates = new();
         // when we aren't editing we also need a collection of reference points  
         private List<Point> ReferencePointsCoordinates = new();
 
@@ -52,6 +53,7 @@ namespace GlucoMan.Maui
         // to be considered the same point
         private double nearEnoughDistance = 16;
         // the radiuses of the circles for reference points and injection points
+        // !!!! TODO radiuses should be different based on the number of points in the image
         private float referencePointsRadius = 5;
         private float injectionPointsRadius = 8;
 
@@ -62,16 +64,21 @@ namespace GlucoMan.Maui
 
         private double imageWidth;
         private double imageHeight;
+        private int? idCurrentInjection;
+        private double circlesVisibilityMaxTimeInDays;
 
-        public CirclesDrawable() // Costruttore senza parametri richiesto da XAML
+        public CirclesDrawable() // constructor with no parameters, required by XAMl
         {
             imageWidth = DefaultImageWidth;
             imageHeight = DefaultImageHeight;
         }
-        public CirclesDrawable(double ImageWidth, double ImageHeight) // Costruttore con parametri
+        public CirclesDrawable(double ImageWidth, double ImageHeight,
+            int? IdInjection, double CirclesVisibilityMaxTimeInDays) 
         {
             imageWidth = ImageWidth;
             imageHeight = ImageHeight;
+            idCurrentInjection = IdInjection;
+            circlesVisibilityMaxTimeInDays = CirclesVisibilityMaxTimeInDays;
         }
         public static void SetDefaults(double imageWidth, double imageHeight)
         {
@@ -93,12 +100,14 @@ namespace GlucoMan.Maui
             }
             else
             {
-                foreach (Point point in InjectionPointsCoordinates)
+                DateTime now = DateTime.Now;
+                foreach (CircleData point in InjectionPointsCoordinates)
                 {
-                    canvas.StrokeColor = Colors.Red;
+                    canvas.StrokeColor = point.Color;
                     canvas.StrokeSize = injectionPointsRadius;
-                    canvas.FillColor = Colors.Red;
-                    canvas.DrawEllipse((float)(point.X - injectionPointsRadius), (float)(point.Y - injectionPointsRadius),
+                    canvas.FillColor = point.Color;
+                    canvas.DrawEllipse((float)(point.Position.X - injectionPointsRadius), 
+                        (float)(point.Position.Y - injectionPointsRadius),
                             injectionPointsRadius, injectionPointsRadius);
                 }
             }
@@ -158,8 +167,10 @@ namespace GlucoMan.Maui
                 {   // if it is the first click, the flag is set to false
                     isFirstClick = false;
                 }
+                CircleData circleData = new CircleData(
+                    new Point(XCenter, YCenter), Colors.Red);
                 // the center is added to the list
-                InjectionPointsCoordinates.Add(new Point(XCenter, YCenter));
+                InjectionPointsCoordinates.Add(circleData);
             }
             return nearestPoint;
         }
@@ -228,17 +239,53 @@ namespace GlucoMan.Maui
         }
         internal void LoadInjectionsCoordinates(List<Injection> allRecentInjections)
         {
+            int circleHue = 240; 
+            DateTime now = DateTime.Now;
+            double minimalSaturation = 255 * 0.7;
             foreach (Injection injection in allRecentInjections)
             {
                 if (injection.PositionX != null && injection.PositionY != null)
                 {
+                    Color circleColor;
+                    if (injection.Timestamp.DateTime != null)
+                    {
+                        if (injection.IdInjection != idCurrentInjection)
+                        {
+                            double diffInDays = now.Subtract((DateTime)injection.Timestamp.DateTime).TotalDays;
+                            //double saturation = (1 - diffInDays / circlesVisibilityMaxTimeInDays);
+                            double saturation = minimalSaturation + (255 - minimalSaturation) * diffInDays / circlesVisibilityMaxTimeInDays;
+                            if (saturation < 0)
+                                saturation = 0;
+                            if (saturation > 255)
+                                saturation = 255;
+                            HSV circleColorHsv = new HSV(circleHue, saturation, 1);
+                            RGB circleColorRgb = new RGB(255, 0, 0);
+                            ColorConverter.HSV2RGB(circleColorHsv, circleColorRgb);
+                            circleColor = new Color(
+                                circleColorRgb.Red / 255f,
+                                circleColorRgb.Green / 255f,
+                                circleColorRgb.Blue / 255f,
+                                1 // (float)saturation
+                            );
+                        }
+                        else
+                        {
+                            // the current injection is drawn in blue
+                            circleColor = Colors.Green;
+                        }
+                    }
+                    else
+                    {
+                        circleColor = Colors.Red;
+                    }
                     // multiply by image height and width to bring the coordinates from 
                     // normalized (from 0 to 1) to real.
                     // N.B.: they are the normalized coordinates that are stored in the database
-                    InjectionPointsCoordinates.Add(new Point(
+                    CircleData circlePoint = new CircleData(new Point(
                         (float)(injection.PositionX * imageWidth),
-                        (float)(injection.PositionY * imageHeight)
-                    ));
+                        (float)(injection.PositionY * imageHeight)),
+                        circleColor);
+                    InjectionPointsCoordinates.Add(circlePoint);
                 }
             }
         }
@@ -260,6 +307,16 @@ namespace GlucoMan.Maui
         internal double? NormalizeYPosition(double y)
         {
             return y / imageHeight;
+        }
+    }
+    internal class CircleData
+    {
+        internal Point Position { get; private set; }
+        internal Color Color { get; private set; }
+        internal CircleData(Point Position, Color Color)
+        {
+            this.Position = Position;
+            this.Color = Color;
         }
     }
 }
