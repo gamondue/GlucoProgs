@@ -5,7 +5,9 @@
              Title="Meals">
     <ContentPage.Content>
     	<!--RowDefinitions="40,20,70,20,50,50,50,20,*"-->
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
+        <Grid RowDefinitions="Auto,
+              Auto,Auto,Auto,65,Auto,
+              65,Auto,*"
             ColumnDefinitions="*,*,*,*">
             <RadioButton Grid.Row="0" Grid.Column="0" Content="b.fast" x:Name="rdbIsBreakfast" 
                          ToolTipProperties.Text="Type of meal: breakfast" 
@@ -26,13 +28,15 @@
             <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="Accuracy" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtChoOfMeal" 
-                   ToolTipProperties.Text="Total Carbohydrates of this meal [g]" BackgroundColor="Aqua" Margin="2" 
+                   ToolTipProperties.Text="Total Carbohydrates of this meal [g]" 
+                   BackgroundColor="Aqua"  TextColor="Black" Margin="2" 
                    FontSize="Medium" Keyboard="Numeric" HorizontalTextAlignment="End"
                    TextChanged="txtChoOfMeal_TextChanged"/>
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" 
                    ToolTipProperties.Text="Numerical accuracy of meal in percent"
                    Margin="2" FontSize="Medium" 
-                   Keyboard="Numeric" BackgroundColor="LightGreen"
+                   Keyboard="Numeric" 
+                   BackgroundColor="LightGreen" TextColor="Black"
                    HorizontalTextAlignment="End" />
             <Picker Grid.Row="2" Grid.Column="2" x:Name="cmbAccuracyMeal"
                     HorizontalTextAlignment="End"
@@ -40,7 +44,7 @@
                     ToolTipProperties.Text="Qualitative accuracy of meal as a word" 
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
-                    BackgroundColor="PaleGoldenrod"/>
+                    BackgroundColor="PaleGoldenrod" TextColor="Black"/>
             <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdMeal" 
                    BackgroundColor="White" Margin="2" 
                    ToolTipProperties.Text="Code of this meal" 
@@ -57,28 +61,36 @@
             <HorizontalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
                 <DatePicker x:Name="dtpMealDateBegin" Margin="0,2,0,2" 
                             ToolTipProperties.Text="Date of the beginning of the meal" 
-                            BackgroundColor="PaleGreen" HorizontalOptions="Center" />
+                            BackgroundColor="PaleGreen" TextColor="Black"
+                            HorizontalOptions="Center" />
                 <TimePicker x:Name="dtpMealTimeBegin" Margin="0,2,0,2" 
                             ToolTipProperties.Text="Time of the beginning of the meal" 
-                            BackgroundColor="PaleGreen" Format="HH:mm:ss" 
+                            BackgroundColor="PaleGreen" TextColor="Black"
+                            Format="HH:mm:ss" 
                             HorizontalOptions="Center" />
             </HorizontalStackLayout>
-            <Button Grid.Row="4" Grid.Column="3" Text="Clean fields" Margin="2" 
+            <Button Grid.Row="4" Grid.Column="3" Margin="2" 
+                    ImageSource="clear_fields.png"
                     x:Name="btnDefaults" Clicked="btnDefault_Click"
-                    ToolTipProperties.Text="Cleans all data in the UI" 
+                    ToolTipProperties.Text="Clear fields: clears all data in the UI" 
                     FontSize="Micro" LineBreakMode="WordWrap"/>
-
+            <!--Text="Clear fields"-->
             <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" Margin="2"
-                   BackgroundColor="LightGreen"
+                   BackgroundColor="LightGreen" TextColor="Black"
                    ToolTipProperties.Text="Note about the meal" 
                    FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
-            <Button Grid.Row="6" Grid.Column="0" Text="Save" x:Name="btnSave" Margin="2" 
-                    ToolTipProperties.Text="Saves the meal with the current data of the UI" 
+            <Button Grid.Row="6" Grid.Column="0" 
+                    ImageSource="floppy_disc.png" x:Name="btnSave" Margin="2" 
+                    ToolTipProperties.Text="Save: saves the meal with the current data of the UI" 
                     Clicked="btnSaveMeal_ClickAsync"/>
-            <Button Grid.Row="6" Grid.Column="1" Text="Now" x:Name="btnNowBegin" Margin="2" 
-                    ToolTipProperties.Text="Sets the date and time at the current instant"
+            <!--Text="Save"-->
+            <Button Grid.Row="6" Grid.Column="1" 
+                    ImageSource="clock.png"
+                    x:Name="btnNowBegin" Margin="2" 
+                    ToolTipProperties.Text="Now: sets the date and time at the current instant"
                     Clicked="btnNowBegin_Click"/>
+            <!--Text="Now"-->
             <Grid Grid.Row="6" Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -87,18 +99,25 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" Text="+" Margin="2,2,2,2" 
+                <Button Grid.Row="0" Grid.Column="0" 
+                        ImageSource="plus.png"
+                        Margin="2,2,2,2" 
                         x:Name="btnAddMeal" 
                         ToolTipProperties.Text="Adds a new meal with data from UI" 
                         Clicked="btnAddMeal_ClickAsync"/>
-                <Button Grid.Row="0" Grid.Column="1" Text="-" Margin="2,2,2,2" 
+                <!--Text="+"-->
+                <Button Grid.Row="0" Grid.Column="1" Margin="2,2,2,2"
+                        ImageSource="minus.png"
                         x:Name="btnRemoveMeal" 
                         ToolTipProperties.Text="Deletes the selected meal" 
                         Clicked="btnRemoveMeal_ClickAsync"/>
+                <!--Text="-"-->
             </Grid>
-            <Button Grid.Row="6" Grid.Column="3" Text="Details" x:Name="btnShowThisMeal"  Margin="2,2,2,2" 
-                    ToolTipProperties.Text="Opens the page with additional data about the meal" 
+            <Button Grid.Row="6" Grid.Column="3" x:Name="btnShowThisMeal"  Margin="2,2,2,2"
+                    ImageSource="details.png"
+                    ToolTipProperties.Text="Details: opens the page with additional data about the meal" 
                     Clicked="btnShowThisMeal_ClickAsync"/>
+            <!--Text="Details"-->
             <HorizontalStackLayout Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2">
                 <CheckBox VerticalOptions="Start" x:Name="chkNowInAdd" 
                           ToolTipProperties.Text="If set uses the current instant (now) in the new injection (+), if not set uses the value in the UI"
@@ -145,7 +164,7 @@
                                         <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center"
                                                Grid.Column="0" Text="{Binding TimeBegin.DateTime}"/>
                                         <Label HorizontalTextAlignment="Center" 
-                                               Grid.Column="1" Text="{Binding Carbohydrates.Text}"/>
+                                               Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"/>
                                         <Label HorizontalTextAlignment="Center" 
                                                Grid.Column="2" Text="{Binding IdTypeOfMeal}"/>
                                         <Label HorizontalTextAlignment="Center" 

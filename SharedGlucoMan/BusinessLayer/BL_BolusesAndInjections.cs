@@ -50,9 +50,11 @@ namespace GlucoMan.BusinessLayer
 
         internal List<Injection> GetInjections(DateTime InitialInstant,
             DateTime FinalInstant, Common.TypeOfInsulinAction TypeOfInsulinAction = Common.TypeOfInsulinAction.NotSet,
-            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet)
+            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet, 
+            bool getFront = true, bool getBack = true, bool getHands = true, bool getSensors = true)
         {
-            return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinAction, Zone);
+            return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinAction, Zone,
+                getFront, getBack, getHands, getSensors);
         }
         internal Injection GetOneInjection(int? IdInjection)
         {

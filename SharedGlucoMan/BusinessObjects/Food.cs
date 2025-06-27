@@ -14,19 +14,19 @@ namespace GlucoMan
         public DoubleAndText PolyunsaturatedFatsPercent { get; set; }// [g/100]
         public DoubleAndText CarbohydratesPercent { get; set; }// [g/100 in database,g in the list of foods in a Meal] 
         public DoubleAndText SugarPercent { get; set; }        // [g/100]
+        public DoubleAndText PotassiumPercent { get; set; }    // [g/100]  
         public DoubleAndText FibersPercent { get; set; }       // [g/100]
         public DoubleAndText ProteinsPercent { get; set; }     // [g/100]
         public DoubleAndText SaltPercent { get; set; }         // [g/100]
-        public DoubleAndText CholesterolPercent { get; set; }  // [g/100]
-        public DoubleAndText PotassiumPercent { get; set; }    // [g/100]  
+        public DoubleAndText Cholesterol { get; set; }  // [g/100]
         public DoubleAndText GlycemicIndex { get; set; } // [n]
+        public string UnitSymbol { get; set; }
         public DoubleAndText GramsInOneUnit { get; set; } // [g]
-        public UnitOfFood Unit { get; set; }
         public string Manufacturer { get; set; }
         public string Category { get; set; }
-        public List<UnitOfFood> Units { get; set; }
+        public List<Unit> Units { get; set; }
         // unit is mandative to set the "internal" values in grams
-        public Food(UnitOfFood Unit) // ???? togliere il parametro ??????????????????????????????
+        public Food(Unit Unit)
         {
             Energy = new DoubleAndText();        // [kcal]  
             TotalFatsPercent = new DoubleAndText();     // [g]
@@ -38,7 +38,7 @@ namespace GlucoMan
             FibersPercent = new DoubleAndText();        // [g]
             ProteinsPercent = new DoubleAndText();      // [g]
             SaltPercent = new DoubleAndText();          // [g]
-            CholesterolPercent = new DoubleAndText();   // [g]  
+            Cholesterol = new DoubleAndText();   // [g]  
             PotassiumPercent = new DoubleAndText();     // [g]  
             GlycemicIndex = new DoubleAndText();  // [n]
             GramsInOneUnit = new DoubleAndText(); // [g]

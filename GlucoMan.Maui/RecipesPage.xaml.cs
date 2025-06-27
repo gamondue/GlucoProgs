@@ -169,7 +169,7 @@ public partial class RecipesPage : ContentPage
         bl.SaveOneRecipe(bl.CurrentRecipe);
         this.Navigation.PopAsync();
     }
-    private void btnCleanFields_Click(object sender, EventArgs e)
+    private void btnClearFields_Click(object sender, EventArgs e)
     {
         loading = true;
         txtIdRecipe.Text = "";

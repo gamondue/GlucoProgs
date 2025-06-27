@@ -1,33 +1,42 @@
 ﻿using gamon;
+using System.ComponentModel;
 
 namespace GlucoMan
 {
     public class FoodInMeal
     {
         public int? IdFoodInMeal { get; set; }
-        public int? IdFood { get; set; }
         public int? IdMeal { get; set; }
+        public int? IdFood { get; set; }
+        public string Name { get; set; }
+        public DoubleAndText CarbohydratesPercent { get; set; } // [g/100 in database,g in the list of foods in a Meal] 
+        public string UnitSymbol { get; set; } // [g,ml,units]
+        public DoubleAndText GramsInOneUnit { get; set; } // [g/units,ml/units] - used for conversion of units to grams
         public DoubleAndText QuantityInUnits { get; set; }    // [g/100]
         public DoubleAndText CarbohydratesGrams { get; set; }   // [g/100 in database,g in the list of foods in a Meal] 
-        public DoubleAndText CarbohydratesPerUnit { get; set; } // [g/100 in database,g in the list of foods in a Meal] 
         public DoubleAndText AccuracyOfChoEstimate { get; set; } // [0..1]
         public DoubleAndText SugarPercent { get; set; }        // [g/100]
         public DoubleAndText FibersPercent { get; set; }       // [g/100]
-        public string Name { get; set; }
 
         public string Description;
+
+        private DoubleAndText _accuracyOfChoEstimate;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public FoodInMeal()
         {
             QuantityInUnits = new DoubleAndText(); // [g]
             CarbohydratesGrams = new DoubleAndText();   // [g]
-            CarbohydratesPerUnit = new DoubleAndText(); // [%]
+            CarbohydratesPercent = new DoubleAndText(); // [%]
             SugarPercent = new DoubleAndText();         // [%]
             FibersPercent = new DoubleAndText();        // [%]
+            GramsInOneUnit = new();
             AccuracyOfChoEstimate = new DoubleAndText();
             CarbohydratesGrams.Format = "0.0";
             QuantityInUnits.Format = "0.0";
-            CarbohydratesPerUnit.Format = "0.0";
+            CarbohydratesPercent.Format = "0.0";
+            GramsInOneUnit.Format = "0.0";
         }
         public FoodInMeal DeepCopy()
         {
@@ -68,10 +77,10 @@ namespace GlucoMan
                 areEqual = false;
                 Differences.CarbohydratesGrams.Double = Other.CarbohydratesGrams.Double;
             }
-            else if (this.CarbohydratesPerUnit.Double != Other.CarbohydratesPerUnit.Double)
+            else if (this.CarbohydratesPercent.Double != Other.CarbohydratesPercent.Double)
             {
                 areEqual = false;
-                Differences.CarbohydratesPerUnit.Double = Other.CarbohydratesPerUnit.Double;
+                Differences.CarbohydratesPercent.Double = Other.CarbohydratesPercent.Double;
             }
             else if (this.AccuracyOfChoEstimate.Double != Other.AccuracyOfChoEstimate.Double)
             {

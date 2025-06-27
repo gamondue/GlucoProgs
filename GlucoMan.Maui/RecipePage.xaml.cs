@@ -8,7 +8,7 @@ public partial class RecipePage : ContentPage
 {
     BL_Recipes bl; // business layer of recipes
 
-    private bool loading = true;
+    private bool loadingUi = true;
 
     private UiAccuracy accuracyRecipe;
     private UiAccuracy accuracyIngredient;
@@ -47,20 +47,20 @@ public partial class RecipePage : ContentPage
     }
     private void FromClassesToUi()
     {
-        loading = true;
+        loadingUi = true;
         FromRecipeToUi();
         FromIngredientToUi();
-        loading = false;
+        loadingUi = false;
     }
     private void FromUiToClasses()
     {
-        loading = true;
+        loadingUi = true;
         if (bl.CurrentIngredient == null)
             bl.CurrentIngredient = new();
         // first the current ingredient, THEN the recipe!
         FromUiToIngredient(bl.CurrentIngredient);
         FromUiToRecipe(bl.CurrentRecipe);
-        loading = false;
+        loadingUi = false;
     }
     private void FromUiToIngredient(Ingredient Ingredient)
     {
@@ -98,17 +98,17 @@ public partial class RecipePage : ContentPage
     }
     private void txtIngredientCarbohydratesPercent_TextChanged(object sender, EventArgs e)
     {
-        if (!loading)
+        if (!loadingUi)
         {
             ////////        FromUiToIngredient(localIngredientForCalculations);
             ////////        bl.CalculateChoOfFoodGrams(localIngredientForCalculations);
-            ////////        txtIngredientChoGrams.Text = localIngredientForCalculations.CarbohydratesPerUnit.Text;
+            ////////        txtIngredientChoGrams.Text = localIngredientForCalculations.CarbohydratesPercent.Text;
             ////////        bl.SaveRecipeParameters();
         }
     }
     private void txtIngredientQuantityGrams_TextChanged(object sender, EventArgs e)
     {
-        if (!loading)
+        if (!loadingUi)
         {
             ////////FromUiToIngredient(localIngredientForCalculations);
             ////////bl.CalculateChoOfFoodGrams(localIngredientForCalculations);
@@ -129,7 +129,7 @@ public partial class RecipePage : ContentPage
         ////localIngredientForCalculations.CarbohydratesGrams.Text = txtIngredientChoGrams.Text;
         //bl.RecalcAll();
         //FromRecipeToUi();
-        //txtChoOfRecipePercent.Text = bl.CurrentRecipe.CarbohydratesPerUnit.Text;
+        //txtChoOfRecipePercent.Text = bl.CurrentRecipe.CarbohydratesPercent.Text;
     }
     private void btnSaveAllRecipe_Click(object sender, EventArgs e)
     {
@@ -239,14 +239,14 @@ public partial class RecipePage : ContentPage
     }
     private void txtIngredientCarbohydratesPercent_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (!loading)
+        if (!loadingUi)
         {
             //if (!txtIngredientChoPercent.IsFocused && !txtFoodCarbohydratesPercent.IsFocused)
             //{
             //    //txtFoodQuantityGrams.Text = "";
             //    //localFoodInMealForCalculations.QuantityInUnits.Double = 0;
             //    //txtFoodCarbohydratesPercent.Text = "";
-            //    //localFoodInMealForCalculations.CarbohydratesPerUnit.Double = 0;
+            //    //localFoodInMealForCalculations.CarbohydratesPercent.Double = 0;
             //}
         }
         //localFoodInMealForCalculations.CarbohydratesGrams.Text = txtFoodChoGrams.Text;
@@ -283,7 +283,7 @@ public partial class RecipePage : ContentPage
             ////////}
             ////////else if (focusedEntry == txtFoodCarbohydratesPercent)
             ////////{
-            ////////    //bl.FoodInMeal.CarbohydratesPerUnit.Text = result.Value.ToString();
+            ////////    //bl.FoodInMeal.CarbohydratesPercent.Text = result.Value.ToString();
             ////////    txtFoodCarbohydratesPercent.Text = result.Value.ToString();
             ////////    //txtFoodChoOrQuantity_TextChanged(null, null);
             ////////}
@@ -295,7 +295,7 @@ public partial class RecipePage : ContentPage
             ////////}
             ////////else if (focusedEntry == txtFoodCarbohydratesGrams)
             ////////{
-            ////////    //bl.FoodInMeal.CarbohydratesPerUnit.Text = result.Value.ToString();
+            ////////    //bl.FoodInMeal.CarbohydratesPercent.Text = result.Value.ToString();
             ////////    txtFoodCarbohydratesGrams.Text = result.Value.ToString();
             ////////    //txtFoodCarbohydratesGrams_TextChanged(null, null);
             ////////}
@@ -313,5 +313,10 @@ public partial class RecipePage : ContentPage
         ////////if (txtAccuracyOfChoMeal.IsFocused) return txtAccuracyOfChoMeal;
         // aggiungi altri Entry se necessario
         return null;
+    }
+
+    private async void btnRecipes_Click(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new RecipesPage(null));
     }
 }

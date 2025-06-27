@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
+   fill="none"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="floppy_disc.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:export-filename="floppy_disc.png"
+   inkscape:export-xdpi="481.88235"
+   inkscape:export-ydpi="481.88235"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs5" />
+  <sodipodi:namedview
+     id="namedview5"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="11.34375"
+     inkscape:cx="32"
+     inkscape:cy="31.955923"
+     inkscape:window-width="1920"
+     inkscape:window-height="1166"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5" />
+  <!-- Corpo floppy -->
+  <rect
+     x="8"
+     y="8"
+     width="48"
+     height="48"
+     rx="6"
+     fill="#e0e0e0"
+     stroke="#222"
+     stroke-width="3"
+     id="rect1" />
+  <!-- Finestra superiore -->
+  <rect
+     x="18"
+     y="12"
+     width="28"
+     height="27.074379"
+     rx="2"
+     fill="#b0b0b0"
+     stroke="#222222"
+     stroke-width="1.50206"
+     id="rect2" />
+  <!-- Etichetta -->
+  <!-- Foro centrale -->
+  <rect
+     x="28"
+     y="44"
+     width="8"
+     height="8"
+     rx="2"
+     fill="#222222"
+     id="rect4" />
+  <!-- Linea divisoria -->
+</svg>

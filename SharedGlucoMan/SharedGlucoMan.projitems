@@ -16,14 +16,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_MealAndFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_Recipes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Alarm.cs" />
+    <Compile Include="..\SharedGlucoMan\BusinessObjects\CategoryOfFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodInMeal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\InsulinDrug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Manufacturer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Parameters.cs" />
     <Compile Include="..\SharedGlucoMan\BusinessObjects\Injection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\PositionOfInjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Recipe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Ingredient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\UnitOfFood.cs" />
+    <Compile Include="..\SharedGlucoMan\BusinessObjects\Unit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_GlucoseMeasurements.cs" />

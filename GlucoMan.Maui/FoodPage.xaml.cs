@@ -1,3 +1,4 @@
+using gamon;
 using GlucoMan.BusinessLayer;
 
 namespace GlucoMan.Maui;
@@ -25,11 +26,8 @@ public partial class FoodPage : ContentPage
         if (cmbUnit.Items.Count > 0)
             cmbUnit.SelectedIndex = 0;
 
-        // just for test, remove !!!!!!!!!!!!!!
-        cmbManufacturer.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
-
-        // just for test, remove !!!!!!!!!!!!!!
-        cmbCategory.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
+        cmbManufacturer.ItemsSource = bl.GetAllManufacturersOfOneFood(Food);
+        cmbCategory.ItemsSource = bl.GetAllCategoriesOfOneFood(Food);
     }
     private void btnOk_Click(object sender, EventArgs e)
     {
@@ -42,22 +40,80 @@ public partial class FoodPage : ContentPage
         FoodIsChosen = false;
         this.Navigation.PopAsync();
     }
-     private void btnAddFoodManufacturer_Clicked(object sender, EventArgs e)
+    private void btnAddFoodManufacturer_Clicked(object sender, EventArgs e)
     {
+        Manufacturer m = new Manufacturer(txtFoodManufacturer.Text);
+        bl.AddManufacturerToFood(m, CurrentFood);
     }
     private void btnCategory_Clicked(object sender, EventArgs e)
     {
-
+        CategoryOfFood c = new CategoryOfFood(txtFoodManufacturer.Text);
+        bl.AddCategoryToFood(c, CurrentFood);
     }
-    private void btnAddUnit_Clicked(object sender, EventArgs e)
+    private async void btnAddUnit_Clicked(object sender, EventArgs e)
     {
-        UnitOfFood unit = new UnitOfFood(txtUnit.Text, Convert.ToDouble(txtGramsPerUnit.Text));
-        bl.AddUnitToFood(CurrentFood, unit);
+        double gramsPerUnit = (double)Safe.Double(txtGramsPerUnit.Text); 
+        Unit unit = new Unit(txtUnit.Text, gramsPerUnit);
+        // ask the user if the unit is applicable to the current food or to all foods
+        bool isApplicableToAllFoods = await DisplayAlert("Unit Applicability",
+            "Will this new Unit be applicable to all foods or just to this Food?", "All", "This");
+        if (!isApplicableToAllFoods)
+        {
+            unit.IdFood = CurrentFood.IdFood;
+        }
+        else
+        {
+            unit.IdFood = null;
+        }
+        if (bl.CheckIfUnitSymbolExists(unit, unit.IdFood))
+        {
+            // prompt the user that the unit already exists
+            DisplayAlert("", "The unit symbol already exists, give the new unit a unique symbol", "Ok");
+            return;
+        }
+        // we save the unit, if IdFood has been put to null, we mean tha the UnitSymbol has to be used for any food
+        if (bl.AddUnit(unit) == null)
+        {
+            // prompt the user that the saving of the unit failed
+            DisplayAlert("", "The saving of the new unit failed. New unit not saved", "Ok");
+            return;
+        }
         cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood((Food)this.BindingContext);
     }
     private void btnRemoveUnit_Clicked(object sender, EventArgs e)
     {
         bl.RemoveUnitFromFoodsUnits(CurrentFood);
+    }
+    private async void btnRemoveFoodManufacturer_Clicked(object sender, EventArgs e)
+    {
+        // check the control the has the focus
+
+        if (bl.GetAllManufacturersOfOneFood(CurrentFood).Count == 1)
+        {
+            txtFoodManufacturer.Text = "";
+            return;
+        }
+        else if (cmbManufacturer.SelectedItem == null)
+        {
+            await DisplayAlert("Error", "Please select a manufacturer to remove", "Ok");
+            return;
+        }
+        else
+        {
+            bool deleteFromThisFood = await DisplayAlert(Title, "Do you want to delete the manufacturer from the whole database or just from this food?", "This", "Whole");
+            if (deleteFromThisFood)
+            {
+                bl.RemoveManufacturerFromFood((Manufacturer)cmbManufacturer.SelectedItem, CurrentFood);
+            }
+            else
+            {
+                txtFoodManufacturer.Text = "";
+            }
+        }
+    }
+    private void btnRemoveFoodCategory_Clicked(object sender, EventArgs e)
+    {
+        bl.RemoveCategoryFromFood(CurrentFood);
     }
     private void txtFoodManufacturer_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -69,16 +125,11 @@ public partial class FoodPage : ContentPage
     }
     private void cmbUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
-        UnitOfFood unit = (UnitOfFood)cmbUnit.SelectedItem;
-        CurrentFood.Unit.Name = unit.Name;
-        CurrentFood.Unit.GramsInOneUnit = unit.GramsInOneUnit;
-
+        Unit unit = (Unit)cmbUnit.SelectedItem;
+        CurrentFood.UnitSymbol = unit.Symbol;
+        CurrentFood.GramsInOneUnit.Double = unit.GramsInOneUnit.Double;
     }
     private void txtGramsPerUnit_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
-    }
-    private void btnRemoveFoodManufacturer_Clicked(object sender, EventArgs e)
     {
 
     }

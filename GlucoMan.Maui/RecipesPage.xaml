@@ -5,7 +5,9 @@
              Title="Recipes" Loaded="PageLoaded">
     <ContentPage.Content>
         <!--Grid.RowDefinitions="20,20,45,20,45,20,45,50,20,*"-->
-        <Grid Grid.RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
+        <Grid Grid.RowDefinitions="Auto,
+              Auto,Auto,Auto,Auto,Auto,
+              60,60,Auto,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Recipe's information" 
@@ -17,7 +19,8 @@
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
-                    x:Name="txtName" BackgroundColor="GreenYellow"
+                    x:Name="txtName"
+                   BackgroundColor="GreenYellow" TextColor="Black"
                     ToolTipProperties.Text="Name of this recipe"
                     Keyboard="Text" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                     FontSize="Small" IsReadOnly="false"/>
@@ -25,16 +28,18 @@
                     ToolTipProperties.Text="Code of this recipe"
                     FontSize="Medium" HorizontalTextAlignment="Center" 
                     IsReadOnly="true"/>
-            <Button Grid.Row="2" Grid.Column="3" x:Name="btnChoose" Text="Choose" 
+            <Button Grid.Row="2" Grid.Column="3" x:Name="btnChoose"
+                    ImageSource="choose.png"
                     ToolTipProperties.Text="Chooses this recipe for the meal"
                     Clicked="btnChoose_Click"/>
-
+            <!--Text="Choose"-->
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="5,0,0,0"
                     Text="Description of Recipe" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
                     ToolTipProperties.Text="Description of this recipe"
-                    x:Name="txtDescription" BackgroundColor="GreenYellow"
+                    x:Name="txtDescription" 
+                   BackgroundColor="GreenYellow" TextColor="Black"
                     Keyboard="Text" TextChanged="txtDescription_TextChanged"
                     HorizontalTextAlignment="Start"
                    Text = "{Binding Description}"/>
@@ -46,7 +51,8 @@
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtRecipeCarbohydrates" Margin="1"
                     ToolTipProperties.Text="Total Carbohydrates % of this recipe"
-                    BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End"
+                    BackgroundColor="GreenYellow" TextColor="Black"
+                   Keyboard="Numeric" HorizontalTextAlignment="End"
                     FontSize="Large" Text="{Binding Cho.Text}"/>
             <HorizontalStackLayout Grid.Row="6" Grid.Column="1">
                 <CheckBox HorizontalOptions="Center" VerticalOptions="Center"
@@ -65,30 +71,46 @@
                        VerticalTextAlignment="Center" VerticalOptions="Center" Text="Cooked" />
             </HorizontalStackLayout>
             <Entry Grid.Row="6" Grid.Column="2" x:Name="txtRawToCookedRatio" Margin="1"
-                    ToolTipProperties.Text="Ratio between the cooked weight and the raw weight of the recipe"
-                    BackgroundColor="GreenYellow" Keyboard="Numeric" HorizontalTextAlignment="End" />
-            <HorizontalStackLayout Grid.Row="6" Grid.Column="3">
-                <Button  Text="+" x:Name="btnAddRecipe" Margin="1"
-                    ToolTipProperties.Text="Adds a new recipe to the recipes stored in the program"
+                    ToolTipProperties.Text="Plus: ratio between the cooked weight and the raw weight of the recipe"
+                    BackgroundColor="GreenYellow" TextColor="Black"
+                   Keyboard="Numeric" HorizontalTextAlignment="End" />
+            <Grid Grid.Row="6" Grid.Column="3" 
+                  ColumnDefinitions="*, *">
+                <Button x:Name="btnAddRecipe" Margin="1" Grid.Column="0"
+                        ImageSource="plus.png"
+                    ToolTipProperties.Text="Plus: adds a new recipe to the recipes stored in the program"
                     Clicked="btnAddRecipe_Click"/>
-                <Button Text="-" x:Name="btnRemoveRecipe" Margin="1"
-                    ToolTipProperties.Text="Removes the recipe from those stored in the program"
+                <!--Text="+"-->
+                <Button x:Name="btnRemoveRecipe" Margin="1" Grid.Column="1"
+                        ImageSource="minus.png"
+                    ToolTipProperties.Text="Minus: removes the recipe from those stored in the program"
                     Clicked="btnRemoveRecipe_Click"/>
-            </HorizontalStackLayout>
+                <!--Text="-"-->
+            </Grid>
 
-            <Button Grid.Row="7" Grid.Column="0" Text="Save" x:Name="btnSaveRecipe" 
-                    ToolTipProperties.Text="Saves this recipe" Margin="1"
+            <Button Grid.Row="7" Grid.Column="0" x:Name="btnSaveRecipe"
+                    ImageSource="floppy_disc.png"
+                    ToolTipProperties.Text="Save: saves this recipe" Margin="1"
                     Clicked="btnSaveRecipe_Click"/>
-            <Button Grid.Row="7" Grid.Column="1" Text="Details" x:Name="btnRecipeDetails" 
-                    ToolTipProperties.Text="Opens the page of recipe's details" Margin="1"
+            <!--Text="Save"-->
+            <Button Grid.Row="7" Grid.Column="1" x:Name="btnRecipeDetails" 
+                    ImageSource="details.png"
+                    ToolTipProperties.Text="Details: opens the page of recipe's details" Margin="1"
                     Clicked="btnRecipeDetails_Click"/>
-            <Button Grid.Row="7" Grid.Column="2" Text="Clean&#10;Fields" x:Name="btnCleanFields" 
-                    ToolTipProperties.Text="Cleans all data in the UI" Margin="1"
-                    Clicked="btnCleanFields_Click" LineBreakMode="WordWrap"
+            <!--Text="Details"-->
+            <Button Grid.Row="7" Grid.Column="2" x:Name="btnClearFields"
+                    ImageSource="clear_fields.png"
+                    ToolTipProperties.Text="Clear Fields: clears all data in the UI" Margin="1"
+                    Clicked="btnClearFields_Click" LineBreakMode="WordWrap"
                     FontSize="Micro"/>
-            <Button Grid.Row="7" Grid.Column="3" Text="Search" x:Name="btnSearchRecipe" Margin="1"
-                    ToolTipProperties.Text="Searchs the recipes matching the filter in the UI"
+            <!--Text="Clear&#10;Fields"-->
+
+            <Button Grid.Row="7" Grid.Column="3" 
+                    ImageSource="magnifier.png"
+                    x:Name="btnSearchRecipe" Margin="1"
+                    ToolTipProperties.Text="Search: searchs the recipes matching the filter in the UI"
                     Clicked="btnSearchRecipe_Click"/>
+            <!--Text="Search"-->
 
             <Label Grid.Row="8" Grid.Column="0" Text="Recipes" Grid.ColumnSpan="4" 
                    FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>

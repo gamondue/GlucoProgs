@@ -79,13 +79,16 @@
   <!-- Texture della zolletta -->
   <g
      id="g1"
-     transform="matrix(1.1767713,0,0,1.1767713,-10.341158,-8.6569284)">
+     transform="matrix(1.2771671,0,0,1.2765844,-13.418995,-13.779328)"
+     style="stroke-width:0.921602">
     <g
        id="g7"
-       transform="translate(-7.6225447,-0.40948356)">
+       transform="translate(-7.6225447,-0.40948356)"
+       style="stroke-width:0.921602">
       <g
          id="g6"
-         transform="matrix(0.50761733,0,0,0.50761733,26.549042,52.444595)">
+         transform="matrix(0.50761733,0,0,0.50761733,26.549042,52.444595)"
+         style="stroke-width:0.921602">
         <rect
            x="21.468109"
            y="30.361097"
@@ -93,13 +96,13 @@
            height="40.015812"
            fill="#ffffff"
            stroke="#000000"
-           stroke-width="1.98419"
+           stroke-width="1.82863"
            id="rect1" />
         <polygon
            points="40,20 20,30 80,30 100,20 "
            fill="#e0f7ff"
            stroke="#000000"
-           stroke-width="2"
+           stroke-width="1.8432"
            id="polygon1"
            style="stroke-linecap:round;stroke-linejoin:round"
            transform="matrix(0.99086885,0,0,0.92816017,1.6184014,1.9435655)" />
@@ -107,7 +110,7 @@
            points="80,70 80,30 100,20 100,60 "
            fill="#f0f0f0"
            stroke="#000000"
-           stroke-width="2"
+           stroke-width="1.8432"
            id="polygon2"
            style="stroke-linecap:round;stroke-linejoin:bevel"
            transform="matrix(0.99994374,0.00204468,-0.0020421,1.0012095,0.71196362,0.36382061)" />
@@ -115,7 +118,7 @@
     </g>
     <g
        id="g2"
-       style="stroke:#000000;stroke-width:0.627075;stroke-dasharray:none;stroke-opacity:1"
+       style="stroke:#000000;stroke-width:0.577914;stroke-dasharray:none;stroke-opacity:1"
        transform="matrix(1.2763975,0,0,1.3103644,-38.219828,-36.749084)">
       <rect
          x="49.876999"
@@ -126,32 +129,32 @@
          ry="6.9394517"
          fill="#f4a460"
          id="rect2"
-         style="stroke:#000000;stroke-width:0.627075;stroke-dasharray:none;stroke-opacity:1" />
+         style="stroke:#000000;stroke-width:0.577914;stroke-dasharray:none;stroke-opacity:1" />
       <circle
          cx="55.923916"
          cy="43.992798"
          r="2.418767"
          fill="#d2691e"
          id="circle2"
-         style="stroke:none;stroke-width:0.627075;stroke-dasharray:none;stroke-opacity:1" />
+         style="stroke:none;stroke-width:0.577914;stroke-dasharray:none;stroke-opacity:1" />
       <circle
          cx="68.017754"
          cy="43.992798"
          r="2.418767"
          fill="#d2691e"
          id="circle3"
-         style="stroke:none;stroke-width:0.627075;stroke-dasharray:none;stroke-opacity:1" />
+         style="stroke:none;stroke-width:0.577914;stroke-dasharray:none;stroke-opacity:1" />
       <circle
          cx="80.111588"
          cy="43.992798"
          r="2.418767"
          fill="#d2691e"
          id="circle4"
-         style="stroke:none;stroke-width:0.627075;stroke-dasharray:none;stroke-opacity:1" />
+         style="stroke:none;stroke-width:0.577914;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.91409;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Triangle);marker-mid:url(#marker4)"
-       d="M 49.904251,53.127201 49.974001,42.70067"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.76404;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Triangle);marker-mid:url(#marker4)"
+       d="M 51.77875,55.539428 51.97059,41.324083"
        id="path1"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0" />

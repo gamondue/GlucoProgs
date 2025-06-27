@@ -1,4 +1,5 @@
 ﻿using gamon;
+using System.Collections;
 using static GlucoMan.Common;
 
 namespace GlucoMan.BusinessLayer
@@ -151,10 +152,10 @@ namespace GlucoMan.BusinessLayer
         }
         public void CalculateChoOfFoodGrams()
         {
-            if (FoodInMeal.CarbohydratesPerUnit.Double != null && FoodInMeal.QuantityInUnits.Double != null)
+            if (FoodInMeal.CarbohydratesPercent.Double != null && FoodInMeal.QuantityInUnits.Double != null)
             {
-                FoodInMeal.CarbohydratesGrams.Double = FoodInMeal.CarbohydratesPerUnit.Double / 100 *
-                    FoodInMeal.QuantityInUnits.Double;
+                FoodInMeal.CarbohydratesGrams.Double = FoodInMeal.CarbohydratesPercent.Double / 100 *
+                    FoodInMeal.QuantityInUnits.Double * FoodInMeal.GramsInOneUnit.Double;
             }
         }
         #endregion
@@ -207,12 +208,13 @@ namespace GlucoMan.BusinessLayer
                     }
                     sumOfWeights += (double)f.CarbohydratesGrams.Double; // fixed 2024-12-14 from sum of squared weights to sum of weights
                     double squaredValue = (double)f.AccuracyOfChoEstimate.Double * (double)f.AccuracyOfChoEstimate.Double;
+                    // CarbohydratesGrams is the weight, that doesn't get squared
                     sumOfSquaredValuesByWeight += squaredValue * (double)f.CarbohydratesGrams.Double;
                 }
                 if (IsValueCorrect)
                 {
                     // square of the weighted quadratic sum
-                    WeightedQuadraticAverage = Math.Sqrt(sumOfSquaredValuesByWeight / sumOfWeights) * 100;
+                    WeightedQuadraticAverage = Math.Sqrt(sumOfSquaredValuesByWeight / sumOfWeights);
                     Meal.AccuracyOfChoEstimate.Double = WeightedQuadraticAverage;
                 }
                 // if the value in not correct, Meal.AccuracyOfChoEstimate remains unchanged
@@ -228,9 +230,10 @@ namespace GlucoMan.BusinessLayer
         internal void FromFoodToFoodInMeal(Food SourceFood, FoodInMeal DestinationFoodInMeal)
         {
             DestinationFoodInMeal.IdFood = SourceFood.IdFood;
-            DestinationFoodInMeal.CarbohydratesPerUnit.Double =
-                SourceFood.CarbohydratesPercent.Double * SourceFood.Unit.GramsInOneUnit.Double;
+            DestinationFoodInMeal.CarbohydratesPercent.Double = SourceFood.CarbohydratesPercent.Double;
             DestinationFoodInMeal.Name = SourceFood.Name;
+            DestinationFoodInMeal.UnitSymbol = SourceFood.UnitSymbol;
+            DestinationFoodInMeal.GramsInOneUnit.Double = SourceFood.GramsInOneUnit.Double;
             DestinationFoodInMeal.Description = SourceFood.Description;
             DestinationFoodInMeal.SugarPercent = SourceFood.SugarPercent;
             DestinationFoodInMeal.FibersPercent = SourceFood.FibersPercent;
@@ -238,13 +241,12 @@ namespace GlucoMan.BusinessLayer
         internal void FromRecipeToFoodInMeal(Recipe sourceRecipe, FoodInMeal DestinationFoodInMeal)
         {
             //DestinationFoodInMeal.IdFood = SourceFood.IdFood;
-            //DestinationFoodInMeal.CarbohydratesPerUnit.Double =
-            //    sourceRecipe.CarbohydratesGrams.Double * sourceRecipe.Unit.GramsInOneUnit.Double;
+            //DestinationFoodInMeal.CarbohydratesPercent.Double =
+            //    sourceRecipe.CarbohydratesGrams.Double * sourceRecipe.UnitSymbol.GramsInOneUnit.Double;
             DestinationFoodInMeal.Name = sourceRecipe.Name;
             DestinationFoodInMeal.Description = sourceRecipe.Description;
             DestinationFoodInMeal.AccuracyOfChoEstimate = sourceRecipe.AccuracyOfChoEstimate;
-            // !!!! maybe the following should be different !!!!
-            DestinationFoodInMeal.CarbohydratesPerUnit = sourceRecipe.CarbohydratesPercent;
+            DestinationFoodInMeal.CarbohydratesPercent = sourceRecipe.CarbohydratesPercent;
             //DestinationFoodInMeal.SugarPercent = SourceFood.SugarPercent;
             //DestinationFoodInMeal.FibersPercent = SourceFood.FibersPercent;
         }
@@ -253,7 +255,9 @@ namespace GlucoMan.BusinessLayer
             DestinationFood.IdFood = SourceFoodInMeal.IdFood;
             DestinationFood.Name = SourceFoodInMeal.Name;
             DestinationFood.Description = SourceFoodInMeal.Description;
-            DestinationFood.CarbohydratesPercent = SourceFoodInMeal.CarbohydratesPerUnit;
+            DestinationFood.CarbohydratesPercent = SourceFoodInMeal.CarbohydratesPercent;
+            DestinationFood.GramsInOneUnit.Double = SourceFoodInMeal.GramsInOneUnit.Double;
+            //DestinationFood.UnitSymbol = dl.GetUnitsOfOneFood( UnitSymbol(SourceFoodInMeal.UnitSymbol, SourceFoodInMeal.GramsInOneUnit.Double);
             DestinationFood.SugarPercent = SourceFoodInMeal.SugarPercent;
             DestinationFood.FibersPercent = SourceFoodInMeal.FibersPercent;
         }
@@ -299,7 +303,7 @@ namespace GlucoMan.BusinessLayer
         {
             dl.SaveParameter("FoodInMeal_ChoGrams", FoodInMeal.CarbohydratesGrams.Text);
             dl.SaveParameter("FoodInMeal_QuantityGrams", FoodInMeal.QuantityInUnits.Text);
-            dl.SaveParameter("FoodInMeal_CarbohydratesPercent", FoodInMeal.CarbohydratesPerUnit.Text);
+            dl.SaveParameter("FoodInMeal_CarbohydratesPercent", FoodInMeal.CarbohydratesPercent.Text);
             dl.SaveParameter("FoodInMeal_Name", FoodInMeal.Name);
             dl.SaveParameter("FoodInMeal_AccuracyOfChoEstimate", FoodInMeal.AccuracyOfChoEstimate.Text);
         }
@@ -307,7 +311,7 @@ namespace GlucoMan.BusinessLayer
         {
             FoodInMeal.CarbohydratesGrams.Text = dl.RestoreParameter("FoodInMeal_ChoGrams");
             FoodInMeal.QuantityInUnits.Text = dl.RestoreParameter("FoodInMeal_QuantityGrams");
-            FoodInMeal.CarbohydratesPerUnit.Text = dl.RestoreParameter("FoodInMeal_CarbohydratesPercent");
+            FoodInMeal.CarbohydratesPercent.Text = dl.RestoreParameter("FoodInMeal_CarbohydratesPercent");
             FoodInMeal.Name = dl.RestoreParameter("FoodInMeal_Name");
             FoodInMeal.AccuracyOfChoEstimate.Text = dl.RestoreParameter("FoodInMeal_AccuracyOfChoEstimate");
         }
@@ -319,17 +323,49 @@ namespace GlucoMan.BusinessLayer
         {
             Meal.CarbohydratesGrams.Text = dl.RestoreParameter("Meal_ChoGrams");
         }
-        internal void AddUnitToFood(Food Food, UnitOfFood Unit)
+        internal int? AddUnit(Unit Unit)
         {
-            dl.AddUnitToFood(Food, Unit);
+            return dl.AddUnit(Unit);
         }
-        internal void RemoveUnitFromFoodsUnits(Food Food)
+        internal int? AddManufacturerToCurrentFood(Manufacturer manufacturer, Food food)
         {
-            dl.RemoveUnitFromFoodsUnits(Food);
+            return dl.AddManufacturer(manufacturer, food);
         }
-        internal List<UnitOfFood> GetAllUnitsOfOneFood(Food Food)
+        internal int? AddManufacturer(Manufacturer manufacturer)
+        {
+            return dl.AddManufacturer(manufacturer, null);
+        }
+        internal int? AddCategoryToCurrentFood(CategoryOfFood category, Food food)
+        {
+            return dl.AddCategoryOfFood(category, food);
+        }
+        internal int? AddCategoryOfFood(CategoryOfFood CategoryOfFood)
+        {
+            return dl.AddCategoryOfFood(CategoryOfFood, null);
+        }
+        internal void RemoveUnitFromFood(Unit unit, Food Food)
+        {
+            dl.RemoveUnitFromFood(unit, Food);
+        }
+        internal void RemoveManufacturerFromFood(Manufacturer manufacturer, Food currentFood)
+        {
+            dl.RemoveManufacturerFromFood(currentFood);
+        }
+        internal void RemoveCategoryFromFood(CategoryOfFood category, Food currentFood)
+        {
+            dl.RemoveCategoryFromFood(currentFood);
+        }
+        internal List<Unit> GetAllUnitsOfOneFood(Food Food)
         {
             return dl.GetAllUnitsOfOneFood(Food);
+        }
+        internal List<Manufacturer> GetAllManufacturersOfOneFood(Food food)
+        {
+            return dl.GetAllManufacturersOfOneFood(food);
+        }
+        internal List<CategoryOfFood> GetAllCategoriesOfOneFood(Food food)
+        {
+            return dl.GetAllCategoriesOfOneFood(food);
         }
         internal static TypeOfMeal SelectTypeOfMealBasedOnTimeNow()
         {
@@ -344,6 +380,10 @@ namespace GlucoMan.BusinessLayer
             else
                 type = TypeOfMeal.Snack;
             return type;
+        }
+        internal bool CheckIfUnitSymbolExists(Unit unit, int? idFood)
+        {
+            return dl.CheckIfUnitSymbolExists(unit, idFood);
         }
     }
 }

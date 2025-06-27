@@ -178,7 +178,7 @@ public partial class WeighFoodPage : ContentPage
         ////////}
         ////////else if (focusedEntry == txtFoodCarbohydratesPercent)
         ////////{
-        ////////    //bl.FoodInMeal.CarbohydratesPerUnit.Text = result.Value.ToString();
+        ////////    //bl.FoodInMeal.CarbohydratesPercent.Text = result.Value.ToString();
         ////////    txtFoodCarbohydratesPercent.Text = result.Value.ToString();
         ////////    //txtFoodChoOrQuantity_TextChanged(null, null);
         ////////}
@@ -190,7 +190,7 @@ public partial class WeighFoodPage : ContentPage
         ////////}
         ////////else if (focusedEntry == txtFoodCarbohydratesGrams)
         ////////{
-        ////////    //bl.FoodInMeal.CarbohydratesPerUnit.Text = result.Value.ToString();
+        ////////    //bl.FoodInMeal.CarbohydratesPercent.Text = result.Value.ToString();
         ////////    txtFoodCarbohydratesGrams.Text = result.Value.ToString();
         ////////    //txtFoodCarbohydratesGrams_TextChanged(null, null);
         ////////}

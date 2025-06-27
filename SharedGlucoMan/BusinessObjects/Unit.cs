@@ -2,29 +2,31 @@
 
 namespace GlucoMan
 {
-    public class UnitOfFood
+    public class Unit
     {
         public int? IdUnit { get; set; }
-        public int? IdFood { get; set; }
+        public string Symbol { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int? IdFood { get; set; }
         public DoubleAndText GramsInOneUnit { get; set; }
 
-        public UnitOfFood()
+        public Unit()
         {
             this.GramsInOneUnit = new DoubleAndText();
-            this.Name = "g";
+            this.Symbol = "g";
+            this.Description = "grams";
             this.GramsInOneUnit.Double = 1;
         }
-        public UnitOfFood(string Name, double GramsInOneUnit)
+        public Unit(string Symbol, double GramsInOneUnit)
         {
             this.GramsInOneUnit = new DoubleAndText();
-            this.Name = Name;
+            this.Symbol = Symbol;
             this.GramsInOneUnit.Double = GramsInOneUnit;
         }
         public override string ToString()
         {
-            return Name + " - " + GramsInOneUnit.Text;
+            return Symbol + " - " + GramsInOneUnit.Text;
         }
     }
 }

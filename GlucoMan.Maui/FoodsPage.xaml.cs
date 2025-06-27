@@ -24,7 +24,7 @@ public partial class FoodsPage : ContentPage
     {
         InitializeComponent();
         if (CurrentFood == null)
-            CurrentFood = new Food(new UnitOfFood("g", 1));
+            CurrentFood = new Food(new Unit("g", 1));
         CurrentFood.Name = FoodNameForSearch;
         CurrentFood.Description = FoodDescriptionForSearch;
     }
@@ -32,14 +32,14 @@ public partial class FoodsPage : ContentPage
     {
         InitializeComponent();
         if (CurrentFood == null)
-            CurrentFood = new Food(new UnitOfFood("g", 1));
+            CurrentFood = new Food(new Unit("g", 1));
         bl.FromFoodInMealToFood(FoodInMeal, CurrentFood);
     }
     public FoodsPage(Ingredient Ingredient)
     {
         InitializeComponent();
         if (CurrentFood == null)
-            CurrentFood = new Food(new UnitOfFood("g", 1));
+            CurrentFood = new Food(new Unit("g", 1));
         bl.FromIngredientToFood(Ingredient, CurrentFood);
     }
     private void PageLoad(object sender, EventArgs e)
@@ -79,7 +79,7 @@ public partial class FoodsPage : ContentPage
         CurrentFood = (Food)gridFoods.SelectedItem;
         this.BindingContext = CurrentFood;
         FromClassToUi();
-        // fill the combo box of Unit
+        // fill the combo box of UnitSymbol
         cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(CurrentFood);
         // set the selected item to first
         if (cmbUnit.Items.Count > 0)
@@ -91,7 +91,7 @@ public partial class FoodsPage : ContentPage
         txtIdFood.Text = CurrentFood.IdFood.ToString();
         txtName.Text = CurrentFood.Name;
         txtDescription.Text = CurrentFood.Description;
-        ////txtFoodCarbohydrates.Text = CurrentFood.CarbohydratesPerUnit.Text;
+        ////txtFoodCarbohydrates.Text = CurrentFood.CarbohydratesPercent.Text;
 
         ////txtCalories.Text = CurrentFood.Energy.Text;
         ////txtTotalFats.Text = CurrentFood.TotalFatsPercent.Text;
@@ -102,7 +102,7 @@ public partial class FoodsPage : ContentPage
         ////txtSalt.Text = CurrentFood.SaltPercent.Text;
         ////txtPotassium.Text = CurrentFood.PotassiumPercent.Text;
 
-        ////txtCholesterol.Text = CurrentFood.CholesterolPercent.Text;
+        ////txtCholesterol.Text = CurrentFood.Cholesterol.Text;
         ////txtGlicemicIndex.Text = CurrentFood.GlycemicIndex.Text;
     }
     private void FromUiToClass()
@@ -110,12 +110,12 @@ public partial class FoodsPage : ContentPage
         CurrentFood.IdFood = Safe.Int(txtIdFood.Text);
         CurrentFood.Name = txtName.Text;
         CurrentFood.Description = txtDescription.Text;
-        if (cmbUnit.SelectedItem == null)
-            CurrentFood.Unit = new UnitOfFood();
+        //if (cmbUnit.SelectedItem == null)
+            //CurrentFood.UnitSymbol = new Unit();
         ////////else
-        ////////CurrentFood.Unit = cmbUnit.SelectedItem;
+        ////////CurrentFood.UnitSymbol = cmbUnit.SelectedItem;
 
-        //CurrentFood.CarbohydratesPerUnit.Double = Safe.Double(txtFoodCarbohydrates.Text);
+        //CurrentFood.CarbohydratesPercent.Double = Safe.Double(txtFoodCarbohydrates.Text);
 
             //CurrentFood.Energy.Double = Safe.Double(txtCalories.Text);
             //CurrentFood.TotalFatsPercent.Double = Safe.Double(txtTotalFats.Text);
@@ -126,7 +126,7 @@ public partial class FoodsPage : ContentPage
             //CurrentFood.SaltPercent.Double = Safe.Double(txtSalt.Text);
             //CurrentFood.PotassiumPercent.Double = Safe.Double(txtPotassium.Text);
 
-            //CurrentFood.CholesterolPercent.Double = Safe.Double(txtCholesterol.Text);
+            //CurrentFood.Cholesterol.Double = Safe.Double(txtCholesterol.Text);
             //CurrentFood.GlycemicIndex.Double = Safe.Double(txtGlicemicIndex.Text);
     }
     private void RefreshUi()
@@ -215,7 +215,7 @@ public partial class FoodsPage : ContentPage
         bl.SaveOneFood(CurrentFood);
         this.Navigation.PopAsync();
     }
-    private void btnCleanFields_Click(object sender, EventArgs e)
+    private void btnClearFields_Click(object sender, EventArgs e)
     {
         loading = true;
         txtIdFood.Text = "";
@@ -266,6 +266,6 @@ public partial class FoodsPage : ContentPage
     }
     private void cmbUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
-        CurrentFood.Unit = (UnitOfFood)cmbUnit.SelectedItem;
+        CurrentFood.UnitSymbol = ((Unit)cmbUnit.SelectedItem).Symbol;
     }
 }

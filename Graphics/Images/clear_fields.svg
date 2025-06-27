@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
+   fill="none"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="clear_fields.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:export-filename="clear_fields.png"
+   inkscape:export-xdpi="384"
+   inkscape:export-ydpi="384"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs5">
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker4"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path4" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="namedview5"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="11.34375"
+     inkscape:cx="25.873278"
+     inkscape:cy="29.928375"
+     inkscape:window-width="1920"
+     inkscape:window-height="1166"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g5" />
+  <!-- Corpo hard disk -->
+  <!-- Slot frontale -->
+  <!-- Led -->
+  <g
+     id="g5"
+     transform="matrix(0.94746572,0,0,1.2505054,2.3988604,0.23854992)">
+    <rect
+       x="2.0447717"
+       y="5.0754538"
+       width="26.883499"
+       height="11.675626"
+       rx="3.3604374"
+       fill="#b0b0b0"
+       stroke="#222222"
+       stroke-width="1.8082"
+       id="rect2"
+       style="fill:#90ee90;fill-opacity:1" />
+    <rect
+       x="33.052666"
+       y="5.12956"
+       width="26.883499"
+       height="11.675626"
+       rx="3.3604374"
+       fill="#b0b0b0"
+       stroke="#222222"
+       stroke-width="1.8082"
+       id="rect2-7"
+       style="fill:#b1ffb0;fill-opacity:0.47" />
+    <text
+       xml:space="preserve"
+       style="font-size:11.0244px;fill:#b1ffb0;fill-opacity:0.47;stroke-width:5.2084;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+       x="9.7076778"
+       y="13.295837"
+       id="text1"
+       transform="scale(1.148844,0.87044023)"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="stroke-width:5.2084" /></text>
+    <rect
+       x="2.3294299"
+       y="32.7687"
+       width="26.883499"
+       height="11.675626"
+       rx="3.3604374"
+       fill="#b0b0b0"
+       stroke="#222222"
+       stroke-width="1.8082"
+       id="rect2-5"
+       style="fill:#90ee90;fill-opacity:1" />
+    <rect
+       x="33.337326"
+       y="32.822803"
+       width="26.883499"
+       height="11.675626"
+       rx="3.3604374"
+       fill="#b0b0b0"
+       stroke="#222222"
+       stroke-width="1.8082"
+       id="rect2-7-6"
+       style="fill:#b1ffb0;fill-opacity:0.47" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.06933;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Triangle);marker-mid:url(#marker4)"
+       d="m 31.177548,27.173633 0.08663,-9.811746"
+       id="path1"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:3.21546;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;paint-order:stroke fill markers"
+       d="m 7.5166846,11.158918 c 15.7241274,0 15.7241274,-0.211484 15.7241274,-0.211484 v 0"
+       id="path2" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:3.21546;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;paint-order:stroke fill markers"
+       d="m 38.81359,10.896329 c 15.724128,0 15.724128,-0.211484 15.724128,-0.211484 v 0"
+       id="path2-2" />
+  </g>
+  <!-- Piatti in prospettiva -->
+  <!-- Foro centrale dei piatti -->
+  <!-- Testina stilizzata -->
+</svg>

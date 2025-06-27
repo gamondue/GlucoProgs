@@ -60,7 +60,7 @@ public partial class ClickableImagePage : ContentPage
                     // Load the image "sensor.png" from resources
                     imgToBeTapped.Source = "arms_back.png";
                     this.Title = "Sensors' past positions";
-                    circlesVisibilityMaxTimeInDays = 2 * 7 + 7; // 2 weeks by 6 point (+1 week)
+                    circlesVisibilityMaxTimeInDays = 2 * 7 * 6 + 7; // 2 weeks by 6 positions (+1 week)
                     break;
                 }
             //default:

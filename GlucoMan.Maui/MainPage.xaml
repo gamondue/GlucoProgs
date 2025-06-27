@@ -17,7 +17,6 @@
                 Clicked="btnInjections_Clicked" IsEnabled="True" Margin="1"
                 ToolTipProperties.Text="Opens the page of past and present injections"/>
         <!--Text="Injections"-->
-
         <Button x:Name="btnMeals" 
                 ImageSource="meals.png"
                 Grid.Row="1" Grid.Column="0" 
@@ -54,7 +53,6 @@
                 Clicked="btnRecipes_Clicked" 
                 Margin="1" ToolTipProperties.Text="Opens the page of recipes' management" IsEnabled="True"/>
         <!--Text="Recipes"-->
-
         <Button x:Name="btnFoodToHitTargetCarbs" 
                 ImageSource="food_to_sugar.png"
                 LineBreakMode="WordWrap"
@@ -69,7 +67,6 @@
                 Clicked="btnHypoPrediction_Clicked"
                 Margin="1" ToolTipProperties.Text="Opens the page that makes a simple prediction of the time of an hypoglicemia episode"/>
         <!--Text="Hypoglicemia&#10;time prediction"-->
-
         <Button x:Name="btnMiscellaneousFunctions" 
                 ImageSource="other.png"
                 LineBreakMode="WordWrap"
@@ -83,7 +80,6 @@
                 IsEnabled="False" Clicked="btnAlarms_Clicked" 
                 Background="Grey"
                 Margin="1" ToolTipProperties.Text="Opens the page of the alarms' settings"/>
-
         <Button x:Name="btnConfigurations" 
                 ImageSource="gear.png"
                 Grid.Row="6" Grid.Column="0" 
@@ -98,5 +94,4 @@
                 Margin="1" ToolTipProperties.Text="Opens the page of information about this program"/>
         <!--Text="About"-->
     </Grid>
-    
 </ContentPage>

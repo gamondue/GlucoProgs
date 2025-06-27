@@ -4,10 +4,15 @@
              x:Class="GlucoMan.Maui.FoodPage"
              Title="Food details">
     <ContentPage.Content>
-        <Grid RowDefinitions="30,20,40,20,40,20,40,20,40,20,40,*"
+        <!--<Grid RowDefinitions="30,20,40,20,40,20,40,20,40,20,40,*"-->
+        <Grid RowDefinitions="Auto,
+              Auto,40,Auto,40,Auto,
+              40,Auto,40,Auto,40,
+              Auto,Auto,Auto,20,Auto,
+              Auto,Auto,Auto,Auto,60"
             ColumnDefinitions="*,*,*,*">
 
-            <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
+            <Label Grid.Row="0" Grid.Column="0" 
                 Grid.ColumnSpan="4" Text="Food's nutrition data" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                    Margin="0,0,0,0"
@@ -16,66 +21,80 @@
             <Label Grid.Row="1" Grid.Column="0" Text="Calories [kCal]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="1" Text="Total fats" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="Satur. fats" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="1" Grid.Column="3" Text="Mono u. fats" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="3" Text="Mono u.fats" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtCalories" BackgroundColor="LightGreen"
-                ToolTipProperties.Text="Calories of food [kCal]"
+            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtCalories" 
+                   BackgroundColor="LightGreen" TextColor="Black" 
+                   ToolTipProperties.Text="Calories of food [kCal]"
                 Text="{Binding Energy.Text}" Keyboard="Numeric" HorizontalTextAlignment="End" />
-            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtTotalFats" BackgroundColor="LightGreen"
+            <Entry Grid.Row="2" Grid.Column="1" x:Name="txtTotalFats" 
+                   BackgroundColor="LightGreen" TextColor="Black"
                 ToolTipProperties.Text="Total fats of food [%]"
-                Text="{Binding TotalFats.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtSaturatedFats" BackgroundColor="LightGreen"
+                Text="{Binding TotalFatsPercent.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="2" Grid.Column="2" x:Name="txtSaturatedFats"
+                   BackgroundColor="LightGreen" TextColor="Black"
                 ToolTipProperties.Text="Saturated fats of food [%]"
-                Text="{Binding SaturatedFats.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="2" Grid.Column="3" x:Name="txtMonounsaturatedFats" BackgroundColor="LightGreen"
+                Text="{Binding SaturatedFatsPercent.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="2" Grid.Column="3" x:Name="txtMonounsaturatedFats" 
+                   BackgroundColor="LightGreen" TextColor="Black"
                 ToolTipProperties.Text="Monounsaterated fats of food [%]"
-                Text="{Binding MonounsaturatedFats.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
+                Text="{Binding MonounsaturatedFatsPercent.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
 
             <Label Grid.Row="3" Grid.Column="0" Text="Poly fats" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="3" Grid.Column="1" Text="CHO" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="3" Grid.Column="2" Text="Sugar" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="3" Grid.Column="3" Text="Fibers" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="4" Grid.Column="0" x:Name="txtPolyunsaturatedFats" BackgroundColor="LightGreen"
+            <Entry Grid.Row="4" Grid.Column="0" x:Name="txtPolyunsaturatedFats" 
+                   BackgroundColor="LightGreen" TextColor="Black"
                 ToolTipProperties.Text="Polyunsaturated fats of food [%]"
-                Text="{Binding PolyunsaturatedFats.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="4" Grid.Column="1" x:Name="txtFoodCarbohydrates" BackgroundColor="GreenYellow"
+                Text="{Binding PolyunsaturatedFatsPercent.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="4" Grid.Column="1" x:Name="txtFoodCarbohydrates" 
+                   BackgroundColor="GreenYellow" TextColor="Black"
                 ToolTipProperties.Text="Carbohydrates of food [%]"
-                Text="{Binding Carbohydrates.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="4" Grid.Column="2" x:Name="txtSugar" BackgroundColor="LightGreen"
+                Text="{Binding CarbohydratesPercent.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="4" Grid.Column="2" x:Name="txtSugar" 
+                   BackgroundColor="LightGreen" TextColor="Black"
                 ToolTipProperties.Text="Sugar in food [%]"
-                Text="{Binding Sugar.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="4" Grid.Column="3" x:Name="txtFibers" BackgroundColor="LightGreen"
+                Text="{Binding SugarPercent.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="4" Grid.Column="3" x:Name="txtFibers" 
+                   BackgroundColor="LightGreen" TextColor="Black"
                 ToolTipProperties.Text="Fibers in food [%]"
-                Text="{Binding Fibers.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
+                Text="{Binding FibersPercent.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="Proteins" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="5" Grid.Column="1" Text="Salt" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="5" Grid.Column="2" Text="Cholest." HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="5" Grid.Column="3" Text="Potass." HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="6" Grid.Column="0" x:Name="txtProteins" BackgroundColor="LightGreen"                 
+            <Entry Grid.Row="6" Grid.Column="0" x:Name="txtProteins" 
+                   BackgroundColor="LightGreen" TextColor="Black"                 
                 ToolTipProperties.Text="Proteins in food [%]"
-                Text="{Binding Proteins.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="6" Grid.Column="1" x:Name="txtSalt" BackgroundColor="LightGreen"
+                Text="{Binding ProteinsPercent.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="6" Grid.Column="1" x:Name="txtSalt" 
+                   BackgroundColor="LightGreen" TextColor="Black"
                 ToolTipProperties.Text="Salt in food [%]"
-                Text="{Binding Salt.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="6" Grid.Column="2" x:Name="txtCholesterol" BackgroundColor="LightGreen"
+                Text="{Binding SaltPercent.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
+            <Entry Grid.Row="6" Grid.Column="2" x:Name="txtCholesterol" 
+                   BackgroundColor="LightGreen" TextColor="Black"
                 ToolTipProperties.Text="Cholesterol in food [%]"
                 Text="{Binding Cholesterol.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
-            <Entry Grid.Row="6" Grid.Column="3" x:Name="txtPotassium" BackgroundColor="LightGreen"
+            <Entry Grid.Row="6" Grid.Column="3" x:Name="txtPotassium" 
+                   BackgroundColor="LightGreen" TextColor="Black"
                 ToolTipProperties.Text="Potassium in food [%]"
-                Text="{Binding Potassium.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
+                Text="{Binding PotassiumPercent.Text}" Keyboard="Numeric"  HorizontalTextAlignment="End"/>
 
             <Label Grid.Row="7" Grid.Column="0" Text="Glyc.index" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="7" Grid.Column="3" Text="Id food" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="8" Grid.Column="0" x:Name="txtGlycemicIndex" BackgroundColor="LightGreen"
+            <Entry Grid.Row="8" Grid.Column="0" x:Name="txtGlycemicIndex" 
+                   BackgroundColor="LightGreen" TextColor="Black"
                 ToolTipProperties.Text="GlycemicIndex of food"
                 HorizontalTextAlignment="End" Keyboard="Numeric" Text="{Binding GlycemicIndex.Text}"/>
-            <Entry Grid.Row="8" Grid.Column="3" x:Name="txtIdFood" BackgroundColor="White"
+            <Entry Grid.Row="8" Grid.Column="3" x:Name="txtIdFood" 
+                   BackgroundColor="White" TextColor="Black"
                 HorizontalTextAlignment="Center" Text="{Binding IdFood}"
                 ToolTipProperties.Text="Code of food"
                 IsReadOnly="true"/>
@@ -86,92 +105,119 @@
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="1" Text="Stored units" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            
+
+            <VerticalStackLayout Grid.Row="9" Grid.Column="3" Grid.RowSpan="3">
+                <Button x:Name="btnAddUnit" Clicked="btnAddUnit_Clicked" 
+                        ImageSource="plus.png"
+                        ToolTipProperties.Text="Plus: adds a unit for this food"
+                        WidthRequest="40"
+                        Margin="1"/>
+                <!--Text="+"-->
+                <Button x:Name="btnRemoveUnit" Clicked="btnRemoveUnit_Clicked"
+                        ImageSource="minus.png"
+                        WidthRequest="40"
+                        ToolTipProperties.Text="Minus: deletes the selected unit from this food"
+                        Margin="1"/>
+                <!--Text="-"-->
+            </VerticalStackLayout>
             <Entry Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="1" 
-                x:Name="txtUnit" BackgroundColor="White"
+                x:Name="txtUnit" BackgroundColor="White" TextColor="Black"
                 ToolTipProperties.Text="Measurement Unit of the sample of food"
-                Text="{Binding Unit.Name}" HorizontalTextAlignment="End"/>
+                Text="{Binding UnitSymbol}" HorizontalTextAlignment="End"/>
             <Entry Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="1" 
-                x:Name="txtGramsPerUnit" BackgroundColor="White"
+                x:Name="txtGramsPerUnit" BackgroundColor="White" TextColor="Black"
                 ToolTipProperties.Text="Grams cointained in one Unit of food"
                 Text="{Binding GramsInOneUnit.Text}" HorizontalTextAlignment="End"
                 TextChanged="txtGramsPerUnit_TextChanged"/>
-            <Grid Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2" ColumnDefinitions="*,50">
-                <Picker Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+            <Picker Grid.Row="10" Grid.Column="2" 
                     x:Name="cmbUnit" Margin="0"
                     SelectedIndexChanged="cmbUnit_SelectedIndexChanged"
                     ToolTipProperties.Text="List of units used for this food"
                     ItemsSource="{Binding}"/>
-                <VerticalStackLayout Grid.Column="1">
-                    <Button x:Name="btnAddUnit" Clicked="btnAddUnit_Clicked" 
-                        ToolTipProperties.Text="Adds a unit for this food"
-                        Text="+" Margin="0"/>
-                    <Button x:Name="btnRemoveUnit" Clicked="btnRemoveUnit_Clicked"
-                        ToolTipProperties.Text="Deletes the selected unit from this food"
-                        Text="-" Margin="0"/>
-                </VerticalStackLayout>
-            </Grid>
-            <VerticalStackLayout Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4">
-                <Label Text="Food info" Margin="0,2,0,0"
-                   Grid.ColumnSpan="4" 
-                   FontSize="Medium" FontAttributes="Bold"
-                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-                <Label Text="Food Name" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-                <Entry x:Name="txtFoodName" BackgroundColor="GreenYellow" Keyboard="Text" 
+            <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3" 
+                    Text="Food info" Margin="0,2,0,0"
+                    FontSize="Medium" FontAttributes="Bold"
+                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="4"
+                   Text="Food Name" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Entry Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="4" 
+                   x:Name="txtFoodName" Keyboard="Text" 
+                   BackgroundColor="GreenYellow" TextColor="Black"
                     ToolTipProperties.Text="Food's name"
                     Text="{Binding Name}" HorizontalTextAlignment="Start"/>
-                <Label Text="Food Description" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-                <Entry x:Name="txtFoodDescription" BackgroundColor="GreenYellow" Keyboard="Text"
-                    ToolTipProperties.Text="Food's description"
-                    Text="{Binding Description}" HorizontalTextAlignment="Start"/>
-                <Label Text="Manufacturer" HorizontalTextAlignment="Center" 
-                        VerticalTextAlignment="End"/>
-                <Grid ColumnDefinitions="*,150,50">
-                    <Entry x:Name="txtFoodManufacturer" BackgroundColor="LightGreen"
-                        Text="{Binding Manufacturer}" HorizontalTextAlignment="Start"
-                        ToolTipProperties.Text="Food's Manufacturer"
-                        TextChanged="txtFoodManufacturer_TextChanged"/>
-                    <Picker Grid.Column="1" x:Name="cmbManufacturer"
-                        ToolTipProperties.Text="List of filtered manufacturers"
-                        Margin="5,0,5,0" ItemsSource="{Binding}"/>
-                    <VerticalStackLayout Grid.Column="2">
-                        <Button Clicked="btnAddFoodManufacturer_Clicked" 
-                        ToolTipProperties.Text="Creates a new manufacturer"
-                        Text="+" HeightRequest="25" Margin="0"/>
-                        <Button Clicked="btnRemoveFoodManufacturer_Clicked"
-                        ToolTipProperties.Text="Deletes the selected manufacturer"
-                        Text="-" HeightRequest="25" Margin="0"/>
-                    </VerticalStackLayout>
-                </Grid>
-                <Label Text="Category" HorizontalTextAlignment="Center" 
-                        VerticalTextAlignment="End"/>
-                <Grid ColumnDefinitions="*,150,50">
-                    <Entry x:Name="txtCategory" BackgroundColor="LightGreen"
-                        Text="{Binding Category}" 
-                        ToolTipProperties.Text="Food's Category"
-                        TextChanged="txtCategory_TextChanged" HorizontalTextAlignment="Start"/>
-                    <Picker Grid.Column="1" x:Name="cmbCategory" 
-                        ToolTipProperties.Text="List of filtered categories"
-                        VerticalTextAlignment="End" Margin="5,0,5,0">
-                    </Picker>
-                    <VerticalStackLayout Grid.Column="2">
-                        <Button Clicked="btnCategory_Clicked"
-                        ToolTipProperties.Text="Create a new category"
-                        Text="+" HeightRequest="30" Margin="0"/>
-                        <Button Clicked="btnRemoveFoodManufacturer_Clicked"
-                        ToolTipProperties.Text="Deletes the selected category"
-                        Text="-" HeightRequest="30" Margin="0"/>
-                    </VerticalStackLayout>
-                </Grid>
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Button x:Name="btnChoose" Text="OK" 
-                        ToolTipProperties.Text="Saves the data of the food and signals the choice to the calling page"
-                        HorizontalOptions="Center" Clicked="btnOk_Click"/>
-                    <Button x:Name="btnEscape" Text="Esc" 
-                        ToolTipProperties.Text="Closes the page without saving the data and without signalling the choice"
-                        HorizontalOptions="Center" Clicked="btnEscape_Clicked"/>
-                </HorizontalStackLayout>
+            <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4" 
+                   Text="Food Description" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Entry Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="4"
+                   x:Name="txtFoodDescription" Keyboard="Text"
+                   BackgroundColor="GreenYellow" TextColor="Black"
+                   ToolTipProperties.Text="Food's description"
+                   FontSize="Small"
+                   Text="{Binding Description}" HorizontalTextAlignment="Start"/>
+            <Label Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="3"
+                   Text="Brand" HorizontalTextAlignment="Center" 
+                   VerticalTextAlignment="End"/>
+            <Entry Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="2"
+                   x:Name="txtFoodManufacturer" 
+                   BackgroundColor="LightGreen" TextColor="Black"
+                   Text="{Binding Manufacturer}" HorizontalTextAlignment="Start"
+                   ToolTipProperties.Text="Food's Manufacturer"
+                   TextChanged="txtFoodManufacturer_TextChanged"/>
+            <Picker Grid.Row="17" Grid.Column="2" 
+                    x:Name="cmbManufacturer"
+                    ToolTipProperties.Text="List of filtered manufacturers"
+                    Margin="5,0,5,0" ItemsSource="{Binding}"/>
+            <VerticalStackLayout Grid.Row="17" Grid.Column="3" Grid.RowSpan="2"  >
+                <Button 
+                        ImageSource="plus.png"
+                        WidthRequest="40" 
+                        ToolTipProperties.Text="Plus: creates a new manufacturer"
+                        Clicked="btnAddFoodManufacturer_Clicked"
+                        HeightRequest="25" Margin="1"/>
+                <Button 
+                        ImageSource="minus.png"
+                        WidthRequest="40"
+                        ToolTipProperties.Text="Minus: deletes the selected manufacturer"
+                        Clicked="btnRemoveFoodManufacturer_Clicked"
+                        HeightRequest="25" Margin="1"/>
             </VerticalStackLayout>
+            <Label Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="3" 
+                   Text="Category" HorizontalTextAlignment="Center" 
+                   VerticalTextAlignment="End"/>
+            <Entry Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="2"
+                   x:Name="txtCategory" 
+                   BackgroundColor="LightGreen" TextColor="Black"
+                   Text="{Binding Category}" 
+                   ToolTipProperties.Text="Food's Category"
+                   TextChanged="txtCategory_TextChanged" HorizontalTextAlignment="Start"/>
+            <Picker Grid.Row="19" Grid.Column="2" Grid.ColumnSpan="1"
+                    x:Name="cmbCategory" 
+                    ToolTipProperties.Text="List of filtered categories"
+                    VerticalTextAlignment="End" Margin="5,0,5,0">
+            </Picker>
+            <VerticalStackLayout Grid.Row="19" Grid.Column="3" Grid.RowSpan="2">
+                <Button Clicked="btnCategory_Clicked"
+                        ImageSource="plus.png"
+                        WidthRequest="40"
+                        ToolTipProperties.Text="Plus: create a new category"
+                        HeightRequest="30" Margin="1"/>
+                <Button Clicked="btnRemoveFoodCategory_Clicked"
+                        ImageSource="minus.png"
+                        WidthRequest="40"
+                        ToolTipProperties.Text="Minus: deletes the selected category"
+                        HeightRequest="30" Margin="1"/>
+            </VerticalStackLayout>
+            <Label Grid.Row="20" Grid.Column="1" Grid.ColumnSpan="3"/>
+            <HorizontalStackLayout Grid.Row="21" Grid.Column="1" Grid.ColumnSpan="2" HorizontalOptions="Center">
+                <Button x:Name="btnOk" 
+                        ImageSource="floppy_disc.png"
+                    ToolTipProperties.Text="Save: saves the data of the food, signals the choice to the calling page and closes the page"
+                    HorizontalOptions="Center" Clicked="btnOk_Click"/>
+                <Button x:Name="btnEscape"
+                        ImageSource="escape.png"
+                    ToolTipProperties.Text="Escape: closes the page without saving the data and without signalling the choice"
+                    HorizontalOptions="Center" Clicked="btnEscape_Clicked"/>
+                <!--Text="Esc"-->
+            </HorizontalStackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

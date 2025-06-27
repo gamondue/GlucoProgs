@@ -36,7 +36,8 @@ namespace GlucoMan
         internal abstract List<Injection> GetInjections(DateTime InitialInstant,
             DateTime FinalInstant,
             Common.TypeOfInsulinAction TypeOfInsulinAction = Common.TypeOfInsulinAction.NotSet,
-            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet);
+            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet,
+            bool getFront = false, bool getBack = false, bool getHands = false, bool getSensors = false);
         #endregion
         #region Meals and Food in Meals
         internal abstract Meal GetOneMeal(int? IdMeal);
@@ -53,9 +54,17 @@ namespace GlucoMan
         internal abstract void DeleteOneFood(Food food);
         internal abstract Food GetOneFood(int? IdFood);
         internal abstract List<Food> GetFoods();
-        internal abstract void AddUnitToFood(Food food, UnitOfFood unit);
-        internal abstract void RemoveUnitFromFoodsUnits(Food Food);
-        internal abstract List<UnitOfFood> GetAllUnitsOfOneFood(Food Food);
+        internal abstract int? AddUnit(Unit unit);
+        internal abstract int? AddManufacturer(Manufacturer manufacturer, Food food);
+        internal abstract int? AddCategoryOfFood(CategoryOfFood category, Food food);
+        internal abstract List<Unit> GetAllUnitsOfOneFood(Food Food);
+        internal abstract List<Manufacturer> GetAllManufacturersOfOneFood(Food food);
+        internal abstract List<CategoryOfFood> GetAllCategoriesOfOneFood(Food food);
+        internal abstract bool CheckIfUnitSymbolExists(Unit unit, int? idFood);
+        internal abstract void RemoveCategoryFromFood(Food currentFood);
+        internal abstract void RemoveUnitFromFood(Unit unit, Food food);
+        internal abstract void RemoveManufacturerFromFood(Food Food);
+
         internal abstract Injection GetOneInjection(int? idInjection);
         internal abstract InsulinDrug? GetOneInsulinDrug(int? idInsulinDrug);
         internal abstract int? SaveInsulinDrug(InsulinDrug InsulinDrug);

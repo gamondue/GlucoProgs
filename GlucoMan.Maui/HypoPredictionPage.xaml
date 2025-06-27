@@ -27,12 +27,14 @@
                     HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucoseTarget" Text="80" FontSize="Medium"
                    ToolTipProperties.Text="Low glucose at which we want to take action against hypoglicemia"
-                   Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="PaleGoldenrod"
+                   Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   BackgroundColor="PaleGoldenrod" TextColor="Black"
                    IsEnabled="true"/>
             <Entry Grid.Row="1" Grid.Column="2" x:Name="txtAlarmAdvanceTime" Text="80" 
                    FontSize="Medium"
                    ToolTipProperties.Text="Time of anticipated alarm [min]"
-                   Keyboard="Numeric" HorizontalTextAlignment="End" BackgroundColor="DarkSeaGreen"
+                   Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   BackgroundColor="DarkSeaGreen" TextColor="White"
                    IsEnabled="true"/>
 
             <Label Grid.Row="2" Grid.ColumnSpan="4" Text="Measurements of glucose and time" 
@@ -44,31 +46,38 @@
 
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtGlucoseLast" HorizontalTextAlignment ="End" 
                    ToolTipProperties.Text="Glucose measured the last time"
-                   Keyboard="Numeric" Text="" FontSize="Large" Placeholder="gluc.meas." BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" Text="" FontSize="Large" Placeholder="gluc.meas." 
+                   BackgroundColor="LightGreen" TextColor="Black"/>
             <Entry Grid.Row="4" Grid.Column="1" x:Name="txtHourLast" Placeholder="hour" 
                    ToolTipProperties.Text="Hours of the last measurement"
-                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" 
+                   BackgroundColor="LightGreen" TextColor="Black"/>
             <Entry Grid.Row="4" Grid.Column="2" x:Name="txtMinuteLast" Placeholder="minute" 
                    ToolTipProperties.Text="Minutes of the last measurement"
                    Keyboard="Numeric" FontSize="Large" 
-                   HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   HorizontalTextAlignment ="End" 
+                   BackgroundColor="LightGreen" TextColor="Black"/>
             <Label Grid.Row="4" Grid.Column="3" Text="current measurem." HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
             <Entry Grid.Row="5" Grid.Column="0" x:Name="txtGlucosePrevious" Text="" Placeholder="gluc.meas." 
                    ToolTipProperties.Text="Glucose measured the previous time"
-                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" 
+                   BackgroundColor="LightGreen" TextColor="Black"/>
             <Entry Grid.Row="5" Grid.Column="1" x:Name="txtHourPrevious" Placeholder="hour" 
                    ToolTipProperties.Text="Hours of the previous measurement"
-                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" 
+                   BackgroundColor="LightGreen" TextColor="Black"/>
             <Entry Grid.Row="5" Grid.Column="2" x:Name="txtMinutePrevious" Placeholder="minute" 
                    ToolTipProperties.Text="Minutes of the previous measurement"
-                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" BackgroundColor="LightGreen" />
+                   Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" 
+                   BackgroundColor="LightGreen" TextColor="Black"/>
             <Label Grid.Row="5" Grid.Column="3" Text="previous measurem." 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
             <Label Grid.Row="6" Grid.Column="1" x:Name="txtGlucoseSlope" Text="----" FontSize="Large"
                    ToolTipProperties.Text="Rate of change of glucose (glucose units per hour)"
-                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" BackgroundColor="LightGray"/>
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                   BackgroundColor="LightGray" TextColor="Black"/>
             <Label Grid.Row="6" Grid.Column="2" Text="Slope&#10;[gluc/h]" 
                    LineBreakMode="WordWrap"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
@@ -79,20 +88,24 @@
 
             <Label Grid.Row="8" Grid.Column="1" x:Name="txtPredictedHour" Text="----" FontSize="Large"
                    ToolTipProperties.Text="Hours of the predicted 'low clucose' event"
-                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center" BackgroundColor="SkyBlue"/>
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
+                   BackgroundColor="SkyBlue" TextColor="Black"/>
             <Label Grid.Row="8" Grid.Column="2" x:Name="txtPredictedMinute" Text="----" FontSize="Large"
                    ToolTipProperties.Text="Minutes of the predicted 'low clucose' event"
-                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center" BackgroundColor="SkyBlue"/>
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
+                   BackgroundColor="SkyBlue" TextColor="Black"/>
 
             <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" Text="Alarm time"
                    VerticalOptions="End" HorizontalOptions="Center" />
 
             <Label Grid.Row="10" Grid.Column="1" x:Name="txtAlarmHour" Text="----" FontSize="Large"
                    ToolTipProperties.Text="Hours of the alarm event for low glucose"
-                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center" BackgroundColor="SkyBlue"/>
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
+                   BackgroundColor="SkyBlue" TextColor="Black"/>
             <Label Grid.Row="10" Grid.Column="2" x:Name="txtAlarmMinute" Text="----" FontSize="Large"
                    ToolTipProperties.Text="Minutes of the alarm event for low glucose"
-                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center" BackgroundColor="SkyBlue"/>
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
+                   BackgroundColor="SkyBlue" TextColor="Black"/>
             <Button Grid.Row="10" IsVisible="false" Grid.Column="3" 
                    Clicked="btnAlarm_Click" Text="Alarm"></Button>
 
@@ -114,7 +127,8 @@
 
             <Entry Grid.Row="14" Grid.Column="0" x:Name="txtFutureTimeMinutes" Placeholder="min" 
                    ToolTipProperties.Text="Difference in minutes for prediction. From current measurement time"
-                   Keyboard="Numeric" HorizontalTextAlignment ="End" BackgroundColor="DarkSeaGreen" />
+                   Keyboard="Numeric" HorizontalTextAlignment ="End" 
+                   BackgroundColor="DarkSeaGreen" TextColor="White"/>
             <HorizontalStackLayout Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="2"
                    ToolTipProperties.Text="Hour and time of prediction">
                 <DatePicker  x:Name="dtpTimeFutureDate" BackgroundColor="White" TextColor="Black"
@@ -125,7 +139,8 @@
 
             <Entry Grid.Row="15" Grid.Column="3" x:Name="txtFutureGlucose" Placeholder="gluc" 
                    ToolTipProperties.Text="Predicted glucose at 'future time' (USE WITH CAUTION!)"
-                   Keyboard="Numeric" HorizontalTextAlignment ="End" BackgroundColor="SkyBlue" />
+                   Keyboard="Numeric" HorizontalTextAlignment ="End" 
+                   BackgroundColor="SkyBlue" TextColor="Black"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

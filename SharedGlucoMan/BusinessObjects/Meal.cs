@@ -36,5 +36,6 @@ namespace GlucoMan
             CarbohydratesGrams = new DoubleAndText();
             AccuracyOfChoEstimate = new DoubleAndText(); 
         }
+        private string _name;
     }
 }

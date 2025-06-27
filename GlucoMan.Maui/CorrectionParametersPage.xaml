@@ -32,10 +32,11 @@
             <Entry Grid.Row="5" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" 
                    ToolTipProperties.Text="Carbohydrates per unit of insulin - dinner time [XXXX]"
                    Keyboard="Numeric" Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
-            <Button Grid.Row="5" Grid.Column="3" x:Name="btnSaveRatioCHOInsulin" Text="Save"
-                    ToolTipProperties.Text="Saves the sensitivities of carbohydrates to be used in the rest of the program"
+            <Button Grid.Row="5" Grid.Column="3" x:Name="btnSaveRatioCHOInsulin" 
+                    ImageSource="floppy_disc.png"
+                    ToolTipProperties.Text="Save: saves the sensitivities of carbohydrates to be used in the rest of the program"
                     Clicked="btnSaveRatioCHOInsulin_Click" />
-
+            <!--Text="Save"-->
             <Label Grid.Row="6" Grid.ColumnSpan="4" Text="" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Medium"/>
 
@@ -89,8 +90,10 @@
                     ToolTipProperties.Text="Calculates sensitivity to insulin (sum of day insulin injections / chosen coefficient)"
                     x:Name="btnCalculateInsulinSensitivity" Text="Calc."
                     Clicked="btnCalculateInsulinSensitivity_Click" VerticalOptions="Center"/>
-                <Button Grid.Row="1" Margin="1,-1,1,-1" FontSize="Micro" x:Name="btnSaveInsulinSensitivity" Text="Save"
-                    ToolTipProperties.Text="Saves the sensitivity as a parameter of the program"
+                <Button Grid.Row="1" Margin="1,-1,1,-1" FontSize="Micro" 
+                        x:Name="btnSaveInsulinSensitivity" 
+                        ImageSource="floppy_disc.png"
+                    ToolTipProperties.Text="Save: saves the sensitivity as a parameter of the program"
                     Clicked="btnSaveInsulinSensitivity_Click"/>
             </Grid>
 
@@ -101,7 +104,7 @@
                     FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End" 
                    BackgroundColor="Red" TextColor="Yellow"/>
             
-            <Button Grid.Row="15" Grid.Column="3" x:Name="btnPhysicalActivityCalculation" Text="Save"
+            <Button Grid.Row="15" Grid.Column="3" x:Name="btnPhysicalActivityCalculation"
                 Clicked="btnPhysicalActivityCalculation_Click" IsEnabled="False"/>
         </Grid>
     </ContentPage.Content>

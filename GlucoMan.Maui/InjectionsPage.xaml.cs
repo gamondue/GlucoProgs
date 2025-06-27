@@ -13,11 +13,13 @@ public partial class InjectionsPage : ContentPage
     int? IdCurrentLongActingInsulin;
     InsulinDrug currentShortInsulin;
     InsulinDrug currentLongInsulin;
+    private bool pageIsLoading = true;
 
     internal InjectionsPage(int? IdInjection)
     {
         InitializeComponent();
 
+        pageIsLoading = true;
         // set rdbShortInsulin and rdbInsulin text to the name of the right insulins 
         // read from Parameters the Id of current short action insulin
         Parameters parameters = Common.Database.GetParameters();
@@ -34,7 +36,8 @@ public partial class InjectionsPage : ContentPage
         {
             CurrentInjection.IdInsulinDrug = IdCurrentLongActingInsulin;
             rdbLongInsulin.Content = currentLongInsulin.Name ?? "Long act.";
-        } 
+        }
+        pageIsLoading = false;
         RefreshUi();
     }
     public int? IdInjection
@@ -84,12 +87,16 @@ public partial class InjectionsPage : ContentPage
     }
     private void RefreshGrid()
     {
+        if (pageIsLoading) return;
         DateTime now = DateTime.Now;
-        allInjections = bl.GetInjections(now.AddMonths(-4), now.AddDays(1), Common.TypeOfInsulinAction.NotSet);
+        allInjections = bl.GetInjections(now.AddMonths(-4), now.AddDays(1),
+            Common.TypeOfInsulinAction.NotSet, Common.ZoneOfPosition.NotSet,
+            chkFront.IsChecked, chkBack.IsChecked, chkHands.IsChecked, chkSensors.IsChecked);
         gridInjections.ItemsSource = allInjections;
     }
     private void RefreshUi()
     {
+        if (pageIsLoading) return;
         FromClassToUi();
         RefreshGrid();
     }
@@ -107,6 +114,14 @@ public partial class InjectionsPage : ContentPage
             return;
         }
         FromUiToClass();
+        if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands ||
+            CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
+        {
+            // if it isn't a bolus, delete the bolus' info
+            CurrentInjection.IdInsulinDrug = null;
+            CurrentInjection.IdTypeOfInsulinAction = null;
+            CurrentInjection.InsulinValue.Text = "";
+        }
         bl.SaveOneInjection(CurrentInjection);
         RefreshGrid();
     }
@@ -138,9 +153,7 @@ public partial class InjectionsPage : ContentPage
             btnSensors.BackgroundColor = Colors.Lime;
         else
             btnSensors.BackgroundColor = Colors.LightGrey;
-
         FromClassToUi();
-
         // distinguish from short or long action insulins, based on the type
         // then update the UI with data taken from the UI
         if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.ShortActing 
@@ -192,6 +205,14 @@ public partial class InjectionsPage : ContentPage
         {
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.LongActing;
             CurrentInjection.IdInsulinDrug = currentLongInsulin.IdInsulinDrug;
+        }
+        if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands ||
+            CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
+        {
+            // if it isn't a bolus, delete the bolus' info
+            CurrentInjection.IdInsulinDrug = null;
+            CurrentInjection.IdTypeOfInsulinAction = null;
+            CurrentInjection.InsulinValue.Text = "";
         }
         bl.SaveOneInjection(CurrentInjection);
         RefreshGrid();
@@ -247,5 +268,9 @@ public partial class InjectionsPage : ContentPage
         // pass the type of injection
         CurrentInjection.IdTypeOfInjection = (int)Common.TypeOfInjection.SensorImplantation;
         await Navigation.PushAsync(new ClickableImagePage(ref CurrentInjection));
+    }
+    private void chkChanged(object sender, CheckedChangedEventArgs e)
+    {
+        RefreshGrid();
     }
 }

@@ -1,4 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
+#if WINDOWS
+using WinUIWindow = Microsoft.UI.Xaml.Window;
+using Microsoft.UI.Windowing;
+using Microsoft.Maui.Platform;
+#endif
 
 namespace GlucoMan.Maui
 {
@@ -9,6 +15,23 @@ namespace GlucoMan.Maui
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+
+                .ConfigureLifecycleEvents(events =>
+                {
+#if WINDOWS
+// in Windows give the window dimensions like those of smartphones
+                    events.AddWindows(w =>
+                    {
+                        w.OnWindowCreated(window =>
+                        {
+                            var mauiWinUIWindow = (WinUIWindow)window;
+                            var hwnd = mauiWinUIWindow.GetWindowHandle();
+                            var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hwnd);
+                            var appWindow = AppWindow.GetFromWindowId(windowId);
+                            appWindow.Resize(new Windows.Graphics.SizeInt32(650, 1141)); 
+                        });});
+#endif
+                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

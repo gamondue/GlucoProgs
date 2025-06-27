@@ -25,15 +25,15 @@ public partial class MealPage : ContentPage
     InjectionsPage injectionsPage;
     GlucoseMeasurementsPage measurementPage;
 
-    private Color defaultButtonBackground;
-    private Color defaultButtonText;
+    private Color initialButtonBackground = Colors.White;
+    private Color initalButtonTextColor=Colors.Black;
 
     public MealPage(Meal Meal)
     {
         InitializeComponent();
 
-        defaultButtonBackground = btnStartMeal.BackgroundColor;
-        defaultButtonText = btnStartMeal.TextColor;
+        bl.FoodsInMeal = bl.GetFoodsInMeal(bl.Meal.IdMeal);
+        gridFoodsInMeal.BindingContext = bl.FoodsInMeal;
 
         loadingUi = true;
         if (Meal == null)
@@ -42,9 +42,12 @@ public partial class MealPage : ContentPage
             btnDefaults_Click(null, null);
         }
         bl.Meal = Meal;
+        mealSection.BindingContext = bl.Meal;
 
-        if (bl.Meal.IdMeal == null || (bl.Meal.TimeBegin.DateTime + new TimeSpan(0, 15, 0) > DateTime.Now))
-        {
+        initialButtonBackground = btnStartMeal.BackgroundColor;
+        initalButtonTextColor = btnStartMeal.TextColor;
+        if (bl.Meal.IdMeal == null || (bl.Meal.TimeBegin.DateTime + new TimeSpan(0, 45, 0) > DateTime.Now))
+        { 
             btnStartMeal.BackgroundColor = Colors.Red;
             btnStartMeal.TextColor = Colors.Yellow;
         }
@@ -63,14 +66,10 @@ public partial class MealPage : ContentPage
 
         loadingUi = false;
     }
-    private void RefreshGrid()
-    {
-        bl.FoodsInMeal = bl.GetFoodsInMeal(bl.Meal.IdMeal);
-        gridFoodsInMeal.BindingContext = bl.FoodsInMeal;
-    }
     private void RefreshUi()
     {
-        FromClassToUi();
+        RefreshMeal();
+        RefreshFood();
         RefreshGrid();
     }
     private void FromClassToUi()
@@ -80,83 +79,93 @@ public partial class MealPage : ContentPage
         ShowFoodBoxes();
         loadingUi = false;
     }
-    private void FromUiToClasses()
+    private void RefreshMeal()
     {
-        loadingUi = true;
-        FromUiToMeal(bl.Meal);
-        //FromUiToFood(bl.FoodInMeal);
-        loadingUi = false;
+        mealSection.BindingContext = null;
+        mealSection.BindingContext = bl.Meal;
     }
-    private void FromUiToFood(FoodInMeal FoodInMeal)
+    private void RefreshFood()
     {
-        // no serve ?????????????????
-        //FoodInMeal.IdMeal = Safe.Int(txtIdMeal.Text);
-        //FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
-        ////FoodInMeal.IdFood = Safe.Int(txtIdFood.Text);
-        //FoodInMeal.QuantityInUnits.Text = txtFoodQuantityInUnits.Text; // [g]
-        //FoodInMeal.CarbohydratesPerUnit.Text = txtFoodCarbohydratesPercent.Text;
-        //FoodInMeal.CarbohydratesGrams.Text = txtFoodCarbohydratesGrams.Text;
-        //FoodInMeal.Name = txtFoodInMealName.Text;
-        //FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
+        foodSection.BindingContext = null;
+        foodSection.BindingContext = bl.FoodInMeal;
     }
-    private void FromUiToMeal(Meal Meal)
+    private void RefreshGrid()
     {
-        Meal.IdMeal = Safe.Int(txtIdMeal.Text);
-        Meal.CarbohydratesGrams.Text = txtMealCarbohydratesGrams.Text;
-        Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
-        Meal.Notes = txtNotes.Text;
+        gridFoodsInMeal.BindingContext = null;
+        gridFoodsInMeal.BindingContext = bl.FoodsInMeal;
     }
+    //private void FromUiToClasses()
+    //{
+    //    return; 
+    //    loadingUi = true;
+    //    FromUiToMeal(bl.Meal);
+    //    //FromUiToFood(bl.FoodInMeal);
+    //    loadingUi = false;
+    //}
+    //private void FromUiToMeal(Meal Meal)
+    //{
+    //    return; 
+    //    Meal.IdMeal = Safe.Int(txtIdMeal.Text);
+    //    Meal.CarbohydratesGrams.Text = txtMealCarbohydratesGrams.Text;
+    //    Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
+    //    Meal.Notes = txtNotes.Text;
+    //}
     private void ShowFoodBoxes()
     {
-        if (bl.FoodInMeal.IdFoodInMeal != null)
-            txtIdFoodInMeal.Text = bl.FoodInMeal.IdFoodInMeal.ToString();
-        else
-            txtIdFoodInMeal.Text = "";
+        // keep the followiong commented lines in case we need to show the Ids again
+        //if (bl.FoodInMeal.IdFoodInMeal != null)
+        //    txtIdFoodInMeal.Text = bl.FoodInMeal.IdFoodInMeal.ToString();
+        //else
+        //    txtIdFoodInMeal.Text = "";
         // IdFood is currently not shown
         //if (bl.FoodInMeal.IdFood != null)
         //    txtIdFood.Text = bl.FoodInMeal.IdFood.ToString();
         //else
         //    txtIdFood.Text = "";
 
-        txtFoodCarbohydratesPercent.Text = bl.FoodInMeal.CarbohydratesPerUnit.Text;
-        txtFoodQuantityInUnits.Text = bl.FoodInMeal.QuantityInUnits.Text;
-        txtFoodCarbohydratesGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
-        txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;
-        txtFoodInMealName.Text = bl.FoodInMeal.Name;
+        ////////////txtFoodCarbohydratesPercent.Text = bl.FoodInMeal.CarbohydratesPercent.Text;
+        ////////////txtFoodQuantityInUnits.Text = bl.FoodInMeal.QuantityInUnits.Text;
+        ////////////txtFoodCarbohydratesGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
+        ////////////txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;
+        ////////////txtFoodInMealName.Text = bl.FoodInMeal.Name;
+        ////////////btnUnit.Text = bl.FoodInMeal.UnitSymbol;
     }
     private void ShowMealBoxes()
     {
-        txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-        txtMealCarbohydratesGrams.Text = bl.Meal.CarbohydratesGrams.Text;
+        //txtIdMeal.Text = bl.Meal.IdMeal.ToString();
+        //txtMealCarbohydratesGrams.Text = bl.Meal.CarbohydratesGrams.Text;
 
-        if (bl.Meal.IdMeal != null)
-            txtIdMeal.Text = bl.Meal.IdMeal.ToString();
-        else
-            txtIdMeal.Text = "";
-        txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
-        txtNotes.Text = bl.Meal.Notes;
+        //if (bl.Meal.IdMeal != null)
+        //    txtIdMeal.Text = bl.Meal.IdMeal.ToString();
+        //else
+        //    txtIdMeal.Text = "";
+        //txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
+        //txtNotes.Text = bl.Meal.Notes;
     }
     private void btnSaveAllMeal_Click(object sender, EventArgs e)
     {
-        FromUiToMeal(bl.Meal);
-        if (bl.Meal.TimeBegin.DateTime == General.DateNull)
-            // if the meal has no time, we put Now
-            txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, true).ToString();
-        else
-            txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, false).ToString();
-        txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
+        //FromUiToMeal(bl.Meal);
+        //////if (bl.Meal.TimeBegin.DateTime == General.DateNull)
+        //////    // if the meal has no time, we put Now
+        //////    txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, true).ToString();
+        //////else
+        //////    txtIdMeal.Text = bl.SaveOneMeal(bl.Meal, false).ToString();
+        // keep the following commented lines in case we need to show the Ids again
+        //txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
         // refresh the bindings by focusing a non focusable control 
-        txtIdMeal.Focus();
+        ////txtIdMeal.Focus();
         bl.SaveAllFoodsInMeal();
     }
     private void btnAddFoodInMeal_Click(object sender, EventArgs e)
     {
-        FromUiToClasses();
+        //FromUiToClasses();
         // erase Id of FoodInMeal, so that a new record will be created
         bl.FoodInMeal.IdFoodInMeal = null;
-        txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
+        // keep the following commented lines in case we need to show the Ids again
+        //txtIdFoodInMeal.Text = bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
         if (bl.FoodsInMeal == null)
             bl.FoodsInMeal = new List<FoodInMeal>();
+        bl.SaveOneFoodInMeal(bl.FoodInMeal);
         RefreshGrid();
         bl.RecalcAll();
         ShowMealBoxes();
@@ -170,17 +179,17 @@ public partial class MealPage : ContentPage
     }
     private async void btnFoodDetail_ClickAsync(object sender, EventArgs e)
     {
-        FromUiToClasses();
+        //FromUiToClasses();
         foodsPage = new FoodsPage(bl.FoodInMeal);
         await Navigation.PushAsync(foodsPage);
     }
     private void btnRecipes_ClickAsync(object sender, EventArgs e)
     {
-        FromUiToClasses();
+        //FromUiToClasses();
         recipesPage = new RecipesPage(null);
         Navigation.PushAsync(recipesPage);
     }
-    // in this UI we have no buttons to save just one food in meal 
+    // in this version of the UI we have no buttons to save just one food in meal 
     //private void btnSaveFoodInMeal_Click(object sender, EventArgs e)
     //{
     //    if (gridFoodsInMeal.SelectedRows.Count == 0)
@@ -195,7 +204,7 @@ public partial class MealPage : ContentPage
     //}
     private void btnSaveAllFoods_Click(object sender, EventArgs e)
     {
-        FromUiToClasses();
+        //FromUiToClasses();
         bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
         bl.SaveAllFoodsInMeal();
         RefreshGrid();
@@ -207,19 +216,24 @@ public partial class MealPage : ContentPage
         txtFoodCarbohydratesGrams.Text = "";
         txtAccuracyOfChoFoodInMeal.Text = "";
         cmbAccuracyFoodInMeal.SelectedItem = null;
-        txtIdFoodInMeal.Text = "";
+        // keep the following commented lines in case we need to show the Ids again
+        //txtIdFoodInMeal.Text = "";
         //txtIdFood.Text = "";
         txtFoodInMealName.Text = "";
-        FromUiToFood(bl.FoodInMeal);
     }
     private void btnCalc_Click(object sender, EventArgs e)
     {
-        FromUiToClasses();
+        //FromUiToClasses();
         bl.RecalcAll();
-        FromClassToUi();
+        // refresh the bound UI data related to the Mea, since the it has cjanged
+        mealSection.BindingContext = null;
+        mealSection.BindingContext = bl.Meal;
+
+        //FromClassToUi();
     }
     private async void btnSearchFood_ClickAsync(object sender, EventArgs e)
     {
+        // !!!! TODO pass the current food in meal
         await Navigation.PushAsync(new FoodsPage(txtFoodInMealName.Text, ""));
     }
     private async void btnInsulinCalc_ClickAsync(object sender, EventArgs e)
@@ -248,15 +262,17 @@ public partial class MealPage : ContentPage
     }
     private void btnStartMeal_Click(object sender, EventArgs e)
     {
-        FromUiToClasses();
-        bl.SaveOneMeal(bl.Meal, true); // saves with time now 
-        btnStartMeal.BackgroundColor = defaultButtonBackground;
-        btnStartMeal.TextColor = defaultButtonText;
+        //FromUiToClasses();
+        if (bl.Meal.IdMeal != null)
+            bl.SaveOneMeal(bl.Meal, true); // saves with time now 
+        btnStartMeal.BackgroundColor = initialButtonBackground;
+        btnStartMeal.TextColor = initalButtonTextColor;
+        btnStartMeal.ImageSource = "chronograph_started.png"; 
         RefreshUi();
     }
     private async void gridFoodsInMeal_Unfocused(object sender, SelectedItemChangedEventArgs e)
     {
-        FromUiToClasses();
+        //FromUiToClasses();
         bl.SaveAllFoodsInMeal();
     }
     private async void gridFoodsInMeal_CellClick(object sender, SelectedItemChangedEventArgs e)
@@ -266,37 +282,39 @@ public partial class MealPage : ContentPage
             //await DisplayAlert("XXXX", "YYYY", "Ok");
             return;
         }
-        FoodInMeal previousFoodInMeal = bl.FoodInMeal.DeepCopy();
-        FromUiToClasses();
-        FoodInMeal dummy;
-        if (!firstPass && !previousFoodInMeal.DeepEquals(bl.FoodInMeal, out dummy))
-        {
-            firstPass = false;
-            string[] options = { "Save the changes", "Make a new food" };
-            string chosen = await DisplayActionSheet("The food has changed. Should we:",
-                "Escapea the changes", null, options);
-            if (chosen == "Save the changes")
-            {
-                bl.SaveOneFoodInMeal(bl.FoodInMeal);
-                RefreshGrid();
-            }
-            else if (chosen == "Make a new food")
-            {
-                bl.FoodInMeal.IdFoodInMeal = null;
-                bl.SaveOneFoodInMeal(bl.FoodInMeal);
-                RefreshGrid();
-            }
-            else if (chosen == "Escape the changes" || chosen == null)
-            {
-                // nothing 
-            }
-        }
-        loadingUi = true;
-        //make the tapped row the current food in meal 
         bl.FoodInMeal = (FoodInMeal)e.SelectedItem;
-        FromClassToUi();
-        bl.SaveFoodInMealParameters();
-        loadingUi = false;
+        foodSection.BindingContext = bl.FoodInMeal;
+        //FoodInMeal previousFoodInMeal = bl.FoodInMeal.DeepCopy();
+        //FromUiToClasses();
+        //FoodInMeal dummy;
+        //if (!firstPass && !previousFoodInMeal.DeepEquals(bl.FoodInMeal, out dummy))
+        //{
+        //    firstPass = false;
+        //    string[] options = { "Save the changes", "Make a new food" };
+        //    string chosen = await DisplayActionSheet("The food has changed. Should we:",
+        //        "Escape the changes", null, options);
+        //    if (chosen == "Save the changes")
+        //    {
+        //        bl.SaveOneFoodInMeal(bl.FoodInMeal);
+        //        RefreshGrid();
+        //    }
+        //    else if (chosen == "Make a new food")
+        //    {
+        //        bl.FoodInMeal.IdFoodInMeal = null;
+        //        bl.SaveOneFoodInMeal(bl.FoodInMeal);
+        //        RefreshGrid();
+        //    }
+        //    else if (chosen == "Escape the changes" || chosen == null)
+        //    {
+        //        // nothing 
+        //    }
+        //}
+        //loadingUi = true;
+        ////make the tapped row the current food in meal 
+        //bl.FoodInMeal = (FoodInMeal)e.SelectedItem;
+        //FromClassToUi();
+        //bl.SaveFoodInMealParameters();
+        //loadingUi = false;
     }
     private void gridFoodsInMeal_Unfocused(object sender, FocusEventArgs e)
     {
@@ -330,35 +348,38 @@ public partial class MealPage : ContentPage
         // await Task.Delay(1);
         // txtFoodCarbohydratesPercent.Focus();
     }
-    private void txtFoodChoOrQuantity_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (!loadingUi)
-        {
-            FromUiToFood(bl.FoodInMeal);
-            bl.CalculateChoOfFoodGrams();
-            bl.SaveFoodInMealParameters();
-            loadingUi = true;
-            txtFoodCarbohydratesGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
-            loadingUi = false;
-        }
-    }
-    private void txtFoodCarbohydratesGrams_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (!loadingUi)
-        {
-            loadingUi = true;
-            txtFoodQuantityInUnits.Text = "";
-            txtFoodCarbohydratesPercent.Text = "";
-            loadingUi = false;
-            bl.FoodInMeal.QuantityInUnits.Double = 0;
-            bl.FoodInMeal.CarbohydratesPerUnit.Double = 0;
-            bl.FoodInMeal.CarbohydratesGrams.Text = txtFoodCarbohydratesGrams.Text;
-        }
-    }
-    private void txtCarbohydrates_TextChanged(object sender, EventArgs e)
-    {
-        bl.SaveMealParameters();
-    }
+    //private void txtFoodChoOrQuantity_TextChanged(object sender, TextChangedEventArgs e)
+    //{
+    //    if (!loadingUi)
+    //    {
+    //        bl.FoodInMeal.QuantityInUnits.Text = txtFoodQuantityInUnits.Text;
+    //        ////////bl.FoodInMeal.CarbohydratesPercent.Text = txtFoodCarbohydratesPercent.Text;
+    //        bl.CalculateChoOfFoodGrams();
+    //        //bl.SaveFoodInMealParameters();
+    //        // refresh the data in the binding
+    //        mealSection.BindingContext = bl.Meal;
+    //        loadingUi = true;
+    //        //txtFoodCarbohydratesGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
+    //        //loadingUi = false;
+    //    }
+    //}
+    //private void txtFoodCarbohydratesGrams_TextChanged(object sender, TextChangedEventArgs e)
+    //{
+    //    if (!loadingUi)
+    //    {
+    //        //loadingUi = true;
+    //        //txtFoodQuantityInUnits.Text = "";
+    //        //txtFoodCarbohydratesPercent.Text = "";
+    //        //loadingUi = false;
+    //        bl.FoodInMeal.QuantityInUnits.Double = 0;
+    //        bl.FoodInMeal.CarbohydratesPercent.Double = 0;
+    //        bl.FoodInMeal.CarbohydratesGrams.Text = txtFoodCarbohydratesGrams.Text;
+    //    }
+    //}
+    //private void txtCarbohydrates_TextChanged(object sender, EventArgs e)
+    //{
+    //    bl.SaveMealParameters();
+    //}
     //private void txtCarbohydrates_Unfocused(object sender, FocusEventArgs e)
     //{
     //    editingNumericAccuracy = false;
@@ -390,49 +411,76 @@ public partial class MealPage : ContentPage
     }
     private async void Calculator_Click(object sender, TappedEventArgs e)
     {
-        // save the entries in the classes
-        FromUiToClasses();
+        //// save the entries in the classes
+        //FromUiToClasses();
 
         var focusedEntry = GetFocusedEntry();
         string sValue = focusedEntry?.Text ?? "0";
         double dValue = double.TryParse(sValue, out var val) ? val : 0;
 
         // start the CalculatorPage passing to it the value of the 
-        // controller that currently has the focus
+        // control that currently has the focus
         var calculator = new CalculatorPage(dValue);
         await Navigation.PushModalAsync(calculator);
         var result = await calculator.ResultSource.Task;
 
-        // check if the page has given back a result
-        if (result.HasValue)
+        //////////// check if the page has given back a result
+        //////////if (result.HasValue)
+        //////////{
+        //////////    // update the data model
+        //////////    if (focusedEntry == txtMealCarbohydratesGrams)
+        //////////    {
+        //////////        //bl.FoodInMeal.CarbohydratesGrams.Text = result.Value.ToString();
+        //////////        txtMealCarbohydratesGrams.Text = result.Value.ToString();
+        //////////        //txtMealCarbohydratesGrams_TextChanged(null, null);
+        //////////    }
+        //////////    else if (focusedEntry == txtFoodCarbohydratesPercent)
+        //////////    {
+        //////////        //bl.FoodInMeal.CarbohydratesPercent.Text = result.Value.ToString();
+        //////////        txtFoodCarbohydratesPercent.Text = result.Value.ToString();
+        //////////        //txtFoodChoOrQuantity_TextChanged(null, null);
+        //////////    }
+        //////////    else if (focusedEntry == txtFoodQuantityInUnits)
+        //////////    {
+        //////////        //bl.FoodInMeal.QuantityInUnits.Text = result.Value.ToString();
+        //////////        txtFoodQuantityInUnits.Text = result.Value.ToString();
+        //////////        //txtFoodChoOrQuantity_TextChanged(null, null);
+        //////////    }
+        //////////    else if (focusedEntry == txtFoodCarbohydratesGrams)
+        //////////    {
+        //////////        //bl.FoodInMeal.CarbohydratesPercent.Text = result.Value.ToString();
+        //////////        txtFoodCarbohydratesGrams.Text = result.Value.ToString();
+        //////////        //txtFoodCarbohydratesGrams_TextChanged(null, null);
+        //////////    }
+        //////////    // show the UI starting from the classes
+        //////////    FromClassToUi();
+        //////////}
+    }
+    private void ResetUnitToGrams(object sender, EventArgs e)
+    {
+        bl.FoodInMeal.UnitSymbol = "g";
+        bl.FoodInMeal.GramsInOneUnit.Double = 1;
+        RefreshUi();
+    }
+    private void txtChoOrQuantity_Unfocused(object sender, FocusEventArgs e)
+    {
+        bl.CalculateChoOfFoodGrams();
+        //bl.SaveFoodInMealParameters();
+        // refresh the data with the binding
+        foodSection.BindingContext = null;
+        foodSection.BindingContext = bl.FoodInMeal;
+    }
+    private void txtFoodCarbohydratesGrams_Unfocused(object sender, FocusEventArgs e)
+    {
+        if (!loadingUi)
         {
-            // update the data model
-            if (focusedEntry == txtMealCarbohydratesGrams)
-            {
-                //bl.FoodInMeal.CarbohydratesGrams.Text = result.Value.ToString();
-                txtMealCarbohydratesGrams.Text = result.Value.ToString();
-                //txtMealCarbohydratesGrams_TextChanged(null, null);
-            }
-            else if (focusedEntry == txtFoodCarbohydratesPercent)
-            {
-                //bl.FoodInMeal.CarbohydratesPerUnit.Text = result.Value.ToString();
-                txtFoodCarbohydratesPercent.Text = result.Value.ToString();
-                //txtFoodChoOrQuantity_TextChanged(null, null);
-            }
-            else if (focusedEntry == txtFoodQuantityInUnits)
-            {
-                //bl.FoodInMeal.QuantityInUnits.Text = result.Value.ToString();
-                txtFoodQuantityInUnits.Text = result.Value.ToString();
-                //txtFoodChoOrQuantity_TextChanged(null, null);
-            }
-            else if (focusedEntry == txtFoodCarbohydratesGrams)
-            {
-                //bl.FoodInMeal.CarbohydratesPerUnit.Text = result.Value.ToString();
-                txtFoodCarbohydratesGrams.Text = result.Value.ToString();
-                //txtFoodCarbohydratesGrams_TextChanged(null, null);
-            }
-            // show the UI starting from the classes
-            FromClassToUi();
+            bl.FoodInMeal.QuantityInUnits.Double = 0;
+            bl.FoodInMeal.CarbohydratesPercent.Double = 0;
+            // refresh the data with the binding
+            foodSection.BindingContext = null;
+            foodSection.BindingContext = bl.FoodInMeal;
+            gridFoodsInMeal.BindingContext = null;
+            gridFoodsInMeal.BindingContext = bl.FoodsInMeal;
         }
     }
 }

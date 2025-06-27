@@ -46,6 +46,7 @@ namespace GlucoMan
                     "InjectionPositionX=" + SqliteSafe.Double(Injection.PositionX) + "," +
                     "InjectionPositionY=" + SqliteSafe.Double(Injection.PositionY) + "," +
                     "Notes=" + SqliteSafe.String(Injection.Notes) + "," +
+                    "IdTypeOfInjection=" + SqliteSafe.Int(Injection.IdTypeOfInjection) + "," +
                     "IdTypeOfInsulinAction=" + SqliteSafe.Int(Injection.IdTypeOfInsulinAction) + "," +
                     "IdInsulinDrug=" + SqliteSafe.Int(Injection.IdInsulinDrug) + "," +
                     "InsulinString=" + SqliteSafe.String(Injection.InsulinString) + "" +
@@ -74,7 +75,7 @@ namespace GlucoMan
                     "(" +
                     "IdInjection,Timestamp,InsulinValue,InsulinCalculated," +
                     "Zone,InjectionPositionX,InjectionPositionY,Notes," +
-                    "IdTypeOfInsulinAction,IdInsulinDrug,InsulinString";
+                    "IdTypeOfInjection,IdTypeOfInsulinAction,IdInsulinDrug,InsulinString";
                     query += ")VALUES(" +
                     SqliteSafe.Int(Injection.IdInjection) + "," +
                     SqliteSafe.Date(Injection.Timestamp.DateTime) + "," +
@@ -84,6 +85,7 @@ namespace GlucoMan
                     SqliteSafe.Double(Injection.PositionX) + "," +
                     SqliteSafe.Double(Injection.PositionY) + "," +
                     SqliteSafe.String(Injection.Notes) + "," +
+                    SqliteSafe.Int(Injection.IdTypeOfInjection) + "," +
                     SqliteSafe.Int(Injection.IdTypeOfInsulinAction) + "," +
                     SqliteSafe.Int(Injection.IdInsulinDrug) + "," +
                     SqliteSafe.String(Injection.InsulinString) + "";
@@ -149,7 +151,8 @@ namespace GlucoMan
         }
         internal override List<Injection> GetInjections(DateTime InitialInstant, DateTime FinalInstant, 
             Common.TypeOfInsulinAction TypeOfInsulinAction = Common.TypeOfInsulinAction.NotSet, 
-            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet)
+            Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet,
+            bool getFront = true, bool getBack = true, bool getHands = true, bool getSensors = true)
         {
             List<Injection> list = new List<Injection>();
             try
@@ -179,6 +182,22 @@ namespace GlucoMan
                         {
                             query += " WHERE IdTypeOfInsulinAction=" + (int)TypeOfInsulinAction;
                         }
+                    }
+                    if (!getFront && !getBack && !getHands && !getSensors)
+                    {
+                        // no zone is selected, so we return all the injections
+                    }
+                    else
+                    {
+                        // at least one zone is selected, so we add the condition
+                        query += " AND (";
+                        List<string> zones = new List<string>();
+                        if (getFront) zones.Add("Zone=" + (int)Common.ZoneOfPosition.Front);
+                        if (getBack) zones.Add("Zone=" + (int)Common.ZoneOfPosition.Back);
+                        if (getHands) zones.Add("Zone=" + (int)Common.ZoneOfPosition.Hands);
+                        if (getSensors) zones.Add("Zone=" + (int)Common.ZoneOfPosition.Sensor);
+                        query += string.Join(" OR ", zones);
+                        query += ")";
                     }
                     query += " ORDER BY Timestamp DESC, IdInjection;";
                     cmd = new SqliteCommand(query);
@@ -212,6 +231,7 @@ namespace GlucoMan
                 ii.PositionX = Safe.Double(Row["InjectionPositionX"]);
                 ii.PositionY = Safe.Double(Row["InjectionPositionY"]);
                 ii.Notes = Safe.String(Row["Notes"]);
+                ii.IdTypeOfInjection = Safe.Int(Row["IdTypeOfInjection"]);
                 ii.IdTypeOfInsulinAction = Safe.Int(Row["IdTypeOfInsulinAction"]);
                 ii.IdInsulinDrug = Safe.Int(Row["IdInsulinDrug"]);
                 ii.InsulinString = Safe.String(Row["InsulinString"]);

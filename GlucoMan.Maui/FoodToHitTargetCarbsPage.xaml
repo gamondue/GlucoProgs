@@ -5,7 +5,9 @@
              Title="Food to reach CHO">
     <ContentPage.Content>
         <!--RowDefinitions="60,0,50,60,20,60,60,60,50,60"-->
-        <Grid RowDefinitions="Auto,0,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+        <Grid RowDefinitions="Auto,
+              0,Auto,Auto,Auto,Auto,
+              Auto,Auto,Auto,60"
               ColumnDefinitions="*,*,*"
               Margin="1">
             <Button Grid.Row="0" Grid.Column="1" x:Name="btnCalculateGrams" Text="Food Calc." 
@@ -16,20 +18,23 @@
             <Entry Grid.Row="3" Grid.Column="0" x:Name="TxtTargetCho" Text="" Unfocused="TxtTargetCho_Leave"
                    ToolTipProperties.Text="Carbohydrates we want to reach [g]"
                    Keyboard="Numeric" Placeholder="[g]" HorizontalTextAlignment ="End" 
-                   FontSize="Large" BackgroundColor="PaleGreen"/>
+                   FontSize="Large" 
+                   BackgroundColor="PaleGreen" TextColor="Black"/>
 
             <Label Grid.Row="2" Grid.Column="1" Text="CHO already taken [g]" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End" />            
             <Entry Grid.Row="3" Grid.Column="1" x:Name="TxtChoAlreadyTaken" Text="" Unfocused="TxtChoAlreadyTaken_Leave"
                    ToolTipProperties.Text="Carbohydrates already eaten [g]"
                    Keyboard="Numeric" Placeholder="[g]" HorizontalTextAlignment ="End" 
-                   FontSize="Large" BackgroundColor="PaleGreen" />
+                   FontSize="Large" 
+                   BackgroundColor="PaleGreen" TextColor="Black"/>
 
             <Label Grid.Row="2" Grid.Column="2" Text="CHO food to eat [%]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="3" Grid.Column="2" x:Name="TxtChoOfFood" Text="" Unfocused="TxtChoOfFood_Leave"
                    ToolTipProperties.Text="Carbohydrates in 100 g of the selected food [g%]"
                    Keyboard="Numeric"  Placeholder="%" HorizontalTextAlignment="End" 
-                   FontSize="Large" BackgroundColor="PaleGreen" />
+                   FontSize="Large" 
+                   BackgroundColor="PaleGreen" TextColor="Black"/>
 
             <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
                    Text="Food to eat to complete CHO budget" 
@@ -64,19 +69,21 @@
                    Keyboard="Numeric" Placeholder="[g]" HorizontalTextAlignment ="End" Margin="1"
                    ToolTipProperties.Text="Calculated carbohydrates to be eaten to reach the target"
                    VerticalOptions="Center"
-                   BackgroundColor="SkyBlue"
+                   BackgroundColor="SkyBlue" TextColor="Black"
                    FontSize="Large" />
 
-            <Button Grid.Row="9" Grid.Column="1"  Text="Injection" IsEnabled="True" Margin="1"
+            <Button Grid.Row="9" Grid.Column="1"  IsEnabled="True" Margin="1"
+                    ImageSource="syringe.png"
                    ToolTipProperties.Text="Opens the insulin injctions page"
                     x:Name="btnInjection" Clicked="btnInjection_Click" />
-
+            <!--Text="Injection"-->
             <Label Grid.Row="8" Grid.Column="2" Text="Food to eat to hit target CHO [g]" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="9" Grid.Column="2" x:Name="TxtFoodToHitTarget" Text="" Margin="1"
                    Keyboard="Numeric" Placeholder="[g]" HorizontalTextAlignment ="End"
                    ToolTipProperties.Text="Gram of chosen food to eat to reach the target carbohydrates"
-                   VerticalOptions="Center" FontSize="Large" BackgroundColor="SkyBlue" />
+                   VerticalOptions="Center" FontSize="Large" 
+                   BackgroundColor="SkyBlue" TextColor="Black"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

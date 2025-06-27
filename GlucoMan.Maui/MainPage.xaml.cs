@@ -11,6 +11,7 @@ namespace GlucoMan.Maui
             InitializeComponent();
             // change the title of the page shown in the navigation bar, showing the version of the program
             Title += " " + Common.Version;
+
             RequestPermissionsIfNotGiven().ConfigureAwait(false);
             Thread.Sleep(5000);
          
@@ -100,7 +101,7 @@ namespace GlucoMan.Maui
         }
         private async void btnFoods_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new FoodsPage(new Food(new UnitOfFood("g", 1))));
+            await Navigation.PushAsync(new FoodsPage(new Food(new Unit("g", 1))));
         }
         private void btnConfigurations_Clicked(object sender, EventArgs e)
         {
