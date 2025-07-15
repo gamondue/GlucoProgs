@@ -701,7 +701,7 @@ namespace GlucoMan
                 General.LogOfProgram.Error("Sqlite_MealAndFood | AddUnit", ex);
             }
             return key;
-        }     
+        }
         internal override void RemoveManufacturerFromFood(Food Food)
         {
             try

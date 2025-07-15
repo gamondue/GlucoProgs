@@ -327,6 +327,14 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.AddUnit(Unit);
         }
+        internal int? AddManufacturerToFood(Manufacturer m, Food currentFood)
+        {
+            return dl.AddManufacturerToFood(m, currentFood);
+        }
+        internal int? AddCategoryToFood(CategoryOfFood c, Food currentFood)
+        {
+            return dl.AddCategoryToFood(c, currentFood);
+        }
         internal int? AddManufacturerToCurrentFood(Manufacturer manufacturer, Food food)
         {
             return dl.AddManufacturer(manufacturer, food);
