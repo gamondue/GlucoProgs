@@ -5,7 +5,7 @@
              Title="Hypoglicemia time prediction">
     <ContentPage.Content>
         <!--RowDefinitions="55,55,20,20,70,70,50,20,50,20,50,50,20,50,40"-->
-        <Grid RowDefinitions="38,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,30,Auto,Auto,Auto" 
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,30,Auto,Auto,Auto" 
               ColumnDefinitions="*,*,*,*">
 
             <Button Grid.Row="0" Grid.Column="0" Text="Now" Margin="1"
