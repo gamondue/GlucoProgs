@@ -393,5 +393,13 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.CheckIfUnitSymbolExists(unit, idFood);
         }
+        internal void RemoveUnitFromFoodsUnits(Food currentFood)
+        {
+            dl.RemoveUnitFromFoodsUnits(currentFood);
+        }
+        internal void RemoveCategoryFromFood(Food currentFood)
+        {
+            dl.RemoveCategoryFromFood(currentFood);
+        }
     }
 }

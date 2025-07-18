@@ -878,19 +878,170 @@ namespace GlucoMan
         }
         internal override int? AddManufacturer(Manufacturer manufacturer, Food food)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "INSERT INTO Manufacturers (Name) " +
+                        "VALUES (" + SqliteSafe.String(manufacturer.Name) + ");";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+
+                    // Retrieve the last inserted Id
+                    cmd.CommandText = "SELECT last_insert_rowid();";
+                    int? id = Safe.Int(cmd.ExecuteScalar());
+
+                    // Link the manufacturer to the food
+                    if (food.IdFood != null && id != null)
+                    {
+                        cmd.CommandText = "UPDATE Foods SET Manufacturer = " 
+                        +           SqliteSafe.String(manufacturer.Name) 
+                        + " WHERE IdFood = " + SqliteSafe.Int(food.IdFood) + ";";
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    cmd.Dispose();
+                    return id;
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | AddManufacturer", ex);
+                return null;
+            }
         }
         internal override int? AddCategoryOfFood(CategoryOfFood category, Food food)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "INSERT INTO Categories (Name) VALUES (" + SqliteSafe.String(category.Name) + ");";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+
+                    // Retrieve the last inserted Id
+                    cmd.CommandText = "SELECT last_insert_rowid();";
+                    int? id = Safe.Int(cmd.ExecuteScalar());
+
+                    // Link the category to the food
+                    if (food.IdFood != null && id != null)
+                    {
+                        cmd.CommandText = "UPDATE Foods SET Category = " + SqliteSafe.String(category.Name) + " WHERE IdFood = " + SqliteSafe.Int(food.IdFood) + ";";
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    cmd.Dispose();
+                    return id;
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | AddCategoryOfFood", ex);
+                return null;
+            }
         }
         internal override void RemoveCategoryFromFood(Food currentFood)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "UPDATE Foods SET Category = NULL WHERE IdFood = " + SqliteSafe.Int(currentFood.IdFood) + ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveCategoryFromFood", ex);
+            }
         }
         internal override void RemoveUnitFromFood(Unit unit, Food food)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "DELETE FROM Units" +
+                        " WHERE Symbol = " + SqliteSafe.String(unit.Symbol) +
+                        " AND IdFood = " + SqliteSafe.Int(food.IdFood) + ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveUnitFromFood", ex);
+            }
+        }
+        internal override int? AddManufacturerToFood(Manufacturer m, Food currentFood)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "UPDATE Foods SET Manufacturer = " +
+                        SqliteSafe.String(m.Name) + " WHERE IdFood = " +
+                        SqliteSafe.Int(currentFood.IdFood) + ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                    return currentFood.IdFood;
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | AddManufacturerToFood", ex);
+                return null;
+            }
+        }
+        internal override int? AddCategoryToFood(CategoryOfFood c, Food currentFood)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "UPDATE Foods SET Category = " +
+                        SqliteSafe.String(c.Name) + " WHERE IdFood = " + 
+                        SqliteSafe.Int(currentFood.IdFood) + ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                    return currentFood.IdFood;
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | AddCategoryToFood", ex);
+                return null;
+            }
+        }
+        internal override void RemoveUnitFromFoodsUnits(Food currentFood)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    string query = "DELETE FROM Units WHERE IdFood = " + SqliteSafe.Int(currentFood.IdFood) + ";";
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveUnitFromFoodsUnits", ex);
+            }
         }
     }
 }
