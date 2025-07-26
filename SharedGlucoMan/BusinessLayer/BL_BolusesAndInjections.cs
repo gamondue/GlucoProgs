@@ -119,7 +119,6 @@ namespace GlucoMan.BusinessLayer
                 // calculate embarked insulin for RapidActing insulin  
                 // TODO calculate embarked insulin for each TypeOfInsulinAction !!!!
                 CalculateEmbarkedInsulin(DateTime.Now, Common.TypeOfInsulinAction.RapidActing);
-
                 switch (MealOfBolus.IdTypeOfMeal)
                 {
                     case (Common.TypeOfMeal.Breakfast):
