@@ -113,7 +113,10 @@ public partial class FoodPage : ContentPage
     }
     private void btnRemoveFoodCategory_Clicked(object sender, EventArgs e)
     {
-        bl.RemoveCategoryFromFood(CurrentFood);
+        if (cmbCategory.SelectedItem is CategoryOfFood selectedCategory)
+        {
+            bl.RemoveCategoryFromFood(selectedCategory, CurrentFood);
+        }
     }
     private void txtFoodManufacturer_TextChanged(object sender, TextChangedEventArgs e)
     {

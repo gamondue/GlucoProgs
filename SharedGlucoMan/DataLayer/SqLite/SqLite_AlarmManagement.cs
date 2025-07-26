@@ -122,5 +122,13 @@ namespace GlucoMan
             }
             return m;
         }
+        internal override int? AddManufacturerToFood(Manufacturer m, Food currentFood)
+        {
+            throw new NotImplementedException();
+        }
+        internal override int? AddCategoryToFood(CategoryOfFood c, Food currentFood)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -367,6 +367,10 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.GetAllUnitsOfOneFood(Food);
         }
+        internal void RemoveUnitFromFoodsUnits(Food currentFood)
+        {
+            dl.RemoveUnitFromFoodsUnits(currentFood);
+        }
         internal List<Manufacturer> GetAllManufacturersOfOneFood(Food food)
         {
             return dl.GetAllManufacturersOfOneFood(food);
