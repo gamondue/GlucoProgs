@@ -24,9 +24,9 @@ namespace GlucoMan
         public DoubleAndText GramsInOneUnit { get; set; } // [g]
         public string Manufacturer { get; set; }
         public string Category { get; set; }
-        public List<Unit> Units { get; set; }
+        public List<UnitOfFood> Units { get; set; }
         // unit is mandative to set the "internal" values in grams
-        public Food(Unit Unit)
+        public Food(UnitOfFood Unit)
         {
             Energy = new DoubleAndText();        // [kcal]  
             TotalFatsPercent = new DoubleAndText();     // [g]

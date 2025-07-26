@@ -191,7 +191,7 @@
                    TextChanged="txtCategory_TextChanged" HorizontalTextAlignment="Start"/>
             <Picker Grid.Row="19" Grid.Column="2" Grid.ColumnSpan="1"
                     x:Name="cmbCategory" 
-                    ToolTipProperties.Text="List of filtered categories"
+                    ToolTipProperties.Text="List of categories of food"
                     VerticalTextAlignment="End" Margin="5,0,5,0">
             </Picker>
             <VerticalStackLayout Grid.Row="19" Grid.Column="3" Grid.RowSpan="2">

@@ -391,7 +391,7 @@ namespace GlucoMan
         }
         internal Food GetFoodFromRow(DbDataReader Row)
         {
-            Food f = new Food(new Unit("g", 1));
+            Food f = new Food(new UnitOfFood("g", 1));
             GlucoseRecord gr = new GlucoseRecord();
             try
             {
@@ -489,7 +489,7 @@ namespace GlucoMan
                     // INSERT new record in the table
                     InsertFood(Food);
                     // default unit is grams, add an entry in Units table
-                    Unit unit = new Unit("g", 1);
+                    UnitOfFood unit = new UnitOfFood("g", 1);
                     AddUnit(unit);
                 }
                 else
@@ -614,7 +614,7 @@ namespace GlucoMan
         }
         internal override Food GetOneFood(int? IdFood)
         {
-            Food food = new Food(new Unit("g", 1));
+            Food food = new Food(new UnitOfFood("g", 1));
             try
             {
                 DbDataReader dRead;
@@ -672,18 +672,18 @@ namespace GlucoMan
             }
             return list;
         }
-        internal override int? AddUnit(Unit Unit)
+        internal override int? AddUnit(UnitOfFood Unit)
         {
-            // if the IdFood in thos Unit is null, the UnitSymbol will be shown in any food
+            // if the IdFood in thos UnitOfFood is null, the UnitSymbol will be shown in any food
             int? key = null;
             try
             {
-                key = GetTableNextPrimaryKey("Units", "IdUnit");
+                key = GetTableNextPrimaryKey("UnitsOfFood", "IdUnitOfFood");
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "INSERT INTO Units " +
-                                "(IdUnit,Symbol,Name,Description,IdFood,GramsInOneUnit";
+                    string query = "INSERT INTO UnitsOfFood " +
+                                "(IdUnitOfFood,Symbol,Name,Description,IdFood,GramsInOneUnit";
                     query += ")VALUES(" + key + "," +
                     SqliteSafe.String(Unit.Symbol) + "," +
                     SqliteSafe.String(Unit.Name) + "," +
@@ -709,8 +709,8 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "DELETE FROM Units" +
-                                " WHERE IdUnit=" + SqliteSafe.Int(Food.UnitSymbol) +
+                    string query = "DELETE FROM UnitsOfFood" +
+                                " WHERE IdUnitOfFood=" + SqliteSafe.Int(Food.UnitSymbol) +
                                 " AND IdFood=" + SqliteSafe.Int(Food.IdFood) +
                     ";";
                     cmd.CommandText = query;
@@ -723,11 +723,11 @@ namespace GlucoMan
                 General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveUnitFromFoodsUnits", ex);
             }
         }
-        internal override List<Unit> GetAllUnitsOfOneFood(Food Food)
+        internal override List<UnitOfFood> GetAllUnitsOfOneFood(Food Food)
         {
             if (Food.IdFood != null)
             {
-                List<Unit> UnitsInFood = new();
+                List<UnitOfFood> UnitsInFood = new();
                 try
                 {
                     DbDataReader dRead;
@@ -735,17 +735,17 @@ namespace GlucoMan
                     using (DbConnection conn = Connect())
                     {
                         string query = "SELECT *" +
-                            " FROM Units" +
+                            " FROM UnitsOfFood" +
                             " WHERE IdFood=" + SqliteSafe.Int(Food.IdFood) +
                             " OR IdFood IS null OR IdFood=0" +
-                            ";";
+                            ";"; 
                         cmd = new SqliteCommand(query);
                         cmd.Connection = conn;
-                        dRead = cmd.ExecuteReader();
+                          dRead = cmd.ExecuteReader();
                         while (dRead.Read())
                         {
-                            Unit u = new();
-                            u.IdUnit = Safe.Int(dRead["IdUnit"]);
+                            UnitOfFood u = new();
+                            u.IdUnitOfFood = Safe.Int(dRead["IdUnitOfFood"]);
                             u.Symbol = Safe.String(dRead["Symbol"]);
                             u.Name = Safe.String(dRead["Name"]);
                             u.Description = Safe.String(dRead["Description"]);
@@ -816,10 +816,7 @@ namespace GlucoMan
                     using (DbConnection conn = Connect())
                     {
                         string query = "SELECT *" +
-                            " FROM Categories" +
-                            " JOIN Foods ON Foods.IdCategory=Categories.IdCategory" +
-                            " WHERE Categories.IdFood=" + SqliteSafe.Int(food.IdFood) +
-                            " OR IdFood IS null OR IdFood=0" +
+                            " FROM CategoriesOfFood" +
                             ";";
                         cmd = new SqliteCommand(query);
                         cmd.Connection = conn;
@@ -827,7 +824,8 @@ namespace GlucoMan
                         while (dRead.Read())
                         {
                             CategoryOfFood c = new CategoryOfFood();
-                            c.IdCategory = (int)Safe.Int(dRead["IdCategory"]);
+                            c.IdCategory = (int)Safe.Int(dRead["IdCategoryOfFood"]);
+                            c.Description = Safe.String(dRead["Description"]);
                             c.Name = Safe.String(dRead["Name"]);
                             categories.Add(c);
                         }
@@ -843,7 +841,7 @@ namespace GlucoMan
             }
             return null;
         }
-        internal override bool CheckIfUnitSymbolExists(Unit unit, int? idFood)
+        internal override bool CheckIfUnitSymbolExists(UnitOfFood unit, int? idFood)
         {
             // Check if the symbol of the unit already exists in the database
             // if idFood == null search all over the units
@@ -854,7 +852,7 @@ namespace GlucoMan
                 DbCommand cmd;
                 using (DbConnection conn = Connect())
                 {
-                    string query = "SELECT idUnit FROM Units" +
+                    string query = "SELECT IdUnitOfFood FROM UnitsOfFood" +
                         " WHERE Symbol=" + SqliteSafe.String(unit.Symbol);
                     if (idFood != null)
                         query += " AND (idFood=" + idFood + " OR idFood IS NULL)";
@@ -878,19 +876,354 @@ namespace GlucoMan
         }
         internal override int? AddManufacturer(Manufacturer manufacturer, Food food)
         {
-            throw new NotImplementedException();
+            try
+            {
+                int? idManufacturer = null;
+                using (DbConnection conn = Connect())
+                {
+                    // Check if manufacturer already exists (by name)
+                    DbCommand checkCmd = conn.CreateCommand();
+                    checkCmd.CommandText = "SELECT IdManufacturer FROM Manufacturers WHERE Name = @Name;";
+                    checkCmd.Parameters.Add(new SqliteParameter("@Name", manufacturer.Name ?? (object)DBNull.Value));
+                    var result = checkCmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        idManufacturer = Safe.Int(result);
+                    }
+                    else
+                    {
+                        // Insert new manufacturer
+                        idManufacturer = GetTableNextPrimaryKey("Manufacturers", "IdManufacturer");
+                        DbCommand insertCmd = conn.CreateCommand();
+                        insertCmd.CommandText = "INSERT INTO Manufacturers (IdManufacturer, Name) VALUES (@IdManufacturer, @Name);";
+                        insertCmd.Parameters.Add(new SqliteParameter("@IdManufacturer", idManufacturer));
+                        insertCmd.Parameters.Add(new SqliteParameter("@Name", manufacturer.Name ?? (object)DBNull.Value));
+                        insertCmd.ExecuteNonQuery();
+                        insertCmd.Dispose();
+                    }
+                    checkCmd.Dispose();
+
+                    // Optionally, associate the manufacturer with the food if needed (if there is a relation table)
+                    // If Foods table has IdManufacturer, update it
+                    if (food != null && food.IdFood != null)
+                    {
+                        DbCommand updateCmd = conn.CreateCommand();
+                        updateCmd.CommandText = "UPDATE Foods SET Manufacturer = @Manufacturer WHERE IdFood = @IdFood;";
+                        updateCmd.Parameters.Add(new SqliteParameter("@Manufacturer", manufacturer.Name ?? (object)DBNull.Value));
+                        updateCmd.Parameters.Add(new SqliteParameter("@IdFood", food.IdFood));
+                        updateCmd.ExecuteNonQuery();
+                        updateCmd.Dispose();
+                    }
+                }
+                return idManufacturer;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | AddManufacturer", ex);
+                return null;
+            }
         }
         internal override int? AddCategoryOfFood(CategoryOfFood category, Food food)
         {
-            throw new NotImplementedException();
+            try
+            {
+                int? idCategory = null;
+                using (DbConnection conn = Connect())
+                {
+                    // Check if category already exists (by name)
+                    DbCommand checkCmd = conn.CreateCommand();
+                    checkCmd.CommandText = "SELECT IdCategory FROM Categories WHERE Name = @Name;";
+                    checkCmd.Parameters.Add(new SqliteParameter("@Name", category.Name ?? (object)DBNull.Value));
+                    var result = checkCmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        idCategory = Safe.Int(result);
+                    }
+                    else
+                    {
+                        // Insert new category
+                        idCategory = GetTableNextPrimaryKey("Categories", "IdCategory");
+                        DbCommand insertCmd = conn.CreateCommand();
+                        insertCmd.CommandText = "INSERT INTO Categories (IdCategory, Name) VALUES (@IdCategory, @Name);";
+                        insertCmd.Parameters.Add(new SqliteParameter("@IdCategory", idCategory));
+                        insertCmd.Parameters.Add(new SqliteParameter("@Name", category.Name ?? (object)DBNull.Value));
+                        insertCmd.ExecuteNonQuery();
+                        insertCmd.Dispose();
+                    }
+                    checkCmd.Dispose();
+
+                    // Optionally, associate the category with the food if needed (if there is a relation table)
+                    // If Foods table has Category, update it
+                    if (food != null && food.IdFood != null)
+                    {
+                        DbCommand updateCmd = conn.CreateCommand();
+                        updateCmd.CommandText = "UPDATE Foods SET Category = @Category WHERE IdFood = @IdFood;";
+                        updateCmd.Parameters.Add(new SqliteParameter("@Category", category.Name ?? (object)DBNull.Value));
+                        updateCmd.Parameters.Add(new SqliteParameter("@IdFood", food.IdFood));
+                        updateCmd.ExecuteNonQuery();
+                        updateCmd.Dispose();
+                    }
+                }
+                return idCategory;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | AddCategoryOfFood", ex);
+                return null;
+            }
         }
         internal override void RemoveCategoryFromFood(Food currentFood)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    if (currentFood != null && currentFood.IdFood != null)
+                    {
+                        DbCommand updateCmd = conn.CreateCommand();
+                        updateCmd.CommandText = "UPDATE Foods SET Category = NULL WHERE IdFood = @IdFood;";
+                        updateCmd.Parameters.Add(new SqliteParameter("@IdFood", currentFood.IdFood));
+                        updateCmd.ExecuteNonQuery();
+                        updateCmd.Dispose();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveCategoryFromFood", ex);
+            }
         }
-        internal override void RemoveUnitFromFood(Unit unit, Food food)
+        internal override void RemoveUnitFromFood(UnitOfFood unit, Food food)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    if (unit != null && food != null && food.IdFood != null)
+                    {
+                        DbCommand cmd = conn.CreateCommand();
+                        cmd.CommandText = "DELETE FROM UnitsOfFood WHERE Symbol = @Symbol AND IdFood = @IdFood;";
+                        cmd.Parameters.Add(new SqliteParameter("@Symbol", unit.Symbol ?? (object)DBNull.Value));
+                        cmd.Parameters.Add(new SqliteParameter("@IdFood", food.IdFood));
+                        cmd.ExecuteNonQuery();
+                        cmd.Dispose();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveUnitFromFood", ex);
+            }
+        }
+        internal override int? AddManufacturerToFood(Manufacturer m, Food currentFood)
+        {
+            try
+            {
+                if (currentFood != null && currentFood.IdFood != null)
+                {
+                    using (DbConnection conn = Connect())
+                    {
+                        DbCommand updateCmd = conn.CreateCommand();
+                        updateCmd.CommandText = "UPDATE Foods SET Manufacturer = @Manufacturer WHERE IdFood = @IdFood;";
+                        updateCmd.Parameters.Add(new SqliteParameter("@Manufacturer", m.Name ?? (object)DBNull.Value));
+                        updateCmd.Parameters.Add(new SqliteParameter("@IdFood", currentFood.IdFood));
+                        updateCmd.ExecuteNonQuery();
+                        updateCmd.Dispose();
+                    }
+                }
+                return currentFood?.IdFood;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | AddManufacturerToFood", ex);
+                return null;
+            }
+        }
+        internal override int? AddCategoryToFood(CategoryOfFood c, Food currentFood)
+        {
+            try
+            {
+                if (currentFood != null && currentFood.IdFood != null)
+                {
+                    using (DbConnection conn = Connect())
+                    {
+                        DbCommand updateCmd = conn.CreateCommand();
+                        updateCmd.CommandText = "UPDATE Foods SET Category = @Category WHERE IdFood = @IdFood;";
+                        updateCmd.Parameters.Add(new SqliteParameter("@Category", c.Name ?? (object)DBNull.Value));
+                        updateCmd.Parameters.Add(new SqliteParameter("@IdFood", currentFood.IdFood));
+                        updateCmd.ExecuteNonQuery();
+                        updateCmd.Dispose();
+                    }
+                }
+                return currentFood?.IdFood;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | AddCategoryToFood", ex);
+                return null;
+            }
+        }
+        internal override void RemoveUnitFromFoodsUnits(Food currentFood)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    if (currentFood != null && currentFood.IdFood != null)
+                    {
+// ???????????????????????????? control here
+                        DbCommand cmd = conn.CreateCommand();
+                        cmd.CommandText = "DELETE FROM UnitsOfFood WHERE IdFood = @IdFood;";
+                        cmd.Parameters.Add(new SqliteParameter("@IdFood", currentFood.IdFood));
+                        cmd.ExecuteNonQuery();
+                        cmd.Dispose();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveUnitFromFoodsUnits", ex);
+            }
+        }
+        internal override int? UpdateManufacturer(Manufacturer m)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = @"
+                        UPDATE Manufacturers
+                        SET Name = @Name
+                        WHERE IdManufacturer = @IdManufacturer;";
+                    cmd.Parameters.Add(new SqliteParameter("@Name", m.Name ?? (object)DBNull.Value));
+                    //////////cmd.Parameters.Add(new SqliteParameter("@IdManufacturer", m.IdManufacturer ?? (object)DBNull.Value));
+                    int rows = cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                    return rows > 0 ? m.IdManufacturer : null;
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | UpdateManufacturer", ex);
+                return null;
+            }
+        }
+
+        internal override bool CheckIfManufacturerExists(Manufacturer m)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = "SELECT COUNT(*) FROM Manufacturers WHERE Name = @Name;";
+                    cmd.Parameters.Add(new SqliteParameter("@Name", m.Name ?? (object)DBNull.Value));
+                    var result = cmd.ExecuteScalar();
+                    cmd.Dispose();
+                    return Convert.ToInt32(result) > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | CheckIfManufacturerExists", ex);
+                return false;
+            }
+        }
+        internal override int? AddManufacturer(Manufacturer m)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    int newId = GetTableNextPrimaryKey("Manufacturers", "IdManufacturer");
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = @"
+                        INSERT INTO Manufacturers (IdManufacturer, Name)
+                        VALUES (@IdManufacturer, @Name);";
+                    cmd.Parameters.Add(new SqliteParameter("@IdManufacturer", newId));
+                    cmd.Parameters.Add(new SqliteParameter("@Name", m.Name ?? (object)DBNull.Value));
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                    return newId;
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | AddManufacturer", ex);
+                return null;
+            }
+        }
+        internal override bool CheckIfCategoryExists(CategoryOfFood categoryOfFood)
+        {
+            bool exists = false;
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    var checkCmd = conn.CreateCommand();
+                    checkCmd.CommandText = "SELECT IdCategoryOfFood FROM CategoriesOfFood WHERE Name = @Name;";
+                    checkCmd.Parameters.Add(new SqliteParameter("@Name", categoryOfFood.Name));
+                    var result = checkCmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        exists = true;
+                    }
+                    checkCmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | CheckIfCategoryExists", ex);
+                return false;
+            }
+            return exists;
+        }
+        internal override int? AddCategoryOfFood(CategoryOfFood categoryOfFood)
+        {
+            try
+            {
+                int? idCategory = null;
+                using (DbConnection conn = Connect())
+                {
+                    idCategory = GetTableNextPrimaryKey("CategoriesOfFood", "IdCategoryOfFood");
+                    DbCommand insertCmd = conn.CreateCommand();
+                    insertCmd.CommandText = "INSERT INTO CategoriesOfFood (IdCategoryOfFood, Name, Description) VALUES (@IdCategory, @Name, @Description);";
+                    insertCmd.Parameters.Add(new SqliteParameter("@IdCategory", idCategory));
+                    insertCmd.Parameters.Add(new SqliteParameter("@Name", categoryOfFood.Name ?? (object)DBNull.Value));
+                    insertCmd.Parameters.Add(new SqliteParameter("@Description", categoryOfFood.Description ?? (object)DBNull.Value));
+                    insertCmd.ExecuteNonQuery();
+                    insertCmd.Dispose();
+                }
+                return idCategory;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | AddCategoryOfFood (single)", ex);
+                return null;
+            }
+        }
+        internal override int? UpdateCategoryOfFood(CategoryOfFood categoryOfFood)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = "UPDATE CategoriesOfFood SET Name = @Name, Description = @Description WHERE IdCategoryOfFood = @IdCategory;";
+                    cmd.Parameters.Add(new SqliteParameter("@Name", categoryOfFood.Name ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Description", categoryOfFood.Description ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@IdCategory", categoryOfFood.IdCategory));
+                    int rows = cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                    return rows > 0 ? categoryOfFood.IdCategory : null;
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | UpdateCategoryOfFood", ex);
+                return null;
+            }
         }
     }
 }

@@ -4,6 +4,8 @@
     {
         public int IdManufacturer { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
+
         public Manufacturer(string name)
         {
             Name = name;

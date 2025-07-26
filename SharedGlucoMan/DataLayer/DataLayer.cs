@@ -54,15 +54,15 @@ namespace GlucoMan
         internal abstract void DeleteOneFood(Food food);
         internal abstract Food GetOneFood(int? IdFood);
         internal abstract List<Food> GetFoods();
-        internal abstract int? AddUnit(Unit unit);
+        internal abstract int? AddUnit(UnitOfFood unit);
         internal abstract int? AddManufacturer(Manufacturer manufacturer, Food food);
         internal abstract int? AddCategoryOfFood(CategoryOfFood category, Food food);
-        internal abstract List<Unit> GetAllUnitsOfOneFood(Food Food);
+        internal abstract List<UnitOfFood> GetAllUnitsOfOneFood(Food Food);
         internal abstract List<Manufacturer> GetAllManufacturersOfOneFood(Food food);
         internal abstract List<CategoryOfFood> GetAllCategoriesOfOneFood(Food food);
-        internal abstract bool CheckIfUnitSymbolExists(Unit unit, int? idFood);
+        internal abstract bool CheckIfUnitSymbolExists(UnitOfFood unit, int? idFood);
         internal abstract void RemoveCategoryFromFood(Food currentFood);
-        internal abstract void RemoveUnitFromFood(Unit unit, Food food);
+        internal abstract void RemoveUnitFromFood(UnitOfFood unit, Food food);
         internal abstract void RemoveManufacturerFromFood(Food Food);
 
         internal abstract Injection GetOneInjection(int? idInjection);
@@ -103,5 +103,11 @@ namespace GlucoMan
         internal abstract int? AddManufacturerToFood(Manufacturer m, Food currentFood);
         internal abstract int? AddCategoryToFood(CategoryOfFood c, Food currentFood);
         internal abstract void RemoveUnitFromFoodsUnits(Food currentFood);
+        internal abstract bool CheckIfManufacturerExists(Manufacturer m);
+        internal abstract int? UpdateManufacturer(Manufacturer m);
+        internal abstract int? AddManufacturer(Manufacturer m);
+        internal abstract bool CheckIfCategoryExists(CategoryOfFood categoryOfFood);
+        internal abstract int? AddCategoryOfFood(CategoryOfFood categoryOfFood);
+        internal abstract int? UpdateCategoryOfFood(CategoryOfFood categoryOfFood);
     }
 }

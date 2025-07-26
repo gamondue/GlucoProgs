@@ -1,0 +1,1 @@
+Based on the SQLite database fields whose creation you find in the string "creationScript" in file "Sqlite_DataLayerConstructorsAndGeneral.cs", generate the code for all the methods that contain "NotImplementedException();" in file "Sqlite_MealAndFood.cs", in the style of the other methods you find in the Lite_*.cs files.

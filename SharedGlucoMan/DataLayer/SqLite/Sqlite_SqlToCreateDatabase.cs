@@ -7,9 +7,10 @@ namespace GlucoMan
 {
     internal partial class DL_Sqlite : DataLayer
     {
+        // creationScript must have DROP TABLE statements
         string creationScript = @"
 --
--- File generated with SQLiteStudio v3.4.4 on mar giu 24 22:44:51 2025
+-- File generated with SQLiteStudio v3.4.17 on sab lug 26 17:48:21 2025
 --
 -- Text encoding used: System
 --
@@ -26,7 +27,23 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
+
+
+
+
 	'IdAlarm'	INT NOT NULL,
+
+
+
+
+
+
+
+
 
 
 
@@ -42,7 +59,23 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
+
+
+
+
 	'TimeAlarm'	DATETIME,
+
+
+
+
+
+
+
+
 
 
 
@@ -58,7 +91,23 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
+
+
+
+
 	'Duration' DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -74,6 +123,14 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
+
+
+
+
 	'IsEnabled'	TINYINT,
 
 
@@ -82,7 +139,23 @@ CREATE TABLE 'Alarms' (
 
 
 
+
+
+
+
+
+
+
+
 	PRIMARY KEY('IdAlarm')
+
+
+
+
+
+
+
+
 
 
 
@@ -102,7 +175,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 	'IdBolusCalculation'	INT NOT NULL,
+
+
+
+
+
+
+
+
 
 
 
@@ -118,7 +207,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 	'TotalInsulinForMeal'	DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -134,7 +239,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 	'BolusInsulinDueToChoOfMeal'	DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -150,7 +271,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 	'TargetGlucose'	DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -166,7 +303,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 	'TypicalBolusMorning'	DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -182,7 +335,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 	'TypicalBolusEvening'	DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -198,7 +367,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 	'TotalDailyDoseOfInsulin'	DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -214,7 +399,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 	'ChoInsulinRatioLunch'	DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -230,7 +431,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 	'GlucoseBeforeMeal'	DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -246,7 +463,23 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 	'FactorOfInsulinCorrectionSensitivity'	DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -262,16 +495,28 @@ CREATE TABLE 'BolusCalculations' (
 
 
 
+
+
+
+
+
+
+
+
 );
+
+-- Table: CategoriesOfFood
+DROP TABLE IF EXISTS CategoriesOfFood;
+CREATE TABLE CategoriesOfFood (IdCategoryOfFood INTEGER PRIMARY KEY, Name TEXT, Description TEXT);
 
 -- Table: Foods
 DROP TABLE IF EXISTS Foods;
 CREATE TABLE Foods (IdFood INT NOT NULL, Name VARCHAR (15), Description VARCHAR (256), Energy DOUBLE, TotalFatsPercent DOUBLE, SaturatedFatsPercent DOUBLE, MonounsaturatedFatsPercent DOUBLE, PolyunsaturatedFatsPercent DOUBLE, CarbohydratesPercent DOUBLE, SugarPercent DOUBLE, FibersPercent INT, ProteinsPercent INT, SaltPercent DOUBLE, PotassiumPercent DOUBLE, Cholesterol DOUBLE, GlycemicIndex DOUBLE, UnitSymbol TEXT, GramsInOneUnit DOUBLE, Manufacturer TEXT, Category REAL, PRIMARY KEY (IdFood));
-INSERT INTO Foods (IdFood, Name, Description, Energy, TotalFatsPercent, SaturatedFatsPercent, MonounsaturatedFatsPercent, PolyunsaturatedFatsPercent, CarbohydratesPercent, SugarPercent, FibersPercent, ProteinsPercent, SaltPercent, PotassiumPercent, Cholesterol, GlycemicIndex, UnitSymbol, GramsInOneUnit, Manufacturer, Category) VALUES (1, 'Uovo', '1 piccolo 40 g, 1 medio 50 g, 1 grande 60 g', NULL, NULL, NULL, NULL, NULL, 1.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', 60.0, '', '');
-INSERT INTO Foods (IdFood, Name, Description, Energy, TotalFatsPercent, SaturatedFatsPercent, MonounsaturatedFatsPercent, PolyunsaturatedFatsPercent, CarbohydratesPercent, SugarPercent, FibersPercent, ProteinsPercent, SaltPercent, PotassiumPercent, Cholesterol, GlycemicIndex, UnitSymbol, GramsInOneUnit, Manufacturer, Category) VALUES (2, 'Zucchero', '', NULL, NULL, NULL, NULL, NULL, 100.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', 1.034, '', '');
+INSERT INTO Foods (IdFood, Name, Description, Energy, TotalFatsPercent, SaturatedFatsPercent, MonounsaturatedFatsPercent, PolyunsaturatedFatsPercent, CarbohydratesPercent, SugarPercent, FibersPercent, ProteinsPercent, SaltPercent, PotassiumPercent, Cholesterol, GlycemicIndex, UnitSymbol, GramsInOneUnit, Manufacturer, Category) VALUES (2, 'Uovo', '1 piccolo 40 g, 1 medio 50 g, 1 grande 60 g', NULL, NULL, NULL, NULL, NULL, 1.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', 60.0, '', '');
+INSERT INTO Foods (IdFood, Name, Description, Energy, TotalFatsPercent, SaturatedFatsPercent, MonounsaturatedFatsPercent, PolyunsaturatedFatsPercent, CarbohydratesPercent, SugarPercent, FibersPercent, ProteinsPercent, SaltPercent, PotassiumPercent, Cholesterol, GlycemicIndex, UnitSymbol, GramsInOneUnit, Manufacturer, Category) VALUES (1, 'Zucchero', '', NULL, NULL, NULL, NULL, NULL, 100.0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', 1.034, '', '');
 INSERT INTO Foods (IdFood, Name, Description, Energy, TotalFatsPercent, SaturatedFatsPercent, MonounsaturatedFatsPercent, PolyunsaturatedFatsPercent, CarbohydratesPercent, SugarPercent, FibersPercent, ProteinsPercent, SaltPercent, PotassiumPercent, Cholesterol, GlycemicIndex, UnitSymbol, GramsInOneUnit, Manufacturer, Category) VALUES (4, 'Parmigiano', 'Descrizione', 1.0, 2.0, 3.0, 4.0, 5.0, 0.0, 7.0, 8, 9, 10.0, 12.0, 11.0, 13.0, 'g', 1.0, 'Conad', 'Formaggi');
-INSERT INTO Foods (IdFood, Name, Description, Energy, TotalFatsPercent, SaturatedFatsPercent, MonounsaturatedFatsPercent, PolyunsaturatedFatsPercent, CarbohydratesPercent, SugarPercent, FibersPercent, ProteinsPercent, SaltPercent, PotassiumPercent, Cholesterol, GlycemicIndex, UnitSymbol, GramsInOneUnit, Manufacturer, Category) VALUES (5, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1.0, NULL, NULL);
-INSERT INTO Foods (IdFood, Name, Description, Energy, TotalFatsPercent, SaturatedFatsPercent, MonounsaturatedFatsPercent, PolyunsaturatedFatsPercent, CarbohydratesPercent, SugarPercent, FibersPercent, ProteinsPercent, SaltPercent, PotassiumPercent, Cholesterol, GlycemicIndex, UnitSymbol, GramsInOneUnit, Manufacturer, Category) VALUES (6, 'Spaghetti', 'crudi', 1.0, NULL, NULL, NULL, NULL, 70.0, NULL, NULL, NULL, NULL, NULL, NULL, 12.0, NULL, 1.0, '', '');
+INSERT INTO Foods (IdFood, Name, Description, Energy, TotalFatsPercent, SaturatedFatsPercent, MonounsaturatedFatsPercent, PolyunsaturatedFatsPercent, CarbohydratesPercent, SugarPercent, FibersPercent, ProteinsPercent, SaltPercent, PotassiumPercent, Cholesterol, GlycemicIndex, UnitSymbol, GramsInOneUnit, Manufacturer, Category) VALUES (5, 'Spaghetti', 'crudi', 1.0, NULL, NULL, NULL, NULL, 70.0, NULL, NULL, NULL, NULL, NULL, NULL, 12.0, NULL, 1.0, '', '');
+INSERT INTO Foods (IdFood, Name, Description, Energy, TotalFatsPercent, SaturatedFatsPercent, MonounsaturatedFatsPercent, PolyunsaturatedFatsPercent, CarbohydratesPercent, SugarPercent, FibersPercent, ProteinsPercent, SaltPercent, PotassiumPercent, Cholesterol, GlycemicIndex, UnitSymbol, GramsInOneUnit, Manufacturer, Category) VALUES (3, 'Latte', '', NULL, NULL, NULL, NULL, NULL, 4.8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'g', NULL, 'Conad', '');
 
 -- Table: FoodsInMeals
 DROP TABLE IF EXISTS FoodsInMeals;
@@ -289,7 +534,23 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
 	'IdGlucoseRecord'	INT NOT NULL,
+
+
+
+
+
+
+
+
 
 
 
@@ -305,7 +566,23 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
 	'Timestamp'	DATETIME,
+
+
+
+
+
+
+
+
 
 
 
@@ -321,7 +598,23 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
 	'IdTypeOfGlucoseMeasurement'	INT,
+
+
+
+
+
+
+
+
 
 
 
@@ -337,7 +630,23 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
 	'IdModelOfMeasurementSystem'	INT,
+
+
+
+
+
+
+
+
 
 
 
@@ -353,7 +662,23 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
 	'IdDocumentType'	INT,
+
+
+
+
+
+
+
+
 
 
 
@@ -369,7 +694,23 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
+
+
+
+
+
+
+
+
 	PRIMARY KEY('IdGlucoseRecord')
+
+
+
+
+
+
+
+
 
 
 
@@ -393,7 +734,23 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
 	'IdHypoPrediction'	INT NOT NULL,
+
+
+
+
+
+
+
+
 
 
 
@@ -409,7 +766,23 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
 	'AlarmTime'	DATETIME,
+
+
+
+
+
+
+
+
 
 
 
@@ -425,7 +798,23 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
 	'HypoGlucoseTarget'	INT,
+
+
+
+
+
+
+
+
 
 
 
@@ -441,7 +830,23 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
 	'GlucosePrevious'	DOUBLE,
+
+
+
+
+
+
+
+
 
 
 
@@ -457,7 +862,23 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
 	'DatetimeLast'	DATETIME,
+
+
+
+
+
+
+
+
 
 
 
@@ -473,7 +894,23 @@ CREATE TABLE 'HypoPredictions' (
 
 
 
+
+
+
+
+
+
+
+
 	PRIMARY KEY('IdHypoPrediction')
+
+
+
+
+
+
+
+
 
 
 
@@ -523,6 +960,10 @@ INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction
 INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours) VALUES (3, 'Lispro', '', 20, 4.5, 0.3333333, 2.0);
 INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours) VALUES (5, 'Lantus', '', 40, 24.0, 4.0, 0.0);
 
+-- Table: Manufacturers
+DROP TABLE IF EXISTS Manufacturers;
+CREATE TABLE Manufacturers (IdManufacturer INTEGER PRIMARY KEY, Name TEXT, Description TEXT);
+
 -- Table: Meals
 DROP TABLE IF EXISTS Meals;
 CREATE TABLE Meals (IdMeal INT NOT NULL, IdTypeOfMeal INT, Carbohydrates DOUBLE, TimeBegin DATETIME, Notes VARCHAR (255), AccuracyOfChoEstimate DOUBLE, IdBolusCalculation INT, IdGlucoseRecord INT, IdInjection INT, TimeEnd DATETIME, PRIMARY KEY (IdMeal));
@@ -539,7 +980,23 @@ CREATE TABLE 'ModelsOfMeasurementSystem' (
 
 
 
+
+
+
+
+
+
+
+
 	'IdModelOfMeasurementSystem'	INT NOT NULL,
+
+
+
+
+
+
+
+
 
 
 
@@ -555,7 +1012,23 @@ CREATE TABLE 'ModelsOfMeasurementSystem' (
 
 
 
+
+
+
+
+
+
+
+
 	PRIMARY KEY('IdModelOfMeasurementSystem')
+
+
+
+
+
+
+
+
 
 
 
@@ -735,24 +1208,27 @@ INSERT INTO Recipes (IdRecipe, Name, Description, CarbohydratesPercent, Accuracy
 INSERT INTO Recipes (IdRecipe, Name, Description, CarbohydratesPercent, AccuracyOfChoEstimate, IsCooked, RawToCookedRatio) VALUES (2, '', '', NULL, NULL, 1, NULL);
 INSERT INTO Recipes (IdRecipe, Name, Description, CarbohydratesPercent, AccuracyOfChoEstimate, IsCooked, RawToCookedRatio) VALUES (3, 'Spaghetti alla carbonara', '(una porzione abbondante)', NULL, NULL, 0, NULL);
 
--- Table: Units
-DROP TABLE IF EXISTS Units;
-CREATE TABLE Units (IdUnit INTEGER PRIMARY KEY, Symbol TEXT, Name TEXT, Description TEXT, IdFood INTEGER, GramsInOneUnit DOUBLE);
-INSERT INTO Units (IdUnit, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (1, 'g', 'grams', NULL, NULL, 1.0);
-INSERT INTO Units (IdUnit, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (3, 'piccolo', NULL, NULL, 1, 40.0);
-INSERT INTO Units (IdUnit, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (4, 'medio', NULL, NULL, 1, 50.0);
-INSERT INTO Units (IdUnit, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (5, 'grande', NULL, NULL, 1, 60.0);
-INSERT INTO Units (IdUnit, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (6, 'g', NULL, NULL, NULL, 1.0);
-INSERT INTO Units (IdUnit, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (7, 'g', NULL, NULL, NULL, 1.0);
+-- Table: UnitsOfFood
+DROP TABLE IF EXISTS UnitsOfFood;
+CREATE TABLE UnitsOfFood (IdUnitOfFood INTEGER PRIMARY KEY, Symbol TEXT, Name TEXT, Description TEXT, IdFood INTEGER, GramsInOneUnit DOUBLE);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (1, 'g', 'grams', NULL, NULL, 1.0);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (2, 'bustina', 'bustina', NULL, 1, 5.0);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (3, 'piccolo', NULL, NULL, 2, 40.0);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (4, 'medio', NULL, NULL, 2, 50.0);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (5, 'grande', NULL, NULL, 2, 60.0);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (7, 'cucchiaio', 'cucchiaio', NULL, 1, 7.0);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (8, 'Bicchiere', NULL, NULL, 3, 200.0);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, IdFood, GramsInOneUnit) VALUES (9, 'tazza', NULL, NULL, 3, 80.0);
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
+
 ";
         internal override void CreateNewDatabase(string dbFile)
         {
-			// making new, means erasing existent! 
-			if (File.Exists(dbFile))
-				File.Delete(dbFile);
+			//// making new, means erasing existent! 
+			//if (File.Exists(dbFile))
+			//	File.Delete(dbFile);
 
 			// create the database; when the file does not exist
 			// Microsoft.Data.Sqlite creates the file at first connection

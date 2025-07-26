@@ -101,7 +101,7 @@ namespace GlucoMan.Maui
         }
         private async void btnFoods_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new FoodsPage(new Food(new Unit("g", 1))));
+            await Navigation.PushAsync(new FoodsPage(new Food(new UnitOfFood("g", 1))));
         }
         private void btnConfigurations_Clicked(object sender, EventArgs e)
         {
