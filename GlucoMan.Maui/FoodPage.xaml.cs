@@ -47,13 +47,25 @@ public partial class FoodPage : ContentPage
     }
     private void btnCategory_Clicked(object sender, EventArgs e)
     {
-        CategoryOfFood c = new CategoryOfFood(txtFoodManufacturer.Text);
-        bl.AddCategoryToFood(c, CurrentFood);
+        try
+        {
+            string newCategoryName = txtCategory.Text?.Trim();
+            if (string.IsNullOrEmpty(newCategoryName))
+                return;
+            CategoryOfFood newCategory = new CategoryOfFood(newCategoryName);
+            int? idCategory = bl.AddCategoryOfFood(newCategory);
+            // update category list in Picker
+            cmbCategory.ItemsSource = bl.GetAllCategoriesOfOneFood(CurrentFood);
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram.Error("FoodPage | btnCategory_Clicked", ex);
+        }
     }
     private async void btnAddUnit_Clicked(object sender, EventArgs e)
     {
         double gramsPerUnit = (double)Safe.Double(txtGramsPerUnit.Text); 
-        Unit unit = new Unit(txtUnit.Text, gramsPerUnit);
+        UnitOfFood unit = new UnitOfFood(txtUnit.Text, gramsPerUnit);
         // ask the user if the unit is applicable to the current food or to all foods
         bool isApplicableToAllFoods = await DisplayAlert("Unit Applicability",
             "Will this new Unit be applicable to all foods or just to this Food?", "All", "This");
@@ -63,6 +75,7 @@ public partial class FoodPage : ContentPage
         }
         else
         {
+            // if the unit is valid for any food it will ha a null IdFood
             unit.IdFood = null;
         }
         if (bl.CheckIfUnitSymbolExists(unit, unit.IdFood))
@@ -113,7 +126,10 @@ public partial class FoodPage : ContentPage
     }
     private void btnRemoveFoodCategory_Clicked(object sender, EventArgs e)
     {
-        bl.RemoveCategoryFromFood(CurrentFood);
+        if (cmbCategory.SelectedItem is CategoryOfFood selectedCategory)
+        {
+            bl.RemoveCategoryFromFood(selectedCategory, CurrentFood);
+        }
     }
     private void txtFoodManufacturer_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -125,7 +141,7 @@ public partial class FoodPage : ContentPage
     }
     private void cmbUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Unit unit = (Unit)cmbUnit.SelectedItem;
+        UnitOfFood unit = (UnitOfFood)cmbUnit.SelectedItem;
         CurrentFood.UnitSymbol = unit.Symbol;
         CurrentFood.GramsInOneUnit.Double = unit.GramsInOneUnit.Double;
     }

@@ -1,4 +1,5 @@
 ﻿using gamon;
+using Microsoft.Maui.Platform;
 using System.Collections;
 using static GlucoMan.Common;
 
@@ -323,13 +324,24 @@ namespace GlucoMan.BusinessLayer
         {
             Meal.CarbohydratesGrams.Text = dl.RestoreParameter("Meal_ChoGrams");
         }
-        internal int? AddUnit(Unit Unit)
+        internal int? AddUnit(UnitOfFood Unit)
         {
+            //// the Name and the Description of a new Unit are set equal to the Symbol
+            //// (currenlt)
+            //Unit.Description = Unit.Symbol;
+            //Unit.Description = Unit.Symbol;
             return dl.AddUnit(Unit);
         }
         internal int? AddManufacturerToFood(Manufacturer m, Food currentFood)
         {
-            return dl.AddManufacturerToFood(m, currentFood);
+            // !!!!!!!!!!!!!! fix !!!!!!!!
+            if (dl.CheckIfManufacturerExists(m))
+                return dl.UpdateManufacturer(m);
+            else
+                return dl.AddManufacturer(m);
+
+            // this instruction must be in the business layer when you save the food
+            // return dl.AddManufacturerToFood(m, currentFood);
         }
         internal int? AddCategoryToFood(CategoryOfFood c, Food currentFood)
         {
@@ -349,9 +361,14 @@ namespace GlucoMan.BusinessLayer
         }
         internal int? AddCategoryOfFood(CategoryOfFood CategoryOfFood)
         {
-            return dl.AddCategoryOfFood(CategoryOfFood, null);
+            int? idCategory = null;
+            if (!dl.CheckIfCategoryExists(CategoryOfFood))
+                idCategory = dl.AddCategoryOfFood(CategoryOfFood);
+            else
+                idCategory = dl.UpdateCategoryOfFood(CategoryOfFood);
+            return idCategory;
         }
-        internal void RemoveUnitFromFood(Unit unit, Food Food)
+        internal void RemoveUnitFromFood(UnitOfFood unit, Food Food)
         {
             dl.RemoveUnitFromFood(unit, Food);
         }
@@ -363,9 +380,13 @@ namespace GlucoMan.BusinessLayer
         {
             dl.RemoveCategoryFromFood(currentFood);
         }
-        internal List<Unit> GetAllUnitsOfOneFood(Food Food)
+        internal List<UnitOfFood> GetAllUnitsOfOneFood(Food Food)
         {
             return dl.GetAllUnitsOfOneFood(Food);
+        }
+        internal void RemoveUnitFromFoodsUnits(Food currentFood)
+        {
+            dl.RemoveUnitFromFoodsUnits(currentFood);
         }
         internal List<Manufacturer> GetAllManufacturersOfOneFood(Food food)
         {
@@ -389,7 +410,7 @@ namespace GlucoMan.BusinessLayer
                 type = TypeOfMeal.Snack;
             return type;
         }
-        internal bool CheckIfUnitSymbolExists(Unit unit, int? idFood)
+        internal bool CheckIfUnitSymbolExists(UnitOfFood unit, int? idFood)
         {
             return dl.CheckIfUnitSymbolExists(unit, idFood);
         }

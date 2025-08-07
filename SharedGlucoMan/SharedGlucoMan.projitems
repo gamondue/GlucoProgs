@@ -25,7 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\PositionOfInjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Recipe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Ingredient.cs" />
-    <Compile Include="..\SharedGlucoMan\BusinessObjects\Unit.cs" />
+    <Compile Include="..\SharedGlucoMan\BusinessObjects\UnitOfFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_GlucoseMeasurements.cs" />

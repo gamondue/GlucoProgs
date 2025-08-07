@@ -24,7 +24,7 @@ public partial class FoodsPage : ContentPage
     {
         InitializeComponent();
         if (CurrentFood == null)
-            CurrentFood = new Food(new Unit("g", 1));
+            CurrentFood = new Food(new UnitOfFood("g", 1));
         CurrentFood.Name = FoodNameForSearch;
         CurrentFood.Description = FoodDescriptionForSearch;
     }
@@ -32,14 +32,14 @@ public partial class FoodsPage : ContentPage
     {
         InitializeComponent();
         if (CurrentFood == null)
-            CurrentFood = new Food(new Unit("g", 1));
+            CurrentFood = new Food(new UnitOfFood("g", 1));
         bl.FromFoodInMealToFood(FoodInMeal, CurrentFood);
     }
     public FoodsPage(Ingredient Ingredient)
     {
         InitializeComponent();
         if (CurrentFood == null)
-            CurrentFood = new Food(new Unit("g", 1));
+            CurrentFood = new Food(new UnitOfFood("g", 1));
         bl.FromIngredientToFood(Ingredient, CurrentFood);
     }
     private void PageLoad(object sender, EventArgs e)
@@ -111,7 +111,7 @@ public partial class FoodsPage : ContentPage
         CurrentFood.Name = txtName.Text;
         CurrentFood.Description = txtDescription.Text;
         //if (cmbUnit.SelectedItem == null)
-            //CurrentFood.UnitSymbol = new Unit();
+            //CurrentFood.UnitSymbol = new UnitOfFood();
         ////////else
         ////////CurrentFood.UnitSymbol = cmbUnit.SelectedItem;
 
@@ -266,6 +266,6 @@ public partial class FoodsPage : ContentPage
     }
     private void cmbUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
-        CurrentFood.UnitSymbol = ((Unit)cmbUnit.SelectedItem).Symbol;
+        CurrentFood.UnitSymbol = ((UnitOfFood)cmbUnit.SelectedItem).Symbol;
     }
 }
