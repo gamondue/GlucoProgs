@@ -115,7 +115,7 @@
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
             
             <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3" Margin="1"
-                   Text="Calculation of a future glucose value, starting from now" 
+                   Text="Calculation of a future glucose value, starting from now and with current slope" 
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
             <Button Grid.Row="12" Grid.Column="3" x:Name="btnCalcFutureGlucose" Margin="1"
                     ToolTipProperties.Text="Calculates the future glucose after 'Time diff' minutes from 'current measurement' time (prediction uses the shown 'slope'). USE THIS WITH CAUTION!"

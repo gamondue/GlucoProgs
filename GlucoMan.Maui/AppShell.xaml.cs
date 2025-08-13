@@ -6,7 +6,7 @@
         {
             InitializeComponent();
 
-            // Registra le rotte per le pagine
+            // Register routes for pages
             Routing.RegisterRoute("GlucoseMeasurementsPage", typeof(GlucoseMeasurementsPage));
             Routing.RegisterRoute("MealsPage", typeof(MealsPage));
             Routing.RegisterRoute("MealPage", typeof(MealPage));

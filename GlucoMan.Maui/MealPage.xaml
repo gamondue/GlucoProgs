@@ -7,14 +7,14 @@
         <Grid RowDefinitions="Auto,Auto,*"
               ColumnDefinitions="*">
             <Grid x:Name="mealSection" Grid.Row="0"
-                  RowDefinitions="Auto,
-                    Auto,60,60,60"
+                  RowDefinitions="0,
+                    20,50,50,50"
                   ColumnDefinitions="60*,60*,70*,70*,80*">
                 <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold"
                     Grid.ColumnSpan="5" Text="Meal data" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                     LineBreakMode="WordWrap"/>
 
-                <Label Grid.Row="1" Grid.Column="0" Text="CHO of Meal [g]" HorizontalTextAlignment="Center" 
+                <Label Grid.Row="1" Grid.Column="0" Text="Meal CHO [g]" HorizontalTextAlignment="Center" 
                     VerticalTextAlignment="End" LineBreakMode="TailTruncation"/>
                 <Label Grid.Row="1" Grid.Column="1" Text="Accuracy" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                 <Label Grid.Row="1" Grid.Column="3" Text="IdMeal" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -96,9 +96,8 @@
                 <!--Text="Food to&#10;target"-->
             </Grid>
             <Grid x:Name="foodSection" Grid.Row="1"
-                      RowDefinitions="Auto,
-                      Auto,Auto,Auto,Auto,65,
-                      *" 
+                      RowDefinitions="20,
+                      20,50,20,50,50" 
                     ColumnDefinitions="60*,60*,70*,70*,80*">
                 <Label Grid.Row="0"   Grid.ColumnSpan="5" Text="Food data" 
                         FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -224,10 +223,12 @@
                     <!--Text="Recipes"-->
                 </Grid>
             </Grid>
-            <ListView Grid.Row="2" Grid.ColumnSpan="5" x:Name="gridFoodsInMeal" 
-                    ItemsSource="{Binding}"
-                    ToolTipProperties.Text="List of the foods in this meal"
-                    ItemSelected="gridFoodsInMeal_CellClick" Unfocused="gridFoodsInMeal_Unfocused" >
+            <ListView Grid.Row="2" Grid.ColumnSpan="5"
+                      x:Name="gridFoodsInMeal" ItemsSource="{Binding}"
+                      ToolTipProperties.Text="List of the foods in this meal"
+                      ItemSelected="gridFoodsInMeal_CellClick" 
+                      Unfocused="gridFoodsInMeal_Unfocused" 
+                      RowHeight="22">
                     <ListView.Header>
                         <Grid ColumnDefinitions="*,50,50,50,50">
                             <Label Grid.Column="0" Margin="1" Text="Nome" HorizontalTextAlignment="Start" 
@@ -269,6 +270,6 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-         </Grid>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

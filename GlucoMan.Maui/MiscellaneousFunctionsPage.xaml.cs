@@ -62,10 +62,10 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     {
         // write the SpecialFolders that are used
         // !!!! comment the next loop when development of this part has finished !!!!
-        foreach (var folder in Enum.GetValues(typeof(Environment.SpecialFolder)))
-        {
-            Debug.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
-        }
+        //foreach (var folder in Enum.GetValues(typeof(Environment.SpecialFolder)))
+        //{
+        //    Debug.WriteLine("{0}={1}", folder, System.Environment.GetFolderPath((Environment.SpecialFolder)folder));
+        //}
 #if ANDROID
         if (!await AndroidExternalFilesHelper.ProgramHasPermissions())
         {

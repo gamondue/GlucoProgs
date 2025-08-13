@@ -69,61 +69,77 @@ namespace GlucoMan.BusinessLayer
                 permissionTaskCompletionSource?.SetResult(allGranted);
             }
         }
-        public static async Task SaveFileToExternalStoragePublicDirectoryAsync
-            (string sourceInternalPathAndName, string fileName)
+        public static async Task<bool> SaveFileToExternalStoragePublicDirectoryAsync
+            (string sourceInternalPathAndName, string destinationPathAndName)
         {
             try
             {
-                // source is from internal storage, destination is to external storage
-                // => source can be read with file class
-                byte[] fileContent = await File.ReadAllBytesAsync(sourceInternalPathAndName); // read the file content
-                //int startOfExternalDocumentsPath = destinationExternalPathAndName.IndexOf(Android.OS.Environment.DirectoryDocuments);
+                // Debug: verifica che il file sorgente esista
+                General.LogOfProgram.Debug($"File sorgente: {sourceInternalPathAndName}");
+                General.LogOfProgram.Debug($"File sorgente esiste: {File.Exists(sourceInternalPathAndName)}");
+                General.LogOfProgram.Debug($"Destinazione: {destinationPathAndName}");
+                
+                if (!File.Exists(sourceInternalPathAndName))
+                {
+                    General.LogOfProgram.Error($"File sorgente non trovato: {sourceInternalPathAndName}", null);
+                    return false;
+                }
+
+                string justfileName = Path.GetFileName(destinationPathAndName);
+                byte[] fileContent = await File.ReadAllBytesAsync(sourceInternalPathAndName);
+                
                 try
                 {
-                    // Documents folder
-                    string externalDirectory = Path.Combine(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDocuments).AbsolutePath, "Glucoman");
-                    // create the directory if it does not exist
-                    if (!Directory.Exists(externalDirectory))
+                    // Crea la directory di destinazione se non esiste
+                    string destinationDirectory = Path.GetDirectoryName(destinationPathAndName);
+                    if (!Directory.Exists(destinationDirectory))
                     {
-                        Directory.CreateDirectory(externalDirectory);
+                        Directory.CreateDirectory(destinationDirectory);
+                        General.LogOfProgram.Debug($"Directory creata: {destinationDirectory}");
                     }
-                    // file's full path
-                    string filePath = Path.Combine(externalDirectory, fileName);
-                    // Save file
-                    await File.WriteAllBytesAsync(filePath, fileContent);
+                    
+                    // *** QUESTA È LA PARTE CHE MANCAVA: SCRIVERE IL FILE ***
+                    await File.WriteAllBytesAsync(destinationPathAndName, fileContent);
+                    General.LogOfProgram.Debug($"File scritto: {destinationPathAndName}");
+                    
+                    // Verifica che il file sia stato effettivamente creato
+                    if (File.Exists(destinationPathAndName))
+                    {
+                        var fileInfo = new FileInfo(destinationPathAndName);
+                        General.LogOfProgram.Debug($"File salvato con successo in: {destinationPathAndName}, dimensione: {fileInfo.Length} bytes");
 
-                    //// Log per confermare il salvataggio
-                    //General.LogOfProgram.Info($"File salvato in: {filePath}");
+                        // Notifica il sistema del nuovo file
+                        var intent = new Intent(Intent.ActionMediaScannerScanFile);
+                        intent.SetData(Android.Net.Uri.FromFile(new Java.IO.File(destinationPathAndName)));
+                        Platform.CurrentActivity?.SendBroadcast(intent);
+                        
+                        // Toast for the user
+                        var activity = Platform.CurrentActivity;
+                        if (activity != null)
+                        {
+                            activity.RunOnUiThread(() =>
+                            {
+                                Toast.MakeText(activity, $"File saved in: Download/GlucoMan/", ToastLength.Long).Show();
+                            });
+                        }              
+                        return true;
+                    }
+                    else
+                    {
+                        General.LogOfProgram.Error("File not found after writing", null);
+                        return false;
+                    }
                 }
                 catch (Exception ex)
                 {
-                    General.LogOfProgram.Error("Errore durante il salvataggio del file", ex);
-                 }
-                //string relativePath = Path.GetDirectoryName(destinationExternalPathAndName);
-                //relativePath = relativePath.Substring(startOfExternalDocumentsPath);
-                //string fullPath = Path.Combine(Android.OS.Environment.DirectoryDocuments, relativePath, fileName);
-                ////relativePath = relativePath.Replace("Documents/", "");
-
-                //ContentValues contentValues = new ContentValues();
-                //contentValues.Put(MediaStore.IMediaColumns.DisplayName, fileName);
-                //contentValues.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
-                //contentValues.Put(MediaStore.IMediaColumns.RelativePath, Path.Combine(Android.OS.Environment.DirectoryDocuments, relativePath));
-
-                //ContentResolver resolver = Android.App.Application.Context.ContentResolver;
-
-                //Android.Net.Uri uri = resolver.Insert(MediaStore.Files.GetContentUri("external"), contentValues);
-
-                //if (uri != null)
-                //{
-                //    using (Stream outputStream = resolver.OpenOutputStream(uri))
-                //    {
-                //        await outputStream.WriteAsync(fileContent, 0, fileContent.Length);
-                //    }
-                //}
+                    General.LogOfProgram.Error("Error during file saving", ex);
+                    return false;
+                }
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("AndroidExternalFilesHelper | SaveFileToExternalPublicDirectoryAsync", ex);
+                General.LogOfProgram.Error("AndroidExternalFilesHelper | SaveFileToExternalStoragePublicDirectoryAsync", ex);
+                return false;
             }
         }
         public static async Task<bool> ReadFileFromExternalPublicDirectoryAsync
@@ -133,24 +149,24 @@ namespace GlucoMan.BusinessLayer
             {
                 // use Context.GetExternalFilesDir() to access the private directory of the app in the external storage
                 // Documents folder
-                string externalDirectory = Path.Combine(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDocuments).AbsolutePath, "Glucoman");
+                string externalDirectory = Path.Combine(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath, "Glucoman");
                 string externalPathAndFile = Path.Combine(externalDirectory, sourceExternalFileName);
                 // check if the external file exists
                 if (!File.Exists(externalPathAndFile))
                 {
-                    General.LogOfProgram.Error($"File non trovato: {externalPathAndFile}", null);
+                    General.LogOfProgram.Error($"File not found: {externalPathAndFile}", null);
                     return false;
                 }
                 // read the source file content from external storage
                 byte[] fileContent = await File.ReadAllBytesAsync(externalPathAndFile);
-                // wri the file content to the internal storage
+                // write the file content to the internal storage
                 File.WriteAllBytesAsync(targetInternalPathAndFile, fileContent);
-                //General.LogOfProgram.Info($"File copiato con successo da {externalPathAndFile} a {destinationInternalPath}");
+                //General.LogOfProgram.Info($"File copied successfully from {externalPathAndFile} to {destinationInternalPath}");
                 return true;
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Errore durante la lettura del file dallo storage esterno", ex);
+                General.LogOfProgram.Error("Error during file reading from external storage", ex);
                 return false;
             }
         }

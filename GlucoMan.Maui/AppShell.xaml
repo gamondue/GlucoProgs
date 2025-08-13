@@ -6,7 +6,16 @@
     xmlns:local="clr-namespace:GlucoMan.Maui"
     Shell.FlyoutBehavior="Disabled"
     Title="GlucoMan: Glucose Manager">
-<!-- !!!! TODO enable the flyout and modify navigation-->
+    <Shell.TitleView>
+        <Grid HeightRequest="27" VerticalOptions="Center">
+            <Label Text="GlucoMan: Glucose Manager"
+                   FontSize="Medium"
+                   VerticalOptions="Center"
+                   Padding="0"
+                   Margin="0"/>
+        </Grid>
+    </Shell.TitleView>
+    <!-- !!!! TODO enable the flyout and modify navigation-->
     <ShellContent
         Title="GlucoMan: Glucose Manager"
         ContentTemplate="{DataTemplate local:MainPage}"

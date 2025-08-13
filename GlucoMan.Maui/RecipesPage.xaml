@@ -124,10 +124,12 @@
                        HorizontalTextAlignment="Center" VerticalOptions="End" />
                 <Label Grid.Row="0" Grid.Column="2" Text="Cooked" 
                        HorizontalTextAlignment="Center" VerticalOptions="End" />
-                <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalOptions="Start"
-                    x:Name="gridRecipes" 
+                <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+                    VerticalOptions="Start" ItemsSource="{Binding}" 
                     ToolTipProperties.Text="List of filtered recipes"
-                    ItemsSource="{Binding}" ItemSelected="OnGridSelection" >
+                    ItemSelected="OnGridSelection" 
+                    x:Name="gridRecipes" 
+                    RowHeight="22">
                     <!-- description of data to be shown, in a DataTemplate -->
                     <ListView.ItemTemplate>
                         <DataTemplate>

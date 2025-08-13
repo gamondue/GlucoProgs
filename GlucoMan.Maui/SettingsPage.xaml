@@ -3,75 +3,85 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
              x:Class="GlucoMan.Maui.SettingsPage"  
              Title="Settings">  
-    <VerticalStackLayout>  
-      
-        <HorizontalStackLayout>
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Short Acting Insulin</Label>
-            <Picker x:Name="cmbShortActingInsulin" 
-                    VerticalOptions="Center" SelectedIndexChanged="cmbShortActingInsulin_SelectedIndexChanged"/>
-        </HorizontalStackLayout>
-        
-        <HorizontalStackLayout>  
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Duration of short acting insulin</Label>
-            <Entry x:Name="txtInsulinShortDuration" VerticalOptions="Center" Keyboard="Numeric"/>  
-            <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
-        </HorizontalStackLayout>  
+    <ScrollView>
+        <VerticalStackLayout Padding="10">  
+          
+            <HorizontalStackLayout>
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Short Acting Insulin</Label>
+                <Picker x:Name="cmbShortActingInsulin" 
+                        VerticalOptions="Center" SelectedIndexChanged="cmbShortActingInsulin_SelectedIndexChanged"/>
+            </HorizontalStackLayout>
+            
+            <HorizontalStackLayout>  
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Duration of short acting insulin</Label>
+                <Entry x:Name="txtInsulinShortDuration" VerticalOptions="Center" Keyboard="Numeric"/>  
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
+            </HorizontalStackLayout>  
 
-        <HorizontalStackLayout>
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Long Acting Insulin</Label>
-            <Picker x:Name="cmbLongActingInsulin" 
-                    VerticalOptions="Center"
-                    SelectedIndexChanged="cmbLongActingInsulin_SelectedIndexChanged"/>
-        </HorizontalStackLayout>
-        
-        <HorizontalStackLayout>
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Duration of long acting insulin</Label>
-            <Entry x:Name="txtInsulinLongDuration" VerticalOptions="Center"/>
-            <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>
-        </HorizontalStackLayout>
-        
-        <HorizontalStackLayout>  
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Initial time for breakfast</Label>
-            <Entry x:Name="txtInitialTimeForBreakfast" VerticalOptions="Center" Keyboard="Numeric"
-                   Text="{Binding Meal_Breakfast_StartTime_Hours, Mode=TwoWay}" />  
-            <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
-        </HorizontalStackLayout>  
+            <HorizontalStackLayout>
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Long Acting Insulin</Label>
+                <Picker x:Name="cmbLongActingInsulin" 
+                        VerticalOptions="Center"
+                        SelectedIndexChanged="cmbLongActingInsulin_SelectedIndexChanged"/>
+            </HorizontalStackLayout>
+            
+            <HorizontalStackLayout>
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Duration of long acting insulin</Label>
+                <Entry x:Name="txtInsulinLongDuration" VerticalOptions="Center"/>
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>
+            </HorizontalStackLayout>
 
-        <HorizontalStackLayout>  
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Final time for breakfast</Label>  
-            <Entry x:Name="txtFinalTimeForBreakfast" VerticalOptions="Center"  
-                   Text="{Binding Meal_Breakfast_EndTime_Hours, Mode=TwoWay}" />  
-            <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
-        </HorizontalStackLayout>  
+            <Label>Following parameters aren't used in the program yet</Label>
+            <HorizontalStackLayout>  
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Initial time for breakfast</Label>
+                <Entry x:Name="txtInitialTimeForBreakfast" VerticalOptions="Center" Keyboard="Numeric"
+                       Text="{Binding Meal_Breakfast_StartTime_Hours, Mode=TwoWay}" />  
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
+            </HorizontalStackLayout>  
 
-        <HorizontalStackLayout>  
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Initial time for lunch</Label>
-            <Entry x:Name="txtInitialTimeForLunch" VerticalOptions="Center" Keyboard="Numeric" 
-                   Text="{Binding Meal_Lunch_StartTime_Hours, Mode=TwoWay}" />  
-            <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
-        </HorizontalStackLayout>  
+            <HorizontalStackLayout>  
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Final time for breakfast</Label>  
+                <Entry x:Name="txtFinalTimeForBreakfast" VerticalOptions="Center"  
+                       Text="{Binding Meal_Breakfast_EndTime_Hours, Mode=TwoWay}" />  
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
+            </HorizontalStackLayout>  
 
-        <HorizontalStackLayout>  
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Final time for lunch</Label>
-            <Entry x:Name="txtFinalTimeForLunch" VerticalOptions="Center" Keyboard="Numeric"
-                   Text="{Binding Meal_Lunch_EndTime_Hours, Mode=TwoWay}" />  
-            <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
-        </HorizontalStackLayout>  
+            <HorizontalStackLayout>  
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Initial time for lunch</Label>
+                <Entry x:Name="txtInitialTimeForLunch" VerticalOptions="Center" Keyboard="Numeric" 
+                       Text="{Binding Meal_Lunch_StartTime_Hours, Mode=TwoWay}" />  
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
+            </HorizontalStackLayout>  
 
-        <HorizontalStackLayout>  
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Initial time for dinner</Label>  
-            <Entry x:Name="txtInitialTimeForDinner" VerticalOptions="Center"  
-                   Text="{Binding Meal_Dinner_StartTime_Hours, Mode=TwoWay}" />  
-            <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
-        </HorizontalStackLayout>  
+            <HorizontalStackLayout>  
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Final time for lunch</Label>
+                <Entry x:Name="txtFinalTimeForLunch" VerticalOptions="Center" Keyboard="Numeric"
+                       Text="{Binding Meal_Lunch_EndTime_Hours, Mode=TwoWay}" />  
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
+            </HorizontalStackLayout>  
 
-        <HorizontalStackLayout>  
-            <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Final time for dinner</Label>
-            <Entry x:Name="txtFinalTimeForBreakfastDinner" VerticalOptions="Center" Keyboard="Numeric"
-                   Text="{Binding Meal_Dinner_EndTime_Hours, Mode=TwoWay}" />  
-            <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
-        </HorizontalStackLayout>  
+            <HorizontalStackLayout>  
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Initial time for dinner</Label>  
+                <Entry x:Name="txtInitialTimeForDinner" VerticalOptions="Center"  
+                       Text="{Binding Meal_Dinner_StartTime_Hours, Mode=TwoWay}" />  
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
+            </HorizontalStackLayout>  
 
-        <Button IsEnabled="True" Text="Save" Clicked="Button_Clicked" />  
-    </VerticalStackLayout>  
+            <HorizontalStackLayout>  
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Final time for dinner</Label>
+                <Entry x:Name="txtFinalTimeForBreakfastDinner" VerticalOptions="Center" Keyboard="Numeric"
+                       Text="{Binding Meal_Dinner_EndTime_Hours, Mode=TwoWay}" />  
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Months of data shown in the grids</Label>
+                <Entry x:Name="txtMonths" VerticalOptions="Center" Keyboard="Numeric"
+                       Text="{Binding MonthsOfDataShownInTheGrids, Mode=TwoWay}" />
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">MM</Label>
+            </HorizontalStackLayout>
+
+            <Button IsEnabled="True" Text="Save" Clicked="Button_Clicked" Margin="0,10,0,10" />  
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

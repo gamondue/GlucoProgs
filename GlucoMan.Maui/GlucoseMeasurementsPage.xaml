@@ -85,17 +85,17 @@
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Text="Gluc.[mg/dL]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <ListView Grid.Row="6" Grid.ColumnSpan="4" x:Name="gridMeasurements" ItemsSource="{Binding}"
-                      ItemSelected="OnGridSelection" ToolTipProperties.Text="List of past glucose measurements">
+            <ListView Grid.Row="6" Grid.ColumnSpan="4"
+                      x:Name="gridMeasurements" ItemsSource="{Binding}"
+                      ToolTipProperties.Text="List of past glucose measurements"
+                      ItemSelected="OnGridSelection" 
+                      RowHeight="22">
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid Margin="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="20"/>
-                                    </Grid.RowDefinitions>
+                                <Grid Margin="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>

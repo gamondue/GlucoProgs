@@ -26,16 +26,16 @@
                     Clicked="btnSensors_Clicked_Async"/>
             
             <CheckBox Grid.Row="0" Grid.Column="0" HorizontalOptions="Center"
-                      x:Name ="chkFront" CheckedChanged="chkChanged" IsChecked="True" 
+                      x:Name ="chkFront" CheckedChanged="chkChanged" IsChecked="False" 
                       ToolTipProperties.Text="Add to the list the injections made in the Front zone"/>
             <CheckBox Grid.Row="0" Grid.Column="1" HorizontalOptions="Center"
-                      x:Name ="chkBack" CheckedChanged="chkChanged" IsChecked="True"
+                      x:Name ="chkBack" CheckedChanged="chkChanged" IsChecked="False"
                       ToolTipProperties.Text="Add to the list the injections made in the Back zone"/>
             <CheckBox Grid.Row="0" Grid.Column="2" HorizontalOptions="Center"
-                      x:Name ="chkHands" CheckedChanged="chkChanged" IsChecked="True" 
+                      x:Name ="chkHands" CheckedChanged="chkChanged" IsChecked="False" 
                       ToolTipProperties.Text="Add to the list the blood sampling punctures"/>
             <CheckBox Grid.Row="0" Grid.Column="3" HorizontalOptions="Center"
-                      x:Name ="chkSensors" CheckedChanged="chkChanged" IsChecked="True"
+                      x:Name ="chkSensors" CheckedChanged="chkChanged" IsChecked="False"
                       ToolTipProperties.Text="Add to the list the sensors installed"/>
 
             <Label Grid.Row="2" Grid.Column="0" Text="Actual Insulin [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
@@ -138,7 +138,8 @@
             <ListView Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="4" 
                       x:Name="gridInjections" ItemsSource="{Binding}"
                       ToolTipProperties.Text="Past injections"
-                      ItemSelected="OnGridSelectionAsync" >
+                      ItemSelected="OnGridSelectionAsync"
+                      RowHeight="22">
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>

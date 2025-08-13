@@ -163,7 +163,7 @@ namespace GlucoMan
                 {
                     string query = "SELECT *" +
                         " FROM Injections";
-                    if (FinalInstant != null)
+                    if (InitialInstant != null && FinalInstant != null)
                     {   // add WHERE clause
                         query += " WHERE Timestamp BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd HH:mm:ss") +
                             "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd HH:mm:ss") + "'";
@@ -189,7 +189,7 @@ namespace GlucoMan
                     }
                     else
                     {
-                        // at least one zone is selected, so we add the condition
+                        // at least one zone is selected, so we add the conditions
                         query += " AND (";
                         List<string> zones = new List<string>();
                         if (getFront) zones.Add("Zone=" + (int)Common.ZoneOfPosition.Front);

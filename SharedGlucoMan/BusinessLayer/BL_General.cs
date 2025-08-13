@@ -23,22 +23,27 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
+
 #if ANDROID
-                // Ensure the method is marked as async and the return type is Task<bool>
                 if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
                     return false;
 #endif
-                // log of errors file
-                string exportedLogOfProgram = Path.Combine(Common.PathImportExport, Path.GetFileName(General.LogOfProgram.ErrorsFile));
-                string fileName = Path.GetFileName(exportedLogOfProgram);
-                if (File.Exists(General.LogOfProgram.ErrorsFile))
+                string fileName;
+                // files in the logs path
+                var filesInProgramsFolder = Directory.GetFiles(Common.PathLogs);
+                foreach (string f in filesInProgramsFolder)
                 {
+                    //string fileSource = Path.Combine(Common.PathImportExport, Path.GetFileName(General.LogOfProgram.ErrorsFile));
+                    fileName = Path.GetFileName(f);
+                    if (File.Exists(General.LogOfProgram.ErrorsFile))
+                    {
 #if ANDROID
                     await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(General.LogOfProgram.ErrorsFile
                     , fileName);
 #else
-                    File.Copy(General.LogOfProgram.ErrorsFile, exportedLogOfProgram, true);
+                        File.Copy(General.LogOfProgram.ErrorsFile, f, true);
 #endif
+                    }
                 }
                 // database file
                 // log of insulin correction parameters 
@@ -58,8 +63,12 @@ namespace GlucoMan.BusinessLayer
                 if (File.Exists(Common.PathAndFileDatabase))
                 {
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileDatabase
-                    , fileName);
+                    bool success = await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileDatabase, fileName);
+                    if (!success)
+                    {
+                        General.LogOfProgram.Error("Fallimento nell'export del database", null);
+                        return false;
+                    }
 #else
                     File.Copy(Common.PathAndFileDatabase, exportedDatabase, true);
 #endif
@@ -127,45 +136,55 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
-                // export log of errors file
-                string exportedLogOfProgram = Path.Combine(Common.PathImportExport, Path.GetFileName(General.LogOfProgram.ErrorsFile));
-                string fileName = Path.GetFileName(exportedLogOfProgram);
-                if (File.Exists(General.LogOfProgram.ErrorsFile))
+                // export all the files in the log folder
+                var filesInLogFolder = Directory.GetFiles(Common.PathLogs);
+                string fileName, fileDestination;
+                foreach (string fileSource in filesInLogFolder)
                 {
-                    if (File.Exists(exportedLogOfProgram))
-                        File.Delete(exportedLogOfProgram);
+                    //string fileSource = Path.Combine(Common.PathImportExport, Path.GetFileName(General.LogOfProgram.ErrorsFile));
+                    fileName = Path.GetFileName(fileSource);
+                    fileDestination = Path.Combine(Common.PathImportExport, fileName);
+                    if (File.Exists(General.LogOfProgram.ErrorsFile))
+                    {
+                        if (File.Exists(fileDestination))
+                            File.Delete(fileDestination);
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(General.LogOfProgram.ErrorsFile, exportedLogOfProgram);
+                        await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(
+                            fileSource,
+                            fileDestination);
 #else
-                    File.Copy(General.LogOfProgram.ErrorsFile, exportedLogOfProgram, true);
+                        File.Copy(fileSource, fileDestination, true);
 #endif
+                    }
                 }
-                // export log of insulin correction parameters 
-                string exportedLogOfParameters = Path.Combine(Common.PathImportExport, Common.LogOfParametersFileName);
-                fileName = Path.GetFileName(exportedLogOfParameters);
-                if (File.Exists(Common.PathAndFileLogOfParameters))
-                {
-                    if (File.Exists(exportedLogOfParameters))
-                        File.Delete(exportedLogOfParameters);
-#if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileLogOfParameters, exportedLogOfParameters);
-#else
-                    File.Copy(Common.PathAndFileLogOfParameters, exportedLogOfParameters, true);
-#endif
-                }
+//                // export log of insulin correction parameters 
+//                string exportedLogOfParameters = Path.Combine(Common.PathImportExport, Common.LogOfParametersFileName);
+//                fileName = Path.GetFileName(exportedLogOfParameters);
+//                if (File.Exists(Common.PathAndFileLogOfParameters))
+//                {
+//                    if (File.Exists(exportedLogOfParameters))
+//                        File.Delete(exportedLogOfParameters);
+//#if ANDROID
+//                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileLogOfParameters, exportedLogOfParameters);
+//#else
+//                    File.Copy(Common.PathAndFileLogOfParameters, exportedLogOfParameters, true);
+//#endif
+//                }
                 // export database file
                 string exportedDatabase = Path.Combine(Common.PathImportExport, Common.DatabaseFileName);
                 fileName = Path.GetFileName(exportedDatabase);
-                if (File.Exists(Common.PathAndFileDatabase))
-                {
+                //if (File.Exists(Common.PathAndFileDatabase))
+                //{
                     if (File.Exists(exportedDatabase))
                         File.Delete(exportedDatabase);
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileDatabase, exportedDatabase);
+                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(
+                    Common.PathAndFileDatabase,
+                    exportedDatabase);
 #else
                     File.Copy(Common.PathAndFileDatabase, exportedDatabase, true);
 #endif
-                }
+                //}
                 return true;
             }
             catch (Exception ex)
@@ -176,7 +195,7 @@ namespace GlucoMan.BusinessLayer
         }
         internal Parameters GetSettingsPageParameters()
         {
-             return dl.GetParameters();
+            return dl.GetParameters();
         }
         internal void SaveAllParameters(Parameters p,
             InsulinDrug ShortActingInsulin, InsulinDrug LongActingInsulin)

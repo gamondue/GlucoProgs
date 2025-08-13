@@ -75,7 +75,7 @@ public partial class FoodPage : ContentPage
         }
         else
         {
-            // if the unit is valid for any food it will ha a null IdFood
+            // if the unit is valid for any food it will have a null IdFood
             unit.IdFood = null;
         }
         if (bl.CheckIfUnitSymbolExists(unit, unit.IdFood))
@@ -84,7 +84,7 @@ public partial class FoodPage : ContentPage
             DisplayAlert("", "The unit symbol already exists, give the new unit a unique symbol", "Ok");
             return;
         }
-        // we save the unit, if IdFood has been put to null, we mean tha the UnitSymbol has to be used for any food
+        // we save the unit, if IdFood has been put to null, we mean that the UnitSymbol has to be used for any food
         if (bl.AddUnit(unit) == null)
         {
             // prompt the user that the saving of the unit failed
@@ -99,7 +99,7 @@ public partial class FoodPage : ContentPage
     }
     private async void btnRemoveFoodManufacturer_Clicked(object sender, EventArgs e)
     {
-        // check the control the has the focus
+        // check which control has the focus
 
         if (bl.GetAllManufacturersOfOneFood(CurrentFood).Count == 1)
         {

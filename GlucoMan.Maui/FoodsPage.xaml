@@ -97,9 +97,11 @@
                 ToolTipProperties.Text="Search: searchs the foods matching the filter that is in the UI"
                 Clicked="btnSearchFood_Click"/>
             <!--Text="Search"-->
-            <ListView Grid.Row="8" Grid.ColumnSpan="4" x:Name="gridFoods" 
-                      ItemsSource="{Binding}" 
-                      ItemSelected="OnGridSelectionAsync">
+            <ListView Grid.Row="8" Grid.ColumnSpan="4" 
+                      x:Name="gridFoods" ItemsSource="{Binding}"
+                      ToolTipProperties.Text="Foods"
+                      ItemSelected="OnGridSelectionAsync"
+                      RowHeight="22">
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate Margin="4">
                     <DataTemplate>

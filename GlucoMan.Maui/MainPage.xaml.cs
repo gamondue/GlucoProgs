@@ -15,7 +15,8 @@ namespace GlucoMan.Maui
             RequestPermissionsIfNotGiven().ConfigureAwait(false);
             Thread.Sleep(5000);
          
-            Common.SetGlobalParameters();
+            // already called in MauiProgram.cs
+            //Common.SetGlobalParameters();
 
             // restore parameters (TODO move these to SetGlobalParameters, making RestoreParameter static)
             Common.breakfastStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Breakfast_StartTime_Hours"));

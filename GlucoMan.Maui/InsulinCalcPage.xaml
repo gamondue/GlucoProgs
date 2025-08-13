@@ -8,7 +8,7 @@
         <Grid Padding="8,0,8,0" RowDefinitions="Auto,
               Auto,60,Auto,70,Auto,
               Auto,70,Auto,Auto,Auto,
-              Auto,Auto"
+              Auto,70"
                 ColumnDefinitions="*,*,*,*">
         <Label x:Name="tempText" Grid.Row="0" Grid.ColumnSpan="4" Text="Ratio CHO / insulin (from dietist)" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>

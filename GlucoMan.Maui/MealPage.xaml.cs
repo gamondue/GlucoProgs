@@ -8,7 +8,7 @@ namespace GlucoMan.Maui;
 public partial class MealPage : ContentPage
 {
     // since it is accessed by several pages, to avoid "concurrent" problems 
-    // we use a common business layer beetween different pages
+    // we use a common business layer between different pages
     private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
 
     private bool loadingUi = true;
@@ -26,7 +26,7 @@ public partial class MealPage : ContentPage
     GlucoseMeasurementsPage measurementPage;
 
     private Color initialButtonBackground = Colors.White;
-    private Color initalButtonTextColor=Colors.Black;
+    private Color initialButtonTextColor = Colors.Black;
 
     public MealPage(Meal Meal)
     {
@@ -45,7 +45,7 @@ public partial class MealPage : ContentPage
         mealSection.BindingContext = bl.Meal;
 
         initialButtonBackground = btnStartMeal.BackgroundColor;
-        initalButtonTextColor = btnStartMeal.TextColor;
+        initialButtonTextColor = btnStartMeal.TextColor;
         if (bl.Meal.IdMeal == null || (bl.Meal.TimeBegin.DateTime + new TimeSpan(0, 45, 0) > DateTime.Now))
         { 
             btnStartMeal.BackgroundColor = Colors.Red;
@@ -266,7 +266,7 @@ public partial class MealPage : ContentPage
         if (bl.Meal.IdMeal != null)
             bl.SaveOneMeal(bl.Meal, true); // saves with time now 
         btnStartMeal.BackgroundColor = initialButtonBackground;
-        btnStartMeal.TextColor = initalButtonTextColor;
+        btnStartMeal.TextColor = initialButtonTextColor;
         btnStartMeal.ImageSource = "chronograph_started.png"; 
         RefreshUi();
     }

@@ -19,7 +19,7 @@ namespace GlucoMan.BusinessLayer
         public  DoubleAndText T0RawNet = new DoubleAndText();
         public  DoubleAndText T0SaucePlusTare = new DoubleAndText();
 
-        public  DoubleAndText S1pPotSaucePlusPot = new DoubleAndText(); // eliminare !!
+        public  DoubleAndText S1pPotSaucePlusPot = new DoubleAndText(); // to remove !!
         public  DoubleAndText DiDish = new DoubleAndText();
         public  DoubleAndText T1CookedGross = new DoubleAndText();
         public  DoubleAndText T1CookedTare = new DoubleAndText();
