@@ -91,7 +91,7 @@ namespace GlucoMan.BusinessLayer
                     string backupFile = Path.Combine(Common.PathDatabase, backupFilename);
                     // backup the current database, in Android it is in internal storage, so we can use the class File 
                     File.Copy(pathAndFileInternalDatabase, backupFile, true);
-                    File.Delete(pathAndFileInternalDatabase);
+                    //File.Delete(pathAndFileInternalDatabase);
                 }
 #if ANDROID
                 // if the user has not given the permissions, then return with false
@@ -157,19 +157,6 @@ namespace GlucoMan.BusinessLayer
 #endif
                     }
                 }
-//                // export log of insulin correction parameters 
-//                string exportedLogOfParameters = Path.Combine(Common.PathImportExport, Common.LogOfParametersFileName);
-//                fileName = Path.GetFileName(exportedLogOfParameters);
-//                if (File.Exists(Common.PathAndFileLogOfParameters))
-//                {
-//                    if (File.Exists(exportedLogOfParameters))
-//                        File.Delete(exportedLogOfParameters);
-//#if ANDROID
-//                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileLogOfParameters, exportedLogOfParameters);
-//#else
-//                    File.Copy(Common.PathAndFileLogOfParameters, exportedLogOfParameters, true);
-//#endif
-//                }
                 // export database file
                 string exportedDatabase = Path.Combine(Common.PathImportExport, Common.DatabaseFileName);
                 fileName = Path.GetFileName(exportedDatabase);

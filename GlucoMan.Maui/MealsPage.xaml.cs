@@ -11,6 +11,7 @@ public partial class MealsPage : ContentPage
     private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
     UiAccuracy accuracyClass;
 
+    private bool loadingUi = true;
     private List<Meal> allTheMeals;
     private MealPage mealPage;
 
@@ -18,14 +19,25 @@ public partial class MealsPage : ContentPage
     {
         InitializeComponent();
 
+        loadingUi = true;
+
         cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
-        ////cmbTypeOfMeal.ItemsSource = Enum.GetValues(typeof(TypeOfMeal));
+        ////cmbTypeOfMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
         bl.Meal = new Meal();
         bl.FoodInMeal = new FoodInMeal();
+        
+        // Create UiAccuracy which will handle UI synchronization automatically
         accuracyClass = new UiAccuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
+        
         bl.SetTypeOfMealBasedOnTimeNow();
+
+        // Initialize accuracy controls to sync combo boxes with current text values
+        InitializeAccuracyControls();
+
         RefreshGrid();
+        loadingUi = false;
     }
+
     private void SetCorrectTypeOfMealRadioButton()
     {
         // un-check all
@@ -44,8 +56,10 @@ public partial class MealsPage : ContentPage
         else if (bl.Meal.IdTypeOfMeal == TypeOfMeal.Dinner)
             rdbIsDinner.IsChecked = true;
     }
-    private void FromClassToUi()
+    private async Task FromClassToUi()
     {
+        loadingUi = true;
+
         txtIdMeal.Text = bl.Meal.IdMeal.ToString();
         txtChoOfMeal.Text = Safe.String(bl.Meal.CarbohydratesGrams.Text);
         ////cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
@@ -58,6 +72,12 @@ public partial class MealsPage : ContentPage
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
         txtNotes.Text = bl.Meal.Notes;
         SetCorrectTypeOfMealRadioButton();
+
+        loadingUi = false;
+        
+        // Update accuracy controls after data is loaded and loadingUi is false
+        // This ensures UiAccuracy can work properly and combo box gets synchronized
+        await RefreshAccuracyControls();
     }
     private void FromUiToClass()
     {
@@ -72,9 +92,9 @@ public partial class MealsPage : ContentPage
         bl.Meal.Notes = txtNotes.Text;
         // TypeOfMeal treated by controls' events
     }
-    private void RefreshUi()
+    private async Task RefreshUi()
     {
-        FromClassToUi();
+        await FromClassToUi();
         RefreshGrid();
     }
     private void RefreshGrid()
@@ -87,7 +107,7 @@ public partial class MealsPage : ContentPage
     }
     protected override async void OnAppearing()
     {
-        RefreshUi();
+        await RefreshUi();
         base.OnAppearing();
     }
     private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
@@ -99,11 +119,10 @@ public partial class MealsPage : ContentPage
         }
         // make the tapped row the current meal 
         bl.Meal = (Meal)e.SelectedItem;
-        FromClassToUi();
+        await FromClassToUi();
     }
     private async void btnAddMeal_ClickAsync(object sender, EventArgs e)
     {
-        FromUiToClass();
         // reset the meal because we want a new one
         bl.Meal = new Meal();
         // add to the new meal the data coming from this page
@@ -118,7 +137,7 @@ public partial class MealsPage : ContentPage
             DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
                 dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
             bl.Meal.TimeBegin.DateTime = instant;
-            bl.Meal.TimeEnd.DateTime = bl.Meal.TimeBegin.DateTime;
+            bl.Meal.TimeEnd.DateTime = instant;
         }
         bl.Meal.CarbohydratesGrams.Text = txtChoOfMeal.Text;
         bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
@@ -156,7 +175,7 @@ public partial class MealsPage : ContentPage
         if (remove)
         {
             bl.DeleteOneMeal(bl.Meal);
-            RefreshUi();
+            await RefreshUi();
         }
     }
     private async void btnSaveMeal_ClickAsync(object sender, EventArgs e)
@@ -168,7 +187,7 @@ public partial class MealsPage : ContentPage
         }
         FromUiToClass();
         bl.SaveOneMeal(bl.Meal, false);
-        RefreshUi();
+        await RefreshUi();
     }
     private async void btnShowThisMeal_ClickAsync(object sender, EventArgs e)
     {
@@ -180,7 +199,7 @@ public partial class MealsPage : ContentPage
         FromUiToClass();
         bl.FoodInMeal = new FoodInMeal();
         await Navigation.PushAsync(new MealPage(bl.Meal));
-        RefreshUi();
+        await RefreshUi();
     }
     private void btnNowBegin_Click(object sender, EventArgs e)
     {
@@ -188,16 +207,123 @@ public partial class MealsPage : ContentPage
         dtpMealDateBegin.Date = now;
         dtpMealTimeBegin.Time = now.TimeOfDay;
     }
-    private void btnDefault_Click(object sender, EventArgs e)
+    private async void btnDefault_Click(object sender, EventArgs e)
     {
         bl.NewDefaults();
-        FromClassToUi();
+        await FromClassToUi();
     }
-    private void txtChoOfMeal_TextChanged(object sender, EventArgs e)
+
+    // ACCURACY MANAGEMENT METHODS (following MealPage pattern exactly)
+
+    private void InitializeAccuracyControls()
     {
-        bl.SaveMealParameters();
+        try
+        {
+            // Let UiAccuracy handle the initialization
+            // We just ensure the data is properly formatted
+            if (!string.IsNullOrEmpty(txtAccuracyOfChoMeal.Text))
+            {
+                if (!double.TryParse(txtAccuracyOfChoMeal.Text, out _))
+                {
+                    txtAccuracyOfChoMeal.Text = "100"; // Default value
+                }
+            }
+            else
+            {
+                txtAccuracyOfChoMeal.Text = "100"; // Default value
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("MealsPage - InitializeAccuracyControls", ex);
+        }
     }
-    private void rdb_CheckedChanged(object sender, EventArgs e)
+
+    private async Task RefreshAccuracyControls()
+    {
+        try
+        {
+            // Small delay to ensure data binding has completed (like in MealPage)
+            await Task.Delay(50);
+            
+            // Update accuracy controls after data binding changes
+            if (accuracyClass != null && !string.IsNullOrEmpty(txtAccuracyOfChoMeal.Text))
+            {
+                if (double.TryParse(txtAccuracyOfChoMeal.Text, out double accuracy))
+                {
+                    // Update combo box selection
+                    var qualitativeAccuracy = accuracyClass.GetQualitativeAccuracyGivenQuantitavive(accuracy);
+                    cmbAccuracyMeal.SelectedItem = qualitativeAccuracy;
+                    
+                    // Update text box colors using UiAccuracy logic
+                    txtAccuracyOfChoMeal.BackgroundColor = accuracyClass.AccuracyBackColor(accuracy);
+                    txtAccuracyOfChoMeal.TextColor = accuracyClass.AccuracyForeColor(accuracy);
+                }
+            }
+            else
+            {
+                // Reset to default if no valid accuracy
+                cmbAccuracyMeal.SelectedItem = null;
+                txtAccuracyOfChoMeal.BackgroundColor = Colors.LightGreen; // Default from XAML
+                txtAccuracyOfChoMeal.TextColor = Colors.Black; // Default from XAML
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("MealsPage - RefreshAccuracyControls", ex);
+        }
+    }
+
+    // EVENT HANDLERS - These should be minimal and only update the data model
+    // Let UiAccuracy handle all UI synchronization automatically
+
+    private void txtAccuracyOfChoMeal_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        // The UiAccuracy class handles all synchronization internally
+        // Do not interfere with its operation
+    }
+
+    private void txtAccuracyOfChoMeal_Unfocused(object sender, FocusEventArgs e)
+    {
+        // Let UiAccuracy handle the combo box update, we only update the data model
+        try
+        {
+            if (!loadingUi && bl?.Meal != null && !string.IsNullOrEmpty(txtAccuracyOfChoMeal.Text))
+            {
+                if (double.TryParse(txtAccuracyOfChoMeal.Text, out double accuracy))
+                {
+                    // Update the meal's accuracy in the data model
+                    bl.Meal.AccuracyOfChoEstimate.Double = accuracy;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("MealsPage - txtAccuracyOfChoMeal_Unfocused", ex);
+        }
+    }
+
+    private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        // Let UiAccuracy handle the text box update, we only update the data model
+        try
+        {
+            if (!loadingUi && bl?.Meal != null && cmbAccuracyMeal.SelectedItem != null)
+            {
+                var selectedAccuracy = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
+                double numericValue = (double)selectedAccuracy;
+
+                // Update the meal's accuracy in the data model
+                bl.Meal.AccuracyOfChoEstimate.Double = numericValue;
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("MealsPage - cmbAccuracyMeal_SelectedIndexChanged", ex);
+        }
+    }
+
+    private void rdb_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         if (rdbIsBreakfast.IsChecked)
             bl.Meal.IdTypeOfMeal = TypeOfMeal.Breakfast;
@@ -208,8 +334,9 @@ public partial class MealsPage : ContentPage
         else if (rdbIsDinner.IsChecked)
             bl.Meal.IdTypeOfMeal = TypeOfMeal.Dinner;
     }
-    private void cmbTypeOfMeal_SelectedIndexChanged(object sender, EventArgs e)
+
+    private void txtChoOfMeal_TextChanged(object sender, TextChangedEventArgs e)
     {
-        ////bl.Meal.IdTypeOfMeal = (TypeOfMeal)cmbTypeOfMeal.SelectedItem;
+        bl.SaveMealParameters();
     }
 }

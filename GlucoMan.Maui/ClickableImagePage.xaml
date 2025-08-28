@@ -46,8 +46,7 @@
                 (it is in the same cell so they overlap.
                 The image is below and the GraphicsView is above
                 (so you can see the circles that are drawn)) -->
-            <GraphicsView x:Name="cerchiGraphicsView"
-                    Drawable="{StaticResource drawable}">
+            <GraphicsView x:Name="cerchiGraphicsView">
                 <GraphicsView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                 </GraphicsView.GestureRecognizers>

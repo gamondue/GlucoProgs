@@ -1,0 +1,4 @@
+In this NUnit project, create a test class that, using the GlucoMan.Maui program as an example:
+- Using the BL_General BusinessLayer class, CreateNewDatabase() method, creates a test database, which must reside in the "Test" folder within the "Database" folder, within the program's root folder, where the Git repository resides.
+- Create two test records for each table in the newly created database, with data intelligently generated based on the field names and using the BusinessLayer class methods, which call those of the SQLite DataLayer. If you can't generate the test records with the BusinessLayer class, don't generate code, but be warned that it's not possible.
+- Reread the records created with the relevant BusinessLayer and DataLayer methods and verify that the read data matches the written data.

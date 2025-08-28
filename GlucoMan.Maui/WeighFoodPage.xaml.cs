@@ -195,7 +195,7 @@ public partial class WeighFoodPage : ContentPage
         ////////    //txtFoodCarbohydratesGrams_TextChanged(null, null);
         ////////}
         // show the UI starting from the classes
-        //FromClassToUi();
+        //FromClassesToUi();
         ////////}
     }
     private Entry GetFocusedEntry()

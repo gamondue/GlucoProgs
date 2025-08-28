@@ -19,7 +19,7 @@
                     HorizontalOptions="Fill" VerticalOptions="Fill" 
                     x:Name="txtName" 
                    BackgroundColor="LightGreen" TextColor="Black"
-                    ToolTipProperties.Text="Name of this food"
+                    ToolTipProperties.Text="Name: short name of this food"
                     Keyboard="Text" TextChanged="txtName_TextChanged"
                     HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                     Text="{Binding Name}"
@@ -28,7 +28,7 @@
                     x:Name="cmbUnit" Margin="0"
                     HorizontalTextAlignment="Center"
                     SelectedIndexChanged="cmbUnit_SelectedIndexChanged"
-                    ToolTipProperties.Text="List of units used for this food"
+                    ToolTipProperties.Text="Units: list of units used for this food"
                     ItemsSource="{Binding}"/>
             
             <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Margin="5,0,10,0"
@@ -46,7 +46,7 @@
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
                 x:Name="txtDescription" 
                    BackgroundColor="LightGreen" TextColor="Black"
-                ToolTipProperties.Text="Description of this food" Margin="0"
+                ToolTipProperties.Text="Description: longer description of this food" Margin="0"
                 Keyboard="Text" TextChanged="txtDescription_TextChanged"
                 HorizontalTextAlignment="Start" FontSize="Micro"
                 Text="{Binding Description}"/>
@@ -57,7 +57,7 @@
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" 
                    BackgroundColor="GreenYellow" TextColor="Black"
                    Keyboard="Numeric" HorizontalTextAlignment="End" Margin="1"
-                   ToolTipProperties.Text="Percent Carbohydrates of this food [%]"
+                   ToolTipProperties.Text="Percent Carbohydrates: carbohydrated of this food in 100 g [%]"
                    Text = "{Binding CarbohydratesPercent.Text}"/>
             <Button Grid.Row="6" Grid.Column="1" x:Name="btnChoose" Margin="1"
                     ImageSource="choose.png"

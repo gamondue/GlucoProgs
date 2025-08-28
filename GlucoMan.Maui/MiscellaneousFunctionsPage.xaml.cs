@@ -85,7 +85,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     private async void btnImport_Click(object sender, EventArgs e)
     {
         bool import = await DisplayAlert("",
-            "Please put a database named 'import.sqlite' in the same folder where this program exports its data. " +
+            "Please put a database named 'import.sqlite' in folder " + 
+            Common.PathImportExport +
+            "\n(the same folder where this program exports its data). " +
             "\nShould we continue with the import?", "Yes", "No");
 #if ANDROID
         if (!await AndroidExternalFilesHelper.ProgramHasPermissions())
@@ -132,9 +134,11 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     private async void btnReadDatabase_Click(object sender, EventArgs e)
     {
         bool read = await DisplayAlert("Read database from external folder",
-            "Please put a database named 'readGlucomanData.sqlite' in the same " +
-            "folder where this program exports its data." +
-            "\nAttention, this file will replace the current database." +
+            "Please put a database named 'readGlucomanData.sqlite' in the folder\n" +
+            Common.PathImportExport +
+            "\n(the same folder where this program exports its data). " +
+            "\n" +
+            "\nATTENTION, this file will replace the current database." +
             "\nYou should backup the current before continuing! " +
             "\nShould we continue in the process?", "Yes", "No");
         if (read)

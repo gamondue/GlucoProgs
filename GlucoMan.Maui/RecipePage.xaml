@@ -13,9 +13,11 @@
                 <Grid RowDefinitions="20,
                       Auto,55,55,70"
                     ColumnDefinitions="60*,60*,60*,80*,80*">
-                    <Label Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold"
-                   Grid.ColumnSpan="5" Text="Recipe data" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                   LineBreakMode="WordWrap"/>
+                    <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
+                           FontAttributes="Bold"
+                           Grid.ColumnSpan="5" Text="Recipe data" 
+                           HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                           LineBreakMode="WordWrap"/>
                     <Label Grid.Row="1" Grid.Column="0" Text="CHO% of Recipe [%]" 
                            HorizontalTextAlignment="Center" VerticalTextAlignment="End" 
                            LineBreakMode="TailTruncation"
@@ -28,51 +30,53 @@
                            BackgroundColor="Aqua" TextColor="Black"
                        Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End"
                        VerticalTextAlignment="Center" FontSize="Medium"
-                       ToolTipProperties.Text="Total percent carbohydrates of the recipe"
+                       ToolTipProperties.Text="CHO%: total percent (per Unit) carbohydrates of the recipe"
                        Text="{Binding CarbohydratesPercent.Text}" />
                     <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoRecipe" 
                        Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
                        BackgroundColor="LightGreen" TextColor="Black"
-                       ToolTipProperties.Text="Numerical accuracy of percent carbohydrates of the recipe"
+                       ToolTipProperties.Text="Accuracy: percent numerical accuracy carbohydrates of the recipe [%]"
                        Text="{Binding AccuracyOfChoEstimate.Text}"
-                       VerticalTextAlignment="Center"/>
+                       VerticalTextAlignment="Center"
+                       TextChanged="txtAccuracyOfChoRecipe_TextChanged"
+                       Unfocused="txtAccuracyOfChoRecipe_Unfocused"/>
                     <Picker Grid.Row="2" Grid.Column="2" x:Name="cmbAccuracyRecipe"
                         Margin="2" HorizontalTextAlignment="End"
-                        ItemsSource="{Binding Common.QualitativeAccuracy}" 
-                        SelectedItem="{Binding NotSet}"
-                        ToolTipProperties.Text="Numerical accuracy of percent carbohydrates of the recipe [%]"
-                        BackgroundColor="PaleGoldenrod" TextColor="Black"/>
+                        ToolTipProperties.Text="Accuracy: qualitative accuracy of percent (per Unit) carbohydrates of the recipe [%]"
+                        BackgroundColor="PaleGoldenrod" TextColor="Black"
+                        SelectedIndexChanged="cmbAccuracyRecipe_SelectedIndexChanged"/>
+                    <!--ItemsSource="{Binding Common.QualitativeAccuracy}" 
+                        SelectedItem="{Binding NotSet}"-->
                     <Entry Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" x:Name="txtTotalWeight" 
                        BackgroundColor="White" Margin="2" 
-                       ToolTipProperties.Text="Total weight of the recipe"
+                       ToolTipProperties.Text="Total weight: weight of the recipe, sum of the weights of the ingredients"
                        Text="{Binding TotalWeight.Double}"
                        HorizontalTextAlignment="Center" IsReadOnly="false"/>
                     <Button Grid.Row="2" Grid.Column="4" x:Name="btnSaveRecipe" 
                             LineBreakMode="WordWrap"
                             ImageSource="floppy_disc.png"
-                       ToolTipProperties.Text="Save recipe: saves all the data of this recipe"
+                       ToolTipProperties.Text="Save: saves all the data of this recipe"
                        Margin="2" Clicked="btnSaveAllRecipe_Click"/>
                     <!--Text="save&#10;Recipe"-->
-
-                    <Entry Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtRecipeName" 
+                    <Entry Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" 
+                           x:Name="txtRecipeName" 
                        BackgroundColor="LightGreen" TextColor="Black" Margin="2" 
-                       ToolTipProperties.Text="Name of the recipe"
+                       ToolTipProperties.Text="Name: short name of the recipe"
                        HorizontalTextAlignment="Start" IsReadOnly="false"
                        Text="{Binding Name}"/>
-                    <Button Grid.Row="3" Grid.Column="4" x:Name="btnCalc" Margin="2"
-                            ImageSource="total_sugar.png"
-                        ToolTipProperties.Text="Totals: calculates the summary data of the recipe"
-                        Clicked="btnCalc_Click" FontSize="Micro" LineBreakMode="WordWrap"/>
-                    <!--Text="Totals"-->
-
-                    <Entry Grid.Row="4" Grid.Column="4" x:Name="txtIdRecipe" BackgroundColor="White"
+                    <Entry Grid.Row="3" Grid.Column="3" x:Name="txtIdRecipe" BackgroundColor="White"
                        HorizontalTextAlignment="Center" IsReadOnly="true"
-                       ToolTipProperties.Text=" accuracy of percent carbohydrates of the recipe"
+                       ToolTipProperties.Text="Code of the recipe"
                        VerticalTextAlignment="Center"
                        Text="{Binding IdRecipe}"/>
-                    <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtRecipeDescription" 
+                    <Button Grid.Row="3" Grid.Column="4" x:Name="btnCalc" Margin="2"
+                            ImageSource="total_sugar.png"
+                            ToolTipProperties.Text="Totals: calculates the summary data of the recipe: CHO% and accuracy"
+                            Clicked="btnCalc_Click" FontSize="Micro" LineBreakMode="WordWrap"/>
+                    <!--Text="Totals"-->
+                    <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" x:Name="txtRecipeDescription" 
                        BackgroundColor="LightGreen" TextColor="Black" Margin="2" 
-                       ToolTipProperties.Text="Description of the recipe"
+                       ToolTipProperties.Text="Description: longer description of the recipe"
                        Text="{Binding Description}"
                        HorizontalTextAlignment="Start" IsReadOnly="false"/>
                 </Grid>
@@ -85,27 +89,34 @@
                     Grid.ColumnSpan="5" Text="Ingredients data" FontAttributes="Bold" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                     
-                    <Label Grid.Row="1" Grid.Column="0" Text="Name of the ingredient" Grid.ColumnSpan="2" 
+                    <Label Grid.Row="1" Grid.Column="0"
+                           Text="Name"
+                           ToolTipProperties.Text="Name of the ingredient" Grid.ColumnSpan="2" 
                         HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                     <Label Grid.Row="1" Grid.Column="2" Text="Accuracy" Grid.ColumnSpan="2" 
                         HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                     
                     <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtIngredientName" 
                         BackgroundColor="LightGreen" TextColor="Black"
-                        ToolTipProperties.Text="Name of the ingredient"
+                        ToolTipProperties.Text="Name: short name of the ingredient"
                         Text="{Binding Name}"              
                         Margin="2"  HorizontalTextAlignment="Start"/>
                     <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAccuracyOfChoIngredient" 
                         Margin="2" Keyboard="Numeric" HorizontalTextAlignment="End" 
-                        ToolTipProperties.Text="Numerical accuracy of recipe's ingredient [%]"
+                        ToolTipProperties.Text="Accuracy: numerical accuracy of recipe's ingredient [%]"
                         Text="{Binding AccuracyOfChoEstimate.Text}"        
-                        BackgroundColor="LightGreen" TextColor="Black"/>
+                        BackgroundColor="LightGreen" TextColor="Black"
+                    />
+                    <!--TextChanged="txtAccuracyOfChoIngredient_TextChanged"
+                        Unfocused="txtAccuracyOfChoIngredient_Unfocused"-->
                     <Picker Grid.Row="2" Grid.Column="3" x:Name="cmbAccuracyIngredient"
                         Margin="2" HorizontalTextAlignment="End"
-                        ItemsSource="{Binding Common.QualitativeAccuracy}" 
-                        SelectedItem="{Binding NotSet}"
-                        ToolTipProperties.Text="Qualitative accuracy of recipe's ingredient [%]"
-                        BackgroundColor="PaleGoldenrod" TextColor="Black"/>
+                        ToolTipProperties.Text="Accuracy: qualitative accuracy of recipe's ingredient"
+                        BackgroundColor="PaleGoldenrod" TextColor="Black"
+                        />
+                    <!--SelectedIndexChanged="cmbAccuracyIngredient_SelectedIndexChanged"-->
+                    <!--ItemsSource="{Binding Common.QualitativeAccuracy}" 
+                        SelectedItem="{Binding NotSet}"-->
                     <Grid Grid.Row="2" Grid.Column="4">
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -116,12 +127,12 @@
                         </Grid.ColumnDefinitions>
                         <Button Grid.Row="0" Grid.Column="0" x:Name="btnAddIngredient" 
                                 ImageSource="plus.png"
-                            ToolTipProperties.Text="Plus: adds the ingredient in UI to the ingredients of the recipe"
-                            FontSize="Micro" Margin="2" Clicked="btnAddIngredient_Click" />
+                                ToolTipProperties.Text="Plus: adds the ingredient in UI to the ingredients of the recipe"
+                                FontSize="Micro" Margin="2" Clicked="btnAddIngredient_Click" />
                         <Button Grid.Row="0" Grid.Column="1" x:Name="btnRemoveIngredient"
                                 ImageSource="minus.png"
-                            ToolTipProperties.Text="Minus: removes this ingredient pf the UI from the ingredients of the recipe"
-                            Margin="2" Clicked="btnRemoveIngredient_Click" />
+                                ToolTipProperties.Text="Minus: removes this ingredient pf the UI from the ingredients of the recipe"
+                                Margin="2" Clicked="btnRemoveIngredient_Click" />
                     </Grid>
 
                     <Label Grid.Row="3" Grid.Column="0" Text="Quant [g]" 
@@ -134,8 +145,9 @@
                     <Image Grid.Row="3" Grid.Column="3" x:Name="txtIngredientChoGrams"
                            Grid.RowSpan="2"
                            Source="calculator.png"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center">
+                           ToolTipProperties.Text="Calculate: takes the value in the selected box and opens a calculator for arithmetic calculations on that value"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="Calculator_Click" />
                         </Image.GestureRecognizers>
@@ -144,25 +156,25 @@
                         HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                         LineBreakMode="TailTruncation"/>-->
                     <Label Grid.Row="3" Grid.Column="4" Text="Id ingred." 
-                        HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>  
+                        HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-                    <Entry Grid.Row="4" Grid.Column="0" x:Name="txtIngredientQuantityGrams" 
+                    <Entry Grid.Row="4" Grid.Column="0" x:Name="txtIngredientQuantityInUnits" 
                         BackgroundColor="GreenYellow" TextColor="Black"
                         Margin="1" Keyboard="Numeric" TextChanged="txtIngredientQuantityGrams_TextChanged"
                         Text="{Binding QuantityGrams.Double}"
-                        ToolTipProperties.Text="Amount of this ingredient"
+                        ToolTipProperties.Text="Quantity: amount of this ingredient [g]"
                         HorizontalTextAlignment="End"/>
                     <Entry Grid.Row="4" Grid.Column="1" x:Name="txtIngredientQuantityPercent" BackgroundColor="White"
                         Margin="1" Keyboard="Numeric" TextChanged="txtIngredientQuantityPercent_TextChanged"
-                        ToolTipProperties.Text="Percent weight of this ingredient in the recipe"
+                        ToolTipProperties.Text="Quantity %: percent weight of this ingredient in the recipe"
                         Text="{Binding QuantityPercent.Text}"
                         HorizontalTextAlignment="Center" IsReadOnly="true"/>
-                    <Entry Grid.Row="4" Grid.Column="2" x:Name="txtIngredientCarbohydratesPercent" 
-                           BackgroundColor="GreenYellow" TextColor="Black"
-                        ToolTipProperties.Text="Percent carbohydrates of this ingredient"
+                    <Entry Grid.Row="4" Grid.Column="2" x:Name="txtIngredientCarbohydratesGrams" 
+                        BackgroundColor="GreenYellow" TextColor="Black"
+                        ToolTipProperties.Text="CHO%: percent carbohydrates of this ingredient"
                         Margin="1" Keyboard="Numeric" HorizontalTextAlignment="End" 
-                        Text="{Binding CarbohydratesPercent.Text}"
-                        TextChanged="txtIngredientCarbohydratesPercent_TextChanged"/>
+                        Text="{Binding CarbohydratesPerUnit.Text}"
+                        TextChanged="txtIngredientCarbohydratesGrams_TextChanged"/>
                     <!--<Entry Grid.Row="4" Grid.Column="3" x:Name="txtIngredientChoGrams" BackgroundColor="LightGreen"
                         Margin="1" Keyboard="Numeric" TextChanged="txtIngredientChoGrams_TextChanged" 
                         ToolTipProperties.Text="Total grams of carbohydrates of this ingredient"
@@ -183,16 +195,19 @@
                         <!--Text="Clear&#10;fields"-->
                         <Button Grid.Column="1" x:Name="btnFoods" 
                                 ImageSource="foods.png"
-                        LineBreakMode="WordWrap" Clicked="btnFoods_Click"/>
+                                ToolTipProperties.Text="Foods: opens the page of foods to import one"
+                                LineBreakMode="WordWrap" Clicked="btnFoods_ClickAsync"/>
                         <!--Text="Foods"-->
                         <Button Grid.Column="2" x:Name="btnWeighFood"
                                 ImageSource="balance.png"
-                        LineBreakMode="WordWrap" Clicked="btnWeighFood_Click" IsEnabled="True"/>
+                                ToolTipProperties.Text="Weigh: opens the page that helps in weighing the ingredient"
+                                LineBreakMode="WordWrap" Clicked="btnWeighFood_Click" 
+                                IsEnabled="False"/>
                         <!--Text="Weigh"-->
                         <Button Grid.Column="3"  x:Name="btnRecipes" 
                                 ImageSource="recipe.png"
                                 LineBreakMode="WordWrap" Clicked="btnRecipes_Click" 
-                                ToolTipProperties.Text="Recipes: add a recipe to thi recipe"
+                                ToolTipProperties.Text="Recipe: add a recipe to this recipe"
                                 IsEnabled="True"></Button>
                         <!--Text="Recipes"-->
                     </Grid>
@@ -206,29 +221,29 @@
                        HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                         <Label Grid.Row="0" Grid.Column="3" Text="CHO%" 
                        HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-                        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" 
-                          x:Name="gridIngredients" ItemsSource="{Binding}"
-                          VerticalOptions="Center" Margin="5"
-                          ItemSelected="gridIngredients_CellClick">
-                            <!-- description of data to be shown, in a DataTemplate -->
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <ViewCell.View>
-                                            <Grid Margin="0" Grid.RowDefinitions="*" ColumnDefinitions="*,65,65,65" >
-                                                <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
-                                                <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding QuantityGrams.Text}"/>
-                                                <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding QuantityPercent.Text}"/>
-                                                <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding CarbohydratesPercent.Text}"/>
-                                            </Grid>
-                                        </ViewCell.View>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
                     </Grid>
                 </Grid>
             </Grid>
+            <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" 
+                          x:Name="gridIngredients" ItemsSource="{Binding}"
+                          VerticalOptions="Center" Margin="3"
+                          ItemSelected="gridIngredients_ItemSelected" >
+                <!-- description of data to be shown, in a DataTemplate -->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid Margin="0" Grid.RowDefinitions="*" ColumnDefinitions="*,65,65,65" >
+                                    <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding QuantityGrams.Text}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding QuantityPerUnit.Text}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding CarbohydratesPerUnit.Text}"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

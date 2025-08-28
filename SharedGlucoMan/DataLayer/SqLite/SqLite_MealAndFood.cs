@@ -273,9 +273,9 @@ namespace GlucoMan
             try
             {
                 f.IdFoodInMeal = Safe.Int(Row["IdFoodInMeal"]);
-                f.Name = Safe.String(Row["Name"]);
                 f.IdMeal = Safe.Int(Row["IdMeal"]);
                 f.IdFood = Safe.Int(Row["IdFood"]);
+                f.Name = Safe.String(Row["Name"]);
                 f.CarbohydratesPercent.Double = Safe.Double(Row["CarbohydratesPercent"]);
                 f.UnitSymbol = Safe.String(Row["UnitSymbol"]);
                 f.GramsInOneUnit.Double = Safe.Double(Row["GramsInOneUnit"]);

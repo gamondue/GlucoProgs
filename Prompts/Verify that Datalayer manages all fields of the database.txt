@@ -1,0 +1,2 @@
+Based on the SQLite database whose creation you find in the string "creationScript" in file "Sqlite_DataLayerConstructorsAndGeneral.cs", verify that all the fields of all the tables of the database are correctly written and read by DataLayer methods, in the implementation for SQLite. 
+If some fields are not managed, in writing nor reading, then signal the name of the fields to me. 

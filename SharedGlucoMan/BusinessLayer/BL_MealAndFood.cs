@@ -8,12 +8,10 @@ namespace GlucoMan.BusinessLayer
     public class BL_MealAndFood
     {
         DataLayer dl;
-        public List<Meal> Meals { get; set; }
         public Meal Meal { get; set; }
-        public List<FoodInMeal> FoodsInMeal { get; set; }
+        public List<Meal> Meals { get; set; }
         public FoodInMeal FoodInMeal { get; set; }
-
-        //public Food Food { get; set; }
+        public List<FoodInMeal> FoodsInMeal { get; set; }
 
         public BL_MealAndFood()
         {
@@ -86,12 +84,12 @@ namespace GlucoMan.BusinessLayer
                     Meal.IdMeal = SaveOneMeal(Meal, false);
                 }
             }
-            // if the current CurrentIngredient has not an IdMeal, we give it the Id of the current Meal 
+            // if the current Ingredient has not an IdMeal, we give it the Id of the current Meal 
             if (FoodToSave.IdMeal == null)
             {
                 FoodToSave.IdMeal = Meal.IdMeal;
             }
-            // so the new meal will be the one of the CurrentIngredient we are saving
+            // so the new meal will be the one of the Ingredient we are saving
             return dl.SaveOneFoodInMeal(FoodToSave);
         }
         internal void SaveAllFoodsInMeal()
@@ -99,12 +97,6 @@ namespace GlucoMan.BusinessLayer
             if (FoodsInMeal != null)
                 foreach (FoodInMeal food in FoodsInMeal)
                 {
-                    //// if it is necessary, the next method will create a new meal
-                    //if (Food.IdMeal == null)
-                    //{   // if the Food has not been saved jet, we add it to the list of Foods in this Meal
-                    //    FoodsInMeal.Add(Food);
-                    //}
-                    // now we save, if the Food was new, when exiting the next function, it will have an IdFoodInMeal
                     dl.SaveOneFoodInMeal(food);
                 }
         }
@@ -155,12 +147,14 @@ namespace GlucoMan.BusinessLayer
         {
             if (FoodInMeal.CarbohydratesPercent.Double != null && FoodInMeal.QuantityInUnits.Double != null)
             {
+                if (FoodInMeal.GramsInOneUnit.Double == null || FoodInMeal.GramsInOneUnit.Double == 0)
+                    FoodInMeal.GramsInOneUnit.Double = 1; 
                 FoodInMeal.CarbohydratesGrams.Double = FoodInMeal.CarbohydratesPercent.Double / 100 *
                     FoodInMeal.QuantityInUnits.Double * FoodInMeal.GramsInOneUnit.Double;
             }
         }
         #endregion
-        internal string[] GetAllAccuracies()
+        internal string[] GetAllQualitativeAccuracies()
         {
             return Enum.GetNames(typeof(Common.QualitativeAccuracy));
         }
@@ -417,6 +411,47 @@ namespace GlucoMan.BusinessLayer
         internal void RemoveCategoryFromFood(Food currentFood)
         {
             dl.RemoveCategoryFromFood(currentFood);
+        }
+        internal void UpdateDataAfterChoGramsChange(string choGrams)
+        {
+            FoodInMeal.CarbohydratesGrams.Text = choGrams;
+            FoodInMeal.QuantityInUnits.Double = 0;
+            FoodInMeal.CarbohydratesPercent.Double = 0;
+            RecalcAll();
+        }
+        internal void UpdateDataAfterQuantityChange(string CarbohydratesPercent, 
+            string FoodQuantity)
+        {
+            FoodInMeal.CarbohydratesPercent.Text = CarbohydratesPercent;
+            FoodInMeal.QuantityInUnits.Text = FoodQuantity;
+            RecalcAll();
+            //CalculateChoOfFoodGrams();
+        }
+        internal void UpdateOldFoodInMealInList()
+        {
+            // if the current FoodInMeal has not a name, it doesn't deserve to be updated, hence saved
+            if (FoodInMeal.Name == null || FoodInMeal.Name == "")
+                return;
+            dl.SaveOneFoodInMeal(FoodInMeal);
+            return;
+            //// when this method is called something has changed in the current FoodInMeal
+            //// a new FoodInMeal is identified by a null or zero IdFoodInMeal
+            //// we look for the FoodInMeal in the list FoodsInMeal
+
+            //// update the previous FoodsInMeal or add the new one
+            //var existingFoodInMeal = FoodsInMeal.FirstOrDefault(f => f.IdFoodInMeal == FoodInMeal.IdFoodInMeal);
+            //if (existingFoodInMeal != null)
+            //{
+            //    // Update the existing food in the list with current FoodInMeal data
+            //    var index = FoodsInMeal.IndexOf(existingFoodInMeal);
+            //    FoodsInMeal[index] = FoodInMeal;
+            //}
+            //else
+            //{
+            //    // If for any reason (tipically the user choosing a new food)
+            //    // the food is not found in the list, add it
+            //    FoodsInMeal.Add(FoodInMeal);
+            //}
         }
     }
 }

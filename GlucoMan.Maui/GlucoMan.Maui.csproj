@@ -54,6 +54,7 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
+	  <ApplicationDisplayVersion>0.8.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
@@ -72,12 +73,14 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
+	  <ApplicationDisplayVersion>0.8.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
+	  <ApplicationDisplayVersion>0.8.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
@@ -96,10 +99,12 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
+	  <ApplicationDisplayVersion>0.8.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
 	  <ApplicationIcon>gamon LegoLogo 256x256.ico</ApplicationIcon>
+	  <FileVersion></FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -236,9 +241,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.7" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.82" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.7" />
+		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
+		<PackageReference Include="NUnit" Version="4.4.0" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
 	</ItemGroup>
 

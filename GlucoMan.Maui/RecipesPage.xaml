@@ -6,8 +6,8 @@
     <ContentPage.Content>
         <!--Grid.RowDefinitions="20,20,45,20,45,20,45,50,20,*"-->
         <Grid Grid.RowDefinitions="Auto,
-              Auto,Auto,Auto,Auto,Auto,
-              60,60,Auto,*"
+              Auto,50,Auto,Auto,Auto,
+              50,50,Auto,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Recipe's information" 
@@ -21,7 +21,7 @@
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
                     x:Name="txtName"
                    BackgroundColor="GreenYellow" TextColor="Black"
-                    ToolTipProperties.Text="Name of this recipe"
+                    ToolTipProperties.Text="Name: short name of this recipe"
                     Keyboard="Text" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                     FontSize="Small" IsReadOnly="false"/>
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtIdRecipe" BackgroundColor="White"
@@ -37,7 +37,7 @@
                     Text="Description of Recipe" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
-                    ToolTipProperties.Text="Description of this recipe"
+                    ToolTipProperties.Text="Description: longer description of this recipe"
                     x:Name="txtDescription" 
                    BackgroundColor="GreenYellow" TextColor="Black"
                     Keyboard="Text" TextChanged="txtDescription_TextChanged"
@@ -50,14 +50,14 @@
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Start"/>
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtRecipeCarbohydrates" Margin="1"
-                    ToolTipProperties.Text="Total Carbohydrates % of this recipe"
+                    ToolTipProperties.Text="CHO%: total carbohydrates % of this recipe [%]"
                     BackgroundColor="GreenYellow" TextColor="Black"
-                   Keyboard="Numeric" HorizontalTextAlignment="End"
+                    Keyboard="Numeric" HorizontalTextAlignment="End"
                     FontSize="Large" Text="{Binding Cho.Text}"/>
-            <HorizontalStackLayout Grid.Row="6" Grid.Column="1">
+            <HorizontalStackLayout Grid.Row="6" Grid.Column="1" VerticalOptions="Center">
                 <CheckBox HorizontalOptions="Center" VerticalOptions="Center"
                           x:Name="chkCooked" IsChecked="True" 
-                          ToolTipProperties.Text="States if this recipes' carbohydrates regard a cooked or raw recipe"
+                          ToolTipProperties.Text="Cooked recipe: if checked the carbohydrates regard a cooked recipe, if not checked a raw recipe"
                           CheckedChanged="chkCooked_CheckedChanged">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
@@ -67,11 +67,11 @@
                     </CheckBox.Margin>
                 </CheckBox>
                 <Label HorizontalOptions="Center" HorizontalTextAlignment="Start" Margin="-10,0,0,0" 
-                       ToolTipProperties.Text="States if this recipes' carbohydrates regard a cooked or raw recipe"
+                       ToolTipProperties.Text="Cooked recipe: if checked the carbohydrates regard a cooked recipe, if not checked a raw recipe"
                        VerticalTextAlignment="Center" VerticalOptions="Center" Text="Cooked" />
             </HorizontalStackLayout>
             <Entry Grid.Row="6" Grid.Column="2" x:Name="txtRawToCookedRatio" Margin="1"
-                    ToolTipProperties.Text="Plus: ratio between the cooked weight and the raw weight of the recipe"
+                    ToolTipProperties.Text="Cooked to raw ratio: ratio between the cooked weight and the raw weight of the recipe"
                     BackgroundColor="GreenYellow" TextColor="Black"
                    Keyboard="Numeric" HorizontalTextAlignment="End" />
             <Grid Grid.Row="6" Grid.Column="3" 
@@ -117,14 +117,16 @@
 
             <!-- a nested Grid to get different Widths of columns -->
             <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" Margin="5"
-                  RowDefinitions="20,*" ColumnDefinitions="180*,50,50">
+                  RowDefinitions="20,*" ColumnDefinitions="160*,50,50,50">
                 <Label Grid.Row="0" Grid.Column="0" Text="Name"
                        HorizontalTextAlignment="Start" VerticalOptions="End" />
                 <Label Grid.Row="0" Grid.Column="1" Text="CHO%" 
                        HorizontalTextAlignment="Center" VerticalOptions="End" />
                 <Label Grid.Row="0" Grid.Column="2" Text="Cooked" 
                        HorizontalTextAlignment="Center" VerticalOptions="End" />
-                <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+                <Label Grid.Row="0" Grid.Column="3" Text="Acc." 
+                       HorizontalTextAlignment="Center" VerticalOptions="End" />
+                <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" 
                     VerticalOptions="Start" ItemsSource="{Binding}" 
                     ToolTipProperties.Text="List of filtered recipes"
                     ItemSelected="OnGridSelection" 
@@ -135,10 +137,11 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
-                                    <Grid RowDefinitions="18" ColumnDefinitions="180*,50,50" VerticalOptions="Center">
+                                    <Grid RowDefinitions="18" ColumnDefinitions="160*,50,50,50" VerticalOptions="Center">
                                         <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
                                         <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesPercent.Text}"/>
                                         <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding IsCooked}"/>
+                                        <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"/>
                                     </Grid>
                                 </ViewCell.View>
                             </ViewCell>

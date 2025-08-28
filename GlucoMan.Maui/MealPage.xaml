@@ -21,21 +21,23 @@
 
                 <Entry Grid.Row="2" Grid.Column="0" x:Name="txtMealCarbohydratesGrams" 
                        BackgroundColor="Aqua" TextColor="Black"
-                   ToolTipProperties.Text="Total Carbohydrates of this meal" HorizontalTextAlignment="End"
+                   ToolTipProperties.Text="CHO: total Carbohydrates of this meal" HorizontalTextAlignment="End"
                    Margin="1" Keyboard="Numeric" FontSize="Medium"
                    Text="{Binding CarbohydratesGrams.Text}"
                    />
                 <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" 
-                   ToolTipProperties.Text="Numerical accuracy of meal in percent"
+                   ToolTipProperties.Text="Accuracy: percent numerical accuracy of the meal [%]"
                    Margin="1" Keyboard="Numeric" HorizontalTextAlignment="End" 
                    BackgroundColor="LightGreen" TextColor="Black"
                    Text="{Binding AccuracyOfChoEstimate.Text}"
                    />
+                <!--TextChanged="txtAccuracyOfChoMeal_TextChanged"-->
+                <!--Unfocused="txtAccuracyOfChoMeal_Unfocused"-->
                 <Picker Grid.Row="2" Grid.Column="2" x:Name="cmbAccuracyMeal"
                    Margin="1" HorizontalTextAlignment="End"
-                   ToolTipProperties.Text="Qualitative accuracy of the meal, as a word"
-                   BackgroundColor="PaleGoldenrod" TextColor="Black" />
-
+                   ToolTipProperties.Text="Accuracy: qualitative accuracy of the meal, as a word"
+                   BackgroundColor="PaleGoldenrod" TextColor="Black" 
+                   SelectedIndexChanged="cmbAccuracyMeal_SelectedIndexChanged"/>
                 <!--ItemsSource="{Binding Common.QualitativeAccuracy}" 
                    SelectedItem="{Binding NotSet, Mode=TwoWay}"-->
                 <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdMeal" BackgroundColor="White" 
@@ -77,15 +79,15 @@
                    LineBreakMode="WordWrap"/>
                 <!--Text="Injection"-->
                 <Button Grid.Row="3" Grid.Column="4" x:Name="btnCalc" Margin="1"
-                        ImageSource="total_sugar.png"
-                   ToolTipProperties.Text="Total CHO: calculates total carbohydrates of the meal"
-                   Clicked="btnCalc_Click" FontSize="Micro" LineBreakMode="WordWrap"/>
+                       ImageSource="total_sugar.png"
+                       ToolTipProperties.Text="Total CHO: calculates the summary data of the meal: total carbohydrates and composed accuracy"
+                       Clicked="btnCalc_Click" FontSize="Micro" LineBreakMode="WordWrap"/>
                 <!--Text="Total CHO"-->
 
                 <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
                    x:Name="txtNotes" 
-                       BackgroundColor="LightGreen" TextColor="Black"
-                   ToolTipProperties.Text="Notes about the meal"
+                   BackgroundColor="LightGreen" TextColor="Black"
+                   ToolTipProperties.Text="Notes: notes about the meal"
                    Text="{Binding Notes}"
                    Margin="1" FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
                 <Button Grid.Row="4" Grid.Column="4" x:Name="btnFoodCalc" 
@@ -98,7 +100,8 @@
             <Grid x:Name="foodSection" Grid.Row="1"
                       RowDefinitions="20,
                       20,50,20,50,50" 
-                    ColumnDefinitions="60*,60*,70*,70*,80*">
+                    ColumnDefinitions="60*,60*,70*,70*,80*"
+                  Unfocused="foodSection_Unfocused">
                 <Label Grid.Row="0"   Grid.ColumnSpan="5" Text="Food data" 
                         FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                 <Label Grid.Row="1" Grid.Column="0" Text="Name of food" Grid.ColumnSpan="2" 
@@ -106,21 +109,24 @@
                 <Label Grid.Row="1" Grid.Column="2" Text="Accuracy" Grid.ColumnSpan="2" 
                         HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-                <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
-                    x:Name="txtFoodInMealName" 
-                       BackgroundColor="LightGreen" TextColor="Black"
-                    ToolTipProperties.Text="Name of current food of meal"
-                    Text="{Binding Name}"
-                    Margin="1"  HorizontalTextAlignment="Start"/>
+                <Entry Grid.Row="2" Grid.Column="0" x:Name="txtFoodInMealName"  
+                       Grid.ColumnSpan="2" 
+                    BackgroundColor="LightGreen" TextColor="Black"
+                    ToolTipProperties.Text="Name: short name of this food of meal"
+                    Margin="1"  HorizontalTextAlignment="Start"
+                       />
+                <!--Text="{Binding Name}"-->
                 <Entry Grid.Row="2" Grid.Column="2" x:Name="txtAccuracyOfChoFoodInMeal" 
                     Margin="1" Keyboard="Numeric" HorizontalTextAlignment="End" 
-                    ToolTipProperties.Text="Numerical accuracy of food in percent"
-                    Text="{Binding AccuracyOfChoEstimate}"
+                    ToolTipProperties.Text="Accuracy: percent numerical accuracy of food [%]"
                     BackgroundColor="LightGreen" TextColor="Black"/>
+                <!--Text="{Binding AccuracyOfChoEstimate}"-->
+                <!--Unfocused="txtAccuracyOfChoFoodInMeal_Unfocused"-->
                 <Picker Grid.Row="2" Grid.Column="3" x:Name="cmbAccuracyFoodInMeal"
                     Margin="1" HorizontalTextAlignment="End"
-                    ToolTipProperties.Text="Qualitative accuracy of this food, as a word"
-                    BackgroundColor="PaleGoldenrod" TextColor="Black"/>
+                    ToolTipProperties.Text="Accuracy: qualitative accuracy of this food, as a word"
+                    BackgroundColor="PaleGoldenrod" TextColor="Black"
+                    SelectedIndexChanged="cmbAccuracyFoodInMeal_SelectedIndexChanged"/>
                 <!--ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"-->
                 <Grid Grid.Row="2" Grid.Column="4">
@@ -154,6 +160,7 @@
                 <Image Grid.Row="3" Grid.Column="4" 
                         Grid.RowSpan="2"
                         Source="calculator.png"
+                        ToolTipProperties.Text="Calculate: takes the value in the selected box and opens an arithmetic calculator to process that value"
                         HorizontalOptions="Center"
                         VerticalOptions="Center">
                     <Image.GestureRecognizers>
@@ -163,39 +170,38 @@
                 <!--<Label Grid.Row="8" Grid.Column="4" Text="Id Food" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
                 <!--<Label Grid.Row="8" Grid.Column="4" Text="Id F-M" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
 
-                <Entry Grid.Row="4" Grid.Column="0" x:Name="txtFoodCarbohydratesPercent" 
+                <Entry Grid.Row="4" Grid.Column="0" x:Name="txtFoodCarbohydratesPerUnit" 
                        BackgroundColor="GreenYellow" TextColor="Black"
                        Margin="1" 
-                       Unfocused="txtChoOrQuantity_Unfocused"
-                       ToolTipProperties.Text="Carbohydrates of this food [%]"
-                       Text="{Binding CarbohydratesPercent.Text}"
-                       Keyboard="Numeric" HorizontalTextAlignment="End"/>
-                <!--TextChanged="txtFoodChoOrQuantity_TextChanged"-->
+                       TextChanged="txtFoodChoOrQuantity_TextChanged"
+                       ToolTipProperties.Text="CHO%: percent carbohydrates of this food [%]"
+                       Keyboard="Numeric" HorizontalTextAlignment="End"
+                       />
+                <!--Text="{Binding CarbohydratesPercent.Text}"-->
                 <Button Grid.Row="4" Grid.Column="1" x:Name="btnUnit" Margin="1"
                        Clicked="ResetUnitToGrams"
                        VerticalOptions="Center" HorizontalOptions="Fill"
-                       Text="{Binding UnitSymbol}"
-                       ToolTipProperties.Text="Unit chosen for this food. Click to reset to grams."/>
+                       ToolTipProperties.Text="Unit: unit of measurement chosen for this food. Click to reset to grams."/>
+                        <!--Text="{Binding UnitSymbol}"-->
                 <Entry Grid.Row="4" Grid.Column="2" x:Name="txtFoodQuantityInUnits" 
                        BackgroundColor="GreenYellow" TextColor="Black"
                        Margin="1" Keyboard="Numeric" 
-                       Unfocused="txtChoOrQuantity_Unfocused"
-                       ToolTipProperties.Text="Quantity of this food in this meal [Unit]"
-                       Text="{Binding QuantityInUnits.Text}"
+                       TextChanged="txtFoodChoOrQuantity_TextChanged"
+                       ToolTipProperties.Text="Quantity: number of units of this food in this meal [Unit]"
                        HorizontalTextAlignment="End"/>
-                <!--TextChanged="txtFoodChoOrQuantity_TextChanged"-->
-                
+                        <!--Text="{Binding QuantityInUnits.Text}"-->
                 <Entry Grid.Row="4" Grid.Column="3" x:Name="txtFoodCarbohydratesGrams" BackgroundColor="LightGreen"
                        Margin="1" Keyboard="Numeric" TextColor="Black"
-                       Unfocused="txtFoodCarbohydratesGrams_Unfocused"
-                       ToolTipProperties.Text="Quantity of carbohydrates in this food of this meal [Unit]"
-                       Text="{Binding CarbohydratesGrams.Text}"
+                       TextChanged="txtFoodCarbohydratesGrams_TextChanged"
+                       ToolTipProperties.Text="CHO: total quantity of carbohydrates in this food of this meal in grams [g]"
                        HorizontalTextAlignment="End"/>
-                <!--TextChanged="txtFoodCarbohydratesGrams_TextChanged"-->
-
-                <!--<Entry Grid.Row="4" Grid.Column="4" x:Name="txtIdFoodInMeal" BackgroundColor="White" 
+                        <!--Text="{Binding CarbohydratesGrams.Text}"-->
+                <!--The Id of Food in Meal is not shown but is managed to know if the boxes contain 
+                 the value of an ald object to update or of a new object-->
+                <Entry Grid.Row="4" Grid.Column="4" x:Name="txtIdFoodInMeal" BackgroundColor="White" 
                        ToolTipProperties.Text="Code of this food in this meal"
-                       Margin="1" HorizontalTextAlignment="Center" IsReadOnly="true"/>-->
+                       Margin="1" HorizontalTextAlignment="Center" IsReadOnly="true"
+                       IsVisible="False"/>
                 <!--<Entry Grid.Row="4" Grid.Column="4" x:Name="txtIdFood" BackgroundColor="White" 
                        Margin="1" Keyboard="Numeric"
                        HorizontalTextAlignment="Center" IsReadOnly="true"/>-->
@@ -209,12 +215,13 @@
                     <Button Grid.Column="1" x:Name="btnFoodDetail" Margin="1"
                             ImageSource="foods.png"
                             ToolTipProperties.Text="Foods: opens the page of foods to import one"
-                       LineBreakMode="WordWrap" Clicked="btnFoodDetail_ClickAsync" />
+                            LineBreakMode="WordWrap" Clicked="btnFoods_ClickAsync" />
                     <!--Text="Foods"-->
                     <Button Grid.Column="2" x:Name="btnWeighFood" Margin="1"
-                        ImageSource="balance.png"
+                       IsEnabled="False"
+                       ImageSource="balance.png"
                        ToolTipProperties.Text="Weigh: opens the page that helps in weighing the food"
-                       LineBreakMode="WordWrap" Clicked="btnWeighFood_Click" IsEnabled="True" />
+                       LineBreakMode="WordWrap" Clicked="btnWeighFood_Click"/>
                     <!--Text="Weigh"-->
                     <Button Grid.Column="3" x:Name="btnRecipes" Margin="1"
                        ImageSource="recipe.png"
@@ -226,50 +233,46 @@
             <ListView Grid.Row="2" Grid.ColumnSpan="5"
                       x:Name="gridFoodsInMeal" ItemsSource="{Binding}"
                       ToolTipProperties.Text="List of the foods in this meal"
-                      ItemSelected="gridFoodsInMeal_CellClick" 
-                      Unfocused="gridFoodsInMeal_Unfocused" 
-                      RowHeight="22">
-                    <ListView.Header>
-                        <Grid ColumnDefinitions="*,50,50,50,50">
-                            <Label Grid.Column="0" Margin="1" Text="Nome" HorizontalTextAlignment="Start" 
+                      ItemSelected="gridFoodsInMeal_ItemSelected" 
+                      RowHeight="25">
+                <ListView.Header>
+                    <Grid ColumnDefinitions="*,50,50,50,50">
+                        <Label Grid.Column="0" Margin="1" Text="Nome" HorizontalTextAlignment="Start" 
                             FontAttributes="Bold"/>
-                            <Label Grid.Column="1" Margin="1" Text="CHO%" HorizontalTextAlignment="Center" 
+                        <Label Grid.Column="1" Margin="1" Text="CHO%" HorizontalTextAlignment="Center" 
                             FontAttributes="Bold"/>
-                            <Label Grid.Column="2" Margin="1" Text="Quant" HorizontalTextAlignment="Center"
+                        <Label Grid.Column="2" Margin="1" Text="Quant" HorizontalTextAlignment="Center"
                             FontAttributes="Bold"/>
-                            <Label Grid.Column="3" Margin="1" Text="CHO" HorizontalTextAlignment="Center"
+                        <Label Grid.Column="3" Margin="1" Text="CHO" HorizontalTextAlignment="Center"
                             FontAttributes="Bold"/>
-                            <Label Grid.Column="4" Margin="1" Text="Acc." HorizontalTextAlignment="Center" 
+                        <Label Grid.Column="4" Margin="1" Text="Acc." HorizontalTextAlignment="Center" 
                             FontAttributes="Bold"/>
-                        </Grid>
-                    </ListView.Header>
-                    <!-- description of data to be shown, in a DataTemplate -->
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <Grid Margin="2">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Grid ColumnDefinitions="*,50,50,50,50">
-                                            <Label Grid.Column="0" Margin="2" HorizontalTextAlignment="Start" 
+                    </Grid>
+                </ListView.Header>
+                <!-- description of data to be shown, in a DataTemplate -->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid Margin="2">
+                                    <Grid ColumnDefinitions="*,50,50,50,50">
+                                        <Label Grid.Column="0" Margin="2" HorizontalTextAlignment="Start" 
                                             Text="{Binding Name}"/>
-                                            <Label Grid.Column="1" Margin="2" HorizontalTextAlignment="Center" 
+                                        <Label Grid.Column="1" Margin="2" HorizontalTextAlignment="Center" 
                                             Text="{Binding CarbohydratesPercent.Text}"/>
-                                            <Label Grid.Column="2" Margin="2" HorizontalTextAlignment="Center" 
+                                        <Label Grid.Column="2" Margin="2" HorizontalTextAlignment="Center" 
                                             Text="{Binding QuantityInUnits.Text}"/>
-                                            <Label Grid.Column="3" Margin="2" HorizontalTextAlignment="Center" 
+                                        <Label Grid.Column="3" Margin="2" HorizontalTextAlignment="Center" 
                                             Text="{Binding CarbohydratesGrams.Text}"/>
-                                            <Label Grid.Column="4" Margin="2" HorizontalTextAlignment="Center" 
+                                        <Label Grid.Column="4" Margin="2" HorizontalTextAlignment="Center" 
                                             Text="{Binding AccuracyOfChoEstimate.Text}"/>
-                                        </Grid>
                                     </Grid>
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

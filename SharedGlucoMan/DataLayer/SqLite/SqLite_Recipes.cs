@@ -282,7 +282,7 @@ namespace GlucoMan
                             "Name=" + SqliteSafe.String(ingredient.Name) + "," +
                             "Description=" + SqliteSafe.String(ingredient.Description) + "," +
                             "QuantityGrams=" + SqliteSafe.Double(ingredient.QuantityGrams.Double) + "," +
-                            "QuantityPercent=" + SqliteSafe.Double(ingredient.QuantityPercent.Double) + "," +
+                            "QuantityPercent=" + SqliteSafe.Double(ingredient.QuantityInUnits.Double) + "," +
                             "CarbohydratesPercent=" + SqliteSafe.Double(ingredient.CarbohydratesPercent.Double) + "," +
                             "AccuracyOfChoEstimate=" + SqliteSafe.Double(ingredient.AccuracyOfChoEstimate.Double) + "," +
                             "IdFood=" + SqliteSafe.Int(ingredient.IdFood) + "" +
@@ -316,7 +316,7 @@ namespace GlucoMan
                     SqliteSafe.String(ingredient.Name) + "," +
                     SqliteSafe.String(ingredient.Description) + "," +
                     SqliteSafe.Double(ingredient.QuantityGrams) + "," +
-                    SqliteSafe.Double(ingredient.QuantityPercent) + "," +
+                    SqliteSafe.Double(ingredient.QuantityInUnits) + "," +
                     SqliteSafe.Double(ingredient.CarbohydratesPercent) + "," +
                     SqliteSafe.Double(ingredient.AccuracyOfChoEstimate) + "," +
                     SqliteSafe.Double(ingredient.IdFood) + "";
@@ -343,7 +343,7 @@ namespace GlucoMan
                 m.Name = Safe.String(Row["Name"]);
                 m.Description = Safe.String(Row["Description"]);
                 m.QuantityGrams.Double = Safe.Double(Row["QuantityGrams"]);
-                m.QuantityPercent.Double = Safe.Double(Row["QuantityPercent"]);
+                m.QuantityInUnits.Double = Safe.Double(Row["QuantityPercent"]);
                 m.CarbohydratesPercent.Double = Safe.Double(Row["CarbohydratesPercent"]);
                 m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdFood = Safe.Int(Row["IdFood"]);

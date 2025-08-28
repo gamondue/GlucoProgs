@@ -12,8 +12,8 @@ namespace GlucoMan
         public DoubleAndText CarbohydratesPercent { get; set; } // [g/100 in database,g in the list of foods in a Meal] 
         public string UnitSymbol { get; set; } // [g,ml,units]
         public DoubleAndText GramsInOneUnit { get; set; } // [g/units,ml/units] - used for conversion of units to grams
-        public DoubleAndText QuantityInUnits { get; set; }    // [g/100]
-        public DoubleAndText CarbohydratesGrams { get; set; }   // [g/100 in database,g in the list of foods in a Meal] 
+        public DoubleAndText QuantityInUnits { get; set; }    // [g/Unit]
+        public DoubleAndText CarbohydratesGrams { get; set; }   // [g/100 in database, g in the list of foods in a Meal] 
         public DoubleAndText AccuracyOfChoEstimate { get; set; } // [0..1]
         public DoubleAndText SugarPercent { get; set; }        // [g/100]
         public DoubleAndText FibersPercent { get; set; }       // [g/100]

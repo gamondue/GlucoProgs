@@ -6,11 +6,17 @@ namespace GlucoMan.Maui;
 public partial class FoodToHitTargetCarbsPage : ContentPage
 {
     BL_FoodToHitTargetCarbs blFoodToEat = new BL_FoodToHitTargetCarbs();
+    Color initialButtonBackground;
+    Color initialButtonTextColor;
     //BL_General Common.BlGeneral = new BL_General();
 
     public FoodToHitTargetCarbsPage()
     {
         InitializeComponent();
+
+        initialButtonBackground = TxtChoLeftToTake.BackgroundColor;
+        initialButtonTextColor = TxtChoLeftToTake.TextColor;
+
         // read data from other pages
         blFoodToEat.TargetCho.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Bolus_ChoToEat"));
         blFoodToEat.NameOfFood = Safe.String(Common.BlGeneral.RestoreParameter("FoodInMeal_Name"));
@@ -24,6 +30,20 @@ public partial class FoodToHitTargetCarbsPage : ContentPage
         TxtTargetCho.Text = blFoodToEat.TargetCho.Text;
         TxtChoLeftToTake.Text = blFoodToEat.ChoLeftToTake.Text;
         TxtFoodToHitTarget.Text = blFoodToEat.FoodToHitTarget.Text;
+        if (TxtChoLeftToTake.Text.Contains("-"))
+        {
+            TxtChoLeftToTake.Background = Colors.Red;
+            TxtFoodToHitTarget.Background = Colors.Red;
+            TxtChoLeftToTake.TextColor = Colors.White;
+            TxtFoodToHitTarget.TextColor = Colors.White;
+        }
+        else
+        {
+            TxtChoLeftToTake.Background = initialButtonBackground;
+            TxtFoodToHitTarget.Background = initialButtonBackground;
+            TxtChoLeftToTake.TextColor = initialButtonTextColor;
+            TxtFoodToHitTarget.TextColor = initialButtonTextColor;
+        }
         TxtFoodName.Text = blFoodToEat.NameOfFood;
     }
     internal void FromUiToClass()

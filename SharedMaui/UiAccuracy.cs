@@ -8,6 +8,7 @@ namespace gamon
         private Picker cmbQualitative;
         private int halfInterval = ((int)QualitativeAccuracy.Perfect - (int)QualitativeAccuracy.Null) / 20;
         private bool editingNumericAccuracy = false;
+        private bool userChoseQualitative = false;
 
         internal QualitativeAccuracy GetQualitativeAccuracyGivenQuantitavive(double? NumericalAccuracy)
         {
@@ -73,17 +74,14 @@ namespace gamon
             Combo.SelectedIndexChanged += Combo_SelectedIndexChanged;
             //Combo.Unfocused += Combo_Unfocused;
             //Combo.PropertyChanged += Combo_MouseClick;
-            //TextBox.TextChanged += TextBox_Unfocused;
-            TextBox.Unfocused += TextBox_Unfocused;
+            TextBox.TextChanged += TextBox_TextChanged;
         }
-        private void TextBox_Unfocused(object? sender, FocusEventArgs e)
+        private void TextBox_TextChanged(object? sender, TextChangedEventArgs e)
         {
             double acc;
+            if (!txtQuantitative.IsLoaded || userChoseQualitative)
+                return;
             editingNumericAccuracy = true;
-            if (!cmbQualitative.IsFocused)
-            {
-                 txtQuantitative.Focus();
-            }
             if (!double.TryParse(txtQuantitative.Text, out acc))
             {
                 cmbQualitative.SelectedItem = null;
@@ -93,7 +91,7 @@ namespace gamon
             }
             else
             {
-                if (Double.IsFinite(acc) && acc >= 0)
+                if (Double.IsFinite(acc) && acc >= 0 && acc <= 100)
                 {
                     cmbQualitative.SelectedItem =
                         GetQualitativeAccuracyGivenQuantitavive(acc);
@@ -112,8 +110,9 @@ namespace gamon
         }
         private void Combo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editingNumericAccuracy)
+            if (!cmbQualitative.IsLoaded || editingNumericAccuracy)
                 return;
+            userChoseQualitative = true;
             if (cmbQualitative.SelectedItem != null)
             {
                 QualitativeAccuracy qa = (QualitativeAccuracy)(cmbQualitative.SelectedItem);
@@ -124,6 +123,7 @@ namespace gamon
                 // the value (int) associated with the QualitativeAccuracy is given to the numerical accuracy
                 int accuracyNumber = (int)qa;
             }
+            userChoseQualitative = false;
         }
         internal Color AccuracyBackColor(double NumericalAccuracy)
         {

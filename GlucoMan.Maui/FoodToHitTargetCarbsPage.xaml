@@ -29,9 +29,10 @@
                    FontSize="Large" 
                    BackgroundColor="PaleGreen" TextColor="Black"/>
 
-            <Label Grid.Row="2" Grid.Column="2" Text="CHO food to eat [%]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="2" Grid.Column="2" Text="CHO food to eat [%]" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="3" Grid.Column="2" x:Name="TxtChoOfFood" Text="" Unfocused="TxtChoOfFood_Leave"
-                   ToolTipProperties.Text="Carbohydrates in 100 g of the selected food [g%]"
+                   ToolTipProperties.Text="Carbohydrates % of the food that we want to eat to reach the target carboydrates [%]"
                    Keyboard="Numeric"  Placeholder="%" HorizontalTextAlignment="End" 
                    FontSize="Large" 
                    BackgroundColor="PaleGreen" TextColor="Black"/>
@@ -44,13 +45,13 @@
             <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" x:Name="TxtFoodName" Text=""
                    FontAttributes="Bold" FontSize="Medium"
                    HorizontalTextAlignment ="Center" HorizontalOptions="Center" 
-                   ToolTipProperties.Text="Selected food we have to eat to reach target carbohydrates"
-                   BackgroundColor="White" />
+                   ToolTipProperties.Text="Short name of the food we want to eat to reach the target carbohydrates"
+                   />
 
             <Button Grid.Row="6" Grid.Column="0" x:Name="btnReadTarget" Text="Read target&#10;CHO" 
                     LineBreakMode="WordWrap" Margin="1"
-                   ToolTipProperties.Text="Reads from meal page current total carbohydrates"
-                   Clicked="btnReadTargetCho_Click" />
+                    ToolTipProperties.Text="Reads from meal page current total carbohydrates"
+                    Clicked="btnReadTargetCho_Click" />
             <Button Grid.Row="6" Grid.Column="1" x:Name="btnReadChoTaken" Text="Read taken&#10;CHO"
                    LineBreakMode="WordWrap" Margin="1"
                    ToolTipProperties.Text="Reads from meal page carbohydrates already eaten"
@@ -74,7 +75,7 @@
 
             <Button Grid.Row="9" Grid.Column="1"  IsEnabled="True" Margin="1"
                     ImageSource="syringe.png"
-                   ToolTipProperties.Text="Opens the insulin injctions page"
+                   ToolTipProperties.Text="Insulin: opens the insulin injctions page"
                     x:Name="btnInjection" Clicked="btnInjection_Click" />
             <!--Text="Injection"-->
             <Label Grid.Row="8" Grid.Column="2" Text="Food to eat to hit target CHO [g]" 

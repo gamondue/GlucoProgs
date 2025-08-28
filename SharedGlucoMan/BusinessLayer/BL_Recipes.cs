@@ -3,9 +3,9 @@
     public class BL_Recipes
     {
         DataLayer dl = Common.Database;
-        public Recipe CurrentRecipe { get; set; }
+        public Recipe Recipe { get; set; }
         //public List<Recipe> Recipes { get; private set; }
-        public Ingredient CurrentIngredient { get; set; }
+        public Ingredient Ingredient { get; set; }
         //public List<Ingredient> AllIngredientsOfCurrentRecipe { get; private set; }
         internal Recipe GetOneRecipe(int? idRecipe)
         {
@@ -53,36 +53,36 @@
         internal void UpdatePercentages()
         {
             // calculate the total weight ot the recipe
-            CurrentRecipe.TotalWeight.Double = 0;
-            foreach (Ingredient i in CurrentRecipe.Ingredients)
+            Recipe.TotalWeight.Double = 0;
+            foreach (Ingredient i in Recipe.Ingredients)
             {
                 // sum of recipe's weights
                 if (i.QuantityGrams.Double == null)
                 {
-                    CurrentRecipe.CarbohydratesPercent.Double = double.NaN;
+                    Recipe.CarbohydratesPercent.Double = double.NaN;
                 }
                 else
                 {
                     // sum of recipe's weights
-                    CurrentRecipe.TotalWeight.Double += i.QuantityGrams.Double;
+                    Recipe.TotalWeight.Double += i.QuantityGrams.Double;
                 }
             }
             // update the percentages
-            foreach (Ingredient i in CurrentRecipe.Ingredients)
+            foreach (Ingredient i in Recipe.Ingredients)
             {
                 if (i.QuantityGrams.Double == null)
                 {
-                    i.QuantityPercent.Double = double.NaN;
+                    i.QuantityInUnits.Double = double.NaN;
                 }
                 else
                 {
-                    i.QuantityPercent.Double = i.QuantityGrams.Double / CurrentRecipe.TotalWeight.Double * 100;
+                    i.QuantityInUnits.Double = i.QuantityGrams.Double / Recipe.TotalWeight.Double * 100;
                 }
             }
         }
         internal void RecalcAll()
         {
-            if (CurrentRecipe.Ingredients != null && CurrentRecipe.Ingredients.Count > 0)
+            if (Recipe.Ingredients != null && Recipe.Ingredients.Count > 0)
             {
                 // calculate the percentages of weights of the ingredients in the recipe
                 UpdatePercentages();
@@ -91,7 +91,7 @@
                 double? sumOfWeightedCho = 0;
                 double? sumOfWeightedAccuracies = 0;
                 // sum of weights, weighted sum of recipe's CHO and weighted sum of squared accuracies
-                foreach (Ingredient i in CurrentRecipe.Ingredients)
+                foreach (Ingredient i in Recipe.Ingredients)
                 {
                     if (i.CarbohydratesPercent.Double != null && i.AccuracyOfChoEstimate.Double != null)
                     {
@@ -102,9 +102,9 @@
                     }
                 }
                 // recipe CHO 
-                CurrentRecipe.CarbohydratesPercent.Double = sumOfWeightedCho / CurrentRecipe.TotalWeight.Double;
+                Recipe.CarbohydratesPercent.Double = sumOfWeightedCho / Recipe.TotalWeight.Double;
                 // recipe CHO accuracy
-                CurrentRecipe.AccuracyOfChoEstimate.Double = Math.Sqrt((double)(sumOfWeightedAccuracies / CurrentRecipe.TotalWeight.Double));
+                Recipe.AccuracyOfChoEstimate.Double = Math.Sqrt((double)(sumOfWeightedAccuracies / Recipe.TotalWeight.Double));
             }
         }
         internal void SaveIngredientParameters()
@@ -124,11 +124,11 @@
         }
         public void ReadAllIngredientsInThisRecipe()
         {
-            CurrentRecipe.Ingredients = dl.ReadAllIngredientsInARecipe(CurrentRecipe.IdRecipe);
+            Recipe.Ingredients = dl.ReadAllIngredientsInARecipe(Recipe.IdRecipe);
         }
         internal void SaveListOfIngredients()
         {
-            dl.SaveListOfIngredients(CurrentRecipe.Ingredients);
+            dl.SaveListOfIngredients(Recipe.Ingredients);
         }
         internal void DeleteOneIngredient(Ingredient Ingredient)
         {
@@ -136,7 +136,24 @@
         }
         internal void CreateNewListOfIngredientsInRecipe()
         {
-            CurrentRecipe.Ingredients = new List<Ingredient>();
+            Recipe.Ingredients = new List<Ingredient>();
+        }
+        internal void UpdateOldIngredientInList()
+        {
+            // if the current Ingredient has not a name, it doesn't deserve to be updated, hence saved
+            if (Ingredient.Name == null || Ingredient.Name == "")
+                return;
+            dl.SaveOneIngredient(Ingredient);
+
+            return;
+        }
+        internal void SaveAllIngredientsInRecipe()
+        {
+            if (Recipe.Ingredients != null)
+                foreach (Ingredient ingredient in Recipe.Ingredients)
+                {
+                    dl.SaveOneIngredient(ingredient);
+                }
         }
     }
 }

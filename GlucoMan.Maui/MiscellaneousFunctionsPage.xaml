@@ -21,8 +21,8 @@
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Operations"
                    FontSize="Title" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                    ToolTipProperties.Text="Opens Settings page"
-                    Text="Settings" WidthRequest="150" BackgroundColor="Grey" TextColor="White"
+                    ToolTipProperties.Text="Open the settings page"
+                    Text="Settings" WidthRequest="150"
                     x:Name="btnSettings" Clicked="btnSettings_Click" />
             <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
                    ToolTipProperties.Text="Reset database, starting from scratch with no data"
@@ -30,17 +30,18 @@
                    BackgroundColor="Red" TextColor="Yellow"
                    x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
             <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
-                    ToolTipProperties.Text="Exports interesting files to folder"
+                    ToolTipProperties.Text="Exports interesting files to 'external' folder in which files can be read"
                     Text="Copy files" WidthRequest="150"
                     x:Name="btnCopyDatabase" Clicked="btnCopyProgramsFiles_Click" />
             <Button Grid.Row="7" Grid.Column="0"
                     ToolTipProperties.Text="Imports foods from import.sqlite file"
                     Text="Import foods" WidthRequest="150"
                     x:Name="btnImport" Clicked="btnImport_Click"
-                    IsEnabled="False" BackgroundColor="Grey" TextColor="White"/>
+                    IsEnabled="False" BackgroundColor="Grey" TextColor="White"
+                    />
             <Button Grid.Row="7" Grid.Column="1" 
                     Text="Read database" WidthRequest="150"
-                    ToolTipProperties.Text="Substitutes the current database file with file 'readGlucoManData.sqlite', that finds in folder"
+                    ToolTipProperties.Text="Substitutes the current database file with file 'readGlucoManData.sqlite', that finds in 'external' folder"
                     BackgroundColor="Red" TextColor="Yellow"
                     x:Name="btnReadDatabase" Clicked="btnReadDatabase_Click" />
             <Button Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" 
@@ -52,8 +53,8 @@
                     ToolTipProperties.Text="Opens and shows logs file"
                     x:Name="btnShowErrorLog" Clicked="btnShowErrorLog_ClickAsync" />
             <Button Grid.Row="9" Grid.Column="1"
-                    Text="Delete error log" WidthRequest="150"
-                    ToolTipProperties.Text="Deletes the content of the log file"
+                    Text="Delete all log files" WidthRequest="150"
+                    ToolTipProperties.Text="Deletes the content of all the log file aof the program"
                     x:Name="btnDeleteErrorLog" Clicked="btnDeleteErrorLog_ClickAsync" />
             <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" 
                     Text="Menù" WidthRequest="150"

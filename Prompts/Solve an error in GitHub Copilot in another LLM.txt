@@ -1,0 +1,8 @@
+GitHub Copilot in Visual Studio gives me the error message I'll detail in part below (both the initial and final parts). What has happened, what should I do to fix this? 
+Error message:
+"
+[Conversations Error] Loading GitHub account information...
+
+..
+
+"

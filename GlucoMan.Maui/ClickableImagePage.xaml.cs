@@ -76,25 +76,21 @@ public partial class ClickableImagePage : ContentPage
     {
         if (imgToBeTapped.Width > 0 && imgToBeTapped.Height > 0)
         {
-            // Inizializza CirclesDrawable solo quando Width e Height sono definiti
+            // Initialize CirclesDrawable only when Width and Height are defined
             allCircles = new CirclesDrawable(imgToBeTapped.Width, imgToBeTapped.Height, 
                 currentInjection.IdInjection, circlesVisibilityMaxTimeInDays);
-            // ???? why the followiong works ????
+            // ???? why the following works ????
             allCircles.Type = CirclesDrawable.PointType.Front;
-            //if (firstPass)
-            //{
-                // bind the Drawable to the GraphicsView
-                cerchiGraphicsView.Drawable = allCircles;
-                cerchiGraphicsView.Background = Color.FromRgba(255, 255, 0, 100);
-                var children = cerchiGraphicsView.GetChildElements(new Point(100, 100));
-                firstPass = false;
-            //}
-            // Carica i dati necessari
+            
+            // bind the Drawable to the GraphicsView
+            cerchiGraphicsView.Drawable = allCircles;
+            cerchiGraphicsView.Background = Color.FromRgba(255, 255, 0, 100);
+            var children = cerchiGraphicsView.GetChildElements(new Point(100, 100));
+            firstPass = false;
+            
+            // Load necessary data
             LoadTheReferencePositions();
             LoadTheLastSensorsPositions();
-
-            //// Rimuovi l'handler per evitare chiamate multiple
-            //imgToBeTapped.SizeChanged -= ImgToBeTapped_SizeChanged;
 
             // redraw the circles
             cerchiGraphicsView.Invalidate();

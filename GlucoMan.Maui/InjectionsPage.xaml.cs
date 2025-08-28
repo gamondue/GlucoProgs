@@ -15,6 +15,7 @@ public partial class InjectionsPage : ContentPage
     InsulinDrug currentLongInsulin;
     private bool pageIsLoading = true;
 
+    // TODO fix the behaviour of the code, that set the "Short act." radiobutton also when the insulin is Long action
     internal InjectionsPage(int? IdInjection)
     {
         InitializeComponent();
@@ -27,16 +28,26 @@ public partial class InjectionsPage : ContentPage
         IdCurrentLongActingInsulin = parameters?.IdInsulinDrug_Long;
         currentShortInsulin = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin);
         currentLongInsulin = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin); 
-        if (IdCurrentShortActingInsulin != null)
+        
+        if (IdCurrentShortActingInsulin != null && currentShortInsulin != null)
         {
             CurrentInjection.IdInsulinDrug = IdCurrentShortActingInsulin;
             rdbShortInsulin.Content = currentShortInsulin.Name ?? "Short act.";
         }
-        if (IdCurrentLongActingInsulin != null)
+        else
         {
-            CurrentInjection.IdInsulinDrug = IdCurrentLongActingInsulin;
+            rdbShortInsulin.Content = "Short act.";
+        }
+        
+        if (IdCurrentLongActingInsulin != null && currentLongInsulin != null)
+        {
             rdbLongInsulin.Content = currentLongInsulin.Name ?? "Long act.";
         }
+        else
+        {
+            rdbLongInsulin.Content = "Long act.";
+        }
+        
         pageIsLoading = false;
         RefreshUi();
     }
@@ -58,10 +69,19 @@ public partial class InjectionsPage : ContentPage
         dtpInjectionDate.Date = ((DateTime)CurrentInjection.Timestamp.DateTime);
         dtpInjectionTime.Time = ((DateTime)CurrentInjection.Timestamp.DateTime).TimeOfDay;
         txtNotes.Text = CurrentInjection.Notes;
-        if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.RapidActing)
+        
+        // both RapidActing and ShortActing should map to short insulin radio button
+        if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.RapidActing ||
+            CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.ShortActing)
+        {
             rdbShortInsulin.IsChecked = true;
-        else if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.ShortActing)
+            rdbLongInsulin.IsChecked = false;
+        }
+        else if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.LongActing)
+        {
+            rdbShortInsulin.IsChecked = false;
             rdbLongInsulin.IsChecked = true;
+        }
         else
         {
             rdbShortInsulin.IsChecked = false;
@@ -78,10 +98,12 @@ public partial class InjectionsPage : ContentPage
             dtpInjectionTime.Time.Hours, dtpInjectionTime.Time.Minutes, dtpInjectionTime.Time.Seconds);
         CurrentInjection.Timestamp.DateTime = instant;
         CurrentInjection.Notes = txtNotes.Text;
+        
+        //  short radio button maps to ShortActing, long to LongActing
         if (rdbShortInsulin.IsChecked)
-            CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.RapidActing;
-        else if (rdbLongInsulin.IsChecked)
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.ShortActing;
+        else if (rdbLongInsulin.IsChecked)
+            CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.LongActing;
         else
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.NotSet;
     }
@@ -153,37 +175,42 @@ public partial class InjectionsPage : ContentPage
             btnSensors.BackgroundColor = Colors.Lime;
         else
             btnSensors.BackgroundColor = Colors.LightGrey;
+        
         FromClassToUi();
-        // distinguish from short or long action insulins, based on the type
-        // then update the UI with data taken from the UI
+        
+        // Update radio button content based on the injection type
+        // Show the actual insulin name for the selected injection type, and default names for the other
         if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.ShortActing 
             || CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.RapidActing)
         {
-            // set the data for short acting insulin
-            rdbShortInsulin.IsChecked = true;
             // the short insulin is the one that we took from the grid
             rdbShortInsulin.Content = bl.GetOneInsulinDrug(CurrentInjection.IdInsulinDrug)?.Name ?? "Short act.";
-            // the long insulin is the default lon insulin that we are using
+            // the long insulin is the default long insulin that we are using
             rdbLongInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin)?.Name ?? "Long act.";
         }
-        else
+        else if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.LongActing)
         {
-            // set the data for long acting insulin
-            rdbLongInsulin.IsChecked = true;
-            // the short insulin is the default lon insulin that we are using
+            // the short insulin is the default short insulin that we are using
             rdbShortInsulin.Content = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin)?.Name ?? "Short act.";
             // the long insulin is the one that we took from the grid
             rdbLongInsulin.Content = bl.GetOneInsulinDrug(CurrentInjection.IdInsulinDrug)?.Name ?? "Long act.";
         }
+        else
+        {
+            // IdTypeOfInsulinAction is null, NotSet, or some other value
+            // Show default insulin names
+            rdbShortInsulin.Content = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin)?.Name ?? "Short act.";
+            rdbLongInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin)?.Name ?? "Long act.";
+        }
     }
-    private void btnAddInjection_Click(object sender, EventArgs e)
+    private async void btnAddInjection_Click(object sender, EventArgs e)
     {
         if (!rdbShortInsulin.IsChecked && !rdbLongInsulin.IsChecked
             && CurrentInjection.Zone != Common.ZoneOfPosition.Hands
             && CurrentInjection.Zone != Common.ZoneOfPosition.Sensor)
         {
             // notify the user that he has to choose the type of insulin
-            DisplayAlert("", "Tap on the type of insulin of this injection", "Ok");
+            await DisplayAlert("", "Tap on the type of insulin of this injection", "Ok");
             return;
         }
         if (chkNowInAdd.IsChecked)
@@ -199,12 +226,33 @@ public partial class InjectionsPage : ContentPage
         if (rdbShortInsulin.IsChecked)
         {
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.ShortActing;
-            CurrentInjection.IdInsulinDrug = currentShortInsulin.IdInsulinDrug;
+            if (currentShortInsulin != null)
+            {
+                CurrentInjection.IdInsulinDrug = currentShortInsulin.IdInsulinDrug;
+            }
+            else
+            {
+                // Handle case where no short-acting insulin is configured
+                await DisplayAlert("Configuration Error", "No short-acting insulin is configured." +
+                    "\nPlease configure insulin settings." +
+                    "\nInsulin drug will be set to null", "Ok");
+                CurrentInjection.IdInsulinDrug = null;
+            }
         }
         else
         {
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.LongActing;
-            CurrentInjection.IdInsulinDrug = currentLongInsulin.IdInsulinDrug;
+            if (currentLongInsulin != null)
+            {
+                CurrentInjection.IdInsulinDrug = currentLongInsulin.IdInsulinDrug;
+            }
+            else
+            {
+                // Handle case where no long-acting insulin is configured
+                await DisplayAlert("Configuration Error", "No long-acting insulin is configured.\nPlease configure insulin settings." +
+                    "\nType of insulin drug will be set to null", "Ok");
+                CurrentInjection.IdInsulinDrug = null;
+            }
         }
         if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands ||
             CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)

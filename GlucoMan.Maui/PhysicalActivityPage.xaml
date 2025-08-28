@@ -4,47 +4,60 @@
              x:Class="GlucoMan.Maui.PhysicalActivityPage"
              Title="Physical Activity">
     <ContentPage.Content>
-        <!--Pages can be added as references or inline-->
-        <!--<ContentPage Title="Data">-->
-        <Grid RowDefinitions="40,65,30,65,35,50,30,*"
+        <Grid RowDefinitions="40,65,30,65,35,50,30,40,60,30,*"
               ColumnDefinitions="*,*,*,*">
-            <Label Grid.Row="0" Grid.Column="0" Text="XXXXX" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="0" Grid.Column="1" Text="XXXXX" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="0" Grid.Column="0" Text="Activity Level" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="0" Grid.Column="1" Text="Duration [min]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="0" Grid.Column="2" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
-            <Entry Grid.Row="1" Grid.Column="0" x:Name="txtInsulinActual" 
+            <Entry Grid.Row="1" Grid.Column="0" x:Name="txtActivityLevel" 
+                   ToolTipProperties.Text="Level of physical activity (1-10 scale)"
                    Keyboard="Numeric" BackgroundColor="PaleGreen" HorizontalTextAlignment="End"
                    FontSize="Medium" />
-            <Entry Grid.Row="1" Grid.Column="1" x:Name="txtInsulinCalculated" 
-                   Keyboard="Numeric" BackgroundColor="White" HorizontalTextAlignment="End"
+            <Entry Grid.Row="1" Grid.Column="1" x:Name="txtDurationMinutes" 
+                   ToolTipProperties.Text="Duration of activity in minutes"
+                   Keyboard="Numeric" BackgroundColor="PaleGreen" HorizontalTextAlignment="End"
                    FontSize="Medium" />
             <Entry Grid.Row="1" Grid.Column="2" x:Name="txtIdActivity" BackgroundColor="White" 
-                       FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
-            <Button Grid.Row="1" Grid.Column="3" Text="Save" x:Name="btnSave"></Button>
+                   ToolTipProperties.Text="Code of this activity"
+                   FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
+            <Button Grid.Row="1" Grid.Column="3" 
+                    ImageSource="floppy_disc.png"
+                    x:Name="btnSave"
+                    ToolTipProperties.Text="Save: save this activity to the database"
+                    Clicked="btnSave_Click"></Button>
 
             <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Activity date and time"  
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <RadioButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" x:Name="rdbShortInsulin" Content="Fast insulin" 
-                         HorizontalOptions="Center" VerticalOptions="End" GroupName="groupInsulin" WidthRequest="180" />
-            <RadioButton Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" x:Name="rdbLongInsulin" Content="Slow insulin" 
-                         HorizontalOptions="Center" VerticalOptions="End" GroupName="groupInsulin" WidthRequest="180"/>
+            <RadioButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" x:Name="rdbLowIntensity" Content="Low intensity" 
+                         HorizontalOptions="Center" VerticalOptions="End" GroupName="groupIntensity" WidthRequest="180" />
+            <RadioButton Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" x:Name="rdbHighIntensity" Content="High intensity" 
+                         HorizontalOptions="Center" VerticalOptions="End" GroupName="groupIntensity" WidthRequest="180"/>
 
-            <DatePicker Grid.Row="3" Grid.Column="0" x:Name="dtpInjectionDate" 
+            <DatePicker Grid.Row="3" Grid.Column="0" x:Name="dtpActivityDate" 
+                        ToolTipProperties.Text="Date of this activity"
                         BackgroundColor="PaleGreen" FontSize="Small"  HorizontalOptions="Center" />
-            <TimePicker Grid.Row="3" Grid.Column="1" x:Name="dtpInjectionTime" 
-                        BackgroundColor="PaleGreen" FontSize="Small" Format="HH:mm:ss" 
-                        HorizontalOptions="Center" />
-            <Button Grid.Row="3" Grid.Column="2" Text="Now" x:Name="btnNow"></Button>
-            <Grid Grid.Row="3" Grid.Column="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddInjection"></Button>
-                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveInjection" ></Button>
+            <TimePicker Grid.Row="3" Grid.Column="1" x:Name="dtpActivityTime" 
+                        ToolTipProperties.Text="Time of this activity"
+                        BackgroundColor="PaleGreen" FontSize="Small"
+                        HorizontalOptions="Center"
+                        Format="HH:mm:ss"/>
+            <Button Grid.Row="3" Grid.Column="2" 
+                    ImageSource="clock.png"
+                    x:Name="btnNow"
+                    ToolTipProperties.Text="Now: set the time of this instant as the time of this activity"
+                    Clicked="btnNow_Click"></Button>
+            <Grid Grid.Row="3" Grid.Column="3" ColumnDefinitions="*, *">
+                <Button Grid.Row="0" Grid.Column="0" 
+                        ImageSource="plus.png"
+                        x:Name="btnAddActivity"
+                        ToolTipProperties.Text="Plus: add a new activity"
+                        Clicked="btnAddActivity_Click"></Button>
+                <Button Grid.Row="0" Grid.Column="1" 
+                        ImageSource="minus.png"
+                        x:Name="btnRemoveActivity"
+                        ToolTipProperties.Text="Minus: remove this activity"
+                        Clicked="btnRemoveActivity_Click"></Button>
             </Grid>
 
             <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
@@ -66,27 +79,57 @@
             </HorizontalStackLayout>
 
             <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="PaleGoldenrod" 
+                   ToolTipProperties.Text="Notes about this activity"
                    FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
-            <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Text="Insulin Units" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <!-- Accuracy Section -->
+            <Label Grid.Row="6" Grid.Column="0" Text="Activity Accuracy" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="6" Grid.Column="1" Text="Accuracy" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <ListView Grid.Row="7" Grid.ColumnSpan="4" x:Name="gridInjections" ItemsSource="{Binding}">
+            <Entry Grid.Row="7" Grid.Column="0" x:Name="txtAccuracyOfActivity" 
+                   ToolTipProperties.Text="Numerical accuracy of activity estimation in percent"
+                   Margin="1" Keyboard="Numeric" HorizontalTextAlignment="End" 
+                   BackgroundColor="LightGreen" TextColor="Black"
+                   FontSize="Medium"
+                   Unfocused="txtAccuracyOfActivity_Unfocused"/>
+            <Picker Grid.Row="7" Grid.Column="1" x:Name="cmbAccuracyActivity"
+                    Margin="1" HorizontalTextAlignment="End"
+                    ToolTipProperties.Text="Qualitative accuracy of the activity estimation as a word"
+                    BackgroundColor="PaleGoldenrod" TextColor="Black" 
+                    SelectedIndexChanged="cmbAccuracyActivity_SelectedIndexChanged"/>
+
+            <!-- Grid Headers -->
+            <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4"
+                  RowDefinitions="30,30" ColumnDefinitions="*,60,60,60">
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Text="Physical Activities" FontAttributes="Bold"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                <Label Grid.Row="1" Grid.Column="0" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                <Label Grid.Row="1" Grid.Column="1" Text="Level" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                       ToolTipProperties.Text="Activity level (1-10)"/>
+                <Label Grid.Row="1" Grid.Column="2" Text="Duration" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                       ToolTipProperties.Text="Duration in minutes"/>
+                <Label Grid.Row="1" Grid.Column="3" Text="Acc." HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                       ToolTipProperties.Text="Accuracy of estimation"/>
+            </Grid>
+
+            <ListView Grid.Row="10" Grid.ColumnSpan="4" x:Name="gridActivities" ItemsSource="{Binding}"
+                      ToolTipProperties.Text="Past physical activities"
+                      ItemSelected="OnGridSelectionAsync"
+                      RowHeight="25">
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid Margin="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding Timestamp.DateTime}"/>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding InsulinValue.Text}"/>
+                                <Grid ColumnDefinitions="*,60,60,60">
+                                    <Label Grid.Column="0" HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                           Text="{Binding Timestamp.DateTime}"/>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                           Text="{Binding InsulinValue.Text}"/>
+                                    <Label Grid.Column="2" HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                           Text="{Binding InsulinCalculated.Text}"/>
+                                    <Label Grid.Column="3" HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                           Text="--"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

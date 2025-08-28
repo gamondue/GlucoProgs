@@ -12,21 +12,50 @@ namespace GlucoMan.Maui
             // change the title of the page shown in the navigation bar, showing the version of the program
             Title += " " + Common.Version;
 
-            RequestPermissionsIfNotGiven().ConfigureAwait(false);
-            Thread.Sleep(5000);
-         
-            // already called in MauiProgram.cs
-            //Common.SetGlobalParameters();
+            // Initialize async operations properly - don't block the UI thread
+            _ = InitializeAsync();
+        }
 
-            // restore parameters (TODO move these to SetGlobalParameters, making RestoreParameter static)
-            Common.breakfastStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Breakfast_StartTime_Hours"));
-            Common.breakfastEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Breakfast_EndTime_Hours"));
-            Common.lunchStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Lunch_StartTime_Hours"));
-            Common.lunchEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Lunch_EndTime_Hours"));
-            Common.dinnerStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Dinner_StartTime_Hours"));
-            Common.dinnerEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Dinner_EndTime_Hours"));
-            //Common.GeneralInitializationsAsync();
-            //Common.PlatformSpecificInitializations();
+        private async Task InitializeAsync()
+        {
+            try
+            {
+                // Request permissions asynchronously without blocking UI
+                await RequestPermissionsIfNotGiven();
+                
+                // Add a short delay if needed, but don't block the UI thread
+                await Task.Delay(100);
+                
+                // already called in MauiProgram.cs
+                //Common.SetGlobalParameters();
+
+                // restore parameters (TODO move these to SetGlobalParameters, making RestoreParameter static)
+                // Wrap these in a try-catch to prevent crashes if database is not ready
+                try
+                {
+                    Common.breakfastStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Breakfast_StartTime_Hours"));
+                    Common.breakfastEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Breakfast_EndTime_Hours"));
+                    Common.lunchStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Lunch_StartTime_Hours"));
+                    Common.lunchEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Lunch_EndTime_Hours"));
+                    Common.dinnerStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Dinner_StartTime_Hours"));
+                    Common.dinnerEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Dinner_EndTime_Hours"));
+                }
+                catch (Exception ex)
+                {
+                    General.LogOfProgram.Error("MainPage - Error loading parameters", ex);
+                    // Set default values if parameters can't be loaded
+                    Common.breakfastStartHour = 6.0;
+                    Common.breakfastEndHour = 10.0;
+                    Common.lunchStartHour = 11.0;
+                    Common.lunchEndHour = 15.0;
+                    Common.dinnerStartHour = 18.0;
+                    Common.dinnerEndHour = 22.0;
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("MainPage - InitializeAsync", ex);
+            }
         }
         private async Task RequestPermissionsIfNotGiven()
         {
