@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
+using gamon;
+
 #if WINDOWS
 using WinUIWindow = Microsoft.UI.Xaml.Window;
 using Microsoft.UI.Windowing;
@@ -48,6 +50,13 @@ namespace GlucoMan.Maui
 #endif
             Common.SetGlobalParameters();
             Common.GeneralInitializationsAsync();
+
+            General.LogOfProgram = new Logger(Common.PathLogs, true,
+                @"GlucoMan_Log.txt",
+                @"GlucoMan_Errors.txt",
+                @"GlucoMan_Debug.txt",
+                @"GlucoMan_Prompts.txt",
+                @"GlucoMan_Data.txt");
             return builder.Build();
         }
     }

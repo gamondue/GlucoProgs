@@ -1,0 +1,2 @@
+Generate the XAML of an UI in the highlighted file to include and edit and save, with the same style of the all the XXXX file
+Like in said Page, editable field will be of the same green background color, results will be of the same azure colore and (eventual) calculated filed will be of backgorund color. 

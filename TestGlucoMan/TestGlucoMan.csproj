@@ -22,4 +22,8 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <Import Project="..\SharedGeneral\SharedGeneral.projitems" Label="Shared" />
+
+  <Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
+
 </Project>

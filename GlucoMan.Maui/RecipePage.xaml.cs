@@ -75,7 +75,7 @@ public partial class RecipePage : ContentPage
         try
         {
             //bl.Recipe.Ingredients = bl.ReadAllIngredientsInThisRecipe();
-            bl.ReadAllIngredientsInThisRecipe();
+            bl.GetAllIngredientsInThisRecipe();
             gridIngredients.BindingContext = null;
             gridIngredients.BindingContext = bl.Recipe.Ingredients;
         }

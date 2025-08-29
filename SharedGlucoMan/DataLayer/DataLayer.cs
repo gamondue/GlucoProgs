@@ -71,24 +71,24 @@ namespace GlucoMan
         #endregion
         #region Alarms
         internal abstract int? SaveOneAlarm(Alarm currentAlarm);
-        internal abstract List<Alarm> ReadAllAlarms();
+        internal abstract List<Alarm> GetAllAlarms(DateTime? from = null, DateTime? to = null, bool all = false, bool expired = false, bool active = true);
+        internal abstract void DeleteOneAlarm(Alarm alarm);
         #endregion
         #region Recipes and Ingredients
         internal abstract int? InsertOneRecipe(Recipe Recipe);
-        internal abstract List<Recipe> ReadSomeRecipes(string WhereClause);
+        internal abstract List<Recipe> GetSomeRecipes(string WhereClause);
         internal abstract Recipe GetOneRecipe(int? IdRecipe);
         internal abstract int? SaveOneRecipe(Recipe Recipe);
         internal abstract void UpdateOneRecipe(Recipe RecipeToSave);
         internal abstract void DeleteOneRecipe(Recipe Recipe);
         internal abstract List<Recipe> SearchRecipes(string Name, string Description);
-        internal abstract List<Ingredient> ReadAllIngredientsInARecipe(int? idRecipe);
+        internal abstract List<Ingredient> GetAllIngredientsInARecipe(int? idRecipe);
         internal abstract int? SaveOneIngredient(Ingredient Ingredient);
         internal abstract void SaveListOfIngredients(List<Ingredient> ingredients);
         internal abstract int? InsertOneIngredient(Ingredient ingredient);
         internal abstract void UpdateOneIngredient(Ingredient ingredient);
         internal abstract Ingredient GetIngredientFromRow(DbDataReader Row);
         internal abstract void DeleteOneIngredient(Ingredient ingredient);
-
         #endregion
         internal abstract void CreateNewDatabase(string pathAndFileDatabase);
         internal abstract void SaveOneReferenceCoordinate(PositionOfInjection position);

@@ -1,5 +1,4 @@
 ﻿using gamon;
-using Microsoft.Maui.Platform;
 using System.Collections;
 using static GlucoMan.Common;
 

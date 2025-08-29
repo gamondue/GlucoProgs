@@ -115,7 +115,7 @@ namespace GlucoMan.Maui
         }
         private async void btnAlarms_Clicked(object sender, EventArgs e)
         {
-            // !!!! TODO 
+            await Navigation.PushAsync(new AlarmPage());
         }
         private async void btnMiscellaneousFunctions_Clicked(object sender, EventArgs e)
         {

@@ -24,9 +24,9 @@
             }
             return key;
         }
-        public List<Recipe> ReadSomeRecipes(string? WhereClause)
+        public List<Recipe> GetSomeRecipes(string? WhereClause)
         {
-            return dl.ReadSomeRecipes(WhereClause);
+            return dl.GetSomeRecipes(WhereClause);
         }
         internal List<Recipe> SearchRecipes(string Name, string Description, int MinNoOfCharacters)
         {
@@ -122,9 +122,9 @@
         {
             return dl.SaveOneIngredient(Ingredient);
         }
-        public void ReadAllIngredientsInThisRecipe()
+        public void GetAllIngredientsInThisRecipe()
         {
-            Recipe.Ingredients = dl.ReadAllIngredientsInARecipe(Recipe.IdRecipe);
+            Recipe.Ingredients = dl.GetAllIngredientsInARecipe(Recipe.IdRecipe);
         }
         internal void SaveListOfIngredients()
         {

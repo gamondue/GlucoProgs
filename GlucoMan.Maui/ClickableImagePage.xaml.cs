@@ -10,7 +10,7 @@ public partial class ClickableImagePage : ContentPage
     CirclesDrawable allCircles;
     bool editing = false;
     Injection currentInjection;
-    Point currentNearestReferencePosition;
+    Microsoft.Maui.Graphics.Point currentNearestReferencePosition;
     List<Injection> allRecentInjections;
     List<PositionOfInjection> allReferencePositions;
     private bool firstPass = true;
@@ -85,7 +85,7 @@ public partial class ClickableImagePage : ContentPage
             // bind the Drawable to the GraphicsView
             cerchiGraphicsView.Drawable = allCircles;
             cerchiGraphicsView.Background = Color.FromRgba(255, 255, 0, 100);
-            var children = cerchiGraphicsView.GetChildElements(new Point(100, 100));
+            var children = cerchiGraphicsView.GetChildElements(new Microsoft.Maui.Graphics.Point(100, 100));
             firstPass = false;
             
             // Load necessary data
@@ -141,7 +141,7 @@ public partial class ClickableImagePage : ContentPage
         allCircles.IsCallerEditing = editing;
         // Position relative to the container view (the image).
         // The origin point is at the top-left corner of the image.
-        Point? relativeToContainerPosition = e.GetPosition((View)sender);
+        Microsoft.Maui.Graphics.Point? relativeToContainerPosition = e.GetPosition((View)sender);
         if (relativeToContainerPosition.HasValue)
         {
             if (DeleteCheckBox.IsChecked)
@@ -156,7 +156,7 @@ public partial class ClickableImagePage : ContentPage
                 // the constructor will calculate the position of the center of the circle
                 // the method will give back the nearest point to the click point
                 currentNearestReferencePosition = allCircles.AddPoint(
-                    (Point)relativeToContainerPosition, editing);
+                    (Microsoft.Maui.Graphics.Point)relativeToContainerPosition, editing);
                 currentInjection.PositionX = currentNearestReferencePosition.X;
                 currentInjection.PositionY = currentNearestReferencePosition.Y;
             }

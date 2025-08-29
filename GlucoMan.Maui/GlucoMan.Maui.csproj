@@ -111,6 +111,7 @@
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
 		<MauiImage Include="Resources\Images\escape.png" />
+		<MauiImage Include="Resources\Images\ringing_clock.png" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\AppIcon\appicon.svg" Color="#7dbff3" BaseSize="128,128" />
@@ -192,6 +193,7 @@
 	  <None Remove="Resources\Images\questionmark.png" />
 	  <None Remove="Resources\Images\recipe.png" />
 	  <None Remove="Resources\Images\recipe.svg" />
+	  <None Remove="Resources\Images\ringing_clock.png" />
 	  <None Remove="Resources\Images\rounding.png" />
 	  <None Remove="Resources\Images\sugar.svg" />
 	  <None Remove="Resources\Images\syringe.png" />

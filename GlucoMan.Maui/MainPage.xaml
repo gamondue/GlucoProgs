@@ -65,7 +65,8 @@
                 LineBreakMode="WordWrap"
                 Grid.Row="4" Grid.Column="1" 
                 Clicked="btnHypoPrediction_Clicked"
-                Margin="1" ToolTipProperties.Text="Prediction: opens the page that makes a simple prediction of the time of an hypoglicemia episode"/>
+                Margin="1" 
+                ToolTipProperties.Text="Prediction: opens the page that makes a simple prediction of the time of an hypoglicemia episode"/>
         <!--Text="Hypoglicemia&#10;time prediction"-->
         <Button x:Name="btnMiscellaneousFunctions" 
                 ImageSource="other.png"
@@ -75,12 +76,13 @@
                 Margin="1" ToolTipProperties.Text="Miscellaneous: opens the page of miscellaneous functions"/>
         <!--Text="Miscellaneous&#10;   functions"-->
         <Button x:Name="btnAlarms" 
-                Text="Alarms"
+                ImageSource="ringing_clock.png"
                 Grid.Row="5" Grid.Column="1" 
-                IsVisible="True" IsEnabled="False" 
+                IsVisible="True" IsEnabled="True" 
                 Clicked="btnAlarms_Clicked" 
-                Background="Grey"
-                Margin="1" ToolTipProperties.Text="Alarms: opens the page of the alarms' settings"/>
+                Margin="1" 
+                ToolTipProperties.Text="Alarms: opens the page of the alarms' settings"/>
+        <!--Text="Alarms"-->
         <Button x:Name="btnConfigurations" 
                 ImageSource="gear.png"
                 Grid.Row="6" Grid.Column="0" 

@@ -26,6 +26,7 @@ Global
 		{F51DB3B7-A60C-4CC7-85F2-7EF8E3DAD09E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{F51DB3B7-A60C-4CC7-85F2-7EF8E3DAD09E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F51DB3B7-A60C-4CC7-85F2-7EF8E3DAD09E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F51DB3B7-A60C-4CC7-85F2-7EF8E3DAD09E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,6 +42,8 @@ Global
 		SharedGlucoMan\SharedGlucoMan.projitems*{a099d29b-5307-4564-acad-2a073fd1ef64}*SharedItemsImports = 13
 		SharedMaui\SharedMaui.projitems*{b7063c16-a09e-4622-9713-67a6cf26cffd}*SharedItemsImports = 13
 		SharedGeneral\SharedGeneral.projitems*{b8615262-a1a5-4508-a7a2-321c10ed81cc}*SharedItemsImports = 13
+		SharedGeneral\SharedGeneral.projitems*{b871502b-99de-4673-8e31-bee20777bfad}*SharedItemsImports = 5
+		SharedGlucoMan\SharedGlucoMan.projitems*{b871502b-99de-4673-8e31-bee20777bfad}*SharedItemsImports = 5
 		SharedGeneral\SharedGeneral.projitems*{f51db3b7-a60c-4cc7-85f2-7ef8e3dad09e}*SharedItemsImports = 5
 		SharedGlucoMan\SharedGlucoMan.projitems*{f51db3b7-a60c-4cc7-85f2-7ef8e3dad09e}*SharedItemsImports = 5
 		SharedMaui\SharedMaui.projitems*{f51db3b7-a60c-4cc7-85f2-7ef8e3dad09e}*SharedItemsImports = 5

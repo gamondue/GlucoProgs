@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_MealAndFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_Recipes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Alarm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Point.cs" />
     <Compile Include="..\SharedGlucoMan\BusinessObjects\CategoryOfFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodInMeal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\InsulinDrug.cs" />

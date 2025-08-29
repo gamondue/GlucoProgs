@@ -37,7 +37,7 @@ namespace GlucoMan
         public static double? lunchEndHour = 15;
         public static double? dinnerStartHour = 17;
         public static double? dinnerEndHour = 21;
-
+        
         #region enums
         public enum TypeOfGlucoseMeasurement
         {

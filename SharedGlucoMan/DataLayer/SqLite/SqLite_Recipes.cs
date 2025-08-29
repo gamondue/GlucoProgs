@@ -40,7 +40,7 @@ namespace GlucoMan
                 return null;
             }
         }
-        internal override List<Recipe> ReadSomeRecipes(string WhereClause)
+        internal override List<Recipe> GetSomeRecipes(string WhereClause)
         {
             List<Recipe> Recipes = new List<Recipe>();
             try
@@ -69,7 +69,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Sqlite_Recipes | ReadSomeRecipes", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | GetSomeRecipes", ex);
             }
             return Recipes;
         }
@@ -194,7 +194,7 @@ namespace GlucoMan
             }
             return m;
         }
-        internal override List<Ingredient> ReadAllIngredientsInARecipe(int? idRecipe)
+        internal override List<Ingredient> GetAllIngredientsInARecipe(int? idRecipe)
         {
             List<Ingredient> Ingredients = new List<Ingredient>();
             try
@@ -222,7 +222,7 @@ namespace GlucoMan
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Sqlite_Recipes | ReadAllIngredientsOfARecipe", ex);
+                General.LogOfProgram.Error("Sqlite_Recipes | GetAllIngredientsInARecipe", ex);
             }
             return Ingredients;
         }

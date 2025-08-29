@@ -366,7 +366,7 @@ namespace GlucoMan.BusinessLayer
         {
             dl.SaveOneReferenceCoordinate(position);
         }
-        internal void SaveNewReferenceCoordinates(List<Point> pointsCoordinates, 
+        internal void SaveNewReferenceCoordinates(List<GlucoMan.BusinessObjects.Point> pointsCoordinates, 
             Common.ZoneOfPosition zone, double imgWidth, double imgHeight)
         {
             DeleteAllReferenceCoordinates(zone);
@@ -374,8 +374,10 @@ namespace GlucoMan.BusinessLayer
             {
                 // normalize the coordinates of the points to be saved in the database
                 // to be in the range [0,1] and adimensional
-                foreach (var (left, top) in pointsCoordinates)
+                foreach (var point in pointsCoordinates)
                 {
+                    var left = point.X;
+                    var top = point.Y;
                     var p = new PositionOfInjection();
                     p.PositionX = left / imgWidth;
                     p.PositionY = top / imgHeight;

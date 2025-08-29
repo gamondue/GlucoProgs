@@ -17,20 +17,19 @@
             <Label x:Name="lblAppName" Text="GlucoMan" HorizontalTextAlignment="Center" TextColor="White" FontSize="32"/>
           </Border>
           <Label Text="GlucoMan is a Glucose Manager program for the diabetic person" FontSize="20" Padding="0,0,0,0"/>
-                <Label Text="Helps with the daily operations needed to manage carbs counting. Currently manages data related to measured glucose, carbohydrates consumed during meals, foods, insulin injections.
+          <Label Text="Helps with the daily operations needed to manage carbs counting. Currently manages data related to measured glucose, carbohydrates consumed during meals, foods, insulin injections.
 Calculates: the insulin bolus based on carbohydrates to be consumed during meals, the foods to eat to reach the desired carbohydrates and also a rough prediction of when blood sugar will reach a hypo value.
-The program has provisions to manage recipes, still not completed. Prototype functions for weighing foods are also included in the code, but disabled in the UI, since they are  still in very preliminary development."
+The program has provisions to manage recipes, still not completed. Prototype functions for weighing foods are also included in the code, but disabled in the UI, since they are  still in very preliminary development." 
                  FontSize="15" Padding="0,0,0,0"/>
-          <Label Text="GlucoMan is Free Software (licence: GPL v.2) initiated by:" FontSize="15"
-                 HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
-          <Label Text="Ing.Gabriele Monti (gamon) - Forlì - Italia" FontSize="17"
-                 HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
-          <Label FontSize="13" Padding="30,0,30,0">
+          <Label Text="The function of every button or entry box is explained by a 'tooltip' text. Keep the button or entry box pressed for a sufficient time to see the text popping out" 
+                 FontSize="13" HorizontalTextAlignment="Start" Padding="0,0,0,0"/>
+          <Label Text="GlucoMan is Free Software (licence: GPL v.2) initiated by:" FontSize="15" HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
+          <Label Text="Ing.Gabriele Monti (gamon) - Forlì - Italia" FontSize="17" HorizontalTextAlignment="Center" Padding="0,0,0,0"/>
+          <Label FontSize="13" Padding="5,5,5,0">
             <Label.FormattedText>
               <FormattedString>
                 <FormattedString.Spans>
                   <Span Text="Distribution at "/>
-                  <!--<Span x:Name="tempText" Text="https://ingmonti.it/GlucoMan/" FontAttributes="Bold"/>-->
                   <Span x:Name="tempText" Text="https://github.com/gamondue/GlucoProgs" FontAttributes="Bold"/>
                 </FormattedString.Spans>
               </FormattedString>

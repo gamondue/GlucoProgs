@@ -1,12 +1,161 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GlucoMan.Maui.AlarmPage">
-<ContentPage.Content>
-        <VerticalStackLayout>
-        <Label Text="Welcome!"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center"/>
-    </VerticalStackLayout>
-    </ContentPage.Content>
+             x:Class="GlucoMan.Maui.AlarmPage"
+             Title="Alarms">
+    <ContentPage.Resources>
+        <!-- Colors / Brushes reused across fields -->
+        <Color x:Key="EditBackColor">LightGreen</Color>
+        <Color x:Key="ResultBackColor">#ADD8E6</Color> <!-- Light Azure -->
+        <Style x:Key="EditEntryStyle" TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="{StaticResource EditBackColor}" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="2" />
+        </Style>
+        <Style x:Key="ResultEntryStyle" TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="{StaticResource ResultBackColor}" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="IsReadOnly" Value="True" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Margin" Value="2,4,2,0" />
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="Padding" Value="6,4" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="6" Spacing="4">
+            <!-- Current Alarm Editing Panel -->
+            <Frame BorderColor="#888" CornerRadius="6" Padding="8" Margin="0,0,0,6">
+                <Grid ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                    <!-- Row 0: Id / Reminder -->
+                    <Label Grid.Row="0" Grid.Column="0" Text="Id" />
+                    <Entry x:Name="txtIdAlarm" Grid.Row="0" Grid.Column="1" Style="{StaticResource ResultEntryStyle}" WidthRequest="90" />
+                    <Label Grid.Row="0" Grid.Column="2" Text="Reminder" />
+                    <Entry x:Name="txtReminderText" Grid.Row="0" Grid.Column="3" Style="{StaticResource EditEntryStyle}" Placeholder="Reminder text" />
+
+                    <!-- Row 1: TimeStart Date/Time -->
+                    <Label Grid.Row="1" Grid.Column="0" Text="Start Date" />
+                    <DatePicker x:Name="dtpStartDate" Grid.Row="1" Grid.Column="1" BackgroundColor="{StaticResource EditBackColor}" />
+                    <Label Grid.Row="1" Grid.Column="2" Text="Start Time" />
+                    <TimePicker x:Name="tpStartTime" Grid.Row="1" Grid.Column="3" BackgroundColor="{StaticResource EditBackColor}" />
+
+                    <!-- Row 2: Trigger / Interval -->
+                    <Label Grid.Row="2" Grid.Column="0" Text="Trigger (s)" />
+                    <Entry x:Name="txtTriggerInterval" Grid.Row="2" Grid.Column="1" Style="{StaticResource EditEntryStyle}" Keyboard="Numeric" />
+                    <Label Grid.Row="2" Grid.Column="2" Text="Repeat Interval (s)" />
+                    <Entry x:Name="txtInterval" Grid.Row="2" Grid.Column="3" Style="{StaticResource EditEntryStyle}" Keyboard="Numeric" />
+
+                    <!-- Row 3: Duration / RepetitionTime -->
+                    <Label Grid.Row="3" Grid.Column="0" Text="Duration (s)" />
+                    <Entry x:Name="txtDuration" Grid.Row="3" Grid.Column="1" Style="{StaticResource EditEntryStyle}" Keyboard="Numeric" />
+                    <Label Grid.Row="3" Grid.Column="2" Text="Repetition After (s)" />
+                    <Entry x:Name="txtRepetitionTime" Grid.Row="3" Grid.Column="3" Style="{StaticResource EditEntryStyle}" Keyboard="Numeric" />
+
+                    <!-- Row 4: Repeat Count / Max -->
+                    <Label Grid.Row="4" Grid.Column="0" Text="Repeat Count" />
+                    <Entry x:Name="txtRepeatCount" Grid.Row="4" Grid.Column="1" Style="{StaticResource ResultEntryStyle}" />
+                    <Label Grid.Row="4" Grid.Column="2" Text="Max Repeats" />
+                    <Entry x:Name="txtMaxRepeatCount" Grid.Row="4" Grid.Column="3" Style="{StaticResource EditEntryStyle}" Keyboard="Numeric" />
+
+                    <!-- Row 5: Next / Last trigger -->
+                    <Label Grid.Row="5" Grid.Column="0" Text="Next Trigger" />
+                    <Entry x:Name="txtNextTriggerTime" Grid.Row="5" Grid.Column="1" Style="{StaticResource ResultEntryStyle}" />
+                    <Label Grid.Row="5" Grid.Column="2" Text="Last Trigger" />
+                    <Entry x:Name="txtLastTriggerTime" Grid.Row="5" Grid.Column="3" Style="{StaticResource ResultEntryStyle}" />
+
+                    <!-- Row 6: Triggered Count / Playing -->
+                    <Label Grid.Row="6" Grid.Column="0" Text="Triggered" />
+                    <Entry x:Name="txtTriggeredCount" Grid.Row="6" Grid.Column="1" Style="{StaticResource ResultEntryStyle}" />
+                    <Label Grid.Row="6" Grid.Column="2" Text="Playing" />
+                    <CheckBox x:Name="chkPlaying" Grid.Row="6" Grid.Column="3" />
+
+                    <!-- Row 7: Sound flags -->
+                    <Label Grid.Row="7" Grid.Column="0" Text="Play Sound" />
+                    <CheckBox x:Name="chkPlaySound" Grid.Row="7" Grid.Column="1" />
+                    <Label Grid.Row="7" Grid.Column="2" Text="Vibrate" />
+                    <CheckBox x:Name="chkVibrate" Grid.Row="7" Grid.Column="3" />
+
+                    <!-- Row 8: Sound file path -->
+                    <Label Grid.Row="8" Grid.Column="0" Text="Sound File" />
+                    <Entry x:Name="txtSoundFilePath" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource EditEntryStyle}" Placeholder="Path or filename" />
+
+                    <!-- Row 9: Spacer or future state -->
+                    <Label Grid.Row="9" Grid.Column="0" Text="State" />
+                    <Entry x:Name="txtState" Grid.Row="9" Grid.Column="1" Style="{StaticResource ResultEntryStyle}" />
+                    <Label Grid.Row="9" Grid.Column="2" Text="Reminder Preview" />
+                    <Entry x:Name="txtReminderPreview" Grid.Row="9" Grid.Column="3" Style="{StaticResource ResultEntryStyle}" />
+                </Grid>
+            </Frame>
+
+            <!-- Command Buttons -->
+            <FlexLayout Direction="Row" Wrap="NoWrap" AlignItems="Center" JustifyContent="Start">
+                <Button x:Name="btnAdd" Text="Add" />
+                <Button x:Name="btnSave" Text="Save" />
+                <Button x:Name="btnDelete" Text="Delete" />
+                <Button x:Name="btnDismiss" Text="Dismiss" />
+                <Button x:Name="btnActivate" Text="Activate" />
+                <Button x:Name="btnDeactivate" Text="Deactivate" />
+                <Button x:Name="btnTest" Text="Test" />
+                <Button x:Name="btnClear" Text="Clear" />
+            </FlexLayout>
+
+            <!-- Filters Panel -->
+            <Frame BorderColor="#888" CornerRadius="6" Padding="6" Margin="0,6,0,4">
+                <Grid ColumnDefinitions="Auto,*,Auto,*,Auto,*,Auto,*" RowDefinitions="Auto,Auto">
+                    <Label Grid.Row="0" Grid.Column="0" Text="From" />
+                    <DatePicker x:Name="dtpFrom" Grid.Row="0" Grid.Column="1" BackgroundColor="{StaticResource EditBackColor}" />
+                    <Label Grid.Row="0" Grid.Column="2" Text="To" />
+                    <DatePicker x:Name="dtpTo" Grid.Row="0" Grid.Column="3" BackgroundColor="{StaticResource EditBackColor}" />
+                    <CheckBox x:Name="chkShowAll" Grid.Row="0" Grid.Column="4" />
+                    <Label Grid.Row="0" Grid.Column="5" Text="All" />
+                    <CheckBox x:Name="chkActive" Grid.Row="0" Grid.Column="6" IsChecked="True" />
+                    <Label Grid.Row="0" Grid.Column="7" Text="Active" />
+
+                    <CheckBox x:Name="chkExpired" Grid.Row="1" Grid.Column="0" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="Expired" />
+                    <Button x:Name="btnRefresh" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Text="Refresh" />
+                    <Button x:Name="btnNow" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Text="Now" />
+                    <Button x:Name="btnSetNext" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" Text="Set Next" />
+                </Grid>
+            </Frame>
+
+            <!-- List of Alarms -->
+            <Label Text="Alarms" FontAttributes="Bold" />
+            <CollectionView x:Name="cvAlarms" SelectionMode="Single" HeightRequest="300">
+                <CollectionView.Header>
+                    <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" Padding="4" BackgroundColor="#ececec">
+                        <Label Text="Id" FontAttributes="Bold" />
+                        <Label Grid.Column="1" Text="Reminder" FontAttributes="Bold" />
+                        <Label Grid.Column="2" Text="Start" FontAttributes="Bold" />
+                        <Label Grid.Column="3" Text="Next" FontAttributes="Bold" />
+                        <Label Grid.Column="4" Text="State" FontAttributes="Bold" />
+                    </Grid>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" Padding="4" Margin="0,0,0,1" BackgroundColor="White">
+                            <Label Text="{Binding IdAlarm}" />
+                            <Label Grid.Column="1" Text="{Binding ReminderText}" LineBreakMode="TailTruncation" />
+                            <Label Grid.Column="2" Text="{Binding TimeStart.DateTime, StringFormat='{}{0:MM-dd HH:mm}'}" />
+                            <Label Grid.Column="3" Text="{Binding NextTriggerTime, StringFormat='{}{0:MM-dd HH:mm}'}" />
+                            <Label Grid.Column="4" Text="{Binding TriggeredCount}" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
