@@ -49,12 +49,17 @@ namespace GlucoMan.Maui
         private List<Microsoft.Maui.Graphics.Point> ReferencePointsCoordinates = new();
 
         // the distance in pixels that is considered to be near enough to one reference point
-        // to be considered the same point
-        private double nearEnoughZeroScaleDistance = 25;
-        // the radiuses of the circles for reference points and injection points
-        // !!!! TODO radiuses should be different based on the number of points in the image
-        private float referencePointsZeroScaleRadius = 15; // !!! after debug restore value of 5 !!!!
-        private float injectionPointZeroScaleRadius = 8;
+        // to be considered the same point (base value - will be scaled)
+        // base radii (will be scaled according to image size)
+        // (evaluated at dimensions DefaultImageWidth and DefaultImageHeight)
+        private float baseReferenceRadius = 15f; 
+        private float baseInjectionRadius = 22;
+        private float nearEnoughZeroScaleDistance = 30;
+
+        // radii used for drawing/hit testing are computed properties
+        private float CurrentReferenceRadius => (float)(baseReferenceRadius * GetScale());
+        private float CurrentInjectionRadius => (float)(baseInjectionRadius * GetScale());
+        private double CurrentNearEnoughDistance => nearEnoughZeroScaleDistance * GetScale();
 
         private bool isFirstClick = true;
 
@@ -74,15 +79,30 @@ namespace GlucoMan.Maui
         public CirclesDrawable(double ImageWidth, double ImageHeight,
             int? IdInjection, double CirclesVisibilityMaxTimeInDays) 
         {
+            // values on my computer at max dimension
+            DefaultImageWidth = 1280;
+            DefaultImageHeight = 1366;
             imageWidth = ImageWidth;
             imageHeight = ImageHeight;
             idCurrentInjection = IdInjection;
             circlesVisibilityMaxTimeInDays = CirclesVisibilityMaxTimeInDays;
         }
-        public static void SetDefaults(double imageWidth, double imageHeight)
+        private double GetScale()
         {
-            DefaultImageWidth = imageWidth;
-            DefaultImageHeight = imageHeight;
+            try
+            {
+                if (DefaultImageWidth <= 0 || DefaultImageHeight <= 0)
+                    return 1.0;
+                double sx = imageWidth / DefaultImageWidth;
+                double sy = imageHeight / DefaultImageHeight;
+                double s = Math.Min(sx, sy);
+                if (s <= 0) s = 1.0;
+                return s;
+            }
+            catch
+            {
+                return 1.0;
+            }
         }
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
@@ -91,13 +111,14 @@ namespace GlucoMan.Maui
                 foreach (Microsoft.Maui.Graphics.Point point in ReferencePointsCoordinates)
                 {
                     canvas.StrokeColor = Colors.Blue;
-                    canvas.StrokeSize = referencePointsZeroScaleRadius;
+                    canvas.StrokeSize = Math.Max(1f, CurrentReferenceRadius / 3f);
                     canvas.FillColor = Colors.Blue;
-                    canvas.DrawEllipse(
-                        (float)(point.X - referencePointsZeroScaleRadius), 
-                        (float)(point.Y - referencePointsZeroScaleRadius),
-                        referencePointsZeroScaleRadius * 2,  // diameter
-                        referencePointsZeroScaleRadius * 2   // diameter
+                    // Disegna cerchio pieno usando il raggio scalato
+                    canvas.FillEllipse(
+                        (float)(point.X - CurrentReferenceRadius),
+                        (float)(point.Y - CurrentReferenceRadius),
+                        CurrentReferenceRadius * 2,
+                        CurrentReferenceRadius * 2
                     );
                 }
             }
@@ -107,32 +128,33 @@ namespace GlucoMan.Maui
                 foreach (CircleData point in InjectionPointsCoordinates)
                 {
                     canvas.StrokeColor = point.Color;
-                    canvas.StrokeSize = injectionPointZeroScaleRadius;
+                    canvas.StrokeSize = Math.Max(1f, CurrentInjectionRadius / 3f);
                     canvas.FillColor = point.Color;
-                    canvas.DrawEllipse((float)(point.Position.X - injectionPointZeroScaleRadius), 
-                        (float)(point.Position.Y - injectionPointZeroScaleRadius),
-                            injectionPointZeroScaleRadius, injectionPointZeroScaleRadius);
+                    // Disegna cerchio pieno usando il raggio scalato
+                    canvas.FillEllipse(
+                        (float)(point.Position.X - CurrentInjectionRadius),
+                        (float)(point.Position.Y - CurrentInjectionRadius),
+                        CurrentInjectionRadius * 2,
+                        CurrentInjectionRadius * 2
+                    );
                 }
             }
         }
-        internal Microsoft.Maui.Graphics.Point AddPoint(Microsoft.Maui.Graphics.Point LeftTopPosition, bool IsEditing)
+        internal Microsoft.Maui.Graphics.Point AddPoint(Microsoft.Maui.Graphics.Point clickPosition, bool IsEditing)
         {
-            // center position is stored in the right list depending on the IsEditing flag
-            double XCenter;
-            double YCenter;
+            // Usa direttamente la posizione del click come centro
+            double XCenter = clickPosition.X;
+            double YCenter = clickPosition.Y;
             Microsoft.Maui.Graphics.Point nearestPoint = new();
             if (IsEditing)
             {
-                XCenter = (float)LeftTopPosition.X + referencePointsZeroScaleRadius;
-                YCenter = (float)LeftTopPosition.Y + referencePointsZeroScaleRadius;
-                // check if the clicked point is near enough to a reference point
                 nearestPoint = FindNearest(new Microsoft.Maui.Graphics.Point(XCenter, YCenter), ReferencePointsCoordinates);
                 // calculate the cartesion distance between the clicked point and the nearestPoint reference point
                 float distance = (float)Math.Sqrt((XCenter - nearestPoint.X) * (XCenter - nearestPoint.X)
                     + (YCenter - nearestPoint.Y) * (YCenter - nearestPoint.Y));
                 // if the distance is less than nearEnoughZeroScaleDistance, the clicked point is considered
                 // to be the same as the nearestPoint reference point
-                if (distance < nearEnoughZeroScaleDistance)
+                if (distance < CurrentNearEnoughDistance)
                 {
                     // if the clicked point is near enough to a reference point, the reference point is removed
                     ReferencePointsCoordinates.Remove(nearestPoint);
@@ -149,9 +171,6 @@ namespace GlucoMan.Maui
             else
             {
                 // we are not editing 
-                // calculate the center of the circle
-                XCenter = (float)LeftTopPosition.X + injectionPointZeroScaleRadius;
-                YCenter = (float)LeftTopPosition.Y + injectionPointZeroScaleRadius;
                 // since the click has been done while setting the point of the injection
                 // the center is brought to the nearestPoint reference point
                 nearestPoint = FindNearest(new Microsoft.Maui.Graphics.Point(XCenter, YCenter), ReferencePointsCoordinates);
@@ -179,20 +198,17 @@ namespace GlucoMan.Maui
         }
         internal void RemovePointIfNear(Microsoft.Maui.Graphics.Point LeftTopPosition)
         {
-            // center position is stored in the right list depending on the IsEditing flag
-            double XCenter;
-            double YCenter;
-            // calculate the center of the circle
-            XCenter = (float)LeftTopPosition.X + referencePointsZeroScaleRadius;
-            YCenter = (float)LeftTopPosition.Y + referencePointsZeroScaleRadius;
-
+            // Il click è già il centro - non aggiungere il raggio
+            double XCenter = LeftTopPosition.X;
+            double YCenter = LeftTopPosition.Y;
+            
             // check if the clicked point is near enough to a reference point
             Microsoft.Maui.Graphics.Point nearestPoint = FindNearest(new Microsoft.Maui.Graphics.Point(XCenter, YCenter), ReferencePointsCoordinates);
             // calculate the cartesion distance between the clicked point and the nearestPoint reference point
             double distance = Math.Sqrt((XCenter - nearestPoint.X) * (XCenter - nearestPoint.X)
                 + (YCenter - nearestPoint.Y) * (YCenter - nearestPoint.Y));
             // if the distance is less than nearEnoughZeroScaleDistance, the clicked point is deleted
-            if (distance < nearEnoughZeroScaleDistance)
+            if (distance < CurrentNearEnoughDistance)
             {
                 // if the clicked point is near enough to a point, the reference point is removed
                 ReferencePointsCoordinates.Remove(nearestPoint);
