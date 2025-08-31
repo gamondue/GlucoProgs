@@ -1,5 +1,6 @@
 using gamon;
 using GlucoMan.BusinessLayer;
+using GlucoMan.BusinessObjects;
 using static GlucoMan.Common;
 
 namespace GlucoMan.Maui;
@@ -15,11 +16,17 @@ public partial class MealsPage : ContentPage
     private List<Meal> allTheMeals;
     private MealPage mealPage;
 
+    double? MonthsOfDataShownInTheGrids = 3;
+
     public MealsPage()
     {
         InitializeComponent();
 
         loadingUi = true;
+
+        Parameters parameters = Common.Database.GetParameters();
+        if (parameters != null && parameters.MonthsOfDataShownInTheGrids > 0)
+            MonthsOfDataShownInTheGrids = parameters.MonthsOfDataShownInTheGrids;
 
         cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
         ////cmbTypeOfMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
@@ -101,7 +108,7 @@ public partial class MealsPage : ContentPage
     {
         DateTime now = DateTime.Now;
         allTheMeals = bl.GetMeals(
-            now.Subtract(new TimeSpan(180, 00, 0, 0)),
+            now.AddMonths(-(int)(MonthsOfDataShownInTheGrids)),
             now.AddDays(1));
         gridMeals.BindingContext = allTheMeals;
     }

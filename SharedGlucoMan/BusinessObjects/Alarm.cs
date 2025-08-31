@@ -11,36 +11,41 @@ namespace GlucoMan
         public int? IdAlarm { get; set; }
         // ReminderText: text to be shown when the alarm is triggered
         public string? ReminderText { get; set; }
+        // TimeStart: date and time when the first accurrence of the
+        // alarm will be triggered
         public DateTimeAndText TimeStart { get; set; }
+        // NextTriggerTime: next time when the alarm will be triggered
+        public DateTime? NextTriggerTime { get; set; }
+        // IsDisabled: if true the alarm is temporary disabled and will be triggered
+        public bool? IsDisabled { get; set; }
+        // state of this alarm according to the enum AlarmRingingState
+        AlarmRingingState RingingState { get; set; }
         // interval after TimeStart when the alarm will still be triggered [s]
-        // after TimeStart + TriggerInterval the alarm will not be triggered anymore
-        public TimeSpan? TriggerInterval { get; set; }
-        // Interval: time  after which an enabled periodic alarm will be re-triggered [s]
-        public TimeSpan? Interval { get; set; }
+        // after TimeStart + ValidTimeAfterStart the alarm will not be triggered anymore
+        public TimeSpan? ValidTimeAfterStart { get; set; }
         // Duration: time after which an alarm not dismissed will stop ringing [s]
         public TimeSpan? Duration { get; set; }
+        // Repetition time: time when the alarm will be repeated after
+        // vain ringing (not stopped nor delayed by the user)
+        public TimeSpan? RepetitionTime { get; set; }
+        // Interval: time  after which an enabled periodic alarm will be re-triggered [s]
+        public TimeSpan? Interval { get; set; }
+        // IsPlaying: if true the alarm is currently ringing
+        public bool? IsPlaying { get; set; }
+        // EnablePlaySoundFile: if true when the alarm is triggered a sound file will be played
+        public bool? EnablePlaySoundFile { get; set; }
+        // SoundFilePath: path of the sound file to be played when the alarm is triggered
+        public string? SoundFilePath { get; set; }
         // RepeatCount: number of times the alarm has been repeated
         public int? RepeatCount { get; set; }
         // MaxRepeatCount: maximum number of times the alarm will be repeated
         public int? MaxRepeatCount { get; set; }
-        // NextTriggerTime: next time when the alarm will be triggered
-        public DateTime? NextTriggerTime { get; set; }
         // LastTriggerTime: last time when the alarm was triggered
         public DateTime? LastTriggerTime { get; set; }
         // TriggeredCount: number of times the alarm has been triggered
         public int? TriggeredCount { get; set; }
-        // Playing: if true the alarm is currently ringing
-        public bool? Playing { get; set; }
-        // Repetition time: time when the alarm will be repeated after
-        // vain ringing (not stopped nor delayed by the user)
-        public TimeSpan? RepetitionTime { get; set; }
-        public bool? PlaySoundFile { get; set; }
-        // SoundFilePath: path of the sound file to be played when the alarm is triggered
-        public string? SoundFilePath { get; set; }
-        // Vibrate: if true the device will vibrate when the alarm is triggered
-        public bool? Vibrate { get; set; }
-        // state of this alarm according to the enum AlarmRingingState
-        AlarmRingingState State { get; set; }
+        // DoVibrate: if true the device will vibrate when the alarm is triggered
+        public bool? DoVibrate { get; set; }
         enum AlarmRingingState
         {
             Waiting,    // the alarm is active and waiting to be triggered
@@ -53,7 +58,7 @@ namespace GlucoMan
             Delayed,    // the alarm is delayed by the user and will ring after the delay time
             AutoSuspended, // the alarm has rung in vain for Duration time, hence has been suspended
                           // by the program and will ring again after RepetitionTime
-            Expired,    // the alarm has expired (TimeStart + TriggerInterval <= DateTime.Now)
+            Expired,    // the alarm has expired (TimeStart + ValidTimeAfterStart <= DateTime.Now)
                         // and will not ring anymore
         }
         public Alarm()

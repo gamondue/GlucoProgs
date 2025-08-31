@@ -45,7 +45,7 @@
                    Text = "{Binding Description}"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="Total CHO%" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="5" Grid.Column="2" Text="Cooked/Raw Ratio" 
+            <Label Grid.Row="5" Grid.Column="2" Text="Raw/Cooked Ratio" 
                    x:Name="lblCookedRaw"
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Start"/>
 

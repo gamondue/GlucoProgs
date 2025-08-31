@@ -15,15 +15,21 @@ public partial class InjectionsPage : ContentPage
     InsulinDrug currentLongInsulin;
     private bool pageIsLoading = true;
 
+    double? MonthsOfDataShownInTheGrids = 3;
+
     // TODO fix the behaviour of the code, that set the "Short act." radiobutton also when the insulin is Long action
     internal InjectionsPage(int? IdInjection)
     {
         InitializeComponent();
 
+        Parameters parameters = Common.Database.GetParameters();
+        if (parameters != null && parameters.MonthsOfDataShownInTheGrids > 0)
+            MonthsOfDataShownInTheGrids = parameters.MonthsOfDataShownInTheGrids;
+
         pageIsLoading = true;
         // set rdbShortInsulin and rdbInsulin text to the name of the right insulins 
         // read from Parameters the Id of current short action insulin
-        Parameters parameters = Common.Database.GetParameters();
+
         IdCurrentShortActingInsulin = parameters?.IdInsulinDrug_Short;
         IdCurrentLongActingInsulin = parameters?.IdInsulinDrug_Long;
         currentShortInsulin = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin);
@@ -111,7 +117,8 @@ public partial class InjectionsPage : ContentPage
     {
         if (pageIsLoading) return;
         DateTime now = DateTime.Now;
-        allInjections = bl.GetInjections(now.AddMonths(-4), now.AddDays(1),
+        allInjections = bl.GetInjections(
+            now.AddMonths(-(int)(MonthsOfDataShownInTheGrids)), now.AddDays(1),
             Common.TypeOfInsulinAction.NotSet, Common.ZoneOfPosition.NotSet,
             chkFront.IsChecked, chkBack.IsChecked, chkHands.IsChecked, chkSensors.IsChecked);
         gridInjections.ItemsSource = allInjections;

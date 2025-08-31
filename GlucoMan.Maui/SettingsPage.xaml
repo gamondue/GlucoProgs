@@ -30,6 +30,13 @@
                 <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>
             </HorizontalStackLayout>
 
+            <HorizontalStackLayout ToolTipProperties.Text="Months shown: month of data that will be shown in the grids of the program">
+                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Months of data shown in the grids</Label>
+                <Entry x:Name="txtMonths" VerticalOptions="Center" Keyboard="Numeric"
+                       Text="{Binding MonthsOfDataShownInTheGrids, Mode=TwoWay}" />
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">Months</Label>
+            </HorizontalStackLayout>
+
             <Label>The following parameters aren't used in the program yet</Label>
             <HorizontalStackLayout ToolTipProperties.Text="Start day hour of breakfast in hours [0.0-24.0]">  
                 <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Initial time for breakfast</Label>
@@ -66,18 +73,11 @@
                 <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout ToolTipProperties.Text="Finish day hour of dinner in hours [0.0-24.0]">  
+            <HorizontalStackLayout ToolTipProperties.Text="Finish day hour of dinner in hours [0.0-24.0]">
                 <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Final time for dinner</Label>
                 <Entry x:Name="txtFinalTimeForBreakfastDinner" VerticalOptions="Center" Keyboard="Numeric"
-                       Text="{Binding Meal_Dinner_EndTime_Hours, Mode=TwoWay}" />  
-                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
-            </HorizontalStackLayout>
-
-            <HorizontalStackLayout ToolTipProperties.Text="Months shown: month of data that will be shown in the grids of the program">
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Months of data shown in the grids</Label>
-                <Entry x:Name="txtMonths" VerticalOptions="Center" Keyboard="Numeric"
-                       Text="{Binding MonthsOfDataShownInTheGrids, Mode=TwoWay}" />
-                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">MM</Label>
+                       Text="{Binding Meal_Dinner_EndTime_Hours, Mode=TwoWay}" />
+                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>
             </HorizontalStackLayout>
 
             <Button IsEnabled="True" HeightRequest="50"

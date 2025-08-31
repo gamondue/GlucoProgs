@@ -1,5 +1,6 @@
 using gamon;
 using GlucoMan.BusinessLayer;
+using GlucoMan.BusinessObjects;
 
 namespace GlucoMan.Maui;
 
@@ -8,6 +9,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
     BL_GlucoseMeasurements bl = new BL_GlucoseMeasurements();
     GlucoseRecord currentGlucose = new GlucoseRecord();
     List<GlucoseRecord> glucoseReadings = new List<GlucoseRecord>();
+    double? MonthsOfDataShownInTheGrids = 3;
 
     public int? IdGlucoseRecord
     {
@@ -19,6 +21,9 @@ public partial class GlucoseMeasurementsPage : ContentPage
     public GlucoseMeasurementsPage(int? IdGlucoseRecord)
     {
         InitializeComponent();
+        Parameters parameters = Common.Database.GetParameters();
+        if (parameters != null && parameters.MonthsOfDataShownInTheGrids > 0)
+            MonthsOfDataShownInTheGrids = parameters.MonthsOfDataShownInTheGrids;   
         if (IdGlucoseRecord != null)
             currentGlucose = bl.GetOneGlucoseRecord(IdGlucoseRecord);
         RefreshUi();
@@ -69,7 +74,9 @@ public partial class GlucoseMeasurementsPage : ContentPage
     private void RefreshGrid()
     {
         DateTime now = DateTime.Now;
-        glucoseReadings = bl.ReadGlucoseMeasurements(now.Subtract(new TimeSpan(180, 0, 0, 0)), now.AddDays(1));
+        glucoseReadings = bl.ReadGlucoseMeasurements(
+            now.Subtract(new TimeSpan((int)(MonthsOfDataShownInTheGrids * 365 / 12),
+                1, 0, 0)), now.AddDays(1));
         this.BindingContext = glucoseReadings;
         //gridMeasurements.ItemsSource = glucoseReadings;
     }

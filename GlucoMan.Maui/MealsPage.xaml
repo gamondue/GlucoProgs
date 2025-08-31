@@ -81,7 +81,7 @@
             <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" Margin="2"
                    BackgroundColor="LightGreen" TextColor="Black"
                    ToolTipProperties.Text="Note about the meal" 
-                   FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
+                   FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
             <Button Grid.Row="6" Grid.Column="0" 
                     ImageSource="floppy_disc.png" x:Name="btnSave" Margin="2" 

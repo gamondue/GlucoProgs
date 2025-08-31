@@ -53,6 +53,16 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
             txtInsulinLongDuration.Text = string.Empty;
         }
     }
+    private void cmbLongActingInsulin_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SelectedLongActingInsulin = (InsulinDrug)cmbLongActingInsulin.SelectedItem;
+        txtInsulinLongDuration.Text = SelectedLongActingInsulin.DurationInHours.ToString();
+    }
+    private void cmbShortActingInsulin_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SelectedShortActingInsulin = (InsulinDrug)cmbShortActingInsulin.SelectedItem;
+        txtInsulinShortDuration.Text = SelectedShortActingInsulin.DurationInHours.ToString();
+    }
     private void Button_Clicked(object sender, EventArgs e)
     {
         SelectedShortActingInsulin.DurationInHours = double.TryParse(txtInsulinShortDuration.Text, 
@@ -61,15 +71,5 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
             out double longDuration) ? longDuration : 0;
         Common.BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin,
             SelectedLongActingInsulin);
-    }
-    private void cmbLongActingInsulin_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        SelectedLongActingInsulin = (InsulinDrug)cmbLongActingInsulin.SelectedItem;
-        txtInsulinLongDuration.Text = SelectedLongActingInsulin.DurationInHours.ToString();
-    }
-    private void cmbShortActingInsulin_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        SelectedShortActingInsulin = (InsulinDrug) cmbShortActingInsulin.SelectedItem;
-        txtInsulinShortDuration.Text = SelectedShortActingInsulin.DurationInHours.ToString();
     }
 }

@@ -89,7 +89,7 @@
                    BackgroundColor="LightGreen" TextColor="Black"
                    ToolTipProperties.Text="Notes: notes about the meal"
                    Text="{Binding Notes}"
-                   Margin="1" FontSize="Medium" HorizontalTextAlignment="Start" IsReadOnly="false"/>
+                   Margin="1" FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
                 <Button Grid.Row="4" Grid.Column="4" x:Name="btnFoodCalc" 
                     ImageSource="food_to_sugar.png"
                     ToolTipProperties.Text="Food to target: opens the page that calculates the food to eat to reach target carbohydrates"

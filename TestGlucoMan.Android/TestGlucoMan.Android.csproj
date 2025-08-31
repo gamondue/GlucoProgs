@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+    <UseAndroid>true</UseAndroid>
+    <AndroidApplication>true</AndroidApplication>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <ApplicationId>com.glucoman.tests</ApplicationId>
+    <ApplicationTitle>GlucoMan Tests</ApplicationTitle>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="NUnit" Version="4.4.0" />
+    <PackageReference Include="NUnit.Analyzers" Version="3.9.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="NUnit.Framework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GlucoMan.Maui\GlucoMan.Maui.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\SharedGeneral\SharedGeneral.projitems" Label="Shared" />
+  <Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
+
+</Project>

@@ -15,14 +15,14 @@
         /// <param name="to">End date filter - alarms before this date</param>
         /// <param name="all">If true, retrieves all alarms regardless of status</param>
         /// <param name="expired">If true, retrieves only expired alarms</param>
-        /// <param name="active">If true, retrieves alarms where TimeStart + TriggerInterval > DateTime.Now</param>
+        /// <param name="active">If true, retrieves alarms where TimeStart + ValidTimeAfterStart > DateTime.Now</param>
         /// <returns>List of filtered alarms</returns>
         public List<Alarm> GetAllAlarms(DateTime? from = null, DateTime? to = null, bool all = false, bool expired = false, bool active = true)
         {
             return dl.GetAllAlarms(from, to, all, expired, active);
         }
         /// <summary>
-        /// Retrieves all active alarms (TimeStart + TriggerInterval > DateTime.Now)
+        /// Retrieves all active alarms (TimeStart + ValidTimeAfterStart > DateTime.Now)
         /// </summary>
         /// <returns>List of active alarms</returns>
         public List<Alarm> GetActiveAlarms()
@@ -30,7 +30,7 @@
             return dl.GetAllAlarms(all: false, expired: false, active: true);
         }
         /// <summary>
-        /// Retrieves all expired alarms (TimeStart + TriggerInterval <= DateTime.Now)
+        /// Retrieves all expired alarms (TimeStart + ValidTimeAfterStart <= DateTime.Now)
         /// </summary>
         /// <returns>List of expired alarms</returns>
         public List<Alarm> GetExpiredAlarms()

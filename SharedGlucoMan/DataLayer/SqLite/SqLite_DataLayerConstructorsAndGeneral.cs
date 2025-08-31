@@ -741,6 +741,7 @@ namespace GlucoMan
                             parameters.Meal_Lunch_EndTime_Hours = Safe.Double(dr["Meal_Lunch_EndTime_Hours"]);
                             parameters.Meal_Dinner_StartTime_Hours = Safe.Double(dr["Meal_Dinner_StartTime_Hours"]);
                             parameters.Meal_Dinner_EndTime_Hours = Safe.Double(dr["Meal_Dinner_EndTime_Hours"]);
+                            parameters.MonthsOfDataShownInTheGrids = Safe.Double(dr["MonthsOfDataShownInTheGrids"]);
                         }
                     }
                     cmd.Dispose();
@@ -824,7 +825,9 @@ namespace GlucoMan
                         "FoodInMeal_CarbohydratesPercent=@FoodInMeal_CarbohydratesPercent, " +
                         "FoodInMeal_Name=@FoodInMeal_Name, " +
                         "FoodInMeal_AccuracyOfChoEstimate=@FoodInMeal_AccuracyOfChoEstimate, " +
-                        "Meal_ChoGrams=@Meal_ChoGrams " +
+                        "Meal_ChoGrams=@Meal_ChoGrams, " +
+                        "MonthsOfDataShownInTheGrids=@MonthsOfDataShownInTheGrids " +
+                        
                         $"WHERE IdParameters={parameters.IdParameters};";
 
                     cmd.Parameters.Add(new SqliteParameter("@Timestamp", parameters.Timestamp ?? (object)DBNull.Value));
@@ -868,6 +871,7 @@ namespace GlucoMan
                     cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_Name", parameters.FoodInMeal_Name ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_AccuracyOfChoEstimate", parameters.FoodInMeal_AccuracyOfChoEstimate ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@Meal_ChoGrams", parameters.Meal_ChoGrams ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@MonthsOfDataShownInTheGrids", parameters.MonthsOfDataShownInTheGrids ?? (object)DBNull.Value));
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
@@ -899,7 +903,7 @@ namespace GlucoMan
                         "Hypo_AlarmAdvanceTime, Hypo_FutureSpanMinutes, Hit_ChoAlreadyTaken, " +
                         "Hit_ChoOfFood, Hit_TargetCho, Hit_NameOfFood, FoodInMeal_ChoGrams, " +
                         "FoodInMeal_QuantityGrams, FoodInMeal_CarbohydratesPercent, FoodInMeal_Name, " +
-                        "FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams) VALUES (" +
+                        "FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams, MonthsOfDataShownInTheGrids) VALUES (" +
                         "@IdParameters, @Timestamp, @Insulin_Short_Id, @Insulin_Long_Id, " +
                         "@Meal_Breakfast_StartTime, @Meal_Breakfast_EndTime, @Meal_Lunch_StartTime, " +
                         "@Meal_Lunch_EndTime, @Meal_Dinner_StartTime, @Meal_Dinner_EndTime, " +
@@ -913,7 +917,7 @@ namespace GlucoMan
                         "@Hypo_AlarmAdvanceTime, @Hypo_FutureSpanMinutes, @Hit_ChoAlreadyTaken, " +
                         "@Hit_ChoOfFood, @Hit_TargetCho, @Hit_NameOfFood, @FoodInMeal_ChoGrams, " +
                         "@FoodInMeal_QuantityGrams, @FoodInMeal_CarbohydratesPercent, @FoodInMeal_Name, " +
-                        "@FoodInMeal_AccuracyOfChoEstimate, @Meal_ChoGrams);";
+                        "@FoodInMeal_AccuracyOfChoEstimate, @Meal_ChoGrams, @MonthsOfDataShownInTheGrids);";                
 
                     cmd.Parameters.Add(new SqliteParameter("@IdParameters", parameters.IdParameters ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@Timestamp", parameters.Timestamp ?? (object)DBNull.Value));
@@ -957,6 +961,7 @@ namespace GlucoMan
                     cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_Name", parameters.FoodInMeal_Name ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_AccuracyOfChoEstimate", parameters.FoodInMeal_AccuracyOfChoEstimate ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@Meal_ChoGrams", parameters.Meal_ChoGrams ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@MonthsOfDataShownInTheGrids", parameters.MonthsOfDataShownInTheGrids ?? (object)DBNull.Value));
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }

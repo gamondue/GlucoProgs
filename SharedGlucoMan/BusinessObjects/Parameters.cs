@@ -51,5 +51,6 @@ namespace GlucoMan.BusinessObjects
         public double? Meal_Lunch_EndTime_Hours { get; set; }
         public double? Meal_Dinner_StartTime_Hours { get; set; }
         public double? Meal_Dinner_EndTime_Hours { get; set; }
+        public double? MonthsOfDataShownInTheGrids { get; set; }
     }
 }
