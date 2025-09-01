@@ -48,23 +48,25 @@ namespace GlucoMan.Maui
         // when we aren't editing we also need a collection of reference points  
         private List<Microsoft.Maui.Graphics.Point> ReferencePointsCoordinates = new();
 
-        // the distance in pixels that is considered to be near enough to one reference point
+        // Reference Image Heigght and Widht.
+        // Dynamic radii of circles will be based on theese values
+        // (values on my computer at max dimensions on Windows screen)
+        private static double DefaultImageWidth { get; set; } = 1280;
+        private static double DefaultImageHeight { get; set; } = 1366;
         // to be considered the same point (base value - will be scaled)
         // base radii (will be scaled according to image size)
         // (evaluated at dimensions DefaultImageWidth and DefaultImageHeight)
         private float baseReferenceRadius = 15f; 
         private float baseInjectionRadius = 22;
-        private float nearEnoughZeroScaleDistance = 30;
+        // the distance in pixels that is considered to be near enough to one reference point
+        private float nearEnoughScaleOneDistance = 30;
 
         // radii used for drawing/hit testing are computed properties
         private float CurrentReferenceRadius => (float)(baseReferenceRadius * GetScale());
         private float CurrentInjectionRadius => (float)(baseInjectionRadius * GetScale());
-        private double CurrentNearEnoughDistance => nearEnoughZeroScaleDistance * GetScale();
+        private float CurrentNearEnoughDistance => (float)(nearEnoughScaleOneDistance * GetScale());
 
         private bool isFirstClick = true;
-
-        private static double DefaultImageWidth { get; set; }
-        private static double DefaultImageHeight { get; set; }
 
         private double imageWidth;
         private double imageHeight;
@@ -79,9 +81,6 @@ namespace GlucoMan.Maui
         public CirclesDrawable(double ImageWidth, double ImageHeight,
             int? IdInjection, double CirclesVisibilityMaxTimeInDays) 
         {
-            // values on my computer at max dimension
-            DefaultImageWidth = 1280;
-            DefaultImageHeight = 1366;
             imageWidth = ImageWidth;
             imageHeight = ImageHeight;
             idCurrentInjection = IdInjection;
@@ -152,7 +151,7 @@ namespace GlucoMan.Maui
                 // calculate the cartesion distance between the clicked point and the nearestPoint reference point
                 float distance = (float)Math.Sqrt((XCenter - nearestPoint.X) * (XCenter - nearestPoint.X)
                     + (YCenter - nearestPoint.Y) * (YCenter - nearestPoint.Y));
-                // if the distance is less than nearEnoughZeroScaleDistance, the clicked point is considered
+                // if the distance is less than nearEnoughScaleOneDistance, the clicked point is considered
                 // to be the same as the nearestPoint reference point
                 if (distance < CurrentNearEnoughDistance)
                 {
@@ -207,7 +206,7 @@ namespace GlucoMan.Maui
             // calculate the cartesion distance between the clicked point and the nearestPoint reference point
             double distance = Math.Sqrt((XCenter - nearestPoint.X) * (XCenter - nearestPoint.X)
                 + (YCenter - nearestPoint.Y) * (YCenter - nearestPoint.Y));
-            // if the distance is less than nearEnoughZeroScaleDistance, the clicked point is deleted
+            // if the distance is less than nearEnoughScaleOneDistance, the clicked point is deleted
             if (distance < CurrentNearEnoughDistance)
             {
                 // if the clicked point is near enough to a point, the reference point is removed

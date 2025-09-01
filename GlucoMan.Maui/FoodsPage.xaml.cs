@@ -1,5 +1,6 @@
 using gamon;
 using GlucoMan.BusinessLayer;
+using System.Globalization;
 
 namespace GlucoMan.Maui;
 
@@ -99,43 +100,12 @@ public partial class FoodsPage : ContentPage
         txtIdFood.Text = Food.IdFood.ToString();
         txtName.Text = Food.Name;
         txtDescription.Text = Food.Description;
-        ////txtFoodCarbohydrates.Text = Food.CarbohydratesPercent.Text;
-
-        ////txtCalories.Text = Food.Energy.Text;
-        ////txtTotalFats.Text = Food.TotalFatsPercent.Text;
-        ////txtSaturatedFats.Text = Food.SaturatedFatsPercent.Text;
-        ////txtSugar.Text = Food.SugarPercent.Text;
-        ////txtFibers.Text = Food.FibersPercent.Text;
-        ////txtProteins.Text = Food.ProteinsPercent.Text;
-        ////txtSalt.Text = Food.SaltPercent.Text;
-        ////txtPotassium.Text = Food.PotassiumPercent.Text;
-
-        ////txtCholesterol.Text = Food.Cholesterol.Text;
-        ////txtGlicemicIndex.Text = Food.GlycemicIndex.Text;
     }
     private void FromUiToClass()
     {
         Food.IdFood = Safe.Int(txtIdFood.Text);
         Food.Name = txtName.Text;
         Food.Description = txtDescription.Text;
-        //if (cmbUnit.SelectedItem == null)
-            //Food.UnitSymbol = new UnitOfFood();
-        ////////else
-        ////////Food.UnitSymbol = cmbUnit.SelectedItem;
-
-        //Food.CarbohydratesPercent.Double = Safe.Double(txtFoodCarbohydrates.Text);
-
-            //Food.Energy.Double = Safe.Double(txtCalories.Text);
-            //Food.TotalFatsPercent.Double = Safe.Double(txtTotalFats.Text);
-            //Food.SaturatedFatsPercent.Double = Safe.Double(txtSaturatedFats.Text);
-            //Food.SugarPercent.Double = Safe.Double(txtSugar.Text);
-            //Food.FibersPercent.Double = Safe.Double(txtFibers.Text);
-            //Food.ProteinsPercent.Double = Safe.Double(txtProteins.Text);
-            //Food.Salt.Percent.Double = Safe.Double(txtSalt.Text);
-            //Food.PotassiumPercent.Double = Safe.Double(txtPotassium.Text);
-
-            //Food.Cholesterol.Double = Safe.Double(txtCholesterol.Text);
-            //Food.GlycemicIndex.Double = Safe.Double(txtGlicemicIndex.Text);
     }
     private void RefreshUi()
     {
@@ -173,43 +143,46 @@ public partial class FoodsPage : ContentPage
     }
     private void btnAddFood_Click(object sender, EventArgs e)
     {
+        // control if txtFoodCarbohydrates.Text is a number
+        double carbs;
+        Double.TryParse((string?) txtFoodCarbohydrates.Text,out carbs);
+        // validate carbohydrates numeric
+        if (string.IsNullOrWhiteSpace(txtFoodCarbohydrates.Text) ||
+            carbs == 0)
+        {
+            DisplayAlert("Error", "Name and Carbohydrates of a new food must bet set" +
+                "\nFoof not saved", "OK");
+            return;
+        }
+
         FromUiToClass();
+        // set carbohydrates value
+        if (Food.CarbohydratesPercent == null) Food.CarbohydratesPercent = new DoubleAndText();
+        Food.CarbohydratesPercent.Double = carbs;
+
         // nulls the ID of food to create a new one
         Food.IdFood = null;
         bl.SaveOneFood(Food);
         btnSearchFood_Click(null, null);
         RefreshUi();
     }
-    private void btnRemoveFood_Click(object sender, EventArgs e)
+    private async void btnRemoveFood_Click(object sender, EventArgs e)
     {
-        bl.DeleteOneFood(Food);
-        RefreshUi();
-    }
-    //private void gridFoods_CellContentClick(object sender, DataGridViewCellEventArgs e)
-    //{
+        if (Food == null)
+            return;
 
-    //}
-    //private void gridFoods_CellClick(object sender, DataGridViewCellEventArgs e)
-    //{
-    //    if (e.RowIndex > 0)
-    //    {
-    //        Food = allFoods[e.RowIndex];
-    //        gridFoods.Rows[e.RowIndex].Selected = true;
-    //        RefreshUi();
-    //    }
-    //}
-    //private void gridFoods_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-    //{
-    //    if (gridFoods.SelectedRows.Count == 0)
-    //    {
-    //        MessageBox.Show("Choose a food to save");
-    //        return;
-    //    }
-    //}
-    //private void btnFatSecret_Click(object sender, EventArgs e)
-    //{
-    //    //MessageBox.Show("To be implemented yet!");
-    //}
+        string message = string.Format("Should I delete the food {0}, CHO% {1}, Id {2}?",
+            Food.Name ?? string.Empty,
+            Food.CarbohydratesPercent?.ToString() ?? string.Empty,
+            Food.IdFood?.ToString() ?? string.Empty);
+
+        bool remove = await DisplayAlert("Confirm delete", message, "Yes", "No");
+        if (remove)
+        {
+            bl.DeleteOneFood(Food);
+            RefreshUi();
+        }
+    }
     private void btnSearchFood_Click(object sender, EventArgs e)
     {
         FromUiToClass();
