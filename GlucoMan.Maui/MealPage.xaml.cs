@@ -350,19 +350,14 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     {
         try
         {
-            //if (txtFoodInMealName != null)
+
             txtFoodInMealName.Text = "";
-            //if (txtAccuracyOfChoFoodInMeal != null)
             txtAccuracyOfChoFoodInMeal.Text = "";
-            //if (cmbAccuracyFoodInMeal != null)
             cmbAccuracyFoodInMeal.SelectedItem = null;
-            //if (txtFoodCarbohydratesPerUnit != null)
             txtFoodCarbohydratesPerUnit.Text = "";
-            //if (txtFoodQuantityInUnits != null)
             txtFoodQuantityInUnits.Text = "";
-            //if (txtFoodCarbohydratesGrams != null)
             txtFoodCarbohydratesGrams.Text = "";
-            btnUnit.Text = "";
+            btnUnit.Text = "g";
         }
         catch (Exception ex)
         {

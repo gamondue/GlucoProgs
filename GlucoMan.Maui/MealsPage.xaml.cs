@@ -281,54 +281,47 @@ public partial class MealsPage : ContentPage
         }
     }
 
-    // EVENT HANDLERS - These should be minimal and only update the data model
-    // Let UiAccuracy handle all UI synchronization automatically
+    // EVENT HANDLERS regarding accuracies are included in the UIAccuracy class.
+    // Here they are not used
+    //private void txtAccuracyOfChoMeal_Unfocused(object sender, FocusEventArgs e)
+    //{
+    //    // Let UiAccuracy handle the combo box update, we only update the data model
+    //    try
+    //    {
+    //        if (!loadingUi && bl?.Meal != null && !string.IsNullOrEmpty(txtAccuracyOfChoMeal.Text))
+    //        {
+    //            if (double.TryParse(txtAccuracyOfChoMeal.Text, out double accuracy))
+    //            {
+    //                // Update the meal's accuracy in the data model
+    //                bl.Meal.AccuracyOfChoEstimate.Double = accuracy;
+    //            }
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        General.LogOfProgram?.Error("MealsPage - txtAccuracyOfChoMeal_Unfocused", ex);
+    //    }
+    //}
 
-    private void txtAccuracyOfChoMeal_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        // The UiAccuracy class handles all synchronization internally
-        // Do not interfere with its operation
-    }
+    //private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // Let UiAccuracy handle the text box update, we only update the data model
+    //    try
+    //    {
+    //        if (!loadingUi && bl?.Meal != null && cmbAccuracyMeal.SelectedItem != null)
+    //        {
+    //            var selectedAccuracy = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
+    //            double numericValue = (double)selectedAccuracy;
 
-    private void txtAccuracyOfChoMeal_Unfocused(object sender, FocusEventArgs e)
-    {
-        // Let UiAccuracy handle the combo box update, we only update the data model
-        try
-        {
-            if (!loadingUi && bl?.Meal != null && !string.IsNullOrEmpty(txtAccuracyOfChoMeal.Text))
-            {
-                if (double.TryParse(txtAccuracyOfChoMeal.Text, out double accuracy))
-                {
-                    // Update the meal's accuracy in the data model
-                    bl.Meal.AccuracyOfChoEstimate.Double = accuracy;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("MealsPage - txtAccuracyOfChoMeal_Unfocused", ex);
-        }
-    }
-
-    private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // Let UiAccuracy handle the text box update, we only update the data model
-        try
-        {
-            if (!loadingUi && bl?.Meal != null && cmbAccuracyMeal.SelectedItem != null)
-            {
-                var selectedAccuracy = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
-                double numericValue = (double)selectedAccuracy;
-
-                // Update the meal's accuracy in the data model
-                bl.Meal.AccuracyOfChoEstimate.Double = numericValue;
-            }
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("MealsPage - cmbAccuracyMeal_SelectedIndexChanged", ex);
-        }
-    }
+    //            // Update the meal's accuracy in the data model
+    //            bl.Meal.AccuracyOfChoEstimate.Double = numericValue;
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        General.LogOfProgram?.Error("MealsPage - cmbAccuracyMeal_SelectedIndexChanged", ex);
+    //    }
+    //}
 
     private void rdb_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {

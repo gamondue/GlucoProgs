@@ -207,10 +207,12 @@
                        HorizontalTextAlignment="Center" IsReadOnly="true"/>-->
                 <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" 
                       ColumnDefinitions="*,*,*,*">
-                    <Button Grid.Column="0" x:Name="btnDefaults" Clicked="btnDefaults_Click" 
+                    <Button Grid.Column="0" x:Name="btnDefaults" 
                        ImageSource="clear_fields.png"
                        ToolTipProperties.Text="Clear fields: clears all data in the UI" Margin="1"
-                       FontSize="Micro" LineBreakMode="WordWrap"/>
+                       FontSize="Micro" LineBreakMode="WordWrap"
+                       Clicked="btnDefaults_Click" 
+                            />
                     <!--Text="Clear&#10;fields"-->
                     <Button Grid.Column="1" x:Name="btnFoodDetail" Margin="1"
                             ImageSource="foods.png"

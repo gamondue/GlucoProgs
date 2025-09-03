@@ -38,8 +38,9 @@
                    Keyboard="Numeric" 
                    BackgroundColor="LightGreen" TextColor="Black"
                    HorizontalTextAlignment="End" 
-                   TextChanged="txtAccuracyOfChoMeal_TextChanged"
-                   Unfocused="txtAccuracyOfChoMeal_Unfocused" />
+                   />
+            <!--Unfocused="txtAccuracyOfChoMeal_Unfocused"-->
+            <!--TextChanged="txtAccuracyOfChoMeal_TextChanged"-->
             <Picker Grid.Row="2" Grid.Column="2" x:Name="cmbAccuracyMeal"
                     HorizontalTextAlignment="End"
                     VerticalOptions="Center" HorizontalOptions="Center"
@@ -47,7 +48,8 @@
                     ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"
                     BackgroundColor="PaleGoldenrod" TextColor="Black"
-                    SelectedIndexChanged="cmbAccuracyMeal_SelectedIndexChanged"/>
+                    />
+            <!--SelectedIndexChanged="cmbAccuracyMeal_SelectedIndexChanged"-->
             <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdMeal" 
                    BackgroundColor="White" Margin="2" 
                    ToolTipProperties.Text="Code of this meal" 
