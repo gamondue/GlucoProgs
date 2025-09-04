@@ -6,8 +6,38 @@
         {
             InitializeComponent();
             // call method to set the paths of platform-specific folders
-            Common.SetGlobalParameters();
             lblAppName.Text += " " + Common.Version;
+
+            //RequestPermissionsIfNotGiven().ConfigureAwait(false);
+            //Thread.Sleep(5000);
+
+            //Common.SetGlobalParameters();
+            //Common.GeneralInitializationsAsync();
+            ////Common.PlatformSpecificInitializations();
+        }
+        private async Task RequestPermissionsIfNotGiven()
+        {
+            // request permissions if not already given
+            var PermissionStorageRead = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+            if (PermissionStorageRead != PermissionStatus.Granted)
+            {
+                PermissionStorageRead = await Permissions.RequestAsync<Permissions.StorageRead>();
+            }
+            var PermissionStorageWrite = await Permissions.CheckStatusAsync<Permissions.StorageWrite>();
+            if (PermissionStorageWrite != PermissionStatus.Granted)
+            {
+                PermissionStorageWrite = await Permissions.RequestAsync<Permissions.StorageWrite>();
+            }
+            //var PermissionAlarm = await Permissions.CheckStatusAsync<Permissions.Alarm>();
+            //if (PermissionAlarm != PermissionStatus.Granted)
+            //{
+            //    PermissionAlarm = await Permissions.RequestAsync<Permissions.Alarm>();
+            //}
+            //var PermissionManageStorage = await Permissions.CheckStatusAsync<Permissions.StorageManagement>();
+            //if (PermissionManageStorage != PermissionStatus.Granted)
+            //{
+            //    PermissionManageStorage = await Permissions.RequestAsync<Permissions.StorageManagement>();
+            //}
         }
         protected override void OnSizeAllocated(double width, double height)
         {
@@ -27,12 +57,13 @@
         }
         private async void btnRecipes_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new RecipesPage());
+            await Navigation.PushAsync(new RecipesPage(null));
         }
         private async void btnInsulinCalc_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new InsulinCalcPage());
         }
+
         private async void btnFoodToHitTargetCarbs_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new FoodToHitTargetCarbsPage());
@@ -59,7 +90,11 @@
         }
         private async void btnFoods_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new FoodsPage(new Food()));
+            await Navigation.PushAsync(new FoodsPage(new Food(new UnitOfFood("g", 1))));
+        }
+        private void btnConfigurations_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new ConfigurationPage());
         }
     }
 }

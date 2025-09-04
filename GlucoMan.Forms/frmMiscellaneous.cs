@@ -58,9 +58,9 @@ namespace GlucoMan.Forms
                 }
             }
         }
-        private void btnCopyDatabase_Click(object sender, EventArgs e)
+        private async Task btnCopyDatabase_ClickAsync(object sender, EventArgs e)
         {
-            if (!blGeneral.ExportProgramsFiles())
+            if (!await blGeneral.ExportProgramsFiles())
             {
                 MessageBox.Show("Error in exporting program's files. NOT all files copied, check logs",
                   "Exporting program's files", MessageBoxButtons.OK);
@@ -73,7 +73,8 @@ namespace GlucoMan.Forms
                 string fileContent = File.ReadAllText(General.LogOfProgram.ErrorsFile);
                 frmShowText f = new frmShowText(fileContent);
                 f.Show();
-            } catch
+            }
+            catch
             {
                 MessageBox.Show("File not existing or not accessible.");
             }
@@ -86,7 +87,7 @@ namespace GlucoMan.Forms
         private void btnImport_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Please put a database named 'import.sqlite' in the same " +
-                "folder where this program exports its data.\nShould we continue in the process?", 
+                "folder where this program exports its data.\nShould we continue in the process?",
                 "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 if (!blGeneral.ImportDatabaseFromExternal(Common.PathAndFileDatabase,
@@ -96,16 +97,16 @@ namespace GlucoMan.Forms
                 }
             }
         }
-        private void btnReadDatabase_Click(object sender, EventArgs e)
+        private async Task btnReadDatabase_ClickAsync(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Please put a database named 'readGlucoman.sqlite' in the same " +
+            if (MessageBox.Show("Please put a database named 'readGlucoManData.sqlite' in the same " +
                 "folder where this program exports its data." +
                 "\nAttention, this file will replace the database! " +
                 "\nShould we continue in the process?",
                 "Read database from external folder", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                if (!blGeneral.ReadDatabaseFromExternal(Common.PathAndFileDatabase,
-                    Path.Combine(Common.PathImportExport, "readGlucoman.sqlite")))
+                if (!await blGeneral.ReadDatabaseFromExternal(Common.PathAndFileDatabase,
+                    Path.Combine(Common.PathImportExport, "readGlucomanData.sqlite")))
                 {
                     MessageBox.Show("Error in reading database from external", "Error!");
                 }

@@ -92,8 +92,8 @@ public partial class MealPage : ContentPage
         FoodInMeal.IdFoodInMeal = SqlSafe.Int(txtIdFoodInMeal.Text);
         FoodInMeal.IdFood = SqlSafe.Int(txtIdFood.Text);
         FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text; // [g]
-        FoodInMeal.CarbohydratesPercent.Text = txtFoodCarbohydratesPercent.Text;
-        FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
+        FoodInMeal.CarbohydratesPerUnit.Text = txtFoodCarbohydratesPercent.Text;
+        FoodInMeal.CarbohydratesGrams.Text = txtFoodChoGrams.Text;
         FoodInMeal.Name = txtFoodInMealName.Text;
         FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
     }
@@ -115,9 +115,9 @@ public partial class MealPage : ContentPage
         else
             txtIdFood.Text = "";
 
-        txtFoodCarbohydratesPercent.Text = bl.FoodInMeal.CarbohydratesPercent.Text;
+        txtFoodCarbohydratesPercent.Text = bl.FoodInMeal.CarbohydratesPerUnit.Text;
         txtFoodQuantityGrams.Text = bl.FoodInMeal.QuantityGrams.Text;
-        txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
+        txtFoodChoGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
         txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;
         txtFoodInMealName.Text = bl.FoodInMeal.Name;
     }
@@ -135,42 +135,6 @@ public partial class MealPage : ContentPage
         txtNotes.Text = bl.Meal.Notes;
     }
     FoodInMeal localFoodInMealForCalculations = new FoodInMeal();
-    private void txtFoodCarbohydratesPercent_TextChanged(object sender, EventArgs e)
-    {
-        if (!loading)
-        {
-            FromUiToFood(localFoodInMealForCalculations);
-            bl.CalculateChoOfFoodGrams(localFoodInMealForCalculations);
-            txtFoodChoGrams.Text = localFoodInMealForCalculations.ChoGrams.Text;
-            bl.SaveFoodInMealParameters();
-        }
-    }
-    private void txtFoodQuantityGrams_TextChanged(object sender, EventArgs e)
-    {
-        if (!loading)
-        {
-            FromUiToFood(localFoodInMealForCalculations);
-            bl.CalculateChoOfFoodGrams(localFoodInMealForCalculations);
-            txtFoodChoGrams.Text = localFoodInMealForCalculations.ChoGrams.Text;
-        }
-    }
-    private void txtFoodChoGrams_TextChanged(object sender, EventArgs e)
-    {
-        if (!loading)
-        {
-            if (!txtFoodQuantityGrams.IsFocused && !txtFoodCarbohydratesPercent.IsFocused)
-            {
-                txtFoodQuantityGrams.Text = "";
-                localFoodInMealForCalculations.QuantityGrams.Double = 0;
-                txtFoodCarbohydratesPercent.Text = "";
-                localFoodInMealForCalculations.CarbohydratesPercent.Double = 0;
-            }
-        }
-        localFoodInMealForCalculations.ChoGrams.Text = txtFoodChoGrams.Text;
-        //bl.RecalcAll();
-        //FromRecipeToUi();
-        //txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
-    }
     private void txtChoOfMealGrams_TextChanged(object sender, EventArgs e)
     {
         bl.SaveMealParameters();
@@ -215,8 +179,7 @@ public partial class MealPage : ContentPage
     private void btnRecipes_ClickAsync(object sender, EventArgs e)
     {
         FromUiToClasses();
-        ////////recipesPage = new RecipesPage(bl.RecipeInMeal);
-        recipesPage = new RecipesPage();
+        recipesPage = new RecipesPage(null);
         Navigation.PushAsync(recipesPage);
     }
     // in this UI we have no buttons to save just one food in meal 
@@ -227,7 +190,7 @@ public partial class MealPage : ContentPage
     //        MessageBox.Show("Choose a food to save");
     //        return;
     //    }
-    //    FromUiToClass();
+    //    FromUiToCurrentRecipe();
     //    bl.SaveOneFoodInMeal(bl.FoodInMeal);
     //    FromClassesToUi();
     //    RefreshGrid();
@@ -343,16 +306,14 @@ public partial class MealPage : ContentPage
         if (foodsPage != null && foodsPage.FoodIsChosen)
         {
             bl.FromFoodToFoodInMeal(foodsPage.CurrentFood, bl.FoodInMeal);
-            // change the calls because FromClassesToUi() follows and we don't fire events on textboxes
-            bl.FoodInMeal.ChoGrams.Text = "0";
+            bl.FoodInMeal.CarbohydratesGrams.Text = "0";
             bl.FoodInMeal.QuantityGrams.Text = "0";
         }
         if (recipesPage != null && recipesPage.RecipeIsChosen)
         {
-            //////////bl.FromFoodToFoodInMeal(recipesPage.CurrentFood, bl.FoodInMeal);
-            ////////// change the calls because FromClassesToUi() follows and we don't fire events on textboxes
-            //////////bl.RecipeInMeal.ChoGrams.Text = "0";
-            //////////bl.RecipeInMeal.QuantityGrams.Text = "0";
+            bl.FromRecipeToFoodInMeal(recipesPage.CurrentRecipe, bl.FoodInMeal);
+            bl.FoodInMeal.CarbohydratesGrams.Text = "0";
+            bl.FoodInMeal.QuantityGrams.Text = "0";
         }
         //bl.Meal.IdBolusCalculation = insulinCalcPage.IdBolusCalculation;
         if (injectionsPage != null && injectionsPage.IdInsulinInjection != null)
@@ -367,5 +328,41 @@ public partial class MealPage : ContentPage
         // base.OnAppearing();
         // await Task.Delay(1);
         // txtFoodCarbohydratesPercent.Focus();
+    }
+    private void txtFoodQuantityGrams_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (!loading)
+        {
+            FromUiToFood(localFoodInMealForCalculations);
+            bl.CalculateChoOfFoodGrams(localFoodInMealForCalculations);
+            txtFoodChoGrams.Text = localFoodInMealForCalculations.CarbohydratesGrams.Text;
+        }
+    }
+    private void txtFoodChoGrams_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (!loading)
+        {
+            if (!txtFoodQuantityGrams.IsFocused && !txtFoodCarbohydratesPercent.IsFocused)
+            {
+                txtFoodQuantityGrams.Text = "";
+                localFoodInMealForCalculations.QuantityGrams.Double = 0;
+                txtFoodCarbohydratesPercent.Text = "";
+                localFoodInMealForCalculations.CarbohydratesPerUnit.Double = 0;
+            }
+        }
+        localFoodInMealForCalculations.CarbohydratesGrams.Text = txtFoodChoGrams.Text;
+        //bl.RecalcAll();
+        //FromRecipeToUi();
+        //txtChoOfMealGrams.Text = bl.Meal.CarbohydratesPerUnit.Text;
+    }
+    private void txtFoodCarbohydratesPercent_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (!loading)
+        {
+            FromUiToFood(localFoodInMealForCalculations);
+            bl.CalculateChoOfFoodGrams(localFoodInMealForCalculations);
+            txtFoodChoGrams.Text = localFoodInMealForCalculations.CarbohydratesGrams.Text;
+            bl.SaveFoodInMealParameters();
+        }
     }
 }

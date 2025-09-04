@@ -6,7 +6,9 @@ namespace GlucoMan.Maui;
 
 public partial class RecipePage : ContentPage
 {
-    BL_Recipes bl = new BL_Recipes();
+    BL_Recipes bl; // business layer of recipes
+
+    private bool loading = true;
 
     private Accuracy accuracyRecipe;
     private Accuracy accuracyIngredient;
@@ -14,29 +16,29 @@ public partial class RecipePage : ContentPage
     bool firstPass = true;
     private FoodsPage foodsPage;
 
-    Ingredient currentIngredient = new Ingredient();
+    public bool RecipeIsChosen { get; internal set; }
 
-    public RecipePage(Recipe Recipe)
+    public RecipePage(BL_Recipes BlRecipes)
     {
         InitializeComponent();
-        bl.Recipe = Recipe;
+        bl = BlRecipes;
+        recipeSection.BindingContext = bl.CurrentRecipe;
     }
     private void ContentPage_Loaded(object sender, EventArgs e)
     {
         cmbAccuracyRecipe.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
-        cmbAccuracyRecipe.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
+        cmbAccuracyIngredient.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
 
         accuracyRecipe = new Accuracy(txtAccuracyOfChoRecipe, cmbAccuracyRecipe);
-        accuracyIngredient = new Accuracy(txtAccuracyOfChoRecipe, cmbAccuracyRecipe);
+        accuracyIngredient = new Accuracy(txtAccuracyOfChoIngredient, cmbAccuracyIngredient);
 
         RefreshUi();
     }
     private void RefreshGrid()
     {
-        bl.Ingredients = bl.ReadAllIngredientsInARecipe(bl.Recipe.IdRecipe);
-        gridIngredients.BindingContext = bl.Ingredients;
-
-
+        bl.ReadAllIngredientsInThisRecipe();
+        gridIngredients.BindingContext = null;
+        gridIngredients.BindingContext = bl.CurrentRecipe.Ingredients;
     }
     private void RefreshUi()
     {
@@ -45,26 +47,28 @@ public partial class RecipePage : ContentPage
     }
     private void FromClassesToUi()
     {
-        //loading = true;
+        loading = true;
         FromRecipeToUi();
         FromIngredientToUi();
-        //loading = false;
+        loading = false;
     }
     private void FromUiToClasses()
     {
-        //loading = true;
-        FromUiToRecipe(bl.Recipe);
-        FromUiToIngredient(bl.Ingredient);
-        //loading = false;
+        loading = true;
+        if (bl.CurrentIngredient == null)
+            bl.CurrentIngredient = new();
+        // first the current ingredient, THEN the recipe!
+        FromUiToIngredient(bl.CurrentIngredient);
+        FromUiToRecipe(bl.CurrentRecipe);
+        loading = false;
     }
     private void FromUiToIngredient(Ingredient Ingredient)
     {
         Ingredient.IdIngredient = SqlSafe.Int(txtIdIngredient.Text);
         Ingredient.IdRecipe = SqlSafe.Int(txtIdRecipe.Text);
-        Ingredient.QuantityPercent.Text = txtIngredientQuantityPercent.Text;
         Ingredient.QuantityGrams.Text = txtIngredientQuantityGrams.Text;
         Ingredient.CarbohydratesPercent.Text = txtIngredientCarbohydratesPercent.Text;
-        Ingredient.QuantityPercent.Text = txtIngredientChoGrams.Text;
+        Ingredient.QuantityPercent.Text = txtIngredientQuantityPercent.Text;
         Ingredient.Name = txtIngredientName.Text;
         Ingredient.AccuracyOfChoEstimate.Text = txtAccuracyOfChoIngredient.Text;
     }
@@ -72,64 +76,43 @@ public partial class RecipePage : ContentPage
     {
         Recipe.IdRecipe = SqlSafe.Int(txtIdRecipe.Text);
         Recipe.Name = txtRecipeName.Text;
-        //Recipe.Description = txtDescription.Text;
+        Recipe.Description = txtRecipeDescription.Text;
         Recipe.CarbohydratesPercent.Text = txtChoOfRecipePercent.Text;
         Recipe.AccuracyOfChoEstimate.Text = txtAccuracyOfChoRecipe.Text;
     }
     private void FromIngredientToUi()
     {
-        if (bl.Ingredient == null)
-        {
-            bl.Ingredient = new Ingredient();
-        }
-        //////////if (bl.Ingredient.IdIngredient != null)
-        //////////    txtIdRecipe.Text = bl.Ingredient.IdIngredient.ToString();
-        //////////else
-        //////////    txtIdRecipe.Text = "";
-
-        //bl.RecalcAll();
-        txtIdIngredient.Text = bl.Ingredient.IdIngredient.ToString();
-        txtIngredientName.Text = bl.Ingredient.Name;
-        txtIngredientQuantityGrams.Text = bl.Ingredient.QuantityGrams.Text;
-        txtIngredientCarbohydratesPercent.Text = bl.Ingredient.CarbohydratesPercent.Text;
-        //bl.Ingredient.CarbohydratesGrams.Double = bl.Ingredient.CarbohydratesPercent.Double * bl.Ingredient.QuantityGrams.Double / 100;
-        txtIngredientChoGrams.Text = bl.Ingredient.CarbohydratesGrams.Text;
-        txtAccuracyOfChoIngredient.Text = bl.Ingredient.AccuracyOfChoEstimate.Text;
-        txtAccuracyOfChoRecipe.Text = bl.Ingredient.AccuracyOfChoEstimate.Text;
+        //if (bl.CurrentIngredient != null)
+        //{
+        ingredientSection.BindingContext = null;
+        ingredientSection.BindingContext = bl.CurrentIngredient;
+        //}
     }
     private void FromRecipeToUi()
     {
-        if (bl.Recipe != null)
+        if (bl.CurrentRecipe != null)
         {
-            if (bl.Recipe.IdRecipe != null)
-                txtIdRecipe.Text = bl.Recipe.IdRecipe.ToString();
-            else
-                txtIdRecipe.Text = "-";
-            txtChoOfRecipePercent.Text = bl.Recipe.CarbohydratesPercent.Text;
-            //txtDescription.Text = bl.Recipe.Description;
-            txtRecipeName.Text = bl.Recipe.Name;
-            txtAccuracyOfChoRecipe.Text = bl.Recipe.AccuracyOfChoEstimate.Text;
-            txtTotalWeight.Text = bl.Recipe.TotalWeight.Text;
+            recipeSection.BindingContext = null;
+            recipeSection.BindingContext = bl.CurrentRecipe;
         }
     }
-    Recipe localIngredientForCalculations = new Recipe();
-    ////////private void txtIngredientCarbohydratesPercent_TextChanged(object sender, EventArgs e)
-    ////////{
-    ////////    //if (!loading)
-    ////////    {
-    ////////        FromUiToIngredient(localIngredientForCalculations);
-    ////////        bl.CalculateChoOfFoodGrams(localIngredientForCalculations);
-    ////////        txtIngredientChoGrams.Text = localIngredientForCalculations.CarbohydratesPercent.Text;
-    ////////        bl.SaveRecipeParameters();
-    ////////    }
-    ////////}
+    private void txtIngredientCarbohydratesPercent_TextChanged(object sender, EventArgs e)
+    {
+        if (!loading)
+        {
+            ////////        FromUiToIngredient(localIngredientForCalculations);
+            ////////        bl.CalculateChoOfFoodGrams(localIngredientForCalculations);
+            ////////        txtIngredientChoGrams.Text = localIngredientForCalculations.CarbohydratesPerUnit.Text;
+            ////////        bl.SaveRecipeParameters();
+        }
+    }
     private void txtIngredientQuantityGrams_TextChanged(object sender, EventArgs e)
     {
-        //if (!loading)
+        if (!loading)
         {
             ////////FromUiToIngredient(localIngredientForCalculations);
             ////////bl.CalculateChoOfFoodGrams(localIngredientForCalculations);
-            ////////txtIngredientChoGrams.Text = localIngredientForCalculations.ChoGrams.Text;
+            ////////txtIngredientChoGrams.Text = localIngredientForCalculations.CarbohydratesGrams.Text;
         }
     }
     private void txtIngredientChoGrams_TextChanged(object sender, EventArgs e)
@@ -138,26 +121,20 @@ public partial class RecipePage : ContentPage
         {
             if (!txtIngredientQuantityGrams.IsFocused && !txtIngredientCarbohydratesPercent.IsFocused)
             {
-                txtIngredientQuantityGrams.Text = "";
+                //txtIngredientQuantityGrams.Text = "";
                 //////////localIngredientForCalculations.QuantityGrams.Double = 0;
-                txtIngredientCarbohydratesPercent.Text = "";
-                localIngredientForCalculations.CarbohydratesPercent.Double = 0;
+                //txtIngredientCarbohydratesPercent.Text = "";
             }
         }
-        localIngredientForCalculations.CarbohydratesPercent.Text = txtIngredientChoGrams.Text;
+        ////localIngredientForCalculations.CarbohydratesPercent.Text = txtIngredientChoGrams.Text;
         //bl.RecalcAll();
         //FromRecipeToUi();
-        //txtChoOfRecipePercent.Text = bl.Recipe.Carbohydrates.Text;
-    }
-    private void txtChoOfRecipePercent_TextChanged(object sender, EventArgs e)
-    {
-        bl.SaveRecipeParameters();
+        //txtChoOfRecipePercent.Text = bl.CurrentRecipe.CarbohydratesPerUnit.Text;
     }
     private void btnSaveAllRecipe_Click(object sender, EventArgs e)
     {
         FromUiToClasses();
-        txtIdRecipe.Text = bl.SaveOneRecipe(bl.Recipe).ToString();
-        bl.SaveAllIngredientsInARecipe(bl.Recipe.Ingredients);
+        txtIdRecipe.Text = bl.SaveOneRecipe(bl.CurrentRecipe).ToString();
     }
     private void btnAddIngredient_Click(object sender, EventArgs e)
     {
@@ -167,74 +144,48 @@ public partial class RecipePage : ContentPage
             return;
         }
         FromUiToClasses();
-        // erase Id of Ingredient, so that a new record will be created
-        bl.Ingredient.IdIngredient = null;
+        // erase Id of CurrentIngredient, so that a new record will be created
+        bl.CurrentIngredient.IdIngredient = null;
         // mark this ingredient as belonging to the current recipe
-        // (not much useful, actually, you can join data with SQL)
-        bl.Ingredient.IdRecipe = bl.Recipe.IdRecipe;
+        bl.CurrentIngredient.IdRecipe = bl.CurrentRecipe.IdRecipe;
         // save the ingredient
-        txtIdIngredient.Text = bl.SaveOneIngredient(bl.Ingredient).ToString();
-        if (bl.Ingredients == null)
-            bl.Ingredients = new List<Ingredient>();
-        RefreshGrid();
+        if (bl.CurrentRecipe.Ingredients == null)
+            bl.CreateNewListOfIngredientsInRecipe();
+        txtIdIngredient.Text = bl.SaveOneIngredient(bl.CurrentIngredient).ToString();
         bl.RecalcAll();
-        FromRecipeToUi();
-    }
-    private void btnRemoveRecipe_Click(object sender, EventArgs e)
-    {
-        bl.DeleteOneRecipe(bl.Recipe);
         RefreshGrid();
-        bl.RecalcAll();
-        FromRecipeToUi();
     }
     private void btnFoods_Click(object sender, EventArgs e)
     {
         FromUiToClasses();
-        foodsPage = new FoodsPage(currentIngredient);
+        foodsPage = new FoodsPage(bl.CurrentIngredient);
         Navigation.PushAsync(foodsPage);
     }
-    //private void btnRecipes_Click(object sender, EventArgs e)
-    //{
-    //    FromUiToClasses();
-    //    ////////recipesPage = new RecipesPage(bl.RecipeInRecipe);
-    //    //recipesPage = new RecipesPage();
-    //    Navigation.PushAsync(recipesPage);
-    //}
-    // in this UI we have no buttons to save just one food in Recipe 
-    //private void btnSaveRecipe_Click(object sender, EventArgs e)
-    //{
-    //    if (gridIngredients.SelectedRows.Count == 0)
-    //    {
-    //        MessageBox.Show("Choose a food to save");
-    //        return;
-    //    }
-    //    FromUiToClass();
-    //    bl.SaveOneIngredient(bl.Ingredient);
-    //    FromClassesToUi();
-    //    RefreshGrid();
-    //}
     private void btnSaveAllFoods_Click(object sender, EventArgs e)
     {
         FromUiToClasses();
-        bl.SaveOneIngredient(bl.Ingredient).ToString();
-        bl.SaveAllIngredientsInARecipe(bl.Ingredients);
+        bl.SaveOneIngredient(bl.CurrentIngredient).ToString();
+        bl.SaveListOfIngredients();
         RefreshGrid();
     }
     private void btnDefaults_Click(object sender, EventArgs e)
     {
-        txtIngredientCarbohydratesPercent.Text = "";
-        txtIngredientQuantityGrams.Text = "";
-        txtIngredientChoGrams.Text = "";
-        txtAccuracyOfChoRecipe.Text = "";
-        cmbAccuracyRecipe.SelectedItem = null;
-        txtIdRecipe.Text = "";
-        txtRecipeName.Text = "";
-        FromUiToIngredient(bl.Ingredient);
+        bl.CurrentIngredient = null;
+        FromIngredientToUi();
+        //txtIngredientCarbohydratesPercent.Text = "";
+        //txtIngredientQuantityGrams.Text = "";
+        ////txtIngredientChoGrams.Text = "";
+        //txtAccuracyOfChoRecipe.Text = "";
+        //cmbAccuracyRecipe.SelectedItem = null;
+        //txtIdRecipe.Text = "";
+        //txtRecipeName.Text = "";
+        //FromUiToIngredient(bl.CurrentIngredient);
     }
     private void btnCalc_Click(object sender, EventArgs e)
     {
         FromUiToClasses();
         bl.RecalcAll();
+        txtIdRecipe.Text = bl.SaveOneRecipe(bl.CurrentRecipe).ToString();
         FromClassesToUi();
         RefreshGrid();
     }
@@ -242,42 +193,9 @@ public partial class RecipePage : ContentPage
     {
         Navigation.PushAsync(new FoodsPage(txtRecipeName.Text, ""));
     }
-    private async void btnInsulinCalc_ClickAsync(object sender, EventArgs e)
-    {
-        ////insulinCalcPage = new InsulinCalcPage(bl.Recipe.IdBolusCalculation);
-        //insulinCalcPage = new InsulinCalcPage();
-        //await Navigation.PushAsync(insulinCalcPage);
-    }
-    private async void btnGlucose_ClickAsync(object sender, EventArgs e)
-    {
-        //measurementPage = new GlucoseMeasurementsPage(bl.Recipe.IdGlucoseRecord);
-        //await Navigation.PushAsync(measurementPage);
-    }
-    private async void btnInjection_ClickAsync(object sender, EventArgs e)
-    {
-        //injectionsPage = new InjectionsPage(bl.Recipe.IdInsulinInjection);
-        //await Navigation.PushAsync(injectionsPage);
-    }
     private async void btnWeighFood_Click(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new WeighFoodPage());
-    }
-    private async void btnFoodCalc_ClickAsync(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new FoodToHitTargetCarbsPage());
-    }
-    private void btnStartRecipe_Click(object sender, EventArgs e)
-    {
-        FromUiToClasses();
-        ////////bl.SaveOneRecipe(bl.Recipe, true); // saves with time now 
-        //btnStartRecipe.BackgroundColor = defaultButtonBackground;
-        //btnStartRecipe.TextColor = defaultButtonText;
-        RefreshUi();
-    }
-    private async void gridIngredients_Unfocused(object sender, SelectedItemChangedEventArgs e)
-    {
-        FromUiToClasses();
-        bl.SaveAllIngredientsInARecipe(bl.Ingredients);
     }
     private async void gridIngredients_CellClick(object sender, SelectedItemChangedEventArgs e)
     {
@@ -286,73 +204,56 @@ public partial class RecipePage : ContentPage
             //await DisplayAlert("XXXX", "YYYY", "Ok");
             return;
         }
-
-        ////////Recipe previousRecipe = bl.Ingredient.DeepCopy();
-        FromUiToClasses();
-        //make the tapped row the current food in Recipe 
-        bl.Ingredient = (Ingredient)e.SelectedItem;
-        FromIngredientToUi();
-        //////////bl.SaveIngredientParameters();
+        //make the tapped row the current food in CurrentRecipe 
+        bl.CurrentIngredient = (Ingredient)e.SelectedItem;
+        ingredientSection.BindingContext = null;
+        ingredientSection.BindingContext = bl.CurrentIngredient;
+        //bl.UpdatePercentages();
+        //RefreshGrid();
     }
     protected override async void OnAppearing()
     {
-        ////////////if (recipesPage != null && recipesPage.FoodIsChosen)
-        ////////////{
-        ////////////    bl.FromFoodToIngredient(recipesPage.CurrentFood, bl.Ingredient);
-        ////////////    // change the calls because FromClassesToUi() follows and we don't fire events on textboxes
-        ////////////    ////////////bl.Ingredient.ChoGrams.Text = "0";
-        ////////////    ////////////bl.Ingredient.QuantityGrams.Text = "0";
-        ////////////}
-        //if (recipesPage != null && recipesPage.RecipeIsChosen)
-        //{
-        //    //////////bl.FromFoodToIngredient(recipesPage.CurrentFood, bl.Ingredient);
-        //    ////////// change the calls because FromClassesToUi() follows and we don't fire events on textboxes
-        //    //////////bl.RecipeInRecipe.ChoGrams.Text = "0";
-        //    //////////bl.RecipeInRecipe.QuantityGrams.Text = "0";
-        //}
-        //bl.Recipe.IdBolusCalculation = insulinCalcPage.IdBolusCalculation;
-        //if (injectionsPage != null && injectionsPage.IdInsulinInjection != null)
-        //    bl.Recipe.IdInsulinInjection = injectionsPage.IdInsulinInjection;
-        //if (measurementPage != null && measurementPage.IdGlucoseRecord != null)
-        //    bl.Recipe.IdGlucoseRecord = measurementPage.IdGlucoseRecord;
-
-        FromClassesToUi();
-
-        // set focus to a specific field
-        // (currently deemed not necessary and commented out)
-        // base.OnAppearing();
-        // await Task.Delay(1);
-        // txtIngredientCarbohydratesPercent.Focus();
+        if (foodsPage != null && foodsPage.FoodIsChosen)
+        {
+            bl.FromFoodToIngredient(foodsPage.CurrentFood, bl.CurrentIngredient);
+            FromClassesToUi();
+            txtIngredientCarbohydratesPercent.Focus();
+        }
     }
-    public bool RecipeIsChosen { get; internal set; }
-    public Recipe CurrentFood { get; }
     private void btnRemoveIngredient_Click(object sender, EventArgs e)
     {
-        bl.DeleteOneIngredient(bl.Ingredient);
+        bl.DeleteOneIngredient(bl.CurrentIngredient);
+        bl.CurrentIngredient = null;
+        FromClassesToUi();
+        RefreshGrid();
     }
-    private void btnRecipes_Click(object sender, EventArgs e)
+    private void btnGetIngredientFood_Click(object sender, EventArgs e)
     {
-
-    }
-    private void btnIngredient_Click(object sender, EventArgs e)
-    {
-
+        FoodsPage p = new FoodsPage(bl.CurrentIngredient);
+        Navigation.PushAsync(p);
     }
     private void txtIngredientQuantityGrams_TextChanged(object sender, TextChangedEventArgs e)
     {
-        ///////////////bl.RecalcAll();
-        FromClassesToUi();
+        //////////bl.RecalcAll();
+        //FromClassesToUi();
     }
-
     private void txtIngredientCarbohydratesPercent_TextChanged(object sender, TextChangedEventArgs e)
     {
-        //bl.Ingredient.
-        /////////////////////bl.RecalcAll();
-        //FromClassesToUi();
+        if (!loading)
+        {
+            //if (!txtIngredientChoPercent.IsFocused && !txtFoodCarbohydratesPercent.IsFocused)
+            //{
+            //    //txtFoodQuantityGrams.Text = "";
+            //    //localFoodInMealForCalculations.QuantityGrams.Double = 0;
+            //    //txtFoodCarbohydratesPercent.Text = "";
+            //    //localFoodInMealForCalculations.CarbohydratesPerUnit.Double = 0;
+            //}
+        }
+        //localFoodInMealForCalculations.CarbohydratesGrams.Text = txtFoodChoGrams.Text;
     }
     private void txtIngredientQuantityPercent_TextChanged(object sender, TextChangedEventArgs e)
     {
-        bl.Ingredient.QuantityGrams.Double = null;
-        txtIngredientQuantityGrams.Text = bl.Ingredient.QuantityGrams.Text;
+        //bl.CurrentIngredient.QuantityGrams.Double = null;
+        //txtIngredientQuantityGrams.Text = bl.CurrentIngredient.QuantityGrams.Text;
     }
 }

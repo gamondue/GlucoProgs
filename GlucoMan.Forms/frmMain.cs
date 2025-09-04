@@ -1,9 +1,4 @@
-﻿using GlucoMan;
-using GlucoMan.BusinessLayer;
-using System;
-using System.Windows.Forms;
-
-namespace GlucoMan.Forms
+﻿namespace GlucoMan.Forms
 {
     public partial class frmMain : Form
     {
@@ -58,17 +53,17 @@ namespace GlucoMan.Forms
         private void btnHypoPrediction_Click(object sender, EventArgs e)
         {
             frmHypoTimePrediction f = new frmHypoTimePrediction();
-            f.Show(); 
+            f.Show();
         }
         private void btnAlarms_Click(object sender, EventArgs e)
         {
             frmAlarms fa = new frmAlarms();
-            fa.Show(); 
+            fa.Show();
         }
         private void bntMiscellaneous_Click(object sender, EventArgs e)
         {
             frmMiscellaneous f = new frmMiscellaneous();
-            f.Show(); 
+            f.Show();
         }
         private void btnInjections_Click(object sender, EventArgs e)
         {
@@ -77,8 +72,8 @@ namespace GlucoMan.Forms
         }
         private void btnFoods_Click(object sender, EventArgs e)
         {
-            frmFoods f = new frmFoods(new Food());
-            f.Show(); 
+            frmFoods f = new frmFoods(new Food(new UnitOfFood("g", 1)));
+            f.Show();
         }
     }
 }

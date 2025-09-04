@@ -1,8 +1,4 @@
-﻿using GlucoMan;
-using System;
-using System.Windows.Forms;
-
-namespace GlucoMan.Forms
+﻿namespace GlucoMan.Forms
 {
     public partial class frmFood : Form
     {
@@ -14,7 +10,7 @@ namespace GlucoMan.Forms
 
             if (Food == null)
             {
-                thisFood = new Food();
+                thisFood = new Food(new UnitOfFood("g", 1));
             }
             else
                 thisFood = Food;
@@ -28,29 +24,29 @@ namespace GlucoMan.Forms
         {
             txtIdFood.Text = thisFood.IdFood.ToString();
 
-            txtFoodCarbohydrates.Text = thisFood.Carbohydrates.Text;
+            txtFoodCarbohydrates.Text = thisFood.CarbohydratesPercent.Text;
             txtCalories.Text = thisFood.Energy.Text;
-            txtFibers.Text = thisFood.Fibers.Text;
+            txtFibers.Text = thisFood.FibersPercent.Text;
             txtName.Text = thisFood.Name;
-            txtSalt.Text = thisFood.Salt.Text;
-            txtProteins.Text = thisFood.Proteins.Text;
-            txtSaturatedFats.Text = thisFood.SaturatedFats.Text;
-            txtSugar.Text = thisFood.Sugar.Text;
-            txtTotalFats.Text = thisFood.TotalFats.Text;
+            txtSalt.Text = thisFood.SaltPercent.Text;
+            txtProteins.Text = thisFood.ProteinsPercent.Text;
+            txtSaturatedFats.Text = thisFood.SaturatedFatsPercent.Text;
+            txtSugar.Text = thisFood.SugarPercent.Text;
+            txtTotalFats.Text = thisFood.TotalFatsPercent.Text;
         }
         private void FromUiToClass()
         {
             thisFood.IdFood = int.Parse(txtIdFood.Text);
 
-            thisFood.Carbohydrates.Text = txtFoodCarbohydrates.Text;
+            thisFood.CarbohydratesPercent.Text = txtFoodCarbohydrates.Text;
             thisFood.Energy.Text = txtCalories.Text;
-            thisFood.Fibers.Text = txtFibers.Text;
+            thisFood.FibersPercent.Text = txtFibers.Text;
             thisFood.Name = txtName.Text;
-            thisFood.Salt.Text = txtSalt.Text;
-            thisFood.Proteins.Text = txtProteins.Text;
-            thisFood.SaturatedFats.Text = txtSaturatedFats.Text;
-            thisFood.Sugar.Text = txtSugar.Text;
-            thisFood.TotalFats.Text = txtTotalFats.Text;
+            thisFood.SaltPercent.Text = txtSalt.Text;
+            thisFood.ProteinsPercent.Text = txtProteins.Text;
+            thisFood.SaturatedFatsPercent.Text = txtSaturatedFats.Text;
+            thisFood.SugarPercent.Text = txtSugar.Text;
+            thisFood.TotalFatsPercent.Text = txtTotalFats.Text;
         }
 
         private void btnManageFoods_Click(object sender, EventArgs e)
@@ -60,13 +56,13 @@ namespace GlucoMan.Forms
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
-            FromUiToClass();            
+            FromUiToClass();
         }
 
         private void btnChoose_Click(object sender, EventArgs e)
         {
             FromUiToClass();
-            this.Close(); 
+            this.Close();
         }
     }
 }

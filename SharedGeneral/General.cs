@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.Reflection;
 using System.Security.Cryptography;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace gamon
@@ -9,8 +7,8 @@ namespace gamon
     internal static partial class General
     {
         public static DateTime DateNull = new DateTime(1, 1, 1, 0, 0, 0, 0);
-        public static Logger LogOfProgram; 
-        
+        public static Logger LogOfProgram;
+
         internal static string CalculateSHA1(string File)
         {
             try
@@ -72,7 +70,7 @@ namespace gamon
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             if (!File.Exists(FilePathAndName))
-            { 
+            {
                 File.Create(FilePathAndName);
             }
         }
@@ -81,11 +79,13 @@ namespace gamon
             try
             {
                 if (!Directory.Exists(PathOfFolder))
+                {
                     Directory.CreateDirectory(PathOfFolder);
+                }
             }
             catch (Exception ex)
             {
-                LogOfProgram.Error("MakeFolderIfDontExist", ex); 
+                LogOfProgram.Error("MakeFolderIfDontExist", ex);
             }
         }
         internal static string ConvertStringToFilename(string SubmittedName, bool SubstituteSpaces)

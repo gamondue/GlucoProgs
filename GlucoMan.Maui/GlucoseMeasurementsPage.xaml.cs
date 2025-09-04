@@ -67,7 +67,8 @@ public partial class GlucoseMeasurementsPage : ContentPage
     }
     private void RefreshGrid()
     {
-        glucoseReadings = bl.ReadGlucoseMeasurements(null, null);
+        DateTime now = DateTime.Now;
+        glucoseReadings = bl.ReadGlucoseMeasurements(now.Subtract(new TimeSpan(180, 0, 0, 0)), now.AddDays(1));
         this.BindingContext = glucoseReadings;
         //gridMeasurements.ItemsSource = glucoseReadings;
     }

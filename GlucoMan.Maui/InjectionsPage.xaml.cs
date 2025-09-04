@@ -68,7 +68,7 @@ public partial class InjectionsPage : ContentPage
     private void RefreshGrid()
     {
         DateTime now = DateTime.Now;
-        allInjections = bl.GetInjections(now.AddMonths(-2), now, Common.TypeOfInsulinSpeed.NotSet);
+        allInjections = bl.GetInjections(now.AddMonths(-4), now.AddDays(1), Common.TypeOfInsulinSpeed.NotSet);
         gridInjections.ItemsSource = allInjections;
     }
     private void RefreshUi()

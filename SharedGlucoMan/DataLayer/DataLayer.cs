@@ -51,7 +51,7 @@ namespace GlucoMan
         internal abstract void DeleteOneFood(Food food);
         internal abstract Food GetOneFood(int? IdFood);
         internal abstract List<Food> GetFoods();
-        internal abstract void AddUnitToFoodsUnits(Food food);
+        internal abstract void AddUnitToFood(Food food, UnitOfFood unit);
         internal abstract void RemoveUnitFromFoodsUnits(Food Food);
         internal abstract List<UnitOfFood> GetAllUnitsOfOneFood(Food Food);
         internal abstract InsulinInjection GetOneInjection(int? idInjection);
@@ -70,7 +70,7 @@ namespace GlucoMan
         internal abstract List<Recipe> SearchRecipes(string Name, string Description);
         internal abstract List<Ingredient> ReadAllIngredientsInARecipe(int? idRecipe);
         internal abstract int? SaveOneIngredient(Ingredient Ingredient);
-        internal abstract void SaveAllIngredientsInARecipe(List<Ingredient> ingredients);
+        internal abstract void SaveListOfIngredients(List<Ingredient> ingredients);
         internal abstract int? InsertOneIngredient(Ingredient ingredient);
         internal abstract void UpdateOneIngredient(Ingredient ingredient);
         internal abstract Ingredient GetIngredientFromRow(DbDataReader Row);

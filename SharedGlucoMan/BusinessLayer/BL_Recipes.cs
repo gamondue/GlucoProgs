@@ -1,24 +1,32 @@
-﻿
-namespace GlucoMan.BusinessLayer
+﻿namespace GlucoMan.BusinessLayer
 {
-    internal class BL_Recipes
+    public class BL_Recipes
     {
         DataLayer dl = Common.Database;
-        public Recipe Recipe { get; set; }
-        public List<Recipe> Recipes { get; set; }
-        public Ingredient Ingredient { get; set; }
-        public List<Ingredient> Ingredients { get; set; }
+        public Recipe CurrentRecipe { get; set; }
+        //public List<Recipe> Recipes { get; private set; }
+        public Ingredient CurrentIngredient { get; set; }
+        //public List<Ingredient> AllIngredientsOfCurrentRecipe { get; private set; }
         internal Recipe GetOneRecipe(int? idRecipe)
         {
             return dl.GetOneRecipe(idRecipe);
         }
         public int? SaveOneRecipe(Recipe recipe)
         {
-            return dl.SaveOneRecipe(recipe);
+            int? key = dl.SaveOneRecipe(recipe);
+            if (recipe.Ingredients == null || recipe.Ingredients.Count == 0)
+                return key;
+            // save all ingredients
+            foreach (Ingredient i in recipe.Ingredients)
+            {
+                i.IdRecipe = recipe.IdRecipe;
+                SaveOneIngredient(i);
+            }
+            return key;
         }
-        public List<Recipe> ReadSomeRecipes(string? whereClause)
+        public List<Recipe> ReadSomeRecipes(string? WhereClause)
         {
-            return dl.ReadSomeRecipes(whereClause);
+            return dl.ReadSomeRecipes(WhereClause);
         }
         internal List<Recipe> SearchRecipes(string Name, string Description, int MinNoOfCharacters)
         {
@@ -42,63 +50,93 @@ namespace GlucoMan.BusinessLayer
         {
             dl.DeleteOneRecipe(Recipe);
         }
+        internal void UpdatePercentages()
+        {
+            // calculate the total weight ot the recipe
+            CurrentRecipe.TotalWeight.Double = 0;
+            foreach (Ingredient i in CurrentRecipe.Ingredients)
+            {
+                // sum of recipe's weights
+                if (i.QuantityGrams.Double == null)
+                {
+                    CurrentRecipe.CarbohydratesPercent.Double = double.NaN;
+                }
+                else
+                {
+                    // sum of recipe's weights
+                    CurrentRecipe.TotalWeight.Double += i.QuantityGrams.Double;
+                }
+            }
+            // update the percentages
+            foreach (Ingredient i in CurrentRecipe.Ingredients)
+            {
+                if (i.QuantityGrams.Double == null)
+                {
+                    i.QuantityPercent.Double = double.NaN;
+                }
+                else
+                {
+                    i.QuantityPercent.Double = i.QuantityGrams.Double / CurrentRecipe.TotalWeight.Double * 100;
+                }
+            }
+        }
         internal void RecalcAll()
         {
-            double? totalWeight = 0;
-            double? recipeCHO = 0;
-            double? weightedSumOfAccuracies = 0;
-            if (Ingredients != null)
+            if (CurrentRecipe.Ingredients != null && CurrentRecipe.Ingredients.Count > 0)
             {
+                // calculate the percentages of weights of the ingredients in the recipe
+                UpdatePercentages();
+                // other survey data
+                // TotalWeight is calculated by UpdatePercentages();
+                double? sumOfWeightedCho = 0;
+                double? sumOfWeightedAccuracies = 0;
                 // sum of weights, weighted sum of recipe's CHO and weighted sum of squared accuracies
-                foreach (Ingredient i in Ingredients)
+                foreach (Ingredient i in CurrentRecipe.Ingredients)
                 {
-                    totalWeight += i.QuantityGrams.Double;
-                    recipeCHO += i.CarbohydratesPercent.Double * i.QuantityGrams.Double / 100;
-                    double? weightedAccuracy = i.AccuracyOfChoEstimate.Double * i.QuantityGrams.Double;
-                    weightedSumOfAccuracies += weightedAccuracy * weightedAccuracy;
+                    if (i.CarbohydratesPercent.Double != null && i.AccuracyOfChoEstimate.Double != null)
+                    {
+                        // sum of recipe's CHO weighted by the weight of the ingredient
+                        sumOfWeightedCho += i.CarbohydratesPercent.Double * i.QuantityGrams.Double;
+                        // sum of squared accuracies weighted by the weight of the ingredient
+                        sumOfWeightedAccuracies += i.AccuracyOfChoEstimate.Double * i.AccuracyOfChoEstimate.Double * i.QuantityGrams.Double;
+                    }
                 }
-                recipeCHO = recipeCHO / totalWeight;
-                double? accuracyOfRecipe = 0;
-                if (weightedSumOfAccuracies != null)
-                    accuracyOfRecipe = Math.Sqrt((double)weightedSumOfAccuracies) / totalWeight;
-                // update the Ingredients' percentages
-                foreach (Ingredient i in Ingredients)
-                {
-                    i.CarbohydratesGrams.Double = i.CarbohydratesPercent.Double * i.QuantityGrams.Double;
-                    i.QuantityPercent.Double = i.QuantityGrams.Double / totalWeight * 100;
-                }
-                Recipe.AccuracyOfChoEstimate.Double = accuracyOfRecipe;
-                Recipe.TotalWeight.Double = totalWeight;
+                // recipe CHO 
+                CurrentRecipe.CarbohydratesPercent.Double = sumOfWeightedCho / CurrentRecipe.TotalWeight.Double;
+                // recipe CHO accuracy
+                CurrentRecipe.AccuracyOfChoEstimate.Double = Math.Sqrt((double)(sumOfWeightedAccuracies / CurrentRecipe.TotalWeight.Double));
             }
-            dl.SaveAllIngredientsInARecipe(Ingredients);
-        }
-        internal void SaveRecipeParameters()
-        {
-            // throw new NotImplementedException();
         }
         internal void SaveIngredientParameters()
         {
             throw new NotImplementedException();
         }
-        internal void FromFoodToIngredient(Food currentFood, Ingredient Ingredient)
+        internal void FromFoodToIngredient(Food sourceFood, Ingredient destinationIngredient)
         {
-            throw new NotImplementedException();
+            destinationIngredient.IdFood = sourceFood.IdFood;
+            destinationIngredient.Name = sourceFood.Name;
+            destinationIngredient.Description = sourceFood.Description;
+            destinationIngredient.CarbohydratesPercent = sourceFood.CarbohydratesPercent;
         }
         public int? SaveOneIngredient(Ingredient Ingredient)
         {
             return dl.SaveOneIngredient(Ingredient);
         }
-        public List<Ingredient> ReadAllIngredientsInARecipe(int? idRecipe)
+        public void ReadAllIngredientsInThisRecipe()
         {
-            return dl.ReadAllIngredientsInARecipe(idRecipe);
+            CurrentRecipe.Ingredients = dl.ReadAllIngredientsInARecipe(CurrentRecipe.IdRecipe);
         }
-        internal void SaveAllIngredientsInARecipe(List<Ingredient> Ingredients)
+        internal void SaveListOfIngredients()
         {
-            dl.SaveAllIngredientsInARecipe(Ingredients);
+            dl.SaveListOfIngredients(CurrentRecipe.Ingredients);
         }
         internal void DeleteOneIngredient(Ingredient Ingredient)
         {
             dl.DeleteOneIngredient(Ingredient);
+        }
+        internal void CreateNewListOfIngredientsInRecipe()
+        {
+            CurrentRecipe.Ingredients = new List<Ingredient>();
         }
     }
 }

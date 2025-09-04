@@ -23,7 +23,7 @@ namespace GlucoMan.Forms
         internal frmMeal(Meal Meal)
         {
             InitializeComponent();
-            
+
             loading = true;
             if (Meal == null)
             {
@@ -54,14 +54,14 @@ namespace GlucoMan.Forms
         }
         private void RefreshGrid()
         {
-            bl.FoodsInMeal = bl.GetFoodsInMeal(bl.Meal.IdMeal); 
+            bl.FoodsInMeal = bl.GetFoodsInMeal(bl.Meal.IdMeal);
             gridFoodsInMeal.DataSource = bl.FoodsInMeal;
             gridFoodsInMeal.Refresh();
         }
         private void RefreshUi()
         {
-            FromClassToUi(); 
-            RefreshGrid(); 
+            FromClassToUi();
+            RefreshGrid();
         }
         internal void FromClassToUi()
         {
@@ -76,7 +76,7 @@ namespace GlucoMan.Forms
                 dtpMealTimeStart.Value = (DateTime)bl.Meal.TimeBegin.DateTime;
             if (bl.Meal.TimeEnd.DateTime != General.DateNull)
                 dtpMealTimeFinish.Value = (DateTime)bl.Meal.TimeEnd.DateTime;
-            
+
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
             txtNotes.Text = bl.Meal.Notes;
 
@@ -85,21 +85,21 @@ namespace GlucoMan.Forms
             if (bl.FoodInMeal.IdFood != null)
                 txtIdFood.Text = bl.FoodInMeal.IdFoodInMeal.ToString();
 
-            txtFoodChoPercent.Text = bl.FoodInMeal.ChoPercent.Text;
+            txtFoodChoPercent.Text = bl.FoodInMeal.CarbohydratesPerUnit.Text;
             txtFoodQuantityGrams.Text = bl.FoodInMeal.QuantityGrams.Text;
-            txtFoodChoGrams.Text = bl.FoodInMeal.ChoGrams.Text;
+            txtFoodChoGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
             txtAccuracyOfChoFoodInMeal.Text = bl.FoodInMeal.AccuracyOfChoEstimate.Text;
             txtFoodInMealName.Text = bl.FoodInMeal.Name;
 
-            loading = false; 
+            loading = false;
         }
         private void FromUiToClasses()
         {
             loading = true;
 
             FromUiToMeal(bl.Meal);
-            FromUiToFood(bl.FoodInMeal); 
-          
+            FromUiToFood(bl.FoodInMeal);
+
             loading = false;
         }
         private void FromUiToFood(FoodInMeal FoodInMeal)
@@ -108,8 +108,8 @@ namespace GlucoMan.Forms
             FoodInMeal.IdFoodInMeal = SqlSafe.Int(txtIdFoodInMeal.Text);
             FoodInMeal.IdFood = SqlSafe.Int(txtIdFood.Text);
             FoodInMeal.QuantityGrams.Text = txtFoodQuantityGrams.Text; // [g]
-            FoodInMeal.ChoPercent.Text = txtFoodChoPercent.Text;
-            FoodInMeal.ChoGrams.Text = txtFoodChoGrams.Text;
+            FoodInMeal.CarbohydratesPerUnit.Text = txtFoodChoPercent.Text;
+            FoodInMeal.CarbohydratesGrams.Text = txtFoodChoGrams.Text;
             FoodInMeal.Name = txtFoodInMealName.Text;
             FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
         }
@@ -126,7 +126,7 @@ namespace GlucoMan.Forms
         }
         private TypeOfMeal GetTypeOfMealFromRadiobuttons()
         {
-            TypeOfMeal thisType; 
+            TypeOfMeal thisType;
             if (rdbIsBreakfast.Checked)
             {
                 thisType = TypeOfMeal.Breakfast;
@@ -147,7 +147,7 @@ namespace GlucoMan.Forms
             {
                 thisType = TypeOfMeal.NotSet;
             }
-            return thisType; 
+            return thisType;
         }
         private void SetTypeOfMealRadiobutton(Common.TypeOfMeal Type)
         {
@@ -170,23 +170,23 @@ namespace GlucoMan.Forms
             }
         }
         FoodInMeal localFoodInMealForCalculations = new FoodInMeal();
-        private void txtFoodChoPercent_TextChanged(object sender, EventArgs e) 
-        {
-            if (!loading)
-            {
-                FromUiToFood(localFoodInMealForCalculations); 
-                bl.CalculateChoOfFoodGrams(localFoodInMealForCalculations);
-                txtFoodChoGrams.Text = localFoodInMealForCalculations.ChoGrams.Text;
-                bl.SaveFoodInMealParameters();
-            }
-        }
-        private void txtFoodQuantityGrams_TextChanged(object sender, EventArgs e) 
+        private void txtFoodChoPercent_TextChanged(object sender, EventArgs e)
         {
             if (!loading)
             {
                 FromUiToFood(localFoodInMealForCalculations);
                 bl.CalculateChoOfFoodGrams(localFoodInMealForCalculations);
-                txtFoodChoGrams.Text = localFoodInMealForCalculations.ChoGrams.Text;
+                txtFoodChoGrams.Text = localFoodInMealForCalculations.CarbohydratesGrams.Text;
+                bl.SaveFoodInMealParameters();
+            }
+        }
+        private void txtFoodQuantityGrams_TextChanged(object sender, EventArgs e)
+        {
+            if (!loading)
+            {
+                FromUiToFood(localFoodInMealForCalculations);
+                bl.CalculateChoOfFoodGrams(localFoodInMealForCalculations);
+                txtFoodChoGrams.Text = localFoodInMealForCalculations.CarbohydratesGrams.Text;
             }
         }
         private void txtFoodChoGrams_TextChanged(object sender, EventArgs e)
@@ -198,12 +198,12 @@ namespace GlucoMan.Forms
                     txtFoodQuantityGrams.Text = "";
                     localFoodInMealForCalculations.QuantityGrams.Double = 0;
                     txtFoodChoPercent.Text = "";
-                    localFoodInMealForCalculations.ChoPercent.Double = 0;
+                    localFoodInMealForCalculations.CarbohydratesPerUnit.Double = 0;
                 }
             }
-            localFoodInMealForCalculations.ChoGrams.Text = txtFoodChoGrams.Text;
+            localFoodInMealForCalculations.CarbohydratesGrams.Text = txtFoodChoGrams.Text;
             //bl.RecalcAll();
-            //txtChoOfMealGrams.Text = bl.Meal.Carbohydrates.Text;
+            //txtChoOfMealGrams.Text = bl.Meal.CarbohydratesPerUnit.Text;
         }
         //private void txtFoodChoGrams_Leave(object sender, EventArgs e)
         //{
@@ -268,12 +268,12 @@ namespace GlucoMan.Forms
             bl.DeleteOneFoodInMeal(bl.FoodInMeal);
             RefreshUi();
         }
-        private void btnStartMeal_Click(object sender, EventArgs e) 
+        private void btnStartMeal_Click(object sender, EventArgs e)
         {
             bl.SaveOneMeal(bl.Meal, true); // saves with time now 
             RefreshUi();
         }
-        private void btnEndMeal_Click(object sender, EventArgs e) 
+        private void btnEndMeal_Click(object sender, EventArgs e)
         {
             bl.Meal.TimeEnd.DateTime = DateTime.Now;
             bl.SaveOneMeal(bl.Meal, false);
@@ -299,7 +299,7 @@ namespace GlucoMan.Forms
             }
             FromUiToClasses();
             bl.SaveOneFoodInMeal(bl.FoodInMeal);
-            RefreshGrid(); 
+            RefreshGrid();
         }
         private void btnSaveAllFoods_Click(object sender, EventArgs e)
         {
@@ -326,11 +326,11 @@ namespace GlucoMan.Forms
         {
             FromUiToClasses();
             bl.RecalcAll();
-            FromClassToUi(); 
+            FromClassToUi();
         }
         private void btnSearchFood_Click(object sender, EventArgs e)
         {
-            frmFoods f = new frmFoods(txtFoodInMealName.Text); 
+            frmFoods f = new frmFoods(txtFoodInMealName.Text);
         }
         private void btnInsulinCalc_Click(object sender, EventArgs e)
         {
@@ -356,8 +356,8 @@ namespace GlucoMan.Forms
         }
         private void btnFoodCalc_Click(object sender, EventArgs e)
         {
-            frmFoodToHitTargetCarbs f = new frmFoodToHitTargetCarbs(); 
-            f.Show(); 
+            frmFoodToHitTargetCarbs f = new frmFoodToHitTargetCarbs();
+            f.Show();
         }
         private void gridFoodsInMeal_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         bool firstPass = true;
@@ -367,7 +367,7 @@ namespace GlucoMan.Forms
             {
                 FoodInMeal previousFoodInMeal = bl.FoodInMeal.DeepCopy();
                 FromUiToClasses();
-                FoodInMeal dummy; 
+                FoodInMeal dummy;
                 if (!firstPass && !previousFoodInMeal.DeepEquals(bl.FoodInMeal, out dummy))
                 {
                     DialogResult response = MessageBox.Show("The food has changed. Should we:" +
@@ -379,9 +379,9 @@ namespace GlucoMan.Forms
                         bl.SaveOneFoodInMeal(bl.FoodInMeal);
                         RefreshGrid();
                     }
-                    else if (response == DialogResult.No )
+                    else if (response == DialogResult.No)
                     {
-                        bl.FoodInMeal.IdFoodInMeal = null; 
+                        bl.FoodInMeal.IdFoodInMeal = null;
                         bl.SaveOneFoodInMeal(bl.FoodInMeal);
                         RefreshGrid();
                     }

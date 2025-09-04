@@ -14,13 +14,12 @@ namespace GlucoMan.Maui
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
             Common.SetGlobalParameters();
-            Common.GeneralInitializations();
-            ////Common.PlatformSpecificInitializations();
+            Common.GeneralInitializationsAsync();
+
             return builder.Build();
         }
     }

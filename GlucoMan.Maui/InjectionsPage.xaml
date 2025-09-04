@@ -6,24 +6,37 @@
     <ContentPage.Content>
         <Grid RowDefinitions="50,50,50,30,50,25,50,30,20,*"
               ColumnDefinitions="*,*,*,*">
-            <Button Grid.Row="0" Grid.Column="0" Text="Front" x:Name="btnFront" Clicked="btnFront_ClickedAsync"></Button>
-            <Button Grid.Row="0" Grid.Column="1" Text="Back" x:Name="btnBack" Clicked="btnBack_Clicked_Async"></Button>
-            <Button Grid.Row="0" Grid.Column="2" Text="Hands" x:Name="btnHands" Clicked="btnHands_ClickedAsync"></Button>
-            <Button Grid.Row="0" Grid.Column="3" Text="Sensrs" x:Name="btnSensors" Clicked="btnSensors_Clicked_Async"></Button>
+            <Button Grid.Row="0" Grid.Column="0" Text="Front" x:Name="btnFront" 
+                ToolTipProperties.Text="Opens a new Front injections' picture page"
+                Clicked="btnFront_ClickedAsync"/>
+            <Button Grid.Row="0" Grid.Column="1" Text="Back" x:Name="btnBack" 
+                    ToolTipProperties.Text="Opens a new Back injections' picture page"
+                    Clicked="btnBack_Clicked_Async"/>
+            <Button Grid.Row="0" Grid.Column="2" Text="Hands" x:Name="btnHands" 
+                    ToolTipProperties.Text="Opens a new Hands blood samples' positions picture page"
+                    Clicked="btnHands_ClickedAsync"/>
+            <Button Grid.Row="0" Grid.Column="3" Text="Sensrs" x:Name="btnSensors" 
+                    ToolTipProperties.Text="Opens a new Sensors positions' picture page"
+                    Clicked="btnSensors_Clicked_Async"/>
 
             <Label Grid.Row="1" Grid.Column="0" Text="Actual Insulin [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="1" Text="Calculated insul. [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtInsulinActual" 
+                   ToolTipProperties.Text="Insulin actually injected"
                    Keyboard="Numeric" BackgroundColor="PaleGreen" HorizontalTextAlignment="End"
                    FontSize="Medium" />
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txtInsulinCalculated" 
+                   ToolTipProperties.Text="Insulin bolus calculated by this program (currently not used)"
                    Keyboard="Numeric" BackgroundColor="White" HorizontalTextAlignment="End"
                    FontSize="Medium" />
             <Entry Grid.Row="2" Grid.Column="2" x:Name="txtIdInjection" BackgroundColor="White" 
-                       FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
-            <Button Grid.Row="2" Grid.Column="3" Text="Save" x:Name="btnSave" Clicked="btnSave_Click"></Button>
+                    ToolTipProperties.Text="Code of this injection"
+                    FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
+            <Button Grid.Row="2" Grid.Column="3" Text="Save" x:Name="btnSave"
+                    ToolTipProperties.Text="Save this injection"
+                    Clicked="btnSave_Click"></Button>
 
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Injection time"  
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
@@ -33,12 +46,16 @@
                          GroupName="groupInsulin" x:Name="rdbSlowInsulin" WidthRequest="180"/>
 
             <DatePicker Grid.Row="4" Grid.Column="0" x:Name="dtpInjectionDate" 
-                        BackgroundColor="PaleGreen" 
-                        HorizontalOptions="Center" />
+                    ToolTipProperties.Text="Date of this injection"
+                    BackgroundColor="PaleGreen" 
+                    HorizontalOptions="Center" />
             <TimePicker Grid.Row="4" Grid.Column="1" x:Name="dtpInjectionTime" 
-                        BackgroundColor="PaleGreen"  
-                        HorizontalOptions="Center" />
-            <Button Grid.Row="4" Grid.Column="2" Text="Now" x:Name="btnNow" Clicked="btnNow_Click"></Button>
+                    ToolTipProperties.Text="Date of this injection"
+                    BackgroundColor="PaleGreen"  
+                    HorizontalOptions="Center" />
+            <Button Grid.Row="4" Grid.Column="2" Text="Now" x:Name="btnNow" 
+                    ToolTipProperties.Text="Set the time of this instant as the time of this injection"
+                    Clicked="btnNow_Click"></Button>
             <Grid Grid.Row="4" Grid.Column="3">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -47,8 +64,12 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddInjection" Clicked="btnAddInjection_Click"></Button>
-                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveInjection" Clicked="btnRemoveInjection_Click"></Button>
+                <Button Grid.Row="0" Grid.Column="0" Text="+" x:Name="btnAddInjection" 
+                    ToolTipProperties.Text="Add a new injection"
+                    Clicked="btnAddInjection_Click"></Button>
+                <Button Grid.Row="0" Grid.Column="1" Text="-" x:Name="btnRemoveInjection" 
+                    ToolTipProperties.Text="Remove this injection"
+                    Clicked="btnRemoveInjection_Click"></Button>
             </Grid>
             
             <HorizontalStackLayout Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3">
@@ -70,6 +91,7 @@
             </HorizontalStackLayout>
 
             <Entry Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="PaleGreen" 
+                    ToolTipProperties.Text="Notes about this injection"
                    FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
             <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Text="Injections" FontAttributes="Bold"
@@ -84,6 +106,7 @@
 
             <ListView Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" 
                       x:Name="gridInjections" ItemsSource="{Binding}"
+                      ToolTipProperties.Text="Past injections"
                       ItemSelected="OnGridSelectionAsync" >
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>

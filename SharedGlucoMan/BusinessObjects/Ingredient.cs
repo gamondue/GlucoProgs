@@ -20,7 +20,7 @@ namespace GlucoMan
             QuantityGrams = new DoubleAndText();
             QuantityPercent = new DoubleAndText();
             CarbohydratesPercent = new DoubleAndText();
-            CarbohydratesGrams = new DoubleAndText();
+            //CarbohydratesGrams = new DoubleAndText();
             AccuracyOfChoEstimate = new DoubleAndText();
         }
     }

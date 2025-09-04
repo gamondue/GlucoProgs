@@ -8,34 +8,37 @@ public partial class RecipesPage : ContentPage
     BL_Recipes bl = new BL_Recipes();
     bool recipeIsChosen = false;
     public bool RecipeIsChosen { get => recipeIsChosen; }
+    public Recipe CurrentRecipe
+    {
+        get
+        {
+            return bl.CurrentRecipe;
+        }
+    }
+
     List<Recipe> allRecipes;
     private RecipePage recipePage;
     private bool loading = false;
-    public RecipesPage()
-    {
-        InitializeComponent();
-        bl.Recipe = null;
-    }
     public RecipesPage(Recipe Recipe)
     {
         InitializeComponent();
-        bl.Recipe = Recipe;
+        bl.CurrentRecipe = Recipe;
     }
     public RecipesPage(string RecipeNameForSearch, string RecipeDescriptionForSearch)
     {
         InitializeComponent();
-        if (bl.Recipe == null)
-            bl.Recipe = new Recipe();
-        bl.Recipe.Name = RecipeNameForSearch;
-        bl.Recipe.Description = RecipeDescriptionForSearch;
+        if (bl.CurrentRecipe == null)
+            bl.CurrentRecipe = new Recipe();
+        bl.CurrentRecipe.Name = RecipeNameForSearch;
+        bl.CurrentRecipe.Description = RecipeDescriptionForSearch;
         RefreshGrid();
     }
-    /*public RecipesPage(Ingredient Ingredient)
+    /*public RecipesPage(CurrentIngredient CurrentIngredient)
     {
         InitializeComponent();
-        if (bl.Recipe == null)
-            bl.Recipe = new Food();
-        bl.FromIngredientToFood(Ingredient, bl.Recipe);
+        if (bl.CurrentRecipe == null)
+            bl.CurrentRecipe = new Food();
+        bl.FromIngredientToFood(CurrentIngredient, bl.CurrentRecipe);
     }*/
     private void PageLoaded(object sender, EventArgs e)
     {
@@ -44,43 +47,43 @@ public partial class RecipesPage : ContentPage
         txtIdRecipe.Text = "";
         txtName.Text = "";
         txtDescription.Text = "";
-        if (bl.Recipe == null)
-            bl.Recipe = new Recipe();
-        bl.Recipe.Name = "";
-        bl.Recipe.Description = "";
+        if (bl.CurrentRecipe == null)
+            bl.CurrentRecipe = new Recipe();
+        bl.CurrentRecipe.Name = "";
+        bl.CurrentRecipe.Description = "";
         allRecipes = new List<Recipe>();
         // if a specific food is passed, load its persistent data from database 
-        if (bl.Recipe.IdRecipe != 0 && bl.Recipe.IdRecipe != null)
+        if (bl.CurrentRecipe.IdRecipe != 0 && bl.CurrentRecipe.IdRecipe != null)
         {
-            bl.Recipe = bl.GetOneRecipe(bl.Recipe.IdRecipe);
+            bl.CurrentRecipe = bl.GetOneRecipe(bl.CurrentRecipe.IdRecipe);
             // if what is passed has not and IdFood,
             // we use the data actually passed 
 
-            // let's show the current Recipe
+            // let's show the current CurrentRecipe
             FromClassToUi();
-            this.BindingContext = bl.Recipe;
+            this.BindingContext = bl.CurrentRecipe;
             gridRecipes.ItemsSource = allRecipes; ;
         }
     }
     private void FromClassToUi()
     {
-        txtIdRecipe.Text = bl.Recipe.IdRecipe.ToString();
-        txtName.Text = bl.Recipe.Name;
-        txtDescription.Text = bl.Recipe.Description;
-        txtRecipeCarbohydrates.Text = bl.Recipe.CarbohydratesPercent.Text;
-        chkCooked.IsChecked = (bool)SqlSafe.Bool(bl.Recipe.IsCooked);
-        txtRawToCookedRatio.Text = bl.Recipe.RawToCookedRatio.Text;
-        // XXXX = bl.Recipe.AccuracyOfChoEstimate;
+        txtIdRecipe.Text = bl.CurrentRecipe.IdRecipe.ToString();
+        txtName.Text = bl.CurrentRecipe.Name;
+        txtDescription.Text = bl.CurrentRecipe.Description;
+        txtRecipeCarbohydrates.Text = bl.CurrentRecipe.CarbohydratesPercent.Text;
+        chkCooked.IsChecked = (bool)SqlSafe.Bool(bl.CurrentRecipe.IsCooked);
+        txtRawToCookedRatio.Text = bl.CurrentRecipe.RawToCookedRatio.Text;
+        // XXXX = bl.CurrentRecipe.AccuracyOfChoEstimate;
     }
-    private void FromUiToClass()
+    private void FromUiToCurrentRecipe()
     {
-        bl.Recipe.IdRecipe = SqlSafe.Int(txtIdRecipe.Text);
-        bl.Recipe.Name = txtName.Text;
-        bl.Recipe.Description = txtDescription.Text;
-        bl.Recipe.CarbohydratesPercent.Double = SqlSafe.Double(txtRecipeCarbohydrates.Text);
-        bl.Recipe.IsCooked = (bool)SqlSafe.Bool(chkCooked.IsChecked);
-        bl.Recipe.RawToCookedRatio.Double = SqlSafe.Double(txtRawToCookedRatio.Text);
-        // bl.Recipe.AccuracyOfChoEstimate = XXXX;
+        bl.CurrentRecipe.IdRecipe = SqlSafe.Int(txtIdRecipe.Text);
+        bl.CurrentRecipe.Name = txtName.Text;
+        bl.CurrentRecipe.Description = txtDescription.Text;
+        bl.CurrentRecipe.CarbohydratesPercent.Double = SqlSafe.Double(txtRecipeCarbohydrates.Text);
+        bl.CurrentRecipe.IsCooked = (bool)SqlSafe.Bool(chkCooked.IsChecked);
+        bl.CurrentRecipe.RawToCookedRatio.Double = SqlSafe.Double(txtRawToCookedRatio.Text);
+        // bl.CurrentRecipe.AccuracyOfChoEstimate = XXXX;
     }
     private void OnGridSelection(object sender, SelectedItemChangedEventArgs e)
     {
@@ -91,8 +94,8 @@ public partial class RecipesPage : ContentPage
         }
         loading = true;
         //make the tapped row the current food
-        bl.Recipe = (Recipe)gridRecipes.SelectedItem;
-        this.BindingContext = bl.Recipe;
+        bl.CurrentRecipe = (Recipe)gridRecipes.SelectedItem;
+        this.BindingContext = bl.CurrentRecipe;
         FromClassToUi();
         loading = false;
     }
@@ -103,29 +106,29 @@ public partial class RecipesPage : ContentPage
     }
     private void RefreshGrid()
     {
-        if (bl.Recipe.Name != "" && bl.Recipe.Description != "")
-            allRecipes = bl.SearchRecipes(bl.Recipe.Name, bl.Recipe.Description, 0);
+        if (bl.CurrentRecipe.Name != "" && bl.CurrentRecipe.Description != "")
+            allRecipes = bl.SearchRecipes(bl.CurrentRecipe.Name, bl.CurrentRecipe.Description, 0);
         gridRecipes.ItemsSource = allRecipes;
     }
     //private void btnRecipeDetails_Click(object sender, EventArgs e)
     //{
-    //    FromUiToClass();
-    //    recipePage = new RecipePage(bl.Recipe);
+    //    FromUiToCurrentRecipe();
+    //    recipePage = new RecipePage(bl.CurrentRecipe);
     //    await Navigation.PushAsync(recipePage);
     //    if (recipePage.RecipeIsChosen)
     //    {
-    //        //bl.FromFoodToIngredient(recipePage.bl.Recipe, bl.Ingredient);
+    //        //bl.FromFoodToIngredient(recipePage.bl.CurrentRecipe, bl.CurrentIngredient);
     //        FromClassesToUi();
     //    }
     //}
     private void btnRecipeDetails_Click(object sender, EventArgs e)
     {
-        FromUiToClass();
-        recipePage = new RecipePage(bl.Recipe);
+        FromUiToCurrentRecipe();
+        recipePage = new RecipePage(bl);
         Navigation.PushAsync(recipePage);
         if (recipePage.RecipeIsChosen)
         {
-            //bl.FromFoodToIngredient(recipePage.bl.Recipe, bl.Ingredient);
+            //bl.FromFoodToIngredient(recipePage.bl.CurrentRecipe, bl.CurrentIngredient);
             FromClassToUi();
         }
     }
@@ -136,34 +139,34 @@ public partial class RecipesPage : ContentPage
             DisplayAlert("Select one recipe from the list", "Choose a recipe to save", "Ok");
             return;
         }
-        FromUiToClass();
-        bl.SaveOneRecipe(bl.Recipe);
+        FromUiToCurrentRecipe();
+        bl.SaveOneRecipe(bl.CurrentRecipe);
         FromClassToUi();
         RefreshUi();
     }
     private void btnAddRecipe_Click(object sender, EventArgs e)
     {
-        FromUiToClass();
-        bl.Recipe.IdRecipe = null;
-        bl.SaveOneRecipe(bl.Recipe);
+        FromUiToCurrentRecipe();
+        bl.CurrentRecipe.IdRecipe = null;
+        bl.SaveOneRecipe(bl.CurrentRecipe);
         RefreshUi();
     }
     private void btnRemoveRecipe_Click(object sender, EventArgs e)
     {
-        bl.DeleteOneRecipe(bl.Recipe);
+        bl.DeleteOneRecipe(bl.CurrentRecipe);
         RefreshUi();
     }
     private void btnSearchRecipe_Click(object sender, EventArgs e)
     {
-        FromUiToClass();
-        allRecipes = bl.SearchRecipes(bl.Recipe.Name, bl.Recipe.Description, 0);
+        FromUiToCurrentRecipe();
+        allRecipes = bl.SearchRecipes(bl.CurrentRecipe.Name, bl.CurrentRecipe.Description, 0);
         gridRecipes.ItemsSource = allRecipes;
     }
     private void btnChoose_Click(object sender, EventArgs e)
     {
         recipeIsChosen = true;
-        FromUiToClass();
-        bl.SaveOneRecipe(bl.Recipe);
+        FromUiToCurrentRecipe();
+        bl.SaveOneRecipe(bl.CurrentRecipe);
         this.Navigation.PopAsync();
     }
     private void btnCleanFields_Click(object sender, EventArgs e)
@@ -174,18 +177,18 @@ public partial class RecipesPage : ContentPage
         txtDescription.Text = "";
         txtRecipeCarbohydrates.Text = "";
 
-        bl.Recipe.Name = "";
-        bl.Recipe.Description = "";
+        bl.CurrentRecipe.Name = "";
+        bl.CurrentRecipe.Description = "";
 
         loading = false;
-        FromUiToClass();
+        //FromUiToCurrentRecipe();
         RefreshUi();
     }
     private void txtName_TextChanged(object sender, EventArgs e)
     {
         if (!loading)
         {
-            bl.Recipe.Name = txtName.Text;
+            bl.CurrentRecipe.Name = txtName.Text;
             allRecipes = bl.SearchRecipes(txtName.Text, txtDescription.Text, 3);
             if (allRecipes != null)
             {
@@ -208,11 +211,13 @@ public partial class RecipesPage : ContentPage
     {
         if (chkCooked.IsChecked)
         {
-            txtRawToCookedRatio.IsVisible = true;
+            txtRawToCookedRatio.IsVisible = false;
+            lblCookedRaw.IsVisible = false;
         }
         else
         {
-            txtRawToCookedRatio.IsVisible = false;
+            txtRawToCookedRatio.IsVisible = true;
+            lblCookedRaw.IsVisible = true;
         }
     }
 }

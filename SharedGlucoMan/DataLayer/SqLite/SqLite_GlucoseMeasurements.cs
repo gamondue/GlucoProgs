@@ -1,7 +1,5 @@
 ﻿using gamon;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
 
 namespace GlucoMan
@@ -10,7 +8,7 @@ namespace GlucoMan
     {
         internal override int GetNextPrimaryKey()
         {
-            return GetNextTablePrimaryKey("GlucoseRecords", "IdGlucoseRecord");
+            return GetTableNextPrimaryKey("GlucoseRecords", "IdGlucoseRecord");
         }
         internal override List<GlucoseRecord> GetGlucoseRecords(
             DateTime? InitialInstant, DateTime? FinalInstant)
@@ -26,8 +24,8 @@ namespace GlucoMan
                         " FROM GlucoseRecords";
                     if (InitialInstant != null && FinalInstant != null)
                     {   // add WHERE clause
-                        query += " WHERE Timestamp BETWEEN " + ((DateTime)InitialInstant).ToString("YYYY-MM-DD") +
-                            " AND " + ((DateTime)FinalInstant).ToString("YYYY-MM-DD");
+                        query += " WHERE Timestamp BETWEEN " + SqliteSafe.Date(InitialInstant) +
+                            " AND " + SqliteSafe.Date(FinalInstant);
                     }
                     query += " ORDER BY Timestamp DESC";
                     cmd = new SqliteCommand(query);

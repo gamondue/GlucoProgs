@@ -112,7 +112,7 @@
             this.btnCopyDatabase.TabIndex = 4;
             this.btnCopyDatabase.Text = "Copy files";
             this.btnCopyDatabase.UseVisualStyleBackColor = true;
-            this.btnCopyDatabase.Click += new System.EventHandler(this.btnCopyDatabase_Click);
+            this.btnCopyDatabase.Click += new System.EventHandler(this.btnCopyDatabase_ClickAsync);
             // 
             // btnShowErrorLog
             // 
@@ -155,7 +155,7 @@
             this.btnReadDatabase.TabIndex = 8;
             this.btnReadDatabase.Text = "Read all database";
             this.btnReadDatabase.UseVisualStyleBackColor = false;
-            this.btnReadDatabase.Click += new System.EventHandler(this.btnReadDatabase_Click);
+            this.btnReadDatabase.Click += new System.EventHandler(this.btnReadDatabase_ClickAsync);
             // 
             // frmMiscellaneous
             // 

@@ -12,5 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Accuracy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonDataMaui.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctionsMaui.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IFileService.cs" />
   </ItemGroup>
 </Project>

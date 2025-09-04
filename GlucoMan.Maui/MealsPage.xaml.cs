@@ -83,7 +83,7 @@ public partial class MealsPage : ContentPage
     {
         DateTime now = DateTime.Now;
         allTheMeals = bl.GetMeals(
-            now.Subtract(new TimeSpan(120, 00, 0, 0)),
+            now.Subtract(new TimeSpan(180, 00, 0, 0)),
             now.AddDays(1));
         gridMeals.BindingContext = allTheMeals;
     }

@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Collections;
-using gamon;
+﻿using gamon;
 
 namespace GlucoMan.BusinessLayer
 {
@@ -12,7 +10,7 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.SaveParameter(FieldName, FieldValue);
         }
-        public  string RestoreParameter(string FieldName)
+        public string RestoreParameter(string FieldName)
         {
             return dl.RestoreParameter(FieldName);
         }
@@ -20,29 +18,50 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.DeleteDatabase();
         }
-        internal bool ExportProgramsFiles()
+        internal async Task<bool> ExportProgramsFiles()
         {
             try
             {
+#if ANDROID
+                // if the user has not given the permissions, then return false
+                if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
+                    return false;
+#endif
+                // log of errors file
+                string exportedLogOfProgram = Path.Combine(Common.PathImportExport, Path.GetFileName(General.LogOfProgram.ErrorsFile));
+                if (File.Exists(General.LogOfProgram.ErrorsFile))
+                {
+#if ANDROID
+                    await AndroidExternalFilesHelper.SaveFileToExternalPublicDirectoryAsync(General.LogOfProgram.ErrorsFile, exportedLogOfProgram);
+#else
+                    File.Copy(General.LogOfProgram.ErrorsFile, exportedLogOfProgram, true);
+#endif
+                }
                 // database file
-                string exportedDatabase = Path.Combine(Common.PathImportExport, Common.DatabaseFileName);
-                File.Copy(Common.PathAndFileDatabase, exportedDatabase, true);
-
-                // log of errors 
-                string exportedLogOfProgram = Path.Combine(Common.PathImportExport, 
-                    Path.GetFileName (General.LogOfProgram.ErrorsFile)); 
-                File.Copy(General.LogOfProgram.ErrorsFile, exportedLogOfProgram, true);
-
                 // log of insulin correction parameters 
-                string exportedLogOfParameters = Path.Combine(Common.PathImportExport,
-                    Common.LogOfParametersFileName); 
-                File.Copy(Common.PathAndFileLogOfParameters, exportedLogOfParameters, true);
-
+                string exportedLogOfParameters = Path.Combine(Common.PathImportExport, Common.LogOfParametersFileName);
+                if (File.Exists(exportedLogOfParameters))
+                {
+#if ANDROID
+                    await AndroidExternalFilesHelper.SaveFileToExternalPublicDirectoryAsync(Common.PathAndFileLogOfParameters, exportedLogOfParameters);
+#else
+                    File.Copy(Common.PathAndFileLogOfParameters, exportedLogOfParameters, true);
+#endif
+                }
+                string exportedDatabase = Path.Combine(Common.PathImportExport, Common.DatabaseFileName);
+                if (File.Exists(Common.PathAndFileDatabase))
+                {
+#if ANDROID
+                    await AndroidExternalFilesHelper.SaveFileToExternalPublicDirectoryAsync(Common.PathAndFileDatabase, exportedDatabase);
+#else
+                    File.Copy(Common.PathAndFileDatabase, exportedDatabase, true);
+#endif
+                }
                 return true;
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("ExportProgramsFiles", ex); 
+                General.LogOfProgram.Error("ExportProgramsFiles", ex);
                 return false;
             }
         }
@@ -54,7 +73,7 @@ namespace GlucoMan.BusinessLayer
             List<Food> source = dlImport.GetFoods();
             List<Food> destination = dl.GetFoods();
 
-            foreach(Food destFood in destination)
+            foreach (Food destFood in destination)
             {
                 foreach (Food sourceFood in source)
                 {
@@ -62,21 +81,23 @@ namespace GlucoMan.BusinessLayer
                     // !!!! TODO !!!! 
                 }
             }
-            return false; 
+            return false;
         }
-
-        internal bool ReadDatabaseFromExternal(string pathAndFileInternalDatabase, string pathAndFileExternalDatabase)
+        internal async Task<bool> ReadDatabaseFromExternal(string pathAndFileInternalDatabase, string pathAndFileExternalDatabase)
         {
             try
             {
-                string backupFile = Path.Combine(Common.PathImportExport, Common.DatabaseFileName.Replace(".Sqlite", "_backup.Sqlite"));
-                if (File.Exists(pathAndFileInternalDatabase))
-                {
-                    File.Copy(pathAndFileInternalDatabase, backupFile, true);
-                    //File.Delete(pathAndFileInternalDatabase);
-                    //File.Create(pathAndFileInternalDatabase); 
-                }
+                string backupFile = Path.Combine(Common.PathDatabase, Common.DatabaseFileName.Replace(".Sqlite", "_backup.Sqlite"));
+                // backup the current database, in Android it is in internal storage, so we can use the class File 
+                File.Copy(pathAndFileInternalDatabase, backupFile, true);
+#if ANDROID
+                // if the user has not given the permissions, then return false
+                if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
+                    return false;
+                return await AndroidExternalFilesHelper.ReadFileFromExternalStorageAsync(pathAndFileExternalDatabase, pathAndFileInternalDatabase);
+#else
                 File.Copy(pathAndFileExternalDatabase, pathAndFileInternalDatabase, true);
+#endif
                 return true;
             }
             catch (Exception ex)
@@ -86,7 +107,7 @@ namespace GlucoMan.BusinessLayer
             }
         }
         internal void CreateNewDatabase()
-        { 
+        {
             dl.CreateNewDatabase(Common.PathAndFileDatabase);
         }
     }

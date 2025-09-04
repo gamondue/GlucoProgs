@@ -6,32 +6,41 @@
     <VerticalStackLayout>
         <HorizontalStackLayout>
             <HorizontalStackLayout>
-                <Button x:Name="btnSaveInjection" Text="Save" Clicked="btnSaveInjection_Clicked"/>
+                <Button x:Name="btnSaveInjection" Text="Save" 
+                        ToolTipProperties.Text="Saves the injection point"
+                        Clicked="btnSaveInjection_Clicked"/>
             </HorizontalStackLayout>
             <HorizontalStackLayout x:Name="stackEditingOptions" Margin="0" Padding="0">
-                <CheckBox x:Name="EditorCheckBox" HorizontalOptions="Start" CheckedChanged="CheckedChanged"/>
-                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Ed.</Label>
-                <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="Start"/>
-                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start">Del</Label>
-                <Button x:Name="btnSavePoints" Text="Sv.p." Clicked="btnSavePoints_Clicked" />
-                <Button x:Name="btnClear" Text="Dl.p." Clicked="btnClear_Click" />
+                <CheckBox x:Name="EditorCheckBox" HorizontalOptions="Start" 
+                          ToolTipProperties.Text="Edits the reference points if checked"
+                          CheckedChanged="CheckedChanged"/>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start"
+                       ToolTipProperties.Text="Edits the reference points if checked">Ed.</Label>
+                <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="Start"
+                          ToolTipProperties.Text="Deletes the reference points if checked"/>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Start"
+                       ToolTipProperties.Text="Deletes the reference points if checked">Del</Label>
+                <Button x:Name="btnSavePoints" Text="Sv.p." Clicked="btnSavePoints_Clicked"
+                        ToolTipProperties.Text="Saves the reference points"/>
+                <Button x:Name="btnClear" Text="Cl.p." Clicked="btnClear_Click"
+                        ToolTipProperties.Text="Clears all reference points"/>
             </HorizontalStackLayout>
         </HorizontalStackLayout>
         <Grid>
-            
-            <Image Source="Fronte.png" Scale="1"
-               HeightRequest="600"
-               WidthRequest="400"
-                   VerticalOptions="Start"
-                   HorizontalOptions="Center">
+            <Image Source="fronte.png" Scale="1"
+                HeightRequest="1344"
+                WidthRequest="851"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                ToolTipProperties.Text="Click on this image to set the point">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                 </Image.GestureRecognizers>
             </Image>
             <GraphicsView x:Name="cerchiGraphicsView"
                     Drawable="{StaticResource drawable}"
-                    HeightRequest="600"
-                    WidthRequest="400"
+                    HeightRequest="1344"
+                    WidthRequest="851"
                     VerticalOptions="Start"
                     HorizontalOptions="Center">
                 <GraphicsView.GestureRecognizers>

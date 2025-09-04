@@ -10,7 +10,7 @@ namespace NUnitTests
         public void Setup()
         {
             Common.SetGlobalParameters();
-            Common.GeneralInitializations(); // from CommonFunctions.cs
+            Common.GeneralInitializationsAsync(); // from CommonFunctions.cs
             bl = new();
         }
 

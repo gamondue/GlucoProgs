@@ -10,18 +10,19 @@ namespace GlucoMan
         public static string PathUsersDownload;
 
         public static string PathConfigurationData;
-        public static string PathProgramsData;
-        //PathProgramsData = Path.Combine(Common.LocalApplicationPath, @"Data");
         public static string PathLogs;
-        // PathLogs = Path.Combine(Common.LocalApplicationPath, @"Logs");
         public static string PathDatabase;
-        // PathDatabase = Path.Combine(Common.LocalApplicationPath, @"Data");
         public static string PathAndFileDatabase;
-        // PathAndFileDatabase = Path.Combine(Common.PathDatabase, Common.DatabaseFileName);
         public static string PathImportExport;
-        // PathImportExport = Path.Combine(Common.ExternalPublicPath, @"Glucoman");
         public static string PathAndFileLogOfParameters;
-        // PathAndFileLogOfParameters = Path.Combine(Common.PathLogs, LogOfParametersFileName);
+
+        // paths for Android
+        public static string CommonApplicationPath;
+        public static string LocalApplicationPath;
+        public static string ExternalPublicPath;
+        //public static string AppDataDirectoryPath;
+        //public static string CacheDirectoryPath;
+        //public static string myDocPath;
 
         internal static DataLayer Database;
         public static BL_General BlGeneral;
