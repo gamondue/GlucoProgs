@@ -154,6 +154,47 @@ namespace GlucoMan
             }
             return g;
         }
+        // get all the injections of type Short, Rapid or Intermediate between InitialInstant and FinalInstant
+        internal override List<Injection> GetQuickInjections(DateTime InitialInstant,
+            DateTime FinalInstant)
+        {
+            List<Injection> list = new List<Injection>();
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
+                {
+                    string query = "SELECT *" +
+                        " FROM Injections";
+                    if (InitialInstant != null && FinalInstant != null)
+                    {   // add WHERE clause
+                        query += " WHERE Timestamp BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd HH:mm:ss") +
+                            "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd HH:mm:ss") + "'";
+                        query += " AND (IdTypeOfInsulinAction=" + Common.TypeOfInsulinAction.Short;
+                        query += " OR IdTypeOfInsulinAction=" + Common.TypeOfInsulinAction.Rapid;
+                        query += " OR IdTypeOfInsulinAction=" + Common.TypeOfInsulinAction.Intermediate;
+                        query += ")";
+                        query += " ORDER BY Timestamp DESC, IdInjection;";
+                        cmd = new SqliteCommand(query);
+                        cmd.Connection = conn;
+                        dRead = cmd.ExecuteReader();
+                        while (dRead.Read())
+                        {
+                            Injection g = GetInjectionFromRow(dRead);
+                            list.Add(g);
+                        }
+                        dRead.Dispose();
+                        cmd.Dispose();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_BolusesAndInjections | GetQuickInjections", ex);
+            }
+            return list;
+        }
         internal override List<Injection> GetInjections(DateTime InitialInstant, DateTime FinalInstant, 
             Common.TypeOfInsulinAction TypeOfInsulinAction = Common.TypeOfInsulinAction.NotSet, 
             Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet,

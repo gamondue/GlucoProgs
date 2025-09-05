@@ -117,8 +117,7 @@ namespace GlucoMan.BusinessLayer
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
                 // calculate embarked insulin for Rapid insulin  
-                // TODO calculate embarked insulin for each TypeOfInsulinAction !!!!
-                CalculateEmbarkedInsulin(DateTime.Now, Common.TypeOfInsulinAction.Rapid);
+                CalculateTotalEmbarkedQuickInsulin(DateTime.Now);
                 switch (MealOfBolus.IdTypeOfMeal)
                 {
                     case (Common.TypeOfMeal.Breakfast):
@@ -284,17 +283,29 @@ namespace GlucoMan.BusinessLayer
         {
             dl.SaveOneInjection(Injection);
         }
-        public double CalculateEmbarkedInsulin(DateTime LastInjectionTargetTime, Common.TypeOfInsulinAction InsulinSpeed)
+        public double CalculateTotalEmbarkedQuickInsulin(DateTime EvaluationTime)
         {
             DateTime FinalInstant = DateTime.Now;
             //DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(0, (int)(InsulinDurationInHours(InsulinSpeed) * 60), 0)); ;
             DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(40, 0, 0)); ;
 
             List<Injection> bolusesInTheLast40Hours =
-                dl.GetInjections(InitialInstant, FinalInstant, InsulinSpeed);
+                dl.GetQuickInjections(InitialInstant, FinalInstant);
             EmbarkedInsulin.Double = 0;
             foreach (Injection ii in bolusesInTheLast40Hours)
             {
+                InsulinDrug id = GetOneInsulinDrug(ii.IdInsulinDrug);
+                if (id == null)
+                {
+                    // insulin drug not existent,
+                    // give default values for Rapid insulin
+                    id = new InsulinDrug
+                    {
+                        DurationInHours = 4,
+                        OnsetTimeTimeInHours = 0,
+                        PeakTimeInHours = 2
+                    };
+                }
                 TimeSpan timeFromInjection = FinalInstant.Subtract((DateTime)ii.Timestamp.DateTime);
                 if (ii.IdTypeOfInsulinAction == null)
                     break;
@@ -317,17 +328,64 @@ namespace GlucoMan.BusinessLayer
                 double partialEmbarkedInsulin = 0;
                 if (ii.InsulinValue.Double != null)
                 {
-                    partialEmbarkedInsulin = (double)ii.InsulinValue.Double
-                        * (1 - timeFromInjection.TotalHours / insulinDurationInHours);
-                    if (partialEmbarkedInsulin > 0)
-                        EmbarkedInsulin.Double += partialEmbarkedInsulin;
+                    //partialEmbarkedInsulin = (double)ii.InsulinValue.Double
+                    //    * (1 - HoursFromInjection.TotalHours / insulinDurationInHours);
+                    //if (partialEmbarkedInsulin > 0)
+                    //    EmbarkedInsulin.Double += partialEmbarkedInsulin;
+                    partialEmbarkedInsulin = (double)GetPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(
+                        id , (DateTime)ii.Timestamp.DateTime, DateTime.Now);
                 }
+                EmbarkedInsulin.Double += partialEmbarkedInsulin;
             }
             if (EmbarkedInsulin.Double < 0)
                 EmbarkedInsulin.Double = 0;
             return (double)EmbarkedInsulin.Double;
         }
-        // "historic" method tha shows how the InsulinDuration was hard encoded. Now it is in the database
+        private double? GetPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(InsulinDrug Insulin,
+                        DateTime InjectionTime, DateTime EvaluationTime)
+        {
+            double hoursFromInjection = EvaluationTime.Subtract(InjectionTime).TotalHours;
+
+            // integral of the insulin still to be consumed at the evaluation time
+            // initial value of the integral (sum)
+            double percentEmbarkedInsulin = 0;
+            // time step of the integral (sum)
+            double step = 1 / 60.0; // one minute in hours
+            double cumulativeTime = hoursFromInjection;
+            int loopCount = 0;
+            // loop of one minute step from evaluation time to the time when insulins action ends
+            while (cumulativeTime < Insulin.DurationInHours)
+            {
+                double instantActivityPercent = (double)(GetInstantActivityPercent(
+                    Insulin, cumulativeTime) ?? 0);
+                percentEmbarkedInsulin += instantActivityPercent;
+                cumulativeTime += step;
+                loopCount++;
+            }
+            
+            // scale the integral (sum) multpliing by the sum of times of integration
+            percentEmbarkedInsulin = percentEmbarkedInsulin * loopCount * step;
+
+            return percentEmbarkedInsulin;
+        }
+        private double? GetInstantActivityPercent(InsulinDrug Insulin, double HoursFromInjection)
+        {
+            // activation phase
+            if (HoursFromInjection < Insulin.OnsetTimeTimeInHours || HoursFromInjection > Insulin.DurationInHours)
+                return 0;
+            // ramp up phase
+            if (HoursFromInjection <= Insulin.PeakTimeInHours)
+            {
+                return 100 * (HoursFromInjection - Insulin.OnsetTimeTimeInHours) / (Insulin.PeakTimeInHours - Insulin.OnsetTimeTimeInHours);
+            }
+            // descent phase
+            else
+            {
+                return 100 * (1 - (HoursFromInjection - Insulin.PeakTimeInHours) / (Insulin.DurationInHours - Insulin.PeakTimeInHours));
+            }
+        }
+
+        // "historic" method that shows how the InsulinDuration was hard encoded. Now it is in the database
         internal double InsulinDurationInHours(Common.TypeOfInsulinAction InsulinSpeed)
         {
             switch (InsulinSpeed)
@@ -427,7 +485,6 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.GetAllInsulinDrugs(Acting);
         }
-
         internal bool CheckIfInjectionHasValue(Injection injection)
         {
             // if the injection has a valid insulin value (greater than zero)
@@ -447,7 +504,6 @@ namespace GlucoMan.BusinessLayer
                 return true;
             }
         }
-
         internal bool CheckIfInjectionHasLocation(Injection injection)
         {
             // check if the injection has a valid location (X and Y between 0 and 1)

@@ -165,7 +165,7 @@ public partial class InjectionsPage : ContentPage
     }
     private async Task<bool> abortAfterChecksBeforeSavings()
     {
-        bool abort = true;
+        bool abort = false;
         if (!bl.CheckIfInjectionHasValue(CurrentInjection))
         {
             if (await DisplayAlert("", "Missing value of bolus.\nShould we save without it?", "Save", "Abort"))
@@ -273,7 +273,7 @@ public partial class InjectionsPage : ContentPage
         {
             if (await DisplayAlert("", "The new injection had already a 'hidden' position set." +
                 "\nAre you sure that you want to save this position that you didn't set" +
-                " as the position of your new injection?", "Forget", "Save"))
+                " as the position of your new injection?", "Don't Save", "Save"))
                 return;
         }
         FromUiToClass();
@@ -284,6 +284,7 @@ public partial class InjectionsPage : ContentPage
         if (chkNowInAdd.IsChecked)
         {
             DateTime now = DateTime.Now;
+            CurrentInjection.Timestamp.DateTime = now;
             dtpInjectionDate.Date = now;
             dtpInjectionTime.Time = now.TimeOfDay;
         }
