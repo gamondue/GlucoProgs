@@ -5,9 +5,9 @@
              Title="Insulin and other injections">
     
     <ContentPage.Content>
-        <Grid RowDefinitions="Auto,
+        <Grid RowDefinitions="25,
               Auto,Auto,50,Auto,50,
-              Auto,Auto,Auto,Auto,*"
+              30,Auto,Auto,Auto,*"
               ColumnDefinitions="*,*,*,*">
             <Button Grid.Row="1" Grid.Column="0" Text="Front" x:Name="btnFront" Margin="1"
                 ToolTipProperties.Text="Front: opens a new Front injections' picture page"
@@ -26,16 +26,20 @@
                     ToolTipProperties.Text="Sensors: opens a new Sensors positions' picture page"
                     Clicked="btnSensors_Clicked_Async"/>
             
-            <CheckBox Grid.Row="0" Grid.Column="0" HorizontalOptions="Center"
+            <CheckBox Grid.Row="0" Grid.Column="0" 
+                      HorizontalOptions="Center" VerticalOptions="Center"
                       x:Name ="chkFront" CheckedChanged="chkChanged" IsChecked="False" 
                       ToolTipProperties.Text="Filter front: adds to the list the injections made in the Front zone"/>
-            <CheckBox Grid.Row="0" Grid.Column="1" HorizontalOptions="Center"
+            <CheckBox Grid.Row="0" Grid.Column="1" 
+                      HorizontalOptions="Center" VerticalOptions="Center"
                       x:Name ="chkBack" CheckedChanged="chkChanged" IsChecked="False"
                       ToolTipProperties.Text="Filter back: adds to the list the injections made in the Back zone"/>
-            <CheckBox Grid.Row="0" Grid.Column="2" HorizontalOptions="Center"
+            <CheckBox Grid.Row="0" Grid.Column="2" 
+                      HorizontalOptions="Center" VerticalOptions="Center"
                       x:Name ="chkHands" CheckedChanged="chkChanged" IsChecked="False" 
                       ToolTipProperties.Text="Filter hands: adds to the list the blood sampling punctures"/>
-            <CheckBox Grid.Row="0" Grid.Column="3" HorizontalOptions="Center"
+            <CheckBox Grid.Row="0" Grid.Column="3" 
+                      HorizontalOptions="Center" VerticalOptions="Center"
                       x:Name ="chkSensors" CheckedChanged="chkChanged" IsChecked="False"
                       ToolTipProperties.Text="Filter sensor: adds to the list the sensors installed"/>
 

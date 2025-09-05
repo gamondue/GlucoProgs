@@ -125,7 +125,8 @@
             <!--Text="Details"-->
             <HorizontalStackLayout Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
                                    VerticalOptions="Center">
-                <CheckBox VerticalOptions="Center" x:Name="chkNowInAdd" 
+                <CheckBox x:Name="chkNowInAdd"
+                          VerticalOptions="Center"  HorizontalOptions="Center"
                           ToolTipProperties.Text="If set uses the current instant (now) in the new injection (+), if not set uses the value in the UI"
                           IsChecked="True">
                     <CheckBox.Margin>
@@ -135,7 +136,8 @@
                         </OnPlatform>
                     </CheckBox.Margin>
                 </CheckBox>
-                <Label VerticalTextAlignment="Start" VerticalOptions="Center" 
+                <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Center"
+                       VerticalOptions="Center"  HorizontalOptions="Center"                       
                        Text="Add with Now as time"
                        ToolTipProperties.Text="If set uses the current instant (now) in the new injection (+), if not set uses the value in the UI">
                     <Label.GestureRecognizers>
