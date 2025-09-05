@@ -105,13 +105,21 @@ namespace GlucoMan.Maui
         }
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
+            // Debug per capire cosa viene disegnato
+            System.Diagnostics.Debug.WriteLine($"Draw - isCallerEditing: {isCallerEditing}");
+            System.Diagnostics.Debug.WriteLine($"Draw - ReferencePoints count: {ReferencePointsCoordinates.Count}");
+            System.Diagnostics.Debug.WriteLine($"Draw - InjectionPoints count: {InjectionPointsCoordinates.Count}");
+            
             if (isCallerEditing)
             {
+                // PUNTINI BLU - sempre uguali (punti di riferimento)
+                System.Diagnostics.Debug.WriteLine("Drawing BLUE reference points");
                 foreach (Microsoft.Maui.Graphics.Point point in ReferencePointsCoordinates)
                 {
-                    canvas.StrokeColor = Colors.Blue;
+                    // Forza colore blu fisso per evitare problemi di rendering su Windows
+                    canvas.StrokeColor = Color.FromRgb(0, 0, 255);  // Blu fisso
                     canvas.StrokeSize = Math.Max(1f, CurrentReferenceRadius / 3f);
-                    canvas.FillColor = Colors.Blue;
+                    canvas.FillColor = Color.FromRgb(0, 0, 255);    // Blu fisso
                     // Disegna cerchio pieno usando il raggio scalato
                     canvas.FillEllipse(
                         (float)(point.X - CurrentReferenceRadius),
@@ -123,6 +131,8 @@ namespace GlucoMan.Maui
             }
             else
             {
+                // CERCHI COLORATI - con saturazione variabile (iniezioni)
+                System.Diagnostics.Debug.WriteLine("Drawing COLORED injection points");
                 DateTime now = DateTime.Now;
                 foreach (CircleData point in InjectionPointsCoordinates)
                 {
@@ -263,7 +273,15 @@ namespace GlucoMan.Maui
         {
             int circleHue = 240; 
             DateTime now = DateTime.Now;
-            double minimalSaturation = 255 * 0.7;
+            double maximalSaturation = 100;
+            double minimalSaturation = 20;
+            
+            // Parametri per la trasparenza
+            double maximalAlpha = 1.0;      // Completamente opaco (iniezioni recenti)
+            double minimalAlpha = 0.1;      // Quasi trasparente (iniezioni vecchie)
+            
+            System.Diagnostics.Debug.WriteLine($"LoadInjectionsCoordinates - Loading {allRecentInjections.Count} injections");
+            
             foreach (Injection injection in allRecentInjections)
             {
                 if (injection.PositionX != null && injection.PositionY != null)
@@ -274,32 +292,47 @@ namespace GlucoMan.Maui
                         if (injection.IdInjection != idCurrentInjection)
                         {
                             double diffInDays = now.Subtract((DateTime)injection.Timestamp.DateTime).TotalDays;
-                            //double saturation = (1 - diffInDays / circlesVisibilityMaxTimeInDays);
-                            double saturation = minimalSaturation + (255 - minimalSaturation) * diffInDays / circlesVisibilityMaxTimeInDays;
-                            if (saturation < 0)
-                                saturation = 0;
-                            if (saturation > 255)
-                                saturation = 255;
-                            HSV circleColorHsv = new HSV(circleHue, saturation, 1);
+                            
+                            // Formula per saturazione: iniezioni recenti hanno saturazione alta, vecchie hanno saturazione bassa
+                            double saturation = maximalSaturation - (maximalSaturation - minimalSaturation) * diffInDays / circlesVisibilityMaxTimeInDays;
+                            
+                            if (saturation < minimalSaturation)
+                                saturation = minimalSaturation;
+                            if (saturation > maximalSaturation)
+                                saturation = maximalSaturation;
+                                
+                            // Formula per trasparenza: iniezioni recenti sono opache, vecchie sono trasparenti
+                            double alpha = maximalAlpha - (maximalAlpha - minimalAlpha) * diffInDays / circlesVisibilityMaxTimeInDays;
+                            
+                            if (alpha < minimalAlpha)
+                                alpha = minimalAlpha;
+                            if (alpha > maximalAlpha)
+                                alpha = maximalAlpha;
+                                
+                            HSV circleColorHsv = new HSV(circleHue, saturation / 100.0, 1); // Saturazione in range 0-1
                             RGB circleColorRgb = new RGB(255, 0, 0);
                             ColorConverter.HSV2RGB(circleColorHsv, circleColorRgb);
                             circleColor = new Color(
                                 circleColorRgb.Red / 255f,
                                 circleColorRgb.Green / 255f,
                                 circleColorRgb.Blue / 255f,
-                                1 // (float)saturation
+                                (float)alpha  // Applica la trasparenza calcolata
                             );
+                            
+                            System.Diagnostics.Debug.WriteLine($"Injection {injection.IdInjection}: diffInDays={diffInDays:F2}, saturation={saturation:F2}, alpha={alpha:F2}, RGB=({circleColorRgb.Red},{circleColorRgb.Green},{circleColorRgb.Blue})");
                         }
                         else
                         {
-                            // the current injection is drawn in green
+                            // the current injection is drawn in green (completamente opaco)
                             circleColor = Colors.Green;
+                            System.Diagnostics.Debug.WriteLine($"Current injection {injection.IdInjection}: GREEN");
                         }
                     }
                     else
                     {
-                        // the "to be" injection is drawn in red
+                        // the "to be" injection is drawn in red (completamente opaco)
                         circleColor = Colors.Red;
+                        System.Diagnostics.Debug.WriteLine($"To-be injection: RED");
                     }
                     // multiply by image height and width to bring the coordinates from 
                     // normalized (from 0 to 1) to real.

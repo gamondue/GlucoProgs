@@ -20,8 +20,8 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         InitializeComponent();
 
         // Fill the combos with the insulins
-        ShortActingInsulins = bl.GetAllInsulinDrugs(Common.TypeOfInsulinAction.ShortActing);
-        LongActingInsulins = bl.GetAllInsulinDrugs(Common.TypeOfInsulinAction.LongActing);
+        ShortActingInsulins = bl.GetAllInsulinDrugs(Common.TypeOfInsulinAction.Short);
+        LongActingInsulins = bl.GetAllInsulinDrugs(Common.TypeOfInsulinAction.Long);
         
         cmbShortActingInsulin.ItemsSource = ShortActingInsulins;
         cmbLongActingInsulin.ItemsSource = LongActingInsulins;

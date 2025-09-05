@@ -9,7 +9,8 @@
             <Grid x:Name="mealSection" Grid.Row="0"
                   RowDefinitions="0,
                     20,50,50,50"
-                  ColumnDefinitions="60*,60*,70*,70*,80*">
+                  ColumnDefinitions="60*,
+                  60*,70*,70*,80*">
                 <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold"
                     Grid.ColumnSpan="5" Text="Meal data" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                     LineBreakMode="WordWrap"/>
@@ -109,26 +110,27 @@
                 <Label Grid.Row="1" Grid.Column="2" Text="Accuracy" Grid.ColumnSpan="2" 
                         HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-                <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
-                    <Entry x:Name="txtFoodInMealName" WidthRequest="186"
+                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
+                    ColumnDefinitions="*,60,110">
+                    <Entry x:Name="txtFoodInMealName" Grid.Column="0"
                        BackgroundColor="LightGreen" TextColor="Black"
                     ToolTipProperties.Text="Name: short name of this food of meal"
                     Margin="1"  HorizontalTextAlignment="Start"/>
                     <!--Text="{Binding Name}"-->
-                    <Entry x:Name="txtAccuracyOfChoFoodInMeal" WidthRequest="40"
+                    <Entry x:Name="txtAccuracyOfChoFoodInMeal" Grid.Column="1"
                     Margin="1" Keyboard="Numeric" HorizontalTextAlignment="End" 
                     ToolTipProperties.Text="Accuracy: percent numerical accuracy of food [%]"
                     BackgroundColor="LightGreen" TextColor="Black"/>
                     <!--Text="{Binding AccuracyOfChoEstimate}"-->
                     <!--Unfocused="txtAccuracyOfChoFoodInMeal_Unfocused"-->
-                </HorizontalStackLayout>
-                <Picker Grid.Row="2" Grid.Column="3" x:Name="cmbAccuracyFoodInMeal"
-                    Margin="1" HorizontalTextAlignment="End"
-                    ToolTipProperties.Text="Accuracy: qualitative accuracy of this food, as a word"
-                    BackgroundColor="PaleGoldenrod" TextColor="Black"
-                    SelectedIndexChanged="cmbAccuracyFoodInMeal_SelectedIndexChanged"/>
+                    <Picker x:Name="cmbAccuracyFoodInMeal" Grid.Column="2"
+                        Margin="1" HorizontalTextAlignment="End"
+                        ToolTipProperties.Text="Accuracy: qualitative accuracy of this food, as a word"
+                        BackgroundColor="PaleGoldenrod" TextColor="Black"
+                        SelectedIndexChanged="cmbAccuracyFoodInMeal_SelectedIndexChanged"/>
                 <!--ItemsSource="{Binding Common.QualitativeAccuracy}" 
                     SelectedItem="{Binding NotSet, Mode=TwoWay}"-->
+                </Grid>
                 <Grid Grid.Row="2" Grid.Column="4">
                     <Grid.RowDefinitions>
                         <RowDefinition />

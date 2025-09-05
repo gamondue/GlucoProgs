@@ -25,11 +25,11 @@ namespace GlucoMan.BusinessLayer
             TimeSpan timeOfDay = DateTime.Now.TimeOfDay;
             if (timeOfDay > new TimeSpan(2, 0, 0) && timeOfDay < new TimeSpan(22, 0, 0))
             {
-                Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.ShortActing;
+                Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.Short;
             }
             else
             {
-                Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.LongActing;
+                Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.Long;
             }
         }
         public DoubleAndText TargetGlucose { get; set; }
@@ -116,9 +116,9 @@ namespace GlucoMan.BusinessLayer
                 // insulin sensitivity is now calculated in a specific method: CalculateInsulinCorrectionSensitivity()
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
-                // calculate embarked insulin for RapidActing insulin  
+                // calculate embarked insulin for Rapid insulin  
                 // TODO calculate embarked insulin for each TypeOfInsulinAction !!!!
-                CalculateEmbarkedInsulin(DateTime.Now, Common.TypeOfInsulinAction.RapidActing);
+                CalculateEmbarkedInsulin(DateTime.Now, Common.TypeOfInsulinAction.Rapid);
                 switch (MealOfBolus.IdTypeOfMeal)
                 {
                     case (Common.TypeOfMeal.Breakfast):
@@ -332,19 +332,19 @@ namespace GlucoMan.BusinessLayer
         {
             switch (InsulinSpeed)
             {
-                case Common.TypeOfInsulinAction.RapidActing:
+                case Common.TypeOfInsulinAction.Rapid:
                     {
                         return 3;
                     }
-                case Common.TypeOfInsulinAction.ShortActing:
+                case Common.TypeOfInsulinAction.Short:
                     {
                         return 4.5;
                     }
-                case Common.TypeOfInsulinAction.IntermediateActing:
+                case Common.TypeOfInsulinAction.Intermediate:
                     {
                         return 12 - 0 + (18.0 - 12) / 2.0;
                     }
-                case Common.TypeOfInsulinAction.LongActing:
+                case Common.TypeOfInsulinAction.Long:
                     {
                         return 24;
                     }
@@ -352,10 +352,10 @@ namespace GlucoMan.BusinessLayer
                     {
                         return 0;
                     }
-                    //RapidActing = 10, // about 15 minutes to start working, peaks in 1-2 hours, and lasts for 2-4 hours
-                    //ShortActing = 20, // 30 minutes to start working, peaks in 2-3 hours, and lasts for 3-6 hours.
-                    //IntermediateActing = 30, // about 2-4 hours to start working, peaks in 4-12 hours, and lasts for 12-18 hours.
-                    //LongActing = 40 // 1-2 hours to start working, has no peak effect, and lasts for 24+ hours
+                    //Rapid = 10, // about 15 minutes to start working, peaks in 1-2 hours, and lasts for 2-4 hours
+                    //Short = 20, // 30 minutes to start working, peaks in 2-3 hours, and lasts for 3-6 hours.
+                    //Intermediate = 30, // about 2-4 hours to start working, peaks in 4-12 hours, and lasts for 12-18 hours.
+                    //Long = 40 // 1-2 hours to start working, has no peak effect, and lasts for 24+ hours
             };
         }
         internal void DeleteAllReferenceCoordinates(Common.ZoneOfPosition Zone)
@@ -397,7 +397,7 @@ namespace GlucoMan.BusinessLayer
         }
         internal void SaveOneInjectionNormalizingXandY(Injection currentInjection, double width, double height)
         {
-            // clone the currentInjection object to avoid modifying it
+            // clone the Injection object to avoid modifying it
             // Clonare l'oggetto Injection manualmente
             Injection ii = new Injection
             {
@@ -426,6 +426,41 @@ namespace GlucoMan.BusinessLayer
         internal List<InsulinDrug>? GetAllInsulinDrugs(Common.TypeOfInsulinAction Acting)
         {
             return dl.GetAllInsulinDrugs(Acting);
+        }
+
+        internal bool CheckIfInjectionHasValue(Injection injection)
+        {
+            // if the injection has a valid insulin value (greater than zero)
+            // or doesn't need it (Hands or Sensor), return true
+            if (injection.Zone == Common.ZoneOfPosition.Hands || injection.Zone == Common.ZoneOfPosition.Sensor)
+            {
+                return true;
+            }
+            else
+            if (injection.InsulinValue.Double == null || injection.InsulinValue.Double <= 0)
+            {
+                statusMessage = "The value of insulin must be greater than zero.";
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        internal bool CheckIfInjectionHasLocation(Injection injection)
+        {
+            // check if the injection has a valid location (X and Y between 0 and 1)
+            if (injection.PositionX == null || injection.PositionX <= 0 || injection.PositionX > 1 ||
+                injection.PositionY == null || injection.PositionY <= 0 || injection.PositionY > 1)
+            {
+                statusMessage = "The location of the injection is not valid.";
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

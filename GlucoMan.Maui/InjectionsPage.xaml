@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GlucoMan.Maui.InjectionsPage"
              Title="Insulin and other injections">
+    
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,
-              Auto,Auto,60,Auto,60,
+              Auto,Auto,50,Auto,50,
               Auto,Auto,Auto,Auto,*"
               ColumnDefinitions="*,*,*,*">
             <Button Grid.Row="1" Grid.Column="0" Text="Front" x:Name="btnFront" Margin="1"
@@ -80,12 +81,20 @@
                     BackgroundColor="PaleGreen" TextColor="Black"
                     Format="HH:mm:ss"
                     HorizontalOptions="Center" />
-            <Button Grid.Row="5" Grid.Column="2" 
-                    ImageSource="clock.png"
-                    x:Name="btnNow" Margin="1"
-                    ToolTipProperties.Text="Now: set the time of this instant as the time of this injection"
-                    Clicked="btnNow_Click"></Button>
-            <!--Text="Now"-->
+            <Grid Grid.Row="5" Grid.Column="2" ColumnDefinitions="*,*">
+                <Button Grid.Row="0" Grid.Column="1" 
+                        ImageSource="clock.png"
+                        x:Name="btnNow" Margin="1"
+                        ToolTipProperties.Text="Now: set the time of this instant as the time of this injection"
+                        Clicked="btnNow_Click"></Button>
+                <!--Text="Now"-->
+                <Button Grid.Row="0" Grid.Column="0" Margin="2" 
+                    ImageSource="clear_fields.png"
+                    x:Name="btnDefaults" 
+                    ToolTipProperties.Text="Clear fields: clears all data in the UI" 
+                    FontSize="Micro" LineBreakMode="WordWrap"
+                    Clicked="btnDefault_Click"/>
+            </Grid>
             <Grid Grid.Row="5" Grid.Column="3" ColumnDefinitions="*, *">
 
                 <Button Grid.Row="0" Grid.Column="0" x:Name="btnAddInjection" Margin="1"
@@ -154,18 +163,18 @@
                     <DataTemplate>
                         <ViewCell>  
                             <ViewCell.View>
-                                <Grid ColumnDefinitions="*,55,55,55,55">
-                                    <Label Grid.Column="0" Text="{Binding Timestamp.DateTime}" 
-                                           HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                    <Label Grid.Column="1" Text="{Binding InsulinValue.Text}" 
-                                           HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                    <Label Grid.Column="2" Text="{Binding IdTypeOfInjection}" 
-                                           HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                    <Label Grid.Column="3" Text="{Binding IdTypeOfInsulinAction}" 
-                                           HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                    <Label Grid.Column="4" Text="{Binding IdInsulinDrug}" 
-                                           HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                </Grid>
+                                    <Grid ColumnDefinitions="*,55,55,55,55">
+                                        <Label Grid.Column="0" Text="{Binding Timestamp.DateTime}" 
+                                               HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" Text="{Binding InsulinValue.Text}" 
+                                               HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                        <Label Grid.Column="2" Text="{Binding TypeOfInjection}" 
+                                               HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                        <Label Grid.Column="3" Text="{Binding TypeOfInsulinAction}" 
+                                               HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                        <Label Grid.Column="4" Text="{Binding IdInsulinDrug}" 
+                                               HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                    </Grid>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>

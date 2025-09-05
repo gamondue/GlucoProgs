@@ -178,15 +178,44 @@ public partial class ClickableImagePage : ContentPage
         // we put the coordinate of the point in the injection object
         currentInjection.PositionX = allCircles.NormalizeXPosition(currentNearestReferencePosition.X);
         currentInjection.PositionY = allCircles.NormalizeYPosition(currentNearestReferencePosition.Y);
+        
+        // SOLUZIONE: Reset del flag editing prima di uscire
+        if (allCircles != null)
+        {
+            allCircles.IsCallerEditing = false;
+        }
+        editing = false;
+        
         // the zone and other data are already included in the currentInjection that has been passed
         // close the page
         this.Navigation.PopAsync();
     }
+    
     private void BtnForgetPosition_Clicked(object sender, EventArgs e)
     {
+        // SOLUZIONE: Reset del flag editing prima di uscire
+        if (allCircles != null)
+        {
+            allCircles.IsCallerEditing = false;
+        }
+        editing = false;
+        
         // if the user exits with another path the current position is forgotten
         this.Navigation.PopAsync();
     }
+
+    // Aggiungi override per gestire il back button
+    protected override void OnDisappearing()
+    {
+        // SOLUZIONE: Reset del flag quando la pagina viene chiusa
+        if (allCircles != null)
+        {
+            allCircles.IsCallerEditing = false;
+            System.Diagnostics.Debug.WriteLine("ClickableImagePage - OnDisappearing: Reset IsCallerEditing to false");
+        }
+        base.OnDisappearing();
+    }
+
     private void BtnClearReferencePoints_Click(object sender, EventArgs e)
     {
         allCircles.ClearAll(currentInjection.Zone);

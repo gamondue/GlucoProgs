@@ -11,8 +11,6 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     // layer beetween different pages
     private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
 
-    //private bool firstPass = true;
-
     private UiAccuracy accuracyMeal;
     private UiAccuracy accuracyFoodInMeal;
 
@@ -47,7 +45,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             Meal = new Meal();
             btnDefaults_Click(null, null);
         }
-        bl.Meal = Meal;
+         bl.Meal = Meal;
 
         if (bl.Meal.IdMeal == null || (bl.Meal.TimeBegin.DateTime + new TimeSpan(0, 15, 0) > DateTime.Now))
         {
@@ -240,7 +238,8 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             
             if (bl.FoodsInMeal == null)
                 bl.FoodsInMeal = new List<FoodInMeal>();
-            
+
+            FromBoxesFoodInMealToClass(); 
             // Save the food in meal
             var savedId = bl.SaveOneFoodInMeal(bl.FoodInMeal);
             if (savedId != null)
@@ -339,13 +338,6 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         recipesPage = new RecipesPage(null);
         Navigation.PushAsync(recipesPage);
     }
-    //private void btnSaveAllFoods_Click(object sender, EventArgs e)
-    //{
-    //    //FromUiToClasses();
-    //    bl.SaveOneFoodInMeal(bl.FoodInMeal).ToString();
-    //    bl.SaveAllFoodsInMeal();
-    //    RefreshGrid();
-    //}
     private void btnDefaults_Click(object sender, EventArgs e)
     {
         try
@@ -461,16 +453,24 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         } 
         try
         {
-            if (e.SelectedItem != bl.FoodInMeal)
+            var selectedFood = (FoodInMeal)e.SelectedItem;
+            
+            if (selectedFood != bl.FoodInMeal)
             {
-                if (bl.FoodInMeal.Name != null)
+                if (bl.FoodInMeal?.Name != null)
                 {
                     FromBoxesFoodInMealToClass();
                     bl.UpdateOldFoodInMealInList();
                     RefreshGrid();
                 }
-                bl.FoodInMeal = (FoodInMeal)e.SelectedItem;
+                bl.FoodInMeal = selectedFood;
+                ////////SelectedFoodInMeal = selectedFood;
                 FromClassToBoxesFoodInMeal();
+            }    
+            // Mantieni la selezione visibile
+            if (gridFoodsInMeal.SelectedItem != selectedFood)
+            {
+                gridFoodsInMeal.SelectedItem = selectedFood;
             }
         }
         catch (Exception ex)

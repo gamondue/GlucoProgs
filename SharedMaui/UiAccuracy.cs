@@ -72,15 +72,14 @@ namespace gamon
 
             // hookup useful events 
             Combo.SelectedIndexChanged += Combo_SelectedIndexChanged;
-            //Combo.Unfocused += Combo_Unfocused;
-            //Combo.PropertyChanged += Combo_MouseClick;
             TextBox.TextChanged += TextBox_TextChanged;
         }
         private void TextBox_TextChanged(object? sender, TextChangedEventArgs e)
         {
             double acc;
-            if (!txtQuantitative.IsLoaded || userChoseQualitative)
-                return;
+            //if (!txtQuantitative.IsLoaded || userChoseQualitative)
+            if (userChoseQualitative)
+                    return;
             editingNumericAccuracy = true;
             if (!double.TryParse(txtQuantitative.Text, out acc))
             {
@@ -88,6 +87,8 @@ namespace gamon
                 txtQuantitative.Text = "";
                 txtQuantitative.BackgroundColor = Colors.White;
                 txtQuantitative.TextColor = Colors.Black;
+                cmbQualitative.BackgroundColor =  Colors.White;
+                cmbQualitative.TextColor = Colors.Black;
             }
             else
             {
@@ -97,6 +98,8 @@ namespace gamon
                         GetQualitativeAccuracyGivenQuantitavive(acc);
                     txtQuantitative.BackgroundColor = AccuracyBackColor(acc);
                     txtQuantitative.TextColor = AccuracyForeColor(acc);
+                    cmbQualitative.BackgroundColor = AccuracyBackColor(acc);
+                    cmbQualitative.TextColor = AccuracyForeColor(acc);
                 }
                 else
                 {
@@ -104,6 +107,8 @@ namespace gamon
                     txtQuantitative.Text = "";
                     txtQuantitative.BackgroundColor = Colors.White;
                     txtQuantitative.TextColor = Colors.Black;
+                    cmbQualitative.BackgroundColor = Colors.White;
+                    cmbQualitative.TextColor = Colors.Black;
                 }
             }
             editingNumericAccuracy = false;
@@ -120,6 +125,8 @@ namespace gamon
                 txtQuantitative.Text = (acc).ToString();
                 txtQuantitative.BackgroundColor = AccuracyBackColor(acc);
                 txtQuantitative.TextColor = AccuracyForeColor(acc);
+                cmbQualitative.BackgroundColor = AccuracyBackColor(acc);
+                cmbQualitative.TextColor = AccuracyForeColor(acc);
                 // the value (int) associated with the QualitativeAccuracy is given to the numerical accuracy
                 int accuracyNumber = (int)qa;
             }

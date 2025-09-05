@@ -73,19 +73,20 @@ namespace GlucoMan
         public enum TypeOfInjection
         {
             NotSet = 0,
-            InsulinBolus = 10,  // injection with a syringe of a bolus of insulin
-            BloodSample = 20,   // puncture of the hand to get blood sample for glucose measurement
-            SensorImplantation = 30, // implantation of a sensor that measures blood glucose
+            Bolus = 10,  // injection with a syringe of a bolus of insulin
+            Blood = 20,   // puncture of the hand to get blood sample for glucose measurement
+            Sensor = 30, // implantation of a sensor that measures blood glucose
             Other = 90
         }
         public enum TypeOfInsulinAction
         {
             NotSet = 0,
-            RapidActing = 10, // about 15 minutes to start working, peaks in 1-2 hours, and lasts for 2-4 hours
-            ShortActing = 20, // 30 minutes to start working, peaks in 2-3 hours, and lasts for 3-6 hours.
-            IntermediateActing = 30, // about 2-4 hours to start working, peaks in 4-12 hours, and lasts for 12-18 hours.
-            LongActing = 40 // 1-2 hours to start working, has no peak effect, and lasts for 24+ hours
+            Rapid = 10, // about 15 minutes to start working, peaks in 1-2 hours, and lasts for 2-4 hours
+            Short = 20, // 30 minutes to start working, peaks in 2-3 hours, and lasts for 3-6 hours.
+            Intermediate = 30, // about 2-4 hours to start working, peaks in 4-12 hours, and lasts for 12-18 hours.
+            Long = 40 // 1-2 hours to start working, has no peak effect, and lasts for 24+ hours
         }
+        // TODO !!!! rethink the next enum
         public enum InsulinDrug
         {
             NotSet = 0,

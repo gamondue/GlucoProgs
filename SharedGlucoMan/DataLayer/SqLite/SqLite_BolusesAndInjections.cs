@@ -138,7 +138,12 @@ namespace GlucoMan
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
                     dRead = cmd.ExecuteReader();
-                    g = GetInjectionFromRow(dRead);
+
+                    if (dRead.Read())
+                    {
+                        g = GetInjectionFromRow(dRead);
+                    }
+                    
                     dRead.Dispose();
                     cmd.Dispose();
                 }

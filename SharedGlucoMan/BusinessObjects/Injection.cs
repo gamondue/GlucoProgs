@@ -17,6 +17,27 @@ namespace GlucoMan
         public string InsulinString { get; set; }
         public string Notes { get; internal set; }
 
+        // Proprietà enum per binding diretto (come in MealsPage)
+        public Common.TypeOfInjection TypeOfInjection
+        {
+            get
+            {
+                if (IdTypeOfInjection.HasValue)
+                    return (Common.TypeOfInjection)IdTypeOfInjection.Value;
+                return Common.TypeOfInjection.NotSet;
+            }
+        }
+
+        public Common.TypeOfInsulinAction TypeOfInsulinAction
+        {
+            get
+            {
+                if (IdTypeOfInsulinAction.HasValue)
+                    return (Common.TypeOfInsulinAction)IdTypeOfInsulinAction.Value;
+                return Common.TypeOfInsulinAction.NotSet;
+            }
+        }
+
         public Injection()
         {
             Timestamp = new DateTimeAndText();
