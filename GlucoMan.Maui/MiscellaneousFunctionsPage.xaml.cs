@@ -1,6 +1,8 @@
 using gamon;
 using GlucoMan.BusinessLayer;
 using System.Diagnostics;
+using Microsoft.Maui.Storage;
+using System.IO;
 
 namespace GlucoMan.Maui;
 
@@ -84,25 +86,59 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     }
     private async void btnImport_Click(object sender, EventArgs e)
     {
-        bool import = await DisplayAlert("",
-            "Please put a database named 'import.sqlite' in folder " + 
-            Common.PathImportExport +
-            "\n(the same folder where this program exports its data). " +
-            "\nShould we continue with the import?", "Yes", "No");
-#if ANDROID
-        if (!await AndroidExternalFilesHelper.ProgramHasPermissions())
-        {
-            DisplayAlert("", "Insufficient permissions to write file", "OK");
+        bool import = await DisplayAlert(
+            "",
+            "Select the SQLite database file to import.\n" +
+            "ATTENTION: the selected file may REPLACE the current app database.\n" +
+            "You should backup the current database before continuing!\n\nContinue?",
+            "Yes", "No");
+
+        if (!import)
             return;
-        }       
-#endif
-        if (import)
+
+        // Usa SAF per scegliere il file .sqlite/.db
+        var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
         {
-            if (!blGeneral.ImportDatabaseFromExternal(Common.PathAndFileDatabase,
-                Path.Combine(Common.PathImportExport, "import.sqlite")))
-            {
-                DisplayAlert("", "Error in importing from import.sqlite to app's database", "OK");
-            }
+            { DevicePlatform.Android, new[] { "application/x-sqlite3", "application/octet-stream", ".sqlite", ".db" } },
+            { DevicePlatform.iOS, new[] { "public.data", ".sqlite", ".db" } },
+            { DevicePlatform.WinUI, new[] { ".sqlite", ".db" } },
+            { DevicePlatform.MacCatalyst, new[] { ".sqlite", ".db" } }
+        });
+
+        var picked = await FilePicker.Default.PickAsync(new PickOptions
+        {
+            PickerTitle = "Select GlucoMan database (.sqlite/.db)",
+            FileTypes = customFileType
+        });
+
+        if (picked is null)
+            return;
+
+        // Copia il file scelto nello storage interno dell’app
+        string tempImportName = "import.sqlite";
+        string tempImportPath = Path.Combine(FileSystem.AppDataDirectory, tempImportName);
+
+        try
+        {
+            Directory.CreateDirectory(FileSystem.AppDataDirectory);
+            using var src = await picked.OpenReadAsync(); // usare lo stream (non il path esterno)
+            using var dst = File.Open(tempImportPath, FileMode.Create, FileAccess.Write, FileShare.None);
+            await src.CopyToAsync(dst);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error!", $"Error copying selected file: {ex.Message}", "OK");
+            return;
+        }
+
+        // Importa dal file interno
+        if (!blGeneral.ImportDatabaseFromExternal(Common.PathAndFileDatabase, tempImportPath))
+        {
+            await DisplayAlert("", "Error in importing from selected file to app's database", "OK");
+        }
+        else
+        {
+            await DisplayAlert("", "Import completed successfully.", "OK");
         }
     }
     private async void btnStopApplication_Click(object sender, EventArgs e)
@@ -133,31 +169,59 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     }
     private async void btnReadDatabase_Click(object sender, EventArgs e)
     {
-        bool read = await DisplayAlert("Read database from external folder",
-            "Please put a database named 'readGlucomanData.sqlite' in the folder\n" +
-            Common.PathImportExport +
-            "\n(the same folder where this program exports its data). " +
-            "\n" +
-            "\nATTENTION, this file will replace the current database." +
-            "\nYou should backup the current before continuing! " +
-            "\nShould we continue in the process?", "Yes", "No");
-        if (read)
+        bool read = await DisplayAlert("Read database from external storage",
+            "Select the SQLite database file to import.\n" +
+            "ATTENTION: the selected file will REPLACE the current app database.\n" +
+            "You should backup the current database before continuing!\n\nContinue?",
+            "Yes", "No");
+        if (!read)
+            return;
+
+        // Usa SAF: l'utente sceglie il file e noi leggiamo lo stream
+        var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
         {
-            bool success = await blGeneral.ReadDatabaseFromExternal(Common.PathAndFileDatabase,
-                Path.Combine(Common.PathImportExport, "readGlucoManData.Sqlite"));
-            if (!success)
-            {
-                await DisplayAlert("Error!", "Error in reading database from external folder", "OK");
-                return;
-            }
-            else
-            {
-                await DisplayAlert("Done!", "The import of database from external folder is finished", "OK");
-            }
-//#if ANDROID
+            { DevicePlatform.Android, new[] { "application/x-sqlite3", "application/octet-stream", ".sqlite", ".db" } },
+            { DevicePlatform.iOS, new[] { "public.data", ".sqlite", ".db" } },
+            { DevicePlatform.WinUI, new[] { ".sqlite", ".db" } },
+            { DevicePlatform.MacCatalyst, new[] { ".sqlite", ".db" } }
+        });
+
+        var picked = await FilePicker.Default.PickAsync(new PickOptions
+        {
+            PickerTitle = "Select GlucoMan database (.sqlite/.db)",
+            FileTypes = customFileType
+        });
+        if (picked is null)
+            return;
+
+        // Copia il file scelto nello storage interno dell'app e passa quel path alla BL
+        string tempImportName = "readGlucoManData.sqlite";
+        string tempImportPath = Path.Combine(FileSystem.AppDataDirectory, tempImportName);
+
+        try
+        {
+            Directory.CreateDirectory(FileSystem.AppDataDirectory);
+            using var src = await picked.OpenReadAsync();
+            using var dst = File.Open(tempImportPath, FileMode.Create, FileAccess.Write, FileShare.None);
+            await src.CopyToAsync(dst);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error!", $"Error copying selected file: {ex.Message}", "OK");
+            return;
+        }
+
+        bool success = await blGeneral.ReadDatabaseFromExternal(Common.PathAndFileDatabase, tempImportPath);
+        if (!success)
+        {
+            await DisplayAlert("Error!", "Error importing database from selected file", "OK");
+            return;
+        }
+        else
+        {
+            await DisplayAlert("Done!", "Database import completed successfully.", "OK");
             await DisplayAlert("", "Program will now stop. Restart it manually.", "OK");
             btnStopApplication_Click(null, null);
-//#endif
         }
     }
     private async void btnSettings_Click(object sender, EventArgs e)

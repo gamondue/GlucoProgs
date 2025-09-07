@@ -171,9 +171,9 @@ namespace GlucoMan
                     {   // add WHERE clause
                         query += " WHERE Timestamp BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd HH:mm:ss") +
                             "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd HH:mm:ss") + "'";
-                        query += " AND (IdTypeOfInsulinAction=" + Common.TypeOfInsulinAction.Short;
-                        query += " OR IdTypeOfInsulinAction=" + Common.TypeOfInsulinAction.Rapid;
-                        query += " OR IdTypeOfInsulinAction=" + Common.TypeOfInsulinAction.Intermediate;
+                        query += " AND (IdTypeOfInsulinAction=" + (int)Common.TypeOfInsulinAction.Short;
+                        query += " OR IdTypeOfInsulinAction=" + (int)Common.TypeOfInsulinAction.Rapid;
+                        query += " OR IdTypeOfInsulinAction=" + (int)Common.TypeOfInsulinAction.Intermediate;
                         query += ")";
                         query += " ORDER BY Timestamp DESC, IdInjection;";
                         cmd = new SqliteCommand(query);

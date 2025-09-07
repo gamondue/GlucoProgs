@@ -328,12 +328,8 @@ namespace GlucoMan.BusinessLayer
                 double partialEmbarkedInsulin = 0;
                 if (ii.InsulinValue.Double != null)
                 {
-                    //partialEmbarkedInsulin = (double)ii.InsulinValue.Double
-                    //    * (1 - HoursFromInjection.TotalHours / insulinDurationInHours);
-                    //if (partialEmbarkedInsulin > 0)
-                    //    EmbarkedInsulin.Double += partialEmbarkedInsulin;
-                    partialEmbarkedInsulin = (double)GetPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(
-                        id , (DateTime)ii.Timestamp.DateTime, DateTime.Now);
+                    partialEmbarkedInsulin = (double)(GetPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(
+                        id , (DateTime)ii.Timestamp.DateTime, DateTime.Now) / 100 * ii.InsulinValue.Double);
                 }
                 EmbarkedInsulin.Double += partialEmbarkedInsulin;
             }
@@ -344,44 +340,74 @@ namespace GlucoMan.BusinessLayer
         private double? GetPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(InsulinDrug Insulin,
                         DateTime InjectionTime, DateTime EvaluationTime)
         {
+            // Tempo trascorso dall'iniezione
             double hoursFromInjection = EvaluationTime.Subtract(InjectionTime).TotalHours;
 
-            // integral of the insulin still to be consumed at the evaluation time
-            // initial value of the integral (sum)
-            double percentEmbarkedInsulin = 0;
-            // time step of the integral (sum)
-            double step = 1 / 60.0; // one minute in hours
-            double cumulativeTime = hoursFromInjection;
-            int loopCount = 0;
-            // loop of one minute step from evaluation time to the time when insulins action ends
-            while (cumulativeTime < Insulin.DurationInHours)
+            // Intervallo valido [onset, end]
+            double onset = Insulin.OnsetTimeTimeInHours ?? 0.0;
+            double end = Insulin.DurationInHours ?? 0.0;
+            if (end <= onset)
+                return 0; // parametri non validi
+
+            // Se oltre la durata non resta nulla
+            if (hoursFromInjection >= end)
+                return 0;
+
+            // Punto di partenza per l'integrazione residua
+            double start = Math.Max(hoursFromInjection, onset);
+
+            // Integrazione numerica con passo 1 minuto
+            double step = 1.0 / 60.0; // ore
+
+            // 1) Area totale della curva (deve rappresentare il 100%)
+            double totalArea = 0.0;
+            for (double t = onset; t < end; t += step)
             {
-                double instantActivityPercent = (double)(GetInstantActivityPercent(
-                    Insulin, cumulativeTime) ?? 0);
-                percentEmbarkedInsulin += instantActivityPercent;
-                cumulativeTime += step;
-                loopCount++;
+                double val = GetInstantActivityPercent(Insulin, t) ?? 0.0; // valore in %
+                totalArea += val * step; // rettangoli: f(t) * dt
             }
-            
-            // scale the integral (sum) multpliing by the sum of times of integration
-            percentEmbarkedInsulin = percentEmbarkedInsulin * loopCount * step;
+            if (totalArea <= 0)
+                return 0;
+
+            // 2) Area residua dalla "start" alla fine
+            double remainingArea = 0.0;
+            for (double t = start; t < end; t += step)
+            {
+                double val = GetInstantActivityPercent(Insulin, t) ?? 0.0;
+                remainingArea += val * step;
+            }
+
+            // 3) Percentuale residua = area_residua / area_totale * 100
+            double percentEmbarkedInsulin = 100.0 * remainingArea / totalArea;
+
+            // Clamp per sicurezza
+            if (percentEmbarkedInsulin < 0) percentEmbarkedInsulin = 0;
+            if (percentEmbarkedInsulin > 100) percentEmbarkedInsulin = 100;
 
             return percentEmbarkedInsulin;
         }
         private double? GetInstantActivityPercent(InsulinDrug Insulin, double HoursFromInjection)
         {
+            double onset = Insulin.OnsetTimeTimeInHours ?? 0.0;
+            double peak = Insulin.PeakTimeInHours ?? ((Insulin.DurationInHours ?? 0.0) - onset) / 2.0 + onset;
+            double duration = Insulin.DurationInHours ?? 0.0;
+
             // activation phase
-            if (HoursFromInjection < Insulin.OnsetTimeTimeInHours || HoursFromInjection > Insulin.DurationInHours)
+            if (HoursFromInjection < onset || HoursFromInjection > duration)
                 return 0;
             // ramp up phase
-            if (HoursFromInjection <= Insulin.PeakTimeInHours)
+            if (HoursFromInjection <= peak)
             {
-                return 100 * (HoursFromInjection - Insulin.OnsetTimeTimeInHours) / (Insulin.PeakTimeInHours - Insulin.OnsetTimeTimeInHours);
+                double denom = (peak - onset);
+                if (denom <= 0) return 0;
+                return 100 * (HoursFromInjection - onset) / denom;
             }
             // descent phase
             else
             {
-                return 100 * (1 - (HoursFromInjection - Insulin.PeakTimeInHours) / (Insulin.DurationInHours - Insulin.PeakTimeInHours));
+                double denom = (duration - peak);
+                if (denom <= 0) return 0;
+                return 100 * (1 - (HoursFromInjection - peak) / denom);
             }
         }
 
