@@ -5,7 +5,9 @@
              Title="Foods" Loaded="PageLoad">
     <ContentPage.Content>
         <!--Grid.RowDefinitions="20,20,50,20,50,20,50,50,*"-->
-        <Grid Grid.RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,55,55,*"
+        <Grid Grid.RowDefinitions="Auto
+              ,Auto,Auto,Auto,Auto,Auto
+              ,55,55,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
                 Grid.ColumnSpan="4" Text="Food's information" 

@@ -54,7 +54,7 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.8.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
@@ -73,14 +73,14 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.8.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.8.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
@@ -99,7 +99,7 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.8.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>

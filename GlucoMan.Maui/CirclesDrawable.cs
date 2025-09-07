@@ -48,7 +48,7 @@ namespace GlucoMan.Maui
         // when we aren't editing we also need a collection of reference points  
         private List<Microsoft.Maui.Graphics.Point> ReferencePointsCoordinates = new();
 
-        // Reference Image Heigght and Widht.
+        // Reference Image Height and Widht.
         // Dynamic radii of circles will be based on theese values
         // (values on my computer at max dimensions on Windows screen)
         private static double DefaultImageWidth { get; set; } = 1280;
@@ -309,28 +309,21 @@ namespace GlucoMan.Maui
                             if (alpha > maximalAlpha)
                                 alpha = maximalAlpha;
                                 
-                            HSV circleColorHsv = new HSV(circleHue, saturation / 100.0, 1); // Saturazione in range 0-1
-                            RGB circleColorRgb = new RGB(255, 0, 0);
-                            ColorConverter.HSV2RGB(circleColorHsv, circleColorRgb);
-                            circleColor = new Color(
-                                circleColorRgb.Red / 255f,
-                                circleColorRgb.Green / 255f,
-                                circleColorRgb.Blue / 255f,
-                                (float)alpha  // Applica la trasparenza calcolata
-                            );
-                            
-                            System.Diagnostics.Debug.WriteLine($"Injection {injection.IdInjection}: diffInDays={diffInDays:F2}, saturation={saturation:F2}, alpha={alpha:F2}, RGB=({circleColorRgb.Red},{circleColorRgb.Green},{circleColorRgb.Blue})");
+                            // operation in double, not in byte
+                            var s01 = saturation / 100.0;
+                            circleColor = HsvToColor(circleHue, s01, 1.0, (float)alpha);
                         }
                         else
                         {
-                            // the current injection is drawn in green (completamente opaco)
-                            circleColor = Colors.Green;
+                            // the current injection is drawn in different color
+                            //circleColor = Colors.Green;
+                            circleColor = Colors.DarkCyan;
                             System.Diagnostics.Debug.WriteLine($"Current injection {injection.IdInjection}: GREEN");
                         }
                     }
                     else
                     {
-                        // the "to be" injection is drawn in red (completamente opaco)
+                        // the "to be" injection is drawn in red 
                         circleColor = Colors.Red;
                         System.Diagnostics.Debug.WriteLine($"To-be injection: RED");
                     }
@@ -363,6 +356,40 @@ namespace GlucoMan.Maui
         internal double? NormalizeYPosition(double y)
         {
             return y / imageHeight;
+        }
+
+        // helper (nessuna quantizzazione a byte)
+        private static Color HsvToColor(int hue, double saturation01, double value01, float alpha)
+        {
+            double h = ((hue % 360) + 360) % 360;
+            double s = Math.Clamp(saturation01, 0.0, 1.0);
+            double v = Math.Clamp(value01, 0.0, 1.0);
+
+            double r, g, b;
+            if (s == 0)
+            {
+                r = g = b = v;
+            }
+            else
+            {
+                double sector = h / 60.0;
+                int i = (int)Math.Floor(sector);
+                double f = sector - i;
+                double p = v * (1 - s);
+                double q = v * (1 - s * f);
+                double t = v * (1 - s * (1 - f));
+
+                switch (i)
+                {
+                    case 0: r = v; g = t; b = p; break;
+                    case 1: r = q; g = v; b = p; break;
+                    case 2: r = p; g = v; b = t; break;
+                    case 3: r = p; g = q; b = v; break;
+                    case 4: r = t; g = p; b = v; break;
+                    default: r = v; g = p; b = q; break;
+                }
+            }
+            return new Color((float)r, (float)g, (float)b, alpha);
         }
     }
     internal class CircleData

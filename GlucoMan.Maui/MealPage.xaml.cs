@@ -180,8 +180,8 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             {
                 // ask the user if he wants to save old or new data
                 bool useCalculatedValues = await DisplayAlert(
-                    "Value Discrepancy", 
-                    "The value of total Carbohydrates and/or accuracy are different from those calculated with the foods." +
+                    "Value discrepancy", 
+                    "The value of total Carbohydrates and/or accuracy are different from those calculated with the single foods." +
                     "\nShould we save the displayed values or those calculated?",
                     "Use Calculated", 
                     "Keep Displayed");
