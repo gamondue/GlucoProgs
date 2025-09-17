@@ -37,12 +37,12 @@ namespace GlucoMan
         internal DL_Sqlite(string PathAndFile)
         {
             // ???? is next if useful ????
-            if (!System.IO.File.Exists(PathAndFile))
-            {
-                string err = @"[" + PathAndFile + " not in the current nor in the dev directory]";
-                General.LogOfProgram.Error(err, null);
-                throw new System.IO.FileNotFoundException(err);
-            }
+            //if (!System.IO.File.Exists(PathAndFile))
+            //{
+            //    string err = @"[" + PathAndFile + " not in the current nor in the dev directory]";
+            //    General.LogOfProgram.Error(err, null);
+            //    throw new System.IO.FileNotFoundException(err);
+            //}
             dbName = PathAndFile;
         }
         #endregion

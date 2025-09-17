@@ -317,7 +317,7 @@ namespace GlucoMan.Maui
                         {
                             // the current injection is drawn in different color
                             //circleColor = Colors.Green;
-                            circleColor = Colors.DarkCyan;
+                            circleColor = Colors.Brown;
                             System.Diagnostics.Debug.WriteLine($"Current injection {injection.IdInjection}: GREEN");
                         }
                     }

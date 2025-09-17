@@ -23,53 +23,64 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
-
 #if ANDROID
                 if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
                     return false;
+                    
+                // Get proper Android export path
+                string exportBasePath = Path.Combine(
+                    Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath, 
+                    "GlucoMan");
+#else
+                string exportBasePath = Common.PathImportExport;
 #endif
+
                 string fileName;
                 // files in the logs path
                 var filesInProgramsFolder = Directory.GetFiles(Common.PathLogs);
-                foreach (string f in filesInProgramsFolder)
+                foreach (string fileSource in filesInProgramsFolder)
                 {
-                    //string fileSource = Path.Combine(Common.PathImportExport, Path.GetFileName(General.LogOfProgram.ErrorsFile));
-                    fileName = Path.GetFileName(f);
-                    if (File.Exists(General.LogOfProgram.ErrorsFile))
+                    fileName = Path.GetFileName(fileSource);
+                    if (File.Exists(fileSource)) // Check source file exists
                     {
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(General.LogOfProgram.ErrorsFile
-                    , fileName);
+                        string fileDestination = Path.Combine(exportBasePath, fileName);
+                        await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(fileSource, fileDestination);
 #else
-                        File.Copy(General.LogOfProgram.ErrorsFile, f, true);
+                        string fileDestination = Path.Combine(Common.PathImportExport, fileName);
+                        File.Copy(fileSource, fileDestination, true);
 #endif
                     }
                 }
-                // database file
+                
                 // log of insulin correction parameters 
-                string exportedLogOfParameters = Path.Combine(Common.PathImportExport, Common.LogOfParametersFileName);
-                fileName = Path.GetFileName(exportedLogOfParameters);
-                if (File.Exists(exportedLogOfParameters))
+                string logOfParametersFile = Common.PathAndFileLogOfParameters;
+                if (File.Exists(logOfParametersFile))
                 {
+                    fileName = Path.GetFileName(logOfParametersFile);
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileLogOfParameters
-                    , fileName);
+                    string fileDestination = Path.Combine(exportBasePath, fileName);
+                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(logOfParametersFile, fileDestination);
 #else
-                    File.Copy(Common.PathAndFileLogOfParameters, exportedLogOfParameters, true);
+                    string exportedLogOfParameters = Path.Combine(Common.PathImportExport, Common.LogOfParametersFileName);
+                    File.Copy(logOfParametersFile, exportedLogOfParameters, true);
 #endif
                 }
-                string exportedDatabase = Path.Combine(Common.PathImportExport, Common.DatabaseFileName);
-                fileName = Path.GetFileName(exportedDatabase);
+
+                // database file
                 if (File.Exists(Common.PathAndFileDatabase))
                 {
+                    fileName = Path.GetFileName(Common.PathAndFileDatabase);
 #if ANDROID
-                    bool success = await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileDatabase, fileName);
+                    string fileDestination = Path.Combine(exportBasePath, fileName);
+                    bool success = await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(Common.PathAndFileDatabase, fileDestination);
                     if (!success)
                     {
                         General.LogOfProgram.Error("Fallimento nell'export del database", null);
                         return false;
                     }
 #else
+                    string exportedDatabase = Path.Combine(Common.PathImportExport, Common.DatabaseFileName);
                     File.Copy(Common.PathAndFileDatabase, exportedDatabase, true);
 #endif
                 }
@@ -81,7 +92,10 @@ namespace GlucoMan.BusinessLayer
                 return false;
             }
         }
-        internal async Task<bool> ReadDatabaseFromExternal(string pathAndFileInternalDatabase, string pathAndFileExternalDatabase)
+        //internal async Task<bool> ReadDatabaseFromExternal(string pathAndFileInternalDatabase, 
+        //    string pathAndFileExternalDatabase)
+        internal async Task<bool> ReadDatabaseFromExternal(string pathAndFileInternalDatabase,
+                    string pathAndFileExternalDatabase)
         {
             try
             {
@@ -98,7 +112,7 @@ namespace GlucoMan.BusinessLayer
                 if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
                     return false;
                  return await AndroidExternalFilesHelper.ReadFileFromExternalPublicDirectoryAsync
-                    (Path.GetFileName((pathAndFileExternalDatabase)), pathAndFileInternalDatabase);
+                    (pathAndFileInternalDatabase, pathAndFileExternalDatabase);
 #else
                 File.Copy(pathAndFileExternalDatabase, pathAndFileInternalDatabase, true);
 #endif
@@ -110,9 +124,9 @@ namespace GlucoMan.BusinessLayer
                 return false;
             }
         }
-        internal bool ImportDatabaseFromExternal(string pathAndFileDatabase, string v)
+        internal bool ImportFoodsFromExternal(string pathAndFileDatabase, string v)
         {
-            // import the foods
+            // import the whole database
             DL_Sqlite dlImport = new DL_Sqlite(Path.Combine(Common.PathImportExport, "import.sqlite"));
 
             List<Food> source = dlImport.GetFoods();
@@ -136,50 +150,186 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
-                // export all the files in the log folder
+#if ANDROID
+                // Try the enhanced file helper first for better Huawei/Xiaomi compatibility
+                bool enhancedSuccess = await TryEnhancedFileExport();
+                if (enhancedSuccess)
+                {
+                    General.LogOfProgram.Debug("Export completed successfully using enhanced file helper");
+                    return true;
+                }
+
+                // Check permissions first for traditional method
+                if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
+                {
+                    General.LogOfProgram.Error("Insufficient permissions for export", null);
+                    return false;
+                }
+                
+                // Get the Download/GlucoMan directory for Android
+                string exportBasePath = Path.Combine(
+                    Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath, 
+                    "GlucoMan");
+#else
+                string exportBasePath = Common.PathImportExport;
+#endif
+
+                // Export all files in the log folder
                 var filesInLogFolder = Directory.GetFiles(Common.PathLogs);
                 string fileName, fileDestination;
                 foreach (string fileSource in filesInLogFolder)
                 {
-                    //string fileSource = Path.Combine(Common.PathImportExport, Path.GetFileName(General.LogOfProgram.ErrorsFile));
                     fileName = Path.GetFileName(fileSource);
-                    fileDestination = Path.Combine(Common.PathImportExport, fileName);
-                    if (File.Exists(General.LogOfProgram.ErrorsFile))
+                    fileDestination = Path.Combine(exportBasePath, fileName);
+                    
+                    if (File.Exists(fileSource)) // Check the actual source file, not the error log
                     {
+                        General.LogOfProgram.Debug($"Exporting log file: {fileSource} -> {fileDestination}");
+                        
                         if (File.Exists(fileDestination))
                             File.Delete(fileDestination);
+
 #if ANDROID
-                        await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(
-                            fileSource,
-                            fileDestination);
+                        bool success = await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(
+                            fileSource, fileDestination);
+                        if (!success)
+                        {
+                            General.LogOfProgram.Error($"Failed to export log file: {fileName}", null);
+                        }
 #else
                         File.Copy(fileSource, fileDestination, true);
 #endif
                     }
                 }
-                // export database file
-                string exportedDatabase = Path.Combine(Common.PathImportExport, Common.DatabaseFileName);
-                fileName = Path.GetFileName(exportedDatabase);
-                //if (File.Exists(Common.PathAndFileDatabase))
-                //{
+
+                // Export database file
+                fileName = Path.GetFileName(Common.DatabaseFileName);
+                string exportedDatabase = Path.Combine(exportBasePath, fileName);
+                
+                if (File.Exists(Common.PathAndFileDatabase))
+                {
+                    General.LogOfProgram.Debug($"Exporting database: {Common.PathAndFileDatabase} -> {exportedDatabase}");
+                    
                     if (File.Exists(exportedDatabase))
                         File.Delete(exportedDatabase);
+
 #if ANDROID
-                    await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(
-                    Common.PathAndFileDatabase,
-                    exportedDatabase);
+                    bool success = await AndroidExternalFilesHelper.SaveFileToExternalStoragePublicDirectoryAsync(
+                        Common.PathAndFileDatabase, exportedDatabase);
+                    if (!success)
+                    {
+                        General.LogOfProgram.Error("Failed to export database", null);
+                        return false;
+                    }
 #else
                     File.Copy(Common.PathAndFileDatabase, exportedDatabase, true);
 #endif
-                //}
+                }
+                else
+                {
+                    General.LogOfProgram.Error($"Database file not found: {Common.PathAndFileDatabase}", null);
+                }
+
+                General.LogOfProgram.Debug("Export completed successfully");
                 return true;
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("BL,ExportProgramsFiles", ex);
+                General.LogOfProgram.Error("BL,ExportProgramsFilesAsync", ex);
                 return false;
             }
         }
+#if ANDROID
+        private async Task<bool> TryEnhancedFileExport()
+        {
+            try
+            {
+                General.LogOfProgram.Debug("Starting enhanced file export for Huawei/Xiaomi compatibility");
+                
+                // Check if we have basic file permissions
+                if (!EnhancedFileHelper.HasBasicFilePermissions())
+                {
+                    General.LogOfProgram.Debug("Basic file permissions not available, skipping enhanced export");
+                    return false;
+                }
+
+                var exportedFiles = new List<string>();
+                var failedFiles = new List<string>();
+
+                // Export database file
+                if (File.Exists(Common.PathAndFileDatabase))
+                {
+                    string dbFileName = Path.GetFileName(Common.PathAndFileDatabase);
+                    var result = await EnhancedFileHelper.SaveFileWithFallback(Common.PathAndFileDatabase, dbFileName);
+                    
+                    if (result.Success)
+                    {
+                        exportedFiles.Add($"{dbFileName} -> {result.Path}");
+                    }
+                    else
+                    {
+                        failedFiles.Add(dbFileName);
+                    }
+                }
+
+                // Export log files
+                if (Directory.Exists(Common.PathLogs))
+                {
+                    var logFiles = Directory.GetFiles(Common.PathLogs);
+                    foreach (string logFile in logFiles)
+                    {
+                        string logFileName = Path.GetFileName(logFile);
+                        var result = await EnhancedFileHelper.SaveFileWithFallback(logFile, logFileName);
+                        
+                        if (result.Success)
+                        {
+                            exportedFiles.Add($"{logFileName} -> {result.Path}");
+                        }
+                        else
+                        {
+                            failedFiles.Add(logFileName);
+                        }
+                    }
+                }
+
+                // Export parameters log if exists
+                if (File.Exists(Common.PathAndFileLogOfParameters))
+                {
+                    string paramFileName = Path.GetFileName(Common.PathAndFileLogOfParameters);
+                    var result = await EnhancedFileHelper.SaveFileWithFallback(Common.PathAndFileLogOfParameters, paramFileName);
+                    
+                    if (result.Success)
+                    {
+                        exportedFiles.Add($"{paramFileName} -> {result.Path}");
+                    }
+                    else
+                    {
+                        failedFiles.Add(paramFileName);
+                    }
+                }
+
+                General.LogOfProgram.Debug($"Enhanced export results: {exportedFiles.Count} succeeded, {failedFiles.Count} failed");
+                
+                foreach (var exported in exportedFiles)
+                {
+                    General.LogOfProgram.Debug($"Exported: {exported}");
+                }
+
+                foreach (var failed in failedFiles)
+                {
+                    General.LogOfProgram.Error($"Failed to export: {failed}", null);
+                }
+
+                // Consider successful if we exported at least the database
+                return exportedFiles.Any(f => f.Contains(".sqlite") || f.Contains(".db"));
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("TryEnhancedFileExport", ex);
+                return false;
+            }
+        }
+#endif
         internal Parameters GetSettingsPageParameters()
         {
             return dl.GetParameters();

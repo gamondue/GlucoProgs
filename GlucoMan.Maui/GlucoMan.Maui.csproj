@@ -8,7 +8,7 @@
 		<!-- Note for MacCatalyst:
 		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
 		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
-		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;  
 		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
 		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
@@ -20,15 +20,18 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>GlucoMan.Maui</ApplicationTitle>
+		<ApplicationTitle>GlucoMan</ApplicationTitle>
 
 		<!-- App Identifier -->
-    <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+    <ApplicationId>it.ingmonti.glucoman</ApplicationId>
     <ApplicationIdGuid>30939246-cae7-40ff-92ce-a308f5c8b0e8</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.8.3</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
+		<Version>0.8.3</Version>
+		<AssemblyVersion>0.8.3.0</AssemblyVersion>
+		<FileVersion>0.8.3.0</FileVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
@@ -50,12 +53,11 @@
 		<RepositoryUrl>https://github.com/gamondue/GlucoProgs</RepositoryUrl>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <ApplicationTitle>GlucoMan</ApplicationTitle>
-	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
-	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.3</ApplicationDisplayVersion>
-	</PropertyGroup>
+  <!-- Apply to all Android builds (Debug/Release) -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='net9.0-android'">
+    <RuntimeIdentifiers>android-arm64;android-arm</RuntimeIdentifiers>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
@@ -73,14 +75,12 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.3</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.3</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
@@ -99,12 +99,10 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.3</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
 	  <ApplicationIcon>gamon LegoLogo 256x256.ico</ApplicationIcon>
-	  <FileVersion></FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -243,6 +241,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.8" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />

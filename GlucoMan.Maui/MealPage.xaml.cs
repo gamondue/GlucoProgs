@@ -310,24 +310,29 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     }
     private async void btnFoods_ClickAsync(object sender, EventArgs e)
     {
+        if (txtFoodInMealName.Text == null || txtFoodInMealName.Text == "")
+        {
+            bl.FoodInMeal = new FoodInMeal();
+        }
+        else
+        {
+            FromBoxesFoodInMealToClass();
+        }
         foodsPage = new FoodsPage(bl.FoodInMeal);
-        await Navigation.PushModalAsync(foodsPage);
-        
+        await Navigation.PushModalAsync(foodsPage);   
         // Wait for the page to be closed and get the result
-        bool foodWasChosen = await foodsPage.PageClosedTask;
-        
+        bool foodWasChosen = await foodsPage.PageClosedTask;     
         // check if the user chose a food in called page
         if (foodWasChosen && foodsPage.FoodIsChosen)
         {
             // Aggiorna il FoodInMeal corrente con il Food scelto dalla pagina chiamata
             bl.FromFoodToFoodInMeal(foodsPage.Food, bl.FoodInMeal);
-            
+            // ricalcola i carboidrati in grammi di questo FoodInMeal
+            bl.CalculateChoOfFoodGrams();
             // Aggiorna l'interfaccia utente con i nuovi dati
             FromClassToBoxesFoodInMeal();
-            
             // Ricalcola tutti i valori
             bl.RecalcAll();
-            
             // Aggiorna l'UI del meal
             RefreshMeal();
         }
