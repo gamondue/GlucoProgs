@@ -271,17 +271,22 @@ namespace GlucoMan.Maui
         }
         internal void LoadInjectionsCoordinates(List<Injection> allRecentInjections)
         {
-            int circleHue = 240; 
+            int circleHue = 240;
             DateTime now = DateTime.Now;
             double maximalSaturation = 100;
             double minimalSaturation = 20;
-            
+
             // Parametri per la trasparenza
             double maximalAlpha = 1.0;      // Completamente opaco (iniezioni recenti)
             double minimalAlpha = 0.1;      // Quasi trasparente (iniezioni vecchie)
-            
+
             System.Diagnostics.Debug.WriteLine($"LoadInjectionsCoordinates - Loading {allRecentInjections.Count} injections");
-            
+
+            // Trova le coordinate dell'iniezione corrente per il confronto
+            Injection currentInjection = allRecentInjections.FirstOrDefault(inj => inj.IdInjection == idCurrentInjection);
+            double? currentX = currentInjection?.PositionX;
+            double? currentY = currentInjection?.PositionY;
+
             foreach (Injection injection in allRecentInjections)
             {
                 if (injection.PositionX != null && injection.PositionY != null)
@@ -291,24 +296,34 @@ namespace GlucoMan.Maui
                     {
                         if (injection.IdInjection != idCurrentInjection)
                         {
+                            // if this injection has the same coordinates as the current injection
+                            // we avoid drawing its circle
+                            if (currentX.HasValue && currentY.HasValue &&
+                                Math.Abs(injection.PositionX.Value - currentX.Value) < 0.001 &&
+                                Math.Abs(injection.PositionY.Value - currentY.Value) < 0.001)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"Skipping injection {injection.IdInjection}: same coordinates as current injection");
+                                continue; // Skip this injection - same coordinates as current
+                            }
+
                             double diffInDays = now.Subtract((DateTime)injection.Timestamp.DateTime).TotalDays;
-                            
+
                             // Formula per saturazione: iniezioni recenti hanno saturazione alta, vecchie hanno saturazione bassa
                             double saturation = maximalSaturation - (maximalSaturation - minimalSaturation) * diffInDays / circlesVisibilityMaxTimeInDays;
-                            
+
                             if (saturation < minimalSaturation)
                                 saturation = minimalSaturation;
                             if (saturation > maximalSaturation)
                                 saturation = maximalSaturation;
-                                
+
                             // Formula per trasparenza: iniezioni recenti sono opache, vecchie sono trasparenti
                             double alpha = maximalAlpha - (maximalAlpha - minimalAlpha) * diffInDays / circlesVisibilityMaxTimeInDays;
-                            
+
                             if (alpha < minimalAlpha)
                                 alpha = minimalAlpha;
                             if (alpha > maximalAlpha)
                                 alpha = maximalAlpha;
-                                
+
                             // operation in double, not in byte
                             var s01 = saturation / 100.0;
                             circleColor = HsvToColor(circleHue, s01, 1.0, (float)alpha);
@@ -316,9 +331,8 @@ namespace GlucoMan.Maui
                         else
                         {
                             // the current injection is drawn in different color
-                            //circleColor = Colors.Green;
-                            circleColor = Colors.DarkCyan;
-                            System.Diagnostics.Debug.WriteLine($"Current injection {injection.IdInjection}: GREEN");
+                            circleColor = Colors.Brown;
+                            System.Diagnostics.Debug.WriteLine($"Current injection {injection.IdInjection}: BROWN");
                         }
                     }
                     else
@@ -357,8 +371,7 @@ namespace GlucoMan.Maui
         {
             return y / imageHeight;
         }
-
-        // helper (nessuna quantizzazione a byte)
+        // helper to convert with no quantization to byte
         private static Color HsvToColor(int hue, double saturation01, double value01, float alpha)
         {
             double h = ((hue % 360) + 360) % 360;

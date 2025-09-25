@@ -20,10 +20,12 @@
                    Keyboard="Numeric" Placeholder="mmol/L" BackgroundColor="GreenYellow" TextChanged="txt_mmolPerL_TextChanged"/>
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Operations"
                    FontSize="Title" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                    ToolTipProperties.Text="Open the settings page"
-                    Text="Settings" WidthRequest="150"
+            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                    ImageSource="gear.png"
+                    ToolTipProperties.Text="Opens the page that assigns the program's parameters"
+                    WidthRequest="150"
                     x:Name="btnSettings" Clicked="btnSettings_Click" />
+            <!--Text="Settings"-->
             <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
                    ToolTipProperties.Text="Reset database, starting from scratch with no data"
                    Text="Reset database" WidthRequest="150"
@@ -54,7 +56,7 @@
                     x:Name="btnShowErrorLog" Clicked="btnShowErrorLog_ClickAsync" />
             <Button Grid.Row="9" Grid.Column="1"
                     Text="Delete all log files" WidthRequest="150"
-                    ToolTipProperties.Text="Deletes the content of all the log file aof the program"
+                    ToolTipProperties.Text="Deletes the content of all the log files of the program"
                     x:Name="btnDeleteErrorLog" Clicked="btnDeleteErrorLog_ClickAsync" />
             <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" 
                     Text="Menù" WidthRequest="150"

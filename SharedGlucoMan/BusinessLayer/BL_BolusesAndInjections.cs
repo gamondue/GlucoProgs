@@ -325,11 +325,16 @@ namespace GlucoMan.BusinessLayer
                 {
                     insulinDurationInHours = 4; // default value if not found
                 }
-                double partialEmbarkedInsulin = 0;
+                double? partialEmbarkedInsulin = 0;
                 if (ii.InsulinValue.Double != null)
                 {
-                    partialEmbarkedInsulin = (double)(GetPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(
-                        id , (DateTime)ii.Timestamp.DateTime, DateTime.Now) / 100 * ii.InsulinValue.Double);
+                    //partialEmbarkedInsulin = (double)ii.InsulinValue.Double
+                    //    * (1 - HoursFromInjection.TotalHours / insulinDurationInHours);
+                    //if (partialEmbarkedInsulin > 0)
+                    //    EmbarkedInsulin.Double += partialEmbarkedInsulin;
+                    double? partialPercentResidualInsulin = (double)CalcPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(
+                        id , (DateTime)ii.Timestamp.DateTime, DateTime.Now);
+                    partialEmbarkedInsulin = ii.InsulinValue.Double * partialPercentResidualInsulin / 100.0;
                 }
                 EmbarkedInsulin.Double += partialEmbarkedInsulin;
             }
@@ -337,7 +342,7 @@ namespace GlucoMan.BusinessLayer
                 EmbarkedInsulin.Double = 0;
             return (double)EmbarkedInsulin.Double;
         }
-        private double? GetPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(InsulinDrug Insulin,
+        private double? CalcPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(InsulinDrug Insulin,
                         DateTime InjectionTime, DateTime EvaluationTime)
         {
             // Tempo trascorso dall'iniezione
@@ -366,7 +371,7 @@ namespace GlucoMan.BusinessLayer
                 double val = GetInstantActivityPercent(Insulin, t) ?? 0.0; // valore in %
                 totalArea += val * step; // rettangoli: f(t) * dt
             }
-            if (totalArea <= 0)
+             if (totalArea <= 0)
                 return 0;
 
             // 2) Area residua dalla "start" alla fine
@@ -388,26 +393,18 @@ namespace GlucoMan.BusinessLayer
         }
         private double? GetInstantActivityPercent(InsulinDrug Insulin, double HoursFromInjection)
         {
-            double onset = Insulin.OnsetTimeTimeInHours ?? 0.0;
-            double peak = Insulin.PeakTimeInHours ?? ((Insulin.DurationInHours ?? 0.0) - onset) / 2.0 + onset;
-            double duration = Insulin.DurationInHours ?? 0.0;
-
             // activation phase
-            if (HoursFromInjection < onset || HoursFromInjection > duration)
+            if (HoursFromInjection < Insulin.OnsetTimeTimeInHours || HoursFromInjection > Insulin.DurationInHours)
                 return 0;
             // ramp up phase
-            if (HoursFromInjection <= peak)
+            if (HoursFromInjection <= Insulin.PeakTimeInHours)
             {
-                double denom = (peak - onset);
-                if (denom <= 0) return 0;
-                return 100 * (HoursFromInjection - onset) / denom;
+                return 100 * (HoursFromInjection - Insulin.OnsetTimeTimeInHours) / (Insulin.PeakTimeInHours - Insulin.OnsetTimeTimeInHours);
             }
             // descent phase
             else
             {
-                double denom = (duration - peak);
-                if (denom <= 0) return 0;
-                return 100 * (1 - (HoursFromInjection - peak) / denom);
+                return 100 * (1 - (HoursFromInjection - Insulin.PeakTimeInHours) / (Insulin.DurationInHours - Insulin.PeakTimeInHours));
             }
         }
 

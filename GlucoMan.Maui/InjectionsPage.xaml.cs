@@ -1,6 +1,7 @@
 using gamon;
 using GlucoMan.BusinessLayer;
 using GlucoMan.BusinessObjects;
+using System.ComponentModel.Design;
 
 namespace GlucoMan.Maui;
 public partial class InjectionsPage : ContentPage
@@ -17,6 +18,13 @@ public partial class InjectionsPage : ContentPage
     private bool picturePageHasBeenVisited = false;
 
     double? MonthsOfDataShownInTheGrids = 3;
+    double ShownDataTimeMultiplicator = 1;
+
+    // Additions for tracking changes
+    private Injection OriginalInjection = new Injection();
+    private bool HasUnsavedChanges = false;
+    private bool IsNavigatingAway = false;
+    private bool isFirstSelection = true;
 
     internal InjectionsPage(int? IdInjection)
     {
@@ -55,6 +63,205 @@ public partial class InjectionsPage : ContentPage
         }
         pageIsLoading = false;
         RefreshUi();
+        // Initialize change tracking
+        SaveOriginalInjection();
+        // Add event handlers for change tracking
+        AttachChangeHandlers();
+    }
+    protected override bool OnBackButtonPressed()
+    {
+        // Intercept Android back button
+        return HandleBackNavigation();
+    }
+    private bool HandleBackNavigation()
+    {
+        if (HasUnsavedChanges && !IsNavigatingAway)
+        {
+            ShowUnsavedChangesDialog();
+            return true; // Prevent automatic navigation
+        }
+        return false; // Allow normal navigation
+    }
+    private async void ShowUnsavedChangesDialog()
+    {
+        var result = await DisplayActionSheet(
+            "You have unsaved changes for the current injection.\nWhat do you want to do?",
+            "Cancel",
+            null,
+            "Save", "Discard");
+            
+        switch (result)
+        {
+            case "Save":
+                // Save and then navigate
+                if (await TrySaveCurrentInjection())
+                {
+                    IsNavigatingAway = true;
+                    await Shell.Current.GoToAsync("..");
+                }
+                break;
+            case "Discard":
+                // Discard changes and navigate
+                HasUnsavedChanges = false;
+                IsNavigatingAway = true;
+                await Shell.Current.GoToAsync("..");
+                break;
+            case "Cancel":
+            default:
+                // Do nothing, stay on the page
+                break;
+        }
+    }
+    private async Task<bool> TrySaveCurrentInjection()
+    {
+        try
+        {
+            if (txtIdInjection.Text == "")
+            {
+                await DisplayAlert("Error", "Select an injection from the list to save it", "Ok");
+                return false;
+            }
+
+            FromUiToClass();
+            bool abort = await abortAfterChecksBeforeSavings();
+            if (abort)
+                return false;
+
+            if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands ||
+                CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
+            {
+                // if it isn't a bolus, delete the bolus' info
+                CurrentInjection.IdInsulinDrug = null;
+                CurrentInjection.IdTypeOfInsulinAction = null;
+                CurrentInjection.InsulinValue.Text = "";
+            }
+
+            bl.SaveOneInjection(CurrentInjection);
+            RefreshGrid();
+            picturePageHasBeenVisited = false;
+
+            // Reset change tracking after saving
+            HasUnsavedChanges = false;
+            SaveOriginalInjection();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Error during saving: {ex.Message}", "Ok");
+            return false;
+        }
+    }
+    private void AttachChangeHandlers()
+    {
+        // Add event handlers for all controls that can be modified
+        txtInsulinActual.TextChanged += OnValueChanged;
+        txtInsulinCalculated.TextChanged += OnValueChanged;
+        dtpInjectionDate.DateSelected += OnValueChanged;
+        dtpInjectionTime.TimeSelected += OnValueChanged;
+        txtNotes.TextChanged += OnValueChanged;
+        rdbShortInsulin.CheckedChanged += OnValueChanged;
+        rdbLongInsulin.CheckedChanged += OnValueChanged;
+    }
+    private void OnValueChanged(object sender, EventArgs e)
+    {
+        if (pageIsLoading || IsNavigatingAway)
+        {
+            return;
+        }
+        if (isFirstSelection)
+        {
+            isFirstSelection = false;
+        } else
+        { 
+            // Compare current state with original to determine if there are changes
+            CheckForChanges();
+        }
+    }
+    private void CheckForChanges()
+    {
+        if (pageIsLoading)
+        {
+            return;
+        }
+        // Create a temporary injection with current UI values
+        var tempInjection = CreateInjectionFromUI();
+        // Compare with original injection
+        bool hasChanges = !AreInjectionsEqual(OriginalInjection, tempInjection);
+        if (hasChanges != HasUnsavedChanges)
+        {
+            HasUnsavedChanges = hasChanges;
+            UpdateTitleWithUnsavedIndicator();
+        }
+    }
+    private Injection CreateInjectionFromUI()
+    {
+        var injection = new Injection();
+        injection.IdInjection = Safe.Int(txtIdInjection.Text);
+        injection.InsulinValue.Text = txtInsulinActual.Text;
+        injection.InsulinCalculated.Text = txtInsulinCalculated.Text;
+
+        DateTime instant = new DateTime(
+            dtpInjectionDate.Date.Year, dtpInjectionDate.Date.Month, dtpInjectionDate.Date.Day,
+            dtpInjectionTime.Time.Hours, dtpInjectionTime.Time.Minutes, dtpInjectionTime.Time.Seconds);
+        injection.Timestamp.DateTime = instant;
+        injection.Notes = txtNotes.Text;
+
+        if (rdbShortInsulin.IsChecked)
+            injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.Short;
+        else if (rdbLongInsulin.IsChecked)
+            injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.Long;
+        else
+            injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.NotSet;
+
+        injection.Zone = CurrentInjection.Zone;
+        injection.PositionX = CurrentInjection.PositionX;
+        injection.PositionY = CurrentInjection.PositionY;
+
+        return injection;
+    }
+    private bool AreInjectionsEqual(Injection original, Injection current)
+    {
+        if (original == null && current == null) return true;
+        if (original == null || current == null) return false;
+
+        return original.IdInjection == current.IdInjection &&
+               original.InsulinValue.Text == current.InsulinValue.Text &&
+               original.InsulinCalculated.Text == current.InsulinCalculated.Text &&
+               original.Timestamp.DateTime == current.Timestamp.DateTime &&
+               original.Notes == current.Notes &&
+               original.IdTypeOfInsulinAction == current.IdTypeOfInsulinAction &&
+               original.Zone == current.Zone &&
+               Math.Abs((original.PositionX ?? 0) - (current.PositionX ?? 0)) < 0.0001 &&
+               Math.Abs((original.PositionY ?? 0) - (current.PositionY ?? 0)) < 0.0001;
+    }
+    private void SaveOriginalInjection()
+    {
+        // Save a copy of the current injection as reference for changes
+        OriginalInjection = new Injection
+        {
+            IdInjection = CurrentInjection.IdInjection,
+            InsulinValue = new DoubleAndText { Text = CurrentInjection.InsulinValue.Text },
+            InsulinCalculated = new DoubleAndText { Text = CurrentInjection.InsulinCalculated.Text },
+            Timestamp = new DateTimeAndText { DateTime = CurrentInjection.Timestamp.DateTime },
+            Notes = CurrentInjection.Notes,
+            IdTypeOfInsulinAction = CurrentInjection.IdTypeOfInsulinAction,
+            Zone = CurrentInjection.Zone,
+            PositionX = CurrentInjection.PositionX,
+            PositionY = CurrentInjection.PositionY
+        };
+    }
+    private void UpdateTitleWithUnsavedIndicator()
+    {
+        // Update page title to indicate unsaved changes
+        if (HasUnsavedChanges)
+        {
+            this.Title = "Injections *"; // Asterisk indicates unsaved changes
+        }
+        else
+        {
+            this.Title = "Injections";
+        }
     }
     public int? IdInjection
     {
@@ -69,13 +276,13 @@ public partial class InjectionsPage : ContentPage
             CurrentInjection = new Injection();
 
         if (CurrentInjection.IdInjection != null)
-                txtIdInjection.Text = CurrentInjection.IdInjection.ToString();
-            else
-                txtIdInjection.Text = "";
+            txtIdInjection.Text = CurrentInjection.IdInjection.ToString();
+        else
+            txtIdInjection.Text = "";
         txtInsulinActual.Text = CurrentInjection.InsulinValue.Text;
         txtInsulinCalculated.Text = CurrentInjection.InsulinCalculated.Text;
-        if (CurrentInjection.Timestamp.DateTime == null 
-            || CurrentInjection.Timestamp.DateTime == new DateTime(1,1,1,0,0,0))
+        if (CurrentInjection.Timestamp.DateTime == null
+            || CurrentInjection.Timestamp.DateTime == new DateTime(1, 1, 1, 0, 0, 0))
             CurrentInjection.Timestamp.DateTime = DateTime.Now;
         dtpInjectionDate.Date = ((DateTime)CurrentInjection.Timestamp.DateTime);
         dtpInjectionTime.Time = ((DateTime)CurrentInjection.Timestamp.DateTime).TimeOfDay;
@@ -122,8 +329,13 @@ public partial class InjectionsPage : ContentPage
     {
         if (pageIsLoading) return;
         DateTime now = DateTime.Now;
+        if (chkSensors.IsChecked)
+            ShownDataTimeMultiplicator = 4;
+        else
+            ShownDataTimeMultiplicator = 1;
+
         allInjections = bl.GetInjections(
-            now.AddMonths(-(int)(MonthsOfDataShownInTheGrids)), now.AddDays(1),
+            now.AddMonths(-(int)(MonthsOfDataShownInTheGrids * ShownDataTimeMultiplicator)), now.AddDays(1),
             Common.TypeOfInsulinAction.NotSet, Common.ZoneOfPosition.NotSet,
             chkFront.IsChecked, chkBack.IsChecked, chkHands.IsChecked, chkSensors.IsChecked);
         gridInjections.ItemsSource = allInjections;
@@ -142,26 +354,27 @@ public partial class InjectionsPage : ContentPage
     }
     private async void btnSave_Click(object sender, EventArgs e)
     {
-        if (txtIdInjection.Text == "")
-        {
-            await DisplayAlert("Select one injection from the list", "Choose a injection to save", "Ok");
-            return;
-        }
-        FromUiToClass();
-        bool abort = await abortAfterChecksBeforeSavings();
-        if (abort)
-            return;
-        if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands ||
-            CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
-        {
-            // if it isn't a bolus, delete the bolus' info
-            CurrentInjection.IdInsulinDrug = null;
-            CurrentInjection.IdTypeOfInsulinAction = null;
-            CurrentInjection.InsulinValue.Text = "";
-        }
-        bl.SaveOneInjection(CurrentInjection);
-        RefreshGrid();
-        picturePageHasBeenVisited = false;
+        await TrySaveCurrentInjection();
+        //if (txtIdInjection.Text == "")
+        //{
+        //    await DisplayAlert("Select one injection from the list", "Choose a injection to save", "Ok");
+        //    return;
+        //}
+        //FromUiToClass();
+        //bool abort = await abortAfterChecksBeforeSavings();
+        //if (abort)
+        //    return;
+        //if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands ||
+        //    CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
+        //{
+        //    // if it isn't a bolus, delete the bolus' info
+        //    CurrentInjection.IdInsulinDrug = null;
+        //    CurrentInjection.IdTypeOfInsulinAction = null;
+        //    CurrentInjection.InsulinValue.Text = "";
+        //}
+        //bl.SaveOneInjection(CurrentInjection);
+        //RefreshGrid();
+        //picturePageHasBeenVisited = false;
     }
     private async Task<bool> abortAfterChecksBeforeSavings()
     {
@@ -182,7 +395,7 @@ public partial class InjectionsPage : ContentPage
         }
         if (abort)
         {
-            // when aborting the saving, we restore the previuous value of this injection
+            // when aborting the saving, we restore the previous value of this injection
             CurrentInjection = bl.GetOneInjection(CurrentInjection.IdInjection);
             FromClassToUi();
         }
@@ -194,6 +407,27 @@ public partial class InjectionsPage : ContentPage
         {
             //await DisplayAlert("XXXX", "YYYY", "Ok");
             return;
+        }
+        // Check if there are unsaved changes before changing selection
+        if (HasUnsavedChanges)
+        {
+            var result = await DisplayAlert(
+                "Unsaved changes",
+                "You have unsaved changes for the current injection.\nWhat do you want to do?",
+                "Save", "Discard");
+            if (result)
+            {
+                if (!await TrySaveCurrentInjection())
+                {
+                    // If saving fails, keep current selection
+                    return;
+                }
+            }
+            else
+            {
+                // Continue with new selection. without saving
+                HasUnsavedChanges = false;
+            }
         }
         // make the tapped row the current injection 
         CurrentInjection = (Injection)e.SelectedItem;
@@ -226,13 +460,18 @@ public partial class InjectionsPage : ContentPage
             rdbShortInsulin.Content = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin)?.Name ?? "Short act.";
             rdbLongInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin)?.Name ?? "Long act.";
         }
-        
-        // Mantieni la selezione visibile
+
+        // Keep the selection visible
         if (gridInjections.SelectedItem != e.SelectedItem)
         {
             gridInjections.SelectedItem = e.SelectedItem;
         }
         picturePageHasBeenVisited = false;
+
+        // Save the new injection as reference for change tracking
+        SaveOriginalInjection();
+        HasUnsavedChanges = false;
+        UpdateTitleWithUnsavedIndicator();
     }
     private void SetTheColorsOfPictureButtons()
     {
@@ -271,9 +510,8 @@ public partial class InjectionsPage : ContentPage
         if (!picturePageHasBeenVisited
             && (CurrentInjection.PositionX.HasValue && CurrentInjection.PositionY.HasValue))
         {
-            if (await DisplayAlert("", "The new injection had already a 'hidden' position set." +
-                "\nAre you sure that you want to save this position that you didn't set" +
-                " as the position of your new injection?", "Don't Save", "Save"))
+            if (await DisplayAlert("Position Already Set", "This injection already has a position from a previous selection." +
+                "\nDo you want to keep this existing position for your new injection?", "Keep Position", "Clear Position"))
                 return;
         }
         FromUiToClass();
@@ -333,6 +571,11 @@ public partial class InjectionsPage : ContentPage
         bl.SaveOneInjection(CurrentInjection);
         RefreshGrid();
         picturePageHasBeenVisited = false;
+
+        // Reset change tracking after addition
+        SaveOriginalInjection();
+        HasUnsavedChanges = false;
+        UpdateTitleWithUnsavedIndicator();
     }
     private async void btnRemoveInjection_Click(object sender, EventArgs e)
     {

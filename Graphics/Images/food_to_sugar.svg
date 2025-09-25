@@ -6,7 +6,7 @@
    version="1.1"
    id="svg6"
    sodipodi:docname="food_to_sugar.svg"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
    inkscape:export-filename="food_to_sugar.png"
    inkscape:export-xdpi="245.75999"
    inkscape:export-ydpi="245.75999"
@@ -66,13 +66,13 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="5.7487781"
      inkscape:cx="19.569376"
-     inkscape:cy="41.139177"
+     inkscape:cy="51.402228"
      inkscape:window-width="1920"
-     inkscape:window-height="1166"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="50"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg6" />
+     inkscape:current-layer="g1" />
   <!-- Faccia frontale -->
   <!-- Faccia superiore con riflesso azzurro -->
   <!-- Faccia laterale -->
@@ -83,7 +83,7 @@
      style="stroke-width:0.921602">
     <g
        id="g7"
-       transform="translate(-7.6225447,-0.40948356)"
+       transform="matrix(0.86522795,0,0,0.93194628,-1.9775786,3.4602615)"
        style="stroke-width:0.921602">
       <g
          id="g6"
@@ -99,15 +99,15 @@
            stroke-width="1.82863"
            id="rect1" />
         <polygon
-           points="40,20 20,30 80,30 100,20 "
+           points="100,20 40,20 20,30 80,30 "
            fill="#e0f7ff"
            stroke="#000000"
            stroke-width="1.8432"
            id="polygon1"
-           style="stroke-linecap:round;stroke-linejoin:round"
+           style="fill:#00ffff;stroke-linecap:round;stroke-linejoin:round"
            transform="matrix(0.99086885,0,0,0.92816017,1.6184014,1.9435655)" />
         <polygon
-           points="80,70 80,30 100,20 100,60 "
+           points="100,60 80,70 80,30 100,20 "
            fill="#f0f0f0"
            stroke="#000000"
            stroke-width="1.8432"
@@ -119,7 +119,7 @@
     <g
        id="g2"
        style="stroke:#000000;stroke-width:0.577914;stroke-dasharray:none;stroke-opacity:1"
-       transform="matrix(1.2763975,0,0,1.3103644,-38.219828,-36.749084)">
+       transform="matrix(1.1043748,0,0,1.2211892,-28.451203,-30.406294)">
       <rect
          x="49.876999"
          y="37.945881"
@@ -153,8 +153,8 @@
          style="stroke:none;stroke-width:0.577914;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <path
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.76404;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Triangle);marker-mid:url(#marker4)"
-       d="M 51.77875,55.539428 51.97059,41.324083"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.56828;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Triangle);marker-mid:url(#marker4)"
+       d="M 49.416971,55.103317 49.588004,42.50104"
        id="path1"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0" />

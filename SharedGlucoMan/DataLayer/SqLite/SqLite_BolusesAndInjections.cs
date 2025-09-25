@@ -245,7 +245,7 @@ namespace GlucoMan
                         query += string.Join(" OR ", zones);
                         query += ")";
                     }
-                    query += " ORDER BY Timestamp DESC, IdInjection;";
+                    query += " ORDER BY Timestamp DESC, IdInjection DESC;";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
                     dRead = cmd.ExecuteReader();

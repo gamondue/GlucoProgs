@@ -7,7 +7,7 @@
    version="1.1"
    id="svg5"
    sodipodi:docname="get_last_sugar.svg"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
    inkscape:export-filename="get_last_sugar.png"
    inkscape:export-xdpi="384"
    inkscape:export-ydpi="384"
@@ -48,12 +48,12 @@
      inkscape:deskcolor="#d1d1d1"
      showguides="true"
      inkscape:zoom="8.0212426"
-     inkscape:cx="24.809124"
+     inkscape:cx="24.871458"
      inkscape:cy="45.815844"
      inkscape:window-width="1920"
-     inkscape:window-height="1166"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="50"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg5" />
   <!-- Opzioni non selezionate -->
@@ -93,7 +93,7 @@
        stroke-width="2.79898"
        fill="#e0ffe0"
        id="circle3"
-       style="fill:#e0f7ff;stroke:#222222;stroke-opacity:1;fill-opacity:1" />
+       style="fill:#00ffff;stroke:#222222;stroke-opacity:1;fill-opacity:1" />
   </g>
   <!-- Linee di testo -->
   <g

@@ -27,7 +27,7 @@
     <ApplicationIdGuid>30939246-cae7-40ff-92ce-a308f5c8b0e8</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.8.4.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
@@ -54,7 +54,7 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.3</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.8.4</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
@@ -73,14 +73,14 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.3</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.8.4</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.3</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.8.4</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
@@ -99,11 +99,10 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.3</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.8.4</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
-	  <ApplicationIcon>gamon LegoLogo 256x256.ico</ApplicationIcon>
 	  <FileVersion></FileVersion>
 	</PropertyGroup>
 
@@ -243,9 +242,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.8" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
+		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
 		<PackageReference Include="NUnit" Version="4.4.0" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
 	</ItemGroup>

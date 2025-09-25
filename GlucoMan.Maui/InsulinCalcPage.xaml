@@ -45,7 +45,7 @@
             <Label Grid.Row="3" Grid.Column="0" Text="Sensitivity to insulin" 
                HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                VerticalOptions="End" />
-        <Label Grid.Row="3" Grid.Column="2" Text="Embrkd insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+        <Label Grid.Row="3" Grid.Column="2" Text="Embarked insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                 HorizontalOptions="Center"/>
 
         <!-- <Label Grid.Row="4" Grid.Column="0" x:Name="txtTdd" Text="-_-_" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/> -->
@@ -137,7 +137,7 @@
                ToolTipProperties.Text="Insulin that brings the bool glucose level to target glucose"
                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
         <Label Grid.Row="10" Grid.Column="1" Text="CHO insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-        <Label Grid.Row="10" Grid.Column="2" Text="Total excl. embrkd" 
+        <Label Grid.Row="10" Grid.Column="2" Text="Total excl. embarked" 
                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
         <Label Grid.Row="10" Grid.Column="3" Text="Total bolus insulin" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 

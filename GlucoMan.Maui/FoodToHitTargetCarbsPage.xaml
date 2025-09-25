@@ -56,7 +56,7 @@
                    LineBreakMode="WordWrap" Margin="1"
                    ToolTipProperties.Text="Reads from meal page carbohydrates already eaten"
                    IsEnabled="True" Clicked="btnReadChoTaken_Click" />
-            <Button Grid.Row="6" Grid.Column="2" x:Name="btnReadFood" Text="Read Food&#10;CHO" 
+            <Button Grid.Row="6" Grid.Column="2" x:Name="btnReadFood" Text="Read Food&#10;CHO [%]" 
                     LineBreakMode="WordWrap" Margin="1"
                    ToolTipProperties.Text="Reads from meal page the food that is selected"
                    IsEnabled="True" Clicked="btnReadFood_Click" />
