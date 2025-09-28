@@ -589,24 +589,21 @@ namespace GlucoMan.BusinessLayer
                 
                 bool success = false;
                 
-                // First try: MediaStore (Android 10+)
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
+                // First try: Direct access to public Downloads/GlucoMan directory
+                General.LogOfProgram.Debug("Trying direct read approach from public Downloads/GlucoMan directory");
+                success = await ReadFileDirect(sourceExternalFileName, targetInternalPathAndFile);
+                
+                // Second try: MediaStore (Android 10+) - fallback
+                if (!success && Build.VERSION.SdkInt >= BuildVersionCodes.Q)
                 {
-                    General.LogOfProgram.Debug("Trying MediaStore read approach");
+                    General.LogOfProgram.Debug("Trying MediaStore read approach as fallback");
                     success = await ReadFileUsingMediaStore(sourceExternalFileName, targetInternalPathAndFile);
                 }
                 
-                // Second try: Direct access
+                // Third try: App external files directory - last resort
                 if (!success)
                 {
-                    General.LogOfProgram.Debug("Trying direct read approach");
-                    success = await ReadFileDirect(sourceExternalFileName, targetInternalPathAndFile);
-                }
-                
-                // Third try: App external files directory
-                if (!success && (IsHuaweiDevice() || IsXiaomiDevice()))
-                {
-                    General.LogOfProgram.Debug("Trying app external files directory read");
+                    General.LogOfProgram.Debug("Trying app external files directory read as last resort");
                     success = await ReadFileFromAppExternalDirectory(sourceExternalFileName, targetInternalPathAndFile);
                 }
                 
@@ -656,10 +653,16 @@ namespace GlucoMan.BusinessLayer
                 var activity = mainActivity ?? Platform.CurrentActivity;
                 if (activity?.ContentResolver == null) return false;
 
-                // Query MediaStore for the file
-                string[] projection = { MediaStore.Files.FileColumns.Id, MediaStore.Files.FileColumns.DisplayName };
-                string selection = $"{MediaStore.Files.FileColumns.DisplayName} = ?";
-                string[] selectionArgs = { sourceExternalFileName };
+                // Query MediaStore for the file in Downloads directory
+                // Use raw column name "_id" for the primary key (some bindings omit the constant)
+                string idColumnName = "_id";
+                string[] projection = { idColumnName, MediaStore.IMediaColumns.DisplayName, MediaStore.IMediaColumns.RelativePath };
+                
+                // Look specifically for files in Download/GlucoMan path
+                string selection = $"{MediaStore.IMediaColumns.DisplayName} = ? AND {MediaStore.IMediaColumns.RelativePath} LIKE ?";
+                string[] selectionArgs = { sourceExternalFileName, "%GlucoMan%" };
+
+                General.LogOfProgram.Debug($"Searching in MediaStore for file: {sourceExternalFileName} in GlucoMan directory");
 
                 using var cursor = activity.ContentResolver.Query(
                     MediaStore.Downloads.ExternalContentUri,
@@ -670,8 +673,12 @@ namespace GlucoMan.BusinessLayer
 
                 if (cursor != null && cursor.MoveToFirst())
                 {
-                    long id = cursor.GetLong(cursor.GetColumnIndexOrThrow(MediaStore.Files.FileColumns.Id));
+                    long id = cursor.GetLong(cursor.GetColumnIndexOrThrow(idColumnName));
                     var contentUri = ContentUris.WithAppendedId(MediaStore.Downloads.ExternalContentUri, id);
+
+                    // Log the found file path for debugging
+                    string relativePath = cursor.GetString(cursor.GetColumnIndexOrThrow(MediaStore.IMediaColumns.RelativePath));
+                    General.LogOfProgram.Debug($"Found file in MediaStore: {relativePath}/{sourceExternalFileName}");
 
                     using var inputStream = activity.ContentResolver.OpenInputStream(contentUri);
                     if (inputStream != null)
@@ -679,12 +686,11 @@ namespace GlucoMan.BusinessLayer
                         using var outputStream = System.IO.File.Create(targetInternalPathAndFile);
                         await inputStream.CopyToAsync(outputStream);
                         
-                        General.LogOfProgram.Debug($"File read successfully using MediaStore: {sourceExternalFileName}");
+                        General.LogOfProgram.Debug($"File read successfully using MediaStore from GlucoMan directory: {sourceExternalFileName}");
                         return true;
                     }
-                }
-                
-                General.LogOfProgram.Error($"File not found in MediaStore: {sourceExternalFileName}", null);
+                }                
+                General.LogOfProgram.Error($"File not found in MediaStore GlucoMan directory: {sourceExternalFileName}", null);
                 return false;
             }
             catch (Exception ex)
@@ -697,19 +703,36 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
+                // Construct path to public Downloads/GlucoMan directory
                 string externalDirectory = System.IO.Path.Combine(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath, "GlucoMan");
                 string externalPathAndFile = System.IO.Path.Combine(externalDirectory, sourceExternalFileName);
                 
+                General.LogOfProgram.Debug($"Trying to read file from: {externalPathAndFile}");
+                General.LogOfProgram.Debug($"External directory: {externalDirectory}");
+                General.LogOfProgram.Debug($"Source file name: {sourceExternalFileName}");
+                
                 if (!System.IO.File.Exists(externalPathAndFile))
                 {
-                    General.LogOfProgram.Error($"File not found: {externalPathAndFile}", null);
+                    General.LogOfProgram.Error($"File not found in Downloads/GlucoMan: {externalPathAndFile}", null);
+                    
+                    // List files in the directory for debugging
+                    if (System.IO.Directory.Exists(externalDirectory))
+                    {
+                        var files = System.IO.Directory.GetFiles(externalDirectory);
+                        General.LogOfProgram.Debug($"Files found in {externalDirectory}: {string.Join(", ", files.Select(System.IO.Path.GetFileName))}");
+                    }
+                    else
+                    {
+                        General.LogOfProgram.Error($"Directory not found: {externalDirectory}", null);
+                    }
+                    
                     return false;
                 }
                 
                 byte[] fileContent = await System.IO.File.ReadAllBytesAsync(externalPathAndFile);
                 await System.IO.File.WriteAllBytesAsync(targetInternalPathAndFile, fileContent);
                 
-                General.LogOfProgram.Debug($"File read successfully: {sourceExternalFileName}");
+                General.LogOfProgram.Debug($"File read successfully from Downloads/GlucoMan: {sourceExternalFileName}");
                 return true;
             }
             catch (Exception ex)

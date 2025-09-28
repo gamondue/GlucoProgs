@@ -2,6 +2,7 @@
 using Microsoft.Maui.LifecycleEvents;
 using gamon;
 using GlucoMan; // for ISystemAlarmScheduler
+using CommunityToolkit.Maui;
 #if WINDOWS
 using WinUIWindow = Microsoft.UI.Xaml.Window;
 using Microsoft.UI.Windowing;
@@ -21,6 +22,7 @@ namespace GlucoMan.Maui
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureLifecycleEvents(events =>
                 {
 #if WINDOWS

@@ -7,6 +7,10 @@ using CommunityToolkit.Maui.Storage;
 using System.Text;
 using CommunityToolkit.Maui.Alerts;
 
+#if ANDROID
+using AndroidEnvironment = Android.OS.Environment;
+#endif
+
 namespace GlucoMan.Maui;
 
 public partial class MiscellaneousFunctionsPage : ContentPage
@@ -25,6 +29,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         {
             canModify = false;
             txt_mmolPerL.Text = Common.mgPerdL_To_mmolPerL(value).ToString("0.00");
+            canModify = true;
         }
         else
         {
@@ -39,6 +44,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         {
             canModify = false;
             txt_mgPerdL.Text = Common.mmolPerL_To_mgPerdL(value).ToString("0");
+            canModify = true;
         }
         else
         {
@@ -56,11 +62,11 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             // after deletion the software will automatically re-create the database
             if (!blGeneral.DeleteDatabase())
             {
-                DisplayAlert("", "Error in deleting database file. File NOT deleted", "OK");
+                await DisplayAlert("", "Error in deleting database file. File NOT deleted", "OK");
             }
             blGeneral.CreateNewDatabase(); // re-create the database
             // close program
-            btnStopApplication_Click(null, null);
+            btnStopApplication_Click(this, EventArgs.Empty);
         }
     }
     
@@ -144,7 +150,41 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             var filesToExport = GetFilesToExport();
             if (!filesToExport.Any())
             {
-                General.LogOfProgram.Error("No files found to export", null);
+                General.LogOfProgram.Error("No files found to export", new Exception("No files found to export"));
+                return false;
+            }
+
+            // Create GlucoMan folder in Downloads directory
+            string downloadFolder = "";
+            string glucoManExportFolder = "";
+
+#if ANDROID
+            // For Android, use the public Downloads directory
+            downloadFolder = AndroidEnvironment.GetExternalStoragePublicDirectory(AndroidEnvironment.DirectoryDownloads)?.AbsolutePath ?? "";
+            if (string.IsNullOrEmpty(downloadFolder))
+            {
+                // Fallback to standard Downloads path
+                downloadFolder = Path.Combine("/storage/emulated/0", "Download");
+            }
+#elif WINDOWS
+            // For Windows, use the user's Downloads folder
+            downloadFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+#else
+            // For other platforms, fallback to Documents
+            downloadFolder = FileSystem.AppDataDirectory;
+#endif
+
+            glucoManExportFolder = Path.Combine(downloadFolder, "GlucoMan");
+            
+            try
+            {
+                // Create the GlucoMan directory in Downloads if it doesn't exist
+                Directory.CreateDirectory(glucoManExportFolder);
+                General.LogOfProgram.Debug($"Created/verified GlucoMan export folder: {glucoManExportFolder}");
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error($"Failed to create export directory: {glucoManExportFolder}", ex);
                 return false;
             }
 
@@ -161,34 +201,55 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                         continue;
                     }
 
-                    // Read file content
-                    var fileBytes = await File.ReadAllBytesAsync(sourceFile, cancellationToken);
-                    using var stream = new MemoryStream(fileBytes);
+                    // Create destination path in GlucoMan folder
+                    string destinationPath = Path.Combine(glucoManExportFolder, fileName);
 
-                    // Use Community Toolkit FileSaver
-                    var result = await FileSaver.Default.SaveAsync(fileName, stream, cancellationToken);
+                    // Copy file directly to the destination
+                    File.Copy(sourceFile, destinationPath, true);
                     
-                    if (result.IsSuccessful)
-                    {
-                        successCount++;
-                        General.LogOfProgram.Debug($"Successfully exported: {fileName} to {result.FilePath}");
-                        
-                        // Show individual success toast
-                        var toast = Toast.Make($"Salvato: {fileName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
-                        await toast.Show(cancellationToken);
-                    }
-                    else
-                    {
-                        General.LogOfProgram.Error($"Failed to export {fileName}: {result.Exception?.Message}", result.Exception);
-                    }
+                    successCount++;
+                    General.LogOfProgram.Debug($"Successfully exported: {fileName} to {destinationPath}");
+                    
+                    // Show individual success toast
+                    var toast = Toast.Make($"Salvato: {fileName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                    await toast.Show(cancellationToken);
                 }
                 catch (Exception ex)
                 {
                     General.LogOfProgram.Error($"Error exporting file {fileName}", ex);
+                    
+                    // Try using FileSaver as fallback for this file
+                    try
+                    {
+                        var fileBytes = await File.ReadAllBytesAsync(sourceFile, cancellationToken);
+                        using var stream = new MemoryStream(fileBytes);
+                        var result = await FileSaver.Default.SaveAsync(fileName, stream, cancellationToken);
+                        
+                        if (result.IsSuccessful)
+                        {
+                            successCount++;
+                            General.LogOfProgram.Debug($"Successfully exported via FileSaver fallback: {fileName} to {result.FilePath}");
+                            
+                            var toast = Toast.Make($"Salvato: {fileName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                            await toast.Show(cancellationToken);
+                        }
+                    }
+                    catch (Exception fallbackEx)
+                    {
+                        General.LogOfProgram.Error($"FileSaver fallback also failed for {fileName}", fallbackEx);
+                    }
                 }
             }
 
-            General.LogOfProgram.Debug($"Export completed: {successCount}/{totalCount} files exported");
+            General.LogOfProgram.Debug($"Export completed: {successCount}/{totalCount} files exported to {glucoManExportFolder}");
+            
+            if (successCount > 0)
+            {
+                // Show final success message with location
+                var finalToast = Toast.Make($"File esportati in Downloads/GlucoMan ({successCount}/{totalCount})", CommunityToolkit.Maui.Core.ToastDuration.Long);
+                await finalToast.Show(cancellationToken);
+            }
+            
             return successCount > 0;
         }
         catch (Exception ex)
@@ -198,11 +259,11 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         }
     }
 
+#if ANDROID
     private async Task<bool> TryEnhancedAndroidExport()
     {
         try
         {
-#if ANDROID
             General.LogOfProgram.Debug("Trying enhanced Android export method");
             
             var filesToExport = GetFilesToExport();
@@ -243,9 +304,6 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             }
 
             return successCount > 0;
-#else
-            return false;
-#endif
         }
         catch (Exception ex)
         {
@@ -253,12 +311,15 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             return false;
         }
     }
+#else
+    private Task<bool> TryEnhancedAndroidExport() => Task.FromResult(false);
+#endif
 
+#if ANDROID
     private async Task<bool> ShareExportedFiles()
     {
         try
         {
-#if ANDROID
             General.LogOfProgram.Debug("Attempting to share exported files");
             
             var filesToShare = GetFilesToExport();
@@ -286,9 +347,6 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             }
 
             return shareCount > 0;
-#else
-            return false;
-#endif
         }
         catch (Exception ex)
         {
@@ -296,6 +354,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             return false;
         }
     }
+#else
+    private Task<bool> ShareExportedFiles() => Task.FromResult(false);
+#endif
 
     private async Task<bool> ExportFilesTraditionalMethod()
     {
@@ -368,10 +429,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
 
         await ImportFoodsFromExternalDatabase ();
     }
-    private async Task ImportFoodsFromExternalDatabase()
+    private Task ImportFoodsFromExternalDatabase()
     {
-        throw new NotImplementedException();
-
+        return Task.FromException(new NotImplementedException());
     }
 
     private async Task ImportDatabaseFromExternalFile()
@@ -381,7 +441,8 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             // Use Community Toolkit file picker with better error handling
             var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
-                { DevicePlatform.Android, new[] { "application/x-sqlite3", "application/octet-stream", ".sqlite", ".db", "*/*" } },
+                //{ DevicePlatform.Android, new[] { "application/x-sqlite3", "application/octet-stream", ".sqlite", ".db", "*/*" } },
+                { DevicePlatform.Android, new[] { "application/x-sqlite3", "application/octet-stream", ".sqlite", ".db" } },
                 { DevicePlatform.iOS, new[] { "public.data", ".sqlite", ".db" } },
                 { DevicePlatform.WinUI, new[] { ".sqlite", ".db" } },
                 { DevicePlatform.MacCatalyst, new[] { ".sqlite", ".db" } }
@@ -401,24 +462,28 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             // Create backup of current database first
             await CreateDatabaseBackup();
 
-            // Copy the selected file to internal storage
-            string tempImportName = "GlucomanData.sqlite";
-            string tempImportPath = Path.Combine(FileSystem.AppDataDirectory, tempImportName);
-
+            // Copy the selected file to GlucoMan folder in app directory
+            //string tempImportName = "readGlucomanData.sqlite";
+            //string glucoManFolder = Path.Combine(FileSystem.AppDataDirectory, "GlucoMan");
+            //string tempImportPath = Path.Combine(glucoManFolder, tempImportName);
+            string glucoManFolder =picked.FullPath.Replace(picked.FileName, "");
+            string tempImportPath = picked.FullPath;
             try
             {
-                Directory.CreateDirectory(FileSystem.AppDataDirectory);
+                //// Create the GlucoMan directory if it doesn't exist
+                //Directory.CreateDirectory(glucoManFolder);
+                General.LogOfProgram.Debug($"Created/verified GlucoMan folder: {glucoManFolder}");
                 
                 using var src = await picked.OpenReadAsync();
-                using var dst = File.Create(tempImportPath);
+                using var dst = File.Create(Common.PathAndFileDatabase);
                 await src.CopyToAsync(dst);
 
-                General.LogOfProgram.Debug($"File copied to internal storage: {tempImportPath}");
+                General.LogOfProgram.Debug($"File copied to GlucoMan folder: {tempImportPath}");
                 
                 // Verify the copied file
                 if (!File.Exists(tempImportPath))
                 {
-                    throw new FileNotFoundException("Copied file not found in internal storage");
+                    throw new FileNotFoundException("Copied file not found in GlucoMan folder");
                 }
 
                 var fileInfo = new FileInfo(tempImportPath);
@@ -431,7 +496,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Error copying selected file to internal storage", ex);
+                General.LogOfProgram.Error("Error copying selected file to GlucoMan folder", ex);
                 await DisplayAlert("Error!", $"Error copying selected file: {ex.Message}", "OK");
                 return;
             }
@@ -441,13 +506,13 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             
             if (!success)
             {
-                General.LogOfProgram.Error("ImportDatabaseFromExternal returned false", null);
-                await DisplayAlert("", "Error in importing from selected file to app's database", "OK");
+                General.LogOfProgram.Error("ImportDatabaseFromExternal returned false", new Exception("ImportDatabaseFromExternal returned false"));
+                await DisplayAlert("", "Error in reading from selected file to app's database", "OK");
             }
             else
             {
-                General.LogOfProgram.Debug("Database import completed successfully");
-                await DisplayAlert("", "Import completed successfully.", "OK");
+                General.LogOfProgram.Debug("Database reading completed successfully");
+                await DisplayAlert("", "Database reading completed successfully.", "OK");
             }
 
             // Clean up temporary file
@@ -456,17 +521,18 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                 if (File.Exists(tempImportPath))
                 {
                     File.Delete(tempImportPath);
+                    General.LogOfProgram.Debug($"Temporary file cleaned up: {tempImportPath}");
                 }
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Error cleaning up temporary import file", ex);
+                General.LogOfProgram.Error("Error cleaning up temporary file", ex);
             }
         }
         catch (Exception ex)
         {
             General.LogOfProgram.Error("ImportDatabaseFile", ex);
-            await DisplayAlert("Error!", $"Error during import: {ex.Message}", "OK");
+            await DisplayAlert("Error!", $"Error during database reading: {ex.Message}", "OK");
         }
     }
 
@@ -492,11 +558,10 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         }
     }
 
-    private async void btnStopApplication_Click(object sender, EventArgs e)
+    private void btnStopApplication_Click(object sender, EventArgs e)
     {
         // stops the application shutting all its processes
-        ////Application.Current.MainPage = new AppPage();
-        Application.Current.Quit();
+        Application.Current?.Quit();
         // Stops the application shutting all its processes
         Process.GetCurrentProcess().CloseMainWindow();
         Process.GetCurrentProcess().Close();
