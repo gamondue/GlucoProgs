@@ -176,7 +176,7 @@
                                                HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                                         <Label Grid.Column="3" Text="{Binding TypeOfInsulinAction}" 
                                                HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                        <Label Grid.Column="4" Text="{Binding IdInsulinDrug}" 
+                                        <Label Grid.Column="4" Text="{Binding InsulinDrugName}" 
                                                HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                                     </Grid>
                             </ViewCell.View>

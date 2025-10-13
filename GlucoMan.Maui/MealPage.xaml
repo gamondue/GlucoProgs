@@ -222,15 +222,16 @@
                             LineBreakMode="WordWrap" Clicked="btnFoods_ClickAsync" />
                     <!--Text="Foods"-->
                     <Button Grid.Column="2" x:Name="btnWeighFood" Margin="1"
-                       IsEnabled="False"
                        ImageSource="balance.png"
                        ToolTipProperties.Text="Weigh: opens the page that helps in weighing the food"
-                       LineBreakMode="WordWrap" Clicked="btnWeighFood_Click"/>
+                       LineBreakMode="WordWrap" Clicked="btnWeighFood_Click"
+                       IsEnabled="True"/>
                     <!--Text="Weigh"-->
                     <Button Grid.Column="3" x:Name="btnRecipes" Margin="1"
                        ImageSource="recipe.png"
                             ToolTipProperties.Text="Recipes: opens the page that manages recipes, to import one"
-                       LineBreakMode="WordWrap" Clicked="btnRecipes_ClickAsync" IsEnabled="True" />
+                       LineBreakMode="WordWrap" Clicked="btnRecipes_ClickAsync" 
+                            IsEnabled="True" />
                     <!--Text="Recipes"-->
                 </Grid>
             </Grid>

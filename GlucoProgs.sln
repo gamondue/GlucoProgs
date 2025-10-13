@@ -13,10 +13,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedMaui", "SharedMaui\Sh
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6C83A596-D32D-B35F-00DD-F0C99B673980}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGlucoMan", "TestGlucoMan\TestGlucoMan.csproj", "{B871502B-99DE-4673-8E31-BEE20777BFAD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGlucoMan.Android", "TestGlucoMan.Android\TestGlucoMan.Android.csproj", "{619291C2-7D70-40E0-8101-284E7F713DE0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,30 +37,6 @@ Global
 		{F51DB3B7-A60C-4CC7-85F2-7EF8E3DAD09E}.Release|x64.Build.0 = Release|Any CPU
 		{F51DB3B7-A60C-4CC7-85F2-7EF8E3DAD09E}.Release|x86.ActiveCfg = Release|Any CPU
 		{F51DB3B7-A60C-4CC7-85F2-7EF8E3DAD09E}.Release|x86.Build.0 = Release|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Debug|x64.Build.0 = Debug|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Debug|x86.Build.0 = Debug|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Release|x64.ActiveCfg = Release|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Release|x64.Build.0 = Release|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Release|x86.ActiveCfg = Release|Any CPU
-		{B871502B-99DE-4673-8E31-BEE20777BFAD}.Release|x86.Build.0 = Release|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Debug|x64.Build.0 = Debug|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Debug|x86.Build.0 = Debug|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Release|x64.ActiveCfg = Release|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Release|x64.Build.0 = Release|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Release|x86.ActiveCfg = Release|Any CPU
-		{619291C2-7D70-40E0-8101-284E7F713DE0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,13 +45,9 @@ Global
 		SolutionGuid = {6CAD2BA8-3B6B-4BB9-BF6B-26A922747579}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SharedGeneral\SharedGeneral.projitems*{619291c2-7d70-40e0-8101-284e7f713de0}*SharedItemsImports = 5
-		SharedGlucoMan\SharedGlucoMan.projitems*{619291c2-7d70-40e0-8101-284e7f713de0}*SharedItemsImports = 5
 		SharedGlucoMan\SharedGlucoMan.projitems*{a099d29b-5307-4564-acad-2a073fd1ef64}*SharedItemsImports = 13
 		SharedMaui\SharedMaui.projitems*{b7063c16-a09e-4622-9713-67a6cf26cffd}*SharedItemsImports = 13
 		SharedGeneral\SharedGeneral.projitems*{b8615262-a1a5-4508-a7a2-321c10ed81cc}*SharedItemsImports = 13
-		SharedGeneral\SharedGeneral.projitems*{b871502b-99de-4673-8e31-bee20777bfad}*SharedItemsImports = 5
-		SharedGlucoMan\SharedGlucoMan.projitems*{b871502b-99de-4673-8e31-bee20777bfad}*SharedItemsImports = 5
 		SharedGeneral\SharedGeneral.projitems*{f51db3b7-a60c-4cc7-85f2-7ef8e3dad09e}*SharedItemsImports = 5
 		SharedGlucoMan\SharedGlucoMan.projitems*{f51db3b7-a60c-4cc7-85f2-7ef8e3dad09e}*SharedItemsImports = 5
 		SharedMaui\SharedMaui.projitems*{f51db3b7-a60c-4cc7-85f2-7ef8e3dad09e}*SharedItemsImports = 5

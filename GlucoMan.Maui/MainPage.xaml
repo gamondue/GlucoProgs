@@ -11,37 +11,31 @@
                 Clicked="btnGlucoseMeasurement_Clicked"
                 Margin="6,6,3,3" ToolTipProperties.Text="Blood glucose: opens the page of glucose measurement events"/>
         <!--Text="Glucose"-->
+        <Button x:Name="btnInsulinCalc" 
+                Grid.Row="0" Grid.Column="1" 
+                ImageSource="calculate_insulin.png"
+                Clicked="btnInsulinCalc_Clicked" LineBreakMode="WordWrap" 
+                Margin="3,6,6,3" ToolTipProperties.Text="Insulin calculation: opens a page that calculates the quantity of insulin to inject before a meal"/>
+        <!--Text="Calculate&#10; insulin"-->
         <Button x:Name="btnInjections" 
                 ImageSource="syringe.png"
-                Grid.Row="0" Grid.Column="1" 
-                Clicked="btnInjections_Clicked" IsEnabled="True" Margin="3,6,6,3"
+                Grid.Row="1" Grid.Column="0" 
+                Clicked="btnInjections_Clicked" IsEnabled="True" Margin="6,3,3,3"
                 ToolTipProperties.Text="Injections: opens the page of past and present injections"/>
         <!--Text="Injections"-->
         <Button x:Name="btnMeals" 
                 ImageSource="meals.png"
-                Grid.Row="1" Grid.Column="0" 
+                Grid.Row="2" Grid.Column="0" 
                 Clicked="btnMeals_Clicked" IsEnabled="True"
                 Margin="6,3,3,3" 
                 ToolTipProperties.Text="Meals: opens the page of meals done in the past"/>
         <!--Text="Meals"-->
         <Button x:Name="btnNewMeal" 
                 ImageSource="meal.png"
-                Grid.Row="1" Grid.Column="1" 
+                Grid.Row="2" Grid.Column="1" 
                 Clicked="btnNewMeal_Clicked" IsEnabled="True"
                 Margin="3,3,6,3" ToolTipProperties.Text="Meal: opens a new meal page"/>
         <!--Text="New meal"-->
-
-        <Button x:Name="btnInsulinCalc" 
-                Grid.Row="2" Grid.Column="0" 
-                ImageSource="calculate_insulin.png"
-                Clicked="btnInsulinCalc_Clicked" LineBreakMode="WordWrap" 
-                Margin="6,3,3,3" ToolTipProperties.Text="Insulin calculation: opens a page that calculates the quantity of insulin to inject before a meal"/>
-        <!--Text="Calculate&#10; insulin"-->
-        <!--<Button Text="????"
-                Grid.Row="2" Grid.Column="1" 
-                IsEnabled="False" Clicked="btnAlarms_Clicked" 
-                Margin="3" ToolTipProperties.Text="Opens the page ?????"/>-->
-
         <Button x:Name="btnFoods" 
                 Grid.Row="3" Grid.Column="0"
                 ImageSource="foods.png"

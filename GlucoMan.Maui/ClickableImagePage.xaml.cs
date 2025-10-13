@@ -60,7 +60,7 @@ public partial class ClickableImagePage : ContentPage
                     // Load the image "sensor.png" from resources
                     imgToBeTapped.Source = "arms_back.png";
                     this.Title = "Sensors' past positions";
-                    circlesVisibilityMaxTimeInDays = 2 * 7 * 6 + 7; // 2 weeks by 6 positions (+1 week)
+                    circlesVisibilityMaxTimeInDays = 2 * 7 * 6 + 12; // 2 weeks by 6 positions (+2 weeks)
                     break;
                 }
             //default:
@@ -84,7 +84,7 @@ public partial class ClickableImagePage : ContentPage
             
             // bind the Drawable to the GraphicsView
             cerchiGraphicsView.Drawable = allCircles;
-            cerchiGraphicsView.Background = Color.FromRgba(255, 255, 0, 100);
+            //cerchiGraphicsView.Background = Color.FromRgba(255, 255, 0, 100);
             var children = cerchiGraphicsView.GetChildElements(new Microsoft.Maui.Graphics.Point(100, 100));
             firstPass = false;
             

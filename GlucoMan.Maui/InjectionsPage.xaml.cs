@@ -25,7 +25,6 @@ public partial class InjectionsPage : ContentPage
     private bool HasUnsavedChanges = false;
     private bool IsNavigatingAway = false;
     private bool isFirstSelection = true;
-
     internal InjectionsPage(int? IdInjection)
     {
         InitializeComponent();
@@ -75,7 +74,7 @@ public partial class InjectionsPage : ContentPage
     }
     private bool HandleBackNavigation()
     {
-        if (HasUnsavedChanges && !IsNavigatingAway)
+         if (HasUnsavedChanges && !IsNavigatingAway)
         {
             ShowUnsavedChangesDialog();
             return true; // Prevent automatic navigation
@@ -330,7 +329,9 @@ public partial class InjectionsPage : ContentPage
         if (pageIsLoading) return;
         DateTime now = DateTime.Now;
         if (chkSensors.IsChecked)
-            ShownDataTimeMultiplicator = 4;
+        {
+            ShownDataTimeMultiplicator = 6;
+        }
         else
             ShownDataTimeMultiplicator = 1;
 

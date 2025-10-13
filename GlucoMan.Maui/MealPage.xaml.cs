@@ -327,15 +327,22 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         // check if the user chose a food in called page
         if (foodWasChosen && foodsPage.FoodIsChosen)
         {
-            // Aggiorna il FoodInMeal corrente con il Food scelto dalla pagina chiamata
+            bool newFoodIsDifferent = foodsPage.Food.IdFood != bl.FoodInMeal.IdFood;
+            // Update the current FoodInMeal with the Food chosen from the called page
             bl.FromFoodToFoodInMeal(foodsPage.Food, bl.FoodInMeal);
-            // ricalcola i carboidrati in grammi di questo FoodInMeal
+            // check if this food in meal is the same that is coming from the Food page
+            if (newFoodIsDifferent)
+            {
+                // the chosen food is different, 
+                bl.FoodInMeal.QuantityInUnits.Double = 0;
+            }
+            // recalculate the carbohydrates in grams of this FoodInMeal
             bl.CalculateChoOfFoodGrams();
-            // Aggiorna l'interfaccia utente con i nuovi dati
+            // Update the user interface with the new data
             FromClassToBoxesFoodInMeal();
-            // Ricalcola tutti i valori
+            // Recalculate all values
             bl.RecalcAll();
-            // Aggiorna l'UI del meal
+            // Update the meal UI
             RefreshMeal();
         }
     }
@@ -370,14 +377,13 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             // take the data from the UI controls and put it into the business layer class
             FromBoxesFoodInMealToClass();
             bl.UpdateOldFoodInMealInList();
-            bl.RecalcAll();
-
             // Refresh the bound UI data related to the Meal, since it has changed
             if (mealSection != null && bl?.Meal != null)
             {
                 mealSection.BindingContext = null;
                 mealSection.BindingContext = bl.Meal;
             }
+            bl.RecalcAll();
             RefreshMeal();
             // Also refresh the visualization of the grid
             RefreshGrid();
@@ -401,7 +407,44 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     }
     private async void btnWeighFood_Click(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new WeighFoodPage());
+        try
+        {
+            // Update the current food from UI before opening WeighFoodPage
+            FromBoxesFoodInMealToClass();
+            
+            // Open WeighFoodPage with current food data
+            var weighFoodPage = new WeighFoodPage(bl.FoodInMeal);
+            await Navigation.PushModalAsync(weighFoodPage);
+            
+            // Wait for the page to be closed and get the result
+            bool dataWasModified = await weighFoodPage.PageClosedTask;
+            
+            // Check if the user modified food data in the WeighFoodPage
+            if (dataWasModified && weighFoodPage.ResultFood != null)
+            {
+                // Update the current FoodInMeal with the modified Food data
+                bl.FromFoodToFoodInMeal(weighFoodPage.ResultFood, bl.FoodInMeal);
+                
+                // Recalculate the carbohydrates in grams of this FoodInMeal
+                bl.CalculateChoOfFoodGrams();
+                
+                // Update the user interface with the new data
+                FromClassToBoxesFoodInMeal();
+                
+                // Recalculate all values
+                bl.RecalcAll();
+                
+                // Update the meal UI
+                RefreshMeal();
+                
+                General.LogOfProgram?.Event("Food data updated from WeighFoodPage successfully");
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("MealPage - btnWeighFood_Click", ex);
+            await DisplayAlert("Error", "Failed to open weigh food page. Check logs for details.", "OK");
+        }
     }
     private async void btnFoodCalc_ClickAsync(object sender, EventArgs e)
     {

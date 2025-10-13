@@ -7,12 +7,20 @@ public partial class FoodPage : ContentPage
 {
     BL_MealAndFood bl = Common.MealAndFood_CommonBL;
     public Food CurrentFood { get; set; }
-    public bool FoodIsChosen { get; internal set; }
+    
+    // Add TaskCompletionSource to handle page completion
+    private TaskCompletionSource<bool> _taskCompletionSource;
+    public Task<bool> PageClosedTask => _taskCompletionSource?.Task ?? Task.FromResult(false);
+    
+    // Property to indicate if user chose/confirmed the food
+    public bool FoodIsChosen { get; private set; }
+    
     public FoodPage(Food Food)
     {
         InitializeComponent();
         FoodIsChosen = false;
         CurrentFood = Food;
+        _taskCompletionSource = new TaskCompletionSource<bool>();
 
         this.BindingContext = Food;
 
@@ -29,16 +37,51 @@ public partial class FoodPage : ContentPage
         cmbManufacturer.ItemsSource = bl.GetAllManufacturersOfOneFood(Food);
         cmbCategory.ItemsSource = bl.GetAllCategoriesOfOneFood(Food);
     }
-    private void btnOk_Click(object sender, EventArgs e)
+    private async void btnOk_Click(object sender, EventArgs e)
     {
         FoodIsChosen = true;
         bl.SaveOneFood((Food)this.BindingContext);
-        this.Navigation.PopAsync();
+        
+        // Set the result and close the page
+        _taskCompletionSource?.SetResult(true);
+        
+        // Check if this was opened as modal or regular navigation
+        var navigation = Navigation;
+        if (navigation.ModalStack.Contains(this))
+        {
+            await navigation.PopModalAsync();
+        }
+        else
+        {
+            await navigation.PopAsync();
+        }
     }
-    private void btnEscape_Clicked(object sender, EventArgs e)
+    
+    private async void btnEscape_Clicked(object sender, EventArgs e)
     {
         FoodIsChosen = false;
-        this.Navigation.PopAsync();
+        
+        // Set the result and close the page
+        _taskCompletionSource?.SetResult(false);
+        
+        // Check if this was opened as modal or regular navigation
+        var navigation = Navigation;
+        if (navigation.ModalStack.Contains(this))
+        {
+            await navigation.PopModalAsync();
+        }
+        else
+        {
+            await navigation.PopAsync();
+        }
+    }
+    
+    protected override bool OnBackButtonPressed()
+    {
+        // Handle back button press - user cancelled
+        FoodIsChosen = false;
+        _taskCompletionSource?.SetResult(false);
+        return base.OnBackButtonPressed();
     }
     private void btnAddFoodManufacturer_Clicked(object sender, EventArgs e)
     {

@@ -8,9 +8,17 @@
         <HorizontalStackLayout>
             <Button x:Name="btnSavePosition" Text="Keep" 
                     ToolTipProperties.Text="Closes the page remembering the current position, that can be saved in the other page"
+                    BackgroundColor="LightGreen" 
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
                     Clicked="BtnSavePosition_Clicked"/>
             <Button x:Name="btnForgetPosition" Text="Forget" 
                     ToolTipProperties.Text="Closes the page forgetting the current position"
+                    BackgroundColor="LightCoral" 
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
                     Clicked="BtnForgetPosition_Clicked"/>
             <CheckBox x:Name="EditorCheckBox" Margin="0" HorizontalOptions="Start" 
                         ToolTipProperties.Text="Edits the reference points if checked"
