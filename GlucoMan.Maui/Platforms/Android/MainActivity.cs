@@ -9,20 +9,17 @@ using gamon;
 
 namespace GlucoMan.Maui
 {
-    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
+    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, 
+        LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | 
+        ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | 
+        ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
     public class MainActivity : MauiAppCompatActivity
     {
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            
-            // Set the static reference for the helper class
-            ////////AndroidExternalFilesHelper.SetMainActivity(this);
-
-            ////////// Start the permission flow (do not block UI thread)
-            //////////_ = EnsureStoragePermissionsAsync();
         }
-
+        // erase the next method when the rest of the code is stable
         private async Task EnsureStoragePermissionsAsync()
         {
             try
@@ -49,15 +46,12 @@ namespace GlucoMan.Maui
                 General.LogOfProgram.Error("Error while requesting storage permissions in MainActivity", ex);
             }
         }
-
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             // Forward the permission result to the helper class
             AndroidExternalFilesHelper.OnPermissionResult(requestCode, permissions, grantResults);
-            ////////base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-        
+        }    
         protected override void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent? data)
         {
             base.OnActivityResult(requestCode, resultCode, data);

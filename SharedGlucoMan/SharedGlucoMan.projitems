@@ -45,7 +45,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Meal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Food.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\GlucoseRecord.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\WeighData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DataLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_ImportData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_BolusesAndInjections.cs" />

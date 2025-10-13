@@ -56,20 +56,19 @@ public partial class FoodsPage : ContentPage
         loading = true;
 
         foodIsChosen = false;
-        txtName.Text = "";
-        txtDescription.Text = "";
-        Food.Name = "";
-        Food.Description = "";
+        //txtName.Text = "";
+        //txtDescription.Text = "";
+        //Food.Name = "";
+        //Food.Description = "";
         allFoods = new List<Food>();
         // if a specific food is passed, load its persistent data from database 
+        // if what is passed has not and IdFood,
+        // we use the data actually passed 
         if (Food.IdFood != 0 && Food.IdFood != null)
         {
             Food = bl.GetOneFood(Food.IdFood);
         }
         cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
-        // if what is passed has not and IdFood,
-        // we use the data actually passed 
-
         // let's show the Food
         FromClassToUi();
         this.BindingContext = Food;
@@ -122,8 +121,15 @@ public partial class FoodsPage : ContentPage
     {
         FromUiToClass();
         foodPage = new FoodPage(Food);
-        await Navigation.PushAsync(foodPage);
-        if (foodPage.FoodIsChosen)
+        
+        // Can be navigated as modal or regular - both work now
+        await Navigation.PushModalAsync(foodPage);
+        
+        // Wait for the page to be closed and get the result
+        bool foodWasChosen = await foodPage.PageClosedTask;
+        
+        // Check if the user chose/confirmed the food
+        if (foodWasChosen && foodPage.FoodIsChosen)
         {
             bl.FromFoodToFoodInMeal(foodPage.CurrentFood, bl.FoodInMeal);
             FromClassToUi();
@@ -151,7 +157,7 @@ public partial class FoodsPage : ContentPage
             carbs == 0)
         {
             DisplayAlert("Error", "Name and Carbohydrates of a new food must bet set" +
-                "\nFoof not saved", "OK");
+                "\nFood not saved", "OK");
             return;
         }
 

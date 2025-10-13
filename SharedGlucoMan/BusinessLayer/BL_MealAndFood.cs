@@ -433,24 +433,6 @@ namespace GlucoMan.BusinessLayer
                 return;
             dl.SaveOneFoodInMeal(FoodInMeal);
             return;
-            //// when this method is called something has changed in the current FoodInMeal
-            //// a new FoodInMeal is identified by a null or zero IdFoodInMeal
-            //// we look for the FoodInMeal in the list FoodsInMeal
-
-            //// update the previous FoodsInMeal or add the new one
-            //var existingFoodInMeal = FoodsInMeal.FirstOrDefault(f => f.IdFoodInMeal == FoodInMeal.IdFoodInMeal);
-            //if (existingFoodInMeal != null)
-            //{
-            //    // Update the existing food in the list with current FoodInMeal data
-            //    var index = FoodsInMeal.IndexOf(existingFoodInMeal);
-            //    FoodsInMeal[index] = FoodInMeal;
-            //}
-            //else
-            //{
-            //    // If for any reason (tipically the user choosing a new food)
-            //    // the food is not found in the list, add it
-            //    FoodsInMeal.Add(FoodInMeal);
-            //}
         }
     }
 }

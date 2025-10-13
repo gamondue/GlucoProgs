@@ -1,4 +1,5 @@
 ﻿using gamon;
+using GlucoMan.BusinessLayer;
 
 namespace GlucoMan
 {
@@ -35,6 +36,21 @@ namespace GlucoMan
                 if (IdTypeOfInsulinAction.HasValue)
                     return (Common.TypeOfInsulinAction)IdTypeOfInsulinAction.Value;
                 return Common.TypeOfInsulinAction.NotSet;
+            }
+        }
+
+        // Property to show in the grid the name of the insulin drug instead of its ID
+        public string InsulinDrugName
+        {
+            get
+            {
+                if (IdInsulinDrug.HasValue)
+                {
+                    var bl = new BL_BolusesAndInjections();
+                    var insulinDrug = bl.GetOneInsulinDrug(IdInsulinDrug);
+                    return insulinDrug?.Name ?? IdInsulinDrug.ToString();
+                }
+                return "";
             }
         }
 

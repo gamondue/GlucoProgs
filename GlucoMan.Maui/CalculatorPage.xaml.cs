@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.Controls;
 using System;
+using System.Globalization;
 
 namespace GlucoMan.Maui
 {
@@ -12,127 +13,267 @@ namespace GlucoMan.Maui
         bool isNewEntry = true;
         string decimalSeparator;
         public TaskCompletionSource<double?> ResultSource { get; private set; } = new();
+        
         public CalculatorPage(double InitialValue)
         {
-            InitializeComponent();
-            DisplayLabel.Text = InitialValue.ToString();
-            // localize the decimal separator
-            // get the local decimal separator
-            decimalSeparator = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-            // put the decimal sepatator in the button
-            btnDecimal.Text = decimalSeparator;
+            try
+            {
+                InitializeComponent();
+                
+                // Safely format the initial value
+                DisplayLabel.Text = InitialValue.ToString(CultureInfo.CurrentCulture);
+                
+                // localize the decimal separator
+                // get the local decimal separator
+                decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+                
+                // put the decimal separator in the button
+                if (btnDecimal != null)
+                    btnDecimal.Text = decimalSeparator;
+            }
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("CalculatorPage - Constructor", ex);
+                
+                // Initialize with safe defaults
+                if (DisplayLabel != null) DisplayLabel.Text = "0";
+                decimalSeparator = ".";
+                if (btnDecimal != null) btnDecimal.Text = decimalSeparator;
+            }
         }
+        
         void OnNumberClicked(object sender, EventArgs e)
         {
-            var button = sender as Button;
-            if (isNewEntry)
+            try
             {
-                DisplayLabel.Text = button.Text;
-                isNewEntry = false;
+                if (sender is not Button button || DisplayLabel == null) return;
+                
+                if (isNewEntry)
+                {
+                    DisplayLabel.Text = button.Text ?? "0";
+                    isNewEntry = false;
+                }
+                else
+                {
+                    DisplayLabel.Text += button.Text ?? "";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                DisplayLabel.Text += button.Text;
+                gamon.General.LogOfProgram?.Error("CalculatorPage - OnNumberClicked", ex);
             }
         }
+        
         void OnOperatorClicked(object sender, EventArgs e)
         {
-            var button = sender as Button;
-            firstNumber = double.Parse(DisplayLabel.Text);
-            operation = button.Text;
-            isNewEntry = true;
-        }
-        void OnClearClicked(object sender, EventArgs e)
-        {
-            // C button clears the display and the current operation
-            DisplayLabel.Text = "0";
-            firstNumber = 0;
-            secondNumber = 0;
-            operation = "";
-            isNewEntry = true;
-        }
-        private void OnClearEntryClicked(object sender, EventArgs e)
-        {
-            // CE button just clears the display
-            DisplayLabel.Text = "0";
-        }
-        void OnEqualsClicked(object sender, EventArgs e)
-        {
-            secondNumber = double.Parse(DisplayLabel.Text);
-            double result = 0;
-            switch (operation)
+            try
             {
-                case "+":
-                    result = firstNumber + secondNumber;
-                    break;
-                case "-":
-                    result = firstNumber - secondNumber;
-                    break;
-                case "×":
-                case "*":
-                    result = firstNumber * secondNumber;
-                    break;
-                case "÷":
-                case "/":
-                    result = secondNumber != 0 ? firstNumber / secondNumber : 0;
-                    break;
-            }
-
-            DisplayLabel.Text = result.ToString();
-            isNewEntry = true;
-        }
-        private void OnBackspaceClicked(object sender, EventArgs e)
-        {
-            // delete the last character of the display
-            if (!string.IsNullOrEmpty(DisplayLabel.Text) && DisplayLabel.Text.Length > 1)
-            {
-                // delete last character
-                DisplayLabel.Text = DisplayLabel.Text.Substring(0, DisplayLabel.Text.Length - 1);
-            }
-            else
-            {
-                // if there is just one character, set the display to "0"
-                DisplayLabel.Text = "0";
+                if (sender is not Button button || DisplayLabel == null) return;
+                
+                if (double.TryParse(DisplayLabel.Text, out double parsedValue))
+                {
+                    firstNumber = parsedValue;
+                }
+                else
+                {
+                    firstNumber = 0;
+                }
+                
+                operation = button.Text ?? "";
                 isNewEntry = true;
             }
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("CalculatorPage - OnOperatorClicked", ex);
+            }
         }
+        
+        void OnClearClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                // C button clears the display and the current operation
+                if (DisplayLabel != null) DisplayLabel.Text = "0";
+                firstNumber = 0;
+                secondNumber = 0;
+                operation = "";
+                isNewEntry = true;
+            }
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("CalculatorPage - OnClearClicked", ex);
+            }
+        }
+        
+        private void OnClearEntryClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                // CE button just clears the display
+                if (DisplayLabel != null) DisplayLabel.Text = "0";
+            }
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("CalculatorPage - OnClearEntryClicked", ex);
+            }
+        }
+        
+        void OnEqualsClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DisplayLabel == null) return;
+                
+                if (!double.TryParse(DisplayLabel.Text, out secondNumber))
+                {
+                    secondNumber = 0;
+                }
+                
+                double result = 0;
+                switch (operation)
+                {
+                    case "+":
+                        result = firstNumber + secondNumber;
+                        break;
+                    case "-":
+                        result = firstNumber - secondNumber;
+                        break;
+                    case "×":
+                    case "*":
+                        result = firstNumber * secondNumber;
+                        break;
+                    case "÷":
+                    case "/":
+                        result = secondNumber != 0 ? firstNumber / secondNumber : 0;
+                        break;
+                    default:
+                        result = secondNumber; // If no operation, just use the current number
+                        break;
+                }
+
+                DisplayLabel.Text = result.ToString(CultureInfo.CurrentCulture);
+                isNewEntry = true;
+            }
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("CalculatorPage - OnEqualsClicked", ex);
+                if (DisplayLabel != null) DisplayLabel.Text = "Error";
+            }
+        }
+        
+        private void OnBackspaceClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DisplayLabel == null) return;
+                
+                // delete the last character of the display
+                if (!string.IsNullOrEmpty(DisplayLabel.Text) && DisplayLabel.Text.Length > 1)
+                {
+                    // delete last character
+                    DisplayLabel.Text = DisplayLabel.Text.Substring(0, DisplayLabel.Text.Length - 1);
+                }
+                else
+                {
+                    // if there is just one character, set the display to "0"
+                    DisplayLabel.Text = "0";
+                    isNewEntry = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("CalculatorPage - OnBackspaceClicked", ex);
+            }
+        }
+        
         private void OnDecimalClicked(object sender, EventArgs e)
         {
-            // add to the display the local separator between integer and decimal
-
-            // add the separator to the display omky if it isn't already present in the display
-            if (!DisplayLabel.Text.Contains(decimalSeparator))
+            try
             {
-                DisplayLabel.Text += decimalSeparator;
-                isNewEntry = false; // allows writing other digits, after the separator
+                if (DisplayLabel == null || string.IsNullOrEmpty(decimalSeparator)) return;
+                
+                // add to the display the local separator between integer and decimal
+                // add the separator to the display only if it isn't already present in the display
+                if (!DisplayLabel.Text.Contains(decimalSeparator))
+                {
+                    DisplayLabel.Text += decimalSeparator;
+                    isNewEntry = false; // allows writing other digits, after the separator
+                }
+            }
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("CalculatorPage - OnDecimalClicked", ex);
             }
         }
-        private void OnOkClicked(object sender, EventArgs e)
+        
+        private async void OnOkClicked(object sender, EventArgs e)
         {
-            // convert the result to a double
-            if (double.TryParse(DisplayLabel.Text, out double result))
+            try
             {
-                ResultSource.TrySetResult(result);
+                // convert the result to a double
+                if (DisplayLabel != null && double.TryParse(DisplayLabel.Text, out double result))
+                {
+                    ResultSource.TrySetResult(result);
+                }
+                else
+                {
+                    ResultSource.TrySetResult(null);
+                }
+                
+                // close the page going back to the calling page
+                await Navigation.PopModalAsync();
             }
-            else
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("CalculatorPage - OnOkClicked", ex);
+                ResultSource.TrySetResult(null);
+                try
+                {
+                    await Navigation.PopModalAsync();
+                }
+                catch (Exception navEx)
+                {
+                    gamon.General.LogOfProgram?.Error("CalculatorPage - OnOkClicked Navigation", navEx);
+                }
+            }
+        }
+        
+        private async void OnEscapeClicked(object sender, EventArgs e)
+        {
+            try
             {
                 ResultSource.TrySetResult(null);
+                // close the page going back to the calling page
+                await Navigation.PopModalAsync();
             }
-            // close the page going back to the calling page
-            Navigation.PopModalAsync();
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("CalculatorPage - OnEscapeClicked", ex);
+                try
+                {
+                    await Navigation.PopModalAsync();
+                }
+                catch (Exception navEx)
+                {
+                    gamon.General.LogOfProgram?.Error("CalculatorPage - OnEscapeClicked Navigation", navEx);
+                }
+            }
         }
-        private void OnEscapeClicked(object sender, EventArgs e)
-        {
-            ResultSource.TrySetResult(null);
-            // close the page going back to the calling page
-            Navigation.PopModalAsync();
-        }
+        
         protected override void OnDisappearing()
         {
-            // when the Page is closing, set the Page's result
-            if (!ResultSource.Task.IsCompleted)
-                ResultSource.TrySetResult(null);
-            base.OnDisappearing();
+            try
+            {
+                // when the Page is closing, set the Page's result
+                if (!ResultSource.Task.IsCompleted)
+                    ResultSource.TrySetResult(null);
+                    
+                base.OnDisappearing();
+            }
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("CalculatorPage - OnDisappearing", ex);
+            }
         }
     }
 }
