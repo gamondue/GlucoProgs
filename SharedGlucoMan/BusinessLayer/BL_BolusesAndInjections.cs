@@ -286,7 +286,7 @@ namespace GlucoMan.BusinessLayer
         public double CalculateTotalEmbarkedQuickInsulin(DateTime EvaluationTime)
         {
             DateTime FinalInstant = DateTime.Now;
-            //DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(0, (int)(InsulinDurationInHours(InsulinSpeed) * 60), 0)); ;
+            //DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(0, (int)(InsulinDurationInHours(InsulinAction) * 60), 0)); ;
             DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(40, 0, 0)); ;
 
             List<Injection> bolusesInTheLast40Hours =

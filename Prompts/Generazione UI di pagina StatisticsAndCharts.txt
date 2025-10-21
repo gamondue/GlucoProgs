@@ -1,0 +1,12 @@
+Genera una nuova pagina, che viene chiamata dal bottone "statistics" della pagina principale. 
+La nuova pagina si deve chiamare StatisticsAndGraphPage e deve contenere: 
+-  nella parte alta dei radio button, tutti mutualmente esclusivi il cui testo è 
+glucose	
+short insulin
+long insulin
+foods
+meals
+recipes
+i radio button devono essere su due rige e tre colonne ed avere metodi di evento tutti diversi
+sotto ai radio button mettiamo due bottoni affianciati in una riga con le scritte "Statistics" e "Graph". Realizzare i metodi d'evento che chiamano le pagine " che fa partire le pagine "StatisticsPage" e "GraphPage" che per ora lasciamo vuote.
+sotto un'altra riga con un bottone in mezzo con la scritta "Import glucose data from sensor" con una procedura d'evento vuota

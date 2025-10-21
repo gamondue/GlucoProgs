@@ -157,7 +157,7 @@
                        LineBreakMode="TailTruncation"/>
                 <Label Grid.Row="3" Grid.Column="2" Text="Quantity" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                        LineBreakMode="TailTruncation"/>
-                <Label Grid.Row="3" Grid.Column="3" Text="CHO" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                <Label Grid.Row="3" Grid.Column="3" Text="CHO [g]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                        LineBreakMode="TailTruncation"/>
                 <Image Grid.Row="3" Grid.Column="4" 
                         Grid.RowSpan="2"
@@ -241,17 +241,30 @@
                       ItemSelected="gridFoodsInMeal_ItemSelected" 
                       RowHeight="25">
                 <ListView.Header>
-                    <Grid ColumnDefinitions="*,50,50,50,50">
+                    <Grid ColumnDefinitions="*,50,50,50,50"
+                          BackgroundColor="#e8f5e9"
+                          Margin="2"
+                          Padding="0,3,0,3">
                         <Label Grid.Column="0" Margin="1" Text="Nome" HorizontalTextAlignment="Start" 
-                            FontAttributes="Bold"/>
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#2c3e50"/>
                         <Label Grid.Column="1" Margin="1" Text="CHO%" HorizontalTextAlignment="Center" 
-                            FontAttributes="Bold"/>
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#2c3e50"/>
                         <Label Grid.Column="2" Margin="1" Text="Quant" HorizontalTextAlignment="Center"
-                            FontAttributes="Bold"/>
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#2c3e50"/>
                         <Label Grid.Column="3" Margin="1" Text="CHO" HorizontalTextAlignment="Center"
-                            FontAttributes="Bold"/>
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#2c3e50"/>
                         <Label Grid.Column="4" Margin="1" Text="Acc." HorizontalTextAlignment="Center" 
-                            FontAttributes="Bold"/>
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#2c3e50"/>
                     </Grid>
                 </ListView.Header>
                 <!-- description of data to be shown, in a DataTemplate -->

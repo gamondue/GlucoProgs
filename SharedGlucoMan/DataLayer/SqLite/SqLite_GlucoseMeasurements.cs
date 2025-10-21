@@ -11,7 +11,7 @@ namespace GlucoMan
             return GetTableNextPrimaryKey("GlucoseRecords", "IdGlucoseRecord");
         }
         internal override List<GlucoseRecord> GetGlucoseRecords(
-            DateTime? InitialInstant, DateTime? FinalInstant)
+            DateTime? InitialInstant = null, DateTime? FinalInstant = null)
         {
             List<GlucoseRecord> list = new List<GlucoseRecord>();
             try
@@ -111,13 +111,18 @@ namespace GlucoMan
             GlucoseRecord gr = new GlucoseRecord();
             try
             {
-                gr.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
+                int? value = Safe.Int(Row["IdGlucoseRecord"]);
+                gr.IdGlucoseRecord = value;
                 gr.Timestamp.DateTime = Safe.DateTime(Row["Timestamp"]);
                 gr.GlucoseValue.Double = Safe.Double(Row["GlucoseValue"]);
                 gr.GlucoseString = Safe.String(Row["GlucoseString"]);
                 gr.IdDevice = Safe.String(Row["IdDevice"]);
-                gr.TypeOfGlucoseMeasurement = (Common.TypeOfGlucoseMeasurement)Safe.Int(Row["IdTypeOfGlucoseMeasurement"]);
-                gr.TypeOfGlucoseMeasurementDevice = (Common.TypeOfGlucoseMeasurementDevice)Safe.Int(Row["IdTypeOfGlucoseMeasurementDevice"]);
+                value = Safe.Int(Row["IdTypeOfGlucoseMeasurement"]);
+                if (value != null)
+                    gr.TypeOfGlucoseMeasurement = (Common.TypeOfGlucoseMeasurement)value;
+                value = Safe.Int(Row["IdTypeOfGlucoseMeasurementDevice"]);
+                if (value != null)
+                    gr.TypeOfGlucoseMeasurementDevice = (Common.TypeOfGlucoseMeasurementDevice)value;
                 gr.IdModelOfMeasurementSystem = Safe.String(Row["IdModelOfMeasurementSystem"]);
                 gr.IdDocumentType.Int = Safe.Int(Row["IdDocumentType"]);
                 gr.Notes = Safe.String(Row["Notes"]);

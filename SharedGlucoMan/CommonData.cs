@@ -44,7 +44,8 @@ namespace GlucoMan
             NotSet = 0,
             SensorIntermediateValue = 20,
             SensorScanValue = 30,
-            GlucoseReactiveStripValue = 40
+            GlucoseReactiveStripValue = 40,
+            NotApplicable = 500
         }
         public enum TypeOfGlucoseMeasurementDevice
         {
@@ -52,14 +53,16 @@ namespace GlucoMan
             FingerPuncture = 10,
             UnderSkinSensor = 20,
             CGM = 30,
-            ArtificialPancreas = 40
+            ArtificialPancreas = 40,
+            NotApplicable = 500
         }
         public enum ModelOfMeasurementSystem
         {
             Unknown = 0,
             AbbotFreestyle = 10,
             AbbotFreestyleLibre = 20,
-            AbbotFreestyleLibre2 = 20
+            AbbotFreestyleLibre2 = 30,
+            NotApplicable = 500
         }
         public enum TypeOfMeal
         {
@@ -68,13 +71,14 @@ namespace GlucoMan
             Lunch = 20,
             Dinner = 30,
             Snack = 40,
-            Other = 90
+            Other = 90,
+            NotApplicable = 500
         }
         public enum TypeOfInjection
         {
             NotSet = 0,
             Bolus = 10,  // injection with a syringe of a bolus of insulin
-            Blood = 20,   // puncture of the hand to get blood sample for glucose measurement
+            Blood = 20,  // puncture of the hand to get blood sample for glucose measurement
             Sensor = 30, // implantation of a sensor that measures blood glucose
             Other = 90
         }

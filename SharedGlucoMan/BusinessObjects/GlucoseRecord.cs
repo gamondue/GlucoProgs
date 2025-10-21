@@ -25,10 +25,11 @@ namespace GlucoMan
         public string InsulinString { get; set; }
         public string InsulinDrugName { get; set; }
         public Common.InsulinDrug InsulinInjectionType { get; set; }
-        public Common.TypeOfInsulinAction InsulinSpeed { get; set; }
-        public Common.QualitativeAccuracy InsulinAccuracy { get; set; }
-        public Common.QualitativeAccuracy CarbohydratesAccuracy { get; set; }
-        public Common.QualitativeAccuracy GlucoseQualitativeAccuracy { get; set; }
+        public Common.TypeOfInsulinAction InsulinAction { get; set; }
+        // numerical accuracies of the values recorded
+        public double InsulinBolusAccuracy { get; set; }
+        public double FoodCarbohydratesAccuracy { get; set; }
+        public double BloodGlucoseAccuracy { get; set; }
         public Common.TypeOfMeal TypeOfMeal { get; set; }
         public double? CarbohydratesValue_grams { get; set; }
         public string CarbohydratesString { get; set; }

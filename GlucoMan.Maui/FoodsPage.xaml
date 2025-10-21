@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:GlucoMan.Maui.Converters"
              x:Class="GlucoMan.Maui.FoodsPage"
              Title="Foods" Loaded="PageLoad">
+    <ContentPage.Resources>
+     <ResourceDictionary>
+    <converters:DoubleTextConverter x:Key="DoubleTextConverter" />
+  </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <!--Grid.RowDefinitions="20,20,50,20,50,20,50,50,*"-->
         <Grid Grid.RowDefinitions="Auto
@@ -59,8 +65,7 @@
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" 
                    BackgroundColor="GreenYellow" TextColor="Black"
                    Keyboard="Numeric" HorizontalTextAlignment="End" Margin="1"
-                   ToolTipProperties.Text="Percent Carbohydrates: carbohydrated of this food in 100 g [%]"
-                   Text = "{Binding CarbohydratesPercent.Text}"/>
+                   ToolTipProperties.Text="Percent Carbohydrates: carbohydrated of this food in 100 g [%]"/>
             <Button Grid.Row="6" Grid.Column="1" x:Name="btnChoose" Margin="1"
                     ImageSource="choose.png"
                 ToolTipProperties.Text="Choose: chooses this food to be used by the calling page"
@@ -104,6 +109,29 @@
                       ToolTipProperties.Text="Foods"
                       ItemSelected="OnGridSelectionAsync"
                       RowHeight="22">
+                <!-- Header with column labels -->
+    <ListView.Header>
+      <Grid RowDefinitions="25" ColumnDefinitions="*,50"
+       BackgroundColor="#e8f5e9"
+            Margin="2"
+            Padding="0,3,0,3">
+            <Label Grid.Column="0" 
+            Text="Food" 
+            FontAttributes="Bold"
+            FontSize="14"
+            TextColor="#2c3e50"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="Center"
+            Margin="5,0"/>
+            <Label Grid.Column="1" 
+            Text="CHO%" 
+            FontAttributes="Bold"
+            FontSize="14"
+            TextColor="#2c3e50"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"/>
+      </Grid>
+    </ListView.Header>
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate Margin="4">
                     <DataTemplate>
@@ -114,7 +142,7 @@
                                     <Label HorizontalTextAlignment="Start" Grid.Column="0" 
                                            Text="{Binding Name}" Margin="5,0" />
                                     <Label HorizontalTextAlignment="Center" Grid.Column="1" 
-                                           Text="{Binding CarbohydratesPercent.Text}"/>
+                                           Text="{Binding CarbohydratesPercent.Text, Converter={StaticResource DoubleTextConverter}}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

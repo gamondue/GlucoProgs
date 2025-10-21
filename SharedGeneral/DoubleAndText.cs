@@ -12,7 +12,7 @@ namespace gamon
         {
             Format = "0.0";
             doubleVal = null;
-            text = "NaN";
+            text = null; // ✅ Cambiato a null invece di "" o "NaN"
         }
         public string Format { get; set; }
         public double? Double
@@ -38,25 +38,26 @@ namespace gamon
         }
         public string Text
         {
-            get
-            {
-                if (doubleVal == null || doubleVal is DBNull)
-                    return "";
-                try
-                {
-                    return ((double)doubleVal).ToString(Format);
-                }
-                catch
-                {
-                    return "";
-                }
-            }
+            get => text;
+            //{
+            //    if (doubleVal == null || doubleVal is DBNull)
+            //        return "";
+            //    try
+            //    {
+            //        return ((double)doubleVal).ToString(Format);
+            //    }
+            //    catch
+            //    {
+            //        return "";
+            //    }
+            //}
             set
             {
                 text = value;
                 if (value == null || value is DBNull)
                 {
-                    text = null;
+                    doubleVal = null;
+                    return;
                 }
                 try
                 {

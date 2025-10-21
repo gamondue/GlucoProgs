@@ -25,8 +25,9 @@ namespace GlucoMan
         #endregion
         #region Glucose 
         internal abstract GlucoseRecord GetOneGlucoseRecord(int? idGlucoseRecord);
+        internal abstract List<GlucoseRecord> GetGlucoseRecords(
+            DateTime? InitialInstant = null, DateTime? FinalInstant = null);
         internal abstract List<GlucoseRecord> GetLastTwoGlucoseMeasurements();
-        internal abstract List<GlucoseRecord> GetGlucoseRecords(DateTime? InitialInstant, DateTime? FinalInstant);
         //internal abstract void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
         internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);
         internal abstract long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
@@ -112,5 +113,12 @@ namespace GlucoMan
         internal abstract bool CheckIfCategoryExists(CategoryOfFood categoryOfFood);
         internal abstract int? AddCategoryOfFood(CategoryOfFood categoryOfFood);
         internal abstract int? UpdateCategoryOfFood(CategoryOfFood categoryOfFood);
+        #region Containers
+        internal abstract List<Container> GetAllContainers();
+        internal abstract Container GetOneContainer(int idContainer);
+        internal abstract int? SaveContainer(Container container);
+        internal abstract bool DeleteContainer(int idContainer);
+        internal abstract List<Container> SearchContainers(string name);
+        #endregion
     }
 }

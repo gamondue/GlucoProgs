@@ -1,4 +1,6 @@
-﻿namespace GlucoMan.BusinessLayer
+﻿using gamon;
+
+namespace GlucoMan.BusinessLayer
 {
     public class BL_Recipes
     {
@@ -113,10 +115,22 @@
         }
         internal void FromFoodToIngredient(Food sourceFood, Ingredient destinationIngredient)
         {
-            destinationIngredient.IdFood = sourceFood.IdFood;
-            destinationIngredient.Name = sourceFood.Name;
-            destinationIngredient.Description = sourceFood.Description;
-            destinationIngredient.CarbohydratesPercent = sourceFood.CarbohydratesPercent;
+            if (destinationIngredient != null && sourceFood != null)
+            {
+                destinationIngredient.IdFood = sourceFood.IdFood;
+                destinationIngredient.Name = sourceFood.Name;
+                destinationIngredient.Description = sourceFood.Description;
+                
+                // Crea una copia del valore, non del riferimento
+                if (destinationIngredient.CarbohydratesPercent == null)
+                    destinationIngredient.CarbohydratesPercent = new DoubleAndText();
+                
+                if (sourceFood.CarbohydratesPercent != null)
+                {
+                    destinationIngredient.CarbohydratesPercent.Double = sourceFood.CarbohydratesPercent.Double;
+                    destinationIngredient.CarbohydratesPercent.Text = sourceFood.CarbohydratesPercent.Text;
+                }
+            }
         }
         public int? SaveOneIngredient(Ingredient Ingredient)
         {

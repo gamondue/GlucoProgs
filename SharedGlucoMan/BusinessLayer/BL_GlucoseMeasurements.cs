@@ -38,5 +38,29 @@ namespace GlucoMan.BusinessLayer
         {
             dl.DeleteOneGlucoseMeasurement(gr); 
         }
+        internal List<GlucoseRecord> GetGlucoseRecords(DateTime? startInstant = null, DateTime? endInstant = null)
+        {
+            return dl.GetGlucoseRecords(startInstant, endInstant);
+        }
+        internal List<(float Hour, float Value)> GetGraphData(DateTime day)
+        {
+            // Calculate midnight of the selected day and midnight of the next day
+            DateTime startOfDay = day.Date; // Midnight of the selected day (00:00:00)
+            DateTime endOfDay = day.Date.AddDays(1); // Midnight of the next day (24:00:00 or 00:00:00 of next day)
+            var records = dl.GetGlucoseRecords(startOfDay, endOfDay);
+            var dataPoints = new List<(float Hour, float Value)>();
+            foreach (var record in records)
+            {
+                if (record.GlucoseValue.Double.HasValue && record.Timestamp.DateTime.HasValue)
+                {
+                    float hour = record.Timestamp.DateTime.Value.Hour +
+                                 record.Timestamp.DateTime.Value.Minute / 60f +
+                                 record.Timestamp.DateTime.Value.Second / 3600f;
+                    float value = (float)record.GlucoseValue.Double.Value;
+                    dataPoints.Add((hour, value));
+                }
+            }
+            return dataPoints;
+        }
     }
 }

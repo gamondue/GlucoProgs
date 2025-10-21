@@ -23,6 +23,13 @@
                 Clicked="btnInjections_Clicked" IsEnabled="True" Margin="6,3,3,3"
                 ToolTipProperties.Text="Injections: opens the page of past and present injections"/>
         <!--Text="Injections"-->
+        <Button x:Name="btnFoodToHitTargetCarbs" 
+                ImageSource="food_to_sugar.png"
+                LineBreakMode="WordWrap"
+                Grid.Row="1" Grid.Column="1" 
+                Clicked="btnFoodToHitTargetCarbs_Clicked"
+                Margin="6,3,3,3" ToolTipProperties.Text="Food to hit Target: opens the page that calculates the food one need to eat to hit a carbohydrates target"/>
+        <!--Text="Food to reach &#10;  target carbs"-->
         <Button x:Name="btnMeals" 
                 ImageSource="meals.png"
                 Grid.Row="2" Grid.Column="0" 
@@ -48,13 +55,13 @@
                 Clicked="btnRecipes_Clicked" 
                 Margin="3,3,6,3" ToolTipProperties.Text="Recipes: opens the page of recipes' management" IsEnabled="True"/>
         <!--Text="Recipes"-->
-        <Button x:Name="btnFoodToHitTargetCarbs" 
-                ImageSource="food_to_sugar.png"
+        <Button x:Name="btnGraphicsAndStatistics" 
+                ImageSource="statistics.png"
                 LineBreakMode="WordWrap"
                 Grid.Row="4" Grid.Column="0" 
-                Clicked="btnFoodToHitTargetCarbs_Clicked"
-                Margin="6,3,3,3" ToolTipProperties.Text="Food to hit Target: opens the page that calculates the food one need to eat to hit a carbohydrates target"/>
-        <!--Text="Food to reach &#10;  target carbs"-->
+                Clicked="btnGraphicsAndStatistics_Clicked"
+                Margin="6,3,3,3" 
+                ToolTipProperties.Text="Charts and Statistics: opens the page that searches past data, makes statistics and charts"/>
         <Button x:Name="btnHypoPrediction" 
                 ImageSource="prediction.png"
                 LineBreakMode="WordWrap"

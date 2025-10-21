@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.StatisticsPage"
+             Title="Statistics">
+    <ScrollView Padding="15,10,15,10">
+        <VerticalStackLayout Spacing="20">
+            
+            <Label Text="Statistics Page" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,20,0,20"/>
+            
+            <!-- Placeholder content -->
+            <Label x:Name="lblDataType" 
+                   FontSize="18"
+                   HorizontalOptions="Center"/>
+            
+            <Label x:Name="lblDateRange" 
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   TextColor="Gray"/>
+            
+            <BoxView HeightRequest="2" 
+                     Color="LightGray" 
+                     Margin="0,20,0,20"/>
+            
+            <Label Text="Statistics content will be implemented here" 
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   TextColor="Gray"
+                   Margin="0,50,0,0"/>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

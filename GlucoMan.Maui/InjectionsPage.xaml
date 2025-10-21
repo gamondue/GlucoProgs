@@ -25,7 +25,7 @@
                     TextColor="Black"
                     ToolTipProperties.Text="Sensors: opens a new Sensors positions' picture page"
                     Clicked="btnSensors_Clicked_Async"/>
-            
+
             <CheckBox Grid.Row="0" Grid.Column="0" 
                       HorizontalOptions="Center" VerticalOptions="Center"
                       x:Name ="chkFront" CheckedChanged="chkChanged" IsChecked="False" 
@@ -64,7 +64,7 @@
                     ImageSource="floppy_disc.png"
                     ToolTipProperties.Text="Save: save this injection to the database"
                     Clicked="btnSave_Click"></Button>
-                    <!--Text="Save"-->
+            <!--Text="Save"-->
             <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Injection time"  
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
             <RadioButton Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1" 
@@ -112,7 +112,7 @@
                     Clicked="btnRemoveInjection_Click"></Button>
                 <!--Text="-"-->
             </Grid>
-            
+
             <HorizontalStackLayout Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3">
                 <CheckBox VerticalOptions="Center" x:Name="chkNowInAdd" IsChecked="True"
                     ToolTipProperties.Text="Manual/Automatic time: when checked sets 'now' as the time of a new event"
@@ -144,41 +144,65 @@
             <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Text="Injections" FontAttributes="Bold"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
-            <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4"
-                  RowDefinitions="*" ColumnDefinitions="*,55,55,55,55">
-                <Label Grid.Column="0" Text="Time" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-                <Label Grid.Column="1" Text="Bolus" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                       ToolTipProperties.Text="Quantity of insulin injected [UI]"/>
-                <Label Grid.Column="2" Text="Inj." HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                       ToolTipProperties.Text="Type of injection done"/>
-                <Label Grid.Column="3" Text="Act." HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                       ToolTipProperties.Text="Type of insulin action"/>
-                <Label Grid.Column="4" Text="Brand" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                       ToolTipProperties.Text="Brand of insulin injected"/>
-            </Grid>
-
             <ListView Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="4" 
                       x:Name="gridInjections" ItemsSource="{Binding}"
                       ToolTipProperties.Text="Past injections"
                       ItemSelected="OnGridSelectionAsync"
                       RowHeight="22">
+                <!-- Header with column labels -->
+                <ListView.Header>
+                    <Grid ColumnDefinitions="*,55,55,55,65"
+                        BackgroundColor="#e8f5e9"
+                        Margin="2"
+                        Padding="0,3,0,3">
+                        <Label Grid.Column="0" Text="Time" 
+                        HorizontalTextAlignment="Center"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        TextColor="#2c3e50"/>
+                        <Label Grid.Column="1" Text="Bolus" 
+                        HorizontalTextAlignment="Center"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        TextColor="#2c3e50"
+                        ToolTipProperties.Text="Quantity of insulin injected [UI]"/>
+                        <Label Grid.Column="2" Text="Inj." 
+                        HorizontalTextAlignment="Center"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        TextColor="#2c3e50"
+                        ToolTipProperties.Text="Type of injection done"/>
+                        <Label Grid.Column="3" Text="Act." 
+                        HorizontalTextAlignment="Center"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        TextColor="#2c3e50"
+                        ToolTipProperties.Text="Type of insulin action"/>
+                        <Label Grid.Column="4" Text="Brand" 
+                        HorizontalTextAlignment="Center"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        TextColor="#2c3e50"
+                        ToolTipProperties.Text="Brand of insulin injected"/>
+                    </Grid>
+                </ListView.Header>
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>  
+                        <ViewCell>
                             <ViewCell.View>
-                                    <Grid ColumnDefinitions="*,55,55,55,55">
-                                        <Label Grid.Column="0" Text="{Binding Timestamp.DateTime}" 
-                                               HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                        <Label Grid.Column="1" Text="{Binding InsulinValue.Text}" 
-                                               HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                        <Label Grid.Column="2" Text="{Binding TypeOfInjection}" 
-                                               HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                        <Label Grid.Column="3" Text="{Binding TypeOfInsulinAction}" 
-                                               HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                        <Label Grid.Column="4" Text="{Binding InsulinDrugName}" 
-                                               HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                    </Grid>
+                                <Grid ColumnDefinitions="*,55,55,55,65">
+                                    <Label Grid.Column="0" Text="{Binding Timestamp.DateTime}" 
+                                        HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                    <Label Grid.Column="1" Text="{Binding InsulinValue.Text}" 
+                                        HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                    <Label Grid.Column="2" Text="{Binding TypeOfInjection}" 
+                                        HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                    <Label Grid.Column="3" Text="{Binding TypeOfInsulinAction}" 
+                                        HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                    <Label Grid.Column="4" Text="{Binding InsulinDrugName}" 
+                                        HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                </Grid>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>

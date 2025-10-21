@@ -118,36 +118,57 @@
             <!-- a nested Grid to get different Widths of columns -->
             <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" Margin="5"
                   RowDefinitions="20,*" ColumnDefinitions="160*,50,50,50">
-                <Label Grid.Row="0" Grid.Column="0" Text="Name"
-                       HorizontalTextAlignment="Start" VerticalOptions="End" />
-                <Label Grid.Row="0" Grid.Column="1" Text="CHO%" 
-                       HorizontalTextAlignment="Center" VerticalOptions="End" />
-                <Label Grid.Row="0" Grid.Column="2" Text="Cooked" 
-                       HorizontalTextAlignment="Center" VerticalOptions="End" />
-                <Label Grid.Row="0" Grid.Column="3" Text="Acc." 
-                       HorizontalTextAlignment="Center" VerticalOptions="End" />
                 <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" 
                     VerticalOptions="Start" ItemsSource="{Binding}" 
-                    ToolTipProperties.Text="List of filtered recipes"
-                    ItemSelected="OnGridSelection" 
-                    x:Name="gridRecipes" 
-                    RowHeight="22">
-                    <!-- description of data to be shown, in a DataTemplate -->
+                   ToolTipProperties.Text="List of filtered recipes"
+                   ItemSelected="OnGridSelection" 
+                  x:Name="gridRecipes" 
+              RowHeight="22">
+                    <!-- Header with column labels -->
+ <ListView.Header>
+   <Grid ColumnDefinitions="160*,55,55,55"
+    BackgroundColor="#e8f5e9"
+         Margin="2"
+         Padding="0,3,0,3">
+    <Label Grid.Column="0" Text="Name"
+        HorizontalTextAlignment="Start"
+      FontAttributes="Bold"
+ FontSize="14"
+     TextColor="#2c3e50"
+        Margin="5,0"/>
+  <Label Grid.Column="1" Text="CHO%" 
+   HorizontalTextAlignment="Center"
+    FontAttributes="Bold"
+       FontSize="14"
+        TextColor="#2c3e50"/>
+      <Label Grid.Column="2" Text="Cooked" 
+           HorizontalTextAlignment="Center"
+          FontAttributes="Bold"
+      FontSize="14"
+        TextColor="#2c3e50"/>
+     <Label Grid.Column="3" Text="Acc." 
+        HorizontalTextAlignment="Center"
+ FontAttributes="Bold"
+  FontSize="14"
+          TextColor="#2c3e50"/>
+    </Grid>
+        </ListView.Header>
+ <!-- description of data to be shown, in a DataTemplate -->
                     <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <Grid RowDefinitions="18" ColumnDefinitions="160*,50,50,50" VerticalOptions="Center">
-                                        <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
-                                        <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesPercent.Text}"/>
-                                        <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding IsCooked}"/>
-                                        <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"/>
-                                    </Grid>
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                 <DataTemplate>
+     <ViewCell>
+        <ViewCell.View>
+    <Grid RowDefinitions="18" ColumnDefinitions="160*,50,50,50" VerticalOptions="Center">
+     <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
+    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesPercent.Text}"/>
+          <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding IsCooked}"/>
+   <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"/>
+           </Grid>
+           </ViewCell.View>
+    </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+     </ListView>
             </Grid>
         </Grid>
     </ContentPage.Content>

@@ -29,17 +29,30 @@ public partial class RecipePage : ContentPage
         bl = BlRecipes;
         if (bl == null)
         {
-            BL_Recipes bl = new BL_Recipes();
-            //btnDefaults_Click(null, null);
+            bl = new BL_Recipes();
         }
+        
+        // Ensure Recipe is initialized
+        if (bl.Recipe == null)
+        {
+  bl.Recipe = new Recipe();
+      General.LogOfProgram?.Event("RecipePage - Initialized new Recipe");
+  }
+    
+   // Ensure Ingredient is initialized
+     if (bl.Ingredient == null)
+    {
+bl.Ingredient = new Ingredient();
+ General.LogOfProgram?.Event("RecipePage - Initialized new Ingredient");
+ }
 
         cmbAccuracyRecipe.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
         cmbAccuracyIngredient.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
 
-        accuracyRecipe = new UiAccuracy(txtAccuracyOfChoRecipe, cmbAccuracyRecipe);
+accuracyRecipe = new UiAccuracy(txtAccuracyOfChoRecipe, cmbAccuracyRecipe);
         accuracyIngredient = new UiAccuracy(txtAccuracyOfChoIngredient, cmbAccuracyIngredient);
 
-        RefreshUi();
+    RefreshUi();
 
         //recipeSection.BindingContext = bl.Recipe;
     }
@@ -87,27 +100,40 @@ public partial class RecipePage : ContentPage
     private void FromClassToBoxesIngredient()
     {
         ingredientModifications = true;
-
-        txtIngredientName.Text = bl.Ingredient.Name;
-        txtAccuracyOfChoIngredient.Text = Convert.ToDouble(bl.Ingredient.AccuracyOfChoEstimate.Double).ToString();
-        txtIngredientQuantityInUnits.Text = Convert.ToDouble(bl.Ingredient.QuantityInUnits.Double).ToString();
-        //////////txtIngredientCarbohydratesPercent.Text = Convert.ToDouble(bl.Ingredient.CarbohydratesPercent.Double).ToString();
-        //////////txtIngredientQuantityGrams.Text = Convert.ToDouble(bl.Ingredient.QuantityGrams.Double).ToString();
-        //////////btnUnit.Text = bl.Ingredient.UnitSymbol;
-        txtIdIngredient.Text = bl.Ingredient.IdIngredient.ToString();
-
+        if (bl.Ingredient != null)
+        {
+            txtIngredientName.Text = bl.Ingredient.Name ?? "";
+            txtAccuracyOfChoIngredient.Text = (bl.Ingredient.AccuracyOfChoEstimate?.Double ?? 0).ToString();
+            txtIngredientQuantityInUnits.Text = (bl.Ingredient.QuantityGrams?.Double ?? 0).ToString();
+            txtIngredientCarbohydratesGrams.Text = bl.Ingredient.CarbohydratesPercent?.Text
+                ?? (bl.Ingredient.CarbohydratesPercent?.Double ?? 0).ToString();
+            txtIdIngredient.Text = bl.Ingredient.IdIngredient?.ToString() ?? "";
+        }
         ingredientModifications = false;
     }
     private void FromBoxesIngredientToClass()
     {
+        // Ensure bl.Ingredient is initialized
+    if (bl.Ingredient == null)
+{
+ bl.Ingredient = new Ingredient();
+ }
+    
         //bl.FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
         bl.Ingredient.Name = Safe.String(txtIngredientName.Text);
-        bl.Ingredient.AccuracyOfChoEstimate.Text = txtAccuracyOfChoIngredient.Text;
-        //////////bl.Ingredient.CarbohydratesPercent.Text = txtIngredientCarbohydratesPercent.Text;
-        // in this page the unit is read only, taken from the Ingredient object
-        bl.Ingredient.QuantityInUnits.Text = txtIngredientQuantityInUnits.Text;
-        bl.Ingredient.CarbohydratesGrams.Text = txtIngredientCarbohydratesGrams.Text;
-        bl.Ingredient.AccuracyOfChoEstimate.Text = txtAccuracyOfChoIngredient.Text;
+
+  // Initialize DoubleAndText properties if null
+  if (bl.Ingredient.AccuracyOfChoEstimate == null)
+ bl.Ingredient.AccuracyOfChoEstimate = new DoubleAndText();
+     if (bl.Ingredient.CarbohydratesPercent == null)
+bl.Ingredient.CarbohydratesPercent = new DoubleAndText();
+     if (bl.Ingredient.QuantityGrams == null)
+            bl.Ingredient.QuantityGrams = new DoubleAndText();
+   
+  bl.Ingredient.AccuracyOfChoEstimate.Text = txtAccuracyOfChoIngredient.Text;
+   bl.Ingredient.CarbohydratesPercent.Text = txtIngredientCarbohydratesGrams.Text;
+    // in this page the unit is read only, taken from the Ingredient object
+  bl.Ingredient.QuantityGrams.Text = txtIngredientQuantityInUnits.Text;
     }
     #endregion
     #region controls' events
@@ -215,26 +241,42 @@ public partial class RecipePage : ContentPage
     }
     private async void btnFoods_ClickAsync(object sender, EventArgs e)
     {
-        foodsPage = new FoodsPage(bl.Ingredient);
-        await Navigation.PushModalAsync(foodsPage);
-
-        // Wait for the page to be closed and get the result
-        bool foodWasChosen = await foodsPage.PageClosedTask;
-
-        // check if the user chose a food in called page
-        if (foodWasChosen && foodsPage.FoodIsChosen)
+        try
         {
-            // Aggiorna il FoodInMeal corrente con il Food scelto dalla pagina chiamata
-            bl.FromFoodToIngredient(foodsPage.Food, bl.Ingredient);
+            if (bl.Ingredient == null)
+            {
+                bl.Ingredient = new Ingredient();
+            }
+            
+            foodsPage = new FoodsPage(bl.Ingredient);
+            await Navigation.PushModalAsync(foodsPage);
 
-            // Aggiorna l'interfaccia utente con i nuovi dati
-            FromClassToBoxesIngredient();
+            // Wait for the page to be closed and get the result
+            bool foodWasChosen = await foodsPage.PageClosedTask;
 
-            // Ricalcola tutti i valori
-            bl.RecalcAll();
+            // check if the user chose a food in called page
+            if (foodWasChosen && foodsPage.FoodIsChosen)
+            {
+                // Aggiorna l'Ingredient corrente con il Food scelto dalla pagina chiamata
+                bl.FromFoodToIngredient(foodsPage.Food, bl.Ingredient);
 
-            // Aggiorna l'UI del meal
-            RefreshRecipe();
+                // DEBUG: Log per verificare i valori
+                General.LogOfProgram?.Debug($"Food importato: Nome={bl.Ingredient.Name}, CHO%={bl.Ingredient.CarbohydratesPercent?.Double ?? 0}");
+
+                // Aggiorna l'interfaccia utente con i nuovi dati
+                FromClassToBoxesIngredient();
+
+                // Ricalcola tutti i valori
+                bl.RecalcAll();
+
+                // Aggiorna l'UI della recipe
+                RefreshRecipe();
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("RecipePage - btnFoods_ClickAsync", ex);
+            await DisplayAlert("Error", $"Failed to import food: {ex.Message}", "OK");
         }
     }
     private async void btnDefaults_Click(object sender, EventArgs e)
@@ -401,8 +443,66 @@ public partial class RecipePage : ContentPage
     }
     private async void btnWeighFood_Click(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new WeighFoodPage());
+     try
+ {
+            // Ensure bl.Ingredient is initialized
+       if (bl.Ingredient == null)
+         {
+  bl.Ingredient = new Ingredient();
+    General.LogOfProgram?.Event("RecipePage - Initialized new Ingredient for weighing");
+            }
+
+   // Update the current ingredient from UI before opening WeighFoodPage
+   FromBoxesIngredientToClass();
+  
+       // Open WeighFoodPage with current ingredient data
+   var weighFoodPage = new WeighFoodPage(bl.Ingredient);
+  await Navigation.PushModalAsync(weighFoodPage);
+ 
+   // Wait for the page to be closed and get the result
+    bool dataWasModified = await weighFoodPage.PageClosedTask;
+          
+// Check if the user modified food data in the WeighFoodPage
+ if (dataWasModified && weighFoodPage.ResultFood != null)
+      {
+    // Update the current Ingredient with the modified Food data
+ bl.FromFoodToIngredient(weighFoodPage.ResultFood, bl.Ingredient);
+          
+     // Set the QuantityGrams with the WeightOfPortion from WeighFoodPage
+    // This updates the "Quantity" field in the RecipePage
+ if (weighFoodPage.WeightOfPortion > 0)
+   {
+       bl.Ingredient.QuantityGrams.Double = weighFoodPage.WeightOfPortion;
+  bl.Ingredient.QuantityGrams.Text = weighFoodPage.WeightOfPortion.ToString("F1");
+ General.LogOfProgram?.Event($"RecipePage - Quantity set to {weighFoodPage.WeightOfPortion:F1}g from WeighFoodPage");
+   }
+     
+   // Recalculate the carbohydrates in grams of this Ingredient
+ // (similar to CalculateChoOfFoodGrams in MealPage)
+     if (bl.Ingredient.CarbohydratesPercent.Double != null && bl.Ingredient.QuantityGrams.Double != null)
+ {
+ bl.Ingredient.CarbohydratesGrams.Double = 
+       bl.Ingredient.CarbohydratesPercent.Double / 100 * bl.Ingredient.QuantityGrams.Double;
+   }
+  
+       // Update the user interface with the new data
+       FromClassToBoxesIngredient();
+      
+        // Recalculate all values
+    bl.RecalcAll();
+        
+  // Update the recipe UI
+      RefreshRecipe();
+    
+     General.LogOfProgram?.Event("Ingredient data updated from WeighFoodPage successfully");
     }
+      }
+ catch (Exception ex)
+    {
+   General.LogOfProgram?.Error("RecipePage - btnWeighFood_Click", ex);
+     await DisplayAlert("Error", $"Failed to open weigh food page: {ex.Message}\n\nCheck logs for details.", "OK");
+     }
+  }
     private async void gridIngredients_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         try

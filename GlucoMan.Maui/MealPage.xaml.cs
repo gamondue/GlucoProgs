@@ -346,11 +346,64 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             RefreshMeal();
         }
     }
-    private void btnRecipes_ClickAsync(object sender, EventArgs e)
+    private async void btnRecipes_ClickAsync(object sender, EventArgs e)
     {
-        //FromUiToClasses();
-        recipesPage = new RecipesPage(null);
-        Navigation.PushAsync(recipesPage);
+        try
+        {
+            // Ensure FoodInMeal is initialized
+            if (bl.FoodInMeal == null)
+      {
+     bl.FoodInMeal = new FoodInMeal();
+  }
+     
+     recipesPage = new RecipesPage(null);
+ await Navigation.PushAsync(recipesPage);
+   
+     // Wait for the page to be closed and get the result
+ bool recipeWasChosen = await recipesPage.PageClosedTask;
+  
+ // Check if the user chose a recipe in called page
+        if (recipeWasChosen && recipesPage.RecipeIsChosen && recipesPage.CurrentRecipe != null)
+  {
+   // Update the current FoodInMeal with the Recipe data
+   bl.FoodInMeal.Name = recipesPage.CurrentRecipe.Name;
+    
+  // Import CHO% from recipe
+    if (recipesPage.CurrentRecipe.CarbohydratesPercent != null && 
+       recipesPage.CurrentRecipe.CarbohydratesPercent.Double.HasValue)
+    {
+bl.FoodInMeal.CarbohydratesPercent.Double = recipesPage.CurrentRecipe.CarbohydratesPercent.Double;
+    bl.FoodInMeal.CarbohydratesPercent.Text = recipesPage.CurrentRecipe.CarbohydratesPercent.Text;
+   }
+    
+       // Initialize QuantityInUnits to 0 for a new recipe
+       bl.FoodInMeal.QuantityInUnits.Double = 0;
+       bl.FoodInMeal.QuantityInUnits.Text = "0";
+       
+    // Set unit to grams
+          bl.FoodInMeal.UnitSymbol = "g";
+ bl.FoodInMeal.GramsInOneUnit.Double = 1;
+     
+        // Recalculate the carbohydrates in grams
+      bl.CalculateChoOfFoodGrams();
+   
+   // Update the user interface with the new data
+      FromClassToBoxesFoodInMeal();
+  
+  // Recalculate all values
+ bl.RecalcAll();
+       
+       // Update the meal UI
+    RefreshMeal();
+       
+    General.LogOfProgram?.Event($"Recipe imported: Name={recipesPage.CurrentRecipe.Name}, CHO%={recipesPage.CurrentRecipe.CarbohydratesPercent?.Double ?? 0}");
+      }
+  }
+        catch (Exception ex)
+ {
+            General.LogOfProgram?.Error("MealPage - btnRecipes_ClickAsync", ex);
+  await DisplayAlert("Error", $"Failed to import recipe: {ex.Message}", "OK");
+   }
     }
     private void btnDefaults_Click(object sender, EventArgs e)
     {
@@ -411,39 +464,48 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         {
             // Update the current food from UI before opening WeighFoodPage
             FromBoxesFoodInMealToClass();
-            
+         
             // Open WeighFoodPage with current food data
             var weighFoodPage = new WeighFoodPage(bl.FoodInMeal);
             await Navigation.PushModalAsync(weighFoodPage);
-            
+         
             // Wait for the page to be closed and get the result
             bool dataWasModified = await weighFoodPage.PageClosedTask;
             
-            // Check if the user modified food data in the WeighFoodPage
-            if (dataWasModified && weighFoodPage.ResultFood != null)
-            {
-                // Update the current FoodInMeal with the modified Food data
-                bl.FromFoodToFoodInMeal(weighFoodPage.ResultFood, bl.FoodInMeal);
+  // Check if the user modified food data in the WeighFoodPage
+ if (dataWasModified && weighFoodPage.ResultFood != null)
+  {
+        // Update the current FoodInMeal with the modified Food data
+    bl.FromFoodToFoodInMeal(weighFoodPage.ResultFood, bl.FoodInMeal);
+       
+       // Set the QuantityInUnits with the WeightOfPortion from WeighFoodPage
+      // This updates the "Quantity" field in the MealPage
+         if (weighFoodPage.WeightOfPortion > 0)
+     {
+     bl.FoodInMeal.QuantityInUnits.Double = weighFoodPage.WeightOfPortion;
+     bl.FoodInMeal.QuantityInUnits.Text = weighFoodPage.WeightOfPortion.ToString("F1");
+ General.LogOfProgram?.Event($"MealPage - Quantity set to {weighFoodPage.WeightOfPortion:F1}g from WeighFoodPage");
+         }
+    
+           // Recalculate the carbohydrates in grams of this FoodInMeal
+           bl.CalculateChoOfFoodGrams();
+        
+  // Update the user interface with the new data
+         FromClassToBoxesFoodInMeal();
                 
-                // Recalculate the carbohydrates in grams of this FoodInMeal
-                bl.CalculateChoOfFoodGrams();
+   // Recalculate all values
+     bl.RecalcAll();
+       
+      // Update the meal UI
+           RefreshMeal();
                 
-                // Update the user interface with the new data
-                FromClassToBoxesFoodInMeal();
-                
-                // Recalculate all values
-                bl.RecalcAll();
-                
-                // Update the meal UI
-                RefreshMeal();
-                
-                General.LogOfProgram?.Event("Food data updated from WeighFoodPage successfully");
-            }
+      General.LogOfProgram?.Event("Food data updated from WeighFoodPage successfully");
+          }
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("MealPage - btnWeighFood_Click", ex);
-            await DisplayAlert("Error", "Failed to open weigh food page. Check logs for details.", "OK");
+    General.LogOfProgram?.Error("MealPage - btnWeighFood_Click", ex);
+       await DisplayAlert("Error", "Failed to open weigh food page. Check logs for details.", "OK");
         }
     }
     private async void btnFoodCalc_ClickAsync(object sender, EventArgs e)

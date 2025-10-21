@@ -1,0 +1,10 @@
+nella ChartPage: 
+Aggiungi, nel posto indicato nello XAML, con dimensione che prende tutto il resto della pagina, un chart che contenga due assi con scala lineare
+Nelle Y i valori devono andare da 0 a 500 (l'unità di misura delle Y è "mg/dL"), la spaziatura delle label nelle label Y che vengono mostrate come testo deve essere 50
+In corrispondenza delle label Y disegna linee tratteggiate orizzontali dello stesso colore nero degli assi e di tutte le label
+Nelle X i valori devono essere le ore di un giorno (la spaziatura delle label nelle X deve coincidere con ore intere, le label devono essere sufficientemente lontane fra loro)
+Disegna dei tick, sia nelle X che nelle Y, con una spaziatura che non renda troppo "congestionato" il diagramma
+I tick, sia nelle X che nelle Y, devono essere più lunghi in corrispondenza delle label e più corti negli altri punti. Quelli corti devono essere visibili.
+Alle altezze 240 e 80 disegna linee orizzontali rosse con tratteggiatura fine
+il background del chart deve essere bianco, ma ci deve essere una fascia di background orizzontale verdina, di un verdino pastello molto chiaro, fra i valori Y di 60 e 180.
+Sul diagramma disegna una parabola di colore rosso molto scuro come curva di esempio.

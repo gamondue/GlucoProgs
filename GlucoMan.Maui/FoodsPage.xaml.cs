@@ -72,6 +72,17 @@ public partial class FoodsPage : ContentPage
         // let's show the Food
         FromClassToUi();
         this.BindingContext = Food;
+        
+        // Set CHO% text, handling NaN case
+        if (Food.CarbohydratesPercent != null && Food.CarbohydratesPercent.Double.HasValue)
+        {
+            txtFoodCarbohydrates.Text = Food.CarbohydratesPercent.Text;
+        }
+        else
+        {
+            txtFoodCarbohydrates.Text = "";
+        }
+     
         //gridFoods.ItemsSource = glucoseReadings;
         loading = false;
     }
@@ -99,6 +110,16 @@ public partial class FoodsPage : ContentPage
         txtIdFood.Text = Food.IdFood.ToString();
         txtName.Text = Food.Name;
         txtDescription.Text = Food.Description;
+        
+        // Handle CHO% display, avoiding NaN
+        if (Food.CarbohydratesPercent != null && Food.CarbohydratesPercent.Double.HasValue)
+        {
+            txtFoodCarbohydrates.Text = Food.CarbohydratesPercent.Text;
+        }
+        else
+        {
+            txtFoodCarbohydrates.Text = "";
+        }
     }
     private void FromUiToClass()
     {
@@ -142,35 +163,55 @@ public partial class FoodsPage : ContentPage
             await DisplayAlert("Select one food from the list", "Choose a food to save", "Ok");
             return;
         }
+      
         FromUiToClass();
+        
+        // Validate that food name is not empty
+        if (string.IsNullOrWhiteSpace(Food.Name))
+        {
+            await DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food.", "OK");
+            txtName.Focus();
+            return;
+        }
+        
         bl.SaveOneFood(Food);
         FromClassToUi();
         RefreshUi();
     }
     private void btnAddFood_Click(object sender, EventArgs e)
     {
-        // control if txtFoodCarbohydrates.Text is a number
+        FromUiToClass();
+     
+   // Validate that food name is not empty
+        if (string.IsNullOrWhiteSpace(Food.Name))
+        {
+    DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food.", "OK");
+    txtName.Focus();
+   return;
+  }
+        
+        // Control if txtFoodCarbohydrates.Text is a number
         double carbs;
         Double.TryParse((string?) txtFoodCarbohydrates.Text,out carbs);
-        // validate carbohydrates numeric
-        if (string.IsNullOrWhiteSpace(txtFoodCarbohydrates.Text) ||
+        // Validate carbohydrates numeric
+  if (string.IsNullOrWhiteSpace(txtFoodCarbohydrates.Text) ||
             carbs == 0)
         {
-            DisplayAlert("Error", "Name and Carbohydrates of a new food must bet set" +
-                "\nFood not saved", "OK");
-            return;
-        }
+DisplayAlert("Error", "Carbohydrates of a new food must be set and greater than zero." +
+     "\nFood not saved", "OK");
+   txtFoodCarbohydrates.Focus();
+ return;
+      }
 
-        FromUiToClass();
-        // set carbohydrates value
+        // Set carbohydrates value
         if (Food.CarbohydratesPercent == null) Food.CarbohydratesPercent = new DoubleAndText();
         Food.CarbohydratesPercent.Double = carbs;
 
-        // nulls the ID of food to create a new one
+        // Nulls the ID of food to create a new one
         Food.IdFood = null;
-        bl.SaveOneFood(Food);
+  bl.SaveOneFood(Food);
         btnSearchFood_Click(null, null);
-        RefreshUi();
+      RefreshUi();
     }
     private async void btnRemoveFood_Click(object sender, EventArgs e)
     {
@@ -197,13 +238,22 @@ public partial class FoodsPage : ContentPage
     }
     private async void btnChoose_Click(object sender, EventArgs e)
     {
-        foodIsChosen = true;
         FromUiToClass();
+    
+   // Validate that food name is not empty before choosing
+ if (string.IsNullOrWhiteSpace(Food.Name))
+        {
+  await DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food before choosing.", "OK");
+txtName.Focus();
+   return;
+        }
+      
+        foodIsChosen = true;
         bl.SaveOneFood(Food);
         
-        // Set the result and close the page
+  // Set the result and close the page
         _taskCompletionSource?.SetResult(true);
-        await this.Navigation.PopModalAsync();
+    await this.Navigation.PopModalAsync();
     }
     private void btnClearFields_Click(object sender, EventArgs e)
     {
@@ -262,6 +312,16 @@ public partial class FoodsPage : ContentPage
     }
     private void cmbUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Food.UnitSymbol = ((UnitOfFood)cmbUnit.SelectedItem).Symbol;
+        try
+        {
+            if (cmbUnit.SelectedItem != null && cmbUnit.SelectedItem is UnitOfFood unit)
+            {
+                Food.UnitSymbol = unit.Symbol;
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("FoodsPage - cmbUnit_SelectedIndexChanged", ex);
+        }
     }
 }

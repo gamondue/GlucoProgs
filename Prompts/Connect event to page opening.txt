@@ -1,0 +1,1 @@
+Ora dobbiamo collegare gli eventi che stanno nelle clickable images che hanno "pan.png" come immagine. Gli eventi devono chiamare la ContainerPage, che si apre e quando ritorna deve restituire il valore del peso del container scelto dall'utente.

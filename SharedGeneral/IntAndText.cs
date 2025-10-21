@@ -21,13 +21,18 @@ namespace gamon
             set
             {
                 intVal = value;
+                if (intVal == null)
+                { 
+                    text = "";
+                    return;
+                }
                 try
                 {
                     text = ((int)intVal).ToString(Format);
                 }
                 catch
                 {
-                    text = null;
+                    text = "";
                 }
             }
         }
@@ -36,6 +41,11 @@ namespace gamon
             get => text; set
             {
                 text = value;
+                if (text == null)
+                {
+                    intVal = 0;
+                    return;
+                }
                 try
                 {
                     intVal = int.Parse(value);

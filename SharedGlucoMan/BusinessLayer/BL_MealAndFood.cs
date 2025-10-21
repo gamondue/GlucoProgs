@@ -257,12 +257,15 @@ namespace GlucoMan.BusinessLayer
         }
         public void FromIngredientToFood(Ingredient SourceIngredient, Food DestinationFood)
         {
-            DestinationFood.IdFood = SourceIngredient.IdFood;
-            DestinationFood.Name = SourceIngredient.Name;
-            DestinationFood.Description = SourceIngredient.Description;
-            DestinationFood.CarbohydratesPercent = SourceIngredient.CarbohydratesPercent;
-            //DestinationFood.SugarPercent = SourceIngredient.SugarPercent;
-            //DestinationFood.FibersPercent = SourceIngredient.FibersPercent;
+            if (SourceIngredient != null)
+            { 
+                DestinationFood.IdFood = SourceIngredient.IdFood;
+                DestinationFood.Name = SourceIngredient.Name;
+                DestinationFood.Description = SourceIngredient.Description;
+                DestinationFood.CarbohydratesPercent = SourceIngredient.CarbohydratesPercent;
+                //DestinationFood.SugarPercent = SourceIngredient.SugarPercent;
+                //DestinationFood.FibersPercent = SourceIngredient.FibersPercent;
+            }
         }
         internal TypeOfMeal SetTypeOfMealBasedOnTimeNow()
         {

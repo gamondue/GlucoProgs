@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.StatisticsAndGraphPage"
+             Title="Statistics and Charts">
+    <ScrollView Padding="10,5,10,5">
+        <VerticalStackLayout Spacing="8">
+            
+            <!-- Radio Buttons Section (2 rows x 3 columns) -->
+            <Grid RowDefinitions="Auto,Auto" 
+                  ColumnDefinitions="*,*,*"
+                  RowSpacing="3"
+                  ColumnSpacing="8">
+                
+                <!-- First row -->
+                <RadioButton x:Name="rbGlucose" 
+                             Content="Glucose" 
+                             Grid.Row="0" Grid.Column="0"
+                             GroupName="DataType"
+                             IsChecked="True"
+                             ToolTipProperties.Text="Glucose: select to view glucose measurements data"/>
+                
+                <RadioButton x:Name="rbShortInsulin" 
+                             Content="Short insulin" 
+                             Grid.Row="0" Grid.Column="1"
+                             GroupName="DataType"
+                             ToolTipProperties.Text="Short insulin: select to view rapid-acting insulin injections data"/>
+                
+                <RadioButton x:Name="rbLongInsulin" 
+                             Content="Long insulin" 
+                             Grid.Row="0" Grid.Column="2"
+                             GroupName="DataType"
+                             ToolTipProperties.Text="Long insulin: select to view long-acting insulin injections data"/>
+                
+                <!-- Second row -->
+                <RadioButton x:Name="rbFoods" 
+                             Content="Foods" 
+                             Grid.Row="1" Grid.Column="0"
+                             GroupName="DataType"
+                             ToolTipProperties.Text="Foods: select to view individual foods data"/>
+                
+                <RadioButton x:Name="rbMeals" 
+                             Content="Meals" 
+                             Grid.Row="1" Grid.Column="1"
+                             GroupName="DataType"
+                             ToolTipProperties.Text="Meals: select to view complete meals data"/>
+                
+                <RadioButton x:Name="rbRecipes" 
+                             Content="Recipes" 
+                             Grid.Row="1" Grid.Column="2"
+                             GroupName="DataType"
+                             ToolTipProperties.Text="Recipes: select to view recipes data"/>
+            </Grid>
+            
+            <!-- Date and Time Range Section -->
+            <Label Text="Select time range:" 
+                   FontSize="15" 
+                   FontAttributes="Bold"
+                   Margin="0,8,0,3"/>
+            
+            <!-- Date and Time Selection Frame -->
+            <Frame Padding="8" 
+                   CornerRadius="6"
+                   BorderColor="#bdc3c7"
+                   BackgroundColor="#ecf0f1"
+                   HasShadow="False"
+                   Margin="3,0,3,2">
+                
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto" 
+                      ColumnDefinitions="60,*,*"
+                      RowSpacing="5"
+                      ColumnSpacing="6">
+                    
+                    <!-- Headers -->
+                    <Label Text="" 
+                           Grid.Row="0" Grid.Column="0"/>
+                    <Label Text="Date" 
+                           Grid.Row="0" Grid.Column="1"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center"
+                           TextColor="#2c3e50"
+                           Margin="0,0,0,2"/>
+                    
+                    <!-- Separator -->
+                    <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                             HeightRequest="1"
+                             Color="#bdc3c7"
+                             Margin="0,0,0,2"/>
+                    
+                    <!-- From Row -->
+                    <Label Text="From:" 
+                           Grid.Row="2" Grid.Column="0"
+                           VerticalOptions="Center"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#2980b9"
+                           Margin="0,0,2,0"/>
+                    
+                    <DatePicker x:Name="datePickerFrom" 
+                                Grid.Row="2" Grid.Column="1"
+                                Format="dd/MM/yyyy"
+                                BackgroundColor="#d6eaf8"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Fill"
+                                HeightRequest="34"
+                                ToolTipProperties.Text="From date: select the start date for data analysis. This date has no influence on graph."/>
+                    
+                    <!-- To Row -->
+                    <Label Text="To:" 
+                           Grid.Row="3" Grid.Column="0"
+                           VerticalOptions="Center"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#27ae60"
+                           Margin="0,0,2,0"/>
+                    
+                    <DatePicker x:Name="datePickerTo" 
+                                Grid.Row="3" Grid.Column="1"
+                                Format="dd/MM/yyyy"
+                                BackgroundColor="#d5f4e6"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Fill"
+                                HeightRequest="34"
+                                ToolTipProperties.Text="To date: select the finish date for data analysis or visualized date for graph."/>
+                </Grid>
+            </Frame>
+            
+            <!-- Statistics and Chart Images (clickable) -->
+            <Grid ColumnDefinitions="*,*" 
+                  ColumnSpacing="15"
+                  Margin="0,3,0,5">
+                
+                <Image x:Name="imgStatistics" 
+                       Source="statistics_no_axis.png"
+                       Grid.Column="0"
+                       HeightRequest="65"
+                       VerticalOptions="Center" 
+                       HorizontalOptions="Fill"
+                       Aspect="AspectFit"
+                       ToolTipProperties.Text="Statistics: click to open statistics page with numerical data analysis">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnStatistics_Clicked" />
+                    </Image.GestureRecognizers>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="Opacity" Value="0.7" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Image>
+                
+                <Image x:Name="imgChart" 
+                       Source="chart.png"
+                       Grid.Column="1"
+                       HeightRequest="70"
+                       VerticalOptions="Center" 
+                       HorizontalOptions="Fill"
+                       Aspect="AspectFit"
+                       ToolTipProperties.Text="Chart: click to open chart page with graphical data visualization">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnChart_Clicked" />
+                    </Image.GestureRecognizers>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="Opacity" Value="0.7" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Image>
+            </Grid>
+            
+            <!-- Import Data Section -->
+            <BoxView HeightRequest="2" 
+                     Color="#34495e" 
+                     Margin="0,8,0,8"/>
+            <Label Text="Import data from FreeStyle Libre sensor" 
+                   HorizontalOptions="Center"
+                   FontSize="16" 
+                   FontAttributes="Bold"
+                   Margin="0,0,0,5"/>
+            <!-- Import Sensor Data Image (clickable) -->
+            <Image x:Name="imgImportSensor" 
+                   Source="sensor2app.png"
+                   HeightRequest="70"
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Center"
+                   Aspect="AspectFit"
+                   ToolTipProperties.Text="Import from sensor: click to import glucose measurements from csv file of FreeStyle Libre continuous glucose monitor sensor">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnImportGlucose_Clicked" />
+                </Image.GestureRecognizers>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="Opacity" Value="0.7" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Image>      
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+

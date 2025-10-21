@@ -5,12 +5,13 @@
    version="1.1"
    id="svg5"
    sodipodi:docname="meal with tablecloth.svg"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
    inkscape:export-filename="meal with tablecloth.png"
    inkscape:export-xdpi="81.919998"
    inkscape:export-ydpi="81.919998"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
@@ -22,17 +23,22 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="2.0953931"
-     inkscape:cx="98.549528"
-     inkscape:cy="164.40829"
+     inkscape:zoom="1.0476966"
+     inkscape:cx="355.54186"
+     inkscape:cy="218.09749"
      inkscape:window-width="1920"
-     inkscape:window-height="1166"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="50"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg5" />
   <defs
      id="defs2">
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#checkered"
+       id="pattern1"
+       patternTransform="matrix(4.2913822,0,0,4.2913822,-1.9089497,-42.228487)" />
     <pattern
        id="checkered"
        X="0"
@@ -60,10 +66,13 @@
      fill="white"
      id="rect3" />
   <rect
-     width="100%"
-     height="100%"
+     width="429.13818%"
+     height="429.13818%"
      fill="url(#checkered)"
-     id="rect4" />
+     id="rect4"
+     x="-1.9089496"
+     y="-42.228485"
+     style="fill:url(#pattern1);stroke-width:4.2914" />
   <circle
      cx="150.24747"
      cy="151.50957"
@@ -72,7 +81,7 @@
      stroke="#000000"
      stroke-width="6.46315"
      id="circle1"
-     style="fill:#fff6d6;fill-opacity:1" />
+     style="fill:#f9f9f9;fill-opacity:1" />
   <ellipse
      cx="151.24117"
      cy="151.11214"
@@ -80,7 +89,7 @@
      id="circle2"
      rx="67.354309"
      ry="69.937973"
-     style="stroke-width:4.57562" />
+     style="stroke-width:4.57562;fill:#cccccc;fill-opacity:1;stroke:#000000" />
   <g
      id="g8"
      transform="matrix(5.2913407,0,0,3.1808473,-200.5815,-1.5786322)">

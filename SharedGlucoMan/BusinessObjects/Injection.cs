@@ -28,7 +28,6 @@ namespace GlucoMan
                 return Common.TypeOfInjection.NotSet;
             }
         }
-
         public Common.TypeOfInsulinAction TypeOfInsulinAction
         {
             get
@@ -38,7 +37,6 @@ namespace GlucoMan
                 return Common.TypeOfInsulinAction.NotSet;
             }
         }
-
         // Property to show in the grid the name of the insulin drug instead of its ID
         public string InsulinDrugName
         {
@@ -53,7 +51,6 @@ namespace GlucoMan
                 return "";
             }
         }
-
         public Injection()
         {
             Timestamp = new DateTimeAndText();

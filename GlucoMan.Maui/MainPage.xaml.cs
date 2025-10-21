@@ -138,5 +138,9 @@ namespace GlucoMan.Maui
             //Navigation.PushAsync(new ConfigurationPage());
             Navigation.PushAsync(new SettingsPage());
         }
+        private async void btnGraphicsAndStatistics_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new StatisticsAndGraphPage());
+        }
     }
 }

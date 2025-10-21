@@ -11,32 +11,37 @@ namespace gamon
         {
             if (Value == null || Value is DBNull)
                 return null;
-            try
-            {
-                return int.Parse(Value.ToString().Trim());
-            }
-            catch
-            {
+            
+            string strValue = Value.ToString()?.Trim();
+            if (string.IsNullOrWhiteSpace(strValue))
                 return null;
-            }
+            
+            if (int.TryParse(strValue, out int result))
+                return result;
+            
+            return null;
         }
+        
         internal static int? Int(string Value)
         {
-            if (Value == "" || Value == null)
+            if (string.IsNullOrWhiteSpace(Value))
                 return null;
-            try
-            {
-                return int.Parse(Value.Trim());
-            }
-            catch
-            {
-                return null;
-            }
+            
+            if (int.TryParse(Value.Trim(), out int result))
+                return result;
+            
+            return null;
         }
         internal static string String(DbDataReader r, int FieldNumber)
         {
+            if (r == null || FieldNumber < 0 || FieldNumber >= r.FieldCount)
+                return null;
+            
             try
             {
+                if (r.IsDBNull(FieldNumber))
+                    return null;
+                
                 return r.GetString(FieldNumber).Trim();
             }
             catch
@@ -44,121 +49,151 @@ namespace gamon
                 return null;
             }
         }
+        
         internal static string String(object Field)
         {
-            if (Field == null)
+            if (Field == null || Field is DBNull)
                 return null;
-            try
-            {
-                return Field.ToString().Trim();
-            }
-            catch
-            {
-                return null;
-            }
+            
+            string result = Field.ToString();
+            return string.IsNullOrWhiteSpace(result) ? null : result.Trim();
         }
+        
         internal static string String(object Field, bool NullOnError)
         {
+            if (Field == null || Field is DBNull)
+                return NullOnError ? null : "";
+            
             try
             {
-                return Field.ToString().Trim();
+                string result = Field.ToString();
+                return string.IsNullOrWhiteSpace(result) ? (NullOnError ? null : "") : result.Trim();
             }
             catch
             {
-                if (NullOnError)
-                    return null;
-                else
-                    return "";
+                return NullOnError ? null : "";
             }
         }
         internal static Nullable<DateTime> DateTime(object Field)
         {
-            try
-            {
-                return Convert.ToDateTime(Field);
-                //return DateTime.ParseExact(Campo.ToString(), "yyyy-MM-dd HH:mm:ss",
-                //    System.Globalization.CultureInfo.InvariantCulture);
-            }
-            catch
-            {
+            if (Field == null || Field is DBNull)
                 return General.DateNull;
-                //return null;
-            }
+            
+            if (Field is DateTime dt)
+                return dt;
+            
+            string strValue = Field.ToString()?.Trim();
+            if (string.IsNullOrWhiteSpace(strValue))
+                return General.DateNull;
+            
+            if (System.DateTime.TryParse(strValue, out DateTime result))
+                return result;
+            
+            return General.DateNull;
         }
+        
         internal static Nullable<DateTime> DateTime(string Date)
         {
-            try
-            {
-                return System.DateTime.Parse(Date);
-            }
-            catch
-            {
+            if (string.IsNullOrWhiteSpace(Date))
                 return null;
-            }
+            
+            if (System.DateTime.TryParse(Date, out DateTime result))
+                return result;
+            
+            return null;
         }
         internal static Nullable<double> Double(string d)
         {
-            if (d == "" || d == "\r")
+            if (string.IsNullOrWhiteSpace(d) || d == "\r")
                 return null;
-            try
-            {
-                return Convert.ToDouble(d);
-            }
-            catch
-            {
-                return null;
-            }
+            
+            string trimmed = d.Trim();
+            if (double.TryParse(trimmed, out double result))
+                return result;
+            
+            return null;
         }
+        
         internal static double? Double(object Value)
         {
             if (Value == null || Value is DBNull)
                 return null;
-            try
-            {
-                return double.Parse(Value.ToString());
-            }
-            catch
-            {
+            
+            if (Value is double dbl)
+                return dbl;
+            
+            string strValue = Value.ToString()?.Trim();
+            if (string.IsNullOrWhiteSpace(strValue))
                 return null;
-            }
+            
+            if (double.TryParse(strValue, out double result))
+                return result;
+            
+            return null;
         }
         internal static bool Bool(string field)
         {
-            if (field == "" || field == "0")
-                return true;
-            else
+            if (string.IsNullOrWhiteSpace(field) || field == "0")
                 return false;
+            
+            return true;
         }
+        
         internal static bool? Bool(object field)
         {
-            if (field == null)
+            if (field == null || field is DBNull)
                 return null;
-            else
-                try
-                {
-                    return Convert.ToBoolean(field);
-                }
-                catch
-                {
-                    return null;
-                }
+            
+            if (field is bool b)
+                return b;
+            
+            string strValue = field.ToString()?.Trim().ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(strValue))
+                return null;
+            
+            // Riconosci valori comuni per true/false
+            if (strValue == "1" || strValue == "true" || strValue == "yes" || strValue == "si" || strValue == "sì")
+                return true;
+            
+            if (strValue == "0" || strValue == "false" || strValue == "no")
+                return false;
+            
+            if (bool.TryParse(strValue, out bool result))
+                return result;
+            
+            return null;
         }
         internal static TimeSpan? TimeSpanFromSeconds(object field)
         {
+            if (field == null || field is DBNull)
+                return null;
+            
+            double? seconds = Double(field);
+            if (!seconds.HasValue)
+                return null;
+            
             try
             {
-                return TimeSpan.FromSeconds((double)field);
+                return TimeSpan.FromSeconds(seconds.Value);
             }
             catch
             {
                 return null;
             }
         }
+        
         internal static TimeSpan? TimeSpanFromMinutes(object field)
         {
+            if (field == null || field is DBNull)
+                return null;
+            
+            double? minutes = Double(field);
+            if (!minutes.HasValue)
+                return null;
+            
             try
             {
-                return TimeSpan.FromMinutes((double)field);
+                return TimeSpan.FromMinutes(minutes.Value);
             }
             catch
             {

@@ -16,6 +16,10 @@ public partial class RecipesPage : ContentPage
         }
     }
 
+    // Add TaskCompletionSource to handle page completion
+    private TaskCompletionSource<bool> _taskCompletionSource;
+    public Task<bool> PageClosedTask => _taskCompletionSource?.Task ?? Task.FromResult(false);
+
     List<Recipe> allRecipes;
     private RecipePage recipePage;
     private bool loading = false;
@@ -23,6 +27,7 @@ public partial class RecipesPage : ContentPage
     {
         InitializeComponent();
         bl.Recipe = Recipe;
+        _taskCompletionSource = new TaskCompletionSource<bool>();
     }
     public RecipesPage(string RecipeNameForSearch, string RecipeDescriptionForSearch)
     {
@@ -31,6 +36,7 @@ public partial class RecipesPage : ContentPage
             bl.Recipe = new Recipe();
         bl.Recipe.Name = RecipeNameForSearch;
         bl.Recipe.Description = RecipeDescriptionForSearch;
+        _taskCompletionSource = new TaskCompletionSource<bool>();
         RefreshGrid();
     }
     /*public RecipesPage(Ingredient Ingredient)
@@ -162,12 +168,15 @@ public partial class RecipesPage : ContentPage
         allRecipes = bl.SearchRecipes(bl.Recipe.Name, bl.Recipe.Description, 0);
         gridRecipes.ItemsSource = allRecipes;
     }
-    private void btnChoose_Click(object sender, EventArgs e)
+    private async void btnChoose_Click(object sender, EventArgs e)
     {
         recipeIsChosen = true;
         FromUiToCurrentRecipe();
         bl.SaveOneRecipe(bl.Recipe);
-        this.Navigation.PopAsync();
+        
+        // Set the result and close the page
+     _taskCompletionSource?.SetResult(true);
+        await this.Navigation.PopAsync();
     }
     private void btnClearFields_Click(object sender, EventArgs e)
     {
@@ -220,4 +229,27 @@ public partial class RecipesPage : ContentPage
             lblCookedRaw.IsVisible = true;
         }
     }
+    
+    protected override void OnDisappearing()
+    {
+   try
+   {
+        base.OnDisappearing();
+       
+        // Complete the task when the page is closed
+      if (_taskCompletionSource != null && !_taskCompletionSource.Task.IsCompleted)
+        {
+      _taskCompletionSource.SetResult(recipeIsChosen);
+        }
+    }
+    catch (Exception ex)
+    {
+        General.LogOfProgram?.Error("RecipesPage - OnDisappearing", ex);
+        // Ensure task is completed even if there's an error
+        if (_taskCompletionSource != null && !_taskCompletionSource.Task.IsCompleted)
+        {
+      _taskCompletionSource.SetResult(false);
+        }
+    }
+}
 }

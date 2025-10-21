@@ -1,0 +1,3 @@
+Togliamo tutte le h dalle X e mettiamo label nelle X ogni 4 ore
+I tick non si possono mettere, con questa libreria?
+Poi al posto della parabola disegnamo una spline con curve di Bezier che passi fra i seguenti punti (X,Y): (2, 100), (8,130), (10, 120), (13, 250), (15, 180), (18, 130), (20, 218), (24,170)

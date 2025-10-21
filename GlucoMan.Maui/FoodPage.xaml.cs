@@ -39,8 +39,16 @@ public partial class FoodPage : ContentPage
     }
     private async void btnOk_Click(object sender, EventArgs e)
     {
+      // Validate that food name is not empty before saving
+    var food = (Food)this.BindingContext;
+  if (string.IsNullOrWhiteSpace(food?.Name))
+  {
+ await DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food.", "OK");
+  return;
+   }
+     
         FoodIsChosen = true;
-        bl.SaveOneFood((Food)this.BindingContext);
+        bl.SaveOneFood(food);
         
         // Set the result and close the page
         _taskCompletionSource?.SetResult(true);
@@ -48,12 +56,12 @@ public partial class FoodPage : ContentPage
         // Check if this was opened as modal or regular navigation
         var navigation = Navigation;
         if (navigation.ModalStack.Contains(this))
+     {
+     await navigation.PopModalAsync();
+     }
+   else
         {
-            await navigation.PopModalAsync();
-        }
-        else
-        {
-            await navigation.PopAsync();
+    await navigation.PopAsync();
         }
     }
     
@@ -193,3 +201,4 @@ public partial class FoodPage : ContentPage
 
     }
 }
+

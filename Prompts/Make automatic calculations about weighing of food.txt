@@ -1,0 +1,16 @@
+Ora realizzaiomo i calcoli riepilogativi
+Ogni volta che cambia uno qualsiasi dei valori della pesatura, oppure se cambia il numero delle porzioni, verranno calcolati i dati di riepilogo nella parte Summary Data. 
+I calcoli sono i seguenti:
+Raw/cooked ratio = Net del peso raw / net del peso coooked (tutto il peso, non la sola porzione)
+
+Se è abilitata la pesatura della porzione:
+	Se "CHO of raw food" è abilitato:
+		Weight of portion = Raw/cooked ratio * Net of portion
+	Se "CHO of raw food" NON è abilitato:
+		Weight of portion = Net of portion
+	CHO [g] of portion = Weight of portion * CHO [%]
+Se è abilitata la suddivisione delle porzioni in parti uguali (equal portions):
+	Weight of portion = Net cooked / n of portions
+	CHO [g] of portion = Net of portion / Net of cooked * CHO [%]
+	in questo caso "CHO of raw food" non deve essere visibile
+Il valore che questa pagina deve restituire alla pagina chiamante è Weight of portion

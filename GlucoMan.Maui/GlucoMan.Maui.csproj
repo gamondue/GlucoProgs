@@ -109,8 +109,11 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
+		<MauiImage Include="Resources\Images\camera.png" />
 		<MauiImage Include="Resources\Images\escape.png" />
+		<MauiImage Include="Resources\Images\pan.png" />
 		<MauiImage Include="Resources\Images\ringing_clock.png" />
+		<MauiImage Include="Resources\Images\statistics_no_axis.png" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\AppIcon\appicon.svg" Color="#7dbff3" BaseSize="128,128" />
@@ -152,6 +155,7 @@
 	  <None Remove="Resources\Images\calculate_insulin.svg" />
 	  <None Remove="Resources\Images\calculator.png" />
 	  <None Remove="Resources\Images\calculator.svg" />
+	  <None Remove="Resources\Images\camera.png" />
 	  <None Remove="Resources\Images\chart.png" />
 	  <None Remove="Resources\Images\chart.svg" />
 	  <None Remove="Resources\Images\choose.png" />
@@ -186,6 +190,7 @@
 	  <None Remove="Resources\Images\minus.png" />
 	  <None Remove="Resources\Images\other.png" />
 	  <None Remove="Resources\Images\other.svg" />
+	  <None Remove="Resources\Images\pan.png" />
 	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\prediction.png" />
 	  <None Remove="Resources\Images\prediction.svg" />
@@ -194,6 +199,8 @@
 	  <None Remove="Resources\Images\recipe.svg" />
 	  <None Remove="Resources\Images\ringing_clock.png" />
 	  <None Remove="Resources\Images\rounding.png" />
+	  <None Remove="Resources\Images\sensor2app.svg" />
+	  <None Remove="Resources\Images\statistics_no_axis.png" />
 	  <None Remove="Resources\Images\sugar.svg" />
 	  <None Remove="Resources\Images\syringe.png" />
 	  <None Remove="Resources\Images\syringe.svg" />
@@ -237,6 +244,8 @@
 	  <MauiImage Include="Resources\Images\questionmark.png" />
 	  <MauiImage Include="Resources\Images\recipe.png" />
 	  <MauiImage Include="Resources\Images\rounding.png" />
+	  <MauiImage Include="Resources\Images\sensor2app.png" />
+	  <MauiImage Include="Resources\Images\statistics.png" />
 	  <MauiImage Include="Resources\Images\syringe.png" />
 	  <MauiImage Include="Resources\Images\total_sugar.png" />
 	</ItemGroup>
@@ -247,6 +256,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
 		<PackageReference Include="NUnit" Version="4.4.0" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.116.1" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
 	</ItemGroup>
 
@@ -270,6 +280,21 @@
 	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ClickableImagePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ContainersPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="GraphPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="StatisticsAndGraphPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="StatisticsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="TakePicturePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

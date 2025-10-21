@@ -7,7 +7,7 @@
     	<!--RowDefinitions="40,20,70,20,50,50,50,20,*"-->
         <Grid RowDefinitions="Auto,
               Auto,Auto,Auto,50,Auto,
-              65,15,*"
+              65,20,*"
             ColumnDefinitions="*,*,*,*">
             <RadioButton Grid.Row="0" Grid.Column="0" Content="b.fast" x:Name="rdbIsBreakfast" 
                          ToolTipProperties.Text="Type of meal: breakfast" 
@@ -148,44 +148,61 @@
                 </Label>
             </HorizontalStackLayout>
             <!-- a nested Grid to get different Widths of columns -->
-            <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" 
-                  RowDefinitions="20,*" ColumnDefinitions="180*,50*,50*,50*" Margin="5">
-                <Label Grid.Row="0" Grid.Column="0" Text="Date and Time"
-                       HorizontalTextAlignment="Center" VerticalOptions="End" />
-                <Label Grid.Row="0" Grid.Column="1" Text="CHO [g]" 
-                       HorizontalTextAlignment="Center" VerticalOptions="End" />
-                <Label Grid.Row="0" Grid.Column="2" Text="Type" 
-                       HorizontalTextAlignment="Center" VerticalOptions="End" />
-                <Label Grid.Row="0" Grid.Column="3" Text="Accur.%" 
-                       HorizontalTextAlignment="Center" VerticalOptions="End" />
-                <ListView Grid.Row="1" Grid.ColumnSpan="4" 
+
+            <ListView Grid.Row="8" Grid.ColumnSpan="4" 
                           x:Name="gridMeals" ItemsSource="{Binding}"
                           ToolTipProperties.Text="Past meals"
                           ItemSelected="OnGridSelectionAsync"
                           RowHeight="22">
-                    <!-- data to be shown, in a DataTemplate -->
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <!--every cell is a Grid of one row with bound data-->
-                                    <Grid RowDefinitions="19" ColumnDefinitions="180*,50*,50*,50*"
-                                          Margin="1" VerticalOptions="Center">
-                                        <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center"
-                                               Grid.Column="0" Text="{Binding TimeBegin.DateTime}"/>
-                                        <Label HorizontalTextAlignment="Center" 
-                                               Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"/>
-                                        <Label HorizontalTextAlignment="Center" 
-                                               Grid.Column="2" Text="{Binding IdTypeOfMeal}"/>
-                                        <Label HorizontalTextAlignment="Center" 
-                                               Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"/>
-                                    </Grid>
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
+                <ListView.Header>
+                    <Grid ColumnDefinitions="180*,50*,50*,50*"
+                            BackgroundColor="#e8f5e9"
+                            Margin="2"
+                            Padding="0,3,0,3">
+                        <Label Grid.Column="0" Text="Date and Time"
+                    HorizontalTextAlignment="Center" 
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    TextColor="#2c3e50"/>
+                        <Label Grid.Column="1" Text="CHO [g]" 
+                    HorizontalTextAlignment="Center"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    TextColor="#2c3e50"/>
+                        <Label Grid.Column="2" Text="Type" 
+                    HorizontalTextAlignment="Center"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    TextColor="#2c3e50"/>
+                        <Label Grid.Column="3" Text="Accur.%" 
+                    HorizontalTextAlignment="Center"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    TextColor="#2c3e50"/>
+                    </Grid>
+                </ListView.Header>
+                <!-- data to be shown, in a DataTemplate -->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <!--every cell is a Grid of one row with bound data-->
+                                <Grid RowDefinitions="19" ColumnDefinitions="180*,50*,50*,50*"
+                                        Margin="1" VerticalOptions="Center">
+                                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center"
+                                            Grid.Column="0" Text="{Binding TimeBegin.DateTime}"/>
+                                    <Label HorizontalTextAlignment="Center" 
+                                            Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"/>
+                                    <Label HorizontalTextAlignment="Center" 
+                                            Grid.Column="2" Text="{Binding IdTypeOfMeal}"/>
+                                    <Label HorizontalTextAlignment="Center" 
+                                            Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

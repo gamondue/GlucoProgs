@@ -1,0 +1,5 @@
+Ora facciamo i calcoli dei pesi netti. Il programma deve avere questo comportamento:
+Se l'utente modifica gli entry "Gross" o "Tare" di una "riga" di pesatura il corripondente valore di "Net" deve essre Net = Gross - Tare
+Se l'utente modifica MANUALMENTE uno degli entry "Net" di una riga, il programma deve cancellare gli entry di "Gross" e "Tare"
+Il comportamento è del tutto analogo a quello che si ha nella MealPage, solo che i valori "Gross" della WeighFood page corrispondono a "CHO [%]" della MealPage, i "Tare" corrispondono a "Quantity" ed i Net corrispondono ai "CHO". Altra differenza è che qui l'operazione che viene svolta è una sottrazione mentre nella MealPage era una moltiplicazione.
+Pertanto ti chiedo di realizzare i metodi di evento che permettano di fare questi aggiornamenti in tempo reale, non appena i valori vengono modificati in ciascuna delle "righe" di pesatura.

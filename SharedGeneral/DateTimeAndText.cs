@@ -19,6 +19,11 @@
             set
             {
                 dateTimeVal = value;
+                if (dateTimeVal == null || dateTimeVal is DBNull)
+                {
+                    text = "";
+                    return;
+                }
                 try
                 {
                     //text = ((DateTime)dateTimeVal).ToString(Format);
@@ -32,9 +37,15 @@
         }
         public string Text
         {
-            get => text; set
+            get => text;
+            set
             {
                 text = value;
+                if (text == null || text is DBNull || text == "")
+                {
+                    dateTimeVal = General.DateNull;
+                    return;
+                }
                 try
                 {
                     dateTimeVal = System.DateTime.Parse(value);

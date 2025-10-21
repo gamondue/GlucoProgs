@@ -67,6 +67,25 @@ CREATE TABLE 'BolusCalculations' (
 
 );
 
+-- Table: Containers
+DROP TABLE IF EXISTS Containers;
+CREATE TABLE Containers (
+    IdContainer   INTEGER PRIMARY KEY NOT NULL,
+    Name          TEXT NOT NULL,
+    Weight        REAL DEFAULT 0,
+    Notes         TEXT,
+    PhotoFileName TEXT
+);
+
+-- Insert some default containers as examples
+INSERT INTO Containers (IdContainer, Name, Weight, Notes, PhotoFileName) VALUES (1, 'Small pot', 250.0, 'Standard small cooking pot', NULL);
+INSERT INTO Containers (IdContainer, Name, Weight, Notes, PhotoFileName) VALUES (2, 'Medium pot', 450.0, 'Standard medium cooking pot', NULL);
+INSERT INTO Containers (IdContainer, Name, Weight, Notes, PhotoFileName) VALUES (3, 'Large pot', 650.0, 'Standard large cooking pot', NULL);
+INSERT INTO Containers (IdContainer, Name, Weight, Notes, PhotoFileName) VALUES (4, 'Small plate', 120.0, 'Standard small dinner plate', NULL);
+INSERT INTO Containers (IdContainer, Name, Weight, Notes, PhotoFileName) VALUES (5, 'Large plate', 180.0, 'Standard large dinner plate', NULL);
+INSERT INTO Containers (IdContainer, Name, Weight, Notes, PhotoFileName) VALUES (6, 'Bowl', 150.0, 'Standard serving bowl', NULL);
+INSERT INTO Containers (IdContainer, Name, Weight, Notes, PhotoFileName) VALUES (7, 'Glass', 85.0, 'Standard drinking glass', NULL);
+
 -- Table: Foods
 DROP TABLE IF EXISTS Foods;
 CREATE TABLE Foods (IdFood INT NOT NULL, Name VARCHAR (15), Description VARCHAR (256), CarbohydratesPercent DOUBLE, Energy DOUBLE, TotalFatsPercent DOUBLE, SaturatedFatsPercent DOUBLE, MonounsaturatedFatsPercent DOUBLE, PolyunsaturatedFatsPercent DOUBLE, SugarPercent DOUBLE, FibersPercent DOUBLE, ProteinsPercent DOUBLE, SaltPercent DOUBLE, PotassiumPercent DOUBLE, Cholesterol DOUBLE, GlycemicIndex DOUBLE, UnitSymbol TEXT, GramsInOneUnit DOUBLE, Manufacturer TEXT, Category INTEGER, PRIMARY KEY (IdFood));
@@ -194,13 +213,6 @@ INSERT INTO Parameters (IdParameters, Timestamp, Bolus_TargetGlucose, Bolus_Gluc
 -- Table: PositionsOfReferences
 DROP TABLE IF EXISTS PositionsOfReferences;
 CREATE TABLE PositionsOfReferences (IdPosition INTEGER PRIMARY KEY, Timestamp DATETIME, Zone INTEGER, PositionX REAL, PositionY REAL, Notes TEXT);
-INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (96, '2025-05-22 20:55:45', 3, 0.23148263584484, 0.14618778463078, '');
-INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (97, '2025-05-22 20:55:45', 3, 0.26557354493575, 0.15106308020889, '');
-INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (98, '2025-05-22 20:55:45', 3, 0.30111399563876, 0.14493412702031, '');
-INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (99, '2025-05-22 20:55:45', 3, 0.29542324759743, 0.11545009753628, '');
-INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (100, '2025-05-22 20:55:45', 3, 0.26702308654785, 0.12157905072486, '');
-INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (101, '2025-05-22 20:55:45', 3, 0.23577755147761, 0.11670375514675, '');
-INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (102, '2025-05-22 20:55:45', 3, 0.26841891895641, 0.09209502124083, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (341, '2025-08-31 11:42:29', 2, 0.4119228746332, 0.76030700409893, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (342, '2025-08-31 11:42:29', 2, 0.09791531174947, 0.04635614557651, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (343, '2025-08-31 11:42:29', 2, 0.13228607177734, 0.04879105999865, '');
@@ -389,6 +401,77 @@ INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, Posit
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (526, '2025-08-31 11:56:42', 4, 0.15467894704718, 0.41102025327127, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (527, '2025-08-31 11:56:42', 4, 0.85480955571079, 0.5037317660892, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (528, '2025-08-31 11:56:42', 4, 0.85480955571079, 0.58890092105609, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (529, '2025-09-28 22:26:46', 3, 0.20974692937327, 0.16120066445255, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (530, '2025-09-28 22:26:46', 3, 0.23812317472151, 0.17154404679699, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (531, '2025-09-28 22:26:46', 3, 0.3169924378019, 0.134587440265, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (532, '2025-09-28 22:26:46', 3, 0.31067337373078, 0.16271024624977, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (533, '2025-09-28 22:26:46', 3, 0.34065925285267, 0.11239109377889, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (534, '2025-09-28 22:26:46', 3, 0.34226879035637, 0.13900431796644, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (535, '2025-09-28 22:26:46', 3, 0.34226879035637, 0.16712716909555, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (536, '2025-09-28 22:26:46', 3, 0.37380461587515, 0.16271024624977, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (537, '2025-09-28 22:26:46', 3, 0.36903549820091, 0.13162421051567, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (538, '2025-09-28 22:26:46', 3, 0.23180411065038, 0.21151981692342, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (539, '2025-09-28 22:26:46', 3, 0.25547082943119, 0.19524997508032, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (540, '2025-09-28 22:26:46', 3, 0.20503740280585, 0.21889996951854, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (541, '2025-09-28 22:26:46', 3, 0.21922547734498, 0.18490659273588, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (542, '2025-09-28 22:26:46', 3, 0.19555875856418, 0.19228674533099, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (543, '2025-09-28 22:26:46', 3, 0.15925381537116, 0.25887573964497, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (544, '2025-09-28 22:26:46', 3, 0.16718251321594, 0.27805292253664, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (545, '2025-09-28 22:26:46', 3, 0.1482252247326, 0.28252573408319, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (546, '2025-09-28 22:26:46', 3, 0.18608011432251, 0.27067276994152, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (547, '2025-09-28 22:26:46', 3, 0.15299434240684, 0.3047220805693, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (548, '2025-09-28 22:26:46', 3, 0.17350157728707, 0.30024926902274, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (549, '2025-09-28 22:26:46', 3, 0.19555875856418, 0.29286911642763, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (550, '2025-09-28 22:26:46', 3, 0.43532622424586, 0.07688813519901, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (551, '2025-09-28 22:26:46', 3, 0.41165950546505, 0.10053812963723, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (552, '2025-09-28 22:26:46', 3, 0.41004996796136, 0.128660935622, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (553, '2025-09-28 22:26:46', 3, 0.44003575081329, 0.10350135938656, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (554, '2025-09-28 22:26:46', 3, 0.44319533098383, 0.13162421051567, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (555, '2025-09-28 22:26:46', 3, 0.46370256586406, 0.09466755883934, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (556, '2025-09-28 22:26:46', 3, 0.47318111383576, 0.12128082817123, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (557, '2025-09-28 22:26:46', 3, 0.56146952632098, 0.07839771699623, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (558, '2025-09-28 22:26:46', 3, 0.5315432383059, 0.09612125193579, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (559, '2025-09-28 22:26:46', 3, 0.52361463673107, 0.12424405792056, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (560, '2025-09-28 22:26:46', 3, 0.55675999975355, 0.10501094118378, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (561, '2025-09-28 22:26:46', 3, 0.553600419583, 0.13313374716855, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (562, '2025-09-28 22:26:46', 3, 0.58513614883182, 0.13017051741922, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (563, '2025-09-28 22:26:46', 3, 0.58674578260548, 0.10350135938656, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (564, '2025-09-28 22:26:47', 3, 0.65452696021047, 0.10942786402956, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (565, '2025-09-28 22:26:47', 3, 0.62931019876282, 0.13017051741922, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (566, '2025-09-28 22:26:47', 3, 0.65452696021047, 0.13755067001433, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (567, '2025-09-28 22:26:47', 3, 0.68135316289186, 0.13313374716855, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (568, '2025-09-28 22:26:47', 3, 0.62299103842173, 0.15974701650044, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (569, '2025-09-28 22:26:47', 3, 0.65452696021047, 0.16712716909555, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (570, '2025-09-28 22:26:47', 3, 0.68606268945929, 0.16120066445255, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (571, '2025-09-28 22:26:47', 3, 0.78543928368987, 0.16416389420188, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (572, '2025-09-28 22:26:47', 3, 0.75867257584533, 0.17450727654632, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (573, '2025-09-28 22:26:47', 3, 0.77917981072555, 0.18636024068799, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (574, '2025-09-28 22:26:47', 3, 0.799627358229, 0.1937403932831, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (575, '2025-09-28 22:26:47', 3, 0.74132492113565, 0.19670362303243, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (576, '2025-09-28 22:26:47', 3, 0.76493204880964, 0.21151981692342, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (577, '2025-09-28 22:26:47', 3, 0.79175844403095, 0.22186319926787, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (578, '2025-09-28 22:26:47', 3, 0.83748224781891, 0.25591250989564, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (579, '2025-09-28 22:26:47', 3, 0.82961333362086, 0.27659927458453, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (580, '2025-09-28 22:26:47', 3, 0.81071553997437, 0.26770954019219, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (581, '2025-09-28 22:26:47', 3, 0.85012037596116, 0.27956250433386, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (582, '2025-09-28 22:26:47', 3, 0.82013459310923, 0.29879562107064, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (583, '2025-09-28 22:26:47', 3, 0.799627358229, 0.29141546847552, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (584, '2025-09-28 22:26:47', 3, 0.84225146176311, 0.3047220805693, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (585, '2025-09-28 22:26:47', 3, 0.96052565710026, 0.69525462494799, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (586, '2025-09-28 22:26:47', 3, 0.92898973531151, 0.67898478310489, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (587, '2025-09-28 22:26:47', 3, 0.92898973531151, 0.70408847063956, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (588, '2025-09-28 22:26:47', 3, 0.94001842222003, 0.72628477198132, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (589, '2025-09-28 22:26:47', 3, 0.91480166077238, 0.73668404302653, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (590, '2025-09-28 22:26:47', 3, 0.89900395245958, 0.67747515616332, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (591, '2025-09-28 22:26:47', 3, 0.90061358623324, 0.71001493013822, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (592, '2025-09-28 22:26:47', 3, 0.03627018973654, 0.69525462494799, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (593, '2025-09-28 22:26:47', 3, 0.05516779084311, 0.72332149708765, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (594, '2025-09-28 22:26:47', 3, 0.06619638148166, 0.70118108444665, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (595, '2025-09-28 22:26:47', 3, 0.06780591898536, 0.67602150821121, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (596, '2025-09-28 22:26:47', 3, 0.09618226060356, 0.67747515616332, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (597, '2025-09-28 22:26:47', 3, 0.09618226060356, 0.70856128218611, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (598, '2025-09-28 22:26:47', 3, 0.08199408979446, 0.73517450637366, '');
+
 
 -- Table: Recipes
 DROP TABLE IF EXISTS Recipes;
