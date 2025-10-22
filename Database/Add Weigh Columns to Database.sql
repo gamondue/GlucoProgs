@@ -1,0 +1,10 @@
+ALTER TABLE Parameters ADD COLUMN Weigh_RawGross DOUBLE;
+ALTER TABLE Parameters ADD COLUMN Weigh_RawTare DOUBLE;
+ALTER TABLE Parameters ADD COLUMN Weigh_RawNet DOUBLE;
+ALTER TABLE Parameters ADD COLUMN Weigh_CookedGross DOUBLE;
+ALTER TABLE Parameters ADD COLUMN Weigh_CookedTare DOUBLE;
+ALTER TABLE Parameters ADD COLUMN Weigh_CookedNet DOUBLE;
+ALTER TABLE Parameters ADD COLUMN Weigh_CookedPortionGross DOUBLE;
+ALTER TABLE Parameters ADD COLUMN Weigh_CookedPortionTare DOUBLE;
+ALTER TABLE Parameters ADD COLUMN Weigh_CookedPortionNet DOUBLE;
+ALTER TABLE Parameters ADD COLUMN Weigh_NPortions DOUBLE;

@@ -40,7 +40,10 @@ namespace GlucoMan.BusinessLayer
         }
         public  void Calculations()
         {
-            ChoLeftToTake.Double = (TargetCho.Double - ChoAlreadyTaken.Double);
+            if (ChoAlreadyTaken.Double != null)
+                ChoLeftToTake.Double = (TargetCho.Double - ChoAlreadyTaken.Double);
+            else
+                ChoLeftToTake.Double = TargetCho.Double;
             FoodToHitTarget.Double = ChoLeftToTake.Double * 100 / ChoOfFood.Double;
             SaveParameters(); 
         }

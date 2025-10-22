@@ -72,7 +72,7 @@ public partial class FoodsPage : ContentPage
         // let's show the Food
         FromClassToUi();
         this.BindingContext = Food;
-        
+
         // Set CHO% text, handling NaN case
         if (Food.CarbohydratesPercent != null && Food.CarbohydratesPercent.Double.HasValue)
         {
@@ -82,7 +82,7 @@ public partial class FoodsPage : ContentPage
         {
             txtFoodCarbohydrates.Text = "";
         }
-     
+
         //gridFoods.ItemsSource = glucoseReadings;
         loading = false;
     }
@@ -110,7 +110,7 @@ public partial class FoodsPage : ContentPage
         txtIdFood.Text = Food.IdFood.ToString();
         txtName.Text = Food.Name;
         txtDescription.Text = Food.Description;
-        
+
         // Handle CHO% display, avoiding NaN
         if (Food.CarbohydratesPercent != null && Food.CarbohydratesPercent.Double.HasValue)
         {
@@ -142,13 +142,13 @@ public partial class FoodsPage : ContentPage
     {
         FromUiToClass();
         foodPage = new FoodPage(Food);
-        
+
         // Can be navigated as modal or regular - both work now
         await Navigation.PushModalAsync(foodPage);
-        
+
         // Wait for the page to be closed and get the result
         bool foodWasChosen = await foodPage.PageClosedTask;
-        
+
         // Check if the user chose/confirmed the food
         if (foodWasChosen && foodPage.FoodIsChosen)
         {
@@ -163,9 +163,9 @@ public partial class FoodsPage : ContentPage
             await DisplayAlert("Select one food from the list", "Choose a food to save", "Ok");
             return;
         }
-      
+
         FromUiToClass();
-        
+
         // Validate that food name is not empty
         if (string.IsNullOrWhiteSpace(Food.Name))
         {
@@ -173,7 +173,7 @@ public partial class FoodsPage : ContentPage
             txtName.Focus();
             return;
         }
-        
+
         bl.SaveOneFood(Food);
         FromClassToUi();
         RefreshUi();
@@ -181,27 +181,27 @@ public partial class FoodsPage : ContentPage
     private void btnAddFood_Click(object sender, EventArgs e)
     {
         FromUiToClass();
-     
-   // Validate that food name is not empty
+
+        // Validate that food name is not empty
         if (string.IsNullOrWhiteSpace(Food.Name))
         {
-    DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food.", "OK");
-    txtName.Focus();
-   return;
-  }
-        
+            DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food.", "OK");
+            txtName.Focus();
+            return;
+        }
+
         // Control if txtFoodCarbohydrates.Text is a number
         double carbs;
-        Double.TryParse((string?) txtFoodCarbohydrates.Text,out carbs);
+        Double.TryParse((string?)txtFoodCarbohydrates.Text, out carbs);
         // Validate carbohydrates numeric
-  if (string.IsNullOrWhiteSpace(txtFoodCarbohydrates.Text) ||
-            carbs == 0)
+        if (string.IsNullOrWhiteSpace(txtFoodCarbohydrates.Text) ||
+                  carbs == 0)
         {
-DisplayAlert("Error", "Carbohydrates of a new food must be set and greater than zero." +
-     "\nFood not saved", "OK");
-   txtFoodCarbohydrates.Focus();
- return;
-      }
+            DisplayAlert("Error", "Carbohydrates of a new food must be set and greater than zero." +
+                 "\nFood not saved", "OK");
+            txtFoodCarbohydrates.Focus();
+            return;
+        }
 
         // Set carbohydrates value
         if (Food.CarbohydratesPercent == null) Food.CarbohydratesPercent = new DoubleAndText();
@@ -209,9 +209,9 @@ DisplayAlert("Error", "Carbohydrates of a new food must be set and greater than 
 
         // Nulls the ID of food to create a new one
         Food.IdFood = null;
-  bl.SaveOneFood(Food);
+        bl.SaveOneFood(Food);
         btnSearchFood_Click(null, null);
-      RefreshUi();
+        RefreshUi();
     }
     private async void btnRemoveFood_Click(object sender, EventArgs e)
     {
@@ -239,21 +239,21 @@ DisplayAlert("Error", "Carbohydrates of a new food must be set and greater than 
     private async void btnChoose_Click(object sender, EventArgs e)
     {
         FromUiToClass();
-    
-   // Validate that food name is not empty before choosing
- if (string.IsNullOrWhiteSpace(Food.Name))
+
+        // Validate that food name is not empty before choosing
+        if (string.IsNullOrWhiteSpace(Food.Name))
         {
-  await DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food before choosing.", "OK");
-txtName.Focus();
-   return;
+            await DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food before choosing.", "OK");
+            txtName.Focus();
+            return;
         }
-      
+
         foodIsChosen = true;
         bl.SaveOneFood(Food);
-        
-  // Set the result and close the page
+
+        // Set the result and close the page
         _taskCompletionSource?.SetResult(true);
-    await this.Navigation.PopModalAsync();
+        await this.Navigation.PopModalAsync();
     }
     private void btnClearFields_Click(object sender, EventArgs e)
     {
@@ -276,6 +276,37 @@ txtName.Focus();
         loading = false;
         FromUiToClass();
         RefreshUi();
+    }
+    private async void btnBack_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Return to calling page without saving changes or passing any data
+            foodIsChosen = false;
+
+            // Set the result to false (no food chosen)
+            _taskCompletionSource?.SetResult(false);
+
+            // Try to close as modal first, if that fails try regular pop
+            if (Navigation.ModalStack.Count > 0)
+            {
+                await Navigation.PopModalAsync();
+            }
+            else if (Navigation.NavigationStack.Count > 1)
+            {
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                // If we can't navigate back, just log it
+                General.LogOfProgram?.Debug("FoodsPage - btnBack_Click: Cannot navigate back, no pages in stack");
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("FoodsPage - btnBack_Click", ex);
+            await DisplayAlert("Error", $"Cannot close page: {ex.Message}", "OK");
+        }
     }
     private void txtName_TextChanged(object sender, EventArgs e)
     {

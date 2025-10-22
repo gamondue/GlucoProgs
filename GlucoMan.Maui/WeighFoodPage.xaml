@@ -12,7 +12,7 @@
                     Auto,Auto,30,Auto,30,
                     Auto,35,60,90,Auto,
                     Auto">
-                
+
                 <!-- Action buttons: Back and Choose - MOVED TO TOP -->
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
@@ -29,7 +29,7 @@
                             HeightRequest="50"
                             ToolTipProperties.Text="Save changes and return the modified food data"
                             Clicked="btnChoose_Click" />
-                    
+
                     <Button Grid.Column="1" 
                             x:Name="btnBack" 
                             Text="Forget" 
@@ -49,61 +49,65 @@
                 <Grid Grid.Row="2" Grid.Column="0"
                       Margin="0,5,0,10"
                       RowDefinitions="Auto,60"
-                      ColumnDefinitions="*,60,Auto,65,65,65">
-                    <!--Name of the food, CHO%, CHO is of raw checkbox, buttons-->
+                      ColumnDefinitions="*,50,Auto,65">
+                    <!--Name of the food, CHO%, CHO is of raw checkbox, calculator button-->
                     <Label Grid.Row="0" Grid.Column="0" Text="Name" 
-                           HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                     <Entry x:Name="txtFoodName"
-                           Grid.Row="1" Grid.Column="0"
-                           BackgroundColor="LightGreen" TextColor="Black"
-                           ToolTipProperties.Text="Name: short name of this food"
-                           Margin="2" HorizontalTextAlignment="Start"/>
-                    
-                    <Label Grid.Row="0" Grid.Column="1" Text="CHO [%]" 
-                           HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+        Grid.Row="1" Grid.Column="0"
+   BackgroundColor="LightGreen" TextColor="Black"
+     ToolTipProperties.Text="Name: short name of this food"
+  Margin="2" HorizontalTextAlignment="Start"/>
+
+                    <Label Grid.Row="0" Grid.Column="1" Text="CHO%" 
+          HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+     FontSize="12"/>
                     <Entry Grid.Row="1" Grid.Column="1" 
-                           x:Name="txtFoodCarbohydratesPerUnit" 
-                       BackgroundColor="GreenYellow" TextColor="Black"
-                       Margin="2" 
-                       ToolTipProperties.Text="CHO%: percent carbohydrates of this food [%]"
-                       Keyboard="Numeric" HorizontalTextAlignment="End"
-                       />
+      x:Name="txtFoodCarbohydratesPerUnit" 
+        BackgroundColor="GreenYellow" TextColor="Black"
+          Margin="2" 
+  ToolTipProperties.Text="CHO%: percent carbohydrates of this food [%]"
+             Keyboard="Numeric" HorizontalTextAlignment="End" />
 
                     <!-- CheckBox and Label for CHO of raw food -->
-        <StackLayout x:Name="ChoOfRawFoodSection"
-     Grid.Row="1" Grid.Column="2"
+                    <StackLayout x:Name="ChoOfRawFoodSection"
+       Grid.Row="1" Grid.Column="2"
    Orientation="Horizontal"
-                Spacing="5"
-     VerticalOptions="Center"
-           HorizontalOptions="Start"
-     Margin="5,0,0,0">
-       <CheckBox x:Name="chkChoOfRawFood"
+     Spacing="0"
+        VerticalOptions="Center"
+ HorizontalOptions="Start"
+     Margin="2,0,0,0">
+            <CheckBox x:Name="chkChoOfRawFood"
      VerticalOptions="Center"
         Margin="0"
-       ToolTipProperties.Text="CHO of raw food: calculate carbohydrates based on raw food weight instead of cooked"
-  CheckedChanged="OnChoOfRawFoodCheckedChanged" />
-       
-          <Label x:Name="lblChoOfRawFood"
-            Text="CHO of raw"
-        VerticalOptions="Center"
-  VerticalTextAlignment="Center"
-                   FontSize="12"
-       Margin="0"
-        ToolTipProperties.Text="If checked, the CHO% value refers to raw food. The cooked portion weight will be converted to raw weight by these calculations">
-      <Label.GestureRecognizers>
-      <TapGestureRecognizer Tapped="OnChoOfRawFoodLabelTapped" />
- </Label.GestureRecognizers>
-    </Label>
-     </StackLayout>
+          ToolTipProperties.Text="Raw food: if checked the value of CHO% of food is related to raw food. The cooked portion weight will be converted back to raw weight by these calculations"
+            CheckedChanged="OnChoOfRawFoodCheckedChanged" />
 
-    <Image Grid.Row="1" Grid.Column="5" 
-    Source="calculator.png"
-           VerticalOptions="Center" HorizontalOptions="Fill"
-  Margin="2">
-      <Image.GestureRecognizers>
-         <TapGestureRecognizer Tapped="Calculator_Click" />
-    </Image.GestureRecognizers>
-    </Image>
+         <Label x:Name="lblChoOfRawFood"
+            Text= "Raw"
+            VerticalOptions="Center"
+            VerticalTextAlignment="Center"
+            FontSize="11"
+            Margin="-10,0,0,0"
+            ToolTipProperties.Text="Raw food: if checked the value of CHO% of food is related to raw food. The cooked portion weight will be converted back to raw weight by these calculations">
+                <Label.GestureRecognizers>
+       <TapGestureRecognizer Tapped="OnChoOfRawFoodLabelTapped" />
+             </Label.GestureRecognizers>
+           </Label>
+   </StackLayout>
+
+                    <!-- Calculator button (clickable image) -->
+                    <Image Grid.Row="1" Grid.Column="3" 
+                        Source="calculator.png"
+                        VerticalOptions="Center" HorizontalOptions="Center"
+                        WidthRequest="60"
+                        HeightRequest="60"
+                        Margin="2"
+                        ToolTipProperties.Text="Open calculator for food calculations">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Calculator_Click" />
+                        </Image.GestureRecognizers>
+                    </Image>
 
                 </Grid>
                 <!--Separator-->
@@ -158,9 +162,9 @@
                             HorizontalTextAlignment="Center" />
                     <Label Grid.Row="0" Grid.Column="4" Margin="2" Text="Net" 
                             HorizontalTextAlignment="Center"/>
-                    <Entry Grid.Row="1" Grid.Column="0" x:Name="TxtM0RawGross" 
+                    <Entry Grid.Row="1" Grid.Column="0" x:Name="TxtRawGross" 
                        Keyboard="Numeric" HorizontalTextAlignment ="End" Text="" 
-             TextChanged="TxtRawGrossOrTare_TextChanged"
+                       TextChanged="TxtRawGrossOrTare_TextChanged"
                        Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
                     <Image Grid.Row="1" Grid.Column="1" 
                            Source="pan.png"
@@ -174,13 +178,13 @@
                             <TapGestureRecognizer Tapped="btnRawTareContainer_Click" />
                         </Image.GestureRecognizers>
                     </Image>
-                    <Entry Grid.Row="1" Grid.Column="2" x:Name="TxtM0RawTare" HorizontalTextAlignment ="End" Text="" 
+                    <Entry Grid.Row="1" Grid.Column="2" x:Name="TxtRawTare" HorizontalTextAlignment ="End" Text="" 
                        Keyboard="Numeric" 
-            TextChanged="TxtRawGrossOrTare_TextChanged"
+                       TextChanged="TxtRawGrossOrTare_TextChanged"
                        Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
-                    <Entry Grid.Row="1" Grid.Column="4" x:Name="TxtM0RawNet" HorizontalTextAlignment ="End" Text="" 
+                    <Entry Grid.Row="1" Grid.Column="4" x:Name="TxtRawNet" HorizontalTextAlignment ="End" Text="" 
                        Keyboard="Numeric" 
-            TextChanged="TxtRawNet_TextChanged"
+                       TextChanged="TxtRawNet_TextChanged"
                        Placeholder="[g]" BackgroundColor="PaleGreen" />
                 </Grid>
                 <!--Separator-->
@@ -200,9 +204,9 @@
                             HorizontalTextAlignment="Center" />
                     <Label Grid.Row="0" Grid.Column="4" Margin="2" Text="Net" 
                             HorizontalTextAlignment="Center"/>
-                    <Entry Grid.Row="1" Grid.Column="0" x:Name="TxtS1CookedGross" HorizontalTextAlignment ="End" Text="" 
+                    <Entry Grid.Row="1" Grid.Column="0" x:Name="TxtCookedGross" HorizontalTextAlignment ="End" Text="" 
                            Keyboard="Numeric" 
-            TextChanged="TxtCookedGrossOrTare_TextChanged"
+                           TextChanged="TxtCookedGrossOrTare_TextChanged"
                            Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
                     <Image Grid.Row="1" Grid.Column="1" 
                            Source="pan.png"
@@ -216,13 +220,13 @@
                             <TapGestureRecognizer Tapped="btnCookedTareContainer_Click" />
                         </Image.GestureRecognizers>
                     </Image>
-                    <Entry Grid.Row="1" Grid.Column="2" x:Name="TxtS1CookedTare" HorizontalTextAlignment ="End" Text="" 
+                    <Entry Grid.Row="1" Grid.Column="2" x:Name="TxtCookedTare" HorizontalTextAlignment ="End" Text="" 
                        Keyboard="Numeric" 
-            TextChanged="TxtCookedGrossOrTare_TextChanged"
+                       TextChanged="TxtCookedGrossOrTare_TextChanged"
                        Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
-                    <Entry Grid.Row="1" Grid.Column="4" x:Name="TxtS1CookedNet" HorizontalTextAlignment ="End" Text="" 
+                    <Entry Grid.Row="1" Grid.Column="4" x:Name="TxtCookedNet" HorizontalTextAlignment ="End" Text="" 
                        Keyboard="Numeric" 
-            TextChanged="TxtCookedNet_TextChanged"
+                       TextChanged="TxtCookedNet_TextChanged"
                        Placeholder="[g]" BackgroundColor="PaleGreen" />
                 </Grid>
                 <!--Separator-->
@@ -231,36 +235,36 @@
                        HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                        FontAttributes="Bold"
                        Margin="0,5,0,5"/>
-      
-        <!-- Radio Button options -->
-   <Grid Grid.Row="8" Grid.ColumnSpan="5" 
-    Margin="10,5,10,5" 
-  ColumnDefinitions="*,*"
-RowDefinitions="50"
-     RowSpacing="0">
 
-      <RadioButton x:Name="rbWeighCookedPortion"
-      Grid.Column="0"
-       Grid.Row="0"
-    Content="Weigh the portion"
-     VerticalOptions="Center"
-    HorizontalOptions="Center"
+                <!-- Radio Button options -->
+                <Grid Grid.Row="8" Grid.ColumnSpan="5" 
+        Margin="10,5,10,5" 
+        ColumnDefinitions="*,*"
+        RowDefinitions="50"
+        RowSpacing="0">
+
+                    <RadioButton x:Name="rbWeighCookedPortion"
+        Grid.Column="0"
+        Grid.Row="0"
+        Content="Weigh the portion"
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
         GroupName="WeighingOptions"
-      FontSize="14"
-       ToolTipProperties.Text="Weigh the cooked portion: the CHO of the portion will be proportional to the measured weight of the cooked portion"
-          CheckedChanged="OnWeighCookedPortionCheckedChanged" />
-         
-      <RadioButton x:Name="rbDivideIntoEqualPortions"
-    Grid.Column="1"
-  Grid.Row="0"
-         Content="Equal portions"
-    VerticalOptions="Center"
- HorizontalOptions="Center"
-   GroupName="WeighingOptions"
-       FontSize="14"
-  ToolTipProperties.Text="Divide all food into equal portions: the portion will be calculated by dividind total food by N persons"
- CheckedChanged="OnDividePortionsCheckedChanged" />
- </Grid>
+        FontSize="14"
+        ToolTipProperties.Text="Weigh the cooked portion: the CHO of the portion will be proportional to the measured weight of the cooked portion"
+        CheckedChanged="OnWeighCookedPortionCheckedChanged" />
+
+                    <RadioButton x:Name="rbDivideIntoEqualPortions"
+        Grid.Column="1"
+        Grid.Row="0"
+        Content="Equal portions"
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        GroupName="WeighingOptions"
+        FontSize="14"
+        ToolTipProperties.Text="Divide all food into equal portions: the portion will be calculated by dividind total food by N persons"
+        CheckedChanged="OnDividePortionsCheckedChanged" />
+                </Grid>
 
                 <!--Weight data about cooked portion-->
                 <Grid Grid.Row="9" Grid.Column="0"
@@ -276,7 +280,7 @@ RowDefinitions="50"
                             HorizontalTextAlignment="Center"/>
                     <Entry Grid.Row="1" Grid.Column="0" x:Name="TxtCookedPortionGross" 
                        Keyboard="Numeric" HorizontalTextAlignment ="End" Text="" 
-    TextChanged="TxtPortionGrossOrTare_TextChanged"
+                       TextChanged="TxtPortionGrossOrTare_TextChanged"
                        Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
                     <Image Grid.Row="1" Grid.Column="1" 
                            Source="pan.png"
@@ -286,63 +290,62 @@ RowDefinitions="50"
                            Aspect="AspectFit"
                            Margin="1"
                            ToolTipProperties.Text="Click to select a container from the list">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Tapped="btnPortionTareContainer_Click" />
-           </Image.GestureRecognizers>
-        </Image>
- <Entry Grid.Row="1" Grid.Column="2" x:Name="TxtCookedPortionTare" HorizontalTextAlignment ="End" Text="" 
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="btnPortionTareContainer_Click" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Entry Grid.Row="1" Grid.Column="2" x:Name="TxtCookedPortionTare" HorizontalTextAlignment ="End" Text="" 
             Keyboard="Numeric" 
-    TextChanged="TxtPortionGrossOrTare_TextChanged"
-           Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
-     <Entry Grid.Row="1" Grid.Column="4" x:Name="TxtCookedPortionNet" HorizontalTextAlignment ="End" Text="" 
-     Keyboard="Numeric" 
+            TextChanged="TxtPortionGrossOrTare_TextChanged"
+            Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
+                    <Entry Grid.Row="1" Grid.Column="4" x:Name="TxtCookedPortionNet" HorizontalTextAlignment ="End" Text="" 
+            Keyboard="Numeric" 
             TextChanged="TxtPortionNet_TextChanged"
-    Placeholder="[g]" BackgroundColor="PaleGreen" />
+            Placeholder="[g]" BackgroundColor="PaleGreen" />
                 </Grid>
                 <!--Number of portions-->
                 <Grid Grid.Row="9" Grid.Column="0"
-                      x:Name="SectionNumberCookedPortion"
-                      RowDefinitions="20,50"
-               ColumnDefinitions="*,*,*"
-               Margin="5,0,5,5">
+                    x:Name="SectionNumberCookedPortion"
+                    RowDefinitions="20,50"
+                    ColumnDefinitions="*,*,*"
+                    Margin="5,0,5,5">
                     <Label Grid.Row="0" Grid.Column="1" Margin="2" Text="No of portions" 
-                           HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="End"
-     HorizontalOptions="Center"/>
-            <Entry Grid.Row="1" Grid.Column="1" x:Name="TxtNPortions" 
-                           HorizontalTextAlignment="Center" 
-       VerticalTextAlignment="Center"
-           Text="" 
-                Keyboard="Numeric" 
-               Placeholder="[n]" 
-        BackgroundColor="PaleGreen" />
-     </Grid>
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="End"
+                            HorizontalOptions="Center"/>
+                    <Entry Grid.Row="1" Grid.Column="1" x:Name="TxtNPortions" 
+                            HorizontalTextAlignment="Center" 
+                            VerticalTextAlignment="Center"
+                            Text="" 
+                            Keyboard="Numeric" 
+                            Placeholder="[n]" 
+                            BackgroundColor="PaleGreen" />
+                </Grid>
 
                 <Label Grid.Row="10" Text="Summary data" 
-                       HorizontalTextAlignment="Center" VerticalTextAlignment="End"
-                       FontAttributes="Bold"
-                       Margin="0,10,0,5"/>
-
+                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                    FontAttributes="Bold"
+                    Margin="0,10,0,5"/>
                 <Grid Grid.Row="11" Grid.Column="0"
-                      RowDefinitions="Auto,Auto"
-                      ColumnDefinitions="*,*,*"
-                      Margin="5,0,5,10">
+                    RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="*,*,*"
+                    Margin="5,0,5,10">
                     <Label Grid.Row="0" Grid.Column="0" Margin="2" Text="CHO[g] of portion" 
-                            HorizontalTextAlignment="Center" />
+                        HorizontalTextAlignment="Center" />
                     <Label Grid.Row="0" Grid.Column="1" Margin="2" Text="Weight of portion" 
-                            HorizontalTextAlignment="Center" />
+                        HorizontalTextAlignment="Center" />
                     <Label Grid.Row="0" Grid.Column="2" Margin="2" Text="Raw/Cooked ratio" 
-                            HorizontalTextAlignment="Center" />
+                        HorizontalTextAlignment="Center" />
                     <Entry Grid.Row="1" Grid.Column="0" x:Name="TxtCarboydratesOfPortion" 
-                       Keyboard="Numeric" HorizontalTextAlignment ="End" Text="" 
-                       Placeholder="[g]" 
-                       BackgroundColor="CadetBlue" TextColor="White" />
+                    Keyboard="Numeric" HorizontalTextAlignment ="End" Text="" 
+                    Placeholder="[g]" 
+                    BackgroundColor="CadetBlue" TextColor="White" />
                     <Entry Grid.Row="1" Grid.Column="1" x:Name="TxtWeightOfPortion" HorizontalTextAlignment ="End" Text="" 
-                       Keyboard="Numeric" Placeholder="[g]"
-                       BackgroundColor="DeepSkyBlue" TextColor="Black"/>
+                    Keyboard="Numeric" Placeholder="[g]"
+                    BackgroundColor="DeepSkyBlue" TextColor="Black"/>
                     <Entry Grid.Row="1" Grid.Column="2" x:Name="TxtRawByCooked" HorizontalTextAlignment ="End" Text="" 
-                       Keyboard="Numeric" Placeholder="[g]"
-                       BackgroundColor="DeepSkyBlue" TextColor="Black"/>
+                    Keyboard="Numeric" Placeholder="[g]"
+                    BackgroundColor="DeepSkyBlue" TextColor="Black"/>
                 </Grid>
             </Grid>
         </ScrollView>

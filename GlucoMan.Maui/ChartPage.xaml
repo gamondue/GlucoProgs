@@ -49,10 +49,10 @@
         
         <!-- Chart content - Using SKCanvasView directly for testing -->
         <skia:SKCanvasView x:Name="chartView"
-                           Grid.Row="2"
-                           PaintSurface="OnChartPaintSurface"
-                           VerticalOptions="FillAndExpand"
-                           HorizontalOptions="FillAndExpand"
-                           />
+            Grid.Row="2"
+            PaintSurface="OnChartPaintSurface"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            />
     </Grid>
 </ContentPage>

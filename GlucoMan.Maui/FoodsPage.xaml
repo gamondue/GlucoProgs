@@ -51,13 +51,21 @@
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,0,0,0"
                 Text="Description of food" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
-                x:Name="txtDescription" 
+            <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
+                    x:Name="txtDescription" 
                    BackgroundColor="LightGreen" TextColor="Black"
-                ToolTipProperties.Text="Description: longer description of this food" Margin="0"
-                Keyboard="Text" TextChanged="txtDescription_TextChanged"
-                HorizontalTextAlignment="Start" FontSize="Micro"
-                Text="{Binding Description}"/>
+                    ToolTipProperties.Text="Description: longer description of this food" Margin="0"
+                    Keyboard="Text" TextChanged="txtDescription_TextChanged"
+                    HorizontalTextAlignment="Start" FontSize="Micro"
+                    Text="{Binding Description}"/>
+  
+            <Button Grid.Row="4" Grid.Column="3" x:Name="btnBack" 
+                    Margin="1"
+                    HeightRequest="55"
+                    VerticalOptions="Start"
+                    ImageSource="escape.png"
+                    ToolTipProperties.Text="Back: return to the calling page without saving changes"
+                    Clicked="btnBack_Click"/>
 
             <Label Grid.Row="5" Grid.Column="0" Text="CHO %" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>

@@ -28,7 +28,7 @@
                 LineBreakMode="WordWrap"
                 Grid.Row="1" Grid.Column="1" 
                 Clicked="btnFoodToHitTargetCarbs_Clicked"
-                Margin="6,3,3,3" ToolTipProperties.Text="Food to hit Target: opens the page that calculates the food one need to eat to hit a carbohydrates target"/>
+                Margin="3,3,6,3" ToolTipProperties.Text="Food to hit Target: opens the page that calculates the food one need to eat to hit a carbohydrates target"/>
         <!--Text="Food to reach &#10;  target carbs"-->
         <Button x:Name="btnMeals" 
                 ImageSource="meals.png"

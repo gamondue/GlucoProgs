@@ -16,44 +16,67 @@ public class ContainerViewModel
     public string Notes => Container?.Notes ?? "";
     public string PhotoFileName => Container?.PhotoFileName ?? "";
     
+    // Cached thumbnail to avoid reloading
+    private ImageSource _cachedThumbnail;
+    private bool _thumbnailLoaded = false;
+    
     public ImageSource ThumbnailSource
     {
         get
         {
-   // Temporaneamente disabilitato per debug
-            return null;
+            if (_thumbnailLoaded)
+            {
+                return _cachedThumbnail;
+            }
+            
+            try
+            {
+                if (Container == null || string.IsNullOrWhiteSpace(Container.PhotoFileName))
+    {
+        // No photo - return null (no placeholder needed, the Border will show empty)
+      _cachedThumbnail = null;
+ _thumbnailLoaded = true;
+          return _cachedThumbnail;
+   }
+                
+    string photoPath = Container.GetPhotoFullPath();
       
-         /*
-      try
-  {
-        if (Container == null || string.IsNullOrWhiteSpace(Container.PhotoFileName))
-   {
-     // Use ImageSource for embedded resources, not FromFile
- return "container_placeholder.png";
-  }
-       
- string photoPath = Container.GetPhotoFullPath();
+     if (!string.IsNullOrWhiteSpace(photoPath) && File.Exists(photoPath))
+           {
+          General.LogOfProgram?.Debug($"ContainerViewModel - Loading thumbnail from: {photoPath}");
     
-        if (!string.IsNullOrWhiteSpace(photoPath) && File.Exists(photoPath))
-     {
-        return ImageSource.FromFile(photoPath);
- }
-       
-      // Use ImageSource for embedded resources
-         return "container_placeholder.png";
+   // Load image from file - MAUI handles this efficiently
+_cachedThumbnail = ImageSource.FromFile(photoPath);
+           _thumbnailLoaded = true;
+    return _cachedThumbnail;
+        }
+    
+     General.LogOfProgram?.Debug($"ContainerViewModel - Photo file not found: {photoPath}");
+                _cachedThumbnail = null;
+          _thumbnailLoaded = true;
+        return _cachedThumbnail;
+  }
+            catch (Exception ex)
+            {
+         General.LogOfProgram?.Error("ContainerViewModel - ThumbnailSource", ex);
+    _cachedThumbnail = null;
+        _thumbnailLoaded = true;
+              return _cachedThumbnail;
      }
-        catch (Exception ex)
-   {
-      General.LogOfProgram?.Error("ContainerViewModel - ThumbnailSource", ex);
-     // Use ImageSource for embedded resources
-      return "container_placeholder.png";
-      }
-      */
-     }
+        }
     }
     
     public ContainerViewModel(Container container)
     {
         Container = container;
+    }
+    
+    /// <summary>
+    /// Forces reload of the thumbnail (useful after photo changes)
+    /// </summary>
+    public void ReloadThumbnail()
+    {
+        _thumbnailLoaded = false;
+        _cachedThumbnail = null;
     }
 }

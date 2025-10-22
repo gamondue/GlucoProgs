@@ -27,7 +27,7 @@
     <ApplicationIdGuid>30939246-cae7-40ff-92ce-a308f5c8b0e8</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.8.7.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.9.0.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
@@ -54,7 +54,7 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.7</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.9.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
@@ -73,14 +73,14 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.7</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.9.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.7</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.9.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
@@ -99,7 +99,7 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.8.7</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.9.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -260,6 +260,11 @@
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
 	</ItemGroup>
 
+	<!-- Windows-specific packages -->
+	<ItemGroup Condition="$(TargetFramework.Contains('windows'))">
+		<PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+	</ItemGroup>
+
 	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">
 	    <DesignTime>True</DesignTime>
@@ -285,6 +290,9 @@
 	  <MauiXaml Update="ContainersPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="CropPhotoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="GraphPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -292,9 +300,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="StatisticsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="TakePicturePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

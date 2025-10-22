@@ -10,7 +10,9 @@ using gamon;
 namespace GlucoMan.Maui
 {
     [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, 
-        LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | 
+        LaunchMode = LaunchMode.SingleTop,
+        ScreenOrientation = ScreenOrientation.Portrait,  // Default orientation: Portrait
+        ConfigurationChanges = ConfigChanges.ScreenSize | 
         ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | 
         ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
     public class MainActivity : MauiAppCompatActivity
@@ -18,6 +20,9 @@ namespace GlucoMan.Maui
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            
+            // Set activity for orientation helper
+            AndroidExternalFilesHelper.SetMainActivity(this);
         }
         // erase the next method when the rest of the code is stable
         private async Task EnsureStoragePermissionsAsync()

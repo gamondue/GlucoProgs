@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.CropPhotoPage"
+   Title="Ritaglia Foto"
+      BackgroundColor="Black">
+<Grid RowDefinitions="Auto,*,Auto,Auto">
+        
+        <!-- Size indicator -->
+  <Label Grid.Row="0"
+   x:Name="lblSizeIndicator"
+         Text="📏 300x300 px"
+TextColor="White"
+ FontSize="16"
+  FontAttributes="Bold"
+             HorizontalTextAlignment="Center"
+           Padding="10"
+ BackgroundColor="#333333" />
+        
+   <!-- Container for draggable image with crop overlay -->
+        <AbsoluteLayout Grid.Row="1" x:Name="imageContainer">
+   
+        <!-- Draggable Image -->
+      <Image x:Name="imgPhoto"
+        Aspect="AspectFit"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+       AbsoluteLayout.LayoutFlags="All">
+     <Image.GestureRecognizers>
+      <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+        </Image.GestureRecognizers>
+ </Image>
+      
+         <!-- Zoomable crop overlay (square frame) at center -->
+      <Grid x:Name="cropOverlay"
+       BackgroundColor="Transparent"
+          AbsoluteLayout.LayoutBounds="0.5,0.5,300,300"
+ AbsoluteLayout.LayoutFlags="PositionProportional"
+      InputTransparent="False">
+    
+       <Grid.GestureRecognizers>
+     <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+         </Grid.GestureRecognizers>
+    
+    <!-- White border for crop area -->
+    <Border Stroke="White"
+       StrokeThickness="3"
+       BackgroundColor="Transparent">
+     <Grid>
+         <!-- Corner resize handles (draggable boxes) -->
+    <!-- Top-Left -->
+      <BoxView x:Name="cornerTopLeft"
+         WidthRequest="30" HeightRequest="30"
+               Color="LimeGreen"
+            HorizontalOptions="Start" VerticalOptions="Start"
+            InputTransparent="False">
+    <BoxView.GestureRecognizers>
+           <PanGestureRecognizer PanUpdated="OnCornerDrag" />
+              </BoxView.GestureRecognizers>
+           </BoxView>
+                  
+      <!-- Top-Right -->
+            <BoxView x:Name="cornerTopRight"
+        WidthRequest="30" HeightRequest="30"
+        Color="LimeGreen"
+   HorizontalOptions="End" VerticalOptions="Start"
+      InputTransparent="False">
+     <BoxView.GestureRecognizers>
+ <PanGestureRecognizer PanUpdated="OnCornerDrag" />
+   </BoxView.GestureRecognizers>
+          </BoxView>
+      
+         <!-- Bottom-Left -->
+       <BoxView x:Name="cornerBottomLeft"
+            WidthRequest="30" HeightRequest="30"
+    Color="LimeGreen"
+           HorizontalOptions="Start" VerticalOptions="End"
+ InputTransparent="False">
+       <BoxView.GestureRecognizers>
+        <PanGestureRecognizer PanUpdated="OnCornerDrag" />
+         </BoxView.GestureRecognizers>
+    </BoxView>
+          
+        <!-- Bottom-Right -->
+           <BoxView x:Name="cornerBottomRight"
+     WidthRequest="30" HeightRequest="30"
+             Color="LimeGreen"
+        HorizontalOptions="End" VerticalOptions="End"
+    InputTransparent="False">
+            <BoxView.GestureRecognizers>
+      <PanGestureRecognizer PanUpdated="OnCornerDrag" />
+    </BoxView.GestureRecognizers>
+        </BoxView>
+              
+<!-- Center crosshair -->
+      <BoxView WidthRequest="2" HeightRequest="40"
+    Color="White" Opacity="0.5"
+         HorizontalOptions="Center" VerticalOptions="Center" 
+            InputTransparent="True" />
+        <BoxView WidthRequest="40" HeightRequest="2"
+       Color="White" Opacity="0.5"
+     HorizontalOptions="Center" VerticalOptions="Center" 
+   InputTransparent="True" />
+        
+       <!-- Zoom hint (shown at center) -->
+     <Label x:Name="lblZoomHint"
+     Text="🤏 Pizzica per zoomare | 🖱️ Trascina angoli verdi"
+          TextColor="White"
+    FontSize="11"
+BackgroundColor="#80000000"
+    Padding="8,4"
+       HorizontalOptions="Center"
+  VerticalOptions="End"
+  Margin="0,0,0,10"
+             InputTransparent="True"
+     IsVisible="True" />
+       </Grid>
+       </Border>
+        </Grid>
+ </AbsoluteLayout>
+   
+      <!-- Instructions -->
+      <StackLayout Grid.Row="2" Padding="10" Spacing="5">
+       <Label Text="⬆️⬇️⬅️➡️ Trascina l'immagine per posizionare"
+   TextColor="White"
+ FontSize="14"
+  FontAttributes="Bold"
+   HorizontalTextAlignment="Center" />
+ <Label Text="🤏 Pizzica | 🖱️ Trascina angoli verdi per ridimensionare"
+    TextColor="LightGray"
+   FontSize="12"
+   HorizontalTextAlignment="Center" />
+ </StackLayout>
+      
+        <!-- Buttons -->
+        <Grid Grid.Row="3" 
+        ColumnDefinitions="*,*,*"
+Padding="10"
+              ColumnSpacing="10">
+      
+  <Button Grid.Column="0"
+           x:Name="btnReset"
+   Text="↻ Reset"
+    BackgroundColor="Orange"
+          TextColor="White"
+HeightRequest="50"
+         Clicked="btnReset_Clicked" />
+    
+        <Button Grid.Column="1"
+     x:Name="btnCancel"
+    Text="✖ Annulla"
+   BackgroundColor="Gray"
+   TextColor="White"
+HeightRequest="50"
+          Clicked="btnCancel_Clicked" />
+       
+     <Button Grid.Column="2"
+x:Name="btnConfirm"
+    Text="✂️ Ritaglia"
+      BackgroundColor="Green"
+         TextColor="White"
+       HeightRequest="50"
+         FontAttributes="Bold"
+    Clicked="btnConfirm_Clicked" />
+        </Grid>
+    </Grid>
+</ContentPage>

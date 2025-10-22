@@ -585,7 +585,7 @@ namespace GlucoMan.BusinessLayer
         {
             try
             {
-                General.LogOfProgram.Debug($"ReadFileFromExternalPublicDirectoryAsync: {sourceExternalFileName} -> {targetInternalPathAndFile}");
+                 General.LogOfProgram.Debug($"ReadFileFromExternalPublicDirectoryAsync: {sourceExternalFileName} -> {targetInternalPathAndFile}");
                 
                 bool success = false;
                 

@@ -30,7 +30,7 @@ public partial class FoodToHitTargetCarbsPage : ContentPage
         TxtTargetCho.Text = blFoodToEat.TargetCho.Text;
         TxtChoLeftToTake.Text = blFoodToEat.ChoLeftToTake.Text;
         TxtFoodToHitTarget.Text = blFoodToEat.FoodToHitTarget.Text;
-        if (TxtChoLeftToTake.Text.Contains("-"))
+        if (blFoodToEat.ChoLeftToTake.Double < 0)
         {
             TxtChoLeftToTake.Background = Colors.Red;
             TxtFoodToHitTarget.Background = Colors.Red;
