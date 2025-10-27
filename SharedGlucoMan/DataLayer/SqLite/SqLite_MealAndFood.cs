@@ -1,5 +1,6 @@
 ﻿using gamon;
 using Microsoft.Data.Sqlite;
+using System.Data;
 using System.Data.Common;
 using static GlucoMan.Common;
 
@@ -138,7 +139,7 @@ namespace GlucoMan
                 else
                     m.IdTypeOfMeal = (TypeOfMeal)Safe.Int(Row["IdTypeOfMeal"]);
                 m.CarbohydratesGrams.Double = Safe.Double(Row["Carbohydrates"]);
-                m.TimeBegin.DateTime = Safe.DateTime(Row["TimeBegin"]);
+                m.EventTime.DateTime = Safe.DateTime(Row["TimeBegin"]);
                 m.Notes = Safe.String(Row["Notes"]);
                 m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
@@ -162,7 +163,7 @@ namespace GlucoMan
                     string query = "UPDATE Meals SET " +
                     "IdTypeOfMeal=" + SqliteSafe.Int((int)Meal.IdTypeOfMeal) + "," +
                     "Carbohydrates=" + SqliteSafe.Double(Meal.CarbohydratesGrams.Double) + "," +
-                    "TimeBegin=" + SqliteSafe.Date(Meal.TimeBegin.DateTime) + "," +
+                    "TimeBegin=" + SqliteSafe.Date(Meal.EventTime.DateTime) + "," +
                     "Notes=" + SqliteSafe.String(Meal.Notes) + "," +
                     "AccuracyOfChoEstimate=" + SqliteSafe.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
                     "IdBolusCalculation=" + SqliteSafe.Int(Meal.IdBolusCalculation) + "," +
@@ -198,7 +199,7 @@ namespace GlucoMan
                     SqliteSafe.Int(Meal.IdMeal) + "," +
                     SqliteSafe.Int((int)Meal.IdTypeOfMeal) + "," +
                     SqliteSafe.Double(Meal.CarbohydratesGrams.Double) + "," +
-                    SqliteSafe.Date(Meal.TimeBegin.DateTime) + "," +
+                    SqliteSafe.Date(Meal.EventTime.DateTime) + "," +
                     SqliteSafe.String(Meal.Notes) + "," +
                     SqliteSafe.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
                     SqliteSafe.Int(Meal.IdBolusCalculation) + "," +
@@ -652,7 +653,7 @@ namespace GlucoMan
                     string query = "SELECT *" +
                         " FROM Foods";
                     //query += " WHERE XXXXX";
-                    //query += " ORDER BY TimeBegin DESC"; 
+                    //query += " ORDER BY EventTime DESC"; 
                     query += ";";
                     cmd = new SqliteCommand(query);
                     cmd.Connection = conn;
@@ -1109,7 +1110,6 @@ namespace GlucoMan
                 return null;
             }
         }
-
         internal override bool CheckIfManufacturerExists(Manufacturer m)
         {
             try
@@ -1223,6 +1223,65 @@ namespace GlucoMan
             {
                 General.LogOfProgram.Error("Sqlite_MealAndFood | UpdateCategoryOfFood", ex);
                 return null;
+            }
+        }
+        internal override void InsertMeals(List<Meal> List)
+        {
+            if (List == null || List.Count ==0)
+            return;
+
+            int currentKey = GetTableNextPrimaryKey("Meals", "IdMeal");
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    using (var tran = conn.BeginTransaction())
+                    using (DbCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.Transaction = tran;
+                        cmd.CommandText = "INSERT INTO Meals (IdMeal, IdTypeOfMeal, Carbohydrates, TimeBegin, Notes, AccuracyOfChoEstimate, IdBolusCalculation, IdGlucoseRecord, IdInjection, TimeEnd) VALUES (@id,@type,@carb,@tbegin,@notes,@accuracy,@idbolus,@idgluc,@idinj,@tend);";
+
+                        var pId = cmd.CreateParameter(); pId.ParameterName = "@id"; pId.DbType = DbType.Int32; cmd.Parameters.Add(pId);
+                        var pType = cmd.CreateParameter(); pType.ParameterName = "@type"; pType.DbType = DbType.Int32; cmd.Parameters.Add(pType);
+                        var pCarb = cmd.CreateParameter(); pCarb.ParameterName = "@carb"; pCarb.DbType = DbType.Double; cmd.Parameters.Add(pCarb);
+                        var pTBegin = cmd.CreateParameter(); pTBegin.ParameterName = "@tbegin"; pTBegin.DbType = DbType.DateTime; cmd.Parameters.Add(pTBegin);
+                        var pNotes = cmd.CreateParameter(); pNotes.ParameterName = "@notes"; pNotes.DbType = DbType.String; cmd.Parameters.Add(pNotes);
+                        var pAccuracy = cmd.CreateParameter(); pAccuracy.ParameterName = "@accuracy"; pAccuracy.DbType = DbType.Double; cmd.Parameters.Add(pAccuracy);
+                        var pIdBolus = cmd.CreateParameter(); pIdBolus.ParameterName = "@idbolus"; pIdBolus.DbType = DbType.Int32; cmd.Parameters.Add(pIdBolus);
+                        var pIdGluc = cmd.CreateParameter(); pIdGluc.ParameterName = "@idgluc"; pIdGluc.DbType = DbType.Int32; cmd.Parameters.Add(pIdGluc);
+                        var pIdInj = cmd.CreateParameter(); pIdInj.ParameterName = "@idinj"; pIdInj.DbType = DbType.Int32; cmd.Parameters.Add(pIdInj);
+                        var pTEnd = cmd.CreateParameter(); pTEnd.ParameterName = "@tend"; pTEnd.DbType = DbType.DateTime; cmd.Parameters.Add(pTEnd);
+
+                        try { cmd.Prepare(); } catch { /* ignore */ }
+
+                        foreach (var meal in List)
+                        {
+                            if (meal == null)
+                                continue;
+
+                            pId.Value = currentKey;
+                            pType.Value = (int)meal.IdTypeOfMeal;
+                            pCarb.Value = meal?.CarbohydratesGrams?.Double ?? (object)DBNull.Value;
+                            pTBegin.Value = meal?.EventTime?.DateTime ?? (object)DBNull.Value;
+                            pNotes.Value = string.IsNullOrEmpty(meal?.Notes) ? (object)DBNull.Value : meal.Notes;
+                            pAccuracy.Value = meal?.AccuracyOfChoEstimate?.Double ?? (object)DBNull.Value;
+                            pIdBolus.Value = meal?.IdBolusCalculation ?? (object)DBNull.Value;
+                            pIdGluc.Value = meal?.IdGlucoseRecord ?? (object)DBNull.Value;
+                            pIdInj.Value = meal?.IdInjection ?? (object)DBNull.Value;
+                            pTEnd.Value = meal?.TimeEnd?.DateTime ?? (object)DBNull.Value;
+
+                            cmd.ExecuteNonQuery();
+                            meal.IdMeal = currentKey;
+                            currentKey++;
+                        }
+
+                        tran.Commit();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | InsertMeals", ex);
             }
         }
     }

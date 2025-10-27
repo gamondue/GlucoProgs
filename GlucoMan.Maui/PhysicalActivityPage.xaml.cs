@@ -117,7 +117,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
     private void InitializeCurrentActivity()
     {
         CurrentActivity = new Injection();
-        CurrentActivity.Timestamp.DateTime = DateTime.Now;
+        CurrentActivity.EventTime.DateTime = DateTime.Now;
         CurrentActivity.InsulinValue.Double = 1; // Activity level 1-10
         CurrentActivity.InsulinCalculated.Double = 30; // Duration in minutes
         CurrentActivity.IdTypeOfInjection = (int)Common.TypeOfInjection.Other; // Use Other for activities
@@ -270,8 +270,8 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
 
             txtActivityLevel.Text = CurrentActivity.InsulinValue.Text; // Reusing InsulinValue for activity level
             txtDurationMinutes.Text = CurrentActivity.InsulinCalculated.Text; // Reusing InsulinCalculated for duration
-            dtpActivityDate.Date = ((DateTime)CurrentActivity.Timestamp.DateTime);
-            dtpActivityTime.Time = ((DateTime)CurrentActivity.Timestamp.DateTime).TimeOfDay;
+            dtpActivityDate.Date = ((DateTime)CurrentActivity.EventTime.DateTime);
+            dtpActivityTime.Time = ((DateTime)CurrentActivity.EventTime.DateTime).TimeOfDay;
 
             // Extract accuracy from Notes field
             double accuracy = GetAccuracyFromNotes(CurrentActivity.Notes);
@@ -333,7 +333,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
             DateTime instant = new DateTime(
                 dtpActivityDate.Date.Year, dtpActivityDate.Date.Month, dtpActivityDate.Date.Day,
                 dtpActivityTime.Time.Hours, dtpActivityTime.Time.Minutes, dtpActivityTime.Time.Seconds);
-            CurrentActivity.Timestamp.DateTime = instant;
+            CurrentActivity.EventTime.DateTime = instant;
 
             // Store accuracy in Notes field with special format
             double accuracy = Safe.Double(txtAccuracyOfActivity.Text) ?? 100;
@@ -421,7 +421,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
             {
                 bool remove = await DisplayAlert(String.Format(
                     "Should I delete the activity from {0}, level {1}?",
-                    selectedActivity.Timestamp.ToString(),
+                    selectedActivity.EventTime.ToString(),
                     selectedActivity.InsulinValue.ToString()),
                     "", "Yes", "No");
 

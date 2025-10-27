@@ -37,7 +37,7 @@ namespace GlucoMan.BusinessLayer
             if (SaveWithNowAsTime)
             {
                 DateTime now = DateTime.Now;
-                Meal.TimeBegin.DateTime = now;
+                Meal.EventTime.DateTime = now;
                 Meal.TimeEnd.DateTime = now;
             }
             return dl.SaveOneMeal(Meal);
@@ -72,7 +72,7 @@ namespace GlucoMan.BusinessLayer
             if (Meal.IdMeal == null)
             {
                 // if the meal has not a begin date, we save with now
-                if (Meal.TimeBegin == null || Meal.TimeBegin.DateTime == General.DateNull)
+                if (Meal.EventTime == null || Meal.EventTime.DateTime == General.DateNull)
                 {
                     // if a Meal is created here, it must have Now as Time
                     // (true as the second parameter) 
@@ -291,7 +291,7 @@ namespace GlucoMan.BusinessLayer
         {
             Meal = new Meal();
             DateTime now = DateTime.Now;
-            Meal.TimeBegin.DateTime = now;
+            Meal.EventTime.DateTime = now;
             Meal.TimeEnd.DateTime = now;
             Meal.AccuracyOfChoEstimate.Double = 0;
             Meal.IdTypeOfMeal = SetTypeOfMealBasedOnTimeNow();

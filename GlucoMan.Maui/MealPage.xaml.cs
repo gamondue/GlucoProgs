@@ -47,7 +47,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         }
          bl.Meal = Meal;
 
-        if (bl.Meal.IdMeal == null || (bl.Meal.TimeBegin.DateTime + new TimeSpan(0, 15, 0) > DateTime.Now))
+        if (bl.Meal.IdMeal == null || (bl.Meal.EventTime.DateTime + new TimeSpan(0, 15, 0) > DateTime.Now))
         {
             btnStartMeal.BackgroundColor = Colors.Red;
             btnStartMeal.TextColor = Colors.Yellow;

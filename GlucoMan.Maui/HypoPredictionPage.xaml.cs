@@ -108,10 +108,10 @@ public partial class HypoPredictionPage : ContentPage
         {
             txtGlucoseLast.Text = list[0].GlucoseValue.ToString();
             txtGlucosePrevious.Text = list[1].GlucoseValue.ToString();
-            txtHourLast.Text = list[0].Timestamp.DateTime?.Hour.ToString();
-            txtHourPrevious.Text = list[1].Timestamp.DateTime?.Hour.ToString();
-            txtMinuteLast.Text = list[0].Timestamp.DateTime?.Minute.ToString();
-            txtMinutePrevious.Text = list[1].Timestamp.DateTime?.Minute.ToString();
+            txtHourLast.Text = list[0].EventTime.DateTime?.Hour.ToString();
+            txtHourPrevious.Text = list[1].EventTime.DateTime?.Hour.ToString();
+            txtMinuteLast.Text = list[0].EventTime.DateTime?.Minute.ToString();
+            txtMinutePrevious.Text = list[1].EventTime.DateTime?.Minute.ToString();
         }
     }
     private void btnCalcFutureGlucose_Click(object sender, EventArgs e)

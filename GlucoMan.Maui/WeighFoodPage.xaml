@@ -13,7 +13,6 @@
                     Auto,35,60,90,Auto,
                     Auto">
 
-                <!-- Action buttons: Back and Choose - MOVED TO TOP -->
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
@@ -22,22 +21,22 @@
 
                     <Button Grid.Column="0" 
                             x:Name="btnChoose" 
-                            Text="Keep" 
+                            ImageSource="choose.png"
                             BackgroundColor="LightGreen" 
                             TextColor="Black"
                             FontAttributes="Bold"
                             HeightRequest="50"
-                            ToolTipProperties.Text="Save changes and return the modified food data"
+                            ToolTipProperties.Text="Choose: save changes, return the modified food data and go back"
                             Clicked="btnChoose_Click" />
 
                     <Button Grid.Column="1" 
                             x:Name="btnBack" 
-                            Text="Forget" 
+                            ImageSource="escape.png"
                             BackgroundColor="LightCoral" 
                             TextColor="White"
                             FontAttributes="Bold"
                             HeightRequest="50"
-                            ToolTipProperties.Text="Cancel changes and return to the previous page"
+                            ToolTipProperties.Text="escape: cancel changes and return to the previous page"
                             Clicked="btnBack_Click" />
                 </Grid>
 

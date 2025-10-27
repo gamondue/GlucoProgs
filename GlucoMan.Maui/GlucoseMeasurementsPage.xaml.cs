@@ -49,19 +49,19 @@ public partial class GlucoseMeasurementsPage : ContentPage
         DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
             dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds);
         currentGlucose.Notes = txtNotes.Text;
-        currentGlucose.Timestamp.DateTime = instant;
-        //currentGlucose.Timestamp = dtpEventDate.Date;
+        currentGlucose.EventTime.DateTime = instant;
+        //currentGlucose.EventTime = dtpEventDate.Date;
     }
     private void FromClassToUi()
     {
         if (currentGlucose.GlucoseValue.Double != null && !double.IsNaN((double)currentGlucose.GlucoseValue.Double))
             txtGlucose.Text = currentGlucose.GlucoseValue.ToString();
-        if (currentGlucose.Timestamp != null
-            && currentGlucose.Timestamp.DateTime != new DateTime(1, 1, 1, 0, 0, 0)
-            && currentGlucose.Timestamp.DateTime != General.DateNull)
+        if (currentGlucose.EventTime != null
+            && currentGlucose.EventTime.DateTime != new DateTime(1, 1, 1, 0, 0, 0)
+            && currentGlucose.EventTime.DateTime != General.DateNull)
         {
-            dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.Timestamp.DateTime);
-            dtpEventTime.Time = ((DateTime)currentGlucose.Timestamp.DateTime).TimeOfDay;
+            dtpEventDate.Date = (DateTime)Safe.DateTime(currentGlucose.EventTime.DateTime);
+            dtpEventTime.Time = ((DateTime)currentGlucose.EventTime.DateTime).TimeOfDay;
         }
         else
         {
@@ -84,7 +84,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
     {
         txtGlucose.Text = "";
         dtpEventDate.Date = DateTime.Now;
-        dtpEventTime.Time = ((DateTime)currentGlucose.Timestamp.DateTime).TimeOfDay;
+        dtpEventTime.Time = ((DateTime)currentGlucose.EventTime.DateTime).TimeOfDay;
         txtIdGlucoseRecord.Text = "";
         txtNotes.Text = "";
     }
@@ -110,7 +110,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
             bool remove = await DisplayAlert(String.Format(
                 "Should I delete the measurement {0}, {1}, Id {2}?",
                 gr.GlucoseValue.ToString(),
-                gr.Timestamp.ToString(),
+                gr.EventTime.ToString(),
                 gr.IdGlucoseRecord.ToString()),
                 "", "Yes", "No");
             if (remove)

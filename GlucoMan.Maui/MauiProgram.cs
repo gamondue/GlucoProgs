@@ -37,7 +37,7 @@ namespace GlucoMan.Maui
                             var hwnd = mauiWinUIWindow.GetWindowHandle();
                             var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hwnd);
                             var appWindow = AppWindow.GetFromWindowId(windowId);
-                            appWindow.Resize(new Windows.Graphics.SizeInt32(600, 950));
+                            appWindow.Resize(new Windows.Graphics.SizeInt32(400, 950));
                         });
                     });
 #endif

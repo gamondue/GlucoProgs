@@ -62,7 +62,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             // after deletion the software will automatically re-create the database
             if (!blGeneral.DeleteDatabase())
             {
-                await DisplayAlert("", "Error in deleting database file. File NOT deleted", "OK");
+                await DisplayAlert("", "Error deleting the database file. File NOT deleted", "OK");
             }
             blGeneral.CreateNewDatabase(); // re-create the database
             // close program
@@ -79,11 +79,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             
             // Show progress dialog
             bool continueExport = await DisplayAlert(
-                "Esportazione File", 
-                "L'app proverà diversi metodi per esportare i file.\n" +
-                "Su dispositivi Huawei/Xiaomi potrebbero essere necessari permessi aggiuntivi.\n\n" +
-                "Continuare?", 
-                "Sì", "No");
+                $"Export Files", 
+                "The app will overwrite files in its folder and subfolders.\n\nContinue?", 
+                "Yes", "No");
                 
             if (!continueExport)
                 return;
@@ -107,10 +105,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             {
                 // Final fallback - offer to share files instead
                 bool shareFiles = await DisplayAlert(
-                    "Esportazione Fallita", 
-                    "Impossibile salvare i file nelle cartelle pubbliche.\n" +
-                    "Vuoi condividere i file tramite altre app invece?", 
-                    "Condividi", "Annulla");
+                    "Export Failed", 
+                    "Unable to save files to public folders.", 
+                    "Share", "Cancel");
                     
                 if (shareFiles)
                 {
@@ -120,23 +117,22 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             
             if (success)
             {
-                await DisplayAlert("Successo", "File esportati correttamente!", "OK");
+                await DisplayAlert("Success", "Files exported successfully!", "OK");
             }
             else
             {
-                await DisplayAlert("Errore", 
-                    "Impossibile esportare i file.\n\n" +
-                    "Su dispositivi Huawei/Xiaomi:\n" +
-                    "1. Vai in Impostazioni > App > GlucoMan > Autorizzazioni\n" +
-                    "2. Abilita tutte le autorizzazioni per 'Archiviazione'\n" +
-                    "3. Disabilita l'ottimizzazione batteria per GlucoMan\n" +
-                    "4. Riprova l'operazione", "OK");
+                await DisplayAlert("Error", 
+                    "Unable to export files.\n\nOn Huawei/Xiaomi devices:\n" +
+                    "1. Go to Settings > Apps > GlucoMan > Permissions\n" +
+                    "2. Enable all 'Storage' permissions\n" +
+                    "3. Disable battery optimization for GlucoMan\n" +
+                    "4. Retry the operation", "OK");
             }
         }
         catch (Exception ex)
         {
             General.LogOfProgram.Error("btnCopyProgramsFiles_Click", ex);
-            await DisplayAlert("Errore", $"Errore durante l'esportazione: {ex.Message}", "OK");
+            await DisplayAlert("Error", $"Error during export: {ex.Message}", "OK");
         }
     }
 
@@ -211,12 +207,12 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                     General.LogOfProgram.Debug($"Successfully exported: {fileName} to {destinationPath}");
                     
                     // Show individual success toast
-                    var toast = Toast.Make($"Salvato: {fileName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                    var toast = Toast.Make($"Saved: {fileName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
                     await toast.Show(cancellationToken);
                 }
                 catch (Exception ex)
                 {
-                    General.LogOfProgram.Error($"Error exporting file {fileName}", ex);
+                     General.LogOfProgram.Error($"Error exporting file {fileName}", ex);
                     
                     // Try using FileSaver as fallback for this file
                     try
@@ -230,7 +226,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                             successCount++;
                             General.LogOfProgram.Debug($"Successfully exported via FileSaver fallback: {fileName} to {result.FilePath}");
                             
-                            var toast = Toast.Make($"Salvato: {fileName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                            var toast = Toast.Make($"Saved: {fileName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
                             await toast.Show(cancellationToken);
                         }
                     }
@@ -246,7 +242,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             if (successCount > 0)
             {
                 // Show final success message with location
-                var finalToast = Toast.Make($"File esportati in Downloads/GlucoMan ({successCount}/{totalCount})", CommunityToolkit.Maui.Core.ToastDuration.Long);
+                var finalToast = Toast.Make($"Files exported to Downloads/GlucoMan ({successCount}/{totalCount})", CommunityToolkit.Maui.Core.ToastDuration.Long);
                 await finalToast.Show(cancellationToken);
             }
             
@@ -287,19 +283,19 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                     exportResults.Add($"? {fileName} ? {result.Path}");
                     
                     // Show individual success toast
-                    var toast = Toast.Make($"Salvato: {fileName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                    var toast = Toast.Make($"Saved: {fileName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
                     await toast.Show();
                 }
                 else
                 {
-                    exportResults.Add($"? {fileName} ? Fallito");
+                    exportResults.Add($"? {fileName} ? Failed");
                 }
             }
 
             // Show detailed results
             if (exportResults.Any())
             {
-                string resultMessage = "Risultati esportazione:\n\n" + string.Join("\n", exportResults);
+                string resultMessage = "Export results:\n\n" + string.Join("\n", exportResults);
                 General.LogOfProgram.Debug(resultMessage);
             }
 
@@ -368,7 +364,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             if (!await AndroidExternalFilesHelper.ProgramHasPermissions())
             {
                 return false;
-            }       
+            } 
 #endif
             return await blGeneral.ExportProgramsFilesAsync();
         }
@@ -405,6 +401,26 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             if (File.Exists(Common.PathAndFileLogOfParameters))
             {
                 files.Add((Common.PathAndFileLogOfParameters, Path.GetFileName(Common.PathAndFileLogOfParameters)));
+            }
+
+            // Add container photos if present
+            try
+            {
+                string containerPhotosFolder = Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos");
+                if (Directory.Exists(containerPhotosFolder))
+                {
+                    var photoFiles = Directory.GetFiles(containerPhotosFolder);
+                    foreach (var photo in photoFiles)
+                    {
+                        // Use filename only to place in export folder; avoid duplicate names by prefixing with folder name if necessary
+                        string fileName = Path.GetFileName(photo);
+                        files.Add((photo, fileName));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram?.Error("GetFilesToExport - adding container photos", ex);
             }
         }
         catch (Exception ex)
@@ -459,27 +475,37 @@ public partial class MiscellaneousFunctionsPage : ContentPage
 
             General.LogOfProgram.Debug($"Selected file for database import: {picked.FileName} (Full path: {picked.FullPath})");
 
+            // Ask user to confirm importing associated photos from external ContainerPhotos folder
+            const string photosSubfolderName = "ContainerPhotos";
+            bool importPhotos = await DisplayAlert(
+                "Import images",
+                $"The import will also copy all images found in the subfolder '{photosSubfolderName}' located next to the selected database file into the app's internal '{photosSubfolderName}' folder.\n\nDo you want to continue and import those images?",
+                "Yes",
+                "No");
+
+            if (!importPhotos)
+            {
+                General.LogOfProgram.Debug("User declined importing photos during database import");
+            }
+
             // Create backup of current database first
             await CreateDatabaseBackup();
 
             // Copy the selected file to GlucoMan folder in app directory
-            //string tempImportName = "readGlucomanData.sqlite";
-            //string glucoManFolder = Path.Combine(FileSystem.AppDataDirectory, "GlucoMan");
-            //string tempImportPath = Path.Combine(glucoManFolder, tempImportName);
-            string glucoManFolder =picked.FullPath.Replace(picked.FileName, "");
+            string glucoManFolder = picked.FullPath.Replace(picked.FileName, "");
             string tempImportPath = picked.FullPath;
             try
             {
                 //// Create the GlucoMan directory if it doesn't exist
                 //Directory.CreateDirectory(glucoManFolder);
                 General.LogOfProgram.Debug($"Created/verified GlucoMan folder: {glucoManFolder}");
-                
+
                 using var src = await picked.OpenReadAsync();
                 using var dst = File.Create(Common.PathAndFileDatabase);
                 await src.CopyToAsync(dst);
 
                 General.LogOfProgram.Debug($"File copied to GlucoMan folder: {tempImportPath}");
-                
+
                 // Verify the copied file
                 if (!File.Exists(tempImportPath))
                 {
@@ -488,8 +514,8 @@ public partial class MiscellaneousFunctionsPage : ContentPage
 
                 var fileInfo = new FileInfo(tempImportPath);
                 General.LogOfProgram.Debug($"Copied file size: {fileInfo.Length} bytes");
-                
-                if (fileInfo.Length == 0)
+
+                if (fileInfo.Length ==0)
                 {
                     throw new InvalidDataException("Copied file is empty");
                 }
@@ -501,13 +527,63 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                 return;
             }
 
+            // If user agreed, import photos from external ContainerPhotos folder
+            if (importPhotos)
+            {
+                try
+                {
+                    string externalPhotosFolder = Path.Combine(Path.GetDirectoryName(picked.FullPath) ?? string.Empty, photosSubfolderName);
+                    string internalPhotosFolder = Path.Combine(FileSystem.AppDataDirectory, photosSubfolderName);
+
+                    if (Directory.Exists(externalPhotosFolder))
+                    {
+                        Directory.CreateDirectory(internalPhotosFolder);
+                        var externalPhotos = Directory.GetFiles(externalPhotosFolder);
+                        int copied =0;
+                        foreach (var externalFile in externalPhotos)
+                        {
+                            try
+                            {
+                                string destFile = Path.Combine(internalPhotosFolder, Path.GetFileName(externalFile));
+                                File.Copy(externalFile, destFile, true);
+                                copied++;
+                            }
+                            catch (Exception ex)
+                            {
+                                General.LogOfProgram.Error($"Error copying photo {externalFile}", ex);
+                            }
+                        }
+
+                        General.LogOfProgram.Debug($"Imported {copied} photos from {externalPhotosFolder} into {internalPhotosFolder}");
+                        if (copied >0)
+                        {
+                            var toast = Toast.Make($"Imported {copied} images into {photosSubfolderName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                            await toast.Show();
+                        }
+                        else
+                        {
+                            General.LogOfProgram.Debug("No photos found to import in external photos folder");
+                        }
+                    }
+                    else
+                    {
+                        General.LogOfProgram.Debug($"External photos folder not found: {externalPhotosFolder}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    General.LogOfProgram.Error("Error importing photos from external folder", ex);
+                    await DisplayAlert("Warning", "An error occurred while importing photos. Check logs for details.", "OK");
+                }
+            }
+
             // Import from the internal file
             bool success = await blGeneral.ReadDatabaseFromExternal(Common.PathAndFileDatabase, tempImportPath);
             
             if (!success)
             {
                 General.LogOfProgram.Error("ImportDatabaseFromExternal returned false", new Exception("ImportDatabaseFromExternal returned false"));
-                await DisplayAlert("", "Error in reading from selected file to app's database", "OK");
+                await DisplayAlert("", "Error reading from selected file into app database", "OK");
             }
             else
             {
@@ -548,7 +624,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                 File.Copy(Common.PathAndFileDatabase, backupPath, true);
                 General.LogOfProgram.Debug($"Database backup created: {backupPath}");
                 
-                var toast = Toast.Make($"Backup creato: {backupName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                var toast = Toast.Make($"Backup created: {backupName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
                 await toast.Show();
             }
         }

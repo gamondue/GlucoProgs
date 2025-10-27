@@ -203,7 +203,7 @@ public partial class InjectionsPage : ContentPage
         DateTime instant = new DateTime(
             dtpInjectionDate.Date.Year, dtpInjectionDate.Date.Month, dtpInjectionDate.Date.Day,
             dtpInjectionTime.Time.Hours, dtpInjectionTime.Time.Minutes, dtpInjectionTime.Time.Seconds);
-        injection.Timestamp.DateTime = instant;
+        injection.EventTime.DateTime = instant;
         injection.Notes = txtNotes.Text;
 
         if (rdbShortInsulin.IsChecked)
@@ -227,7 +227,7 @@ public partial class InjectionsPage : ContentPage
         return original.IdInjection == current.IdInjection &&
                original.InsulinValue.Text == current.InsulinValue.Text &&
                original.InsulinCalculated.Text == current.InsulinCalculated.Text &&
-               original.Timestamp.DateTime == current.Timestamp.DateTime &&
+               original.EventTime.DateTime == current.EventTime.DateTime &&
                original.Notes == current.Notes &&
                original.IdTypeOfInsulinAction == current.IdTypeOfInsulinAction &&
                original.Zone == current.Zone &&
@@ -242,7 +242,7 @@ public partial class InjectionsPage : ContentPage
             IdInjection = CurrentInjection.IdInjection,
             InsulinValue = new DoubleAndText { Text = CurrentInjection.InsulinValue.Text },
             InsulinCalculated = new DoubleAndText { Text = CurrentInjection.InsulinCalculated.Text },
-            Timestamp = new DateTimeAndText { DateTime = CurrentInjection.Timestamp.DateTime },
+            EventTime = new DateTimeAndText { DateTime = CurrentInjection.EventTime.DateTime },
             Notes = CurrentInjection.Notes,
             IdTypeOfInsulinAction = CurrentInjection.IdTypeOfInsulinAction,
             Zone = CurrentInjection.Zone,
@@ -280,11 +280,11 @@ public partial class InjectionsPage : ContentPage
             txtIdInjection.Text = "";
         txtInsulinActual.Text = CurrentInjection.InsulinValue.Text;
         txtInsulinCalculated.Text = CurrentInjection.InsulinCalculated.Text;
-        if (CurrentInjection.Timestamp.DateTime == null
-            || CurrentInjection.Timestamp.DateTime == new DateTime(1, 1, 1, 0, 0, 0))
-            CurrentInjection.Timestamp.DateTime = DateTime.Now;
-        dtpInjectionDate.Date = ((DateTime)CurrentInjection.Timestamp.DateTime);
-        dtpInjectionTime.Time = ((DateTime)CurrentInjection.Timestamp.DateTime).TimeOfDay;
+        if (CurrentInjection.EventTime.DateTime == null
+            || CurrentInjection.EventTime.DateTime == new DateTime(1, 1, 1, 0, 0, 0))
+            CurrentInjection.EventTime.DateTime = DateTime.Now;
+        dtpInjectionDate.Date = ((DateTime)CurrentInjection.EventTime.DateTime);
+        dtpInjectionTime.Time = ((DateTime)CurrentInjection.EventTime.DateTime).TimeOfDay;
         txtNotes.Text = CurrentInjection.Notes;
 
         // both Rapid and Short should map to short insulin radio button
@@ -313,7 +313,7 @@ public partial class InjectionsPage : ContentPage
         DateTime instant = new DateTime(
             dtpInjectionDate.Date.Year, dtpInjectionDate.Date.Month, dtpInjectionDate.Date.Day,
             dtpInjectionTime.Time.Hours, dtpInjectionTime.Time.Minutes, dtpInjectionTime.Time.Seconds);
-        CurrentInjection.Timestamp.DateTime = instant;
+        CurrentInjection.EventTime.DateTime = instant;
         CurrentInjection.Notes = txtNotes.Text;
         
         //  short radio button maps to Short, long to Long
@@ -523,7 +523,7 @@ public partial class InjectionsPage : ContentPage
         if (chkNowInAdd.IsChecked)
         {
             DateTime now = DateTime.Now;
-            CurrentInjection.Timestamp.DateTime = now;
+            CurrentInjection.EventTime.DateTime = now;
             dtpInjectionDate.Date = now;
             dtpInjectionTime.Time = now.TimeOfDay;
         }
@@ -586,7 +586,7 @@ public partial class InjectionsPage : ContentPage
             bool remove = await DisplayAlert(String.Format(
                 "Should I delete the injection of {1}, insulin {0}?",
                 inj.InsulinValue.ToString(),
-                inj.Timestamp.ToString(),
+                inj.EventTime.ToString(),
                 inj.IdInjection.ToString()),
                 "", "Yes", "No");
             if (remove)

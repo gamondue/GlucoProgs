@@ -306,7 +306,7 @@ namespace GlucoMan.BusinessLayer
                         PeakTimeInHours = 2
                     };
                 }
-                TimeSpan timeFromInjection = FinalInstant.Subtract((DateTime)ii.Timestamp.DateTime);
+                TimeSpan timeFromInjection = FinalInstant.Subtract((DateTime)ii.EventTime.DateTime);
                 if (ii.IdTypeOfInsulinAction == null)
                     break;
                 // the old hard encoded method is now overcome by reading the database
@@ -333,7 +333,7 @@ namespace GlucoMan.BusinessLayer
                     //if (partialEmbarkedInsulin > 0)
                     //    EmbarkedInsulin.Double += partialEmbarkedInsulin;
                     double? partialPercentResidualInsulin = (double)CalcPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(
-                        id , (DateTime)ii.Timestamp.DateTime, DateTime.Now);
+                        id , (DateTime)ii.EventTime.DateTime, DateTime.Now);
                     partialEmbarkedInsulin = ii.InsulinValue.Double * partialPercentResidualInsulin / 100.0;
                 }
                 EmbarkedInsulin.Double += partialEmbarkedInsulin;
@@ -483,7 +483,7 @@ namespace GlucoMan.BusinessLayer
             Injection ii = new Injection
             {
                 IdInjection = currentInjection.IdInjection,
-                Timestamp = currentInjection.Timestamp,
+                EventTime = currentInjection.EventTime,
                 InsulinValue = currentInjection.InsulinValue,
                 InsulinCalculated = currentInjection.InsulinCalculated,
                 Zone = currentInjection.Zone,

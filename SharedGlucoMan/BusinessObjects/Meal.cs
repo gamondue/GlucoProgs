@@ -7,7 +7,7 @@ using static GlucoMan.Common;
 
 namespace GlucoMan
 {
-    public class Meal
+    public class Meal : Event
     {      
         [DisplayName("Meal Code")]
         public int? IdMeal { get; set; }
@@ -15,9 +15,17 @@ namespace GlucoMan
         public TypeOfMeal IdTypeOfMeal { get; set; }
         [DisplayName("CHO of meal")]
         public DoubleAndText CarbohydratesGrams { get; set; }
+        
+        // the following property is for string representation of carbohydrates, e.g. "2 slices of bread"
+        // currently it is NOT STORED in the database, nor used in the code logic
+        public DoubleAndText CarbohydratesString { get; set; }
+
         [DisplayName("Start time")]
-        public DateTimeAndText TimeBegin { get; set ; }
-        public string Notes { get; set; }
+        public new DateTimeAndText EventTime
+        {
+            get => base.EventTime;
+            set => base.EventTime = value;
+        }
         [DisplayName("Accuracy of CHO")]
         public DoubleAndText AccuracyOfChoEstimate { get; set; }
         public int? IdBolusCalculation { get; set; }
@@ -30,7 +38,7 @@ namespace GlucoMan
         {
             // default type of meal is NotSet
             IdTypeOfMeal = Common.TypeOfMeal.NotSet;
-            TimeBegin = new DateTimeAndText();
+            EventTime = new DateTimeAndText();
             TimeEnd = new DateTimeAndText();
 
             CarbohydratesGrams = new DoubleAndText();

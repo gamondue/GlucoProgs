@@ -3,10 +3,9 @@ using GlucoMan.BusinessLayer;
 
 namespace GlucoMan
 {
-    public class Injection
+    public class Injection : Event
     {
         public int? IdInjection { get; set; }
-        public DateTimeAndText Timestamp { get; set; }
         public DoubleAndText InsulinValue { get; set; }
         public DoubleAndText InsulinCalculated { get; set; }
         public Common.ZoneOfPosition Zone { get; set; }
@@ -16,7 +15,6 @@ namespace GlucoMan
         public int? IdTypeOfInsulinAction { get; set; }
         public int? IdInsulinDrug { get; set; }
         public string InsulinString { get; set; }
-        public string Notes { get; internal set; }
 
         // Proprietà enum per binding diretto (come in MealsPage)
         public Common.TypeOfInjection TypeOfInjection
@@ -53,7 +51,7 @@ namespace GlucoMan
         }
         public Injection()
         {
-            Timestamp = new DateTimeAndText();
+            EventTime = new DateTimeAndText();
             InsulinValue = new DoubleAndText();
             InsulinValue.Format = "#";
             InsulinCalculated = new DoubleAndText();

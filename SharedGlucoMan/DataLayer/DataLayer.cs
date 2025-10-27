@@ -27,11 +27,17 @@ namespace GlucoMan
         internal abstract GlucoseRecord GetOneGlucoseRecord(int? idGlucoseRecord);
         internal abstract List<GlucoseRecord> GetGlucoseRecords(
             DateTime? InitialInstant = null, DateTime? FinalInstant = null);
+        internal abstract List<GlucoseRecord> GetSensorsRecords(
+            DateTime? InitialInstant = null, DateTime? FinalInstant = null);
         internal abstract List<GlucoseRecord> GetLastTwoGlucoseMeasurements();
         //internal abstract void SaveFoodToHitTarget(BL_FoodToHitTargetCarbs CalculationsOfChoMassToHitTarget);
         internal abstract void SaveGlucoseMeasurements(List<GlucoseRecord> List);
+        internal abstract void InsertSensorMeasurements(List<GlucoseRecord> List);
+        internal abstract void InsertInjections(List<Injection> List);
         internal abstract long? SaveOneGlucoseMeasurement(GlucoseRecord GlucoseMeasurement);
         internal abstract void DeleteOneGlucoseMeasurement(GlucoseRecord gr);
+        internal abstract void InsertEvents(List<Event> List);
+        internal abstract List<Event> GetEvents(DateTime? startTime = null, DateTime? endTime = null);
         internal abstract int? SaveOneInjection(Injection Injection);
         internal abstract void DeleteOneInjection(Injection Injection);
         internal abstract List<Injection> GetInjections(DateTime InitialInstant,
@@ -47,6 +53,7 @@ namespace GlucoMan
         internal abstract Meal GetOneMeal(int? IdMeal);
         internal abstract List<Meal> GetMeals(DateTime? initialTime, DateTime? finalTime);
         internal abstract void SaveMeals(List<Meal> List);
+        internal abstract void InsertMeals(List<Meal> List);
         internal abstract int? SaveOneMeal(Meal Meal);
         internal abstract void DeleteOneMeal(Meal meal);
         internal abstract bool SaveFoodsInMeal(List<FoodInMeal> list);
@@ -119,6 +126,24 @@ namespace GlucoMan
         internal abstract int? SaveContainer(Container container);
         internal abstract bool DeleteContainer(int idContainer);
         internal abstract List<Container> SearchContainers(string name);
+        internal abstract void SaveEvents(List<Event> importedEvents);
+        #endregion
+        #region Devices
+        internal abstract List<Device> GetAllDevices(string whereClause = null);
+        internal abstract Device GetOneDevice(int? idDevice);
+        internal abstract int? InsertDevice(Device device);
+        internal abstract int? SaveDevice(Device Device);
+        internal abstract void UpdateDevice(Device device);
+        internal abstract void DeleteDevice(int? idDevice);
+        internal abstract Device? GetDeviceBySerialNumber(int? IdDeviceModel, string PhysicalCode);
+        internal abstract Device? GetDeviceById(int? IdDevice);
+        // DevicesModels
+        internal abstract List<DeviceModel> GetSomeDeviceModels(string whereClause);
+        internal abstract DeviceModel GetOneDeviceModel(int? idModel);
+        internal abstract int? InsertOneDeviceModel(DeviceModel model);
+        internal abstract int? SaveOneDeviceModel(DeviceModel model);
+        internal abstract void UpdateOneDeviceModel(DeviceModel model);
+        internal abstract void DeleteOneDeviceModel(int? idModel);
         #endregion
     }
 }

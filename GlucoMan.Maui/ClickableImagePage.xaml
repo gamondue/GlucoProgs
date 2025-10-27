@@ -6,15 +6,17 @@
              Title="ClickableImagePage">
     <VerticalStackLayout>
         <HorizontalStackLayout>
-            <Button x:Name="btnSavePosition" Text="Keep" 
-                    ToolTipProperties.Text="Closes the page remembering the current position, that can be saved in the other page"
+            <Button x:Name="btnSavePosition" 
+                    ImageSource="choose.png"
+                    ToolTipProperties.Text="Choose: closes the page remembering the current position, that will be saved in the other page"
                     BackgroundColor="LightGreen" 
                     TextColor="Black"
                     FontAttributes="Bold"
                     HeightRequest="50"
                     Clicked="BtnSavePosition_Clicked"/>
-            <Button x:Name="btnForgetPosition" Text="Forget" 
-                    ToolTipProperties.Text="Closes the page forgetting the current position"
+            <Button x:Name="btnForgetPosition"
+                    ImageSource="escape.png"
+                    ToolTipProperties.Text="Escape: closes the page forgetting the current position"
                     BackgroundColor="LightCoral" 
                     TextColor="White"
                     FontAttributes="Bold"

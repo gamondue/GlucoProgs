@@ -59,8 +59,8 @@ public partial class StatisticsAndGraphPage : ContentPage
             await DisplayAlert("Error", $"Failed to open statistics page: {ex.Message}", "OK");
         }
     }
-    
-    private async void btnChart_Clicked(object sender, EventArgs e)
+
+    private async void btnChart_Clicked(object sender, TappedEventArgs e)
     {
         try
         {
@@ -71,16 +71,16 @@ public partial class StatisticsAndGraphPage : ContentPage
             DateTime dateTimeFrom = datePickerFrom.Date; // Midnight of selected day
             DateTime dateTimeTo = datePickerTo.Date.AddDays(1).AddSeconds(-1); // 23:59:59 of selected day
       
-            // Validate date range
-            if (dateTimeFrom > dateTimeTo)
-            {
-                await DisplayAlert("Invalid Date Range", 
-                    "The 'From' date cannot be later than the 'To' date.",
-                    "\nTo date moved to 1 day more than from date",
-                    "OK");
-                datePickerTo.Date = datePickerFrom.Date.AddDays(1);
-                return;
-            }
+            ////////// Validate date range
+            ////////if (dateTimeFrom > dateTimeTo)
+            ////////{
+            ////////    await DisplayAlert("Invalid Date Range", 
+            ////////        "The 'From' date cannot be later than the 'To' date.",
+            ////////        "\nTo date moved to 1 day more than from date",
+            ////////        "OK");
+            ////////    datePickerTo.Date = datePickerFrom.Date.AddDays(1);
+            ////////    return;
+            ////////}
       
             // Log the action
             General.LogOfProgram?.Event($"Opening Chart page - Type: {dataType}, From: {dateTimeFrom}, To: {dateTimeTo}");
@@ -153,8 +153,9 @@ public partial class StatisticsAndGraphPage : ContentPage
             General.LogOfProgram?.Debug($"CSV file found. Size: {fileInfo.Length} bytes");
 
             // Read and parse the CSV file, save in the database the imported data
-            List<GlucoseRecord> imported = await bl.ImportDataFromFreeStyleLibre(picked.FullPath);
-            await DisplayAlert("Import finished", $"Imported {imported.Count} records.", "OK");
+            string summaryString = await bl.ImportDataFromFreeStyleLibre(picked.FullPath);
+            
+            await DisplayAlert("Import finished", summaryString, "OK");
         }
         catch (Exception ex)
         {
@@ -178,7 +179,7 @@ public partial class StatisticsAndGraphPage : ContentPage
         return "Glucose"; // Default
     }
 
-    private void btnChart_Clicked(object sender, TappedEventArgs e)
+    private void btnImportGlucose_Clicked(object sender, TappedEventArgs e)
     {
 
     }

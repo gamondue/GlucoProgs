@@ -42,6 +42,10 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.GetGlucoseRecords(startInstant, endInstant);
         }
+        internal List<GlucoseRecord> GetSensorsRecords(DateTime? startInstant = null, DateTime? endInstant = null)
+        {
+            return dl.GetSensorsRecords(startInstant, endInstant);
+        }
         internal List<(float Hour, float Value)> GetGraphData(DateTime day)
         {
             // Calculate midnight of the selected day and midnight of the next day
@@ -51,11 +55,11 @@ namespace GlucoMan.BusinessLayer
             var dataPoints = new List<(float Hour, float Value)>();
             foreach (var record in records)
             {
-                if (record.GlucoseValue.Double.HasValue && record.Timestamp.DateTime.HasValue)
+                if (record.GlucoseValue.Double.HasValue && record.EventTime.DateTime.HasValue)
                 {
-                    float hour = record.Timestamp.DateTime.Value.Hour +
-                                 record.Timestamp.DateTime.Value.Minute / 60f +
-                                 record.Timestamp.DateTime.Value.Second / 3600f;
+                    float hour = record.EventTime.DateTime.Value.Hour +
+                                 record.EventTime.DateTime.Value.Minute / 60f +
+                                 record.EventTime.DateTime.Value.Second / 3600f;
                     float value = (float)record.GlucoseValue.Double.Value;
                     dataPoints.Add((hour, value));
                 }

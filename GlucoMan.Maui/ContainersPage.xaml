@@ -1,224 +1,183 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-        x:Class="GlucoMan.Maui.ContainersPage"
-    Title="Containers (Tare)">
+ x:Class="GlucoMan.Maui.ContainersPage"
+ Title="Containers (Tare)">
     <ContentPage.Content>
         <!-- Single Grid with all rows properly defined -->
         <Grid Padding="5"
-    RowDefinitions="20,20,50,50,Auto,Auto,Auto,*"    
-       ColumnDefinitions="*,*,80,50,50">
+ RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
+ ColumnDefinitions="*,*,80,50,50"
+ ColumnSpacing="6">
 
- <!-- Title -->
+            <!-- Title -->
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
-Text="Container data" 
-        FontAttributes="Bold" 
- HorizontalTextAlignment="Center" 
-   VerticalTextAlignment="End"
-         Margin="0,5,0,0"/>
+ Text="Container data"
+ FontAttributes="Bold"
+ HorizontalTextAlignment="Center"
+ VerticalTextAlignment="End"
+ Margin="0,5,0,0" />
 
-<!-- Labels row -->
-       <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-        Text="Name of container" FontAttributes="Bold"
-             HorizontalTextAlignment="Center" 
-          VerticalTextAlignment="End"/>
+            <!-- Labels row -->
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+ Text="Name of container" FontAttributes="Bold"
+ HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
 
-     <Label Grid.Row="1" Grid.Column="2" 
-             FontAttributes="Bold"
-             Text="CHO [%]" 
-    HorizontalTextAlignment="Center" 
-           VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"
+                FontAttributes="Bold"
+                Text="Weight [g]"
+                HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
 
             <!-- Input row -->
-       <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-     x:Name="txtContainerName"
-   Placeholder="Name (e.g. 'Small pot')"
-          BackgroundColor="LightGreen"
-           TextColor="Black"
-  Margin="1"
-        HorizontalTextAlignment="Start"
-           ToolTipProperties.Text="Name: short name of this container" />
+            <!-- Name spans columns 0-2 -->
+            <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+ x:Name="txtContainerName"
+ Placeholder="Name (e.g. 'Small pot')"
+ BackgroundColor="LightGreen"
+ TextColor="Black"
+ Margin="1"
+ HorizontalTextAlignment="Start"
+ ToolTipProperties.Text="Name: short name of this container" />
 
-        <Entry Grid.Row="2" Grid.Column="2" 
-           x:Name="txtContainerWeight"
-     Placeholder="Weight"
+            <!-- Weight spans columns 3-4 -->
+            <Entry Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
+ x:Name="txtContainerWeight"
+ Placeholder="Weight"
  Keyboard="Numeric"
-     HorizontalTextAlignment="End"
-      BackgroundColor="GreenYellow"
-           TextColor="Black"
-           Margin="1"
-       ToolTipProperties.Text="Weight: weight of the container in grams [g]" />
-
-            <!-- Plus button: add new container -->
-            <Button Grid.Row="2" Grid.Column="3" 
-                    x:Name="btnNew"
-   ImageSource="plus.png"
-          Margin="1"
-            ToolTipProperties.Text="Plus: adds a new container with data from the UI"
-           Clicked="btnNew_Click" />
-
-     <!-- Minus button: remove/clear current container -->
-        <Button Grid.Row="2" Grid.Column="4" 
-    x:Name="btnMinus"
-         ImageSource="minus.png"
-               Margin="1"
-       ToolTipProperties.Text="Minus: clear fields or remove selected container"
-Clicked="btnMinus_Click" />
-
-            <!-- Picture button row -->
-         <Grid Grid.Row="3" Grid.ColumnSpan="5"
-    ColumnDefinitions="*,*,*,*,*">
-        <Button Grid.Column="0" 
-     x:Name="btnBack"
-   ImageSource="escape.png"
-      FontSize="Small"
+ HorizontalTextAlignment="End"
+ BackgroundColor="GreenYellow"
+ TextColor="Black"
  Margin="1"
-        ToolTipProperties.Text="Back: return to previous page without selecting"
-         Clicked="btnBack_Click" />
+ ToolTipProperties.Text="Weight: weight of the container in grams [g]" />
 
-        <Button Grid.Column="1" 
-       x:Name="btnChoose"
-         ImageSource="choose.png"
-  FontSize="Small"
- Margin="1"
-        ToolTipProperties.Text="Choose: select this container and return to previous page"
- Clicked="btnChoose_Click" />
-
-   <Button Grid.Column="2" 
-     x:Name="btnSave"
-            ImageSource="floppy_disc.png"
-                 Margin="1"
-             ToolTipProperties.Text="Save: saves this container's data into the database"
-      Clicked="btnSave_Click" />
-
-      <Button Grid.Column="3" 
-x:Name="btnTakePicture"
-     ImageSource="camera.png"
-   FontSize="Small"
-            Margin="1"
-    ToolTipProperties.Text="Picture: take a photo of the container with the camera"
-           Clicked="btnTakePicture_Click" />
-
-                <Button Grid.Column="4"
-      x:Name="btnClearFields"
-    ImageSource="clear_fields.png"
-  Margin="1"
-      ToolTipProperties.Text="Clear fields: clears all data in the UI"
-  Clicked="btnClearFields_Click" />
-            </Grid>
-
-            <!-- Section: Photo title -->
-    <Label Grid.Row="4" Grid.ColumnSpan="5"
-     Text="Photo" 
-         FontAttributes="Bold" 
-      HorizontalTextAlignment="Center" 
-        VerticalTextAlignment="End"
-  Margin="0,10,0,0"/>
-
-     <!-- Photo section -->
-            <Border Grid.Row="5" Grid.ColumnSpan="5"
-               Stroke="Gray"
-          StrokeThickness="1"
-           BackgroundColor="WhiteSmoke"
-            HeightRequest="200"
-          Margin="1"
-     HorizontalOptions="Fill">
-   <Image x:Name="imgContainerPhoto"
-      Aspect="AspectFit"
-          VerticalOptions="Fill"
-            HorizontalOptions="Fill">
-        <Image.GestureRecognizers>
-             <TapGestureRecognizer Tapped="imgContainerPhoto_Tapped" />
-       </Image.GestureRecognizers>
-           </Image>
-    </Border>
-
-     <!-- Section: List title -->
-    <Label Grid.Row="6" Grid.ColumnSpan="5"
-    Text="Saved containers" 
-            FontAttributes="Bold" 
-                HorizontalTextAlignment="Center" 
-          VerticalTextAlignment="End"
-         Margin="0,10,0,0"/>
-
-   <!-- Section: List of containers - Now in Grid.Row="7" with * height -->
-        <ListView Grid.Row="7" Grid.ColumnSpan="5"
-            x:Name="lvContainers"
-            ItemSelected="lvContainers_ItemSelected"
-            ToolTipProperties.Text="List of the containers saved in database"
-            RowHeight="50"
-            Margin="0,5,0,0"
-            VerticalOptions="FillAndExpand"
-            HorizontalOptions="Fill">
-             <ListView.Header>
-    <Grid ColumnDefinitions="100,*,80" 
-        RowDefinitions="100"
-        BackgroundColor="#e8f5e9" 
-        Padding="0,3,0,3"
-        Margin="2">
-<Label Grid.Column="0" 
-       Text="Photo" 
-  FontAttributes="Bold"
-      FontSize="14"
-                TextColor="#2c3e50"
-   Margin="5,0"
-    HorizontalTextAlignment="Center" />
-   <Label Grid.Column="1" 
-           Text="Name" 
+            <!-- Section: Photo title (reduced top margin) -->
+            <Label Grid.Row="4" Grid.ColumnSpan="5"
+ Text="Photo"
  FontAttributes="Bold"
- FontSize="14"
-    TextColor="#2c3e50"
-      Margin="5,0"
-  HorizontalTextAlignment="Start" />
-        <Label Grid.Column="2" 
-       Text="Weight [g]" 
-            FontAttributes="Bold"
-     FontSize="14"
-  TextColor="#2c3e50"
-      HorizontalTextAlignment="End" />
-     </Grid>
-     </ListView.Header>
-        <ListView.ItemTemplate>
-                    <DataTemplate>
-        <ViewCell>
-                <ViewCell.View>
-  <Grid ColumnDefinitions="100,*,80"
-    Padding="2"
-         RowDefinitions="46">
-    <!-- Thumbnail column -->
-        <Border Grid.Column="0" 
-              Stroke="LightGray"
-        StrokeThickness="1"
-   Margin="2"
-    Padding="1"
-     BackgroundColor="White"
-  WidthRequest="46"
-HeightRequest="46">
-  <Image Source="{Binding ThumbnailSource}"
-  Aspect="AspectFit"
-           VerticalOptions="Fill"
-              HorizontalOptions="Fill" />
-             </Border>
+ HorizontalTextAlignment="Center"
+ VerticalTextAlignment="End"
+ Margin="0,4,0,0" />
 
-                <!-- Name column -->
-       <Label Grid.Column="1" 
-           Text="{Binding Name}" 
-     Margin="2"
-     VerticalTextAlignment="Center"
-   HorizontalTextAlignment="Start" />
+            <!-- Photo + Action Buttons: photo square at left, buttons filling remaining width -->
+            <Grid Grid.Row="5" Grid.ColumnSpan="5" ColumnDefinitions="139,*" RowDefinitions="Auto">
+                <!-- Photo column (square, +5% from132 ->139) -->
+                <Border x:Name="brdContainerPhoto" Grid.Column="0"
+                    Stroke="Gray"
+                    StrokeThickness="1"
+                    BackgroundColor="WhiteSmoke"
+                    WidthRequest="139"
+                    HeightRequest="139"
+                    Margin="0"
+                    Padding="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center">
+                    <Image x:Name="imgContainerPhoto"
+                        Aspect="AspectFill"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        WidthRequest="135"
+                        HeightRequest="135">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="imgContainerPhoto_Tapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Border>
 
-<!-- Weight column -->
-            <Label Grid.Column="2" 
- Text="{Binding Weight.Text}" 
-  Margin="2"
-      VerticalTextAlignment="Center"
-  HorizontalTextAlignment="End" />
+                <!-- Buttons column: occupy full remaining width; Grid 4x2 -->
+                <Grid Grid.Column="1"
+ ColumnDefinitions="*,*,*,*"
+ RowDefinitions="*,*"
+ Padding="4,0,0,0"
+ HorizontalOptions="FillAndExpand"
+ VerticalOptions="Center"
+ HeightRequest="{Binding Source={x:Reference brdContainerPhoto}, Path=HeightRequest}"
+ RowSpacing="4" ColumnSpacing="4">
+
+ <Button Grid.Row="0" Grid.Column="0" x:Name="btnBack" ImageSource="escape.png" Clicked="btnBack_Click"
+ ToolTipProperties.Text="Back: return to previous page without selecting"
+ VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
+
+ <Button Grid.Row="0" Grid.Column="1" x:Name="btnChoose" ImageSource="choose.png" Clicked="btnChoose_Click"
+ ToolTipProperties.Text="Choose: select this container and return to previous page"
+ VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
+
+ <Button Grid.Row="0" Grid.Column="2" x:Name="btnSave" ImageSource="floppy_disc.png" Clicked="btnSave_Click"
+ ToolTipProperties.Text="Save: saves this container's data into the database"
+ VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
+
+ <Button Grid.Row="0" Grid.Column="3" x:Name="btnTakePicture" ImageSource="camera.png" Clicked="btnTakePicture_Click"
+ ToolTipProperties.Text="Picture: take a photo of the container with the camera"
+ VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
+
+ <Button Grid.Row="1" Grid.Column="0" x:Name="btnClearFields" ImageSource="clear_fields.png" Clicked="btnClearFields_Click"
+ ToolTipProperties.Text="Clear fields: clears all data in the UI"
+ VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
+
+ <Button Grid.Row="1" Grid.Column="1" x:Name="btnNew2" ImageSource="plus.png" Clicked="btnNew_Click"
+ ToolTipProperties.Text="Plus: adds a new container with data from the UI"
+ VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
+
+ <Button Grid.Row="1" Grid.Column="2" x:Name="btnMinus2" ImageSource="minus.png" Clicked="btnMinus_Click"
+ ToolTipProperties.Text="Minus: clear fields or remove selected container"
+ VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
+
+ <!-- optional empty cell at Row=1,Col=3 left intentionally to keep 4x2 layout -->
+ </Grid>
             </Grid>
-          </ViewCell.View>
-         </ViewCell>
-   </DataTemplate>
-        </ListView.ItemTemplate>
-       </ListView>
+
+            <!-- Section: List title -->
+            <Label Grid.Row="6" Grid.ColumnSpan="5"
+ Text="Saved containers"
+ FontAttributes="Bold"
+ HorizontalTextAlignment="Center"
+ VerticalTextAlignment="End"
+ Margin="0,10,0,0" />
+
+            <!-- Section: List of containers - Now in Grid.Row="7" with * height -->
+            <ListView Grid.Row="7" Grid.ColumnSpan="5"
+ x:Name="lvContainers"
+ ItemSelected="lvContainers_ItemSelected"
+ ToolTipProperties.Text="List of the containers saved in database"
+ RowHeight="50"
+ Margin="0,5,0,0"
+ VerticalOptions="FillAndExpand"
+ HorizontalOptions="Fill">
+                <ListView.Header>
+                    <Grid ColumnDefinitions="100,*,80" RowDefinitions="Auto"
+ BackgroundColor="#e8f5e9" Padding="0,3,0,3" Margin="2">
+                        <Label Grid.Column="0" Text="Photo" FontAttributes="Bold" FontSize="14"
+ TextColor="#2c3e50" Margin="5,0" HorizontalTextAlignment="Center" />
+                        <Label Grid.Column="1" Text="Name" FontAttributes="Bold" FontSize="14"
+ TextColor="#2c3e50" Margin="5,0" HorizontalTextAlignment="Start" />
+                        <Label Grid.Column="2" Text="Weight [g]" FontAttributes="Bold" FontSize="14"
+ TextColor="#2c3e50" HorizontalTextAlignment="End" />
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid ColumnDefinitions="100,*,80" Padding="2" RowDefinitions="46">
+                                    <!-- Thumbnail column -->
+                                    <Border Grid.Column="0" Stroke="LightGray" StrokeThickness="1" Margin="2" Padding="1"
+ BackgroundColor="White" WidthRequest="46" HeightRequest="46">
+                                        <Image Source="{Binding ThumbnailSource}" Aspect="AspectFit" VerticalOptions="Fill"
+ HorizontalOptions="Fill" />
+                                    </Border>
+
+                                    <!-- Name column -->
+                                    <Label Grid.Column="1" Text="{Binding Name}" Margin="2" VerticalTextAlignment="Center"
+ HorizontalTextAlignment="Start" />
+
+                                    <!-- Weight column -->
+                                    <Label Grid.Column="2" Text="{Binding Weight.Text}" Margin="2" VerticalTextAlignment="Center"
+ HorizontalTextAlignment="End" />
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

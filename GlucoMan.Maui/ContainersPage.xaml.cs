@@ -416,121 +416,147 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
             {
                 // Save to temporary location first
                 string tempFolder = Path.Combine(FileSystem.CacheDirectory, "TempPhotos");
- Directory.CreateDirectory(tempFolder);
-    
-    string tempFileName = $"temp_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
-     string tempPath = Path.Combine(tempFolder, tempFileName);
-        
-       // Copy photo to temp location
-  using (var sourceStream = await photo.OpenReadAsync())
-  using (var targetStream = File.Create(tempPath))
-{
- await sourceStream.CopyToAsync(targetStream);
-}
+                Directory.CreateDirectory(tempFolder);
 
-     General.LogOfProgram?.Event($"ContainersPage - Photo saved to temp: {tempPath}");
+                string tempFileName = $"temp_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
+                string tempPath = Path.Combine(tempFolder, tempFileName);
 
-     // Open crop page
-  var cropPage = new CropPhotoPage(tempPath);
-await Navigation.PushModalAsync(cropPage);
+                // Copy photo to temp location
+                using (var sourceStream = await photo.OpenReadAsync())
+                using (var targetStream = File.Create(tempPath))
+                {
+                    await sourceStream.CopyToAsync(targetStream);
+                }
 
-      // Wait for crop result
-    string croppedPhotoPath = await cropPage.CropTask;
- 
-if (!string.IsNullOrEmpty(croppedPhotoPath))
-       {
-       // Move cropped photo to final location
-     string containersFolder = Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos");
-    Directory.CreateDirectory(containersFolder);
+                General.LogOfProgram?.Event($"ContainersPage - Photo saved to temp: {tempPath}");
 
-        // Generate unique filename
-  string fileName = $"container_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
-      string targetPath = Path.Combine(containersFolder, fileName);
+                // Open crop page
+                var cropPage = new CropPhotoPage(tempPath);
+                await Navigation.PushModalAsync(cropPage);
 
-   // Copy cropped photo to final location
-    File.Copy(croppedPhotoPath, targetPath, true);
+                // Wait for crop result
+                string croppedPhotoPath = await cropPage.CropTask;
 
-        // Clean up temp files
-    try
-           {
-         File.Delete(tempPath);
-File.Delete(croppedPhotoPath);
-  }
-       catch { } // Ignore cleanup errors
+                if (!string.IsNullOrEmpty(croppedPhotoPath))
+                {
+                    // Move cropped photo to final location
+                    string containersFolder = Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos");
+                    Directory.CreateDirectory(containersFolder);
 
- // Create or update selected container with photo filename
-   if (selectedContainer == null)
-      {
-selectedContainer = new Container();
-   }
-      
-selectedContainer.PhotoFileName = fileName;
+                    // Generate unique filename based on container name or default and timestamp
+                    string baseName;
+                    if (string.IsNullOrWhiteSpace(txtContainerName?.Text))
+                    {
+                        baseName = "container";
+                    }
+                    else
+                    {
+                        baseName = MakeValidFileName(txtContainerName.Text.Trim());
+                    }
 
-      // ? Save the container with the photo filename to database
-    if (selectedContainer.IdContainer.HasValue)
- {
-       // Container already exists in DB - update only the PhotoFileName
-      int? result = bl.SaveContainer(selectedContainer);
-           if (result.HasValue && result.Value > 0)
-   {
-General.LogOfProgram?.Event($"ContainersPage - Photo filename saved to database for container ID: {selectedContainer.IdContainer}");
-}
-else
-     {
-     General.LogOfProgram?.Error("ContainersPage - Failed to save photo filename to database", null);
-    }
-}
+                    string fileName = $"{baseName}_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
+                    string targetPath = Path.Combine(containersFolder, fileName);
 
-    // Load and display the captured photo
-         LoadContainerPhoto(selectedContainer);
+                    // Copy cropped photo to final location
+                    File.Copy(croppedPhotoPath, targetPath, true);
 
-        General.LogOfProgram?.Event($"ContainersPage - Photo captured, cropped and saved: {fileName}");
-    await DisplayAlert("Success", "Foto quadrata acquisita con successo!", "OK");
- }
-     else
- {
-        General.LogOfProgram?.Event("ContainersPage - Photo crop cancelled by user");
-   // Clean up temp file
- try { File.Delete(tempPath); } catch { }
-}
-    }
+                    // Clean up temp files
+                    try
+                    {
+                        File.Delete(tempPath);
+                        File.Delete(croppedPhotoPath);
+                    }
+                    catch { } // Ignore cleanup errors
+
+                    // Create or update selected container with photo filename
+                    if (selectedContainer == null)
+                    {
+                        selectedContainer = new Container();
+                    }
+
+                    selectedContainer.PhotoFileName = fileName;
+
+                    // Save the container photo filename when container exists in DB
+                    if (selectedContainer.IdContainer.HasValue)
+                    {
+                        int? result = bl.SaveContainer(selectedContainer);
+                        if (result.HasValue && result.Value >0)
+                        {
+                            General.LogOfProgram?.Event($"ContainersPage - Photo filename saved to database for container ID: {selectedContainer.IdContainer}");
+                        }
+                        else
+                        {
+                            General.LogOfProgram?.Error("ContainersPage - Failed to save photo filename to database", null);
+                        }
+                    }
+
+                    // Load and display the captured photo
+                     LoadContainerPhoto(selectedContainer);
+
+                    General.LogOfProgram?.Event($"ContainersPage - Photo captured, cropped and saved: {fileName}");
+                    await DisplayAlert("Success", "Foto quadrata acquisita con successo!", "OK");
+                }
+                else
+                {
+                    General.LogOfProgram?.Event("ContainersPage - Photo crop cancelled by user");
+                   // Clean up temp file
+                    try { File.Delete(tempPath); } catch { }
+                }
+            }
             else
-{
-   General.LogOfProgram?.Event("ContainersPage - Photo capture cancelled by user");
-   }
+            {
+                General.LogOfProgram?.Event("ContainersPage - Photo capture cancelled by user");
+            }
         }
-    catch (Exception ex)
-   {
-       General.LogOfProgram?.Error("ContainersPage - btnTakePicture_Click", ex);
- await DisplayAlert("Error", "Failed to take picture. Please try again.", "OK");
- }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("ContainersPage - btnTakePicture_Click", ex);
+            await DisplayAlert("Error", "Failed to take picture. Please try again.", "OK");
+        }
+    }
+
+    // Helper: sanitize filename by removing/replacing invalid filename characters
+    private string MakeValidFileName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return "container";
+
+        // Replace invalid filename chars with underscore
+        var invalid = Path.GetInvalidFileNameChars();
+        var sb = new System.Text.StringBuilder();
+        foreach (var c in name)
+        {
+            if (invalid.Contains(c))
+                sb.Append('_');
+            else
+                sb.Append(c);
+        }
+
+        var result = sb.ToString();
+        // Replace whitespace sequences with single underscore
+        result = System.Text.RegularExpressions.Regex.Replace(result, "\\s+", "_");
+        // Collapse multiple underscores
+        result = System.Text.RegularExpressions.Regex.Replace(result, "_+", "_");
+        // Trim underscores and dots from ends
+        result = result.Trim('_', '.');
+
+        if (string.IsNullOrWhiteSpace(result))
+            return "container";
+
+        return result;
     }
     private async void imgContainerPhoto_Tapped(object sender, EventArgs e)
     {
         try
         {
             // Allow user to view full-size photo or take new photo
-            string action = await DisplayActionSheet(
-                "Container Photo",
-                "Cancel",
-                null,
-                "Take New Photo",
-                "View Full Size");
-
-            if (action == "Take New Photo")
+            if (selectedContainer != null && !string.IsNullOrWhiteSpace(selectedContainer.PhotoFileName))
             {
-                btnTakePicture_Click(sender, e);
-            }
-            else if (action == "View Full Size")
-            {
-                if (selectedContainer != null && !string.IsNullOrWhiteSpace(selectedContainer.PhotoFileName))
+                string photoPath = selectedContainer.GetPhotoFullPath();
+                if (File.Exists(photoPath))
                 {
-                    string photoPath = selectedContainer.GetPhotoFullPath();
-                    if (File.Exists(photoPath))
-                    {
-                        // Could open a full-screen image viewer here
-                        await DisplayAlert("Photo", $"Photo: {selectedContainer.PhotoFileName}", "OK");
-                    }
+                    // Open full screen page
+                    await Navigation.PushModalAsync(new FullScreenImagePage(photoPath));
                 }
             }
         }
@@ -621,5 +647,10 @@ else
             General.LogOfProgram?.Error("ContainersPage - btnMinus_Click", ex);
             await DisplayAlert("Error", "An error occurred while deleting. Please try again.", "OK");
         }
+    }
+
+    private void imgContainerPhoto_Tapped(object sender, TappedEventArgs e)
+    {
+
     }
 }

@@ -190,7 +190,7 @@
                                 <Grid RowDefinitions="19" ColumnDefinitions="180*,50*,50*,50*"
                                         Margin="1" VerticalOptions="Center">
                                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center"
-                                            Grid.Column="0" Text="{Binding TimeBegin.DateTime}"/>
+                                            Grid.Column="0" Text="{Binding EventTime.DateTime}"/>
                                     <Label HorizontalTextAlignment="Center" 
                                             Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"/>
                                     <Label HorizontalTextAlignment="Center" 

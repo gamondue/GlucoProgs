@@ -115,7 +115,7 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding Timestamp}"/>
+                                    <Label HorizontalTextAlignment="Center" Grid.Column="0" Text="{Binding EventTime}"/>
                                     <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding GlucoseValue.Text}"/>
                                 </Grid>
                             </ViewCell.View>

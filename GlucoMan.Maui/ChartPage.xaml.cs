@@ -8,10 +8,18 @@ namespace GlucoMan.Maui;
 public partial class ChartPage : ContentPage
 {
     BL_GlucoseMeasurements bl = new();
+    private BL_BolusesAndInjections blInj = new();
     private string _dataType;
     private DateTime _dateOfGraph;
     private List<(float Hour, float Value)> _dataPoints = new();
     private List<GlucoseRecord> list;
+    private List<Injection> _injections = new();
+    private SKBitmap? _injectionBitmap;
+    private List<Meal> _meals = new();
+    private SKBitmap? _mealBitmap;
+    // store icon rectangles to detect taps
+    private List<(SKRect Rect, Injection Injection)> _injectionIconRects = new();
+    private List<(SKRect Rect, Meal Meal)> _mealIconRects = new();
 
     private static float greenBandLower = 80;
     private static float greenBandUpper = 180;
@@ -52,6 +60,20 @@ public partial class ChartPage : ContentPage
             // Setup chart data
             SetupChart();
 
+            // Enable touch events on SKCanvasView to allow tap detection
+            try
+            {
+                if (chartView != null)
+                {
+                    chartView.EnableTouchEvents = true;
+                    chartView.Touch += OnChartTouched;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to enable touch on chartView: {ex.Message}");
+            }
+
             System.Diagnostics.Debug.WriteLine("ChartPage constructor completed");
         }
         catch (Exception ex)
@@ -64,31 +86,98 @@ public partial class ChartPage : ContentPage
             throw;
         }
     }
-    
-    protected override void OnAppearing()
+
+    private async Task LoadInjectionBitmapAsync()
+    {
+        try
+        {
+            // load graphics as embedded resource (images must be added as EmbeddedResource)
+            var asm = typeof(App).Assembly;
+            var names = asm.GetManifestResourceNames();
+            System.Diagnostics.Debug.WriteLine("Assembly embedded resources: " + string.Join(",", names));
+
+            // Try common endingsSyringe for the syringe resource
+            var endingsSyringe = new[] { "syringe_20x20.png", "Resources.Images.syringe_20x20.png", ".syringe_20x20.png" };
+            foreach (var end in endingsSyringe)
+            {
+                var resName = names.FirstOrDefault(n => n.EndsWith(end, StringComparison.OrdinalIgnoreCase));
+                if (resName != null)
+                {
+                    using var rs = asm.GetManifestResourceStream(resName);
+                    if (rs != null)
+                    {
+                        _injectionBitmap = SKBitmap.Decode(rs);
+                        System.Diagnostics.Debug.WriteLine($"Injection icon loaded from embedded resource: {resName}");
+                            
+                        //return; 
+
+                    }
+                }
+            }
+            // load meal_20x20.png as well
+            var endingsMeal = new[] { "meal_20x20.png", "Resources.Images.meal_20x20.png", ".meal_20x20.png" };
+            foreach (var end in endingsMeal)
+            {
+                var resName = names.FirstOrDefault(n => n.EndsWith(end, StringComparison.OrdinalIgnoreCase));
+                if (resName != null)
+                {
+                    using var rs = asm.GetManifestResourceStream(resName);
+                    if (rs != null)
+                    {
+                        _mealBitmap = SKBitmap.Decode(rs);
+                        System.Diagnostics.Debug.WriteLine($"Meal icon loaded from embedded resource: {resName}");
+                        return;
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _injectionBitmap = null;
+            _mealBitmap = null;
+            System.Diagnostics.Debug.WriteLine($"Failed to load injection/meal icon: {ex.Message}");
+        }
+    }
+
+    // Async OnAppearing: await image load when package is ready
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        
+
         // Allow rotation for chart page (landscape is useful for charts)
-      DisplayOrientationHelper.AllowAllOrientations();
-    
-  System.Diagnostics.Debug.WriteLine("ChartPage - Orientation unlocked");
+        DisplayOrientationHelper.AllowAllOrientations();
+
+        System.Diagnostics.Debug.WriteLine("ChartPage - Orientation unlocked");
+
+        try
+        {
+            await LoadInjectionBitmapAsync();
+            // Redraw to show icons if loaded
+            chartView?.InvalidateSurface();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to load injection icon in OnAppearing: {ex.Message}");
+        }
     }
-    
+
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-    
+
         // Lock back to portrait when leaving chart page
- DisplayOrientationHelper.LockToPortrait();
-   
+        DisplayOrientationHelper.LockToPortrait();
+
         System.Diagnostics.Debug.WriteLine("ChartPage - Orientation locked to portrait");
     }
 
+    // UpdateDateDisplay: show date in the top label and use the date label as a status bar
     private void UpdateDateDisplay()
     {
-        lblDataType.Text = $"Graph of {_dataType}";
-        lblDateRange.Text = $"{_dateOfGraph:f}";
+        // move date where "Graph of" used to be
+        lblDataType.Text = $"{_dateOfGraph:f}";
+        // use the lower label as a status bar (clear for now)
+        lblDateRange.Text = string.Empty;
 
         // Load records from database for the selected day
         ////////_dataPoints = bl.GetGraphData(_dateOfGraph);
@@ -101,9 +190,6 @@ public partial class ChartPage : ContentPage
 
         UpdateDateDisplay();
 
-        // TODO: Reload data from database for the new date
-        // SetupChart(); // When you implement real data loading
-
         System.Diagnostics.Debug.WriteLine($"Previous day clicked. New date: {_dateOfGraph:d}");
     }
     private void OnNextDayClicked(object sender, EventArgs e)
@@ -112,9 +198,6 @@ public partial class ChartPage : ContentPage
         _dateOfGraph = _dateOfGraph.AddDays(1);
 
         UpdateDateDisplay();
-
-        // TODO: Reload data from database for the new date
-        // SetupChart(); // When you implement real data loading
 
         System.Diagnostics.Debug.WriteLine($"Next day clicked. New date: {_dateOfGraph:d}");
     }
@@ -126,24 +209,42 @@ public partial class ChartPage : ContentPage
 
             // Clear previous data
             _dataPoints.Clear();
+            _injections.Clear();
+            _meals.Clear();
 
             // Load glucose records from database for the selected day
             DateTime startOfDay = _dateOfGraph.Date; // Midnight of selected day
-            DateTime endOfDay = startOfDay.AddDays(1).AddSeconds(-1); // 23:59:59 of selected day
+            DateTime endOfDay = startOfDay.AddDays(1).AddSeconds(-1); //23:59:59 of selected day
 
-            list = bl.GetGlucoseRecords(startOfDay, endOfDay);
+            // Try to load sensor (continuous) records first
+            list = bl.GetSensorsRecords(startOfDay, endOfDay);
 
-            if (list != null && list.Count > 0)
+            // If continuous sensor data is completely missing, fallback to all glucose records
+            if (list == null || list.Count ==0)
+            {
+                System.Diagnostics.Debug.WriteLine("No sensor (continuous) records found for the day, falling back to GetGlucoseRecords().");
+                try
+                {
+                    list = bl.GetGlucoseRecords(startOfDay, endOfDay);
+                    System.Diagnostics.Debug.WriteLine($"Loaded { (list?.Count ??0) } glucose records from fallback GetGlucoseRecords().");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Failed to load fallback glucose records: {ex.Message}");
+                }
+            }
+
+            if (list != null && list.Count >0)
             {
                 // Convert GlucoseRecord to chart data points
                 foreach (var record in list)
                 {
-                    if (record.Timestamp != null && record.Timestamp.DateTime.HasValue &&
+                    if (record.EventTime != null && record.EventTime.DateTime.HasValue &&
                      record.GlucoseValue != null && record.GlucoseValue.Double.HasValue)
                     {
                         // Extract hour from timestamp (including fractional part for minutes)
-                        float hour = (float)record.Timestamp.DateTime.Value.Hour +
-                       (float)record.Timestamp.DateTime.Value.Minute / 60f;
+                        float hour = (float)record.EventTime.DateTime.Value.Hour +
+                       (float)record.EventTime.DateTime.Value.Minute / 60f;
                         float glucoseValue = (float)record.GlucoseValue.Double.Value;
 
                         _dataPoints.Add((hour, glucoseValue));
@@ -154,19 +255,45 @@ public partial class ChartPage : ContentPage
 
                 System.Diagnostics.Debug.WriteLine($"Loaded {_dataPoints.Count} glucose points from database");
             }
-            else
-            {
-                //// If no data from database, use sample data for testing
-                //System.Diagnostics.Debug.WriteLine("No data found in database, using sample data");
+            //else
+            //{
+            //    //// If no data from database, use sample data for testing
+            //    //System.Diagnostics.Debug.WriteLine("No data found in database, using sample data");
 
-                //_dataPoints.Add((2, 100));
-                //_dataPoints.Add((8, 130));
-                //_dataPoints.Add((10, 120));
-                //_dataPoints.Add((13, 250));
-                //_dataPoints.Add((15, 180));
-                //_dataPoints.Add((18, 130));
-                //_dataPoints.Add((20, 218));
-                //_dataPoints.Add((24, 170));
+            //    //_dataPoints.Add((2, 100));
+            //    //_dataPoints.Add((8, 130)); 
+            //    //_dataPoints.Add((10, 120));
+            //    //_dataPoints.Add((13, 250));
+            //    //_dataPoints.Add((15, 180));
+            //    //_dataPoints.Add((18, 130));
+            //    //_dataPoints.Add((20, 218));
+            //    //_dataPoints.Add((24, 170));
+            //}
+
+            // Load injections for the same day
+            try
+            {
+                var inj = blInj.GetInjections(startOfDay, endOfDay);
+                if (inj != null)
+                    _injections = inj;
+                System.Diagnostics.Debug.WriteLine($"Loaded {_injections.Count} injections from database");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to load injections: {ex.Message}");
+            }
+
+            // Load meals for the same day
+            try
+            {
+                var meals = Common.Database.GetMeals(startOfDay, endOfDay);
+                if (meals != null)
+                    _meals = meals;
+                System.Diagnostics.Debug.WriteLine($"Loaded {_meals.Count} meals from database");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to load meals: {ex.Message}");
             }
 
             System.Diagnostics.Debug.WriteLine($"SetupChart completed with {_dataPoints.Count} points");
@@ -178,13 +305,6 @@ public partial class ChartPage : ContentPage
         {
             System.Diagnostics.Debug.WriteLine($"ERROR in SetupChart: {ex.Message}");
             System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
-
-            //// In case of error, use sample data to at least show something
-            //_dataPoints.Clear();
-            //_dataPoints.Add((8, 120));
-            //_dataPoints.Add((12, 180));
-            //_dataPoints.Add((18, 150));
-            //_dataPoints.Add((22, 130));
 
             chartView?.InvalidateSurface();
         }
@@ -412,6 +532,137 @@ public partial class ChartPage : ContentPage
                 }
             }
 
+            // Clear icon rects
+            _injectionIconRects.Clear();
+            _mealIconRects.Clear();
+
+            // Draw meal icons first so injection icons can be drawn on top
+            if (_mealBitmap != null && _meals != null && _meals.Count >0)
+            {
+                // base icon size in device-independent pixels
+                float iconBaseSize =20f;
+                float density =1f;
+                try { density = (float)DeviceDisplay.MainDisplayInfo.Density; } catch { density =1f; }
+                // icon size in physical pixels for the canvas
+                float iconSize = iconBaseSize * density;
+
+                using var mealBorderPaint = new SKPaint { Color = SKColors.Blue, Style = SKPaintStyle.Stroke, StrokeWidth =1 };
+
+                var orderedPoints = _dataPoints.OrderBy(p => p.Hour).ToList();
+
+                foreach (var meal in _meals)
+                {
+                    if (meal.EventTime?.DateTime.HasValue != true)
+                        continue;
+
+                    var dt = meal.EventTime.DateTime.Value;
+                    float hour = dt.Hour + dt.Minute /60f;
+                    float x = MapXToCanvas(hour, chartRect, initialX, finalX);
+
+                    // Determine Y on curve by interpolation or nearest
+                    float glucoseY = chartRect.Top + iconSize; // default
+                    if (orderedPoints.Count >0)
+                    {
+                        var before = orderedPoints.LastOrDefault(p => p.Hour <= hour);
+                        var after = orderedPoints.FirstOrDefault(p => p.Hour >= hour);
+
+                        bool hasBefore = !before.Equals(default);
+                        bool hasAfter = !after.Equals(default);
+
+                        if (hasBefore && hasAfter && before.Hour != after.Hour)
+                        {
+                            float t = (hour - before.Hour) / (after.Hour - before.Hour);
+                            float interpolatedValue = before.Value + t * (after.Value - before.Value);
+                            glucoseY = MapYToCanvas(interpolatedValue, chartRect, initialY, finalY);
+                        }
+                        else if (hasBefore)
+                        {
+                            glucoseY = MapYToCanvas(before.Value, chartRect, initialY, finalY);
+                        }
+                        else if (hasAfter)
+                        {
+                            glucoseY = MapYToCanvas(after.Value, chartRect, initialY, finalY);
+                        }
+                    }
+
+                    // Place icon slightly above curve
+                    float y = glucoseY - iconSize /2f -4f;
+                    var destRect = new SKRect(x - iconSize /2f, y, x + iconSize /2f, y + iconSize);
+                    canvas.DrawBitmap(_mealBitmap, destRect);
+                    canvas.DrawRect(destRect, mealBorderPaint);
+                    // remember rect for touch detection
+                    _mealIconRects.Add((destRect, meal));
+                }
+            }
+
+            // Draw injection icons on top of meals so syringe is visible above meal icons
+            if (_injectionBitmap != null && _injections != null && _injections.Count >0)
+            {
+                // base icon size in device-independent pixels
+                float iconBaseSize =20f;
+                float density =1f;
+                try { density = (float)DeviceDisplay.MainDisplayInfo.Density; } catch { density =1f; }
+                // icon size in physical pixels for the canvas
+                float iconSize = iconBaseSize * density;
+
+                using var borderPaint = new SKPaint { Color = SKColors.Black, Style = SKPaintStyle.Stroke, StrokeWidth =1 };
+
+                foreach (var inj in _injections)
+                {
+                    if (inj.EventTime?.DateTime.HasValue != true)
+                        continue;
+
+                    var dt = inj.EventTime.DateTime.Value;
+                    // compute hour with minutes fraction
+                    float hour = dt.Hour + dt.Minute /60f;
+                    float x = MapXToCanvas(hour, chartRect, initialX, finalX);
+
+                    // Find the glucose value at this time by interpolating or using nearest point
+                    float glucoseY = chartRect.Top + iconSize; // default if no data
+
+                    // Find nearest data point or interpolate
+                    var orderedPoints = _dataPoints.OrderBy(p => p.Hour).ToList();
+                    if (orderedPoints.Count >0)
+                    {
+                        // Find closest point before and after injection time
+                        var before = orderedPoints.LastOrDefault(p => p.Hour <= hour);
+                        var after = orderedPoints.FirstOrDefault(p => p.Hour >= hour);
+
+                        if (before.Hour >0 && after.Hour >0 && before.Hour != after.Hour)
+                        {
+                            // Linear interpolation between before and after
+                            float t = (hour - before.Hour) / (after.Hour - before.Hour);
+                            float interpolatedValue = before.Value + t * (after.Value - before.Value);
+                            glucoseY = MapYToCanvas(interpolatedValue, chartRect, initialY, finalY);
+                        }
+                        else if (before.Hour >0)
+                        {
+                            // Use the before point
+                            glucoseY = MapYToCanvas(before.Value, chartRect, initialY, finalY);
+                        }
+                        else if (after.Hour >0)
+                        {
+                            // Use the after point
+                            glucoseY = MapYToCanvas(after.Value, chartRect, initialY, finalY);
+                        }
+                    }
+
+                    // Place icon centered on (x, glucoseY) - shifted slightly above the curve
+                    float y = glucoseY - iconSize /2f -4f; //4px above curve center
+
+                    // center the icon on (x,y)
+                    var destRect = new SKRect(x - iconSize /2f, y, x + iconSize /2f, y + iconSize);
+
+                    // draw bitmap scaled to destRect
+                    canvas.DrawBitmap(_injectionBitmap, destRect);
+
+                    // draw1px black border around icon
+                    canvas.DrawRect(destRect, borderPaint);
+                    // remember rect for touch detection
+                    _injectionIconRects.Add((destRect, inj));
+                }
+            }
+
             System.Diagnostics.Debug.WriteLine("OnChartPaintSurface completed");
         }
         catch (Exception ex)
@@ -429,6 +680,182 @@ public partial class ChartPage : ContentPage
     {
         float ratio = (y - minY) / (maxY - minY);
         return chartRect.Bottom - ratio * chartRect.Height;
+    }
+
+    // Return interpolated glucose value (mg/dL) for a given hour (fractional), or null if no data
+    private double? GetInterpolatedGlucoseValue(double hour)
+    {
+    if (_dataPoints == null || _dataPoints.Count ==0)
+        return null;
+
+    var ordered = _dataPoints.OrderBy(p => p.Hour).ToList();
+
+    // exact match
+    var exact = ordered.FirstOrDefault(p => Math.Abs(p.Hour - hour) <0.0001f);
+    if (!exact.Equals(default((float, float))))
+        return exact.Value;
+
+    // find before and after
+    var before = ordered.LastOrDefault(p => p.Hour <= hour);
+    var after = ordered.FirstOrDefault(p => p.Hour >= hour);
+
+    bool hasBefore = !before.Equals(default((float, float)));
+    bool hasAfter = !after.Equals(default((float, float)));
+
+    if (hasBefore && hasAfter && before.Hour != after.Hour)
+    {
+        double t = (hour - before.Hour) / (after.Hour - before.Hour);
+        return before.Value + t * (after.Value - before.Value);
+    }
+    else if (hasBefore)
+        return before.Value;
+    else if (hasAfter)
+        return after.Value;
+
+    return null;
+    }
+    // Touch handler: detect taps near plotted points and show time/value
+    private async void OnChartTouched(object sender, SKTouchEventArgs e)
+    {
+        try
+        {
+            // Only respond to release to avoid multiple events during move
+            if (e.ActionType != SKTouchAction.Released)
+            {
+                e.Handled = false;
+                return;
+            }
+
+            var info = chartView?.CanvasSize ?? new SKSize(0, 0);
+
+            // Chart margins - must match drawing logic
+            float marginLeft = 60;
+            float marginRight = 30;
+            float marginTop = 30;
+            float marginBottom = 60;
+
+            var chartRect = new SKRect(marginLeft, marginTop,
+                marginLeft + (info.Width - marginLeft - marginRight), marginTop + (info.Height - marginTop - marginBottom));
+
+            // First check if touch is on any injection icon
+            var touchPoint = e.Location;
+            foreach (var tuple in _injectionIconRects)
+            {
+                if (tuple.Rect.Contains(touchPoint))
+                {
+                    var injection = tuple.Injection;
+                    if (injection?.EventTime?.DateTime.HasValue == true)
+                    {
+                        var dt = injection.EventTime.DateTime.Value;
+                        double hour = dt.Hour + dt.Minute /60.0;
+                        var glucose = GetInterpolatedGlucoseValue(hour);
+
+                        // get IU value from Injection.InsulinValue or InsulinCalculated
+                        double? iu = null;
+                        try { iu = injection.InsulinValue?.Double; } catch { iu = null; }
+                        if (iu == null)
+                        {
+                            try { iu = injection.InsulinCalculated?.Double; } catch { iu = null; }
+                        }
+
+                        string glucoseText = glucose.HasValue ? $"{glucose.Value:F0} mg/dL" : "No glucose";
+                        string iuText = iu.HasValue ? $"{iu.Value:G}" : "No IU";
+
+                        try { lblDateRange.Text = $"{dt:HH:mm} - {glucoseText} - {iuText} IU"; } catch { }
+                        e.Handled = true;
+                        return;
+                    }
+                }
+            }
+
+            // Then check meal icons
+            foreach (var tuple in _mealIconRects)
+            {
+                if (tuple.Rect.Contains(touchPoint))
+                {
+                    var meal = tuple.Meal;
+                    if (meal?.EventTime?.DateTime.HasValue == true)
+                    {
+                        var dt = meal.EventTime.DateTime.Value;
+                        double hour = dt.Hour + dt.Minute /60.0;
+                        var glucose = GetInterpolatedGlucoseValue(hour);
+
+                        double? cho = null;
+                        try { cho = meal.CarbohydratesGrams?.Double; } catch { cho = null; }
+
+                        string glucoseText = glucose.HasValue ? $"{glucose.Value:F0} mg/dL" : "No glucose";
+                        string choText = cho.HasValue ? $"{cho.Value:G}" : "No CHO";
+
+                        try { lblDateRange.Text = $"{dt:HH:mm} - {glucoseText} - {choText} CHO"; } catch { }
+                        e.Handled = true;
+                        return;
+                    }
+                }
+            }
+
+            // If no data points, ignore
+            if (_dataPoints == null || _dataPoints.Count ==0)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Find nearest plotted point to touch location
+            SKPoint touch = e.Location;
+
+            float bestDist = float.MaxValue;
+            (float Hour, float Value) bestPoint = (0, 0);
+
+            foreach (var p in _dataPoints)
+            {
+                float px = MapXToCanvas(p.Hour, chartRect, initialX, finalX);
+                float py = MapYToCanvas(p.Value, chartRect, initialY, finalY);
+
+                float dx = touch.X - px;
+                float dy = touch.Y - py;
+                float dist = (float)System.Math.Sqrt(dx * dx + dy * dy);
+
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    bestPoint = p;
+                }
+            }
+
+            // Threshold in pixels to consider the tap "on the curve"
+            const float threshold = 24f;
+
+            if (bestDist <= threshold)
+            {
+                // Convert hour (float) to time on selected date
+                int hourPart = (int)bestPoint.Hour;
+                int minutePart = (int)System.Math.Round((bestPoint.Hour - hourPart) *60);
+                var timestamp = new DateTime(_dateOfGraph.Year, _dateOfGraph.Month, _dateOfGraph.Day, hourPart, minutePart,0);
+
+                string timeText = timestamp.ToString("HH:mm");
+                string valueText = bestPoint.Value.ToString("F0");
+
+                // Update status label (previously lblDateRange) with time and value
+                try
+                {
+                    lblDateRange.Text = $"{timeText} - {valueText} mg/dL";
+                }
+                catch
+                {
+                    // ignore if label not available
+                }
+
+                e.Handled = true;
+                return;
+            }
+
+            e.Handled = false;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"ERROR in OnChartTouched: {ex.Message}");
+            e.Handled = false;
+        }
     }
 }
 

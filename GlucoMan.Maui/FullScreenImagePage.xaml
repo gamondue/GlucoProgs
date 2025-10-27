@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+ x:Class="GlucoMan.Maui.FullScreenImagePage"
+ BackgroundColor="Black">
+  <Grid RowDefinitions="80,*">
+    <Button x:Name="btnCloseFullImage"
+    ImageSource="escape.png"
+    BorderWidth="0"
+    Clicked="BtnCloseFullImage_Clicked"
+    HorizontalOptions="Start"
+    VerticalOptions="Start"
+    Margin="12" />
+
+    <Image Grid.Row="1" x:Name="fullImage"
+    HorizontalOptions="Center"
+    VerticalOptions="Center" />
+  </Grid>
+</ContentPage>

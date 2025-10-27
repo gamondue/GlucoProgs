@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+ <item android:drawable="@android:color/transparent" />
+ <item>
+ <scale
+ android:drawable="@mipmap/appicon"
+ android:scaleWidth="100%"
+ android:scaleHeight="100%"
+ android:useIntrinsicSizeAsMinimum="true"
+ android:gravity="center" />
+ </item>
+</layer-list>

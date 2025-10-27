@@ -292,7 +292,7 @@ namespace GlucoMan.Maui
                 if (injection.PositionX != null && injection.PositionY != null)
                 {
                     Color circleColor;
-                    if (injection.Timestamp.DateTime != null)
+                    if (injection.EventTime.DateTime != null)
                     {
                         if (injection.IdInjection != idCurrentInjection)
                         {
@@ -306,7 +306,7 @@ namespace GlucoMan.Maui
                                 continue; // Skip this injection - same coordinates as current
                             }
 
-                            double diffInDays = now.Subtract((DateTime)injection.Timestamp.DateTime).TotalDays;
+                            double diffInDays = now.Subtract((DateTime)injection.EventTime.DateTime).TotalDays;
 
                             // Formula per saturazione: iniezioni recenti hanno saturazione alta, vecchie hanno saturazione bassa
                             double saturation = maximalSaturation - (maximalSaturation - minimalSaturation) * diffInDays / circlesVisibilityMaxTimeInDays;

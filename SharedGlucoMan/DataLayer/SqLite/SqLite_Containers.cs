@@ -11,14 +11,14 @@ namespace GlucoMan
         internal override List<Container> GetAllContainers()
         {
             List<Container> containers = new List<Container>();
-            
+
             try
             {
                 using (var conn = Connect())
                 {
                     var cmd = conn.CreateCommand();
                     cmd.CommandText = "SELECT IdContainer, Name, Weight, Notes, PhotoFileName FROM Containers ORDER BY Name";
-                    
+
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -31,7 +31,7 @@ namespace GlucoMan
                                 Notes = Safe.String(reader["Notes"]),
                                 PhotoFileName = Safe.String(reader["PhotoFileName"])
                             };
-                            
+
                             containers.Add(container);
                         }
                     }
@@ -42,24 +42,25 @@ namespace GlucoMan
             {
                 General.LogOfProgram?.Error("DL_Sqlite - GetAllContainers", ex);
             }
-            
+
             return containers;
         }
-        
+
         /// <summary>
         /// Get one container by ID
         /// </summary>
         internal override Container GetOneContainer(int idContainer)
         {
             Container container = null;
-            
+
             try
             {
                 using (var conn = Connect())
                 {
                     var cmd = conn.CreateCommand();
-                    cmd.CommandText = $"SELECT IdContainer, Name, Weight, Notes, PhotoFileName FROM Containers WHERE IdContainer = {idContainer}";
-                    
+                    cmd.CommandText = $"SELECT IdContainer, Name, Weight, Notes, PhotoFileName " +
+                        $"FROM Containers WHERE IdContainer = {idContainer}";
+
                     using (var reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
@@ -81,10 +82,10 @@ namespace GlucoMan
             {
                 General.LogOfProgram?.Error("DL_Sqlite - GetOneContainer", ex);
             }
-            
+
             return container;
         }
-        
+
         /// <summary>
         /// Save or update a container
         /// </summary>
@@ -94,11 +95,11 @@ namespace GlucoMan
             {
                 if (container == null)
                     return null;
-                
+
                 using (var conn = Connect())
                 {
                     var cmd = conn.CreateCommand();
-                    
+
                     if (container.IdContainer.HasValue && container.IdContainer.Value > 0)
                     {
                         // Update existing container
@@ -108,7 +109,7 @@ namespace GlucoMan
                                 Notes = {SqliteSafe.String(container.Notes)},
                                 PhotoFileName = {SqliteSafe.String(container.PhotoFileName)}
                                 WHERE IdContainer = {container.IdContainer.Value}";
-                        
+
                         cmd.ExecuteNonQuery();
                         cmd.Dispose();
                         return container.IdContainer.Value;
@@ -117,14 +118,14 @@ namespace GlucoMan
                     {
                         // Insert new container
                         int newId = GetTableNextPrimaryKey("Containers", "IdContainer");
-                        
+
                         cmd.CommandText = $@"INSERT INTO Containers (IdContainer, Name, Weight, Notes, PhotoFileName) VALUES (
                                 {newId},
                                 {SqliteSafe.String(container.Name)},
                                 {SqliteSafe.Double(container.Weight?.Double)},
                                 {SqliteSafe.String(container.Notes)},
                                 {SqliteSafe.String(container.PhotoFileName)})";
-                        
+
                         cmd.ExecuteNonQuery();
                         cmd.Dispose();
                         container.IdContainer = newId;
@@ -138,7 +139,7 @@ namespace GlucoMan
                 return null;
             }
         }
-        
+
         /// <summary>
         /// Delete a container
         /// </summary>
@@ -161,24 +162,24 @@ namespace GlucoMan
                 return false;
             }
         }
-        
+
         /// <summary>
         /// Search containers by name
         /// </summary>
         internal override List<Container> SearchContainers(string name)
         {
             List<Container> containers = new List<Container>();
-            
+
             try
             {
                 using (var conn = Connect())
                 {
                     var cmd = conn.CreateCommand();
                     cmd.CommandText = $@"SELECT IdContainer, Name, Weight, Notes, PhotoFileName 
-                                   FROM Containers 
-                                   WHERE Name LIKE '%{SqliteSafe.String(name)}%' 
-                                   ORDER BY Name";
-                    
+                                FROM Containers 
+                                WHERE Name LIKE '%{SqliteSafe.String(name)}%' 
+                                ORDER BY Name";
+
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -191,7 +192,7 @@ namespace GlucoMan
                                 Notes = Safe.String(reader["Notes"]),
                                 PhotoFileName = Safe.String(reader["PhotoFileName"])
                             };
-                            
+
                             containers.Add(container);
                         }
                     }
@@ -202,8 +203,9 @@ namespace GlucoMan
             {
                 General.LogOfProgram?.Error("DL_Sqlite - SearchContainers", ex);
             }
-            
+
             return containers;
         }
     }
 }
+

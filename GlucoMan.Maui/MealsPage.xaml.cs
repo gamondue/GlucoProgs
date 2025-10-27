@@ -70,10 +70,10 @@ public partial class MealsPage : ContentPage
         txtIdMeal.Text = bl.Meal.IdMeal.ToString();
         txtChoOfMeal.Text = Safe.String(bl.Meal.CarbohydratesGrams.Text);
         ////cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
-        if (bl.Meal.TimeBegin.DateTime != General.DateNull)
+        if (bl.Meal.EventTime.DateTime != General.DateNull)
         {
-            dtpMealDateBegin.Date = (DateTime)Safe.DateTime(bl.Meal.TimeBegin.DateTime);
-            dtpMealTimeBegin.Time = ((DateTime)bl.Meal.TimeBegin.DateTime).TimeOfDay;  // - dtpMealDateBegin.Date;
+            dtpMealDateBegin.Date = (DateTime)Safe.DateTime(bl.Meal.EventTime.DateTime);
+            dtpMealTimeBegin.Time = ((DateTime)bl.Meal.EventTime.DateTime).TimeOfDay;  // - dtpMealDateBegin.Date;
         }
         if (bl.Meal.AccuracyOfChoEstimate.Double != null)
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
@@ -95,7 +95,7 @@ public partial class MealsPage : ContentPage
 
         DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
             dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
-        bl.Meal.TimeBegin.DateTime = instant;
+        bl.Meal.EventTime.DateTime = instant;
         bl.Meal.Notes = txtNotes.Text;
         // TypeOfMeal treated by controls' events
     }
@@ -136,14 +136,14 @@ public partial class MealsPage : ContentPage
         if (chkNowInAdd.IsChecked)
         {
             DateTime now = DateTime.Now;
-            bl.Meal.TimeBegin.DateTime = now;
+            bl.Meal.EventTime.DateTime = now;
             bl.Meal.TimeEnd.DateTime = now;
         }
         else
         {
             DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
                 dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
-            bl.Meal.TimeBegin.DateTime = instant;
+            bl.Meal.EventTime.DateTime = instant;
             bl.Meal.TimeEnd.DateTime = instant;
         }
         bl.Meal.CarbohydratesGrams.Text = txtChoOfMeal.Text;
@@ -176,7 +176,7 @@ public partial class MealsPage : ContentPage
             return;
         }
         bool remove = await DisplayAlert(String.Format("Should we delete the meal begun at {0}, Id {1}?",
-            bl.Meal.TimeBegin.Text,
+            bl.Meal.EventTime.Text,
             bl.Meal.IdMeal),
             "", "Yes", "No");
         if (remove)

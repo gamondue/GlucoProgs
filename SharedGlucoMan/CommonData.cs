@@ -47,16 +47,16 @@ namespace GlucoMan
             GlucoseReactiveStripValue = 40,
             NotApplicable = 500
         }
-        public enum TypeOfGlucoseMeasurementDevice
+        public enum TypeOfDevice
         {
             NotSet = 0,
-            FingerPuncture = 10,
+            BloodGlucometer  = 10,
             UnderSkinSensor = 20,
-            CGM = 30,
+            ContinuosGlucoseMonitor = 30,
             ArtificialPancreas = 40,
             NotApplicable = 500
         }
-        public enum ModelOfMeasurementSystem
+        public enum DevicesModel
         {
             Unknown = 0,
             AbbotFreestyle = 10,

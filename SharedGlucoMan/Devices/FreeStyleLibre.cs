@@ -41,18 +41,18 @@ namespace GlucoMan
             for (int i = 2; i < inputContent.Count - 1; i++)
             {
                 FreeStyleLibreRecord singleRecord = new FreeStyleLibreRecord();
-                // the TypeOfGlucoseMeasurementDevice is decided in code, based on the TypeOfDocument field
-                //singleRecord.TypeOfGlucoseMeasurementDevice = inputContent[i][0];
-                singleRecord.IdDevice = inputContent[i][1];
-                singleRecord.Timestamp.DateTime = Safe.DateTime(inputContent[i][2]);
+                // the TypeOfDevice is decided in code, based on the TypeOfDocument field
+                //singleRecord.TypeOfDevice = inputContent[i][0];
+                //singleRecord.IdOfDevice = inputContent[i][1];
+                singleRecord.EventTime.DateTime = Safe.DateTime(inputContent[i][2]);
                 singleRecord.TypeOfDocument = Safe.Int(inputContent[i][3]);
                 singleRecord.GlucoseHistoricValue = Safe.Double(inputContent[i][4]);
                 singleRecord.GlucoseScanValue = Safe.Double(inputContent[i][5]);
                 singleRecord.InsulinRapidActionString = inputContent[i][6];
                 singleRecord.InsulinRapidActionValue = Safe.Double(inputContent[i][7]);
-                singleRecord.MealFoodString = inputContent[i][8];
-                singleRecord.CarbohydratesValue_grams = Safe.Double(inputContent[i][9]);
-                singleRecord.CarbohydratesString = inputContent[i][10];
+                //singleRecord.MealFoodString = inputContent[i][8];
+                //singleRecord.CarbohydratesValue_grams = Safe.Double(inputContent[i][9]);
+                //singleRecord.CarbohydratesString = inputContent[i][10];
                 singleRecord.InsulinSlowActionString = inputContent[i][11];
                 singleRecord.InsulinSlowActionValue = Safe.Double(inputContent[i][12]);
                 singleRecord.Notes = inputContent[i][13];
@@ -66,17 +66,17 @@ namespace GlucoMan
                     case 0: // SensorIntermediateValue, taken autonomously from the sensor
                         singleRecord.GlucoseValue.Double = singleRecord.GlucoseHistoricValue;
                         singleRecord.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.SensorIntermediateValue;
-                        singleRecord.TypeOfGlucoseMeasurementDevice = TypeOfGlucoseMeasurementDevice.UnderSkinSensor;
+                        singleRecord.TypeOfGlucoseMeasurementDevice = TypeOfDevice.UnderSkinSensor;
                         break;
                     case 1: // SensorScanValue, explicitly scanned with NFC from user
                         singleRecord.GlucoseValue.Double = singleRecord.GlucoseScanValue;
                         singleRecord.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.SensorScanValue;
-                        singleRecord.TypeOfGlucoseMeasurementDevice = TypeOfGlucoseMeasurementDevice.UnderSkinSensor;
+                        singleRecord.TypeOfGlucoseMeasurementDevice = TypeOfDevice.UnderSkinSensor;
                         break;
                     case 2: // glucose reactive strip 
                         singleRecord.GlucoseValue.Double = singleRecord.GlucoseStripValue_mg_dL;
                         singleRecord.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.GlucoseReactiveStripValue;
-                        singleRecord.TypeOfGlucoseMeasurementDevice = TypeOfGlucoseMeasurementDevice.FingerPuncture;
+                        singleRecord.TypeOfGlucoseMeasurementDevice = TypeOfDevice.BloodGlucometer;
                         break;
                     case 3: // no rows in my files, can't infere the meaning
                         break;
@@ -84,16 +84,16 @@ namespace GlucoMan
                         // program gives the data of the two cases the same format
                         // default
                         singleRecord.GlucoseMeasurementType = Common.TypeOfGlucoseMeasurement.NotSet;
-                        if (singleRecord.InsulinRapidActionValue != null && singleRecord.InsulinRapidActionValue != 0)
-                        {
-                            singleRecord.InsulinValue = singleRecord.InsulinRapidActionValue;
-                            singleRecord.InsulinInjectionType = Common.InsulinDrug.BolusInsulin;
-                        }
-                        else
-                        {
-                            singleRecord.InsulinValue = singleRecord.InsulinSlowActionValue;
-                            singleRecord.InsulinInjectionType = Common.InsulinDrug.BasalInsulin;
-                        }
+                        //if (singleRecord.InsulinRapidActionValue != null && singleRecord.InsulinRapidActionValue != 0)
+                        //{
+                        //    singleRecord.InsulinValue = singleRecord.InsulinRapidActionValue;
+                        //    singleRecord.InsulinInjectionType = Common.InsulinDrug.BolusInsulin;
+                        //}
+                        //else
+                        //{
+                        //    singleRecord.InsulinValue = singleRecord.InsulinSlowActionValue;
+                        //    singleRecord.InsulinInjectionType = Common.InsulinDrug.BasalInsulin;
+                        //}
                         break;
                     case 5: // carbohydrates ingested with food 
                         // value is in CarbohydratesValue_grams and doesn't need further processing
@@ -106,7 +106,7 @@ namespace GlucoMan
                 listFreeStyle.Add(singleRecord);
             }
             // sort by date, since the original file is ordered by TypeOfDocument
-            listFreeStyle.Sort((x, y) => DateTime.Compare((DateTime)x.Timestamp.DateTime, (DateTime)y.Timestamp.DateTime));
+            listFreeStyle.Sort((x, y) => DateTime.Compare((DateTime)x.EventTime.DateTime, (DateTime)y.EventTime.DateTime));
 
             return listFreeStyle;
         }
