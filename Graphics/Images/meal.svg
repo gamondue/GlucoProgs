@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   viewBox="0 0 100 100"
-   width="100"
-   height="100"
+   width="300"
+   height="300"
    version="1.1"
-   id="svg7"
+   id="svg5"
    sodipodi:docname="meal.svg"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
    inkscape:export-filename="meal.png"
-   inkscape:export-xdpi="245.75999"
-   inkscape:export-ydpi="245.75999"
+   inkscape:export-xdpi="81.919998"
+   inkscape:export-ydpi="81.919998"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs7" />
   <sodipodi:namedview
-     id="namedview7"
+     id="namedview5"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -25,98 +22,124 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="8.13"
-     inkscape:cx="30.811808"
-     inkscape:cy="46.801968"
+     inkscape:zoom="1.0476966"
+     inkscape:cx="355.54186"
+     inkscape:cy="218.09749"
      inkscape:window-width="1920"
-     inkscape:window-height="1166"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="50"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg7" />
-  <!-- Piatto -->
-  <!-- Cibo nel piatto -->
-  <!-- Forchetta -->
-  <!-- Coltello -->
+     inkscape:current-layer="svg5" />
+  <defs
+     id="defs2">
+    <pattern
+       id="checkered"
+       X="0"
+       y="0"
+       width="20"
+       height="20"
+       patternUnits="userSpaceOnUse">
+      <rect
+         width="10"
+         height="10"
+         fill="red"
+         id="rect1" />
+      <rect
+         x="10"
+         y="10"
+         width="10"
+         height="10"
+         fill="red"
+         id="rect2" />
+    </pattern>
+  </defs>
+  <circle
+     cx="150.24747"
+     cy="151.50957"
+     r="96.947273"
+     fill="#FFD700"
+     stroke="#000000"
+     stroke-width="6.46315"
+     id="circle1"
+     style="fill:#f9f9f9;fill-opacity:1" />
+  <ellipse
+     cx="151.24117"
+     cy="151.11214"
+     fill="#ff6347"
+     id="circle2"
+     rx="67.354309"
+     ry="69.937973"
+     style="stroke-width:4.57562;fill:#cccccc;fill-opacity:1;stroke:#000000" />
   <g
-     id="g1">
-    <circle
-       cx="50"
-       cy="50"
-       r="30"
-       fill="#FFD700"
-       stroke="#000000"
-       stroke-width="2"
-       id="circle1"
-       style="fill:#fff6d6;fill-opacity:1" />
-    <ellipse
-       cx="50.307503"
-       cy="49.877007"
-       fill="#ff6347"
-       id="circle2"
-       rx="20.842558"
-       ry="21.642065"
-       style="stroke-width:1.41591" />
+     id="g8"
+     transform="matrix(5.2913407,0,0,3.1808473,-200.5815,-1.5786322)">
     <g
-       id="g8"
-       transform="matrix(1.6373871,0,0,0.9843022,-58.562812,2.6273891)">
+       id="g10"
+       transform="translate(-3.2301782,-4.1237747)">
+      <rect
+         x="84.237991"
+         y="47.820248"
+         width="3"
+         height="25.362854"
+         fill="#cccccc"
+         id="rect6"
+         style="fill:#6c5353;stroke-width:0.796286" />
+      <rect
+         x="84.240013"
+         y="23.317846"
+         width="3"
+         height="24.514145"
+         fill="#000000"
+         id="rect7"
+         style="stroke-width:1.5657" />
+    </g>
+    <g
+       id="g7"
+       transform="matrix(0.61072913,0,0,1.0159482,31.663161,-28.519514)">
       <g
-         id="g10"
-         transform="translate(-3.2301782,-4.1237747)">
+         id="g9"
+         transform="translate(6.7650677,15.621155)">
         <rect
-           x="84.237991"
-           y="47.820248"
-           width="3"
-           height="25.362854"
-           fill="#cccccc"
-           id="rect6"
-           style="fill:#6c5353;stroke-width:0.796286" />
-        <rect
-           x="84.240013"
-           y="23.317846"
-           width="3"
-           height="24.514145"
+           x="20"
+           y="30"
+           width="1"
+           height="10"
            fill="#000000"
-           id="rect7"
-           style="stroke-width:1.5657" />
-      </g>
-      <g
-         id="g7"
-         transform="matrix(0.61072913,0,0,1.0159482,31.663161,-28.519514)">
-        <g
-           id="g9"
-           transform="translate(6.7650677,15.621155)">
-          <rect
-             x="20"
-             y="30"
-             width="1"
-             height="10"
-             fill="#000000"
-             id="rect3" />
-          <rect
-             x="23"
-             y="30"
-             width="1"
-             height="10"
-             fill="#000000"
-             id="rect4" />
-          <rect
-             x="20.984009"
-             y="39.102093"
-             width="5"
-             height="40"
-             fill="#cccccc"
-             id="rect2"
-             style="fill:#6c5353;fill-opacity:1" />
-          <rect
-             x="26"
-             y="30"
-             width="1"
-             height="10"
-             fill="#000000"
-             id="rect5" />
-        </g>
+           id="rect3-3" />
+        <rect
+           x="23"
+           y="30"
+           width="1"
+           height="10"
+           fill="#000000"
+           id="rect4-3" />
+        <rect
+           x="20.984009"
+           y="39.102093"
+           width="5"
+           height="40"
+           fill="#cccccc"
+           id="rect2-6"
+           style="fill:#6c5353;fill-opacity:1" />
+        <rect
+           x="26"
+           y="30"
+           width="1"
+           height="10"
+           fill="#000000"
+           id="rect5-0" />
       </g>
     </g>
   </g>
+  <rect
+     x="0"
+     y="0"
+     width="300"
+     height="300"
+     fill="none"
+     stroke="black"
+     stroke-width="4"
+     id="rect5"
+     style="stroke:none" />
 </svg>

@@ -514,8 +514,8 @@ bl.FoodInMeal.CarbohydratesPercent.Double = recipesPage.CurrentRecipe.Carbohydra
         FromBoxesFoodInMealToClass();
         bl.UpdateOldFoodInMealInList();
         // save the parameters that have to be read by the page we are opening
-        Common.BlGeneral.SaveParameter("FoodInMeal_CarbohydratesPercent", bl.FoodInMeal.CarbohydratesPercent.Text);
-        Common.BlGeneral.SaveParameter("FoodInMeal_Name", bl.FoodInMeal.Name);
+        Common.BlGeneral.SaveParameter("Hit_TargetCho", bl.FoodInMeal.CarbohydratesPercent.Text);
+        Common.BlGeneral.SaveParameter("Hit_NameOfFood", bl.FoodInMeal.Name);
         await Navigation.PushAsync(new FoodToHitTargetCarbsPage());
     }
     private async void btnInjection_ClickAsync(object sender, EventArgs e)

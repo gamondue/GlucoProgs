@@ -583,7 +583,7 @@ namespace GlucoMan
                                 }
                                 else
                                 {
-                                    query += FieldName + "='" + FieldValue + "'";
+                                    query += FieldName + "=" + SqliteSafe.String(FieldValue);
                                 }
                                 idOfRecord = maxKey;
                             }

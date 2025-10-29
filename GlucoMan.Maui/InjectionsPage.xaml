@@ -151,7 +151,7 @@
                       RowHeight="22">
                 <!-- Header with column labels -->
                 <ListView.Header>
-                    <Grid ColumnDefinitions="150,50,50,55,*"
+                    <Grid ColumnDefinitions="150*,35*,50*,50*,60*"
                         BackgroundColor="#e8f5e9"
                         Margin="2"
                         Padding="0,3,0,3">
@@ -160,7 +160,7 @@
                         FontAttributes="Bold"
                         FontSize="14"
                         TextColor="#2c3e50"/>
-                        <Label Grid.Column="1" Text="Bolus" 
+                        <Label Grid.Column="1" Text="Ins." 
                         HorizontalTextAlignment="Center"
                         FontAttributes="Bold"
                         FontSize="14"
@@ -183,15 +183,16 @@
                         FontAttributes="Bold"
                         FontSize="14"
                         TextColor="#2c3e50"
-                        ToolTipProperties.Text="Brand of insulin injected"/>
+                        ToolTipProperties.Text="Brand of insulin injected"
+                        LineBreakMode="TailTruncation" MaxLines="1"/>
                     </Grid>
                 </ListView.Header>
                 <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid ColumnDefinitions="150,50,50,55,*">
+                                <Grid ColumnDefinitions="150*,35*,50*,50*,60*">
                                     <Label Grid.Column="0" Text="{Binding EventTime.DateTime}" 
                                         HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                                     <Label Grid.Column="1" Text="{Binding InsulinValue.Text}" 
@@ -201,7 +202,8 @@
                                     <Label Grid.Column="3" Text="{Binding TypeOfInsulinAction}" 
                                         HorizontalTextAlignment="Center" VerticalOptions="Center"/>
                                     <Label Grid.Column="4" Text="{Binding InsulinDrugName}" 
-                                        HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                        HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                        LineBreakMode="TailTruncation" MaxLines="1"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

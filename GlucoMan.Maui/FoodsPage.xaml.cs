@@ -126,6 +126,7 @@ public partial class FoodsPage : ContentPage
         Food.IdFood = Safe.Int(txtIdFood.Text);
         Food.Name = txtName.Text;
         Food.Description = txtDescription.Text;
+        Food.CarbohydratesPercent.Text = txtFoodCarbohydrates.Text;
     }
     private void RefreshUi()
     {
