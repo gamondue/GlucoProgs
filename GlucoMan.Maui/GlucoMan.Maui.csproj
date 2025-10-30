@@ -27,7 +27,7 @@
     <ApplicationIdGuid>30939246-cae7-40ff-92ce-a308f5c8b0e8</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.9.3.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.9.4.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
@@ -54,7 +54,7 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.9.3</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.9.4</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
@@ -73,14 +73,14 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.9.3</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.9.4</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.9.3</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.9.4</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
@@ -99,7 +99,7 @@
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
 	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.9.3</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.9.4</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -109,11 +109,18 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
+		<MauiImage Include="Resources\Images\calc_extrapolation.png" />
+		<MauiImage Include="Resources\Images\calc_food.png" />
 		<MauiImage Include="Resources\Images\camera.png" />
 		<MauiImage Include="Resources\Images\escape.png" />
+		<MauiImage Include="Resources\Images\get_last_all.png" />
+		<MauiImage Include="Resources\Images\get_last_food.png" />
+		<MauiImage Include="Resources\Images\get_last_two_blood.png" />
+		<MauiImage Include="Resources\Images\get_next.png" />
 		<MauiImage Include="Resources\Images\pan.png" />
 		<MauiImage Include="Resources\Images\ringing_clock.png" />
 		<MauiImage Include="Resources\Images\statistics_no_axis.png" />
+		<MauiImage Include="Resources\Images\target.png" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\AppIcon\appicon.svg" Color="#7dbff3" BaseSize="128,128" />
@@ -155,6 +162,8 @@
 	  <None Remove="Resources\Images\calculate_insulin.svg" />
 	  <None Remove="Resources\Images\calculator.png" />
 	  <None Remove="Resources\Images\calculator.svg" />
+	  <None Remove="Resources\Images\calc_extrapolation.png" />
+	  <None Remove="Resources\Images\calc_food.png" />
 	  <None Remove="Resources\Images\camera.png" />
 	  <None Remove="Resources\Images\chart.png" />
 	  <None Remove="Resources\Images\chart.svg" />
@@ -176,9 +185,13 @@
 	  <None Remove="Resources\Images\front.png" />
 	  <None Remove="Resources\Images\gear.png" />
 	  <None Remove="Resources\Images\gear.svg" />
+	  <None Remove="Resources\Images\get_last_all.png" />
 	  <None Remove="Resources\Images\get_last_blood.png" />
+	  <None Remove="Resources\Images\get_last_food.png" />
 	  <None Remove="Resources\Images\get_last_red.png" />
 	  <None Remove="Resources\Images\get_last_sugar.png" />
+	  <None Remove="Resources\Images\get_last_two_blood.png" />
+	  <None Remove="Resources\Images\get_next.png" />
 	  <None Remove="Resources\Images\glucometer.png" />
 	  <None Remove="Resources\Images\glucometer.svg" />
 	  <None Remove="Resources\Images\hands.png" />
@@ -206,6 +219,7 @@
 	  <None Remove="Resources\Images\syringe.png" />
 	  <None Remove="Resources\Images\syringe.svg" />
 	  <None Remove="Resources\Images\syringe_20x20.png" />
+	  <None Remove="Resources\Images\target.png" />
 	  <None Remove="Resources\Images\total_sugar.png" />
 	</ItemGroup>
 

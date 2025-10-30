@@ -18,9 +18,9 @@ public partial class FoodToHitTargetCarbsPage : ContentPage
         initialButtonTextColor = TxtChoLeftToTake.TextColor;
 
         // read data from other pages
-        blFoodToEat.TargetCho.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Bolus_ChoToEat"));
-        blFoodToEat.NameOfFood = Safe.String(Common.BlGeneral.RestoreParameter("FoodInMeal_Name"));
-        blFoodToEat.RestoreParameters();
+        //blFoodToEat.TargetCho.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Bolus_ChoToEat"));
+        //blFoodToEat.NameOfFood = Safe.String(Common.BlGeneral.RestoreParameter("FoodInMeal_Name"));
+        //blFoodToEat.RestoreParameters();
         FromClassToUi();
     }
     private void FromClassToUi()
@@ -82,9 +82,10 @@ public partial class FoodToHitTargetCarbsPage : ContentPage
     private void btnReadAll_Click(object sender, EventArgs e)
     {
         blFoodToEat.TargetCho.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Bolus_ChoToEat"));
-        blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_ChoGrams"));
-        blFoodToEat.ChoOfFood.Double = Safe.Double(Common.BlGeneral.RestoreParameter("FoodInMeal_CarbohydratesPercent"));
-        blFoodToEat.NameOfFood = Safe.String(Common.BlGeneral.RestoreParameter("FoodInMeal_Name"));
+        blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Hit_ChoAlreadyTaken"));
+        blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Hit_ChoAlreadyTaken"));
+        blFoodToEat.ChoOfFood.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Hit_ChoOfFood"));
+        blFoodToEat.NameOfFood = Safe.String(Common.BlGeneral.RestoreParameter("Hit_NameOfFood"));
         FromClassToUi();
         TxtChoLeftToTake.Text = "";
         TxtFoodToHitTarget.Text = "";
@@ -96,13 +97,13 @@ public partial class FoodToHitTargetCarbsPage : ContentPage
     }
     private void btnReadChoTaken_Click(object sender, EventArgs e)
     {
-        blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_ChoGrams"));
+        blFoodToEat.ChoAlreadyTaken.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Hit_ChoAlreadyTaken"));
         FromClassToUi();
     }
     private void btnReadFood_Click(object sender, EventArgs e)
     {
-        blFoodToEat.ChoOfFood.Double = Safe.Double(Common.BlGeneral.RestoreParameter("FoodInMeal_CarbohydratesPercent"));
-        blFoodToEat.NameOfFood = Safe.String(Common.BlGeneral.RestoreParameter("FoodInMeal_Name"));
+        blFoodToEat.ChoOfFood.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Hit_ChoOfFood"));
+        blFoodToEat.NameOfFood = Safe.String(Common.BlGeneral.RestoreParameter("Hit_NameOfFood"));
         FromClassToUi();
     }
     private void btnInjection_Click(object sender, EventArgs e)

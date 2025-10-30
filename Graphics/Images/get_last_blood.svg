@@ -7,7 +7,7 @@
    version="1.1"
    id="svg5"
    sodipodi:docname="get_last_blood.svg"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
    inkscape:export-filename="get_last_blood.png"
    inkscape:export-xdpi="384"
    inkscape:export-ydpi="384"
@@ -19,13 +19,13 @@
      id="defs5">
     <marker
        style="overflow:visible"
-       id="Triangle"
+       id="Triangle-0"
        refX="0"
        refY="0"
        orient="auto-start-reverse"
        inkscape:stockid="Triangle arrow"
-       markerWidth="0.6"
-       markerHeight="0.6"
+       markerWidth="0.60000002"
+       markerHeight="0.60000002"
        viewBox="0 0 1 1"
        inkscape:isstock="true"
        inkscape:collect="always"
@@ -34,7 +34,7 @@
          transform="scale(0.5)"
          style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
          d="M 5.77,0 -2.88,5 V -5 Z"
-         id="path135" />
+         id="path135-9" />
     </marker>
   </defs>
   <sodipodi:namedview
@@ -48,15 +48,22 @@
      inkscape:deskcolor="#d1d1d1"
      showguides="true"
      inkscape:zoom="8.0212426"
-     inkscape:cx="20.071703"
-     inkscape:cy="24.62212"
+     inkscape:cx="23.562434"
+     inkscape:cy="33.598286"
      inkscape:window-width="1920"
-     inkscape:window-height="1166"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="50"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg5" />
   <!-- Opzioni non selezionate -->
+  <rect
+     style="fill:none;stroke-width:1.5;stroke:none"
+     id="rect1"
+     width="63.830505"
+     height="63.612343"
+     x="0.12466896"
+     y="0.3740069" />
   <g
      id="g7"
      transform="matrix(1.0722109,0,0,1.0714292,-5.5460092,-0.86853701)"
@@ -70,21 +77,12 @@
        fill="#ffffff"
        id="circle1" />
   </g>
-  <ellipse
-     cx="16.181768"
-     cy="32.411598"
-     stroke="#888888"
-     stroke-width="3"
-     fill="#ffffff"
-     id="circle2"
-     rx="8.5776873"
-     ry="8.571434" />
   <!-- Opzione selezionata -->
   <!-- Segno di spunta -->
   <!-- Linee di testo -->
   <g
      id="g10"
-     transform="matrix(1.0722109,0,0,1.0714292,-5.7549782,20.208437)"
+     transform="matrix(1.0722109,0,0,1.0714292,-5.7549782,19.81745)"
      style="stroke-width:0.932993">
     <g
        id="g8"
@@ -113,38 +111,8 @@
     </g>
   </g>
   <g
-     id="g11"
-     transform="matrix(1.0722109,0,0,1.0714292,-5.754978,-21.858413)"
-     style="stroke-width:0.932993">
-    <g
-       id="g5"
-       transform="translate(-1.6349054,-2.0352679)"
-       style="stroke-width:0.932993">
-      <g
-         id="g4"
-         transform="matrix(0.94746572,0,0,1.2505054,2.5818445,4.7956876)"
-         style="stroke-width:0.932993">
-        <rect
-           x="33.337326"
-           y="32.75808"
-           width="26.883499"
-           height="11.675626"
-           rx="3.3604374"
-           fill="#b0b0b0"
-           stroke="#222222"
-           stroke-width="1.68704"
-           id="rect2-7-6"
-           style="fill:#b1ffb0;fill-opacity:0.47" />
-      </g>
-      <path
-         style="fill:#808080;stroke:#6b6b6b;stroke-width:5.2894;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
-         d="m 38.731362,53.168928 c 16.002574,0.07056 16.002574,0.07056 16.002574,0.07056 v 0"
-         id="path3-7-2" />
-    </g>
-  </g>
-  <g
      id="g9"
-     transform="matrix(1.0722109,0,0,1.0714292,-5.754978,-0.01218101)"
+     transform="matrix(1.0722109,0,0,1.0714292,-5.754978,-0.60401372)"
      style="stroke-width:0.932993">
     <g
        id="g5-2"
@@ -172,14 +140,52 @@
          id="path3-7-2-2" />
     </g>
   </g>
-  <path
-     style="fill:none;fill-opacity:1;stroke:#0a00c9;stroke-width:2.87;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle);paint-order:stroke fill markers"
-     d="M 37.821164,53.263047 C 43.522225,49.59664 49.834607,32.028012 50.074497,8.0610388"
-     id="path1"
-     sodipodi:nodetypes="cc" />
+  <g
+     id="g7-2"
+     transform="matrix(1.0722109,0,0,1.0714292,-5.6389497,19.992099)"
+     style="stroke-width:0.932993">
+    <circle
+       cx="20.264463"
+       cy="11.476584"
+       r="8"
+       stroke="#888888"
+       stroke-width="2.79898"
+       fill="#ffffff"
+       id="circle1-7" />
+  </g>
+  <g
+     id="g9-6"
+     transform="matrix(1.0722109,0,0,1.0714292,-5.8479185,20.256622)"
+     style="stroke-width:0.932993">
+    <g
+       id="g5-2-1"
+       transform="translate(-1.6349054,-41.911301)"
+       style="stroke-width:0.932993">
+      <g
+         id="g4-1-4"
+         transform="matrix(0.94746572,0,0,1.2505054,2.5818445,4.7956876)"
+         style="stroke-width:0.932993">
+        <rect
+           x="33.337326"
+           y="32.822803"
+           width="26.883499"
+           height="11.675626"
+           rx="3.3604374"
+           fill="#b0b0b0"
+           stroke="#222222"
+           stroke-width="1.68704"
+           id="rect2-7-6-2-2"
+           style="fill:#b1ffb0;fill-opacity:0.47" />
+      </g>
+      <path
+         style="fill:#808080;stroke:#6b6b6b;stroke-width:5.2894;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+         d="m 38.731362,53.168928 c 16.002574,0.07056 16.002574,0.07056 16.002574,0.07056 v 0"
+         id="path3-7-2-2-3" />
+    </g>
+  </g>
   <g
      id="g6"
-     transform="matrix(1.0722109,0,0,1.0714292,-5.4721133,18.925713)"
+     transform="matrix(1.0722109,0,0,1.0714292,-5.2624486,18.925713)"
      style="fill:#ff0000;stroke:#800000;stroke-width:0.932993;stroke-opacity:1">
     <circle
        cx="20"
@@ -191,4 +197,9 @@
        id="circle3"
        style="fill:#ff0000;stroke:#800000;stroke-opacity:1" />
   </g>
+  <path
+     style="fill:none;fill-opacity:1;stroke:#d40000;stroke-width:2.87;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-0);paint-order:stroke fill markers"
+     d="M 37.896401,53.099093 C 43.597462,49.432686 49.411168,36.352141 49.651058,12.385168"
+     id="path1-8"
+     sodipodi:nodetypes="cc" />
 </svg>

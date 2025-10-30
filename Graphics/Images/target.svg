@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Target SVG: concentric rings with one additional circle
+ Azure color chosen: #00AEEF
+ Five circles with equal radial steps; outermost and center are azure
+ Radii:120,96,72,48,24 (step =24)
+-->
+
+<svg
+ viewBox="00256256"
+ width="256"
+ height="256"
+ role="img"
+ aria-label="Target"
+ version="1.1"
+ xmlns="http://www.w3.org/2000/svg">
+ <title>Target</title>
+ <!-- Concentric circles, center at (128,128) with equal step24 -->
+ <!-- Radii:120,96,72,48,24 -->
+ <!-- Outermost circle (azure) -->
+ <circle cx="128" cy="128" r="120" fill="#00AEEF" id="circle1" />
+ <!-- White ring -->
+ <circle cx="128" cy="128" r="96" fill="#ffffff" id="circle2" />
+ <!-- Azure ring -->
+ <circle cx="128" cy="128" r="72" fill="#00AEEF" id="circle3" />
+ <!-- White ring -->
+ <circle cx="128" cy="128" r="48" fill="#ffffff" id="circle4" />
+ <!-- Center circle (azure) -->
+ <circle cx="128" cy="128" r="24" fill="#00AEEF" id="circle5" />
+ <!-- Optional subtle outline for visibility -->
+ <circle cx="128" cy="128" r="120" fill="none" stroke="#333333" stroke-opacity="0.08" stroke-width="1" id="outline" />
+</svg>

@@ -84,7 +84,6 @@
                        ToolTipProperties.Text="Total CHO: calculates the summary data of the meal: total carbohydrates and composed accuracy"
                        Clicked="btnCalc_Click" FontSize="Micro" LineBreakMode="WordWrap"/>
                 <!--Text="Total CHO"-->
-
                 <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
                    x:Name="txtNotes" 
                    BackgroundColor="LightGreen" TextColor="Black"
@@ -94,9 +93,8 @@
                 <Button Grid.Row="4" Grid.Column="4" x:Name="btnFoodCalc" 
                     ImageSource="food_to_sugar.png"
                     ToolTipProperties.Text="Food to target: opens the page that calculates the food to eat to reach target carbohydrates"
-                    Clicked="btnFoodCalc_ClickAsync" FontSize="Micro" Margin="1"
-                    LineBreakMode="WordWrap"/>
-                <!--Text="Food to&#10;target"-->
+                    Clicked="btnFoodCalc_ClickAsync" />
+                <!--Text="Food to&#10;target FontSize="Micro" Margin="1" LineBreakMode="WordWrap""-->
             </Grid>
             <Grid x:Name="foodSection" Grid.Row="1"
                       RowDefinitions="20,

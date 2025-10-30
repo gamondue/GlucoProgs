@@ -47,9 +47,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showguides="true"
-     inkscape:zoom="8.0212426"
-     inkscape:cx="24.871458"
-     inkscape:cy="45.815844"
+     inkscape:zoom="11.34375"
+     inkscape:cx="28.473829"
+     inkscape:cy="36.892562"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
@@ -187,8 +187,15 @@
     </g>
   </g>
   <path
-     style="fill:none;fill-opacity:1;stroke:#0a00c9;stroke-width:2.87;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle);paint-order:stroke fill markers"
-     d="M 37.530538,53.101743 C 43.231599,49.435336 49.543981,31.866708 49.783871,7.8997349"
+     style="fill:none;fill-opacity:1;stroke:#d40000;stroke-width:2.87;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle);paint-order:stroke fill markers"
+     d="M 37.530538,53.101743 C 43.231599,49.435336 49.045305,36.354791 49.285195,12.387818"
      id="path1"
      sodipodi:nodetypes="cc" />
+  <rect
+     style="fill:none;stroke:none;stroke-width:2.499"
+     id="rect1"
+     width="63.877167"
+     height="63.700855"
+     x="0.088154271"
+     y="0.2644628" />
 </svg>
