@@ -457,9 +457,11 @@ namespace GlucoMan
                     if ((Name != "" && Name != null) || (Description != "" && Description != null))
                     {
                         query += " WHERE ((Name LIKE '%" + Name + "%'" +
-                            " OR Name = null)" +
-                            " AND (Description LIKE '%" + Description + "%'" +
-                            " OR Description = null))";
+                            " OR Name = null)";
+                        if (Description != null && Description != "")
+                            query += " AND (Description LIKE '%" + Description + "%'" +
+                            " OR Description = null)";
+                        query += ")";
                     }
                     query += " ORDER BY Name, Description;";
                     cmd = new SqliteCommand(query);

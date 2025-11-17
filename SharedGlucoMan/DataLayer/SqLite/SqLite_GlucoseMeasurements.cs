@@ -37,6 +37,41 @@ namespace GlucoMan
                         GlucoseRecord g = GetGlucoseRecordFromRow(dRead);
                         list.Add(g);
                     }
+                    // If we have at least one record, try to fetch the immediate previous record
+                    // (last record of the previous day) and insert it at the beginning of the list
+                    if (list.Count > 0)
+                    {
+                        try
+                        {
+                            GlucoseRecord firstOfNextDay = GetOneGlucoseRecord(list[0].IdGlucoseRecord + 1);
+                            GlucoseRecord secondOfNextDay = GetOneGlucoseRecord(list[0].IdGlucoseRecord + 2);
+                            if (firstOfNextDay != null && firstOfNextDay.IdGlucoseRecord != null)
+                            {
+                                list.Insert(0, firstOfNextDay);
+                                list.Insert(0, secondOfNextDay);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // General.LogOfProgram.Error("Sqlite_GlucoseMeasurement - fetching lastOfPreviousDay", ex);
+                        }
+                    }
+                    // insert at the end of the list the previous of the next day
+                    if (list.Count > 0)
+                    {
+                        try
+                        {
+                            // add at the bottom of the list the first record of the next day (order is descending!)
+                            GlucoseRecord lastOfPreviousDay = GetOneGlucoseRecord(list[list.Count - 1].IdGlucoseRecord - 1);
+                            GlucoseRecord penultimateOfPreviousDay = GetOneGlucoseRecord(list[list.Count - 1].IdGlucoseRecord - 2);
+                            if (lastOfPreviousDay != null && lastOfPreviousDay.IdGlucoseRecord != null)
+                            {
+                                list.Add(lastOfPreviousDay);
+                                list.Add(penultimateOfPreviousDay);
+                            }
+                        }
+                        catch { }
+                    }
                     dRead.Dispose();
                     cmd.Dispose();
                 }

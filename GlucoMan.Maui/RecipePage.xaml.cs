@@ -1,24 +1,24 @@
 using gamon;
 using GlucoMan.BusinessLayer;
 using static GlucoMan.Common;
+using Microsoft.Maui.Graphics;
 
 namespace GlucoMan.Maui;
 
 public partial class RecipePage : ContentPage
 {
-    BL_Recipes bl; // business layer of recipes
+    private BL_Recipes bl; // business layer of recipes
 
     private UiAccuracy accuracyRecipe;
     private UiAccuracy accuracyIngredient;
 
     private FoodsPage foodsPage;
 
-    // List for storing the ingredients in this meal
-    private List<Ingredient> ingredientsInRecipe;
-
+    // Flags to prevent recursive updates during text changes
     private bool ingredientModifications = false;
     private bool ingredientPercentOrQuantityChanging = false;
     private bool ingredientChoGramsChanging = false;
+    private bool programmaticModification = true;
 
     public bool RecipeIsChosen { get; internal set; }
 
@@ -26,136 +26,81 @@ public partial class RecipePage : ContentPage
     {
         InitializeComponent();
 
-        bl = BlRecipes;
-        if (bl == null)
-        {
-            bl = new BL_Recipes();
-        }
-        
-        // Ensure Recipe is initialized
-        if (bl.Recipe == null)
-        {
-  bl.Recipe = new Recipe();
-      General.LogOfProgram?.Event("RecipePage - Initialized new Recipe");
-  }
-    
-   // Ensure Ingredient is initialized
-     if (bl.Ingredient == null)
-    {
-bl.Ingredient = new Ingredient();
- General.LogOfProgram?.Event("RecipePage - Initialized new Ingredient");
- }
+        bl = BlRecipes ?? new BL_Recipes();
 
+        // Ensure Recipe and Ingredient are initialized
+        bl.Recipe ??= new Recipe();
+        bl.Ingredient ??= new Ingredient();
+
+        // Pickers for qualitative accuracy
         cmbAccuracyRecipe.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
         cmbAccuracyIngredient.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
 
-accuracyRecipe = new UiAccuracy(txtAccuracyOfChoRecipe, cmbAccuracyRecipe);
+        // Helper for tinting entries based on accuracy and keeping combo/text in sync visually
+        accuracyRecipe = new UiAccuracy(txtAccuracyOfChoRecipe, cmbAccuracyRecipe);
         accuracyIngredient = new UiAccuracy(txtAccuracyOfChoIngredient, cmbAccuracyIngredient);
 
-    RefreshUi();
+        // Bind sections once; controls use TwoWay bindings in XAML
+        recipeSection.BindingContext = bl.Recipe;
+        //ingredientSection.BindingContext = bl.Ingredient;
 
-        //recipeSection.BindingContext = bl.Recipe;
-    }
-    private void ContentPage_Loaded(object sender, EventArgs e)
-    {
-        // Initialize accuracy controls to sync combo boxes with current text values
-        // InitializeAccuracyControls();
-    }
-    #region UI related methods
-    private async Task RefreshUi()
-    {
-        RefreshRecipe();
-        // the current Ingredient is unbound and not refreshed
+        // calculate non database values 
+        // First load ingredients from DB into bl.Recipe, then recalc totals
         RefreshGrid();
-    }
-    private void RefreshRecipe()
-    {
+        bl.RecalcAll();
+        // ensure recipe section reflects recalculated totals
         try
         {
-            if (recipeSection != null && bl?.Recipe != null)
-            {
-                recipeSection.BindingContext = null;
-                recipeSection.BindingContext = bl.Recipe;
-            }
+            recipeSection.BindingContext = null;
+            recipeSection.BindingContext = bl.Recipe;
         }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("MealPage - RefreshMeal", ex);
-        }
+        catch { }
     }
+
+    private void ContentPage_Loaded(object sender, EventArgs e)
+    {
+        // XAML bindings are active
+    }
+
     private void RefreshGrid()
     {
         try
         {
-            //bl.Recipe.Ingredients = bl.ReadAllIngredientsInThisRecipe();
-            bl.GetAllIngredientsInThisRecipe();
             gridIngredients.BindingContext = null;
-            gridIngredients.BindingContext = bl.Recipe.Ingredients;
+            gridIngredients.BindingContext = bl.GetAllIngredientsInThisRecipe();
         }
         catch (Exception ex)
         {
-            General.LogOfProgram.Error("MealPage - RefreshGrid", ex);
+            General.LogOfProgram.Error("RecipePage - RefreshGrid", ex);
         }
     }
-    private void FromClassToBoxesIngredient()
-    {
-        ingredientModifications = true;
-        if (bl.Ingredient != null)
-        {
-            txtIngredientName.Text = bl.Ingredient.Name ?? "";
-            txtAccuracyOfChoIngredient.Text = (bl.Ingredient.AccuracyOfChoEstimate?.Double ?? 0).ToString();
-            txtIngredientQuantityInUnits.Text = (bl.Ingredient.QuantityGrams?.Double ?? 0).ToString();
-            txtIngredientCarbohydratesGrams.Text = bl.Ingredient.CarbohydratesPercent?.Text
-                ?? (bl.Ingredient.CarbohydratesPercent?.Double ?? 0).ToString();
-            txtIdIngredient.Text = bl.Ingredient.IdIngredient?.ToString() ?? "";
-        }
-        ingredientModifications = false;
-    }
-    private void FromBoxesIngredientToClass()
-    {
-        // Ensure bl.Ingredient is initialized
-    if (bl.Ingredient == null)
-{
- bl.Ingredient = new Ingredient();
- }
-    
-        //bl.FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
-        bl.Ingredient.Name = Safe.String(txtIngredientName.Text);
 
-  // Initialize DoubleAndText properties if null
-  if (bl.Ingredient.AccuracyOfChoEstimate == null)
- bl.Ingredient.AccuracyOfChoEstimate = new DoubleAndText();
-     if (bl.Ingredient.CarbohydratesPercent == null)
-bl.Ingredient.CarbohydratesPercent = new DoubleAndText();
-     if (bl.Ingredient.QuantityGrams == null)
-            bl.Ingredient.QuantityGrams = new DoubleAndText();
-   
-  bl.Ingredient.AccuracyOfChoEstimate.Text = txtAccuracyOfChoIngredient.Text;
-   bl.Ingredient.CarbohydratesPercent.Text = txtIngredientCarbohydratesGrams.Text;
-    // in this page the unit is read only, taken from the Ingredient object
-  bl.Ingredient.QuantityGrams.Text = txtIngredientQuantityInUnits.Text;
+    private void CalculateChoOfIngredientGrams()
+    {
+        if (bl.Ingredient.CarbohydratesPercent.Double != null && bl.Ingredient.QuantityGrams.Double != null)
+        {
+            bl.Ingredient.CarbohydratesGrams.Double =
+                bl.Ingredient.CarbohydratesPercent.Double / 100 * bl.Ingredient.QuantityGrams.Double;
+        }
     }
-    #endregion
-    #region controls' events
+
     private async void btnSaveAllRecipe_Click(object sender, EventArgs e)
     {
         try
         {
-            // Save the Recipe
+            // Data already pushed to model via TwoWay bindings
             bl.Recipe.IdRecipe = bl.SaveOneRecipe(bl.Recipe);
-            // Save the Ingredient object
-            // Ensure the food is associated with the current Recipe (not necessary)
-            bl.Ingredient.IdRecipe = bl.Recipe.IdRecipe;
-            // Save the old food in Recipe 
-            bl.UpdateOldIngredientInList();
-            // copy the data from the UI into the business layer class
-            FromBoxesIngredientToClass();
-            // Save all the ingredients in the Recipe
-            bl.SaveAllIngredientsInRecipe();
-            // Refresh the UI to show updated data
-            RefreshUi();
-            General.LogOfProgram?.Event("Recipe saved successfully");
 
+            // Persist ingredients
+            bl.Ingredient.IdRecipe = bl.Recipe.IdRecipe;
+            bl.UpdateOldIngredientInList();
+            bl.SaveAllIngredientsInRecipe();
+
+            bl.RecalcAll();
+            RefreshGrid();
+            await RefreshAccuracyControls();
+
+            General.LogOfProgram?.Event("Recipe saved successfully");
         }
         catch (Exception ex)
         {
@@ -163,114 +108,102 @@ bl.Ingredient.CarbohydratesPercent = new DoubleAndText();
             await DisplayAlert("Error", "Failed to save Recipe data. This might be due to database connectivity issues. Check logs for details.", "OK");
         }
     }
+
     private void btnAddIngredient_Click(object sender, EventArgs e)
     {
-        // Ensure we have a valid recipe to add ingredient to
+        // Ensure recipe exists in DB
         if (bl.Recipe.IdRecipe == null)
-        {
-            // Save the recipe first if it doesn't exist
             bl.Recipe.IdRecipe = bl.SaveOneRecipe(bl.Recipe);
-        }
-        // Create new Ingredient entry
-        bl.Ingredient.IdIngredient = null; // Reset ID for new entry
-        bl.Ingredient.IdRecipe = bl.Recipe.IdRecipe; // Associate with current recipe
 
-        if (bl.Recipe.Ingredients == null)
-            bl.Recipe.Ingredients = new List<Ingredient>();
+        // Current Ingredient is filled via TwoWay binding
+        bl.Ingredient.IdIngredient = null;
+        bl.Ingredient.IdRecipe = bl.Recipe.IdRecipe;
 
-        // Save the ingredient
         var savedId = bl.SaveOneIngredient(bl.Ingredient);
         if (savedId != null)
         {
             bl.Ingredient.IdIngredient = savedId;
 
-            // Add to business layer list if not already there
-            if (!bl.Recipe.Ingredients.Any(f => f.IdIngredient == savedId))
+            bl.Recipe.Ingredients ??= new List<Ingredient>();
+            if (!bl.Recipe.Ingredients.Any(i => i.IdIngredient == savedId))
             {
-                // Create a copy of the current ingredient to add to the list
-                var ingredientCopy = new Ingredient
+                // store a copy in the list (so editing the current field keeps working)
+                bl.Recipe.Ingredients.Add(new Ingredient
                 {
                     IdIngredient = bl.Ingredient.IdIngredient,
                     IdRecipe = bl.Ingredient.IdRecipe,
                     Name = bl.Ingredient.Name,
                     CarbohydratesPercent = bl.Ingredient.CarbohydratesPercent,
-                    QuantityInUnits = bl.Ingredient.QuantityInUnits,
                     CarbohydratesGrams = bl.Ingredient.CarbohydratesGrams,
-                    AccuracyOfChoEstimate = bl.Ingredient.AccuracyOfChoEstimate,
-                    //UnitSymbol = bl.Ingredient.UnitSymbol,
-                    //GramsInOneUnit = bl.Ingredient.GramsInOneUnit
-                };
-                bl.Recipe.Ingredients.Add(ingredientCopy);
+                    QuantityGrams = bl.Ingredient.QuantityGrams,
+                    QuantityPercent = bl.Ingredient.QuantityPercent,
+                    AccuracyOfChoEstimate = bl.Ingredient.AccuracyOfChoEstimate
+                });
             }
+
             bl.RecalcAll();
-            FromClassToBoxesIngredient();
-            General.LogOfProgram.Event("Ingredient added to recipe successfully");
+            RefreshGrid();
         }
         else
         {
             DisplayAlert("Error", "Failed to add ingredient to recipe", "OK");
         }
-        RefreshGrid();
     }
-    private async void btnRemoveIngredient_Click(object sender, EventArgs e)
+
+    private void btnRemoveIngredient_Click(object sender, EventArgs e)
     {
         try
         {
-            if (bl.Ingredient != null && bl.Ingredient.IdIngredient != null)
+            if (bl.Ingredient?.IdIngredient != null)
             {
                 bl.DeleteOneIngredient(bl.Ingredient);
 
-                // Remove from business layer list
                 if (bl.Recipe.Ingredients != null)
-                {
-                    bl.Recipe.Ingredients.RemoveAll(f => f.IdIngredient == bl.Ingredient.IdIngredient);
-                }
-
-                // Update the ObservableCollection for UI binding
-                //UpdateFoodsInMealCollection();
+                    bl.Recipe.Ingredients.RemoveAll(i => i.IdIngredient == bl.Ingredient.IdIngredient);
 
                 bl.RecalcAll();
-                FromClassToBoxesIngredient();
+                RefreshGrid();
             }
-            RefreshGrid();
         }
         catch (Exception ex)
         {
-            General.LogOfProgram.Error("MealPage - btnRemoveFoodInMeal_Click", ex);
+            General.LogOfProgram.Error("RecipePage - btnRemoveIngredient_Click", ex);
         }
     }
+
     private async void btnFoods_ClickAsync(object sender, EventArgs e)
     {
         try
         {
-            if (bl.Ingredient == null)
+            if (txtIngredientName.Text == null || txtIngredientName.Text == "")
             {
                 bl.Ingredient = new Ingredient();
             }
-            
+            else
+            {
+                FromBoxesIngredientToClass();
+            }
             foodsPage = new FoodsPage(bl.Ingredient);
             await Navigation.PushModalAsync(foodsPage);
-
             // Wait for the page to be closed and get the result
             bool foodWasChosen = await foodsPage.PageClosedTask;
-
-            // check if the user chose a food in called page
             if (foodWasChosen && foodsPage.FoodIsChosen)
             {
-                // Aggiorna l'Ingredient corrente con il Food scelto dalla pagina chiamata
+                bool newFoodIsDifferent = foodsPage.Food.IdFood != bl.Ingredient.IdFood;
+                // Update the current FoodInMeal with the Food chosen from the called page
                 bl.FromFoodToIngredient(foodsPage.Food, bl.Ingredient);
-
-                // DEBUG: Log per verificare i valori
-                General.LogOfProgram?.Debug($"Food importato: Nome={bl.Ingredient.Name}, CHO%={bl.Ingredient.CarbohydratesPercent?.Double ?? 0}");
-
-                // Aggiorna l'interfaccia utente con i nuovi dati
-                FromClassToBoxesIngredient();
-
-                // Ricalcola tutti i valori
+                // check if this ingredient is the same that is coming from the Food page
+                if (newFoodIsDifferent)
+                {
+                    // the chosen food is different, 
+                    bl.Ingredient.QuantityGrams.Double = 0;
+                }
+                //ingredientSection.BindingContext = bl.Ingredient; // ensure UI shows updated ingredient
+                bl.UpdateOldIngredientInList();
                 bl.RecalcAll();
-
-                // Aggiorna l'UI della recipe
-                RefreshRecipe();
+                FromClassToBoxesIngredient();
+                RefreshGrid();
+                await RefreshAccuracyControls();
             }
         }
         catch (Exception ex)
@@ -279,388 +212,213 @@ bl.Ingredient.CarbohydratesPercent = new DoubleAndText();
             await DisplayAlert("Error", $"Failed to import food: {ex.Message}", "OK");
         }
     }
+
+    private async void btnWeighFood_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Ensure Ingredient is initialized
+            bl.Ingredient ??= new Ingredient();
+            
+            // Update ingredient from current UI values
+            FromBoxesIngredientToClass();
+            
+            // Create WeighFoodPage with current ingredient data
+            var weighFoodPage = new WeighFoodPage(bl.Ingredient);
+            await Navigation.PushModalAsync(weighFoodPage);
+
+            // Wait for the page to be closed and get the result
+            bool dataWasModified = await weighFoodPage.PageClosedTask;
+ 
+            if (dataWasModified && weighFoodPage.ResultFood != null)
+         {
+           // Update ingredient from result food
+      bl.FromFoodToIngredient(weighFoodPage.ResultFood, bl.Ingredient);
+
+   // Determine which weight value to use for QuantityGrams
+           double weightToUse = 0;
+    
+   if (weighFoodPage.WeightOfPortion > 0)
+{
+            // Priority 1: Use WeightOfPortion if available
+ weightToUse = weighFoodPage.WeightOfPortion;
+     General.LogOfProgram?.Event($"RecipePage - Using WeightOfPortion: {weightToUse:F1}g");
+        }
+     else
+     {
+                  // Priority 2: Use TxtRawNet (raw net weight) as fallback
+        // Access the business layer data that was saved
+     var blFood = new BL_WeighFood();
+         blFood.RestoreData();
+               
+        if (blFood.RawNet?.Double != null && blFood.RawNet.Double > 0)
+  {
+            weightToUse = blFood.RawNet.Double.Value;
+       General.LogOfProgram?.Event($"RecipePage - Using RawNet weight: {weightToUse:F1}g");
+        }
+     else
+        {
+       General.LogOfProgram?.Event("RecipePage - No weight data available from WeighFoodPage");
+         }
+   }
+
+       // Apply the weight to QuantityGrams
+                if (weightToUse > 0)
+    {
+          bl.Ingredient.QuantityGrams ??= new DoubleAndText();
+    bl.Ingredient.QuantityGrams.Double = weightToUse;
+     bl.Ingredient.QuantityGrams.Text = weightToUse.ToString("F1");
+    General.LogOfProgram?.Event($"RecipePage - Ingredient quantity set to {weightToUse:F1}g from WeighFoodPage");
+   }
+
+     // Recalculate carbohydrates in grams
+       CalculateChoOfIngredientGrams();
+     
+             // Update the user interface with the new data
+ FromClassToBoxesIngredient();
+          
+        // Update the ingredient in the list
+              bl.UpdateOldIngredientInList();
+        
+  // Recalculate all values
+       bl.RecalcAll();
+
+                // Refresh the grid
+      RefreshGrid();
+                
+           // Update accuracy controls
+        await RefreshAccuracyControls();
+         
+             General.LogOfProgram?.Event("RecipePage - Ingredient data updated from WeighFoodPage successfully");
+    }
+        }
+   catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("RecipePage - btnWeighFood_Click", ex);
+            await DisplayAlert("Error", $"Failed to open weigh food page: {ex.Message}\n\nCheck logs for details.", "OK");
+        }
+    }
+
     private async void btnDefaults_Click(object sender, EventArgs e)
     {
         try
         {
-            txtIngredientName.Text = "";
-            txtAccuracyOfChoIngredient.Text = "";
-            cmbAccuracyIngredient.SelectedItem = null;
-            txtIngredientCarbohydratesGrams.Text = "";
-            txtIngredientQuantityPercent.Text = "";
-            txtIdIngredient.Text = "";
-            //txtFoodCarbohydratesGrams.Text = "";
-            //btnUnit.Text = "";
+            bl.Ingredient = new Ingredient();
+            //ingredientSection.BindingContext = bl.Ingredient; // rebind to fresh ingredient
+            await RefreshAccuracyControls();
         }
         catch (Exception ex)
         {
-            General.LogOfProgram.Error("MealPage - btnDefaults_Click", ex);
+            General.LogOfProgram.Error("RecipePage - btnDefaults_Click", ex);
         }
     }
-    private async void btnCalc_Click(object sender, EventArgs e)
+
+    private void btnCalc_Click(object sender, EventArgs e)
     {
         try
         {
-            // take the data from the UI controls and put it into the business layer class
+            // Update the ingredient in the list before switching
             FromBoxesIngredientToClass();
+            bl.UpdateOldIngredientInList();
+            // calc riepilogative data
             bl.RecalcAll();
-
-            // Refresh the bound UI data related to the Meal, since it has changed
-            if (recipeSection != null && bl?.Recipe != null)
-            {
-                recipeSection.BindingContext = null;
-                recipeSection.BindingContext = bl.Recipe;
-            }
-            RefreshRecipe();
-            // Also refresh the visualization of the grid
+            FromClassToBoxesIngredient();
             RefreshGrid();
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("MealPage - btnCalc_Click", ex);
-            DisplayAlert("Error", "Failed to calculate meal totals. Check logs for details.", "OK");
+            General.LogOfProgram?.Error("RecipePage - btnCalc_Click", ex);
+            DisplayAlert("Error", "Failed to calculate recipe totals. Check logs for details.", "OK");
         }
     }
-    // ???? should we put the button of Weighing ????
+
     private void ingredientsSection_Unfocused(object sender, FocusEventArgs e)
     {
-        // when finished with the current ingredient,
-        // update the data in the bl and show the changes
-
-        // update bl.FoodInMeal from the UI controls
-        FromBoxesIngredientToClass();
-        bl.RecalcAll();
-        bl.SaveAllIngredientsInRecipe();
-        // Refresh the bound UI data related to the Meal, since it has changed
-        if (recipeSection != null && bl?.Recipe != null)
-        {
-            recipeSection.BindingContext = null;
-            recipeSection.BindingContext = bl.Recipe;
-        }
+        // No manual sync/save here. TwoWay bindings keep model updated.
     }
-
-
-
-
-
-
-
-
 
     private async Task FromClassesToUi()
     {
-        FromRecipeToUi();
-        FromIngredientToUi();
-
-        // Update accuracy controls after data is loaded and loadingUi is false
+        // Keep bindings; only refresh the accuracy visuals
         await RefreshAccuracyControls();
     }
 
-    private void FromUiToClasses()
-    {
-        if (bl.Ingredient == null)
-            bl.Ingredient = new();
-        // first the current ingredient, THEN the recipe!
-        FromUiToIngredient(bl.Ingredient);
-        FromUiToRecipe(bl.Recipe);
-    }
-    private void FromUiToIngredient(Ingredient Ingredient)
-    {
-        Ingredient.IdIngredient = Safe.Int(txtIdIngredient.Text);
-        Ingredient.IdRecipe = Safe.Int(txtIdRecipe.Text);
-        //////////Ingredient.QuantityGrams.Text = txtIngredientQuantityGrams.Text;
-        //////////Ingredient.CarbohydratesPercent.Text = txtIngredientCarbohydratesPercent.Text;
-        Ingredient.QuantityInUnits.Text = txtIngredientQuantityPercent.Text;
-        Ingredient.Name = txtIngredientName.Text;
-        Ingredient.AccuracyOfChoEstimate.Text = txtAccuracyOfChoIngredient.Text;
-    }
-    private void FromUiToRecipe(Recipe Recipe)
-    {
-        Recipe.IdRecipe = Safe.Int(txtIdRecipe.Text);
-        Recipe.Name = txtRecipeName.Text;
-        Recipe.Description = txtRecipeDescription.Text;
-        Recipe.CarbohydratesPercent.Text = txtChoOfRecipePercent.Text;
-        Recipe.AccuracyOfChoEstimate.Text = txtAccuracyOfChoRecipe.Text;
-    }
-    private void FromIngredientToUi()
-    {
-        //if (bl.Ingredient != null)
-        //{
-        ingredientSection.BindingContext = null;
-        ingredientSection.BindingContext = bl.Ingredient;
-        //}
-    }
-    private void FromRecipeToUi()
-    {
-        if (bl.Recipe != null)
-        {
-            recipeSection.BindingContext = null;
-            recipeSection.BindingContext = bl.Recipe;
-        }
-    }
-    private void txtIngredientCarbohydratesPercent_TextChanged(object sender, EventArgs e)
-    {
-
-        ////////        FromUiToIngredient(localIngredientForCalculations);
-        ////////        bl.CalculateChoOfFoodGrams(localIngredientForCalculations);
-        ////////        txtIngredientChoGrams.Text = localIngredientForCalculations.CarbohydratesPercent.Text;
-        ////////        bl.SaveRecipeParameters();
-
-    }
-    private void txtIngredientQuantityGrams_TextChanged(object sender, EventArgs e)
-    {
-
-        ////////FromUiToIngredient(localIngredientForCalculations);
-        ////////bl.CalculateChoOfFoodGrams(localIngredientForCalculations);
-        ////////txtIngredientChoGrams.Text = localIngredientForCalculations.CarbohydratesGrams.Text;
-    }
-    private void txtIngredientChoGrams_TextChanged(object sender, EventArgs e)
-    {
-        //if (!loadingUi)
-        {
-            //if (!txtIngredientQuantityGrams.IsFocused && !txtIngredientCarbohydratesPercent.IsFocused)
-            //{
-            //    //txtIngredientQuantityGrams.Text = "";
-            //    //////////localIngredientForCalculations.QuantityInUnits.Double = 0;
-            //    //txtIngredientCarbohydratesPercent.Text = "";
-            //}
-        }
-        ////localIngredientForCalculations.CarbohydratesGrams.Text = txtIngredientChoGrams.Text;
-        //bl.UpdateFoodInMealAndRecalc();
-        //FromRecipeToUi();
-        //txtChoOfRecipePercent.Text = bl.Recipe.CarbohydratesPercent.Text;
-    }
-    private void btnSaveAllFoods_Click(object sender, EventArgs e)
-    {
-        FromUiToClasses();
-        bl.SaveOneIngredient(bl.Ingredient).ToString();
-        bl.SaveListOfIngredients();
-        RefreshGrid();
-    }
-    private async void btnSearchFood_Click(object sender, EventArgs e)
-    {
-        Navigation.PushAsync(new FoodsPage(txtRecipeName.Text, ""));
-    }
-    private async void btnWeighFood_Click(object sender, EventArgs e)
-    {
-     try
- {
-            // Ensure bl.Ingredient is initialized
-       if (bl.Ingredient == null)
-         {
-  bl.Ingredient = new Ingredient();
-    General.LogOfProgram?.Event("RecipePage - Initialized new Ingredient for weighing");
-            }
-
-   // Update the current ingredient from UI before opening WeighFoodPage
-   FromBoxesIngredientToClass();
-  
-       // Open WeighFoodPage with current ingredient data
-   var weighFoodPage = new WeighFoodPage(bl.Ingredient);
-  await Navigation.PushModalAsync(weighFoodPage);
- 
-   // Wait for the page to be closed and get the result
-    bool dataWasModified = await weighFoodPage.PageClosedTask;
-          
-// Check if the user modified food data in the WeighFoodPage
- if (dataWasModified && weighFoodPage.ResultFood != null)
-      {
-    // Update the current Ingredient with the modified Food data
- bl.FromFoodToIngredient(weighFoodPage.ResultFood, bl.Ingredient);
-          
-     // Set the QuantityGrams with the WeightOfPortion from WeighFoodPage
-    // This updates the "Quantity" field in the RecipePage
- if (weighFoodPage.WeightOfPortion > 0)
-   {
-       bl.Ingredient.QuantityGrams.Double = weighFoodPage.WeightOfPortion;
-  bl.Ingredient.QuantityGrams.Text = weighFoodPage.WeightOfPortion.ToString("F1");
- General.LogOfProgram?.Event($"RecipePage - Quantity set to {weighFoodPage.WeightOfPortion:F1}g from WeighFoodPage");
-   }
-     
-   // Recalculate the carbohydrates in grams of this Ingredient
- // (similar to CalculateChoOfFoodGrams in MealPage)
-     if (bl.Ingredient.CarbohydratesPercent.Double != null && bl.Ingredient.QuantityGrams.Double != null)
- {
- bl.Ingredient.CarbohydratesGrams.Double = 
-       bl.Ingredient.CarbohydratesPercent.Double / 100 * bl.Ingredient.QuantityGrams.Double;
-   }
-  
-       // Update the user interface with the new data
-       FromClassToBoxesIngredient();
-      
-        // Recalculate all values
-    bl.RecalcAll();
-        
-  // Update the recipe UI
-      RefreshRecipe();
-    
-     General.LogOfProgram?.Event("Ingredient data updated from WeighFoodPage successfully");
-    }
-      }
- catch (Exception ex)
-    {
-   General.LogOfProgram?.Error("RecipePage - btnWeighFood_Click", ex);
-     await DisplayAlert("Error", $"Failed to open weigh food page: {ex.Message}\n\nCheck logs for details.", "OK");
-     }
-  }
     private async void gridIngredients_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
+        if (e.SelectedItem == null)
+        {
+            return;
+        }
         try
         {
-            if (e.SelectedItem != bl.Ingredient)
+            var selectedIngredient = (Ingredient)e.SelectedItem;
+
+            if (selectedIngredient != bl.Ingredient)
             {
-                if (bl.Ingredient.Name != null)
+                if (bl.Ingredient?.Name != null)
                 {
+                    // Update the ingredient in the list before switching
                     FromBoxesIngredientToClass();
                     bl.UpdateOldIngredientInList();
                     RefreshGrid();
                 }
-                bl.Ingredient = (Ingredient)e.SelectedItem;
+                // after refresh the selected ingredient becomes the current ingredient 
+                bl.Ingredient = selectedIngredient;
                 FromClassToBoxesIngredient();
+            }
+            if (gridIngredients.SelectedItem != selectedIngredient)
+            {
+                gridIngredients.SelectedItem = selectedIngredient;
             }
         }
         catch (Exception ex)
         {
-            General.LogOfProgram.Error("MealPage - gridFoodsInMeal_ItemSelected", ex);
+            General.LogOfProgram.Error("RecipePage - gridIngredients_ItemSelected", ex);
         }
     }
+
+    private void FromClassToBoxesIngredient()
+    {
+        ingredientModifications = true;
+
+        txtIngredientName.Text = bl.Ingredient.Name;
+        // unformatted visulization for user's modifications
+        txtAccuracyOfChoIngredient.Text = Convert.ToDouble(bl.Ingredient.AccuracyOfChoEstimate.Double).ToString();
+        txtIngredientQuantityGrams.Text = Convert.ToDouble(bl.Ingredient.QuantityGrams.Double).ToString();
+        txtIngredientCarbohydratesPercent.Text = Convert.ToDouble(bl.Ingredient.CarbohydratesPercent.Double).ToString();
+        // formatted visualization for program's modifications
+        txtIngredientQuantityPercent.Text = bl.Ingredient.QuantityPercent.Text;
+
+        ingredientModifications = false;
+    }
+
+    private void FromBoxesIngredientToClass()
+    {
+        //bl.Ingredient.IdIngredient = Safe.Int(txtIdIngredient.Text);
+        bl.Ingredient.Name = Safe.String(txtIngredientName.Text);
+        bl.Ingredient.QuantityGrams.Text = txtIngredientQuantityGrams.Text;
+        bl.Ingredient.QuantityPercent.Text = txtIngredientQuantityPercent.Text;
+        bl.Ingredient.CarbohydratesPercent.Text = txtIngredientCarbohydratesPercent.Text;
+        bl.Ingredient.AccuracyOfChoEstimate.Text = txtAccuracyOfChoIngredient.Text;
+        CalculateChoOfIngredientGrams();
+    }
+
     protected override async void OnAppearing()
     {
+        base.OnAppearing();
         if (foodsPage != null && foodsPage.FoodIsChosen)
         {
             bl.FromFoodToIngredient(foodsPage.Food, bl.Ingredient);
             await FromClassesToUi();
-            //////////txtIngredientCarbohydratesPercent.Focus();
         }
     }
-    private void btnGetIngredientFood_Click(object sender, EventArgs e)
-    {
-        FoodsPage p = new FoodsPage(bl.Ingredient);
-        Navigation.PushAsync(p);
-    }
-    private void txtIngredientQuantityGrams_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        //////////bl.UpdateFoodInMealAndRecalc();
-        //FromClassesToUi();
-    }
-    private void txtIngredientCarbohydratesPercent_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        //if (!txtIngredientChoPercent.IsFocused && !txtFoodCarbohydratesPercent.IsFocused)
-        //{
-        //    //txtFoodQuantityGrams.Text = "";
-        //    //localFoodInMealForCalculations.QuantityInUnits.Double = 0;
-        //    //txtFoodCarbohydratesPercent.Text = "";
-        //    //localFoodInMealForCalculations.CarbohydratesPercent.Double = 0;
-        //}
-        //localFoodInMealForCalculations.CarbohydratesGrams.Text = txtFoodChoGrams.Text;
-    }
-    private void txtIngredientQuantityPercent_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        //bl.Ingredient.QuantityInUnits.Double = null;
-        //txtIngredientQuantityGrams.Text = bl.Ingredient.QuantityInUnits.Text;
-    }
-    private void Calculator_Click(object sender, TappedEventArgs e)
-    {
-        // save the entries in the classes
-        FromUiToClasses();
 
-        var focusedEntry = GetFocusedEntry();
-        string sValue = focusedEntry?.Text ?? "0";
-        double dValue = double.TryParse(sValue, out var val) ? val : 0;
-
-        // start the CalculatorPage passing to it the value of the 
-        // controller that currently has the focus
-        var calculator = new CalculatorPage(dValue);
-        ////////await Navigation.PushModalAsync(calculator);
-        ////////var result = await calculator.ResultSource.Task;
-
-        // check if the page has given back a result
-        ////////if (result.HasValue)
-        ////////{
-        ////////// update the data model
-        ////////if (focusedEntry == txtMealCarbohydratesGrams)
-        ////////{
-        ////////    //bl.FoodInMeal.CarbohydratesGrams.Text = result.Value.ToString();
-        ////////    txtMealCarbohydratesGrams.Text = result.Value.ToString();
-        ////////    txtMealCarbohydratesGrams_TextChanged(null, null);
-        ////////}
-        ////////else if (focusedEntry == txtFoodCarbohydratesPercent)
-        ////////{
-        ////////    //bl.FoodInMeal.CarbohydratesPercent.Text = result.Value.ToString();
-        ////////    txtFoodCarbohydratesPercent.Text = result.Value.ToString();
-        ////////    //txtFoodChoOrQuantity_TextChanged(null, null);
-        ////////}
-        ////////else if (focusedEntry == txtFoodQuantityInUnits)
-        ////////{
-        ////////    //bl.FoodInMeal.QuantityInUnits.Text = result.Value.ToString();
-        ////////    txtFoodQuantityInUnits.Text = result.Value.ToString();
-        ////////    //txtFoodChoOrQuantity_TextChanged(null, null);
-        ////////}
-        ////////else if (focusedEntry == txtFoodCarbohydratesGrams)
-        ////////{
-        ////////    //bl.FoodInMeal.CarbohydratesPercent.Text = result.Value.ToString();
-        ////////    txtFoodCarbohydratesGrams.Text = result.Value.ToString();
-        ////////    //txtFoodCarbohydratesGrams_TextChanged(null, null);
-        ////////}
-        // show the UI starting from the classes
-        //FromClassesToUi();
-        ////////}
-    }
-    private Entry GetFocusedEntry()
-    {
-        if (txtAccuracyOfChoRecipe != null && txtAccuracyOfChoRecipe.IsFocused) return txtAccuracyOfChoRecipe;
-        if (txtAccuracyOfChoIngredient != null && txtAccuracyOfChoIngredient.IsFocused) return txtAccuracyOfChoIngredient;
-        ////////////if (txtIngredientQuantityGrams != null && txtIngredientQuantityGrams.IsFocused) return txtIngredientQuantityGrams;
-        ////////////if (txtIngredientCarbohydratesPercent != null && txtIngredientCarbohydratesPercent.IsFocused) return txtIngredientCarbohydratesPercent;
-        if (txtChoOfRecipePercent != null && txtChoOfRecipePercent.IsFocused) return txtChoOfRecipePercent;
-        // aggiungi altri Entry se necessario
-        return null;
-    }
-
-    private async void btnRecipes_Click(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new RecipesPage(null));
-    }
-
-    // ACCURACY MANAGEMENT METHODS (following MealPage pattern exactly)
-
-    //private void InitializeAccuracyControls()
-    //{
-    //    try
-    //    {
-    //        // Initialize recipe accuracy combo box based on current text value
-    //        if (accuracyRecipe != null && !string.IsNullOrEmpty(txtAccuracyOfChoRecipe.Text))
-    //        {
-    //            if (double.TryParse(txtAccuracyOfChoRecipe.Text, out double recipeAccuracy))
-    //            {
-    //                var qualitativeAccuracy = accuracyRecipe.GetQualitativeAccuracyGivenQuantitavive(recipeAccuracy);
-    //                cmbAccuracyRecipe.SelectedItem = qualitativeAccuracy;
-    //            }
-    //        }
-
-    //        // Initialize ingredient accuracy combo box based on current text value
-    //        if (accuracyIngredient != null && !string.IsNullOrEmpty(txtAccuracyOfChoIngredient.Text))
-    //        {
-    //            if (double.TryParse(txtAccuracyOfChoIngredient.Text, out double ingredientAccuracy))
-    //            {
-    //                var qualitativeAccuracy = accuracyIngredient.GetQualitativeAccuracyGivenQuantitavive(ingredientAccuracy);
-    //                cmbAccuracyIngredient.SelectedItem = qualitativeAccuracy;
-    //            }
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        General.LogOfProgram?.Error("RecipePage - InitializeAccuracyControls", ex);
-    //    }
-    //}
-
+    // Accuracy refresh helpers
     private async Task RefreshAccuracyControls()
     {
         try
         {
-            // Small delay to ensure data binding has completed (like in MealPage)
-            await Task.Delay(50);
-
+            await Task.Delay(50); // allow bindings to settle
             await RefreshRecipeAccuracyControls();
             await RefreshIngredientAccuracyControls();
         }
@@ -674,26 +432,21 @@ bl.Ingredient.CarbohydratesPercent = new DoubleAndText();
     {
         try
         {
-            // Update recipe accuracy controls after data binding changes
             if (accuracyRecipe != null && !string.IsNullOrEmpty(txtAccuracyOfChoRecipe.Text))
             {
                 if (double.TryParse(txtAccuracyOfChoRecipe.Text, out double recipeAccuracy))
                 {
-                    // Update combo box selection
                     var qualitativeAccuracy = accuracyRecipe.GetQualitativeAccuracyGivenQuantitavive(recipeAccuracy);
                     cmbAccuracyRecipe.SelectedItem = qualitativeAccuracy;
-
-                    // Update text box colors using UiAccuracy logic
                     txtAccuracyOfChoRecipe.BackgroundColor = accuracyRecipe.AccuracyBackColor(recipeAccuracy);
                     txtAccuracyOfChoRecipe.TextColor = accuracyRecipe.AccuracyForeColor(recipeAccuracy);
                 }
             }
             else
             {
-                // Reset to default if no valid accuracy
                 cmbAccuracyRecipe.SelectedItem = null;
-                txtAccuracyOfChoRecipe.BackgroundColor = Colors.LightGreen; // Default from XAML
-                txtAccuracyOfChoRecipe.TextColor = Colors.Black; // Default from XAML
+                txtAccuracyOfChoRecipe.BackgroundColor = Colors.LightGreen;
+                txtAccuracyOfChoRecipe.TextColor = Colors.Black;
             }
         }
         catch (Exception ex)
@@ -706,26 +459,21 @@ bl.Ingredient.CarbohydratesPercent = new DoubleAndText();
     {
         try
         {
-            // Update ingredient accuracy controls after data binding changes
             if (accuracyIngredient != null && !string.IsNullOrEmpty(txtAccuracyOfChoIngredient.Text))
             {
                 if (double.TryParse(txtAccuracyOfChoIngredient.Text, out double ingredientAccuracy))
                 {
-                    // Update combo box selection
                     var qualitativeAccuracy = accuracyIngredient.GetQualitativeAccuracyGivenQuantitavive(ingredientAccuracy);
                     cmbAccuracyIngredient.SelectedItem = qualitativeAccuracy;
-
-                    // Update text box colors using UiAccuracy logic
                     txtAccuracyOfChoIngredient.BackgroundColor = accuracyIngredient.AccuracyBackColor(ingredientAccuracy);
                     txtAccuracyOfChoIngredient.TextColor = accuracyIngredient.AccuracyForeColor(ingredientAccuracy);
                 }
             }
             else
             {
-                // Reset to default if no valid accuracy
                 cmbAccuracyIngredient.SelectedItem = null;
-                txtAccuracyOfChoIngredient.BackgroundColor = Colors.LightGreen; // Default from XAML
-                txtAccuracyOfChoIngredient.TextColor = Colors.Black; // Default from XAML
+                txtAccuracyOfChoIngredient.BackgroundColor = Colors.LightGreen;
+                txtAccuracyOfChoIngredient.TextColor = Colors.Black;
             }
         }
         catch (Exception ex)
@@ -733,111 +481,133 @@ bl.Ingredient.CarbohydratesPercent = new DoubleAndText();
             General.LogOfProgram?.Error("RecipePage - RefreshIngredientAccuracyControls", ex);
         }
     }
-
-    // EVENT HANDLERS - These should be minimal and only update the data model
-    // Let UiAccuracy handle all UI synchronization automatically
-
-    // RECIPE ACCURACY EVENTS
-    private void txtAccuracyOfChoRecipe_TextChanged(object sender, TextChangedEventArgs e)
+    private void txtIngredientCarbohydratesGrams_Unfocused(object sender, FocusEventArgs e)
     {
-        // The UiAccuracy class handles all synchronization internally
-        // Do not interfere with its operation
+        //////////try
+        //////////{
+        //////////    // Do heavy operations: recalculate all percentages and totals
+        //////////    bl.RecalcAll();
+
+        //////////    // Update only the calculated read-only field manually
+        //////////    if (bl.Ingredient?.QuantityPercent?.Text != null)
+        //////////    {
+        //////////        txtIngredientQuantityPercent.Text = bl.Ingredient.QuantityPercent.Text;
+        //////////    }
+
+        //////////    // Refresh the grid to show updated values
+        //////////    RefreshGrid();
+        //////////}
+        //////////catch (Exception ex)
+        //////////{
+        //////////    General.LogOfProgram?.Error("RecipePage - txtIngredientCarbohydratesGrams_Unfocused", ex);
+        //////////}
     }
 
-    private void txtAccuracyOfChoRecipe_Unfocused(object sender, FocusEventArgs e)
+    private void txtAccuracyOfChoRecipe_TextChanged(object sender, TextChangedEventArgs e) { }
+    private void txtAccuracyOfChoRecipe_Unfocused(object sender, FocusEventArgs e) { }
+    private void cmbAccuracyRecipe_SelectedIndexChanged(object sender, EventArgs e) { }
+
+    private async void Calculator_Click(object sender, TappedEventArgs e)
     {
-        // Let UiAccuracy handle the combo box update, we only update the data model
         try
         {
-            //if (!loadingUi && bl?.Recipe != null && !string.IsNullOrEmpty(txtAccuracyOfChoRecipe.Text))
-            //{
-            //    if (double.TryParse(txtAccuracyOfChoRecipe.Text, out double accuracy))
-            //    {
-            //        // Update the recipe's accuracy in the data model
-            //        bl.Recipe.AccuracyOfChoEstimate.Double = accuracy;
-            //    }
-            //}
+            var focusedEntry = GetFocusedEntry();
+            string sValue = focusedEntry?.Text ?? "0";
+            double dValue = double.TryParse(sValue, out var val) ? val : 0;
+
+            // Start the CalculatorPage passing to it the value
+            // of the control that currently has the focus
+            var calculator = new CalculatorPage(dValue);
+            await Navigation.PushModalAsync(calculator);
+            var result = await calculator.ResultSource.Task;
+
+            // Check if the page has given back a result
+            if (result.HasValue && focusedEntry != null)
+            {
+                // Update the focused entry with the calculator result
+                focusedEntry.Text = result.Value.ToString("F1");
+
+                General.LogOfProgram?.Event($"WeighFoodPage - Calculator result {result.Value:F1} applied to {focusedEntry.StyleId ?? "entry"}");
+            }
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("RecipePage - txtAccuracyOfChoRecipe_Unfocused", ex);
+            General.LogOfProgram?.Error("WeighFoodPage - Calculator_Click", ex);
+            await DisplayAlert("Error", "Failed to open calculator. Check logs for details.", "OK");
         }
     }
 
-    private void cmbAccuracyRecipe_SelectedIndexChanged(object sender, EventArgs e)
+    private Entry GetFocusedEntry()
     {
-        // Let UiAccuracy handle the text box update, we only update the data model
+        if (txtIngredientQuantityGrams != null && txtIngredientQuantityGrams.IsFocused) return txtIngredientQuantityGrams;
+        if (txtIngredientCarbohydratesPercent != null && txtIngredientCarbohydratesPercent.IsFocused) return txtIngredientCarbohydratesPercent;
+        return null;
+    }
+    private async void btnRecipes_Click(object sender, EventArgs e)
+    {
         try
         {
-            //if (!loadingUi && bl?.Recipe != null && cmbAccuracyRecipe.SelectedItem != null)
-            //{
-            //    var selectedAccuracy = (QualitativeAccuracy)cmbAccuracyRecipe.SelectedItem;
-            //    double numericValue = (double)selectedAccuracy;
+            // Ensure Ingredient is initialized
+            if (bl.Ingredient == null)
+            {
+                bl.Ingredient = new Ingredient();
+            }
 
-            //    // Update the recipe's accuracy in the data model
-            //    bl.Recipe.AccuracyOfChoEstimate.Double = numericValue;
-            //}
+            // Open RecipesPage to choose a recipe
+            var recipesPage = new RecipesPage((string)null, (string)null);
+            await Navigation.PushAsync(recipesPage);
+
+            // Wait for the page to be closed and get the result
+            bool recipeWasChosen = await recipesPage.PageClosedTask;
+
+            // Check if the user chose a recipe in called page
+            if (recipeWasChosen && recipesPage.RecipeIsChosen && recipesPage.CurrentRecipe != null)
+            {
+                // Update the current Ingredient with the Recipe data
+                bl.Ingredient.Name = recipesPage.CurrentRecipe.Name;
+                bl.Ingredient.Description = recipesPage.CurrentRecipe.Description;
+
+                // Import CHO% from recipe to ingredient
+                if (recipesPage.CurrentRecipe.CarbohydratesPercent != null &&
+                           recipesPage.CurrentRecipe.CarbohydratesPercent.Double.HasValue)
+                {
+                    bl.Ingredient.CarbohydratesPercent ??= new DoubleAndText();
+                    bl.Ingredient.CarbohydratesPercent.Double = recipesPage.CurrentRecipe.CarbohydratesPercent.Double;
+                }
+
+                // Initialize QuantityGrams to 0 for a new recipe
+                bl.Ingredient.QuantityGrams ??= new DoubleAndText();
+                bl.Ingredient.QuantityGrams.Double = 0;
+
+                // Set unit to grams (recipes are measured in grams)
+                // Note: Ingredient doesn't have UnitSymbol/GramsInOneUnit like FoodInMeal
+                // but we can document this behavior
+
+                // Recalculate the carbohydrates in grams
+                CalculateChoOfIngredientGrams();
+
+                // Update the user interface with the new data
+                FromClassToBoxesIngredient();
+
+                // Update the ingredient in the list
+                bl.UpdateOldIngredientInList();
+
+                // Recalculate all values
+                bl.RecalcAll();
+
+                // Refresh the grid
+                RefreshGrid();
+
+                // Update accuracy controls
+                await RefreshAccuracyControls();
+
+                General.LogOfProgram?.Event($"Recipe imported: Name={recipesPage.CurrentRecipe.Name}, CHO%={recipesPage.CurrentRecipe.CarbohydratesPercent?.Double ?? 0}");
+            }
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("RecipePage - cmbAccuracyRecipe_SelectedIndexChanged", ex);
+            General.LogOfProgram?.Error("RecipePage - btnRecipes_Click", ex);
+            await DisplayAlert("Error", $"Failed to import recipe: {ex.Message}", "OK");
         }
-    }
-
-    //// INGREDIENT ACCURACY EVENTS
-    //private void txtAccuracyOfChoIngredient_TextChanged(object sender, TextChangedEventArgs e)
-    //{
-    //    // The UiAccuracy class handles all synchronization internally
-    //    // Do not interfere with its operation
-    //}
-
-    //private void txtAccuracyOfChoIngredient_Unfocused(object sender, FocusEventArgs e)
-    //{
-    //    // Let UiAccuracy handle the combo box update, we only update the data model
-    //    try
-    //    {
-    //        //if (!loadingUi && bl?.Ingredient != null && !string.IsNullOrEmpty(txtAccuracyOfChoIngredient.Text))
-    //        //{
-    //        //    if (double.TryParse(txtAccuracyOfChoIngredient.Text, out double accuracy))
-    //        //    {
-    //        //        // Update the ingredient's accuracy in the data model
-    //        //        bl.Ingredient.AccuracyOfChoEstimate.Double = accuracy;
-    //        //    }
-    //        //}
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        General.LogOfProgram?.Error("RecipePage - txtAccuracyOfChoIngredient_Unfocused", ex);
-    //    }
-    //}
-
-    //private void cmbAccuracyIngredient_SelectedIndexChanged(object sender, EventArgs e)
-    //{
-    //    // Let UiAccuracy handle the text box update, we only update the data model
-    //    try
-    //    {
-    //        //if (!loadingUi && bl?.Ingredient != null && cmbAccuracyIngredient.SelectedItem != null)
-    //        //{
-    //        //    var selectedAccuracy = (QualitativeAccuracy)cmbAccuracyIngredient.SelectedItem;
-    //        //    double numericValue = (double)selectedAccuracy;
-
-    //        //    // Update the ingredient's accuracy in the data model
-    //        //    bl.Ingredient.AccuracyOfChoEstimate.Double = numericValue;
-    //        //}
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        General.LogOfProgram?.Error("RecipePage - cmbAccuracyIngredient_SelectedIndexChanged", ex);
-    //    }
-    //}
-    private void txtIngredientCarbohydratesGrams_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
-    }
-    #endregion
-
-    private void btnFoods_Click(object sender, EventArgs e)
-    {
-
     }
 }

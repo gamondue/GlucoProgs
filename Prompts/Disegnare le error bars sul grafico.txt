@@ -1,0 +1,8 @@
+vorrei aggiungere al grafico in corrispondenza a ciscuno dei pasti () una "error bar", cioè dei segmenti che: 
+- partono dal punto P sul grafico, di coordinate (ora del pasto, valore del grafico all'ora del pasto)
+- vanno in verticale, uno sopra ed uno sotto al punto P sul grafico 
+- hanno lunghezza proporzionale all'incertezza del valore di CHO del pasto, cioè sono lunghi:
+	8,1 * li *(100 - Meal.AccuracyOfChoEstimate) / 100
+	dove li è la larghezza dell'icona del pasto, che già viene disegnata sul grafico
+- sono sormontati ai loro estremi da dei piccoli segmenti orizzontali, della lunghezza di metà icona
+per la lunghezza dell'icone, rispettare le differenze fra Windows ed Android

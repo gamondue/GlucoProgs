@@ -1,77 +1,102 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace gamon
 {
     [Browsable(false)]
-    public class DoubleAndText
+    public class DoubleAndText : INotifyPropertyChanged
     {
         private double? doubleVal;
-        private string text;
+        private string? text;
+        private string format;
 
         public DoubleAndText()
         {
-            Format = "0.0";
+            format = "0.0";
             doubleVal = null;
-            text = null; // ✅ Cambiato a null invece di "" o "NaN"
+            text = null;
         }
-        public string Format { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public string Format
+        {
+            get => format;
+            set
+            {
+                if (format == value) return;
+                format = value ?? "0.0";
+                // Text representation may change when format changes
+                if (doubleVal != null)
+                {
+                    text = ((double)doubleVal).ToString(format);
+                }
+                OnPropertyChanged(nameof(Format));
+                OnPropertyChanged(nameof(Text));
+            }
+        }
+
         public double? Double
         {
             get => doubleVal;
             set
             {
+                if (doubleVal == value) return;
                 doubleVal = value;
-                if (value == null || value is DBNull)
-                {
-                    text = null;
-                    return;
-                }
-                try
-                {
-                    text = ((double)doubleVal).ToString(Format);
-                }
-                catch
+                if (value == null)
                 {
                     text = null;
                 }
+                else
+                {
+                    try
+                    {
+                        text = ((double)doubleVal).ToString(format);
+                    }
+                    catch
+                    {
+                        text = null;
+                    }
+                }
+                OnPropertyChanged(nameof(Double));
+                OnPropertyChanged(nameof(Text));
             }
         }
-        public string Text
+
+        public string? Text
         {
             get => text;
-            //{
-            //    if (doubleVal == null || doubleVal is DBNull)
-            //        return "";
-            //    try
-            //    {
-            //        return ((double)doubleVal).ToString(Format);
-            //    }
-            //    catch
-            //    {
-            //        return "";
-            //    }
-            //}
             set
             {
+                if (text == value) return;
                 text = value;
-                if (value == null || value is DBNull)
-                {
-                    doubleVal = null;
-                    return;
-                }
-                try
-                {
-                    doubleVal = double.Parse(value);
-                }
-                catch (Exception)
+                if (string.IsNullOrEmpty(value))
                 {
                     doubleVal = null;
                 }
+                else
+                {
+                    if (double.TryParse(value, out var parsed))
+                    {
+                        doubleVal = parsed;
+                    }
+                    else
+                    {
+                        doubleVal = null;
+                    }
+                }
+                OnPropertyChanged(nameof(Text));
+                OnPropertyChanged(nameof(Double));
             }
         }
-        public override string ToString()
+
+        public override string? ToString()
         {
-            return text;
+            return Text;
         }
     }
 }

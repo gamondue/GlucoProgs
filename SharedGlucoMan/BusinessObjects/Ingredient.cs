@@ -9,7 +9,7 @@ namespace GlucoMan
         public string? Name { get; set; }
         public string? Description { get; set; }
         public DoubleAndText QuantityGrams { get; set; }
-        public DoubleAndText QuantityInUnits { get; set; }
+        public DoubleAndText QuantityPercent { get; set; }
         public DoubleAndText CarbohydratesPercent { get; set; }
         public DoubleAndText CarbohydratesGrams { get; internal set; }
         public DoubleAndText AccuracyOfChoEstimate { get; internal set; }
@@ -18,7 +18,7 @@ namespace GlucoMan
         public Ingredient()
         {
             QuantityGrams = new DoubleAndText();
-            QuantityInUnits = new DoubleAndText();
+            QuantityPercent = new DoubleAndText();
             CarbohydratesPercent = new DoubleAndText();
             CarbohydratesGrams = new DoubleAndText();
             AccuracyOfChoEstimate = new DoubleAndText();

@@ -18,7 +18,6 @@ namespace GlucoMan
         {
             CarbohydratesPercent = new DoubleAndText();
             AccuracyOfChoEstimate = new DoubleAndText();
-            AccuracyOfChoEstimate.Format = "0.000";
             RawToCookedRatio = new();
             RawToCookedRatio.Format = "0.000";
             TotalWeight = new();

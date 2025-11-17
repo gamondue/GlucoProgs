@@ -250,10 +250,11 @@ public partial class FoodsPage : ContentPage
         }
 
         foodIsChosen = true;
-        bl.SaveOneFood(Food);
+        //bl.SaveOneFood(Food);
 
         // Set the result and close the page
         _taskCompletionSource?.SetResult(true);
+
         await this.Navigation.PopModalAsync();
     }
     private void btnClearFields_Click(object sender, EventArgs e)

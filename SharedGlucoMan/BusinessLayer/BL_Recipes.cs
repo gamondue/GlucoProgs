@@ -52,7 +52,7 @@ namespace GlucoMan.BusinessLayer
         {
             dl.DeleteOneRecipe(Recipe);
         }
-        internal void UpdatePercentages()
+        internal void CalculatePercentagesAndChoGramsOfIngredients()
         {
             // calculate the total weight ot the recipe
             Recipe.TotalWeight.Double = 0;
@@ -61,7 +61,8 @@ namespace GlucoMan.BusinessLayer
                 // sum of recipe's weights
                 if (i.QuantityGrams.Double == null)
                 {
-                    Recipe.CarbohydratesPercent.Double = double.NaN;
+                    // neglect null values
+                    //Recipe.CarbohydratesPercent.Double = double.NaN;
                 }
                 else
                 {
@@ -69,16 +70,19 @@ namespace GlucoMan.BusinessLayer
                     Recipe.TotalWeight.Double += i.QuantityGrams.Double;
                 }
             }
-            // update the percentages
+            // update the percentages and 
             foreach (Ingredient i in Recipe.Ingredients)
             {
                 if (i.QuantityGrams.Double == null)
                 {
-                    i.QuantityInUnits.Double = double.NaN;
+                    // neglect null values
+                    i.QuantityPercent.Double = double.NaN;
+                    i.CarbohydratesGrams.Double = double.NaN;
                 }
                 else
                 {
-                    i.QuantityInUnits.Double = i.QuantityGrams.Double / Recipe.TotalWeight.Double * 100;
+                    i.QuantityPercent.Double = i.QuantityGrams.Double / Recipe.TotalWeight.Double * 100;
+                    i.CarbohydratesGrams.Double = i.CarbohydratesPercent.Double * i.QuantityGrams.Double / 100;
                 }
             }
         }
@@ -86,32 +90,40 @@ namespace GlucoMan.BusinessLayer
         {
             if (Recipe.Ingredients != null && Recipe.Ingredients.Count > 0)
             {
+                // update the ingredients for concurrent changes
+                GetAllIngredientsInThisRecipe();
                 // calculate the percentages of weights of the ingredients in the recipe
-                UpdatePercentages();
+                CalculatePercentagesAndChoGramsOfIngredients();
+                // save the new percentages
+                SaveAllIngredientsInRecipe();
                 // other survey data
-                // TotalWeight is calculated by UpdatePercentages();
-                double? sumOfWeightedCho = 0;
+                // TotalWeight is already calculated by CalculatePercentagesAndChoGramsOfIngredients();
+                double? sumOfChoGrams = 0;
                 double? sumOfWeightedAccuracies = 0;
                 // sum of weights, weighted sum of recipe's CHO and weighted sum of squared accuracies
                 foreach (Ingredient i in Recipe.Ingredients)
                 {
                     if (i.CarbohydratesPercent.Double != null && i.AccuracyOfChoEstimate.Double != null)
                     {
-                        // sum of recipe's CHO weighted by the weight of the ingredient
-                        sumOfWeightedCho += i.CarbohydratesPercent.Double * i.QuantityGrams.Double;
+                        // sum of carbohydrates weights
+                        sumOfChoGrams += i.CarbohydratesGrams.Double;
                         // sum of squared accuracies weighted by the weight of the ingredient
                         sumOfWeightedAccuracies += i.AccuracyOfChoEstimate.Double * i.AccuracyOfChoEstimate.Double * i.QuantityGrams.Double;
                     }
                 }
                 // recipe CHO 
-                Recipe.CarbohydratesPercent.Double = sumOfWeightedCho / Recipe.TotalWeight.Double;
+                // sumOfChoGrams is in grams; to get percent (g carbs per100 g recipe) multiply fraction by100
+                if (Recipe.TotalWeight.Double != null && Recipe.TotalWeight.Double != 0)
+                {
+                    Recipe.CarbohydratesPercent.Double = (sumOfChoGrams / Recipe.TotalWeight.Double) * 100;
+                }
+                else
+                {
+                    Recipe.CarbohydratesPercent.Double = null;
+                }
                 // recipe CHO accuracy
                 Recipe.AccuracyOfChoEstimate.Double = Math.Sqrt((double)(sumOfWeightedAccuracies / Recipe.TotalWeight.Double));
             }
-        }
-        internal void SaveIngredientParameters()
-        {
-            throw new NotImplementedException();
         }
         internal void FromFoodToIngredient(Food sourceFood, Ingredient destinationIngredient)
         {
@@ -121,14 +133,12 @@ namespace GlucoMan.BusinessLayer
                 destinationIngredient.Name = sourceFood.Name;
                 destinationIngredient.Description = sourceFood.Description;
                 
-                // Crea una copia del valore, non del riferimento
                 if (destinationIngredient.CarbohydratesPercent == null)
                     destinationIngredient.CarbohydratesPercent = new DoubleAndText();
                 
                 if (sourceFood.CarbohydratesPercent != null)
                 {
                     destinationIngredient.CarbohydratesPercent.Double = sourceFood.CarbohydratesPercent.Double;
-                    destinationIngredient.CarbohydratesPercent.Text = sourceFood.CarbohydratesPercent.Text;
                 }
             }
         }
@@ -136,9 +146,18 @@ namespace GlucoMan.BusinessLayer
         {
             return dl.SaveOneIngredient(Ingredient);
         }
-        public void GetAllIngredientsInThisRecipe()
+        internal void SaveAllIngredientsInRecipe()
+        {
+            if (Recipe.Ingredients != null)
+                foreach (Ingredient ingredient in Recipe.Ingredients)
+                {
+                    dl.SaveOneIngredient(ingredient);
+                }
+        }
+        public List<Ingredient> GetAllIngredientsInThisRecipe()
         {
             Recipe.Ingredients = dl.GetAllIngredientsInARecipe(Recipe.IdRecipe);
+            return (Recipe.Ingredients);
         }
         internal void SaveListOfIngredients()
         {
@@ -158,16 +177,7 @@ namespace GlucoMan.BusinessLayer
             if (Ingredient.Name == null || Ingredient.Name == "")
                 return;
             dl.SaveOneIngredient(Ingredient);
-
             return;
-        }
-        internal void SaveAllIngredientsInRecipe()
-        {
-            if (Recipe.Ingredients != null)
-                foreach (Ingredient ingredient in Recipe.Ingredients)
-                {
-                    dl.SaveOneIngredient(ingredient);
-                }
         }
     }
 }

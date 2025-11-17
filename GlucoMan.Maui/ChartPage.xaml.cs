@@ -53,7 +53,7 @@ public partial class ChartPage : ContentPage
             _dateOfGraph = dateOfGraph;
 
             // Display the parameters
-            UpdateDateDisplay();
+            UpdateGraphDisplay();
 
             System.Diagnostics.Debug.WriteLine("Labels set");
 
@@ -87,7 +87,7 @@ public partial class ChartPage : ContentPage
         }
     }
 
-    private async Task LoadInjectionBitmapAsync()
+    private async Task LoadInjectionAndMealBitmapAsync()
     {
         try
         {
@@ -151,7 +151,7 @@ public partial class ChartPage : ContentPage
 
         try
         {
-            await LoadInjectionBitmapAsync();
+            await LoadInjectionAndMealBitmapAsync();
             // Redraw to show icons if loaded
             chartView?.InvalidateSurface();
         }
@@ -171,8 +171,8 @@ public partial class ChartPage : ContentPage
         System.Diagnostics.Debug.WriteLine("ChartPage - Orientation locked to portrait");
     }
 
-    // UpdateDateDisplay: show date in the top label and use the date label as a status bar
-    private void UpdateDateDisplay()
+    // UpdateGraphDisplay: show date in the top label and use the date label as a status bar
+    private void UpdateGraphDisplay()
     {
         // move date where "Graph of" used to be
         lblDataType.Text = $"{_dateOfGraph:f}";
@@ -188,7 +188,7 @@ public partial class ChartPage : ContentPage
         // Subtract one day
         _dateOfGraph = _dateOfGraph.AddDays(-1);
 
-        UpdateDateDisplay();
+        UpdateGraphDisplay();
 
         System.Diagnostics.Debug.WriteLine($"Previous day clicked. New date: {_dateOfGraph:d}");
     }
@@ -197,7 +197,7 @@ public partial class ChartPage : ContentPage
         // Add one day
         _dateOfGraph = _dateOfGraph.AddDays(1);
 
-        UpdateDateDisplay();
+        UpdateGraphDisplay();
 
         System.Diagnostics.Debug.WriteLine($"Next day clicked. New date: {_dateOfGraph:d}");
     }
@@ -543,10 +543,16 @@ public partial class ChartPage : ContentPage
                 float iconBaseSize =20f;
                 float density =1f;
                 try { density = (float)DeviceDisplay.MainDisplayInfo.Density; } catch { density =1f; }
-                // icon size in physical pixels for the canvas
+                
+                // Platform-specific icon size
+#if ANDROID
                 float iconSize = iconBaseSize * density;
+#else
+                float iconSize = iconBaseSize * density;
+#endif
 
                 using var mealBorderPaint = new SKPaint { Color = SKColors.Blue, Style = SKPaintStyle.Stroke, StrokeWidth =1 };
+                using var errorBarPaint = new SKPaint { Color = SKColors.Red, Style = SKPaintStyle.Stroke, StrokeWidth =2, IsAntialias = true };
 
                 var orderedPoints = _dataPoints.OrderBy(p => p.Hour).ToList();
 
@@ -590,6 +596,42 @@ public partial class ChartPage : ContentPage
                     var destRect = new SKRect(x - iconSize /2f, y, x + iconSize /2f, y + iconSize);
                     canvas.DrawBitmap(_mealBitmap, destRect);
                     canvas.DrawRect(destRect, mealBorderPaint);
+                    
+                    // Draw error bars for CHO uncertainty
+                    try
+                    {
+                        double? accuracy = meal.AccuracyOfChoEstimate?.Double;
+                        if (accuracy.HasValue && accuracy.Value >0 && accuracy.Value <100)
+                        {
+                            // Calculate error bar length
+                            float errorBarLength = 8.1f * iconSize * (float)(100 - accuracy.Value) / 100f;
+                            
+                            // Point P is at (x, glucoseY) on the curve
+                            float pX = x;
+                            float pY = glucoseY;
+                           
+                            // Vertical error bars extending above and below P
+                            float topY = pY - errorBarLength;
+                            float bottomY = pY + errorBarLength;
+                        
+                            // Draw vertical line (error bar)
+                            canvas.DrawLine(pX, topY, pX, bottomY, errorBarPaint);
+             
+                            // Horizontal caps at both ends (length = iconSize/2)
+                            float capHalfLength = iconSize /4f;
+                   
+                            // Top cap
+                            canvas.DrawLine(pX - capHalfLength, topY, pX + capHalfLength, topY, errorBarPaint);
+                          
+                            // Bottom cap
+                            canvas.DrawLine(pX - capHalfLength, bottomY, pX + capHalfLength, bottomY, errorBarPaint);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Failed to draw error bar for meal: {ex.Message}");
+                    }
+    
                     // remember rect for touch detection
                     _mealIconRects.Add((destRect, meal));
                 }

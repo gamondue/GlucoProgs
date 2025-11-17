@@ -221,7 +221,6 @@ public partial class WeighFoodPage : ContentPage
                 //FromUiToClass();
                 ResultFood = selectedFood;
             }
-
             // Complete the task when the page is closed
             if (!pageClosedTaskSource.Task.IsCompleted)
             {
@@ -244,7 +243,6 @@ public partial class WeighFoodPage : ContentPage
         try
         {
             UserCancelled = true;
-            FoodDataWasModified = false;
 
             // Log the action
             General.LogOfProgram?.Event("WeighFoodPage - User clicked Back button, changes cancelled");
@@ -271,28 +269,48 @@ public partial class WeighFoodPage : ContentPage
     {
         try
         {
-            // Update all data from UI to class before returning
-            //FromUiToClass();
+            // Update Result CHO% from UI before calculation
+            if (txtFoodCarbohydratesPerUnit != null && !string.IsNullOrEmpty(txtFoodCarbohydratesPerUnit.Text))
+            {
+                double choPercent = Safe.Double(txtFoodCarbohydratesPerUnit.Text) ??0;
+                if (selectedFood?.CarbohydratesPercent != null)
+                {
+                    selectedFood.CarbohydratesPercent.Double = choPercent;
+                    General.LogOfProgram?.Event($"WeighFoodPage - Updated selectedFood.CarbohydratesPercent to {choPercent:F1}%");
+                }
+            }
 
-            // Perform final calculation to ensure WeightOfPortion is up to date
+            // Ensure latest calculations
             CalculateSummaryData();
-
-            // Perform final calculation
             if (blFood != null)
             {
                 blFood.CalcUnknownData();
-                // Comment out SaveData as it might cause database errors
-                // Data is passed through ResultFood and WeightOfPortion properties
-                // blFood.SaveData();
             }
+
+            // Centralize output selection here: prefer WeightOfPortion, fallback to RawNet (TxtRawNet)
+            double effectiveWeight = WeightOfPortion;
+            if (effectiveWeight <=0)
+            {
+                double rawNet = Safe.Double(TxtRawNet?.Text) ??0;
+                if (rawNet >0)
+                {
+                    effectiveWeight = rawNet;
+                    General.LogOfProgram?.Event($"WeighFoodPage - Fallback to RawNet for output weight: {effectiveWeight:F1}g");
+                }
+                else
+                {
+                    General.LogOfProgram?.Event("WeighFoodPage - No WeightOfPortion and RawNet empty; output weight remains0");
+                }
+            }
+            // Expose the chosen weight via WeightOfPortion so callers have a single source
+            WeightOfPortion = effectiveWeight;
 
             // Set result data
             ResultFood = selectedFood;
-            FoodDataWasModified = true;
             UserCancelled = false;
+            FoodDataWasModified = true;
 
-            // Log the action
-            General.LogOfProgram?.Event($"WeighFoodPage - User clicked Choose button, changes saved. WeightOfPortion={WeightOfPortion:F1}g");
+            General.LogOfProgram?.Event($"WeighFoodPage - Choose: OutputWeight={WeightOfPortion:F1}g, CHO%={ResultFood.CarbohydratesPercent?.Double ??0:F1}%");
 
             // Close the page and return to the calling page
             await Navigation.PopModalAsync();
@@ -306,7 +324,6 @@ public partial class WeighFoodPage : ContentPage
             }
             catch
             {
-                // If even DisplayAlert fails, just log it
                 General.LogOfProgram?.Error("WeighFoodPage - btnChoose_Click - DisplayAlert failed", ex);
             }
         }
@@ -936,6 +953,26 @@ public partial class WeighFoodPage : ContentPage
         {
             General.LogOfProgram?.Error("WeighFoodPage - CopyUIToBlFood", ex);
         }
+    }
+
+    private void txtFoodName_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        FoodDataWasModified = true;
+    }
+
+    private void btnClearFields_Click(object sender, EventArgs e)
+    {
+        TxtRawGross.Text = "";
+        TxtRawTare.Text = "";
+        TxtRawNet.Text = "";
+        TxtCookedGross.Text = "";
+        TxtCookedTare.Text = "";
+        TxtCookedNet.Text = "";
+        TxtCookedPortionGross.Text = "";
+        TxtCookedPortionTare.Text = "";
+        TxtCookedPortionNet.Text = "";
+
+        TxtNPortions.Text = "";
     }
 }
 
