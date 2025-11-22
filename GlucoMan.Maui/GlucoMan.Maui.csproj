@@ -270,6 +270,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
+		<PackageReference Include="MathNet.Numerics" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
@@ -334,5 +335,9 @@
 	<Import Project="..\SharedGeneral\SharedGeneral.projitems" Label="Shared" />
 
 	<Import Project="..\SharedMaui\SharedMaui.projitems" Label="Shared" />
+
+	<Import Project="..\SharedMathematics\SharedMathematics.projitems" Label="Shared" />
+
+	<Import Project="..\SharedMathematics\SharedMathematics.projitems" Label="Shared" />
 
 </Project>

@@ -56,12 +56,15 @@ namespace GlucoMan.BusinessLayer
             return dl.GetInjections(InitialInstant, FinalInstant, TypeOfInsulinAction, Zone,
                 getFront, getBack, getHands, getSensors);
         }
+        internal List<Injection> GetQuickInjections(DateTime InitialInstant, DateTime FinalInstant)
+        {
+            return dl.GetQuickInjections(InitialInstant, FinalInstant);
+        }
         internal Injection GetOneInjection(int? IdInjection)
         {
             return dl.GetOneInjection(IdInjection);
         }
         private DateTime finalDinnerPeriod;
-
         public BL_BolusesAndInjections()
         {
             ChoToEat = new DoubleAndText();

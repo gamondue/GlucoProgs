@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="260" viewBox="0 0 900 260" aria-labelledby="title desc" role="img">
+  <title id="title">Diagramma di controllo primo ordine: CHO + Insulin → Glucose</title>
+  <desc id="desc">Due ingressi impulsivi non periodici (CHO e Insulin) sommati e passati attraverso G(s)=1/(τ s + 1) che produce Glucose (uscita continua).</desc>
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .label { font: 14px Arial, Helvetica, sans-serif; fill:#111; }
+      .small { font: 12px Arial, Helvetica, sans-serif; fill:#333; }
+      .block { fill:#f4f7fb; stroke:#2b6cb0; stroke-width:2; rx:6; ry:6; }
+      .sum { fill:#fff; stroke:#2b6cb0; stroke-width:2; }
+      .arrow { stroke:#2b2b2b; stroke-width:2; fill:none; marker-end:url(#arrowhead); }
+      .imp { fill:#fff; stroke:#38a169; stroke-width:2; }
+      .out-line { stroke:#c05621; stroke-width:3; fill:none; stroke-linecap:round; }
+    ]]></style>
+
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2b2b2b"/>
+    </marker>
+  </defs>
+
+  <!-- Input impulses -->
+  <g transform="translate(40,30)">
+    <circle cx="40" cy="30" r="26" class="imp"/>
+    <text x="40" y="30" text-anchor="middle" alignment-baseline="central" class="label">CHO</text>
+    <text x="40" y="46" text-anchor="middle" class="small">δ(t)</text>
+
+    <circle cx="40" cy="120" r="26" class="imp"/>
+    <text x="40" y="120" text-anchor="middle" alignment-baseline="central" class="label">Insulin</text>
+    <text x="40" y="136" text-anchor="middle" class="small">δ(t)</text>
+  </g>
+
+  <!-- Sum block -->
+  <g transform="translate(220,40)">
+    <circle cx="40" cy="70" r="36" class="sum"/>
+    <text x="40" y="70" text-anchor="middle" alignment-baseline="central" class="label">Σ</text>
+    <text x="40" y="92" text-anchor="middle" class="small">somma ingressi</text>
+  </g>
+
+  <!-- Transfer block -->
+  <g transform="translate(360,40)">
+    <rect x="0" y="20" width="220" height="100" class="block"/>
+    <text x="110" y="54" text-anchor="middle" class="label">G(s) = 1 / (τ s + 1)</text>
+    <text x="110" y="78" text-anchor="middle" class="small">sistema del primo ordine</text>
+    <text x="110" y="98" text-anchor="middle" class="small">τ = costante di tempo</text>
+  </g>
+
+  <!-- Output -->
+  <g transform="translate(640,40)">
+    <rect x="0" y="20" width="140" height="60" class="block"/>
+    <text x="70" y="50" text-anchor="middle" class="label">Glucose</text>
+    <text x="70" y="70" text-anchor="middle" class="small">uscita continua</text>
+
+    <!-- small continuous waveform icon -->
+    <path d="M16 100 C28 80, 44 80, 56 100 C68 120, 84 120, 96 100" transform="translate(12,-24)" class="out-line"/>
+  </g>
+
+  <!-- Connections: CHO -> Σ -->
+  <path d="M80 30 L150 30" class="arrow" />
+  <path d="M150 30 L150 70" class="arrow" />
+  <path d="M150 70 L198 70" class="arrow" />
+
+  <!-- Insulin -> Σ -->
+  <path d="M80 120 L150 120" class="arrow"/>
+  <path d="M150 120 L150 100" class="arrow"/>
+  <path d="M150 100 L198 100" class="arrow"/>
+
+  <!-- Σ -> G -->
+  <path d="M258 70 L360 70" class="arrow"/>
+
+  <!-- G -> Glucose -->
+  <path d="M580 70 L640 70" class="arrow"/>
+
+  <!-- Legend note -->
+  <g transform="translate(20,200)">
+    <rect x="0" y="0" width="860" height="48" rx="6" ry="6" fill="#fff8e6" stroke="#a16207" stroke-width="1"/>
+    <text x="12" y="18" class="small"><tspan class="small">Nota:</tspan> Gli ingressi CHO e Insulin sono rappresentati come impulsi non periodici (δ(t)). L'uscita Glucose è una grandezza continua risultante dalla risposta del sistema del primo ordine G(s) = 1/(τ s + 1).</text>
+  </g>
+</svg>

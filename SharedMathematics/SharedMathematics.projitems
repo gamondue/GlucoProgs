@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>8c40022d-cc83-416d-8897-f315e95132bf</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Mathematics</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Identification1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Identification2.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Documentation\API_Examples_Identification2.md" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\Diagram MISO first order sum of dynamics.md" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\Diagram SISO First order sum of inputs.md" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\Diagram.svg" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\First_order_sum of inputs_identification.md" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\Implementation_Summary.md" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\Mathematical methods used in Identification1.md" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\Mathematical methods used in Identification2.md" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\MISO_Two_Dynamics_Method.md" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\README.md" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\User_Guide_Two_Channel_Identification.md" />
+  </ItemGroup>
+</Project>

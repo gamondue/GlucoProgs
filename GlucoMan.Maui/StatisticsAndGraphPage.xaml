@@ -66,12 +66,12 @@
                    HasShadow="False"
                    Margin="3,0,3,2">
                 
-                <Grid RowDefinitions="Auto,Auto,Auto,Auto" 
-                      ColumnDefinitions="60,*,*"
+                <Grid RowDefinitions="Auto" 
+                      ColumnDefinitions="40,*,40,*"
                       RowSpacing="5"
                       ColumnSpacing="6">
                     
-                    <!-- Headers -->
+                    <!-- Headers --><!--
                     <Label Text="" 
                            Grid.Row="0" Grid.Column="0"/>
                     <Label Text="Date" 
@@ -80,25 +80,26 @@
                            FontAttributes="Bold"
                            HorizontalTextAlignment="Center"
                            TextColor="#2c3e50"
-                           Margin="0,0,0,2"/>
+                           Margin="0,0,0,2"/>-->
                     
-                    <!-- Separator -->
+                    <!-- Separator --><!--
                     <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                              HeightRequest="1"
                              Color="#bdc3c7"
-                             Margin="0,0,0,2"/>
+                             Margin="0,0,0,2"/>-->
                     
-                    <!-- From Row -->
+                    <!-- From column -->
                     <Label Text="From:" 
-                           Grid.Row="2" Grid.Column="0"
+                           Grid.Row="0" Grid.Column="0"
                            VerticalOptions="Center"
+                           HorizontalOptions="End"
                            FontSize="13"
                            FontAttributes="Bold"
                            TextColor="#2980b9"
                            Margin="0,0,2,0"/>
                     
                     <DatePicker x:Name="datePickerFrom" 
-                                Grid.Row="2" Grid.Column="1"
+                                Grid.Row="0" Grid.Column="1"
                                 Format="dd/MM/yyyy"
                                 BackgroundColor="#d6eaf8"
                                 TextColor="Black"
@@ -106,18 +107,19 @@
                                 HorizontalOptions="Fill"
                                 HeightRequest="34"
                                 ToolTipProperties.Text="From date: select the start date for data analysis. This date has no influence on graph."/>
-                    
-                    <!-- To Row -->
+
+                    <!-- To column -->
                     <Label Text="To:" 
-                           Grid.Row="3" Grid.Column="0"
+                           Grid.Row="0" Grid.Column="2"
                            VerticalOptions="Center"
+                           HorizontalOptions="End"
                            FontSize="13"
                            FontAttributes="Bold"
                            TextColor="#27ae60"
                            Margin="0,0,2,0"/>
                     
                     <DatePicker x:Name="datePickerTo" 
-                                Grid.Row="3" Grid.Column="1"
+                                Grid.Row="0" Grid.Column="3"
                                 Format="dd/MM/yyyy"
                                 BackgroundColor="#d5f4e6"
                                 TextColor="Black"

@@ -1,0 +1,20 @@
+Ti avevo dato il diagramma sbagliato. Il diagramma per cui vorrei identificare i parametri è "Diagram MISO first order sum of dynamics.md" (nella cartella Documents\Identification), i parametri sono quelli delle funzioni di trasferimento del primo ordine le cui uscite vengono sommate. 
+Gli ingressi e l'uscita possono essere array o liste con timestamp e valore. I valori di ingressi ed uscite sono noti, le uscite possono avere rari "mancamenti" (grossomodo un'ora ogni due settimane). I valori sono recuperati da oggetti; per l'ingresso CHO da oggetti di classe Meal, per l'input Insulin da oggetti di classe Injection, per l'output glucose da oggetti di classe GlucoseRecords. 
+Ti chiedo di generare una classe "Identification", nel nuovo progetto condiviso "SharedMathematics", che ho creato ed e per ora vuoto.
+Se serve usa la libreira Nuget Math, che ho installato.
+Spiega anche per bene, facendone anche un file .md da mettere nella stessa cartella SharedMathematics, i metodi matematici adottati e le possibili espansioni e miglioramenti che si potranno adottare.
+
+Nella pagina statistics, al posto di Statistics content.., mettiamo un bottone con scritto "Identify Paramaters". Nel bottone mettiamo il codice che prenda dal database, attraverso la Business layer, un mese di dati che partano da due mesi prima di oggi. 
+I dati devono essere presi da Meals, Injections e SensorsRecords e devono usare i metodi di identificazione appena fatti.
+I metodi di accesso ai dati dovrebbero essere già presenti.
+Sempre nella stessa pagina della UI mettiamo anche delle label o entry box nelle quali mettiamo i risultati ottenuti dalle elaborazioni fatte con quei con quel sistema di identificazione parametri.
+
+Penso che il modello di identificazione che abbiamo realizzato sia relativo al diagramma "Diagram First order sum of inputs.md", che ora è nella cartella GlucoMan.Maui\Documentation\Identification, se è così devo aver sbagliato a darti questa indicazione. Il diagramma per l'identificazione è invece "Diagram MISO first order sum of dynamics.md" nella stessa cartella, nel quale sono da identificare i guadagni e le costanti di tempo della dinamica sia di CHO che di Insulin (oltre ad altri parametri che siano importanti nel metodi che realizzeremo). Per separare gli effetti dei due ingressi dovremo cercare i periodi in cui si applica un ingresso soltanto e non si applica più l'altro ingresso per 7 ore. Di questi periodi ce ne dovrebbero essere un bel po' fra i dati. Per cui bisognerà fare un metodo che cerca queste condizioni di input su un solo ingresso e se sono verificae (nessun input nell'altro ingresso per 7 ore), mette quell'input nel codice per l'identificazione dei parametri del relativo ingresso. Oppure bisogna usare un metodo in grado di identificare contemporaneamente i parametri di entrambi gli ingressi (non ne conosco per cui mi devi aiutare..).
+Una volta realizzate le funzioni di (eventuale) filtraggio ed identificazione, dovresti collegarle al codice così come abbiamo già fatto. mettiamo un altro Bottone "Identificazione 2" nella stessa pagina di "Identificazuione" e mettiamo i risultati in una colonna di una griglia, accanto a quelli già esistenti, che lasciamo sia nella UI che nella sua operatività.
+Al solito mi serve una spiegazione dettagliata del metodo matematico su un file .md.
+
+Il metodo FindIsolatedSegments deve differenziare il tempo prima (parametrizzato e settato per ora a 1) dal tempo dopo (idem e ora a 7 ore).
+La descrizione dell'algoritmo è la seguente:
+- Partendo dall'inizio dei vettori in ingresso choEvents, e insulinEvents, iniziare dal primo in ordine di tempo
+- guardare il tempo nell
+Per ogni punto di insulina 

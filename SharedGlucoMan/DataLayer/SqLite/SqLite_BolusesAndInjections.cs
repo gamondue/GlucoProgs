@@ -155,7 +155,7 @@ namespace GlucoMan
             }
             return g;
         }
-        // get all the injections of type Short, Rapid or Intermediate between InitialInstant and FinalInstant
+        // get all the injections of type Short or Rapid between InitialInstant and FinalInstant
         internal override List<Injection> GetQuickInjections(DateTime InitialInstant,
             DateTime FinalInstant)
         {
@@ -174,7 +174,6 @@ namespace GlucoMan
                             "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd HH:mm:ss") + "'";
                         query += " AND (IdTypeOfInsulinAction=" + (int)Common.TypeOfInsulinAction.Short;
                         query += " OR IdTypeOfInsulinAction=" + (int)Common.TypeOfInsulinAction.Rapid;
-                        query += " OR IdTypeOfInsulinAction=" + (int)Common.TypeOfInsulinAction.Intermediate;
                         query += ")";
                         query += " ORDER BY Timestamp DESC, IdInjection;";
                         cmd = new SqliteCommand(query);
@@ -233,6 +232,10 @@ namespace GlucoMan
                     if (!getFront && !getBack && !getHands && !getSensors)
                     {
                         // no zone is selected, so we return all the injections
+                    }
+                    else if (getFront && getBack && getHands && getSensors)
+                    {
+                        // every zone is selected, so we return all the injections
                     }
                     else
                     {

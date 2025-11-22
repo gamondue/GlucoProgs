@@ -19,12 +19,17 @@ public partial class StatisticsAndGraphPage : ContentPage
         // Set default dates: To = now, From = 2 weeks before
         datePickerTo.Date = DateTime.Now.Date;
         // timePickerTo.Time = DateTime.Now.TimeOfDay; // Temporarily commented - using date only
-        
-      datePickerFrom.Date = DateTime.Now.Date.AddDays(-14); // 2 weeks = 14 days
-        // timePickerFrom.Time = new TimeSpan(0, 0, 0); // Midnight - Temporarily commented
+
+        // !!!! temporary !!!!
+        datePickerTo.Date = DateTime.Now.AddMonths(-10).Date;
+
+        datePickerFrom.Date = datePickerTo.Date.AddDays(-14); // 2 weeks = 14 days
+
+        // !!!! temporary !!!!
+        datePickerFrom.Date = datePickerTo.Date.AddMonths(-12);
     }
-    
-    private async void btnStatistics_Clicked(object sender, EventArgs e)
+
+    private async void btnStatistics_Clicked(object sender, TappedEventArgs e)
     {
         try
         {
@@ -96,7 +101,7 @@ public partial class StatisticsAndGraphPage : ContentPage
         }
     }
     
-    private async void btnImportGlucose_Clicked(object sender, EventArgs e)
+    private async void btnImportGlucose_Clicked(object sender, TappedEventArgs e)
     {
         try
         {
@@ -177,10 +182,5 @@ public partial class StatisticsAndGraphPage : ContentPage
         if (rbRecipes.IsChecked) return "Recipes";
         
         return "Glucose"; // Default
-    }
-
-    private void btnImportGlucose_Clicked(object sender, TappedEventArgs e)
-    {
-
     }
 }

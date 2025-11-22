@@ -175,7 +175,7 @@ public partial class ChartPage : ContentPage
     private void UpdateGraphDisplay()
     {
         // move date where "Graph of" used to be
-        lblDataType.Text = $"{_dateOfGraph:f}";
+        lblDataType.Text = $"{_dateOfGraph:D}";
         // use the lower label as a status bar (clear for now)
         lblDateRange.Text = string.Empty;
 
