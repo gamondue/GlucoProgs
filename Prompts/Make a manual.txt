@@ -1,0 +1,2 @@
+Please make a (series of) markdown document(s) that make an operation manual of the .Net MAUI program GlucoMan. Put it into the Documentation folder, adding a link from the README.md file in the root folder.
+Use as a source of information about the operations the Tooltips that are present in every entry or button in the program. Make it in English natural language.
