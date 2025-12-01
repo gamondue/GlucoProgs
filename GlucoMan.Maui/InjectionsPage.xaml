@@ -1,87 +1,91 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.InjectionsPage"
-             Title="Insulin and other injections">
+             Title="{x:Static strings:AppStrings.InjectionsPageTitle}">
     
     <ContentPage.Content>
         <Grid RowDefinitions="25,
               Auto,Auto,50,Auto,50,
               30,Auto,Auto,Auto,*"
               ColumnDefinitions="*,*,*,*">
-            <Button Grid.Row="1" Grid.Column="0" Text="Front" x:Name="btnFront" Margin="1"
-                ToolTipProperties.Text="Front: opens a new Front injections' picture page"
+            <Button Grid.Row="1" Grid.Column="0" Text="{x:Static strings:AppStrings.Front}" x:Name="btnFront" Margin="1"
+                ToolTipProperties.Text="Front injection area"
                     TextColor="Black"
                 Clicked="btnFront_ClickedAsync"/>
-            <Button Grid.Row="1" Grid.Column="1" Text="Back" x:Name="btnBack" Margin="1"
+            <Button Grid.Row="1" Grid.Column="1" Text="{x:Static strings:AppStrings.Back}" 
+                    x:Name="btnBack" Margin="1"
                     TextColor="Black"
-                    ToolTipProperties.Text="Back: opens a new Back injections' picture page"
+                    ToolTipProperties.Text="Back injection area"
                     Clicked="btnBack_Clicked_Async"/>
-            <Button Grid.Row="1" Grid.Column="2" Text="Hands" x:Name="btnHands" Margin="1"
+            <Button Grid.Row="1" Grid.Column="2" Text="{x:Static strings:AppStrings.Hands}" x:Name="btnHands" Margin="1"
                     TextColor="Black"
-                    ToolTipProperties.Text="Hands: opens a new Hands blood samples' positions picture page"
+                    ToolTipProperties.Text="Hands blood sampling"
                     Clicked="btnHands_ClickedAsync"/>
-            <Button Grid.Row="1" Grid.Column="3" Text="Sensor" x:Name="btnSensors" Margin="1"
+            <Button Grid.Row="1" Grid.Column="3" Text="{x:Static strings:AppStrings.Sensors}" x:Name="btnSensors" Margin="1"
                     TextColor="Black"
-                    ToolTipProperties.Text="Sensors: opens a new Sensors positions' picture page"
+                    ToolTipProperties.Text="Sensor positions"
                     Clicked="btnSensors_Clicked_Async"/>
 
             <CheckBox Grid.Row="0" Grid.Column="0" 
                       HorizontalOptions="Center" VerticalOptions="Center"
                       x:Name ="chkFront" CheckedChanged="chkChanged" IsChecked="False" 
-                      ToolTipProperties.Text="Filter front: adds to the list the injections made in the Front zone"/>
+                      ToolTipProperties.Text="Filter front injections"/>
             <CheckBox Grid.Row="0" Grid.Column="1" 
                       HorizontalOptions="Center" VerticalOptions="Center"
                       x:Name ="chkBack" CheckedChanged="chkChanged" IsChecked="False"
-                      ToolTipProperties.Text="Filter back: adds to the list the injections made in the Back zone"/>
+                      ToolTipProperties.Text="Filter back injections"/>
             <CheckBox Grid.Row="0" Grid.Column="2" 
                       HorizontalOptions="Center" VerticalOptions="Center"
                       x:Name ="chkHands" CheckedChanged="chkChanged" IsChecked="False" 
-                      ToolTipProperties.Text="Filter hands: adds to the list the blood sampling punctures"/>
+                      ToolTipProperties.Text="Filter hand punctures"/>
             <CheckBox Grid.Row="0" Grid.Column="3" 
                       HorizontalOptions="Center" VerticalOptions="Center"
                       x:Name ="chkSensors" CheckedChanged="chkChanged" IsChecked="False"
-                      ToolTipProperties.Text="Filter sensor: adds to the list the sensors installed"/>
+                      ToolTipProperties.Text="Filter sensors"/>
 
-            <Label Grid.Row="2" Grid.Column="0" Text="Actual Insulin [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <!--<Label Grid.Row="2" Grid.Column="1" Text="Calculated insul. [U]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>-->
-            <Label Grid.Row="2" Grid.Column="2" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="0" Text="{x:Static strings:AppStrings.Insulin}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="2" Grid.Column="2" Text="{x:Static strings:AppStrings.Id}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
             <Entry Grid.Row="3" Grid.Column="0" x:Name="txtInsulinActual" 
-                   ToolTipProperties.Text="Bolus: insulin actually injected"
+                   ToolTipProperties.Text="{x:Static strings:AppStrings.Dose}"
                    Keyboard="Numeric" HorizontalTextAlignment="End"
                    BackgroundColor="PaleGreen" TextColor="Black"
                    FontSize="Medium" />
             <Entry Grid.Row="3" Grid.Column="1" x:Name="txtInsulinCalculated" 
-                   ToolTipProperties.Text="Calculated: insulin bolus calculated by this program (currently not used)"
+                   ToolTipProperties.Text="Calculated insulin bolus"
                    Keyboard="Numeric" BackgroundColor="White" HorizontalTextAlignment="End"
                    FontSize="Medium"
                    IsVisible="False"/>
             <Entry Grid.Row="3" Grid.Column="2" x:Name="txtIdInjection" BackgroundColor="White" 
-                    ToolTipProperties.Text="Code of this injection"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.Id}"
                     FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
-            <Button Grid.Row="3" Grid.Column="3"  x:Name="btnSave"
+            <Button Grid.Row="3" Grid.Column="3" x:Name="btnSave"
                     ImageSource="floppy_disc.png"
-                    ToolTipProperties.Text="Save: save this injection to the database"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipInjectionSaveButton}"
                     Clicked="btnSave_Click"></Button>
-            <!--Text="Save"-->
-            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Injection time"  
+
+            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
+                   Text="{x:Static strings:AppStrings.InjectionDateTime}"  
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
             <RadioButton Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1" 
                          x:Name="rdbShortInsulin" Content="Short ins." HorizontalOptions="Center"
-                         ToolTipProperties.Text="Short acting insulin when chosen"
+                         ToolTipProperties.Text="Short acting insulin"
                          GroupName="groupInsulin" WidthRequest="180" />
             <RadioButton Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="1" Content="Slow ins." 
                          HorizontalOptions="Center"
-                         ToolTipProperties.Text="Long acting insulin when chosen"
+                         ToolTipProperties.Text="Long acting insulin"
                          x:Name="rdbLongInsulin" GroupName="groupInsulin" WidthRequest="180"/>
 
             <DatePicker Grid.Row="5" Grid.Column="0" x:Name="dtpInjectionDate" 
-                    ToolTipProperties.Text="Date: date of this injection"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.Date}"
                     BackgroundColor="PaleGreen" TextColor="Black" 
                     HorizontalOptions="Center" />
             <TimePicker Grid.Row="5" Grid.Column="1" x:Name="dtpInjectionTime" 
-                    ToolTipProperties.Text="Time: time of this injection"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.Time}"
                     BackgroundColor="PaleGreen" TextColor="Black"
                     Format="HH:mm:ss"
                     HorizontalOptions="Center" />
@@ -89,34 +93,29 @@
                 <Button Grid.Row="0" Grid.Column="1" 
                         ImageSource="clock.png"
                         x:Name="btnNow" Margin="1"
-                        ToolTipProperties.Text="Now: set the time of this instant as the time of this injection"
+                        ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipNowButton}"
                         Clicked="btnNow_Click"></Button>
-                <!--Text="Now"-->
                 <Button Grid.Row="0" Grid.Column="0" Margin="2" 
                     ImageSource="clear_fields.png"
                     x:Name="btnDefaults" 
-                    ToolTipProperties.Text="Clear fields: clears all data in the UI" 
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipClearData}" 
                     FontSize="Micro" LineBreakMode="WordWrap"
                     Clicked="btnDefault_Click"/>
             </Grid>
             <Grid Grid.Row="5" Grid.Column="3" ColumnDefinitions="*, *">
-
                 <Button Grid.Row="0" Grid.Column="0" x:Name="btnAddInjection" Margin="1"
                         ImageSource="plus.png"
-                    ToolTipProperties.Text="Plus: add a new injection"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPlusButton}"
                     Clicked="btnAddInjection_Click"></Button>
-                <!--Text="+"-->
                 <Button Grid.Row="0" Grid.Column="1"  x:Name="btnRemoveInjection" Margin="1"
                         ImageSource="minus.png"
-                    ToolTipProperties.Text="Minus: remove this injection"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMinusButton}"
                     Clicked="btnRemoveInjection_Click"></Button>
-                <!--Text="-"-->
             </Grid>
 
             <HorizontalStackLayout Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3">
                 <CheckBox VerticalOptions="Center" x:Name="chkNowInAdd" IsChecked="True"
-                    ToolTipProperties.Text="Manual/Automatic time: when checked sets 'now' as the time of a new event"
-                          >
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.AddWithNowAsTime}">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS" Value="0,-10,0,0" />
@@ -125,9 +124,8 @@
                     </CheckBox.Margin>
                 </CheckBox>
                 <Label VerticalTextAlignment="Start" VerticalOptions="Center" 
-                       Text="Add with Now as time"
-                       ToolTipProperties.Text="Manual/Automatic time: when not checked uses the time shown as the time of a new event"
-                       >
+                       Text="{x:Static strings:AppStrings.AddWithNowAsTime}"
+                       ToolTipProperties.Text="{x:Static strings:AppStrings.AddWithNowAsTime}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer>
 
@@ -138,24 +136,24 @@
 
             <Entry Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" 
                    BackgroundColor="PaleGreen" TextColor="Black"
-                   ToolTipProperties.Text="Notes: notes about this injection"
+                   ToolTipProperties.Text="{x:Static strings:AppStrings.Notes}"
                    FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
-            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Text="Injections" FontAttributes="Bold"
+            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" 
+                   Text="{x:Static strings:AppStrings.InjectionsList}" FontAttributes="Bold"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
 
             <ListView Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="4" 
                       x:Name="gridInjections" ItemsSource="{Binding}"
-                      ToolTipProperties.Text="Past injections"
+                      ToolTipProperties.Text="{x:Static strings:AppStrings.InjectionsList}"
                       ItemSelected="OnGridSelectionAsync"
                       RowHeight="22">
-                <!-- Header with column labels -->
                 <ListView.Header>
                     <Grid ColumnDefinitions="150*,35*,50*,50*,60*"
                         BackgroundColor="#e8f5e9"
                         Margin="2"
                         Padding="0,3,0,3">
-                        <Label Grid.Column="0" Text="Time" 
+                        <Label Grid.Column="0" Text="{x:Static strings:AppStrings.Time}" 
                         HorizontalTextAlignment="Center"
                         FontAttributes="Bold"
                         FontSize="14"
@@ -165,25 +163,25 @@
                         FontAttributes="Bold"
                         FontSize="14"
                         TextColor="#2c3e50"
-                        ToolTipProperties.Text="Quantity of insulin injected [UI]"/>
+                        ToolTipProperties.Text="{x:Static strings:AppStrings.Insulin}"/>
                         <Label Grid.Column="2" Text="Inj." 
                         HorizontalTextAlignment="Center"
                         FontAttributes="Bold"
                         FontSize="14"
                         TextColor="#2c3e50"
-                        ToolTipProperties.Text="Type of injection done"/>
+                        ToolTipProperties.Text="{x:Static strings:AppStrings.InjectionSite}"/>
                         <Label Grid.Column="3" Text="Act." 
                         HorizontalTextAlignment="Center"
                         FontAttributes="Bold"
                         FontSize="14"
                         TextColor="#2c3e50"
-                        ToolTipProperties.Text="Type of insulin action"/>
+                        ToolTipProperties.Text="{x:Static strings:AppStrings.InsulinType}"/>
                         <Label Grid.Column="4" Text="Brand" 
                         HorizontalTextAlignment="Center"
                         FontAttributes="Bold"
                         FontSize="14"
                         TextColor="#2c3e50"
-                        ToolTipProperties.Text="Brand of insulin injected"
+                        ToolTipProperties.Text="Insulin brand"
                         LineBreakMode="TailTruncation" MaxLines="1"/>
                     </Grid>
                 </ListView.Header>

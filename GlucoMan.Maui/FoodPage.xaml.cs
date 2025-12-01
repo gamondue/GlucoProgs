@@ -1,5 +1,6 @@
 using gamon;
 using GlucoMan.BusinessLayer;
+using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui;
 
@@ -43,7 +44,7 @@ public partial class FoodPage : ContentPage
     var food = (Food)this.BindingContext;
   if (string.IsNullOrWhiteSpace(food?.Name))
   {
- await DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food.", "OK");
+ await DisplayAlert(AppStrings.Error, AppStrings.FoodNameCannotBeEmpty, AppStrings.OK);
   return;
    }
      
@@ -118,8 +119,8 @@ public partial class FoodPage : ContentPage
         double gramsPerUnit = (double)Safe.Double(txtGramsPerUnit.Text); 
         UnitOfFood unit = new UnitOfFood(txtUnit.Text, gramsPerUnit);
         // ask the user if the unit is applicable to the current food or to all foods
-        bool isApplicableToAllFoods = await DisplayAlert("Unit Applicability",
-            "Will this new Unit be applicable to all foods or just to this Food?", "All", "This");
+        bool isApplicableToAllFoods = await DisplayAlert(AppStrings.UnitApplicabilityTitle,
+            AppStrings.UnitApplicabilityMessage, AppStrings.UnitApplicabilityAll, AppStrings.UnitApplicabilityThis);
         if (!isApplicableToAllFoods)
         {
             unit.IdFood = CurrentFood.IdFood;
@@ -132,14 +133,14 @@ public partial class FoodPage : ContentPage
         if (bl.CheckIfUnitSymbolExists(unit, unit.IdFood))
         {
             // prompt the user that the unit already exists
-            DisplayAlert("", "The unit symbol already exists, give the new unit a unique symbol", "Ok");
+            await DisplayAlert("", AppStrings.UnitSymbolExistsMessage, AppStrings.OK);
             return;
         }
         // we save the unit, if IdFood has been put to null, we mean that the UnitSymbol has to be used for any food
         if (bl.AddUnit(unit) == null)
         {
             // prompt the user that the saving of the unit failed
-            DisplayAlert("", "The saving of the new unit failed. New unit not saved", "Ok");
+            await DisplayAlert("", AppStrings.UnitSaveFailedMessage, AppStrings.OK);
             return;
         }
         cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood((Food)this.BindingContext);
@@ -159,12 +160,12 @@ public partial class FoodPage : ContentPage
         }
         else if (cmbManufacturer.SelectedItem == null)
         {
-            await DisplayAlert("Error", "Please select a manufacturer to remove", "Ok");
+            await DisplayAlert(AppStrings.Error, AppStrings.SelectManufacturerToRemove, AppStrings.OK);
             return;
         }
         else
         {
-            bool deleteFromThisFood = await DisplayAlert(Title, "Do you want to delete the manufacturer from the whole database or just from this food?", "This", "Whole");
+            bool deleteFromThisFood = await DisplayAlert(AppStrings.ManufacturerDeleteTitle, AppStrings.ManufacturerDeleteMessage, AppStrings.ManufacturerDeleteThis, AppStrings.ManufacturerDeleteWhole);
             if (deleteFromThisFood)
             {
                 bl.RemoveManufacturerFromFood((Manufacturer)cmbManufacturer.SelectedItem, CurrentFood);

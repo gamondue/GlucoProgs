@@ -1,11 +1,13 @@
 using gamon;
 using GlucoMan.BusinessLayer;
+using GlucoMan.Maui.Services;
 using System.Diagnostics;
 using Microsoft.Maui.Storage;
 using System.IO;
 using CommunityToolkit.Maui.Storage;
 using System.Text;
 using CommunityToolkit.Maui.Alerts;
+using GlucoMan.Maui.Resources.Strings;
 
 #if ANDROID
 using AndroidEnvironment = Android.OS.Environment;
@@ -17,9 +19,14 @@ public partial class MiscellaneousFunctionsPage : ContentPage
 {
     GlucoMan.BusinessLayer.BL_General blGeneral = new GlucoMan.BusinessLayer.BL_General();
     bool canModify = true;
+    private readonly LocalizationService _localizationService;
+    
     public MiscellaneousFunctionsPage()
     {
         InitializeComponent();
+        
+        // Get LocalizationService from DI
+        _localizationService = Application.Current.Handler.MauiContext.Services.GetService<LocalizationService>();
     }
     private void txt_mgPerdL_TextChanged(object sender, EventArgs e)
     {
@@ -53,16 +60,16 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     }
     private async void btnResetDatabase_Click(object sender, EventArgs e)
     {
-        bool remove = await DisplayAlert("Should I delete the WHOLE database, LOSING ALL DATA" +
-            "\nAfter creation of the new database the program will shut down."
-            ,"", "Yes", "No");
+        bool remove = await DisplayAlert(AppStrings.ResetDatabase,
+            AppStrings.ConfirmAction,
+            AppStrings.Yes, AppStrings.No);
         if (remove)
         {
             // deleting the database file
             // after deletion the software will automatically re-create the database
             if (!blGeneral.DeleteDatabase())
             {
-                await DisplayAlert("", "Error deleting the database file. File NOT deleted", "OK");
+                await DisplayAlert(AppStrings.Error, AppStrings.LoadError, AppStrings.OK);
             }
             blGeneral.CreateNewDatabase(); // re-create the database
             // close program
@@ -79,9 +86,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             
             // Show progress dialog
             bool continueExport = await DisplayAlert(
-                $"Export Files", 
-                "The app will overwrite files in its folder and subfolders.\n\nContinue?", 
-                "Yes", "No");
+                AppStrings.ExportData,
+                AppStrings.ConfirmAction,
+                AppStrings.Yes, AppStrings.No);
                 
             if (!continueExport)
                 return;
@@ -105,9 +112,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             {
                 // Final fallback - offer to share files instead
                 bool shareFiles = await DisplayAlert(
-                    "Export Failed", 
-                    "Unable to save files to public folders.", 
-                    "Share", "Cancel");
+                    AppStrings.Error,
+                    AppStrings.LoadError,
+                    AppStrings.Share, AppStrings.Cancel);
                     
                 if (shareFiles)
                 {
@@ -117,22 +124,18 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             
             if (success)
             {
-                await DisplayAlert("Success", "Files exported successfully!", "OK");
+                await DisplayAlert(AppStrings.Success, "Files exported successfully!", AppStrings.OK);
             }
             else
             {
-                await DisplayAlert("Error", 
-                    "Unable to export files.\n\nOn Huawei/Xiaomi devices:\n" +
-                    "1. Go to Settings > Apps > GlucoMan > Permissions\n" +
-                    "2. Enable all 'Storage' permissions\n" +
-                    "3. Disable battery optimization for GlucoMan\n" +
-                    "4. Retry the operation", "OK");
+                await DisplayAlert(AppStrings.Error, 
+                    "Unable to export files.\n\nOn Huawei/Xiaomi devices:\n1. Go to Settings > Apps > GlucoMan > Permissions\n2. Enable all 'Storage' permissions\n3. Disable battery optimization for GlucoMan\n4. Retry the operation", AppStrings.OK);
             }
         }
         catch (Exception ex)
         {
             General.LogOfProgram.Error("btnCopyProgramsFiles_Click", ex);
-            await DisplayAlert("Error", $"Error during export: {ex.Message}", "OK");
+            await DisplayAlert(AppStrings.Error, $"Error during export: {ex.Message}", AppStrings.OK);
         }
     }
 
@@ -434,11 +437,9 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     private async void btnImport_Click(object sender, EventArgs e)
     {
         bool import = await DisplayAlert(
-            "Import the foods from a database",
-            "Select the SQLite database file to import.\n" +
-            "ATTENTION: the selected file may REPLACE the current app database.\n" +
-            "You should backup the current database before continuing!\n\nContinue?",
-            "Yes", "No");
+            AppStrings.ImportData,
+            AppStrings.ConfirmAction,
+            AppStrings.Yes, AppStrings.No);
 
         if (!import)
             return;
@@ -480,8 +481,8 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             bool importPhotos = await DisplayAlert(
                 "Import images",
                 $"The import will also copy all images found in the subfolder '{photosSubfolderName}' located next to the selected database file into the app's internal '{photosSubfolderName}' folder.\n\nDo you want to continue and import those images?",
-                "Yes",
-                "No");
+                AppStrings.Yes,
+                AppStrings.No);
 
             if (!importPhotos)
             {
@@ -523,7 +524,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             catch (Exception ex)
             {
                 General.LogOfProgram.Error("Error copying selected file to GlucoMan folder", ex);
-                await DisplayAlert("Error!", $"Error copying selected file: {ex.Message}", "OK");
+                await DisplayAlert(AppStrings.Error, $"Error copying selected file: {ex.Message}", AppStrings.OK);
                 return;
             }
 
@@ -573,7 +574,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                 catch (Exception ex)
                 {
                     General.LogOfProgram.Error("Error importing photos from external folder", ex);
-                    await DisplayAlert("Warning", "An error occurred while importing photos. Check logs for details.", "OK");
+                    await DisplayAlert(AppStrings.Warning, "An error occurred while importing photos. Check logs for details.", AppStrings.OK);
                 }
             }
 
@@ -583,12 +584,12 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             if (!success)
             {
                 General.LogOfProgram.Error("ImportDatabaseFromExternal returned false", new Exception("ImportDatabaseFromExternal returned false"));
-                await DisplayAlert("", "Error reading from selected file into app database", "OK");
+                await DisplayAlert("", "Error reading from selected file into app database", AppStrings.OK);
             }
             else
             {
                 General.LogOfProgram.Debug("Database reading completed successfully");
-                await DisplayAlert("", "Database reading completed successfully.", "OK");
+                await DisplayAlert(AppStrings.Success, "Database reading completed successfully.", AppStrings.OK);
             }
 
             // Clean up temporary file
@@ -608,7 +609,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram.Error("ImportDatabaseFile", ex);
-            await DisplayAlert("Error!", $"Error during database reading: {ex.Message}", "OK");
+            await DisplayAlert(AppStrings.Error, $"Error during database reading: {ex.Message}", AppStrings.OK);
         }
     }
 
@@ -651,22 +652,20 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         }
         catch
         {
-            await DisplayAlert("Reading not possible", "File not existing or not accessible", "Ok");
+            await DisplayAlert(AppStrings.Error, "File not existing or not accessible", AppStrings.OK);
         }
     }
     private async void btnDeleteErrorLog_ClickAsync(object sender, EventArgs e)
     {
         General.LogOfProgram.EraseContentOfAllLogs();
-        await DisplayAlert("", "Done!", "Ok");
+        await DisplayAlert(AppStrings.Success, AppStrings.Done, AppStrings.OK);
     }
     
     private async void btnReadDatabase_Click(object sender, EventArgs e)
     {
-        bool read = await DisplayAlert("Read database from external storage",
-            "Select the SQLite database file to import.\n" +
-            "ATTENTION: the selected file will REPLACE the current app database.\n" +
-            "You should backup the current database before continuing!\n\nContinue?",
-            "Yes", "No");
+        bool read = await DisplayAlert(AppStrings.ImportData,
+            AppStrings.ConfirmAction,
+            AppStrings.Yes, AppStrings.No);
         if (!read)
             return;
         await ImportDatabaseFromExternalFile();
@@ -674,7 +673,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     
     private async void btnSettings_Click(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new SettingsPage());
+        await Navigation.PushAsync(new SettingsPage(_localizationService));
     }
     private void btnMenu_Click(object sender, EventArgs e)
     {

@@ -2,32 +2,34 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:GlucoMan.Maui.Converters"
+             xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.FoodsPage"
-             Title="Foods" Loaded="PageLoad">
+             Title="{x:Static strings:AppStrings.FoodsPageTitle}" 
+             Loaded="PageLoad">
     <ContentPage.Resources>
      <ResourceDictionary>
     <converters:DoubleTextConverter x:Key="DoubleTextConverter" />
   </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <!--Grid.RowDefinitions="20,20,50,20,50,20,50,50,*"-->
         <Grid Grid.RowDefinitions="Auto
               ,Auto,Auto,Auto,Auto,Auto
               ,55,55,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
-                Grid.ColumnSpan="4" Text="Food's information" 
+                Grid.ColumnSpan="4" Text="{x:Static strings:AppStrings.FoodPageTitle}" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="1" Grid.Column="3" Text="Id food" 
+            <Label Grid.Row="1" Grid.Column="3" Text="{x:Static strings:AppStrings.Id}" 
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Text="Name of food" 
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  
+                   Text="{x:Static strings:AppStrings.FoodName}" 
                 HorizontalTextAlignment="Start" Margin="5,0,0,0" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                     HorizontalOptions="Fill" VerticalOptions="Fill" 
                     x:Name="txtName" 
                    BackgroundColor="LightGreen" TextColor="Black"
-                    ToolTipProperties.Text="Name: short name of this food"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.FoodName}"
                     Keyboard="Text" TextChanged="txtName_TextChanged"
                     HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                     Text="{Binding Name}"
@@ -36,25 +38,27 @@
                     x:Name="cmbUnit" Margin="0"
                     HorizontalTextAlignment="Center"
                     SelectedIndexChanged="cmbUnit_SelectedIndexChanged"
-                    ToolTipProperties.Text="Units: list of units used for this food"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.UnitsOfMeasure}"
                     ItemsSource="{Binding}"/>
             
             <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Margin="5,0,10,0"
-                Text="Unit" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                Text="{x:Static strings:AppStrings.Units}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="2" Grid.Column="3" x:Name="txtIdFood" 
                 Text="{Binding IdFood}"
-                ToolTipProperties.Text="Code of this food"
+                ToolTipProperties.Text="{x:Static strings:AppStrings.Id}"
                 BackgroundColor="White" HeightRequest="20"
                 FontSize="Micro" HorizontalTextAlignment="Center" 
                 IsReadOnly="true"/>
 
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,0,0,0"
-                Text="Description of food" HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
+                Text="{x:Static strings:AppStrings.LabelRecipesDescription}" 
+                   HorizontalTextAlignment="Start" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
                     x:Name="txtDescription" 
                    BackgroundColor="LightGreen" TextColor="Black"
-                    ToolTipProperties.Text="Description: longer description of this food" Margin="0"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipRecipesDescription}" Margin="0"
                     Keyboard="Text" TextChanged="txtDescription_TextChanged"
                     HorizontalTextAlignment="Start" FontSize="Micro"
                     Text="{Binding Description}"/>
@@ -64,67 +68,60 @@
                     HeightRequest="55"
                     VerticalOptions="Start"
                     ImageSource="escape.png"
-                    ToolTipProperties.Text="Back: return to the calling page without saving changes"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.Back}"
                     Clicked="btnBack_Click"/>
 
-            <Label Grid.Row="5" Grid.Column="0" Text="CHO %" 
+            <Label Grid.Row="5" Grid.Column="0" Text="{x:Static strings:AppStrings.CarbsPer100g}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="6" Grid.Column="0" x:Name="txtFoodCarbohydrates" 
                    BackgroundColor="GreenYellow" TextColor="Black"
                    Keyboard="Numeric" HorizontalTextAlignment="End" Margin="1"
-                   ToolTipProperties.Text="Percent Carbohydrates: carbohydrated of this food in 100 g [%]"/>
+                   ToolTipProperties.Text="{x:Static strings:AppStrings.CarbsPer100g}"/>
             <Button Grid.Row="6" Grid.Column="1" x:Name="btnChoose" Margin="1"
                     ImageSource="choose.png"
-                ToolTipProperties.Text="Choose: chooses this food to be used by the calling page"
+                ToolTipProperties.Text="{x:Static strings:AppStrings.SelectFood}"
                 Clicked="btnChoose_Click"/>
-            <!--Text="Choose"-->
             <Button Grid.Row="6" Grid.Column="2" x:Name="btnAddFood" Margin="1"
                     ImageSource="plus.png"
-                ToolTipProperties.Text="Plus: adds a new food with data from UI"
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPlusButton}"
                 Clicked="btnAddFood_Click"/>
-            <!--Text="+"-->
             <Button Grid.Row="6" Grid.Column="3" x:Name="btnRemoveFood" Margin="1"
                     ImageSource="minus.png"
-                ToolTipProperties.Text="Minus: deletes the selected food"
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMinusButton}"
                 Clicked="btnRemoveFood_Click"/>
-            <!--Text="-"-->
 
             <Button Grid.Row="7" Grid.Column="0" x:Name="btnSaveFood" Margin="1"
                     ImageSource="floppy_disc.png"
-                ToolTipProperties.Text="Save: saves the food with the current data of the UI"
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFoodSaveButton}"
                 Clicked="btnSaveFood_Click"/>
-            <!--Text="Save"-->
             <Button Grid.Row="7" Grid.Column="1" x:Name="btnFoodDetails" Margin="1"
                     ImageSource="details.png"
-                ToolTipProperties.Text="Details: opens the page with additional data about the food"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.ShowDetails}"
                 Clicked="btnFoodDetails_Click"/>
             <Button Grid.Row="7" Grid.Column="2"
                     ImageSource="clear_fields.png"
                     x:Name="btnClearFields" Margin="1"
-                ToolTipProperties.Text="Clear Fields: clears all data in the UI"
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipClearData}"
                 Clicked="btnClearFields_Click" LineBreakMode="WordWrap"
                 FontSize="Micro"/>
-            <!--Text="Clear&#10;Fields"-->
             <Button Grid.Row="7" Grid.Column="3" 
                     ImageSource="magnifier.png"
                     x:Name="btnSearchFood" Margin="1"
-                ToolTipProperties.Text="Search: searchs the foods matching the filter that is in the UI"
+                ToolTipProperties.Text="{x:Static strings:AppStrings.SearchFood}"
                 Clicked="btnSearchFood_Click"/>
-            <!--Text="Search"-->
             <ListView Grid.Row="8" Grid.ColumnSpan="4" 
                       x:Name="gridFoods" ItemsSource="{Binding}"
-                      ToolTipProperties.Text="Foods"
+                      ToolTipProperties.Text="{x:Static strings:AppStrings.FoodList}"
                       ItemSelected="OnGridSelectionAsync"
                       RowHeight="22">
-                <!-- Header with column labels -->
     <ListView.Header>
       <Grid RowDefinitions="25" ColumnDefinitions="*,50"
        BackgroundColor="#e8f5e9"
             Margin="2"
             Padding="0,3,0,3">
             <Label Grid.Column="0" 
-            Text="Food" 
+            Text="{x:Static strings:AppStrings.Food}" 
             FontAttributes="Bold"
             FontSize="14"
             TextColor="#2c3e50"

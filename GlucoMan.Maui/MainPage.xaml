@@ -1,104 +1,120 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.MainPage"
-             Title="GlucoMan">
+             Title="{x:Static strings:AppStrings.AppTitle}">
     <Grid x:Name="grdOuter" 
-          RowDefinitions="*,*,*,*,*,*,*" ColumnDefinitions="*,*">
+          RowDefinitions="*,*,*,*,*,*,*,*" ColumnDefinitions="*,*">
         <Button x:Name="btnGlucoseMeasurement" 
                 ImageSource="glucometer.png"
                 Grid.Row="0" Grid.Column="0" 
                 Clicked="btnGlucoseMeasurement_Clicked"
-                Margin="6,6,3,3" ToolTipProperties.Text="Blood glucose: opens the page of glucose measurement events"/>
-        <!--Text="Glucose"-->
+                Margin="6,6,3,3" 
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipBloodGlucose}"/>
+        
         <Button x:Name="btnInsulinCalc" 
                 Grid.Row="0" Grid.Column="1" 
                 ImageSource="calculate_insulin.png"
                 Clicked="btnInsulinCalc_Clicked" LineBreakMode="WordWrap" 
-                Margin="3,6,6,3" ToolTipProperties.Text="Insulin calculation: opens a page that calculates the quantity of insulin to inject before a meal"/>
-        <!--Text="Calculate&#10; insulin"-->
+                Margin="3,6,6,3" 
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipInsulinCalculation}"/>
+        
         <Button x:Name="btnInjections" 
                 ImageSource="syringe.png"
                 Grid.Row="1" Grid.Column="0" 
-                Clicked="btnInjections_Clicked" IsEnabled="True" Margin="6,3,3,3"
-                ToolTipProperties.Text="Injections: opens the page of past and present injections"/>
-        <!--Text="Injections"-->
+                Clicked="btnInjections_Clicked" IsEnabled="True" 
+                Margin="6,3,3,3"
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipInjections}"/>
+        
         <Button x:Name="btnFoodToHitTargetCarbs" 
                 ImageSource="food_to_sugar.png"
                 LineBreakMode="WordWrap"
                 Grid.Row="1" Grid.Column="1" 
                 Clicked="btnFoodToHitTargetCarbs_Clicked"
-                Margin="3,3,6,3" ToolTipProperties.Text="Food to hit Target: opens the page that calculates the food one need to eat to hit a carbohydrates target"/>
-        <!--Text="Food to reach &#10;  target carbs"-->
+                Margin="3,3,6,3" 
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFoodToHitTarget}"/>
+        
         <Button x:Name="btnMeals" 
                 ImageSource="meals.png"
                 Grid.Row="2" Grid.Column="0" 
                 Clicked="btnMeals_Clicked" IsEnabled="True"
                 Margin="6,3,3,3" 
-                ToolTipProperties.Text="Meals: opens the page of meals done in the past"/>
-        <!--Text="Meals"-->
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMeals}"/>
+        
         <Button x:Name="btnNewMeal" 
                 ImageSource="meal.png"
                 Grid.Row="2" Grid.Column="1" 
                 Clicked="btnNewMeal_Clicked" IsEnabled="True"
-                Margin="3,3,6,3" ToolTipProperties.Text="Meal: opens a new meal page"/>
-        <!--Text="New meal"-->
+                Margin="3,3,6,3" 
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipNewMeal}"/>
+        
         <Button x:Name="btnFoods" 
                 Grid.Row="3" Grid.Column="0"
                 ImageSource="foods.png"
                 Clicked="btnFoods_Clicked" IsEnabled="True"
-                Margin="6,3,3,3" ToolTipProperties.Text="Foods: opens the page for foods management"></Button>
-        <!--Text="Foods"-->
+                Margin="6,3,3,3" 
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFoods}"/>
+        
         <Button x:Name="btnRecipes" 
                 ImageSource="recipe.png"
                 Grid.Row="3" Grid.Column="1" 
                 Clicked="btnRecipes_Clicked" 
-                Margin="3,3,6,3" ToolTipProperties.Text="Recipes: opens the page of recipes' management" IsEnabled="True"/>
-        <!--Text="Recipes"-->
+                Margin="3,3,6,3" 
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipRecipes}" 
+                IsEnabled="True"/>
+        
         <Button x:Name="btnGraphicsAndStatistics" 
                 ImageSource="statistics.png"
                 LineBreakMode="WordWrap"
                 Grid.Row="4" Grid.Column="0" 
                 Clicked="btnGraphicsAndStatistics_Clicked"
                 Margin="6,3,3,3" 
-                ToolTipProperties.Text="Charts and Statistics: opens the page that searches past data, makes statistics and charts"/>
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipChartsAndStatistics}"/>
+        
         <Button x:Name="btnHypoPrediction" 
                 ImageSource="prediction.png"
                 LineBreakMode="WordWrap"
                 Grid.Row="4" Grid.Column="1" 
                 Clicked="btnHypoPrediction_Clicked"
                 Margin="3,3,6,3" 
-                ToolTipProperties.Text="Prediction: opens the page that makes a simple prediction of the time of an hypoglicemia episode"/>
-        <!--Text="Hypoglicemia&#10;time prediction"-->
-        <Button x:Name="btnMiscellaneousFunctions" 
-                ImageSource="other.png"
-                LineBreakMode="WordWrap"
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPrediction}"/>
+
+        <Button x:Name="btnPysicalActivity" 
+                ImageSource="jogging.png"
                 Grid.Row="5" Grid.Column="0" 
-                Clicked="btnMiscellaneousFunctions_Clicked" 
-                Margin="6,3,3,3" 
-                ToolTipProperties.Text="Miscellaneous: opens the page of miscellaneous functions"/>
-        <!--Text="Miscellaneous&#10;   functions"-->
+                Clicked="btnPysicalActivity_Clicked" 
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPhysicalActivity}"
+                Margin="6,3,3,3"/>
+        
         <Button x:Name="btnAlarms" 
                 ImageSource="ringing_clock.png"
                 Grid.Row="5" Grid.Column="1" 
                 IsVisible="True" IsEnabled="True" 
                 Clicked="btnAlarms_Clicked" 
                 Margin="3,3,6,3" 
-                ToolTipProperties.Text="Alarms: opens the page of the alarms' settings"/>
-        <!--Text="Alarms"-->
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipAlarms}"/>
+
+        <Button x:Name="btnMiscellaneousFunctions" 
+                ImageSource="other.png"
+                LineBreakMode="WordWrap"
+                Grid.Row="6" Grid.Column="0" 
+                Clicked="btnMiscellaneousFunctions_Clicked" 
+                Margin="6,3,3,3" 
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMiscellaneous}"/>
+
         <Button x:Name="btnConfigurations" 
                 ImageSource="gear.png"
-                Grid.Row="6" Grid.Column="0" 
+                Grid.Row="7" Grid.Column="0" 
                 Clicked="btnConfigurations_Clicked" 
-                ToolTipProperties.Text="Configurations: opens the page that assigns the program's parameters"
-                Margin="6,3,3,6"
-                />
-        <!--Text="Configure"-->
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipConfigurations}"
+                Margin="6,3,3,6"/>
+        
         <Button x:Name="btnAbout" 
                 ImageSource="questionmark.png"
-                Grid.Row="6" Grid.Column="1" 
+                Grid.Row="7" Grid.Column="1" 
                 Clicked="btnAbout_Clicked"
-                Margin="3,3,6,6" ToolTipProperties.Text="About: opens the page of information about this program"/>
-        <!--Text="About"-->
+                Margin="3,3,6,6" 
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipAbout}"/>
     </Grid>
 </ContentPage>

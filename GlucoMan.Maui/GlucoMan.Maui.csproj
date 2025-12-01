@@ -121,6 +121,7 @@
 		<MauiImage Include="Resources\Images\ringing_clock.png" />
 		<MauiImage Include="Resources\Images\statistics_no_axis.png" />
 		<MauiImage Include="Resources\Images\target.png" />
+		<MauiImage Include="Resources\Images\tracking.png" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\AppIcon\appicon.svg" Color="#7dbff3" BaseSize="128,128" />
@@ -195,6 +196,7 @@
 	  <None Remove="Resources\Images\glucometer.png" />
 	  <None Remove="Resources\Images\glucometer.svg" />
 	  <None Remove="Resources\Images\hands.png" />
+	  <None Remove="Resources\Images\jogging.png" />
 	  <None Remove="Resources\Images\magnifier.png" />
 	  <None Remove="Resources\Images\meal.png" />
 	  <None Remove="Resources\Images\meal.svg" />
@@ -221,6 +223,27 @@
 	  <None Remove="Resources\Images\syringe_20x20.png" />
 	  <None Remove="Resources\Images\target.png" />
 	  <None Remove="Resources\Images\total_sugar.png" />
+	  <None Remove="Resources\Images\tracking.png" />
+	  <None Remove="Resources\Strings\ADD_TO_APPSTRINGS_IT_RESX.xml" />
+	  <None Remove="Resources\Strings\ADD_TO_APPSTRINGS_RESX.xml" />
+	  <None Remove="Resources\Strings\AllRemainingPages_EN.xml" />
+	  <None Remove="Resources\Strings\AllRemainingPages_IT.xml" />
+	  <None Remove="Resources\Strings\FoodPage_EN.xml" />
+	  <None Remove="Resources\Strings\FoodPage_IT.xml" />
+	  <None Remove="Resources\Strings\FoodsPage_EN.xml" />
+	  <None Remove="Resources\Strings\FoodsPage_IT.xml" />
+	  <None Remove="Resources\Strings\GlucoseAndInsulinPages_strings_to_add.xml" />
+	  <None Remove="Resources\Strings\GlucoseAndInsulinPages_strings_to_add_IT.xml" />
+	  <None Remove="Resources\Strings\GlucoseMeasurements_EN.xml" />
+	  <None Remove="Resources\Strings\GlucoseMeasurements_IT.xml" />
+	  <None Remove="Resources\Strings\MainPage_strings_to_add.xml" />
+	  <None Remove="Resources\Strings\MainPage_strings_to_add_IT.xml" />
+	  <None Remove="Resources\Strings\MealPage_Strings_EN.xml" />
+	  <None Remove="Resources\Strings\MealPage_Strings_IT.xml" />
+	  <None Remove="Resources\Strings\MealsPage_Strings_EN.xml" />
+	  <None Remove="Resources\Strings\MealsPage_Strings_IT.xml" />
+	  <None Remove="Resources\Strings\StatisticsAndGraph_EN.xml" />
+	  <None Remove="Resources\Strings\StatisticsAndGraph_IT.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -290,12 +313,26 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Resources.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Resources\Strings\AppStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>AppStrings.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <EmbeddedResource Update="Properties\Resources.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  
+	  <!-- Localization Resources -->
+	  <EmbeddedResource Update="Resources\Strings\AppStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>AppStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\Strings\AppStrings.it.resx">
+	    <DependentUpon>AppStrings.resx</DependentUpon>
 	  </EmbeddedResource>
 	</ItemGroup>
 
@@ -318,6 +355,12 @@
 	  <MauiXaml Update="GraphPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MainPage_LOCALIZED_EXAMPLE.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="StatisticsAndGraphPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -328,6 +371,10 @@
 
 	<ItemGroup>
 	  <Folder Include="Platforms\Android\Platforms\Android\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\jogging.png" />
 	</ItemGroup>
 
 	<Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />

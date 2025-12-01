@@ -1,11 +1,14 @@
 using gamon;
 using GlucoMan.BusinessLayer;
+using GlucoMan.Maui.Resources.Strings;
+using Microsoft.Maui.Controls;
 
 namespace GlucoMan.Maui;
 
 public partial class StatisticsAndGraphPage : ContentPage
 {
     private BL_ImportData bl = new BL_ImportData();
+    
     public StatisticsAndGraphPage()
     {
         InitializeComponent();
@@ -13,7 +16,7 @@ public partial class StatisticsAndGraphPage : ContentPage
         // Initialize date pickers with default values
         InitializeDatePickers();
     }
-    
+
     private void InitializeDatePickers()
     {
         // Set default dates: To = now, From = 2 weeks before
@@ -43,10 +46,7 @@ public partial class StatisticsAndGraphPage : ContentPage
             // Validate date range
             if (dateTimeFrom > dateTimeTo)
             {
-                await DisplayAlert("Invalid Date Range", 
-                    "The 'From' date cannot be later than the 'To' date." +
-                    "\nTo date moved to 1 day more than from date", 
-                    "OK");
+                await DisplayAlert(AppStrings.InvalidDateRangeTitle, AppStrings.InvalidDateRangeMessage, AppStrings.OK);
                 datePickerTo.Date = datePickerFrom.Date.AddDays(1);
                 return;
             }
@@ -61,7 +61,7 @@ public partial class StatisticsAndGraphPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("StatisticsAndGraphPage - btnStatistics_Clicked", ex);
-            await DisplayAlert("Error", $"Failed to open statistics page: {ex.Message}", "OK");
+            await DisplayAlert(AppStrings.ImportErrorTitle, string.Format("Failed to open statistics page: {0}", ex.Message), AppStrings.OK);
         }
     }
 
@@ -76,17 +76,6 @@ public partial class StatisticsAndGraphPage : ContentPage
             DateTime dateTimeFrom = datePickerFrom.Date; // Midnight of selected day
             DateTime dateTimeTo = datePickerTo.Date.AddDays(1).AddSeconds(-1); // 23:59:59 of selected day
       
-            ////////// Validate date range
-            ////////if (dateTimeFrom > dateTimeTo)
-            ////////{
-            ////////    await DisplayAlert("Invalid Date Range", 
-            ////////        "The 'From' date cannot be later than the 'To' date.",
-            ////////        "\nTo date moved to 1 day more than from date",
-            ////////        "OK");
-            ////////    datePickerTo.Date = datePickerFrom.Date.AddDays(1);
-            ////////    return;
-            ////////}
-      
             // Log the action
             General.LogOfProgram?.Event($"Opening Chart page - Type: {dataType}, From: {dateTimeFrom}, To: {dateTimeTo}");
             
@@ -97,7 +86,7 @@ public partial class StatisticsAndGraphPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("StatisticsAndGraphPage - btnChart_Clicked", ex);
-            await DisplayAlert("Error", $"Failed to open chart page: {ex.Message}", "OK");
+            await DisplayAlert(AppStrings.ImportErrorTitle, string.Format("Failed to open chart page: {0}", ex.Message), AppStrings.OK);
         }
     }
     
@@ -106,12 +95,9 @@ public partial class StatisticsAndGraphPage : ContentPage
         try
         {
             // Prompt user confirmation
-            bool import = await DisplayAlert(
-                "Import glucose data from sensor",
-                "Select the file taken from your LibreView Web account.\n\n" +
-                "The CSV file should contain glucose measurements from your Freestyle Libre sensor.\n\n" +
-                "Continue?",
-                "Yes", "No");
+            bool import = await DisplayAlert(AppStrings.ImportGlucoseConfirmTitle,
+                AppStrings.ImportGlucoseConfirmMessage,
+                AppStrings.Yes, AppStrings.No);
 
             if (!import)
                 return;
@@ -123,7 +109,7 @@ public partial class StatisticsAndGraphPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("StatisticsAndGraphPage - btnImportGlucose_Clicked", ex);
-            await DisplayAlert("Error", $"Failed to import glucose data: {ex.Message}", "OK");
+            await DisplayAlert(AppStrings.ImportErrorTitle, string.Format("Failed to import glucose data: {0}", ex.Message), AppStrings.OK);
         }
     }
 
@@ -142,7 +128,7 @@ public partial class StatisticsAndGraphPage : ContentPage
 
             var picked = await FilePicker.Default.PickAsync(new PickOptions
             {
-                PickerTitle = "Select GlucoMan database (.sqlite/.db) - sensorData.csv will be read from same folder",
+                PickerTitle = AppStrings.ImportGlucoseConfirmTitle,
                 FileTypes = customFileType
             });
 
@@ -160,12 +146,12 @@ public partial class StatisticsAndGraphPage : ContentPage
             // Read and parse the CSV file, save in the database the imported data
             string summaryString = await bl.ImportDataFromFreeStyleLibre(picked.FullPath);
             
-            await DisplayAlert("Import finished", summaryString, "OK");
+            await DisplayAlert(AppStrings.ImportFinishedTitle, summaryString, AppStrings.OK);
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("ImportSensorDataFromCsvFile", ex);
-            await DisplayAlert("Error", $"Error importing sensor data: {ex.Message}", "OK");
+            await DisplayAlert(AppStrings.ImportErrorTitle, string.Format("Error importing sensor data: {0}", ex.Message), AppStrings.OK);
         }
     }   
     /// <summary>
@@ -174,13 +160,13 @@ public partial class StatisticsAndGraphPage : ContentPage
     /// <returns>String representing the selected data type</returns>
     private string GetSelectedDataType()
     {
-        if (rbGlucose.IsChecked) return "Glucose";
-        if (rbShortInsulin.IsChecked) return "Short Insulin";
-        if (rbLongInsulin.IsChecked) return "Long Insulin";
-        if (rbFoods.IsChecked) return "Foods";
-        if (rbMeals.IsChecked) return "Meals";
-        if (rbRecipes.IsChecked) return "Recipes";
+        if (rbGlucose.IsChecked) return AppStrings.Glucose;
+        if (rbShortInsulin.IsChecked) return AppStrings.ShortInsulin;
+        if (rbLongInsulin.IsChecked) return AppStrings.LongInsulin;
+        if (rbFoods.IsChecked) return AppStrings.Foods;
+        if (rbMeals.IsChecked) return AppStrings.Meals;
+        if (rbRecipes.IsChecked) return AppStrings.Recipes;
         
-        return "Glucose"; // Default
+        return AppStrings.Glucose; // Default
     }
 }

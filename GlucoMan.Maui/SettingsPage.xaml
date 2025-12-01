@@ -1,90 +1,144 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.SettingsPage"  
-             Title="Settings">  
+             Title="{x:Static strings:AppStrings.SettingsPageTitle}">  
     <ScrollView>
         <VerticalStackLayout Padding="10">
-            <HorizontalStackLayout ToolTipProperties.Text="Name of the chosen long acting insulin">
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Short Acting Insulin</Label>
+            
+            <!-- Language Selection Section -->
+            <Frame BorderColor="Gray" Padding="10" Margin="0,0,0,15" CornerRadius="5">
+                <VerticalStackLayout>
+                    <Label Text="{x:Static strings:AppStrings.Language}" 
+                           FontSize="18" 
+                           FontAttributes="Bold" 
+                           Margin="0,0,0,10"/>
+                    
+                    <HorizontalStackLayout>
+                        <Label Text="{x:Static strings:AppStrings.SelectLanguage}" 
+                               VerticalTextAlignment="Center" 
+                               Margin="0,0,10,0"/>
+                        <Picker x:Name="pickerLanguage" 
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                SelectedIndexChanged="OnLanguageChanged"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Insulin Settings Section -->
+            <Label Text="{x:Static strings:AppStrings.InsulinSettings}" 
+                   FontSize="18" 
+                   FontAttributes="Bold" 
+                   Margin="0,0,0,10"/>
+            
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShortActingInsulin}">
+                <Label Text="{x:Static strings:AppStrings.ShortActingInsulin}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>
                 <Picker x:Name="cmbShortActingInsulin" 
                         VerticalOptions="Center" SelectedIndexChanged="cmbShortActingInsulin_SelectedIndexChanged"/>
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout ToolTipProperties.Text="Duration of the chosen long acting insulin">
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Duration of short acting insulin</Label>
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipDurationShortActingInsulin}">
+                <Label Text="{x:Static strings:AppStrings.DurationShortActingInsulin}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>
                 <Entry x:Name="txtInsulinShortDuration" VerticalOptions="Center" Keyboard="Numeric"/>  
                 <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout ToolTipProperties.Text="Name of the chosen short acting insulin">
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Long Acting Insulin</Label>
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipLongActingInsulin}">
+                <Label Text="{x:Static strings:AppStrings.LongActingInsulin}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>
                 <Picker x:Name="cmbLongActingInsulin" 
                         VerticalOptions="Center"
                         SelectedIndexChanged="cmbLongActingInsulin_SelectedIndexChanged"/>
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout ToolTipProperties.Text="Duration of the chosen short acting insulin">
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Duration of long acting insulin</Label>
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipDurationLongActingInsulin}">
+                <Label Text="{x:Static strings:AppStrings.DurationLongActingInsulin}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>
                 <Entry x:Name="txtInsulinLongDuration" VerticalOptions="Center"/>
                 <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout ToolTipProperties.Text="Months shown: month of data that will be shown in the grids of the program">
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Months of data shown in the grids</Label>
+            <!-- Data Display Settings -->
+            <Label Text="{x:Static strings:AppStrings.DataDisplaySettings}" 
+                   FontSize="18" 
+                   FontAttributes="Bold" 
+                   Margin="0,15,0,10"/>
+            
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMonthsDataShown}">
+                <Label Text="{x:Static strings:AppStrings.MonthsDataShownInGrids}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>
                 <Entry x:Name="txtMonths" VerticalOptions="Center" Keyboard="Numeric"
                        Text="{Binding MonthsOfDataShownInTheGrids, Mode=TwoWay}" />
-                <Label VerticalTextAlignment="Center" Margin="3,0,5,0">Months</Label>
+                <Label Text="{x:Static strings:AppStrings.Months}" 
+                       VerticalTextAlignment="Center" Margin="3,0,5,0"/>
             </HorizontalStackLayout>
 
-            <Label>The following parameters aren't used in the program yet</Label>
-            <HorizontalStackLayout ToolTipProperties.Text="Start day hour of breakfast in hours [0.0-24.0]">  
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Initial time for breakfast</Label>
+            <!-- Meal Time Settings -->
+            <Label Text="{x:Static strings:AppStrings.MealTimeSettings}" 
+                   FontSize="18" 
+                   FontAttributes="Bold" 
+                   Margin="0,15,0,10"/>
+            
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipInitialTimeBreakfast}">  
+                <Label Text="{x:Static strings:AppStrings.InitialTimeForBreakfast}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>
                 <Entry x:Name="txtInitialTimeForBreakfast" VerticalOptions="Center" Keyboard="Numeric"
                        Text="{Binding Meal_Breakfast_StartTime_Hours, Mode=TwoWay}" />  
                 <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout ToolTipProperties.Text="Finish day hour of breakfast in hours [0.0-24.0]">  
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Final time for breakfast</Label>  
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFinalTimeBreakfast}">  
+                <Label Text="{x:Static strings:AppStrings.FinalTimeForBreakfast}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>  
                 <Entry x:Name="txtFinalTimeForBreakfast" VerticalOptions="Center"  
                        Text="{Binding Meal_Breakfast_EndTime_Hours, Mode=TwoWay}" />  
                 <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout ToolTipProperties.Text="Start day hour of lunch in hours [0.0-24.0]">  
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Initial time for lunch</Label>
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipInitialTimeLunch}">  
+                <Label Text="{x:Static strings:AppStrings.InitialTimeForLunch}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>
                 <Entry x:Name="txtInitialTimeForLunch" VerticalOptions="Center" Keyboard="Numeric" 
                        Text="{Binding Meal_Lunch_StartTime_Hours, Mode=TwoWay}" />  
                 <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout ToolTipProperties.Text="Finish day hour of lunch in hours [0.0-24.0]">
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Final time for lunch</Label>
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFinalTimeLunch}">
+                <Label Text="{x:Static strings:AppStrings.FinalTimeForLunch}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>
                 <Entry x:Name="txtFinalTimeForLunch" VerticalOptions="Center" Keyboard="Numeric"
                        Text="{Binding Meal_Lunch_EndTime_Hours, Mode=TwoWay}" />  
                 <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout ToolTipProperties.Text="Start day hour of dinner in hours [0.0-24.0]">  
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Initial time for dinner</Label>  
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipInitialTimeDinner}">  
+                <Label Text="{x:Static strings:AppStrings.InitialTimeForDinner}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>  
                 <Entry x:Name="txtInitialTimeForDinner" VerticalOptions="Center"  
                        Text="{Binding Meal_Dinner_StartTime_Hours, Mode=TwoWay}" />  
                 <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>  
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout ToolTipProperties.Text="Finish day hour of dinner in hours [0.0-24.0]">
-                <Label VerticalTextAlignment="Center" Margin="7,0,5,0">Final time for dinner</Label>
+            <HorizontalStackLayout ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFinalTimeDinner}">
+                <Label Text="{x:Static strings:AppStrings.FinalTimeForDinner}" 
+                       VerticalTextAlignment="Center" Margin="7,0,5,0"/>
                 <Entry x:Name="txtFinalTimeForBreakfastDinner" VerticalOptions="Center" Keyboard="Numeric"
                        Text="{Binding Meal_Dinner_EndTime_Hours, Mode=TwoWay}" />
                 <Label VerticalTextAlignment="Center" Margin="3,0,5,0">h</Label>
             </HorizontalStackLayout>
 
-            <Button IsEnabled="True" HeightRequest="50"
-                    ImageSource="floppy_disc.png" 
-                    ToolTipProperties.Text="Save: save the parameter in the database"
+            <!-- Save Button -->
+            <Button IsEnabled="True" 
+                    HeightRequest="50"
+                    ImageSource="floppy_disc.png"
+                    Text="{x:Static strings:AppStrings.Save}"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipSaveSettings}"
                     Clicked="Button_Clicked"
-                    Margin="0,10,0,10" />  
+                    Margin="0,20,0,10" />  
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

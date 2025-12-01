@@ -1,5 +1,6 @@
 using gamon;
 using GlucoMan.BusinessLayer;
+using GlucoMan.Maui.Resources.Strings;
 using System.ComponentModel;
 using static GlucoMan.Common;
 
@@ -179,11 +180,10 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             {
                 // ask the user if he wants to save old or new data
                 bool useCalculatedValues = await DisplayAlert(
-                    "Value discrepancy",
-                    "The value of total Carbohydrates and/or accuracy are different from those calculated with the single foods." +
-                    "\nShould we save the displayed values or those calculated?",
-                    "Use Calculated",
-                    "Keep Displayed");
+                    AppStrings.ValueDiscrepancy,
+                    AppStrings.ValueDiscrepancyMessage,
+                    AppStrings.UseCalculated,
+                    AppStrings.KeepDisplayed);
 
                 if (!useCalculatedValues)
                 {
@@ -206,7 +206,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("MealPage - btnSaveAllMeal_Click", ex);
-            await DisplayAlert("Error", "Failed to save meal data. This might be due to database connectivity issues. Check logs for details.", "OK");
+            await DisplayAlert(AppStrings.Error, AppStrings.FailedToSaveMealData, AppStrings.OK);
         }
     }
     private void SaveOrCreateMealData()
@@ -270,7 +270,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             }
             else
             {
-                DisplayAlert("Error", "Failed to add food to meal", "OK");
+                DisplayAlert(AppStrings.Error, AppStrings.FailedToAddFoodDetails, AppStrings.OK);
             }
             RefreshGrid();
         }
@@ -398,7 +398,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("MealPage - btnRecipes_ClickAsync", ex);
-            await DisplayAlert("Error", $"Failed to import recipe: {ex.Message}", "OK");
+            await DisplayAlert(AppStrings.Error, string.Format(AppStrings.FailedToImportRecipe, ex.Message), AppStrings.OK);
         }
     }
     private void btnDefaults_Click(object sender, EventArgs e)
@@ -440,7 +440,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("MealPage - btnCalc_Click", ex);
-            DisplayAlert("Error", "Failed to calculate meal totals. Check logs for details.", "OK");
+            DisplayAlert(AppStrings.Error, AppStrings.FailedToCalculateTotals, AppStrings.OK);
         }
     }
     private async void btnInsulinCalc_ClickAsync(object sender, EventArgs e)
@@ -533,7 +533,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("MealPage - btnWeighFood_Click", ex);
-            await DisplayAlert("Error", "Failed to open weigh food page. Check logs for details.", "OK");
+            await DisplayAlert(AppStrings.Error, AppStrings.FailedToOpenWeighFood, AppStrings.OK);
         }
     }
     private async void btnFoodCalc_ClickAsync(object sender, EventArgs e)
@@ -557,7 +557,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("MealPage - btnInjection_ClickAsync", ex);
-            DisplayAlert("Error", "Failed to open injections page. Check logs for details.", "OK");
+            DisplayAlert(AppStrings.Error, AppStrings.FailedToOpenInjections, AppStrings.OK);
         }
     }
     private async void btnStartMeal_Click(object sender, EventArgs e)
@@ -642,21 +642,18 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         {
             // the user is changing manually
             programmaticModification = false;
-            try
-            {
-                bl.FoodInMeal.CarbohydratesPercent.Double = Safe.Double(txtFoodCarbohydratesPerUnit.Text);
-                // Safe navigation operator to avoid null reference exception
-                bl.FoodInMeal.QuantityInUnits.Double = Safe.Double(txtFoodQuantityInUnits.Text);
-                bl.CalculateChoOfFoodGrams();
-                //bl.UpdateDataAfterQuantityChange(txtFoodCarbohydratesPerUnit.Text,
-                //    txtFoodQuantityInUnits.Text);
-                txtFoodCarbohydratesGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
-                //FromClassToBoxesFoodInMeal();
-            }
-            catch (Exception ex)
-            {
-                General.LogOfProgram?.Error("MealPage - txtChoOrQuantity_TextChanged", ex);
-            }
+
+            // aggiorna bl.FoodInMeal con i dati dell'interfaccia
+            FromBoxesFoodInMealToClass();
+            // ricalcola il totale dei carboidrati della voce del cibo corrente
+            bl.CalculateChoOfFoodGrams();
+            // aggiorna solo la visualizzazione dei grammi di carboidrati
+            txtFoodCarbohydratesGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
+
+            // Propaga la modifica al resto dell'app
+            // bl.RecalcAll() potrebbe essere pesante, quindi da valutare se necessario
+            //bl.RecalcAll();
+
             programmaticModification = true;
         }
         foodInMealPercentOrQuantityChanging = false;
@@ -705,23 +702,16 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     }
     private async void Calculator_Click(object sender, TappedEventArgs e)
     {
-        //// save the entries in the classes
-        //FromUiToClasses();
-
         var focusedEntry = GetFocusedEntry();
         string sValue = focusedEntry?.Text ?? "0";
         double dValue = double.TryParse(sValue, out var val) ? val : 0;
 
-        // start the CalculatorPage passing to it the value of the 
-        // control that currently has the focus
         var calculator = new CalculatorPage(dValue);
         await Navigation.PushModalAsync(calculator);
         var result = await calculator.ResultSource.Task;
 
-        // check if the page has given back a result
         if (result.HasValue)
         {
-            // update the data model
             if (focusedEntry == txtMealCarbohydratesGrams)
             {
                 txtMealCarbohydratesGrams.Text = result.Value.ToString();
@@ -738,14 +728,11 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             {
                 txtFoodCarbohydratesGrams.Text = result.Value.ToString();
             }
-            // show the UI starting from the classes
             FromClassToBoxesFoodInMeal();
         }
     }
-    #endregion
     private Entry GetFocusedEntry()
     {
-        // find the pertinent entry that currently has focus
         if (txtFoodQuantityInUnits.IsFocused) return txtFoodQuantityInUnits;
         if (txtFoodCarbohydratesPerUnit.IsFocused) return txtFoodCarbohydratesPerUnit;
         if (txtFoodCarbohydratesGrams.IsFocused) return txtFoodCarbohydratesGrams;
@@ -767,4 +754,5 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             General.LogOfProgram?.Error("MealPage - ResetUnitToGrams", ex);
         }
     }
+    #endregion
 }

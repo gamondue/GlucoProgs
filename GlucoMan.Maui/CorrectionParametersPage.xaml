@@ -1,83 +1,81 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:res="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.CorrectionParametersPage"
-             Title="Parameters for corrections">
+             Title="{x:Static res:AppStrings.CorrectionParametersPageTitle}">
     <ContentPage.Content>
         <Grid RowDefinitions="35,20,28,45,20,50,0,35,25,20,50,20,60,45,30,60"
                 ColumnDefinitions="*,*,*,*">
-            <!--<Grid RowDefinitions="35,20,20,35,20,60,20,30,25,20,60,20,60,35,20,60"
-                ColumnDefinitions="*,*,*,*"/>-->
-            <Label Grid.Row="0" Grid.ColumnSpan="4" Text="Calculations of Ratio CHO/insulin" 
+            <Label Grid.Row="0" Grid.ColumnSpan="4" Text="{x:Static res:AppStrings.CalculationsOfRatioCHOInsulin}"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Medium" FontAttributes="Bold"/>
-            <Label Grid.Row="1" Grid.ColumnSpan="4" Text="(calculate it with dietist)" 
+            <Label Grid.Row="1" Grid.ColumnSpan="4" Text="{x:Static res:AppStrings.CalculateWithDietist}"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="2" Grid.ColumnSpan="4" Text="Calculations to be implemented yet" 
+            <Label Grid.Row="2" Grid.ColumnSpan="4" Text="{x:Static res:AppStrings.CalculationsToBeImplemented}"
                    FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End" 
                    BackgroundColor="Red" TextColor="Yellow"/>
 
-            <Label Grid.Row="3" Grid.ColumnSpan="4" Text="Ratio CHO/insulin" FontAttributes="Bold"
+            <Label Grid.Row="3" Grid.ColumnSpan="4" Text="{x:Static res:AppStrings.RatioCHOInsulin}" FontAttributes="Bold"
                     FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
             
-            <Label Grid.Row="4" Grid.Column="0" Text="Breakfast" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
-            <Label Grid.Row="4" Grid.Column="1" Text="Lunch" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="4" Grid.Column="0" Text="{x:Static res:AppStrings.BreakfastLabel}" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Label Grid.Row="4" Grid.Column="1" Text="{x:Static res:AppStrings.LunchLabel}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             
-            <Label Grid.Row="4" Grid.Column="2" Text="Dinner" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="4" Grid.Column="2" Text="{x:Static res:AppStrings.DinnerLabel}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="5" Grid.Column="0" x:Name="txtChoInsulinRatioBreakfast" 
-                   ToolTipProperties.Text="Carbohydrates per unit of insulin - breakfast time [XXXX]"
-                   Text="" Keyboard="Numeric" Placeholder="Break.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipBreakfastRatio}"
+                   Text="" Keyboard="Numeric" Placeholder="{x:Static res:AppStrings.BreakfastRatioPlaceholder}" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="5" Grid.Column="1" x:Name="txtChoInsulinRatioLunch" Text="" 
-                   ToolTipProperties.Text="Carbohydrates per unit of insulin - lunch time [XXXX]"
-                   Keyboard="Numeric" Placeholder="Lunch ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipLunchRatio}"
+                   Keyboard="Numeric" Placeholder="{x:Static res:AppStrings.LunchRatioPlaceholder}" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="5" Grid.Column="2" x:Name="txtChoInsulinRatioDinner" Text="" 
-                   ToolTipProperties.Text="Carbohydrates per unit of insulin - dinner time [XXXX]"
-                   Keyboard="Numeric" Placeholder="Dinn.ratio" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipDinnerRatio}"
+                   Keyboard="Numeric" Placeholder="{x:Static res:AppStrings.DinnerRatioPlaceholder}" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Button Grid.Row="5" Grid.Column="3" x:Name="btnSaveRatioCHOInsulin" 
                     ImageSource="floppy_disc.png"
-                    ToolTipProperties.Text="Save: saves the sensitivities of carbohydrates to be used in the rest of the program"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipSaveRatioCHOInsulin}"
                     Clicked="btnSaveRatioCHOInsulin_Click" />
-            <!--Text="Save"-->
             <Label Grid.Row="6" Grid.ColumnSpan="4" Text="" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Medium"/>
 
-            <Label Grid.Row="7" Grid.ColumnSpan="4" Text="Calculation of insulin sensitivity" 
+            <Label Grid.Row="7" Grid.ColumnSpan="4" Text="{x:Static res:AppStrings.CalculationOfInsulinSensitivity}"
                    FontSize="Medium"  HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontAttributes="Bold"/>
             
-            <Label Grid.Row="8" Grid.ColumnSpan="4" Text="Typical boluses made during a day [U]" 
+            <Label Grid.Row="8" Grid.ColumnSpan="4" Text="{x:Static res:AppStrings.TypicalBolusesPerDay}"
                    FontSize="Small" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Label Grid.Row="9" Grid.Column="0" Text="morning" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="9" Grid.Column="1" Text="midday" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="9" Grid.Column="2" Text="evening" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="9" Grid.Column="3" Text="long" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="9" Grid.Column="0" Text="{x:Static res:AppStrings.MorningLabel}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="9" Grid.Column="1" Text="{x:Static res:AppStrings.MiddayLabel}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="9" Grid.Column="2" Text="{x:Static res:AppStrings.EveningLabel}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="9" Grid.Column="3" Text="{x:Static res:AppStrings.LongLabel}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="10" Grid.Column="0" x:Name="txtTypicalBolusMorning" Text="" 
-                   ToolTipProperties.Text="Mean amount of bolus of short duration insulin at morning"
-                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipTypicalBolusMorning}"
+                   Keyboard="Numeric" Placeholder="{x:Static res:AppStrings.BolusPlaceholder}" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="10" Grid.Column="1" x:Name="txtTypicalBolusMidday" Text="" 
-                   ToolTipProperties.Text="Mean amount of bolus of short duration insulin at midday"
-                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipTypicalBolusMidday}"
+                   Keyboard="Numeric" Placeholder="{x:Static res:AppStrings.BolusPlaceholder}" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="10" Grid.Column="2" x:Name="txtTypicalBolusEvening" Text="" 
-                   ToolTipProperties.Text="Mean amount of bolus of short duration insulin at evening"
-                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipTypicalBolusEvening}"
+                   Keyboard="Numeric" Placeholder="{x:Static res:AppStrings.BolusPlaceholder}" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
             <Entry Grid.Row="10" Grid.Column="3" x:Name="txtTypicalBolusNight" Text="" 
-                   ToolTipProperties.Text="Mean amount of bolus of long duration insulin once a day"
-                   Keyboard="Numeric" Placeholder="bolus [Ui]" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipTypicalBolusNight}"
+                   Keyboard="Numeric" Placeholder="{x:Static res:AppStrings.BolusPlaceholder}" HorizontalTextAlignment ="End" BackgroundColor="PaleGreen" />
 
-            <Label Grid.Row="11" Grid.Column="0" Text="TDD" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="11" Grid.Column="1" Text="Sens.factor" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="11" Grid.Column="2" Text="Sens.to insul." HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="11" Grid.Column="0" Text="{x:Static res:AppStrings.TDDLabel}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="11" Grid.Column="1" Text="{x:Static res:AppStrings.SensFactorLabel}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="11" Grid.Column="2" Text="{x:Static res:AppStrings.SensToInsulinLabel}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Label Grid.Row="12" Grid.Column="0" x:Name="txtTotalDailyDoseOfInsulin" Text="----" 
-                   ToolTipProperties.Text="Sum of means of every kind of insulin"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipTDD}"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-            <Picker Grid.Row="12" Grid.Column="1" x:Name="cmbSensitivityFactor" Title="pick value" 
-                    ToolTipProperties.Text="Coefficient that divides the total day insulin to obtain the sensitivity (Typical values taken from literature)"
+            <Picker Grid.Row="12" Grid.Column="1" x:Name="cmbSensitivityFactor" Title="{x:Static res:AppStrings.SensitivityFactorPickerTitle}"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipSensitivityFactor}"
                     VerticalOptions="Center" />
             <Entry Grid.Row="12" Grid.Column="2" x:Name="txtInsulinCorrectionSensitivity" 
-                   ToolTipProperties.Text="Sensitivity to insulin (glucose processed by one unit of insulin) [XXXX]"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipInsulinCorrectionSensitivity}"
                    VerticalOptions="Center" HorizontalTextAlignment ="End" Text="" 
-                   Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="PaleGoldenrod"/>
+                   Keyboard="Numeric" Placeholder="{x:Static res:AppStrings.MgDlPlaceholder}" BackgroundColor="PaleGoldenrod"/>
             <Grid Grid.Row="12" Grid.Column="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -87,20 +85,20 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Row="0" Margin="1,-1,1,-1" FontSize="Micro" 
-                    ToolTipProperties.Text="Calculates sensitivity to insulin (sum of day insulin injections / chosen coefficient)"
-                    x:Name="btnCalculateInsulinSensitivity" Text="Calc."
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipCalculateInsulinSensitivity}"
+                    x:Name="btnCalculateInsulinSensitivity" Text="{x:Static res:AppStrings.CalcButton}"
                     Clicked="btnCalculateInsulinSensitivity_Click" VerticalOptions="Center"/>
                 <Button Grid.Row="1" Margin="1,-1,1,-1" FontSize="Micro" 
                         x:Name="btnSaveInsulinSensitivity" 
                         ImageSource="floppy_disc.png"
-                    ToolTipProperties.Text="Save: saves the sensitivity as a parameter of the program"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipSaveInsulinSensitivity}"
                     Clicked="btnSaveInsulinSensitivity_Click"/>
             </Grid>
 
-            <Label Grid.Row="13" Grid.ColumnSpan="4" Text="Physical Activity parameters" 
+            <Label Grid.Row="13" Grid.ColumnSpan="4" Text="{x:Static res:AppStrings.PhysicalActivityParameters}"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Medium" FontAttributes="Bold"/>
             
-            <Label Grid.Row="14" Grid.ColumnSpan="4" Text="Calculations to be implemented yet" 
+            <Label Grid.Row="14" Grid.ColumnSpan="4" Text="{x:Static res:AppStrings.CalculationsToBeImplemented}"
                     FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="End" 
                    BackgroundColor="Red" TextColor="Yellow"/>
             

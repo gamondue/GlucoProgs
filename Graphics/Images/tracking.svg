@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 64 64"
+   width="64"
+   height="64"
+   role="img"
+   aria-labelledby="titleDesc"
+   version="1.1"
+   id="svg17"
+   sodipodi:docname="tracking.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   inkscape:export-filename="tracking.png"
+   inkscape:export-xdpi="383.41742"
+   inkscape:export-ydpi="383.41742"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs17" />
+  <sodipodi:namedview
+     id="namedview17"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="8.9161746"
+     inkscape:cx="10.430482"
+     inkscape:cy="34.151417"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg17" />
+  <title
+     id="titleDesc">Map icon with park and path</title>
+  <!-- map background -->
+  <rect
+     x="1.0026444"
+     y="3.4418659"
+     width="62.89196"
+     height="62.836208"
+     rx="3.9996636"
+     ry="4.0356765"
+     fill="#fbf6ea"
+     stroke="#d8cfaf"
+     stroke-width="1.20529"
+     id="rect1" />
+  <!-- faint streets grid -->
+  <g
+     stroke="#E6E1D5"
+     stroke-width="0.8"
+     id="g9">
+    <path
+       d="M6 12 H58"
+       id="path1" />
+    <path
+       d="M6 22 H58"
+       id="path2" />
+    <path
+       d="M6 32 H58"
+       id="path3" />
+    <path
+       d="M6 42 H58"
+       id="path4" />
+    <path
+       d="M6 52 H58"
+       id="path5" />
+    <path
+       d="M14 8 V56"
+       id="path6" />
+    <path
+       d="M28 8 V56"
+       id="path7" />
+    <path
+       d="M42 8 V56"
+       id="path8" />
+    <path
+       d="M52 8 V56"
+       id="path9" />
+  </g>
+  <!-- main road (curved) -->
+  <!-- park area -->
+  <g
+     id="g14"
+     transform="translate(-1.9066473,7.5144334)">
+    <rect
+       x="12"
+       y="18"
+       width="24"
+       height="18"
+       rx="3"
+       ry="3"
+       fill="#a8e6a2"
+       stroke="#58a24a"
+       stroke-width="1.2"
+       id="rect10" />
+    <!-- small shrubs / tree icons inside park -->
+    <g
+       transform="translate(16,22)"
+       id="g11">
+      <circle
+         cx="0"
+         cy="0"
+         r="2.5999999"
+         fill="#2f8a4e"
+         id="circle10" />
+      <rect
+         x="-0.60000002"
+         y="1.8"
+         width="1.2"
+         height="2.2"
+         rx="0.30000001"
+         fill="#7b4b2b"
+         id="rect11" />
+    </g>
+    <g
+       transform="translate(26,26)"
+       id="g12">
+      <circle
+         cx="0"
+         cy="0"
+         r="2.8"
+         fill="#2f8a4e"
+         id="circle11" />
+      <rect
+         x="-0.60000002"
+         y="1.9"
+         width="1.2"
+         height="2.3"
+         rx="0.30000001"
+         fill="#7b4b2b"
+         id="rect12" />
+    </g>
+    <g
+       transform="translate(20,32)"
+       id="g13">
+      <circle
+         cx="0"
+         cy="0"
+         r="2.5999999"
+         fill="#2f8a4e"
+         id="circle12" />
+      <rect
+         x="-0.60000002"
+         y="1.8"
+         width="1.2"
+         height="2.2"
+         rx="0.30000001"
+         fill="#7b4b2b"
+         id="rect13" />
+    </g>
+  </g>
+  <g
+     id="g14-2"
+     transform="matrix(-0.47285089,0,0,-0.43792232,62.090768,65.825936)">
+    <rect
+       x="12"
+       y="18"
+       width="24"
+       height="18"
+       rx="3"
+       ry="3"
+       fill="#a8e6a2"
+       stroke="#58a24a"
+       stroke-width="1.2"
+       id="rect10-4"
+       style="fill:#ff5555;stroke:#d40000" />
+    <!-- small shrubs / tree icons inside park -->
+    <g
+       transform="translate(16,22)"
+       id="g11-5" />
+    <g
+       transform="translate(26,26)"
+       id="g12-7" />
+    <g
+       transform="translate(20,32)"
+       id="g13-5" />
+  </g>
+  <!-- walking/jogging path (dashed) that passes through park -->
+  <!-- path segment emphasized while crossing park (solid segment) -->
+  <!-- start and end markers -->
+  <!-- subtle shadow / fold hint -->
+  <path
+     d="m 3.1144959,18.011607 c 10.5063991,0 21.8062111,11.031649 34.2937841,8.105474 9.191617,-2.153844 6.995847,19.962454 23.477224,19.87114"
+     fill="none"
+     stroke="#BDBDBD"
+     stroke-width="3.22352"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path10"
+     style="stroke:#0000ff;stroke-linecap:square"
+     sodipodi:nodetypes="csc" />
+  <path
+     d="M 6.6729344,8.4486229 C 26.075212,16.579582 14.635329,29.327066 20.672935,36.448623 c 6,6 17.009401,0.85964 28.224311,10.336467"
+     fill="none"
+     stroke="#ff8c42"
+     stroke-width="2.4"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke-dasharray="3, 3"
+     id="path14"
+     sodipodi:nodetypes="ccc" />
+  <circle
+     cx="50.741684"
+     cy="47.292397"
+     r="2.2"
+     fill="#2d9cdb"
+     stroke="#ffffff"
+     stroke-width="0.8"
+     id="circle15-9"
+     style="stroke:none" />
+  <circle
+     cx="6.1402764"
+     cy="8.4780722"
+     r="2.2"
+     fill="#2d9cdb"
+     stroke="#ffffff"
+     stroke-width="0.8"
+     id="circle15-9-8"
+     style="stroke:none" />
+</svg>

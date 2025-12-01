@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.StatisticsAndGraphPage"
-             Title="Statistics and Charts">
+             Title="{x:Static strings:AppStrings.StatisticsAndGraphPageTitle}">
     <ScrollView Padding="10,5,10,5">
         <VerticalStackLayout Spacing="8">
             
@@ -14,46 +15,47 @@
                 
                 <!-- First row -->
                 <RadioButton x:Name="rbGlucose" 
-                             Content="Glucose" 
+                             Content="{x:Static strings:AppStrings.Glucose}"
                              Grid.Row="0" Grid.Column="0"
                              GroupName="DataType"
                              IsChecked="True"
-                             ToolTipProperties.Text="Glucose: select to view glucose measurements data"/>
+                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipGlucose}"/>
                 
                 <RadioButton x:Name="rbShortInsulin" 
-                             Content="Short insulin" 
+                             Content="{x:Static strings:AppStrings.ShortInsulin}"
                              Grid.Row="0" Grid.Column="1"
                              GroupName="DataType"
-                             ToolTipProperties.Text="Short insulin: select to view rapid-acting insulin injections data"/>
+                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShortInsulin}"/>
                 
                 <RadioButton x:Name="rbLongInsulin" 
-                             Content="Long insulin" 
+                             Content="{x:Static strings:AppStrings.LongInsulin}"
                              Grid.Row="0" Grid.Column="2"
                              GroupName="DataType"
-                             ToolTipProperties.Text="Long insulin: select to view long-acting insulin injections data"/>
+                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipLongInsulin}"/>
                 
                 <!-- Second row -->
                 <RadioButton x:Name="rbFoods" 
-                             Content="Foods" 
+                             Content="{x:Static strings:AppStrings.Foods}"
                              Grid.Row="1" Grid.Column="0"
                              GroupName="DataType"
-                             ToolTipProperties.Text="Foods: select to view individual foods data"/>
+                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFoodsSelection}"/>
                 
                 <RadioButton x:Name="rbMeals" 
-                             Content="Meals" 
+                             Content="{x:Static strings:AppStrings.Meals}"
                              Grid.Row="1" Grid.Column="1"
                              GroupName="DataType"
-                             ToolTipProperties.Text="Meals: select to view complete meals data"/>
+                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealsSelection}"/>
                 
                 <RadioButton x:Name="rbRecipes" 
-                             Content="Recipes" 
+                             Content="{x:Static strings:AppStrings.Recipes}"
                              Grid.Row="1" Grid.Column="2"
                              GroupName="DataType"
-                             ToolTipProperties.Text="Recipes: select to view recipes data"/>
+                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipRecipesSelection}"/>
             </Grid>
             
             <!-- Date and Time Range Section -->
-            <Label Text="Select time range:" 
+            <Label x:Name="lblSelectTimeRange" 
+                   Text="{x:Static strings:AppStrings.SelectTimeRange}"
                    FontSize="15" 
                    FontAttributes="Bold"
                    Margin="0,8,0,3"/>
@@ -71,25 +73,9 @@
                       RowSpacing="5"
                       ColumnSpacing="6">
                     
-                    <!-- Headers --><!--
-                    <Label Text="" 
-                           Grid.Row="0" Grid.Column="0"/>
-                    <Label Text="Date" 
-                           Grid.Row="0" Grid.Column="1"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           HorizontalTextAlignment="Center"
-                           TextColor="#2c3e50"
-                           Margin="0,0,0,2"/>-->
-                    
-                    <!-- Separator --><!--
-                    <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                             HeightRequest="1"
-                             Color="#bdc3c7"
-                             Margin="0,0,0,2"/>-->
-                    
                     <!-- From column -->
-                    <Label Text="From:" 
+                    <Label x:Name="lblFrom" 
+                           Text="{x:Static strings:AppStrings.FromLabel}"
                            Grid.Row="0" Grid.Column="0"
                            VerticalOptions="Center"
                            HorizontalOptions="End"
@@ -105,11 +91,12 @@
                                 TextColor="Black"
                                 VerticalOptions="Center"
                                 HorizontalOptions="Fill"
-                                HeightRequest="34"
-                                ToolTipProperties.Text="From date: select the start date for data analysis. This date has no influence on graph."/>
+                                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFromDate}"
+                                HeightRequest="34"/>
 
                     <!-- To column -->
-                    <Label Text="To:" 
+                    <Label x:Name="lblTo" 
+                           Text="{x:Static strings:AppStrings.ToLabel}"
                            Grid.Row="0" Grid.Column="2"
                            VerticalOptions="Center"
                            HorizontalOptions="End"
@@ -125,8 +112,8 @@
                                 TextColor="Black"
                                 VerticalOptions="Center"
                                 HorizontalOptions="Fill"
-                                HeightRequest="34"
-                                ToolTipProperties.Text="To date: select the finish date for data analysis or visualized date for graph."/>
+                                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipToDate}"
+                                HeightRequest="34"/>
                 </Grid>
             </Frame>
             
@@ -141,8 +128,8 @@
                        HeightRequest="65"
                        VerticalOptions="Center" 
                        HorizontalOptions="Fill"
-                       Aspect="AspectFit"
-                       ToolTipProperties.Text="Statistics: click to open statistics page with numerical data analysis">
+                       ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipStatistics}"
+                       Aspect="AspectFit">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="btnStatistics_Clicked" />
                     </Image.GestureRecognizers>
@@ -164,8 +151,8 @@
                        HeightRequest="70"
                        VerticalOptions="Center" 
                        HorizontalOptions="Fill"
-                       Aspect="AspectFit"
-                       ToolTipProperties.Text="Chart: click to open chart page with graphical data visualization">
+                       ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipChart}"
+                       Aspect="AspectFit">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="btnChart_Clicked" />
                     </Image.GestureRecognizers>
@@ -186,7 +173,8 @@
             <BoxView HeightRequest="2" 
                      Color="#34495e" 
                      Margin="0,8,0,8"/>
-            <Label Text="Import data from FreeStyle Libre sensor" 
+            <Label x:Name="lblImportSensor" 
+                   Text="{x:Static strings:AppStrings.ImportSensorTitle}"
                    HorizontalOptions="Center"
                    FontSize="16" 
                    FontAttributes="Bold"
@@ -197,8 +185,8 @@
                    HeightRequest="70"
                    VerticalOptions="Center" 
                    HorizontalOptions="Center"
-                   Aspect="AspectFit"
-                   ToolTipProperties.Text="Import from sensor: click to import glucose measurements from csv file of FreeStyle Libre continuous glucose monitor sensor">
+                   ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipImportSensor}"
+                   Aspect="AspectFit">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Tapped="btnImportGlucose_Clicked" />
                 </Image.GestureRecognizers>

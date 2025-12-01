@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+ xmlns:res="clr-namespace:GlucoMan.Maui.Resources.Strings"
  x:Class="GlucoMan.Maui.ContainersPage"
- Title="Containers (Tare)">
+ Title="{x:Static res:AppStrings.ContainersPageTitle}">
     <ContentPage.Content>
         <!-- Single Grid with all rows properly defined -->
         <Grid Padding="5"
@@ -12,7 +13,7 @@
 
             <!-- Title -->
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
- Text="Container data"
+ Text="{x:Static res:AppStrings.ContainerData}"
  FontAttributes="Bold"
  HorizontalTextAlignment="Center"
  VerticalTextAlignment="End"
@@ -20,39 +21,39 @@
 
             <!-- Labels row -->
             <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
- Text="Name of container" FontAttributes="Bold"
+ Text="{x:Static res:AppStrings.NameOfContainer}" FontAttributes="Bold"
  HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
 
             <Label Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"
                 FontAttributes="Bold"
-                Text="Weight [g]"
+                Text="{x:Static res:AppStrings.WeightGrams}"
                 HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
 
             <!-- Input row -->
             <!-- Name spans columns 0-2 -->
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
  x:Name="txtContainerName"
- Placeholder="Name (e.g. 'Small pot')"
+ Placeholder="{x:Static res:AppStrings.ContainerNamePlaceholder}"
  BackgroundColor="LightGreen"
  TextColor="Black"
  Margin="1"
  HorizontalTextAlignment="Start"
- ToolTipProperties.Text="Name: short name of this container" />
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipContainerName}" />
 
             <!-- Weight spans columns 3-4 -->
             <Entry Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
  x:Name="txtContainerWeight"
- Placeholder="Weight"
+ Placeholder="{x:Static res:AppStrings.WeightPlaceholder}"
  Keyboard="Numeric"
  HorizontalTextAlignment="End"
  BackgroundColor="GreenYellow"
  TextColor="Black"
  Margin="1"
- ToolTipProperties.Text="Weight: weight of the container in grams [g]" />
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipContainerWeight}" />
 
             <!-- Section: Photo title (reduced top margin) -->
             <Label Grid.Row="4" Grid.ColumnSpan="5"
- Text="Photo"
+ Text="{x:Static res:AppStrings.Photo}"
  FontAttributes="Bold"
  HorizontalTextAlignment="Center"
  VerticalTextAlignment="End"
@@ -94,31 +95,31 @@
  RowSpacing="4" ColumnSpacing="4">
 
  <Button Grid.Row="0" Grid.Column="0" x:Name="btnBack" ImageSource="escape.png" Clicked="btnBack_Click"
- ToolTipProperties.Text="Back: return to previous page without selecting"
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipBack}"
  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
 
  <Button Grid.Row="0" Grid.Column="1" x:Name="btnChoose" ImageSource="choose.png" Clicked="btnChoose_Click"
- ToolTipProperties.Text="Choose: select this container and return to previous page"
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipChoose}"
  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
 
  <Button Grid.Row="0" Grid.Column="2" x:Name="btnSave" ImageSource="floppy_disc.png" Clicked="btnSave_Click"
- ToolTipProperties.Text="Save: saves this container's data into the database"
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipSave}"
  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
 
  <Button Grid.Row="0" Grid.Column="3" x:Name="btnTakePicture" ImageSource="camera.png" Clicked="btnTakePicture_Click"
- ToolTipProperties.Text="Picture: take a photo of the container with the camera"
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipTakePicture}"
  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
 
  <Button Grid.Row="1" Grid.Column="0" x:Name="btnClearFields" ImageSource="clear_fields.png" Clicked="btnClearFields_Click"
- ToolTipProperties.Text="Clear fields: clears all data in the UI"
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipClearFields}"
  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
 
  <Button Grid.Row="1" Grid.Column="1" x:Name="btnNew2" ImageSource="plus.png" Clicked="btnNew_Click"
- ToolTipProperties.Text="Plus: adds a new container with data from the UI"
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipPlus}"
  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
 
  <Button Grid.Row="1" Grid.Column="2" x:Name="btnMinus2" ImageSource="minus.png" Clicked="btnMinus_Click"
- ToolTipProperties.Text="Minus: clear fields or remove selected container"
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipMinus}"
  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
 
  <!-- optional empty cell at Row=1,Col=3 left intentionally to keep 4x2 layout -->
@@ -127,7 +128,7 @@
 
             <!-- Section: List title -->
             <Label Grid.Row="6" Grid.ColumnSpan="5"
- Text="Saved containers"
+ Text="{x:Static res:AppStrings.SavedContainers}"
  FontAttributes="Bold"
  HorizontalTextAlignment="Center"
  VerticalTextAlignment="End"
@@ -137,7 +138,7 @@
             <ListView Grid.Row="7" Grid.ColumnSpan="5"
  x:Name="lvContainers"
  ItemSelected="lvContainers_ItemSelected"
- ToolTipProperties.Text="List of the containers saved in database"
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipContainersList}"
  RowHeight="50"
  Margin="0,5,0,0"
  VerticalOptions="FillAndExpand"
@@ -145,11 +146,11 @@
                 <ListView.Header>
                     <Grid ColumnDefinitions="100,*,80" RowDefinitions="Auto"
  BackgroundColor="#e8f5e9" Padding="0,3,0,3" Margin="2">
-                        <Label Grid.Column="0" Text="Photo" FontAttributes="Bold" FontSize="14"
+                        <Label Grid.Column="0" Text="{x:Static res:AppStrings.PhotoColumn}" FontAttributes="Bold" FontSize="14"
  TextColor="#2c3e50" Margin="5,0" HorizontalTextAlignment="Center" />
-                        <Label Grid.Column="1" Text="Name" FontAttributes="Bold" FontSize="14"
+                        <Label Grid.Column="1" Text="{x:Static res:AppStrings.NameColumn}" FontAttributes="Bold" FontSize="14"
  TextColor="#2c3e50" Margin="5,0" HorizontalTextAlignment="Start" />
-                        <Label Grid.Column="2" Text="Weight [g]" FontAttributes="Bold" FontSize="14"
+                        <Label Grid.Column="2" Text="{x:Static res:AppStrings.WeightGrams}" FontAttributes="Bold" FontSize="14"
  TextColor="#2c3e50" HorizontalTextAlignment="End" />
                     </Grid>
                 </ListView.Header>

@@ -1,4 +1,5 @@
 ﻿using gamon;
+using GlucoMan.Maui.Services;
 
 namespace GlucoMan.Maui
 {
@@ -7,6 +8,16 @@ namespace GlucoMan.Maui
         public App()
         {
             InitializeComponent();
+
+            // Initialize LocalizationService BEFORE any pages are loaded
+            // This ensures that static string bindings in XAML use the correct culture
+            var localizationService = Handler?.MauiContext?.Services?.GetService<LocalizationService>();
+            if (localizationService == null)
+            {
+                // If service is not available yet, create a temporary instance to set initial culture
+                var tempService = new LocalizationService();
+                // Culture is already set in LocalizationService constructor from Preferences
+            }
 
             // logging of non managed exceptions
             AppDomain.CurrentDomain.UnhandledException += (sender, e) =>

@@ -40,7 +40,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    public PhysicalActivityPage()
+    public PhysicalActivityPage(Services.LocalizationService localizationService)
     {
         try
         {

@@ -1,6 +1,7 @@
 using gamon;
 using GlucoMan.BusinessLayer;
 using GlucoMan.BusinessObjects;
+using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui;
 
@@ -108,11 +109,11 @@ public partial class GlucoseMeasurementsPage : ContentPage
         if (gr != null)
         {
             bool remove = await DisplayAlert(String.Format(
-                "Should I delete the measurement {0}, {1}, Id {2}?",
+                AppStrings.DeleteGlucoseMeasurementConfirm,
                 gr.GlucoseValue.ToString(),
                 gr.EventTime.ToString(),
                 gr.IdGlucoseRecord.ToString()),
-                "", "Yes", "No");
+                "", AppStrings.Yes, AppStrings.No);
             if (remove)
             {
                 bl.DeleteOneGlucoseMeasurement(gr);
@@ -121,7 +122,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
         }
         else
         {
-            await DisplayAlert("Saving not possible", "Choose a measurement to delete", "Ok");
+            await DisplayAlert(AppStrings.SavingNotPossible, AppStrings.ChooseGlucoseMeasurementToDelete, AppStrings.OK);
             return;
         }
         RefreshGrid();
@@ -130,7 +131,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
     {
         if (txtIdGlucoseRecord.Text == "")
         {
-            await DisplayAlert("Select one glicemia measurement from the list", "Choose a measurement to save", "Ok");
+            await DisplayAlert(AppStrings.SelectOneGlucoseMeasurement, AppStrings.ChooseGlucoseMeasurementToSave, AppStrings.OK);
             return;
         }
         FromUiToClass();

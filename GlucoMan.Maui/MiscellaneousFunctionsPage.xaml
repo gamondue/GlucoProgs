@@ -1,66 +1,67 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:res="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.MiscellaneousFunctionsPage"
-             Title="Miscellaneous functions">
+             Title="{x:Static res:AppStrings.MiscellaneousFunctionsPageTitle}">
     <ContentPage.Content>
         <Grid Padding="8,0,8,0"
               RowDefinitions="30*,20*,50*,30*,60*,60*,60*,60*,60*,60*,60*"
               ColumnDefinitions="*,*" Margin="2">
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Blood glucose unit conversion"
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{x:Static res:AppStrings.MiscellaneousFunctionsPageTitle}"
                    FontSize="Title" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="1" Grid.Column="0" Text="mg/dL" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="1" Grid.Column="0" Text="{x:Static res:AppStrings.MgDl}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="1" Text="mmol/L" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txt_mgPerdL"
-                   ToolTipProperties.Text="Value of blood glucose in mg/dL"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipBloodGlucose}"
                    HorizontalTextAlignment ="End" Text="" WidthRequest="150"
-                   Keyboard="Numeric" Placeholder="mg/dl" BackgroundColor="GreenYellow" TextChanged="txt_mgPerdL_TextChanged"/>
+                   Keyboard="Numeric" Placeholder="{x:Static res:AppStrings.MgDl}" BackgroundColor="GreenYellow" TextChanged="txt_mgPerdL_TextChanged"/>
             <Entry Grid.Row="2" Grid.Column="1" x:Name="txt_mmolPerL" HorizontalTextAlignment ="End" Text="" WidthRequest="150"
-                   ToolTipProperties.Text="Value of blood glucose in mmol/L"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipImportSensor}"
                    Keyboard="Numeric" Placeholder="mmol/L" BackgroundColor="GreenYellow" TextChanged="txt_mmolPerL_TextChanged"/>
-            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Operations"
+            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="{x:Static res:AppStrings.ExportData}"
                    FontSize="Title" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                     ImageSource="gear.png"
-                    ToolTipProperties.Text="Opens the page that assigns the program's parameters"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipConfigurations}"
                     WidthRequest="150"
                     x:Name="btnSettings" Clicked="btnSettings_Click" />
             <!--Text="Settings"-->
             <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
-                   ToolTipProperties.Text="Reset database, starting from scratch with no data"
-                   Text="Reset database" WidthRequest="150"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipOpenGlucosePage}"
+                   Text="{x:Static res:AppStrings.ResetDatabase}" WidthRequest="150"
                    BackgroundColor="Red" TextColor="Yellow"
                    x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
             <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
-                    ToolTipProperties.Text="Exports interesting files to 'external' folder in which files can be read"
-                    Text="Copy files" WidthRequest="150"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipImportSensor}"
+                    Text="{x:Static res:AppStrings.ExportData}" WidthRequest="150"
                     x:Name="btnCopyDatabase" Clicked="btnCopyProgramsFiles_Click" />
-            <Button Grid.Row="7" Grid.Column="0"
-                    ToolTipProperties.Text="Imports foods from import.sqlite file"
-                    Text="Import foods" WidthRequest="150"
+            <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" 
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipImportSensor}"
+                    Text="{x:Static res:AppStrings.ImportData}" WidthRequest="150"
                     x:Name="btnImport" Clicked="btnImport_Click"
                     IsEnabled="False" BackgroundColor="Grey" TextColor="White"
                     />
             <Button Grid.Row="7" Grid.Column="1" 
-                    Text="Read database" WidthRequest="150"
-                    ToolTipProperties.Text="Substitutes the current database file with file 'readGlucoManData.sqlite', that finds in 'external' folder"
+                    Text="{x:Static res:AppStrings.ImportData}" WidthRequest="150"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipImportSensor}"
                     BackgroundColor="Red" TextColor="Yellow"
                     x:Name="btnReadDatabase" Clicked="btnReadDatabase_Click" />
             <Button Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="Stop application" WidthRequest="150"
-                    ToolTipProperties.Text="Closes the program"
+                    Text="{x:Static res:AppStrings.Abort}" WidthRequest="150"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipAbout}"
                     x:Name="btnStopApplication" Clicked="btnStopApplication_Click" />
             <Button Grid.Row="9" Grid.Column="0"
-                    Text="Show error log" WidthRequest="150"
-                    ToolTipProperties.Text="Opens and shows logs file"
+                    Text="{x:Static res:AppStrings.ViewLogs}" WidthRequest="150"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipOpenGlucosePage}"
                     x:Name="btnShowErrorLog" Clicked="btnShowErrorLog_ClickAsync" />
             <Button Grid.Row="9" Grid.Column="1"
-                    Text="Delete all log files" WidthRequest="150"
-                    ToolTipProperties.Text="Deletes the content of all the log files of the program"
+                    Text="{x:Static res:AppStrings.ClearLogs}" WidthRequest="150"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipClearData}"
                     x:Name="btnDeleteErrorLog" Clicked="btnDeleteErrorLog_ClickAsync" />
             <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="Menù" WidthRequest="150"
-                    ToolTipProperties.Text="Opens the Main Menù page "
+                    Text="{x:Static res:AppStrings.Back}" WidthRequest="150"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipOpenGlucosePage}"
                     x:Name="btnMenu" Clicked="btnMenu_Click" />
         </Grid>
     </ContentPage.Content>

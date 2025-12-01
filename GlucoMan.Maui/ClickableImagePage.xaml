@@ -2,13 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:GlucoMan.Maui"
+             xmlns:res="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.ClickableImagePage"
-             Title="ClickableImagePage">
+             Title="{x:Static res:AppStrings.ClickableImagePageTitle}">
     <VerticalStackLayout>
         <HorizontalStackLayout>
             <Button x:Name="btnSavePosition" 
                     ImageSource="choose.png"
-                    ToolTipProperties.Text="Choose: closes the page remembering the current position, that will be saved in the other page"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipChoosePosition}"
                     BackgroundColor="LightGreen" 
                     TextColor="Black"
                     FontAttributes="Bold"
@@ -16,28 +17,36 @@
                     Clicked="BtnSavePosition_Clicked"/>
             <Button x:Name="btnForgetPosition"
                     ImageSource="escape.png"
-                    ToolTipProperties.Text="Escape: closes the page forgetting the current position"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipEscapePosition}"
                     BackgroundColor="LightCoral" 
                     TextColor="White"
                     FontAttributes="Bold"
                     HeightRequest="50"
                     Clicked="BtnForgetPosition_Clicked"/>
             <CheckBox x:Name="EditorCheckBox" Margin="0" HorizontalOptions="Start" 
-                        ToolTipProperties.Text="Edits the reference points if checked"
+                        ToolTipProperties.Text="{x:Static res:AppStrings.TooltipEditReferencePoints}"
                         CheckedChanged="CheckedChanged"/>
-            <Label x:Name="LabelEditorCheckBox" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"
-                    Margin="-8,0,8,0"
-                    ToolTipProperties.Text="Edits the reference points if checked">Edit</Label>
+            <Label x:Name="LabelEditorCheckBox" 
+                   Text="{x:Static res:AppStrings.EditLabel}"
+                   VerticalTextAlignment="Center" 
+                   HorizontalTextAlignment="Start"
+                   Margin="-8,0,8,0"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipEditReferencePoints}"/>
             <CheckBox x:Name="DeleteCheckBox" HorizontalOptions="Start"
-                        ToolTipProperties.Text="Deletes the reference points if checked"/>
-            <Label x:Name="lblDelete" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"
-                    Margin="-10,0,8,0"
-                    ToolTipProperties.Text="Deletes the reference points if checked">Delete</Label>
-            <Button x:Name="btnSavePoints" Text="Save ref.p." 
-                    ToolTipProperties.Text="Saves the reference points"
+                        ToolTipProperties.Text="{x:Static res:AppStrings.TooltipDeleteReferencePoints}"/>
+            <Label x:Name="lblDelete" 
+                   Text="{x:Static res:AppStrings.DeleteLabel}"
+                   VerticalTextAlignment="Center" 
+                   HorizontalTextAlignment="Start"
+                   Margin="-10,0,8,0"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipDeleteReferencePoints}"/>
+            <Button x:Name="btnSavePoints" 
+                    Text="{x:Static res:AppStrings.SaveRefPoints}"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipSaveRefPoints}"
                     Clicked="BtnSaveReferencePoints_Clicked" />
-            <Button x:Name="btnClear" Text="Clear ref.p." 
-                    ToolTipProperties.Text="Clears all reference points"
+            <Button x:Name="btnClear" 
+                    Text="{x:Static res:AppStrings.ClearRefPoints}"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipClearRefPoints}"
                     Clicked="BtnClearReferencePoints_Click" />
         </HorizontalStackLayout>
         <Grid>
@@ -47,7 +56,7 @@
                    Margin="0,0"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
-                   ToolTipProperties.Text="Click on this image to set the point">
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipClickImage}">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                 </Image.GestureRecognizers>

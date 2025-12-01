@@ -1,6 +1,7 @@
 using gamon;
 using GlucoMan.BusinessLayer;
 using GlucoMan.BusinessObjects;
+using GlucoMan.Maui.Resources.Strings;
 using static GlucoMan.Common;
 
 namespace GlucoMan.Maui;
@@ -172,13 +173,13 @@ public partial class MealsPage : ContentPage
     {
         if (txtIdMeal.Text == "")
         {
-            await DisplayAlert("Deletion not possible", "Choose the meal to delete", "Ok");
+            await DisplayAlert(AppStrings.DeletionNotPossible, AppStrings.ChooseMealToDelete, AppStrings.OK);
             return;
         }
-        bool remove = await DisplayAlert(String.Format("Should we delete the meal begun at {0}, Id {1}?",
+        bool remove = await DisplayAlert(String.Format(AppStrings.DeleteMealConfirm,
             bl.Meal.EventTime.Text,
             bl.Meal.IdMeal),
-            "", "Yes", "No");
+            "", AppStrings.Yes, AppStrings.No);
         if (remove)
         {
             bl.DeleteOneMeal(bl.Meal);
@@ -189,7 +190,7 @@ public partial class MealsPage : ContentPage
     {
         if (txtIdMeal.Text == "")
         {
-            await DisplayAlert("Select one meal from the list", "Choose a meal to save", "Ok");
+            await DisplayAlert(AppStrings.SelectOneMealFromList, AppStrings.ChooseMealToSave, AppStrings.OK);
             return;
         }
         FromUiToClass();
@@ -200,7 +201,7 @@ public partial class MealsPage : ContentPage
     {
         if (txtIdMeal.Text == "")
         {
-            await DisplayAlert("", "Choose a meal in the grid", "Ok");
+            await DisplayAlert("", AppStrings.ChooseMealInGrid, AppStrings.OK);
             return;
         }
         FromUiToClass();

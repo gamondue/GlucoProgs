@@ -1,4 +1,5 @@
 ﻿using gamon;
+using GlucoMan.Maui.Services;
 using Microsoft.Maui.Controls;
 using System;
 
@@ -6,14 +7,49 @@ namespace GlucoMan.Maui
 {
     public partial class MainPage : ContentPage
     {
+        private readonly LocalizationService _localizationService;
+
         public MainPage()
         {
+            // Get LocalizationService from DI BEFORE InitializeComponent
+            _localizationService = Application.Current.Handler.MauiContext.Services.GetService<LocalizationService>();
+            
+            // Ensure culture is set before XAML loads
+            if (_localizationService != null)
+            {
+                // This will set AppStrings.Culture which affects {x:Static} bindings
+                // The service constructor already loaded saved preferences
+            }
+            
             InitializeComponent();
+            
+            // Subscribe to culture changes to refresh page when language changes
+            if (_localizationService != null)
+            {
+                _localizationService.CultureChanged += OnCultureChanged;
+            }
+            
             // change the title of the page shown in the navigation bar, showing the version of the program
             Title += " " + Common.Version;
 
             // Initialize async operations properly - don't block the UI thread
             _ = InitializeAsync();
+        }
+
+        private void OnCultureChanged(object sender, EventArgs e)
+        {
+            // Force refresh of the page to reload all static bindings
+            // Note: This is a workaround for {x:Static} bindings not updating automatically
+            // In a production app, consider using dynamic bindings or INotifyPropertyChanged
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            if (_localizationService != null)
+            {
+                _localizationService.CultureChanged -= OnCultureChanged;
+            }
         }
 
         private async Task InitializeAsync()
@@ -136,11 +172,16 @@ namespace GlucoMan.Maui
         private void btnConfigurations_Clicked(object sender, EventArgs e)
         {
             //Navigation.PushAsync(new ConfigurationPage());
-            Navigation.PushAsync(new SettingsPage());
+            Navigation.PushAsync(new SettingsPage(_localizationService));
         }
         private async void btnGraphicsAndStatistics_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new StatisticsAndGraphPage());
+        }
+
+        private void btnPysicalActivity_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new PhysicalActivityPage(_localizationService));
         }
     }
 }

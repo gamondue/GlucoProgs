@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:res="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.HypoPredictionPage"
-             Title="Hypoglicemia time prediction">
+             Title="{x:Static res:AppStrings.HypoPredictionPageTitle}">
     <ContentPage.Content>
         <ScrollView>
             <Grid RowDefinitions="Auto,
@@ -11,138 +12,134 @@
               27,Auto,Auto,Auto" 
               ColumnDefinitions="*,*,*,*">
 
-            <Button Grid.Row="0" Grid.Column="0"
+            <Button x:Name="btnNow" Grid.Row="0" Grid.Column="0"
                     ImageSource="clock.png"
-                    ToolTipProperties.Text="Enter Now time: copies the current day and time to the date of the current glucose measurement"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.BtnNowTooltip}"
                     Clicked="btnNow_Click"/>
-                <!--Text="Now" Margin="1"-->
-            <Button Grid.Row="0" Grid.Column="1"
+            <Button x:Name="btnNext" Grid.Row="0" Grid.Column="1"
                     ImageSource="get_next.png"
-                    ToolTipProperties.Text="Enter the next glucose measurement: moves the current glucose measurement into the previous and copies time now in latest glucose measurement"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.BtnNextTooltip}"
                     Clicked="btnNext_Click"/>
-                <!--Margin="1" Text="Next"-->
-            <Button Grid.Row="0" Grid.Column="2"
+            <Button x:Name="btnReadGlucose" Grid.Row="0" Grid.Column="2"
                 ImageSource="get_last_two_blood.png"
-                ToolTipProperties.Text="Read: reads the last two glucose measurements from the database"
+                ToolTipProperties.Text="{x:Static res:AppStrings.BtnReadTooltip}"
                 Clicked="btnReadGlucose_Click"/>
-            <!--Margin="1" Text="Read gl."-->
-            <Button Grid.Row="0" Grid.Column="3"
+            <Button x:Name="btnPredict" Grid.Row="0" Grid.Column="3"
                     ImageSource="prediction.png"
-                    ToolTipProperties.Text="Predict: predicts the time at which the glucose will reach the value for alarm (prediction by linear extrapolation, applies only into VERY STRICT conditions))"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.BtnPredictTooltip}"
                     Clicked="btnPredict_Click"/>
-                <!--Margin="1" Text="Predict"-->
 
-            <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Text="Glucose for alarm" 
+            <Label x:Name="lblGlucoseForAlarm" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Text="{x:Static res:AppStrings.GlucoseForAlarmLabel}" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-            <Label Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" Text="Alarm advance time [min]" 
+            <Label x:Name="lblAlarmAdvanceTime" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" Text="{x:Static res:AppStrings.AlarmAdvanceTimeLabel}" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtGlucoseTarget" Text="80" FontSize="Medium"
-                   ToolTipProperties.Text="Alarm value: low glucose at which we want to take action against hypoglicemia"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipGlucoseTarget}"
                    Keyboard="Numeric" HorizontalTextAlignment="End" 
                    BackgroundColor="PaleGoldenrod" TextColor="Black"
                    IsEnabled="true"/>
             <Entry Grid.Row="1" Grid.Column="2" x:Name="txtAlarmAdvanceTime" Text="80" 
                    FontSize="Medium"
-                   ToolTipProperties.Text="Time advance: time of anticipated alarm, with respect to the alarm value time [min]"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipAlarmAdvanceTime}"
                    Keyboard="Numeric" HorizontalTextAlignment="End" 
                    BackgroundColor="DarkSeaGreen" TextColor="White"
                    IsEnabled="true"/>
 
-            <Label Grid.Row="2" Grid.ColumnSpan="4" Text="Measurements of glucose and time" 
+            <Label x:Name="lblMeasurementsHeader" Grid.Row="2" Grid.ColumnSpan="4" Text="{x:Static res:AppStrings.MeasurementsHeader}" 
                     HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Label Grid.Row="3" Grid.Column="0" Text="Glucose" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="3" Grid.Column="1" Text="Hour" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
-            <Label Grid.Row="3" Grid.Column="2" Text="Minute" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Label x:Name="lblColGlucose" Grid.Row="3" Grid.Column="0" Text="{x:Static res:AppStrings.ColGlucose}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label x:Name="lblColHour" Grid.Row="3" Grid.Column="1" Text="{x:Static res:AppStrings.ColHour}" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Label x:Name="lblColMinute" Grid.Row="3" Grid.Column="2" Text="{x:Static res:AppStrings.ColMinute}" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
 
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtGlucoseLast" HorizontalTextAlignment ="End" 
-                   ToolTipProperties.Text="Glucose measured the last time"
-                   Keyboard="Numeric" Text="" FontSize="Large" Placeholder="gluc.meas." 
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipGlucoseLast}"
+                   Keyboard="Numeric" Text="" FontSize="Large" Placeholder="{x:Static res:AppStrings.PlaceholderGlucMeas}" 
                    BackgroundColor="LightGreen" TextColor="Black"/>
-            <Entry Grid.Row="4" Grid.Column="1" x:Name="txtHourLast" Placeholder="hour" 
-                   ToolTipProperties.Text="Hours of the last measurement"
+            <Entry Grid.Row="4" Grid.Column="1" x:Name="txtHourLast" Placeholder="{x:Static res:AppStrings.PlaceholderHour}" 
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipHourLast}"
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" 
                    BackgroundColor="LightGreen" TextColor="Black"/>
-            <Entry Grid.Row="4" Grid.Column="2" x:Name="txtMinuteLast" Placeholder="minute" 
-                   ToolTipProperties.Text="Minutes of the last measurement"
+            <Entry Grid.Row="4" Grid.Column="2" x:Name="txtMinuteLast" Placeholder="{x:Static res:AppStrings.PlaceholderMinute}" 
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipMinuteLast}"
                    Keyboard="Numeric" FontSize="Large" 
                    HorizontalTextAlignment ="End" 
                    BackgroundColor="LightGreen" TextColor="Black"/>
-            <Label Grid.Row="4" Grid.Column="3" Text="current measurem." HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label x:Name="lblCurrentMeasurement" Grid.Row="4" Grid.Column="3" Text="{x:Static res:AppStrings.CurrentMeasurementLabel}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
-            <Entry Grid.Row="5" Grid.Column="0" x:Name="txtGlucosePrevious" Text="" Placeholder="gluc.meas." 
-                   ToolTipProperties.Text="Glucose measured the previous time"
+            <Entry Grid.Row="5" Grid.Column="0" x:Name="txtGlucosePrevious" Text="" Placeholder="{x:Static res:AppStrings.PlaceholderGlucMeas}" 
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipGlucosePrevious}"
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" 
                    BackgroundColor="LightGreen" TextColor="Black"/>
-            <Entry Grid.Row="5" Grid.Column="1" x:Name="txtHourPrevious" Placeholder="hour" 
-                   ToolTipProperties.Text="Hours of the previous measurement"
+            <Entry Grid.Row="5" Grid.Column="1" x:Name="txtHourPrevious" Placeholder="{x:Static res:AppStrings.PlaceholderHour}" 
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipHourPrevious}"
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" 
                    BackgroundColor="LightGreen" TextColor="Black"/>
-            <Entry Grid.Row="5" Grid.Column="2" x:Name="txtMinutePrevious" Placeholder="minute" 
-                   ToolTipProperties.Text="Minutes of the previous measurement"
+            <Entry Grid.Row="5" Grid.Column="2" x:Name="txtMinutePrevious" Placeholder="{x:Static res:AppStrings.PlaceholderMinute}" 
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipMinutePrevious}"
                    Keyboard="Numeric" FontSize="Large" HorizontalTextAlignment ="End" 
                    BackgroundColor="LightGreen" TextColor="Black"/>
-            <Label Grid.Row="5" Grid.Column="3" Text="previous measurem." 
+            <Label x:Name="lblPreviousMeasurement" Grid.Row="5" Grid.Column="3" Text="{x:Static res:AppStrings.PreviousMeasurementLabel}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
             <Label Grid.Row="6" Grid.Column="1" x:Name="txtGlucoseSlope" Text="----" FontSize="Large"
-                   ToolTipProperties.Text="Slope: rate of change of glucose [glucose units/hour]"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipSlope}"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
                    BackgroundColor="LightGray" TextColor="Black"/>
-            <Label Grid.Row="6" Grid.Column="2" Text="Slope&#10;[gluc/h]" 
+            <Label x:Name="lblSlopeUnit" Grid.Row="6" Grid.Column="2" Text="{x:Static res:AppStrings.SlopeUnitLabel}" 
                    LineBreakMode="WordWrap"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
 
-            <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" 
-                   Text="Expected time of target glucose achievement"
+            <Label x:Name="lblExpectedTimeHeader" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" 
+                   Text="{x:Static res:AppStrings.ExpectedTimeHeader}"
                    VerticalOptions="End" HorizontalOptions="Center" />
 
             <Label Grid.Row="8" Grid.Column="1" x:Name="txtPredictedHour" Text="----" FontSize="Large"
-                   ToolTipProperties.Text="Hours of the predicted 'low glucose' event"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipPredictedHour}"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
                    BackgroundColor="SkyBlue" TextColor="Black"/>
             <Label Grid.Row="8" Grid.Column="2" x:Name="txtPredictedMinute" Text="----" FontSize="Large"
-                   ToolTipProperties.Text="Minutes of the predicted 'low glucose' event"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipPredictedMinute}"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
                    BackgroundColor="SkyBlue" TextColor="Black"/>
 
-            <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" Text="Alarm time"
+            <Label x:Name="lblAlarmTimeHeader" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" Text="{x:Static res:AppStrings.AlarmTimeHeader}"
                    VerticalOptions="End" HorizontalOptions="Center" />
 
             <Label Grid.Row="10" Grid.Column="1" x:Name="txtAlarmHour" Text="----" FontSize="Large"
-                   ToolTipProperties.Text="Hours of the alarm event for low glucose"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipAlarmHour}"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
                    BackgroundColor="SkyBlue" TextColor="Black"/>
             <Label Grid.Row="10" Grid.Column="2" x:Name="txtAlarmMinute" Text="----" FontSize="Large"
-                   ToolTipProperties.Text="Minutes of the alarm event for low glucose"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipAlarmMinute}"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
                    BackgroundColor="SkyBlue" TextColor="Black"/>
             <Button Grid.Row="10" IsVisible="false" Grid.Column="3" 
-                   Clicked="btnAlarm_Click" Text="Alarm"></Button>
+                   Clicked="btnAlarm_Click" Text="{x:Static res:AppStrings.Alarm}"/>
 
             <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Margin="1"
                     x:Name="txtStatusBar" Text=""  FontSize="Small"
                    BackgroundColor="red" TextColor="Yellow" 
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
             
-            <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3" Margin="1"
-                   Text="Calculation of a future glucose value, starting from now and with current slope" 
+            <Label x:Name="lblCalcDescription" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3" Margin="1"
+                   Text="{x:Static res:AppStrings.CalcDescription}" 
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
             <Button Grid.Row="12" Grid.Column="3" x:Name="btnCalcFutureGlucose"
                     ImageSource="calc_extrapolation.png"
-                    ToolTipProperties.Text="Calculates the future glucose after 'Time diff' minutes from 'current measurement' time (prediction uses the shown 'slope'). USE THIS WITH CAUTION!"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.BtnCalcTooltip}"
                     Clicked="btnCalcFutureGlucose_Click"></Button>
-                <!--Margin="1" Text="Calc."-->
-            <Label Grid.Row="13" Grid.Column="0" Text="Time diff.[min]" HorizontalTextAlignment="Center" />
-            <Label Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2" Text="Future time" HorizontalTextAlignment="Center" />
-            <Label Grid.Row="13" Grid.Column="3" Text="Future gluc" HorizontalTextAlignment="Center" />
+            <Label x:Name="lblTimeDiff" Grid.Row="13" Grid.Column="0" Text="{x:Static res:AppStrings.TimeDiffLabel}" HorizontalTextAlignment="Center" />
+            <Label x:Name="lblFutureTime" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2" Text="{x:Static res:AppStrings.FutureTimeLabel}" HorizontalTextAlignment="Center" />
+            <Label x:Name="lblFutureGluc" Grid.Row="13" Grid.Column="3" Text="{x:Static res:AppStrings.FutureGlucLabel}" HorizontalTextAlignment="Center" />
 
-            <Entry Grid.Row="14" Grid.Column="0" x:Name="txtFutureTimeMinutes" Placeholder="min" 
-                   ToolTipProperties.Text="Difference in minutes for prediction. From current measurement time"
+            <Entry Grid.Row="14" Grid.Column="0" x:Name="txtFutureTimeMinutes" Placeholder="{x:Static res:AppStrings.PlaceholderMinute}" 
+                   ToolTipProperties.Text="{x:Static res:AppStrings.FutureTimeDiffTooltip}"
                    Keyboard="Numeric" HorizontalTextAlignment ="End" 
                    BackgroundColor="DarkSeaGreen" TextColor="White"/>
             <HorizontalStackLayout Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="2"
-                   ToolTipProperties.Text="Hour and time of prediction">
+                   ToolTipProperties.Text="{x:Static res:AppStrings.FutureTimeTooltip}">
                 <DatePicker  x:Name="dtpTimeFutureDate" BackgroundColor="White" TextColor="Black"
                         IsEnabled="False" HorizontalOptions="Center"/>
                 <TimePicker x:Name="dtpTimeFutureTime" BackgroundColor="White" TextColor="Black"
@@ -150,8 +147,8 @@
                         IsEnabled="False" HorizontalOptions="Center" />
             </HorizontalStackLayout>
 
-            <Entry Grid.Row="15" Grid.Column="3" x:Name="txtFutureGlucose" Placeholder="gluc" 
-                   ToolTipProperties.Text="Predicted glucose at 'future time' (USE WITH CAUTION!)"
+            <Entry Grid.Row="15" Grid.Column="3" x:Name="txtFutureGlucose" Placeholder="{x:Static res:AppStrings.PlaceholderGlucMeas}" 
+                   ToolTipProperties.Text="{x:Static res:AppStrings.FutureGlucoseTooltip}"
                    Keyboard="Numeric" HorizontalTextAlignment ="End" 
                    BackgroundColor="SkyBlue" TextColor="Black"/>
         </Grid>

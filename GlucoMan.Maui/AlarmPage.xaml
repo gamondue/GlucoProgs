@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.AlarmPage"
-             Title="Alarms">
+             Title="{x:Static strings:AppStrings.AlarmPageTitle}">
     <ContentPage.Resources>
         <!-- Colors / Brushes reused across fields -->
         <Color x:Key="EditBackColor">LightGreen</Color>
@@ -41,7 +42,7 @@
             <Frame BorderColor="#888" CornerRadius="6" Padding="8" Margin="0,0,0,6">
                 <Grid ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                     <!-- Row 0: Id / Reminder -->
-                    <Label Grid.Row="0" Grid.Column="0" Text="Id" />
+                    <Label Grid.Row="0" Grid.Column="0" Text="{x:Static strings:AppStrings.Id}" />
                     <Entry x:Name="txtIdAlarm" Grid.Row="0" Grid.Column="1" Style="{StaticResource ResultEntryStyle}" WidthRequest="90" />
                     <Label Grid.Row="0" Grid.Column="2" Text="Reminder" />
                     <Entry x:Name="txtReminderText" Grid.Row="0" Grid.Column="3" Style="{StaticResource EditEntryStyle}" Placeholder="Reminder text" />
@@ -55,11 +56,11 @@
                     <!-- Row 2: Trigger / Interval -->
                     <Label Grid.Row="2" Grid.Column="0" Text="Trigger (s)" />
                     <Entry x:Name="txtTriggerInterval" Grid.Row="2" Grid.Column="1" Style="{StaticResource EditEntryStyle}" Keyboard="Numeric" />
-                    <Label Grid.Row="2" Grid.Column="2" Text="Repeat Interval (s)" />
+                    <Label Grid.Row="2" Grid.Column="2" Text="{x:Static strings:AppStrings.Repeat}" />
                     <Entry x:Name="txtInterval" Grid.Row="2" Grid.Column="3" Style="{StaticResource EditEntryStyle}" Keyboard="Numeric" />
 
                     <!-- Row 3: Duration / RepetitionTime -->
-                    <Label Grid.Row="3" Grid.Column="0" Text="Duration (s)" />
+                    <Label Grid.Row="3" Grid.Column="0" Text="{x:Static strings:AppStrings.Duration}" />
                     <Entry x:Name="txtDuration" Grid.Row="3" Grid.Column="1" Style="{StaticResource EditEntryStyle}" Keyboard="Numeric" />
                     <Label Grid.Row="3" Grid.Column="2" Text="Repetition After (s)" />
                     <Entry x:Name="txtRepetitionTime" Grid.Row="3" Grid.Column="3" Style="{StaticResource EditEntryStyle}" Keyboard="Numeric" />
@@ -85,15 +86,15 @@
                     <!-- Row 7: Sound flags -->
                     <Label Grid.Row="7" Grid.Column="0" Text="Play Sound" />
                     <CheckBox x:Name="chkPlaySound" Grid.Row="7" Grid.Column="1" />
-                    <Label Grid.Row="7" Grid.Column="2" Text="Vibrate" />
+                    <Label Grid.Row="7" Grid.Column="2" Text="{x:Static strings:AppStrings.Vibrate}" />
                     <CheckBox x:Name="chkVibrate" Grid.Row="7" Grid.Column="3" />
 
                     <!-- Row 8: Sound file path -->
-                    <Label Grid.Row="8" Grid.Column="0" Text="Sound File" />
+                    <Label Grid.Row="8" Grid.Column="0" Text="{x:Static strings:AppStrings.Sound}" />
                     <Entry x:Name="txtSoundFilePath" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource EditEntryStyle}" Placeholder="Path or filename" />
 
                     <!-- Row 9: Spacer or future state -->
-                    <Label Grid.Row="9" Grid.Column="0" Text="State" />
+                    <Label Grid.Row="9" Grid.Column="0" Text="{x:Static strings:AppStrings.Status}" />
                     <Entry x:Name="txtState" Grid.Row="9" Grid.Column="1" Style="{StaticResource ResultEntryStyle}" />
                     <Label Grid.Row="9" Grid.Column="2" Text="Reminder Preview" />
                     <Entry x:Name="txtReminderPreview" Grid.Row="9" Grid.Column="3" Style="{StaticResource ResultEntryStyle}" />
@@ -102,22 +103,22 @@
 
             <!-- Command Buttons -->
             <FlexLayout Direction="Row" Wrap="NoWrap" AlignItems="Center" JustifyContent="Start">
-                <Button x:Name="btnAdd" Text="Add" />
-                <Button x:Name="btnSave" Text="Save" />
-                <Button x:Name="btnDelete" Text="Delete" />
+                <Button x:Name="btnAdd" Text="{x:Static strings:AppStrings.Add}" />
+                <Button x:Name="btnSave" Text="{x:Static strings:AppStrings.Save}" />
+                <Button x:Name="btnDelete" Text="{x:Static strings:AppStrings.Delete}" />
                 <Button x:Name="btnDismiss" Text="Dismiss" />
                 <Button x:Name="btnActivate" Text="Activate" />
                 <Button x:Name="btnDeactivate" Text="Deactivate" />
                 <Button x:Name="btnTest" Text="Test" />
-                <Button x:Name="btnClear" Text="Clear" />
+                <Button x:Name="btnClear" Text="{x:Static strings:AppStrings.Clear}" />
             </FlexLayout>
 
             <!-- Filters Panel -->
             <Frame BorderColor="#888" CornerRadius="6" Padding="6" Margin="0,6,0,4">
                 <Grid ColumnDefinitions="Auto,*,Auto,*,Auto,*,Auto,*" RowDefinitions="Auto,Auto">
-                    <Label Grid.Row="0" Grid.Column="0" Text="From" />
+                    <Label Grid.Row="0" Grid.Column="0" Text="{x:Static strings:AppStrings.From}" />
                     <DatePicker x:Name="dtpFrom" Grid.Row="0" Grid.Column="1" BackgroundColor="{StaticResource EditBackColor}" />
-                    <Label Grid.Row="0" Grid.Column="2" Text="To" />
+                    <Label Grid.Row="0" Grid.Column="2" Text="{x:Static strings:AppStrings.To}" />
                     <DatePicker x:Name="dtpTo" Grid.Row="0" Grid.Column="3" BackgroundColor="{StaticResource EditBackColor}" />
                     <CheckBox x:Name="chkShowAll" Grid.Row="0" Grid.Column="4" />
                     <Label Grid.Row="0" Grid.Column="5" Text="All" />
@@ -126,22 +127,22 @@
 
                     <CheckBox x:Name="chkExpired" Grid.Row="1" Grid.Column="0" />
                     <Label Grid.Row="1" Grid.Column="1" Text="Expired" />
-                    <Button x:Name="btnRefresh" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Text="Refresh" />
-                    <Button x:Name="btnNow" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Text="Now" />
+                    <Button x:Name="btnRefresh" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Text="{x:Static strings:AppStrings.Refresh}" />
+                    <Button x:Name="btnNow" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Text="{x:Static strings:AppStrings.Now}" />
                     <Button x:Name="btnSetNext" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" Text="Set Next" />
                 </Grid>
             </Frame>
 
             <!-- List of Alarms -->
-            <Label Text="Alarms" FontAttributes="Bold" />
+            <Label Text="{x:Static strings:AppStrings.AlarmsList}" FontAttributes="Bold" />
             <CollectionView x:Name="cvAlarms" SelectionMode="Single" HeightRequest="300">
                 <CollectionView.Header>
                     <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" Padding="4" BackgroundColor="#ececec">
-                        <Label Text="Id" FontAttributes="Bold" />
+                        <Label Text="{x:Static strings:AppStrings.Id}" FontAttributes="Bold" />
                         <Label Grid.Column="1" Text="Reminder" FontAttributes="Bold" />
                         <Label Grid.Column="2" Text="Start" FontAttributes="Bold" />
                         <Label Grid.Column="3" Text="Next" FontAttributes="Bold" />
-                        <Label Grid.Column="4" Text="State" FontAttributes="Bold" />
+                        <Label Grid.Column="4" Text="{x:Static strings:AppStrings.Status}" FontAttributes="Bold" />
                     </Grid>
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>

@@ -1,6 +1,7 @@
 using gamon;
 using GlucoMan.BusinessLayer;
 using GlucoMan.BusinessObjects;
+using GlucoMan.Maui.Resources.Strings;
 using System.ComponentModel.Design;
 
 namespace GlucoMan.Maui;
@@ -84,14 +85,14 @@ public partial class InjectionsPage : ContentPage
     private async void ShowUnsavedChangesDialog()
     {
         var result = await DisplayActionSheet(
-            "You have unsaved changes for the current injection.\nWhat do you want to do?",
-            "Cancel",
+            AppStrings.UnsavedChangesMessage,
+            AppStrings.Cancel,
             null,
-            "Save", "Discard");
+            AppStrings.Save, AppStrings.Discard);
             
         switch (result)
         {
-            case "Save":
+            case var s when s == AppStrings.Save:
                 // Save and then navigate
                 if (await TrySaveCurrentInjection())
                 {
@@ -99,13 +100,13 @@ public partial class InjectionsPage : ContentPage
                     await Shell.Current.GoToAsync("..");
                 }
                 break;
-            case "Discard":
+            case var d when d == AppStrings.Discard:
                 // Discard changes and navigate
                 HasUnsavedChanges = false;
                 IsNavigatingAway = true;
                 await Shell.Current.GoToAsync("..");
                 break;
-            case "Cancel":
+            case var c when c == AppStrings.Cancel:
             default:
                 // Do nothing, stay on the page
                 break;
@@ -117,7 +118,7 @@ public partial class InjectionsPage : ContentPage
         {
             if (txtIdInjection.Text == "")
             {
-                await DisplayAlert("Error", "Select an injection from the list to save it", "Ok");
+                await DisplayAlert(AppStrings.Error, AppStrings.SelectInjectionToSave, AppStrings.OK);
                 return false;
             }
 
@@ -147,7 +148,7 @@ public partial class InjectionsPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Error during saving: {ex.Message}", "Ok");
+            await DisplayAlert(AppStrings.Error, $"{AppStrings.ErrorDuringSaving}: {ex.Message}", AppStrings.OK);
             return false;
         }
     }
@@ -255,11 +256,11 @@ public partial class InjectionsPage : ContentPage
         // Update page title to indicate unsaved changes
         if (HasUnsavedChanges)
         {
-            this.Title = "Injections *"; // Asterisk indicates unsaved changes
+            this.Title = $"{AppStrings.InjectionsPageTitle} *"; // Asterisk indicates unsaved changes
         }
         else
         {
-            this.Title = "Injections";
+            this.Title = AppStrings.InjectionsPageTitle;
         }
     }
     public int? IdInjection
@@ -356,40 +357,20 @@ public partial class InjectionsPage : ContentPage
     private async void btnSave_Click(object sender, EventArgs e)
     {
         await TrySaveCurrentInjection();
-        //if (txtIdInjection.Text == "")
-        //{
-        //    await DisplayAlert("Select one injection from the list", "Choose a injection to save", "Ok");
-        //    return;
-        //}
-        //FromUiToClass();
-        //bool abort = await abortAfterChecksBeforeSavings();
-        //if (abort)
-        //    return;
-        //if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands ||
-        //    CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
-        //{
-        //    // if it isn't a bolus, delete the bolus' info
-        //    CurrentInjection.IdInsulinDrug = null;
-        //    CurrentInjection.IdTypeOfInsulinAction = null;
-        //    CurrentInjection.InsulinValue.Text = "";
-        //}
-        //bl.SaveOneInjection(CurrentInjection);
-        //RefreshGrid();
-        //picturePageHasBeenVisited = false;
     }
     private async Task<bool> abortAfterChecksBeforeSavings()
     {
         bool abort = false;
         if (!bl.CheckIfInjectionHasValue(CurrentInjection))
         {
-            if (await DisplayAlert("", "Missing value of bolus.\nShould we save without it?", "Save", "Abort"))
+            if (await DisplayAlert("", AppStrings.MissingBolusValue, AppStrings.Save, AppStrings.Abort))
                 abort = false;
             else
                 abort = true;
         }
         else if (!bl.CheckIfInjectionHasLocation(CurrentInjection))
         {
-            if (await DisplayAlert("", "Missing location of injection.\nShould we save without it?", "Save", "Abort"))
+            if (await DisplayAlert("", AppStrings.MissingInjectionLocation, AppStrings.Save, AppStrings.Abort))
                 abort = false;
             else
                 abort = true;
@@ -406,16 +387,15 @@ public partial class InjectionsPage : ContentPage
     {
         if (e.SelectedItem == null)
         {
-            //await DisplayAlert("XXXX", "YYYY", "Ok");
             return;
         }
         // Check if there are unsaved changes before changing selection
         if (HasUnsavedChanges)
         {
             var result = await DisplayAlert(
-                "Unsaved changes",
-                "You have unsaved changes for the current injection.\nWhat do you want to do?",
-                "Save", "Discard");
+                AppStrings.UnsavedChanges,
+                AppStrings.UnsavedChangesMessage,
+                AppStrings.Save, AppStrings.Discard);
             if (result)
             {
                 if (!await TrySaveCurrentInjection())
@@ -477,7 +457,7 @@ public partial class InjectionsPage : ContentPage
     private void SetTheColorsOfPictureButtons()
     {
         // make the injection's location button green if the zone where the injection is set,
-        // if it insn't make it the original color
+        // if it ins't make it the original color
         if (CurrentInjection.Zone == Common.ZoneOfPosition.Front)
             btnFront.BackgroundColor = Colors.Lime;
         else
@@ -502,7 +482,7 @@ public partial class InjectionsPage : ContentPage
         && CurrentInjection.Zone != Common.ZoneOfPosition.Sensor)
         {
             // notify the user that he has to choose the type of insulin
-            await DisplayAlert("", "Select the type of insulin of this injection", "Ok");
+            await DisplayAlert("", AppStrings.SelectInsulinType, AppStrings.OK);
             return;
         }
         // if the user hasn't open a picture page and the Position of the injection is set,
@@ -511,8 +491,8 @@ public partial class InjectionsPage : ContentPage
         if (!picturePageHasBeenVisited
             && (CurrentInjection.PositionX.HasValue && CurrentInjection.PositionY.HasValue))
         {
-            if (await DisplayAlert("Position Already Set", "This injection already has a position from a previous selection." +
-                "\nDo you want to keep this existing position for your new injection?", "Keep Position", "Clear Position"))
+            if (await DisplayAlert(AppStrings.PositionAlreadySet, AppStrings.PositionAlreadySetMessage, 
+                AppStrings.KeepPosition, AppStrings.ClearPosition))
                 return;
         }
         FromUiToClass();
@@ -540,9 +520,7 @@ public partial class InjectionsPage : ContentPage
             else
             {
                 // Handle case where no short-acting insulin is configured
-                await DisplayAlert("Configuration Error", "No short-acting insulin is configured." +
-                    "\nPlease configure insulin settings." +
-                    "\nInsulin drug will be set to null", "Ok");
+                await DisplayAlert(AppStrings.ConfigurationError, AppStrings.NoShortInsulinConfigured, AppStrings.OK);
                 CurrentInjection.IdInsulinDrug = null;
             }
         }
@@ -556,8 +534,7 @@ public partial class InjectionsPage : ContentPage
             else
             {
                 // Handle case where no long-acting insulin is configured
-                await DisplayAlert("Configuration Error", "No long-acting insulin is configured.\nPlease configure insulin settings." +
-                    "\nType of insulin drug will be set to null", "Ok");
+                await DisplayAlert(AppStrings.ConfigurationError, AppStrings.NoLongInsulinConfigured, AppStrings.OK);
                 CurrentInjection.IdInsulinDrug = null;
             }
         }
@@ -584,11 +561,11 @@ public partial class InjectionsPage : ContentPage
         if (inj != null)
         {
             bool remove = await DisplayAlert(String.Format(
-                "Should I delete the injection of {1}, insulin {0}?",
+                AppStrings.DeleteInjectionConfirm,
                 inj.InsulinValue.ToString(),
                 inj.EventTime.ToString(),
                 inj.IdInjection.ToString()),
-                "", "Yes", "No");
+                "", AppStrings.Yes, AppStrings.No);
             if (remove)
             {
                 bl.DeleteOneInjection(inj);
@@ -597,7 +574,7 @@ public partial class InjectionsPage : ContentPage
         }
         else
         {
-            await DisplayAlert("Saving not possible", "Choose an injection to delete", "Ok");
+            await DisplayAlert(AppStrings.SavingNotPossible, AppStrings.ChooseInjectionToDelete, AppStrings.OK);
             return;
         }
         RefreshGrid();

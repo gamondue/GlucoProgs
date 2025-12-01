@@ -4,6 +4,7 @@ using gamon;
 using GlucoMan; // for ISystemAlarmScheduler
 using CommunityToolkit.Maui;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using GlucoMan.Maui.Services; // Add localization service
 #if WINDOWS
 using WinUIWindow = Microsoft.UI.Xaml.Window;
 using Microsoft.UI.Windowing;
@@ -47,6 +48,9 @@ namespace GlucoMan.Maui
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            // Register Localization Service as Singleton
+            builder.Services.AddSingleton<LocalizationService>();
 
 #if ANDROID
             builder.Services.AddSingleton<ISystemAlarmScheduler, GlucoMan.Maui.Platforms.Android.SystemAlarmScheduler>();

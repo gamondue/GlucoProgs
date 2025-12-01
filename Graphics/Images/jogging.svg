@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 64 64"
+   width="64"
+   height="64"
+   role="img"
+   aria-labelledby="title"
+   version="1.1"
+   id="svg7"
+   sodipodi:docname="jogging.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   inkscape:export-filename="jogging.png"
+   inkscape:export-xdpi="384"
+   inkscape:export-ydpi="384"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="12.609375"
+     inkscape:cx="31.960347"
+     inkscape:cy="30.889715"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg7" />
+  <title
+     id="title">Jogging icon</title>
+  <g
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2.5"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="g7"
+     transform="matrix(1.1888281,0,0,1.1888281,1.9920676,4.3031143)">
+    <!-- Head -->
+    <circle
+       cx="22.299875"
+       cy="7.3209419"
+       r="4.5"
+       id="circle1" />
+    <!-- Torso -->
+    <path
+       d="m 23.65713,12.216263 c 2.629953,2.66936 6.136558,8.008078 5.259906,14.681476"
+       id="path1"
+       style="stroke-width:2.70422" />
+    <!-- Front arm (forward) -->
+    <path
+       d="m 27.855019,16.969021 c 4,2 8,-2 6,-4"
+       id="path2" />
+    <!-- Back arm -->
+    <path
+       d="m 25.251549,16.493185 c -2,3 -4,4 -6,6"
+       id="path3" />
+    <!-- Front leg (stepping forward) -->
+    <path
+       d="m 29,27 c 5,7 7,13 1,17"
+       id="path4" />
+    <!-- Back leg (pushing) -->
+    <path
+       d="m 28.458488,27.682776 c -4,7 -8,10 -12,14"
+       id="path5" />
+    <!-- Optional small motion lines -->
+    <path
+       d="M 10,10 7,7"
+       stroke-width="1.5"
+       id="path6" />
+    <path
+       d="M 38,6 42,4"
+       stroke-width="1.5"
+       id="path7" />
+  </g>
+</svg>

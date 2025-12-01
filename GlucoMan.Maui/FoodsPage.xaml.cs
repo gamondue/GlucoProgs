@@ -1,6 +1,7 @@
 using gamon;
 using GlucoMan.BusinessLayer;
 using System.Globalization;
+using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui;
 
@@ -161,7 +162,7 @@ public partial class FoodsPage : ContentPage
     {
         if (txtIdFood.Text == "")
         {
-            await DisplayAlert("Select one food from the list", "Choose a food to save", "Ok");
+            await DisplayAlert(AppStrings.SelectOneFoodFromList, AppStrings.ChooseFoodToSave, AppStrings.OK);
             return;
         }
 
@@ -170,7 +171,7 @@ public partial class FoodsPage : ContentPage
         // Validate that food name is not empty
         if (string.IsNullOrWhiteSpace(Food.Name))
         {
-            await DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food.", "OK");
+            await DisplayAlert(AppStrings.Error, AppStrings.FoodNameCannotBeEmpty, AppStrings.OK);
             txtName.Focus();
             return;
         }
@@ -186,7 +187,7 @@ public partial class FoodsPage : ContentPage
         // Validate that food name is not empty
         if (string.IsNullOrWhiteSpace(Food.Name))
         {
-            DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food.", "OK");
+            DisplayAlert(AppStrings.Error, AppStrings.FoodNameCannotBeEmpty, AppStrings.OK);
             txtName.Focus();
             return;
         }
@@ -198,8 +199,7 @@ public partial class FoodsPage : ContentPage
         if (string.IsNullOrWhiteSpace(txtFoodCarbohydrates.Text) ||
                   carbs == 0)
         {
-            DisplayAlert("Error", "Carbohydrates of a new food must be set and greater than zero." +
-                 "\nFood not saved", "OK");
+            DisplayAlert(AppStrings.Error, AppStrings.CarbohydratesMustBeSet, AppStrings.OK);
             txtFoodCarbohydrates.Focus();
             return;
         }
@@ -219,12 +219,12 @@ public partial class FoodsPage : ContentPage
         if (Food == null)
             return;
 
-        string message = string.Format("Should I delete the food {0}, CHO% {1}, Id {2}?",
+        string message = string.Format(AppStrings.DeleteFoodConfirm,
             Food.Name ?? string.Empty,
             Food.CarbohydratesPercent?.ToString() ?? string.Empty,
             Food.IdFood?.ToString() ?? string.Empty);
 
-        bool remove = await DisplayAlert("Confirm delete", message, "Yes", "No");
+        bool remove = await DisplayAlert(AppStrings.ConfirmDelete, message, AppStrings.Yes, AppStrings.No);
         if (remove)
         {
             bl.DeleteOneFood(Food);
@@ -244,7 +244,7 @@ public partial class FoodsPage : ContentPage
         // Validate that food name is not empty before choosing
         if (string.IsNullOrWhiteSpace(Food.Name))
         {
-            await DisplayAlert("Error", "Food name cannot be empty.\nPlease enter a name for the food before choosing.", "OK");
+            await DisplayAlert(AppStrings.Error, AppStrings.FoodNameCannotBeEmptyBeforeChoosing, AppStrings.OK);
             txtName.Focus();
             return;
         }
@@ -307,7 +307,7 @@ public partial class FoodsPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("FoodsPage - btnBack_Click", ex);
-            await DisplayAlert("Error", $"Cannot close page: {ex.Message}", "OK");
+            await DisplayAlert(AppStrings.Error, string.Format(AppStrings.CannotClosePage, ex.Message), AppStrings.OK);
         }
     }
     private void txtName_TextChanged(object sender, EventArgs e)
