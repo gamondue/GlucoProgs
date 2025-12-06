@@ -268,7 +268,7 @@
     <value>Alimento</value>
   </data>
   <data name="FoodName" xml:space="preserve">
-    <value>Nome Alimento</value>
+    <value>Nome cibo</value>
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>Quantità</value>
@@ -472,7 +472,7 @@
     <value>Id</value>
   </data>
   <data name="AddWithNowAsTime" xml:space="preserve">
-    <value>Aggiungi con ora corrente</value>
+    <value>Aggiungi con l'ora corrente</value>
   </data>
   <data name="ListOfPastGlucoseMeasurements" xml:space="preserve">
     <value>Elenco misurazioni glicemia passate</value>
@@ -499,7 +499,7 @@
     <value>Adesso: imposta data e ora all'istante corrente</value>
   </data>
   <data name="TooltipPlusButton" xml:space="preserve">
-    <value>Piu: aggiunge una nuova misurazione con i dati dall'interfaccia</value>
+    <value>Più: aggiunge una nuova misurazione con i dati dall'interfaccia</value>
   </data>
   <data name="TooltipMinusButton" xml:space="preserve">
     <value>Meno: elimina la misurazione selezionata</value>
@@ -583,19 +583,19 @@
     <value>Parametri: apre la pagina che calcola o imposta i parametri di sensibilita</value>
   </data>
   <data name="TooltipEmbarkedInsulinLabel" xml:space="preserve">
-    <value>Insulina residua: quantita di insulina assunta in precedenza e ancora efficace</value>
+    <value>Insulina residua: quantità di insulina assunta in precedenza e ancora efficace (embarked insulin)</value>
   </data>
   <data name="TooltipRoundButton" xml:space="preserve">
-    <value>Arrotonda: calcola i CHO da mangiare per iniettare un valore intero del bolo insulinico</value>
+    <value>Arrotonda insulina: calcola i CHO da mangiare per iniettare un valore intero del bolo insulinico</value>
   </data>
   <data name="TooltipCurrentGlucose" xml:space="preserve">
-    <value>Glicemia corrente: glicemia misurata prima del pasto</value>
+    <value>Glicemia attuale: glicemia misurata prima del pasto</value>
   </data>
   <data name="TooltipTargetGlucose" xml:space="preserve">
     <value>Obiettivo: glicemia da raggiungere con il bolo calcolato</value>
   </data>
   <data name="TooltipGlucoseToBeCorrected" xml:space="preserve">
-    <value>Da correggere: glicemia da correggere</value>
+    <value>Da correggere: glicemia da correggere, differenza fra il valore obietto e quello attuale della glicemia</value>
   </data>
   <data name="TooltipTargetCHO" xml:space="preserve">
     <value>CHO obiettivo: quantita di carboidrati da mangiare per raggiungere il livello glicemico obiettivo</value>
@@ -604,7 +604,7 @@
     <value>Leggi glicemia: legge l'ultimo valore di glicemia memorizzato nel database</value>
   </data>
   <data name="TooltipMeasureGlucose" xml:space="preserve">
-    <value>Misura Glicemia: apre la pagina che memorizza la glicemia misurata nel database</value>
+    <value>Misura Glicemia: apre la pagina che memorizza nel database la glicemia misurata</value>
   </data>
   <data name="TooltipInjectionButton" xml:space="preserve">
     <value>Iniezione: apre la pagina delle iniezioni per crearne una nuova</value>
@@ -739,10 +739,10 @@
     <value>Leggi CHO obiettivo: legge dalla pagina di calcolo bolo</value>
   </data>
   <data name="TooltipReadEatenCHO" xml:space="preserve">
-    <value>Legge i CHO già mangiati</value>
+    <value>Legge dalla pagina dei pasti i CHO già mangiati</value>
   </data>
   <data name="TooltipReadFoodCHO" xml:space="preserve">
-    <value>Legge la % CHO dell'alimento selezionato</value>
+    <value>Legge dalla pagina dei pasti la % CHO dell'alimento selezionato</value>
   </data>
   <data name="TooltipReadAll" xml:space="preserve">
     <value>Legge tutti i parametri per calcolare i CHO rimanenti</value>
@@ -754,7 +754,7 @@
     <value>CHO rimanenti: carboidrati calcolati per raggiungere l'obiettivo</value>
   </data>
   <data name="FoodToHitTargetCHOGrams" xml:space="preserve">
-    <value>Cibo da mangiare per raggiungere CHO obiettivo [g]</value>
+    <value>Cibo da mangiare per raggiungere il CHO obiettivo [g]</value>
   </data>
   <data name="MealData" xml:space="preserve">
     <value>Dati Pasto</value>
@@ -766,7 +766,7 @@
     <value>Accuratezza</value>
   </data>
   <data name="IdMeal" xml:space="preserve">
-    <value>IdPasto</value>
+    <value>Id Pasto</value>
   </data>
   <data name="TooltipMealAccuracyPercent" xml:space="preserve">
     <value>Accuratezza: percentuale numerica del cibo [%]</value>
@@ -775,10 +775,10 @@
     <value>Accuratezza: percentuale numerica del pasto [%]</value>
   </data>
   <data name="TooltipMealAccuracyQualitative" xml:space="preserve">
-    <value>Accuratezza qualitativa: accuratezza del cibo come parola</value>
+    <value>Accuratezza qualitativa: accuratezza del cibo, come parola</value>
   </data>
   <data name="TooltipFoodInMealAccuracyQualitative" xml:space="preserve">
-    <value>Accuratezza qualitativa: accuratezza del pasto come parola</value>
+    <value>Accuratezza qualitativa: accuratezza del pasto, come parola</value>
   </data>
   <data name="TooltipStartMeal" xml:space="preserve">
     <value>Inizio: salva l'ora corrente come ora di inizio del pasto</value>
@@ -802,7 +802,7 @@
     <value>Dati Alimento</value>
   </data>
   <data name="TooltipFoodName" xml:space="preserve">
-    <value>Nome: nome breve dell'alimento</value>
+    <value>Nome: nome breve dell'alimento nel pasto</value>
   </data>
   <data name="CHOPercent" xml:space="preserve">
     <value>CHO [%]</value>
@@ -814,7 +814,7 @@
     <value>CHO [g]</value>
   </data>
   <data name="TooltipCalculator" xml:space="preserve">
-    <value>Calcola: apre una calcolatrice aritmetica per elaborare il valore</value>
+    <value>Calcola: apre una calcolatrice aritmetica per elaborare il valore correntemente selezionato</value>
   </data>
   <data name="TooltipCHOPercent" xml:space="preserve">
     <value>CHO%: percentuale carboidrati di questo alimento [%]</value>
@@ -1147,7 +1147,7 @@
     <value>Risultato</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Caricamento...</value>
+    <value>Caricamento</value>
   </data>
   <data name="PleaseWait" xml:space="preserve">
     <value>Attendere prego</value>
@@ -1207,7 +1207,7 @@
     <value>Deseleziona Tutto</value>
   </data>
   <data name="ShowDetails" xml:space="preserve">
-    <value>Mostra Dettagli</value>
+    <value>Mostra dettagli</value>
   </data>
   <data name="HideDetails" xml:space="preserve">
     <value>Nascondi Dettagli</value>
@@ -1399,7 +1399,7 @@
     <value>Applicabilità della Unità</value>
   </data>
   <data name="UnitApplicabilityMessage" xml:space="preserve">
-    <value>Questa nuova cartella deve essere applicabile a tutti i cibi o solo a questo?</value>
+    <value>Questa nuova unità deve essere applicabile a tutti i cibi o solo a questo?</value>
   </data>
   <data name="UnitApplicabilityAll" xml:space="preserve">
     <value>Tutte</value>
@@ -1525,7 +1525,7 @@
     <value>Anticipo: minuti di anticipo rispetto all'ora di allarme</value>
   </data>
   <data name="MeasurementsHeader" xml:space="preserve">
-    <value>Misurazioni di glicemia e ora</value>
+    <value>Misurazioni di glicemia e tempo</value>
   </data>
   <data name="ColGlucose" xml:space="preserve">
     <value>Glicemia</value>
@@ -2006,13 +2006,13 @@
     <value>Rapporto.Cena</value>
   </data>
   <data name="TooltipBreakfastRatio" xml:space="preserve">
-    <value>Carboidrati per unità di insulina- ora di colazione [XXXX]</value>
+    <value>Carboidrati per unità di insulina- ora di colazione</value>
   </data>
   <data name="TooltipLunchRatio" xml:space="preserve">
-    <value>Carboidrati per unità di insulina- ora di pranzo [XXXX]</value>
+    <value>Carboidrati per unità di insulina- ora di pranzo</value>
   </data>
   <data name="TooltipDinnerRatio" xml:space="preserve">
-    <value>Carboidrati per unità di insulina- ora di cena [XXXX]</value>
+    <value>Carboidrati per unità di insulina- ora di cena</value>
   </data>
   <data name="TooltipSaveRatioCHOInsulin" xml:space="preserve">
     <value>Salva: salva le sensibilità ai carboidrati (usate dal resto del programma)</value>
@@ -2023,8 +2023,11 @@
   <data name="TypicalBolusesPerDay" xml:space="preserve">
     <value>Totale dei boli tipici fatti durante un giorno</value>
   </data>
+  <data name="MorningLabel" xml:space="preserve">
+    <value>mattino</value>
+  </data>
   <data name="MiddayLabel" xml:space="preserve">
-    <value>ml</value>
+    <value>metà giornata</value>
   </data>
   <data name="EveningLabel" xml:space="preserve">
     <value>pomeriggo</value>
@@ -2169,5 +2172,8 @@
   </data>
   <data name="ChartImageToClick" xml:space="preserve">
     <value>Grafico: click per aprire una pagina che visualizza un grafico dei dati</value>
+  </data>
+  <data name="LabelRoundButton" xml:space="preserve">
+    <value>Arrotonda insulina</value>
   </data>
 </root>

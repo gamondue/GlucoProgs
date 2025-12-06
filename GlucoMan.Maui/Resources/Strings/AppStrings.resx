@@ -393,7 +393,7 @@
   </data>
   <data name="Author" xml:space="preserve">
     <value>Author</value>
-    <comment>Ing. Gabriele Monti - ForlÃ¬ -Italy</comment>
+    <comment>Ing. Gabriele Monti - Forlì -Italy</comment>
   </data>
   <data name="Copyright" xml:space="preserve">
     <value>Copyright</value>
@@ -528,7 +528,7 @@
     <value>Insulin bolus calculation</value>
   </data>
   <data name="RatioCHOInsulin" xml:space="preserve">
-    <value>Ratio CHO/insulin</value>
+    <value>Ratio CHO/insulin (from dietist)</value>
   </data>
   <data name="SensitivityToInsulin" xml:space="preserve">
     <value>Sensitivity to insulin</value>
@@ -597,7 +597,7 @@
     <value>Target: glucose to reach with calculated bolus</value>
   </data>
   <data name="TooltipGlucoseToBeCorrected" xml:space="preserve">
-    <value>To correct: glucose to be corrected</value>
+    <value>To correct: glucose to be corrected, difference of the target value minus the current value</value>
   </data>
   <data name="TooltipTargetCHO" xml:space="preserve">
     <value>Target CHO: carobydrates amount to eat to reach target glucose level</value>
@@ -606,7 +606,7 @@
     <value>Read glucose: read the last value of blood glucose stored in database</value>
   </data>
   <data name="TooltipMeasureGlucose" xml:space="preserve">
-    <value>Measure Glucose: opens the page that stores measured glucose in database</value>
+    <value>Measure Glucose: opens the page that stores in database the measured glucose</value>
   </data>
   <data name="TooltipInjectionButton" xml:space="preserve">
     <value>Injection: opens the page of injections to make a new</value>
@@ -657,10 +657,10 @@
     <value>Apply</value>
   </data>
   <data name="MealPageTitle" xml:space="preserve">
-    <value>Pasto</value>
+    <value>Meal</value>
   </data>
   <data name="MealDateTime" xml:space="preserve">
-    <value>Meal Date/Time</value>
+    <value>Meal's Date/Time</value>
   </data>
   <data name="TotalCarbohydrates" xml:space="preserve">
     <value>Total Carbohydrates</value>
@@ -711,16 +711,16 @@
     <value>Sugar</value>
   </data>
   <data name="FoodToHitTargetCarbsPageTitle" xml:space="preserve">
-    <value>Cibo per Raggiungere Carboidrati Obiettivo</value>
+    <value>Food to reach target Carbohydrates</value>
   </data>
   <data name="TooltipCalculateFoodGrams" xml:space="preserve">
-    <value>Calcolatore cibo: calcola i grammi del cibo scelto necessari per raggiungere i carboidrati obiettivo</value>
+    <value>Food Calculator: calculates the grams of selected food that you have to eat to reach target carbohydrates</value>
   </data>
   <data name="TargetCHO" xml:space="preserve">
-    <value>Target CHO</value>
+    <value>Target CHO [g]</value>
   </data>
   <data name="CHOAlreadyTaken" xml:space="preserve">
-    <value>CHO giÃ  consumati [g]</value>
+    <value>Already ingested carbohydrates [g]</value>
   </data>
   <data name="TooltipCHOAlreadyTaken" xml:space="preserve">
     <value>Already ingested carbohydrates [g]</value>
@@ -732,43 +732,43 @@
     <value>Carbohydrates percent of the food we want to eat to reach the target carbohydrates[%]</value>
   </data>
   <data name="FoodToCompleteCHOBudget" xml:space="preserve">
-    <value>Cibo da mangiare per completare il budget CHO</value>
+    <value>Food to eat to complete the CHO budget</value>
   </data>
   <data name="TooltipFoodToHitTargetGrams" xml:space="preserve">
-    <value>Nome breve dell'alimento scelto per raggiungere i CHO obiettivo</value>
+    <value>Shot name of the food chosen to reach the target CHO</value>
   </data>
   <data name="TooltipReadTargetCHO" xml:space="preserve">
-    <value>Leggi CHO obiettivo: legge dalla pagina di calcolo bolo i CHO da mangiare</value>
+    <value>Read target CHO: reads from the bolus calc's page the target CHO</value>
   </data>
   <data name="TooltipReadEatenCHO" xml:space="preserve">
-    <value>Legge i CHO giÃ  mangiati dalla pagina dei pasti</value>
+    <value>Reads from the meals' page the CHO already eaten</value>
   </data>
   <data name="TooltipReadFoodCHO" xml:space="preserve">
-    <value>Legge la % CHO dell'alimento selezionato dalla pagina del pasto</value>
+    <value>Reads from the meals' page the CHO % of the selected food</value>
   </data>
   <data name="TooltipReadAll" xml:space="preserve">
-    <value>Legge tutti i parametri utili per calcolare i CHO rimanenti</value>
+    <value>Read all the parameters useful to calculate remaining CHO</value>
   </data>
   <data name="CHOLeftToTake" xml:space="preserve">
-    <value>CHO rimanenti [g]</value>
+    <value>Remaining CHO: CHO rimanenti [g]</value>
   </data>
   <data name="TooltipChoLeft" xml:space="preserve">
     <value>Remaining CHO: carbohydrates missing  to eat to reach the target</value>
   </data>
   <data name="FoodToHitTargetCHOGrams" xml:space="preserve">
-    <value>Cibo da mangiare per raggiungere CHO obiettivo [g]</value>
+    <value>Food to eat to reach target CHO [g]</value>
   </data>
   <data name="MealData" xml:space="preserve">
-    <value>Dati Pasto</value>
+    <value>Meal's Data</value>
   </data>
   <data name="MealCHOGrams" xml:space="preserve">
-    <value>CHO Pasto [g]</value>
+    <value>Meal's CHO [g]</value>
   </data>
   <data name="Accuracy" xml:space="preserve">
     <value>Accuracy</value>
   </data>
   <data name="IdMeal" xml:space="preserve">
-    <value>IdPasto</value>
+    <value>Id Meal</value>
   </data>
   <data name="TooltipMealAccuracyPercent" xml:space="preserve">
     <value>Numerical percent accuracy of the food [%]</value>
@@ -777,10 +777,10 @@
     <value>Numerical percent accuracy of the meal [%]</value>
   </data>
   <data name="TooltipMealAccuracyQualitative" xml:space="preserve">
-    <value>Qualitative accuracy; accuracy of the food as a word</value>
+    <value>Qualitative accuracy; accuracy of the food, as a word</value>
   </data>
   <data name="TooltipFoodInMealAccuracyQualitative" xml:space="preserve">
-    <value>Qualitative accuracy; accuracy of the meal as a word</value>
+    <value>Qualitative accuracy; accuracy of the meal, as a word</value>
   </data>
   <data name="TooltipStartMeal" xml:space="preserve">
     <value>Start: saves the current time as the meal's start time</value>
@@ -801,22 +801,22 @@
     <value>Food to target: opens the page that calculates the amount of food to eat to reach the CHO target.</value>
   </data>
   <data name="FoodData" xml:space="preserve">
-    <value>Dati Alimento</value>
+    <value>Food Data</value>
   </data>
   <data name="TooltipFoodName" xml:space="preserve">
-    <value>Nome breve dell'alimento nel pasto</value>
+    <value>Name: short name of the food in meal</value>
   </data>
   <data name="CHOPercent" xml:space="preserve">
     <value>CHO [%]</value>
   </data>
   <data name="Unit" xml:space="preserve">
-    <value>UnitÃ </value>
+    <value>Unit</value>
   </data>
   <data name="CHOGrams" xml:space="preserve">
     <value>CHO [g]</value>
   </data>
   <data name="TooltipCalculator" xml:space="preserve">
-    <value>Calcola: apre una calcolatrice aritmetica per elaborare il valore selezionato</value>
+    <value>Calculate: opens an arithmetic calculator to process the value that currently has the focus</value>
   </data>
   <data name="TooltipCHOPercent" xml:space="preserve">
     <value>CHO%: percentuale di carboidrati di questo alimento [%]</value>
@@ -932,9 +932,8 @@
   <data name="StandardDeviation" xml:space="preserve">
     <value>Standard Deviation</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="InRange" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="InRange" xml:space="preserve">
+    <value>In Range</value>
   </data>
   <data name="BelowRange" xml:space="preserve">
     <value>Below Range</value>
@@ -1195,7 +1194,7 @@
     <value>Are you sure to proceed?</value>
   </data>
   <data name="Success" xml:space="preserve">
-    <value>TareWeight</value>
+    <value>Success</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>Failed</value>
@@ -1252,7 +1251,7 @@
     <value>Select Injection</value>
   </data>
   <data name="SelectInjectionToSave" xml:space="preserve">
-    <value>Select from list an injection from to save</value>
+    <value>Select from the list an injection to save</value>
   </data>
   <data name="ErrorDuringSaving" xml:space="preserve">
     <value>Error during saving</value>
@@ -1940,7 +1939,7 @@
     <value>Equal portions</value>
   </data>
   <data name="TooltipEqualPortions" xml:space="preserve">
-    <value>Divide all food into equal portions: the portion will be calculated by dividind total food by N persons</value>
+    <value>Divide all food into equal portions: the portion will be calculated by division of total food by N persons</value>
   </data>
   <data name="NumberOfPortions" xml:space="preserve">
     <value>No of portions</value>
@@ -1985,7 +1984,7 @@
     <value>Calculations of Ratio CHO/insulin</value>
   </data>
   <data name="CalculateWithDietist" xml:space="preserve">
-    <value>(calculate it with dietist)</value>
+    <value>(CALCULATE IT WITH YOUR DIETIST)</value>
   </data>
   <data name="CalculationsToBeImplemented" xml:space="preserve">
     <value>Calculations to be implemented yet</value>
@@ -2009,13 +2008,13 @@
     <value>Dinn.ratio</value>
   </data>
   <data name="TooltipBreakfastRatio" xml:space="preserve">
-    <value>Carbohydrates per unit of insulin - breakfast time [XXXX]</value>
+    <value>Carbohydrates per unit of insulin - breakfast time</value>
   </data>
   <data name="TooltipLunchRatio" xml:space="preserve">
-    <value>Carbohydrates per unit of insulin - lunch time [XXXX]</value>
+    <value>Carbohydrates per unit of insulin - lunch time</value>
   </data>
   <data name="TooltipDinnerRatio" xml:space="preserve">
-    <value>Carbohydrates per unit of insulin - dinner time [XXXX]</value>
+    <value>Carbohydrates per unit of insulin - dinner time</value>
   </data>
   <data name="TooltipSaveRatioCHOInsulin" xml:space="preserve">
     <value>Save: saves the sensitivities of carbohydrates to be used in the rest of the program</value>
@@ -2175,5 +2174,8 @@
   </data>
   <data name="ChartImageToClick" xml:space="preserve">
     <value>Chart: click to open chart page with graphical data visualization</value>
+  </data>
+  <data name="LabelRoundButton" xml:space="preserve">
+    <value>Round insulin</value>
   </data>
 </root>

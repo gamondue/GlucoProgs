@@ -29,15 +29,22 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="12.609375"
      inkscape:cx="31.960347"
-     inkscape:cy="30.889715"
+     inkscape:cy="30.969021"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-y="423"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg7" />
   <title
      id="title">Jogging icon</title>
+  <rect
+     style="fill:none;stroke-width:2.499;stroke-linecap:square;stroke:none"
+     id="rect1"
+     width="64"
+     height="63.762081"
+     x="0"
+     y="0" />
   <g
      fill="none"
      stroke="currentColor"
@@ -48,10 +55,11 @@
      transform="matrix(1.1888281,0,0,1.1888281,1.9920676,4.3031143)">
     <!-- Head -->
     <circle
-       cx="22.299875"
-       cy="7.3209419"
-       r="4.5"
-       id="circle1" />
+       cx="22.96697"
+       cy="9.0553875"
+       r="3.9257185"
+       id="circle1"
+       style="fill:#000000;stroke-width:2.18095" />
     <!-- Torso -->
     <path
        d="m 23.65713,12.216263 c 2.629953,2.66936 6.136558,8.008078 5.259906,14.681476"
@@ -75,11 +83,11 @@
        id="path5" />
     <!-- Optional small motion lines -->
     <path
-       d="M 10,10 7,7"
+       d="m 14.269405,12.334831 -3,-3.0000002"
        stroke-width="1.5"
        id="path6" />
     <path
-       d="M 38,6 42,4"
+       d="m 37.300067,7.5953157 3.265164,-3.055929"
        stroke-width="1.5"
        id="path7" />
   </g>

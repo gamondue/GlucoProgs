@@ -1,0 +1,1 @@
+Su Git vorrei portare il branch "master" esattamente alla situazione attuale del branch Multilingual. Tutto ciò che c'è adesso nella HEAD del branch master deve scomparire. Il nuovo commit su master deve essere identico il branch Multilingual. Quali comendi devo dareper fare cio?

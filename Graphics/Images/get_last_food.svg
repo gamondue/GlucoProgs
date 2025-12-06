@@ -19,7 +19,7 @@
      id="defs5">
     <marker
        style="overflow:visible"
-       id="Triangle-0"
+       id="Triangle-8"
        refX="0"
        refY="0"
        orient="auto-start-reverse"
@@ -34,7 +34,7 @@
          transform="scale(0.5)"
          style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
          d="M 5.77,0 -2.88,5 V -5 Z"
-         id="path135-9" />
+         id="path135-2" />
     </marker>
   </defs>
   <sodipodi:namedview
@@ -53,10 +53,17 @@
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
-     inkscape:window-y="50"
+     inkscape:window-y="423"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg5" />
   <!-- Opzioni non selezionate -->
+  <rect
+     style="fill:none;stroke-width:2.499;stroke-linecap:square"
+     id="rect1"
+     width="63.955177"
+     height="64.204514"
+     x="0.12466896"
+     y="-0.12466896" />
   <g
      id="g7"
      transform="matrix(1.0722109,0,0,1.0714292,-5.5460092,-0.86853701)"
@@ -187,8 +194,8 @@
        style="fill:#ffa500;stroke:#722e2e;stroke-opacity:1;fill-opacity:1" />
   </g>
   <path
-     style="fill:none;fill-opacity:1;stroke:#d40000;stroke-width:2.87;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-0);paint-order:stroke fill markers"
-     d="M 38.135145,52.847107 C 43.836206,49.1807 49.649912,36.100155 49.889802,12.133182"
-     id="path1-8"
+     style="fill:none;fill-opacity:1;stroke:#d40000;stroke-width:2.87;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-8);paint-order:stroke fill markers"
+     d="M 36.509551,58.36207 C 42.210612,54.695663 47.495393,36.678479 47.735283,12.711506"
+     id="path1-5"
      sodipodi:nodetypes="cc" />
 </svg>

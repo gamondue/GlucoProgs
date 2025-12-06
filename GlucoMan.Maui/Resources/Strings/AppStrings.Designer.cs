@@ -601,7 +601,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a (calculate it with dietist).
+        ///   Cerca una stringa localizzata simile a (CALCULATE IT WITH YOUR DIETIST).
         /// </summary>
         public static string CalculateWithDietist {
             get {
@@ -799,7 +799,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a CHO giÃ  consumati [g].
+        ///   Cerca una stringa localizzata simile a Already ingested carbohydrates [g].
         /// </summary>
         public static string CHOAlreadyTaken {
             get {
@@ -862,7 +862,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a CHO rimanenti [g].
+        ///   Cerca una stringa localizzata simile a Remaining CHO: CHO rimanenti [g].
         /// </summary>
         public static string CHOLeftToTake {
             get {
@@ -1897,7 +1897,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Dati Alimento.
+        ///   Cerca una stringa localizzata simile a Food Data.
         /// </summary>
         public static string FoodData {
             get {
@@ -1969,7 +1969,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Cibo da mangiare per completare il budget CHO.
+        ///   Cerca una stringa localizzata simile a Food to eat to complete the CHO budget.
         /// </summary>
         public static string FoodToCompleteCHOBudget {
             get {
@@ -1987,7 +1987,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Cibo per Raggiungere Carboidrati Obiettivo.
+        ///   Cerca una stringa localizzata simile a Food to reach target Carbohydrates.
         /// </summary>
         public static string FoodToHitTargetCarbsPageTitle {
             get {
@@ -1996,7 +1996,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Cibo da mangiare per raggiungere CHO obiettivo [g].
+        ///   Cerca una stringa localizzata simile a Food to eat to reach target CHO [g].
         /// </summary>
         public static string FoodToHitTargetCHOGrams {
             get {
@@ -2329,7 +2329,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a IdPasto.
+        ///   Cerca una stringa localizzata simile a Id Meal.
         /// </summary>
         public static string IdMeal {
             get {
@@ -2491,12 +2491,11 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Object.
+        ///   Cerca una stringa localizzata simile a In Range.
         /// </summary>
-        public static object InRange {
+        public static string InRange {
             get {
-                object obj = ResourceManager.GetObject("InRange", resourceCulture);
-                return ((object)(obj));
+                return ResourceManager.GetString("InRange", resourceCulture);
             }
         }
         
@@ -2686,6 +2685,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string LabelRecipesDescription {
             get {
                 return ResourceManager.GetString("LabelRecipesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Round insulin.
+        /// </summary>
+        public static string LabelRoundButton {
+            get {
+                return ResourceManager.GetString("LabelRoundButton", resourceCulture);
             }
         }
         
@@ -2897,7 +2905,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a CHO Pasto [g].
+        ///   Cerca una stringa localizzata simile a Meal&apos;s CHO [g].
         /// </summary>
         public static string MealCHOGrams {
             get {
@@ -2906,7 +2914,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Dati Pasto.
+        ///   Cerca una stringa localizzata simile a Meal&apos;s Data.
         /// </summary>
         public static string MealData {
             get {
@@ -2915,7 +2923,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Meal Date/Time.
+        ///   Cerca una stringa localizzata simile a Meal&apos;s Date/Time.
         /// </summary>
         public static string MealDateTime {
             get {
@@ -2924,7 +2932,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Pasto.
+        ///   Cerca una stringa localizzata simile a Meal.
         /// </summary>
         public static string MealPageTitle {
             get {
@@ -3572,7 +3580,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Ratio CHO/insulin.
+        ///   Cerca una stringa localizzata simile a Ratio CHO/insulin (from dietist).
         /// </summary>
         public static string RatioCHOInsulin {
             get {
@@ -3851,7 +3859,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Select from list an injection from to save.
+        ///   Cerca una stringa localizzata simile a Select from the list an injection to save.
         /// </summary>
         public static string SelectInjectionToSave {
             get {
@@ -4167,7 +4175,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a TareWeight.
+        ///   Cerca una stringa localizzata simile a Success.
         /// </summary>
         public static string Success {
             get {
@@ -4239,7 +4247,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Target CHO.
+        ///   Cerca una stringa localizzata simile a Target CHO [g].
         /// </summary>
         public static string TargetCHO {
             get {
@@ -4464,7 +4472,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Carbohydrates per unit of insulin - breakfast time [XXXX].
+        ///   Cerca una stringa localizzata simile a Carbohydrates per unit of insulin - breakfast time.
         /// </summary>
         public static string TooltipBreakfastRatio {
             get {
@@ -4491,7 +4499,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Calcolatore cibo: calcola i grammi del cibo scelto necessari per raggiungere i carboidrati obiettivo.
+        ///   Cerca una stringa localizzata simile a Food Calculator: calculates the grams of selected food that you have to eat to reach target carbohydrates.
         /// </summary>
         public static string TooltipCalculateFoodGrams {
             get {
@@ -4509,7 +4517,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Calcola: apre una calcolatrice aritmetica per elaborare il valore selezionato.
+        ///   Cerca una stringa localizzata simile a Calculate: opens an arithmetic calculator to process the value that currently has the focus.
         /// </summary>
         public static string TooltipCalculator {
             get {
@@ -4770,7 +4778,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Carbohydrates per unit of insulin - dinner time [XXXX].
+        ///   Cerca una stringa localizzata simile a Carbohydrates per unit of insulin - dinner time.
         /// </summary>
         public static string TooltipDinnerRatio {
             get {
@@ -4815,7 +4823,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Divide all food into equal portions: the portion will be calculated by dividind total food by N persons.
+        ///   Cerca una stringa localizzata simile a Divide all food into equal portions: the portion will be calculated by division of total food by N persons.
         /// </summary>
         public static string TooltipEqualPortions {
             get {
@@ -4878,7 +4886,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Qualitative accuracy; accuracy of the meal as a word.
+        ///   Cerca una stringa localizzata simile a Qualitative accuracy; accuracy of the meal, as a word.
         /// </summary>
         public static string TooltipFoodInMealAccuracyQualitative {
             get {
@@ -4887,7 +4895,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Nome breve dell&apos;alimento nel pasto.
+        ///   Cerca una stringa localizzata simile a Name: short name of the food in meal.
         /// </summary>
         public static string TooltipFoodName {
             get {
@@ -4941,7 +4949,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Nome breve dell&apos;alimento scelto per raggiungere i CHO obiettivo.
+        ///   Cerca una stringa localizzata simile a Shot name of the food chosen to reach the target CHO.
         /// </summary>
         public static string TooltipFoodToHitTargetGrams {
             get {
@@ -5013,7 +5021,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a To correct: glucose to be corrected.
+        ///   Cerca una stringa localizzata simile a To correct: glucose to be corrected, difference of the target value minus the current value.
         /// </summary>
         public static string TooltipGlucoseToBeCorrected {
             get {
@@ -5148,7 +5156,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Carbohydrates per unit of insulin - lunch time [XXXX].
+        ///   Cerca una stringa localizzata simile a Carbohydrates per unit of insulin - lunch time.
         /// </summary>
         public static string TooltipLunchRatio {
             get {
@@ -5166,7 +5174,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Qualitative accuracy; accuracy of the food as a word.
+        ///   Cerca una stringa localizzata simile a Qualitative accuracy; accuracy of the food, as a word.
         /// </summary>
         public static string TooltipMealAccuracyQualitative {
             get {
@@ -5238,7 +5246,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Measure Glucose: opens the page that stores measured glucose in database.
+        ///   Cerca una stringa localizzata simile a Measure Glucose: opens the page that stores in database the measured glucose.
         /// </summary>
         public static string TooltipMeasureGlucose {
             get {
@@ -5463,7 +5471,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Legge tutti i parametri utili per calcolare i CHO rimanenti.
+        ///   Cerca una stringa localizzata simile a Read all the parameters useful to calculate remaining CHO.
         /// </summary>
         public static string TooltipReadAll {
             get {
@@ -5481,7 +5489,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Legge i CHO giÃ  mangiati dalla pagina dei pasti.
+        ///   Cerca una stringa localizzata simile a Reads from the meals&apos; page the CHO already eaten.
         /// </summary>
         public static string TooltipReadEatenCHO {
             get {
@@ -5490,7 +5498,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Legge la % CHO dell&apos;alimento selezionato dalla pagina del pasto.
+        ///   Cerca una stringa localizzata simile a Reads from the meals&apos; page the CHO % of the selected food.
         /// </summary>
         public static string TooltipReadFoodCHO {
             get {
@@ -5508,7 +5516,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Leggi CHO obiettivo: legge dalla pagina di calcolo bolo i CHO da mangiare.
+        ///   Cerca una stringa localizzata simile a Read target CHO: reads from the bolus calc&apos;s page the target CHO.
         /// </summary>
         public static string TooltipReadTargetCHO {
             get {
@@ -5886,7 +5894,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a UnitÃ .
+        ///   Cerca una stringa localizzata simile a Unit.
         /// </summary>
         public static string Unit {
             get {

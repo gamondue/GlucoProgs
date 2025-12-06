@@ -50,7 +50,9 @@
         <Label Grid.Row="3" Grid.Column="2" Text="{x:Static strings:AppStrings.EmbarkedInsulin}" 
                HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                 HorizontalOptions="Center"/>
-
+            <Label Grid.Row="3" Grid.Column="3" Text="{x:Static strings:AppStrings.LabelRoundButton}" 
+            HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+            HorizontalOptions="Center"/>
             <Entry Grid.Row="4" Grid.Column="0" x:Name="txtInsulinCorrectionSensitivity" Text=""
                HorizontalTextAlignment="End" VerticalOptions="Center" VerticalTextAlignment="Center"
                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipInsulinCorrectionSensitivity}"
