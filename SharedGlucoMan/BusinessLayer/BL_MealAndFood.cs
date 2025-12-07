@@ -4,15 +4,15 @@ using static GlucoMan.Common;
 
 namespace GlucoMan.BusinessLayer
 {
-    public class BL_MealAndFood
+    internal class BL_MealAndFood
     {
         DataLayer dl;
-        public Meal Meal { get; set; }
-        public List<Meal> Meals { get; set; }
-        public FoodInMeal FoodInMeal { get; set; }
-        public List<FoodInMeal> FoodsInMeal { get; set; }
+        internal Meal Meal { get; set; }
+        internal List<Meal> Meals { get; set; }
+        internal FoodInMeal FoodInMeal { get; set; }
+        internal List<FoodInMeal> FoodsInMeal { get; set; }
 
-        public BL_MealAndFood()
+        internal BL_MealAndFood()
         {
             Meals = new List<Meal>();
             Meal = new Meal();
@@ -244,7 +244,7 @@ namespace GlucoMan.BusinessLayer
             //DestinationFoodInMeal.SugarPercent = SourceFood.SugarPercent;
             //DestinationFoodInMeal.FibersPercent = SourceFood.FibersPercent;
         }
-        public void FromFoodInMealToFood(FoodInMeal SourceFoodInMeal, Food DestinationFood)
+        internal void FromFoodInMealToFood(FoodInMeal SourceFoodInMeal, Food DestinationFood)
         {
             DestinationFood.IdFood = SourceFoodInMeal.IdFood;
             DestinationFood.Name = SourceFoodInMeal.Name;
@@ -255,7 +255,7 @@ namespace GlucoMan.BusinessLayer
             DestinationFood.SugarPercent = SourceFoodInMeal.SugarPercent;
             DestinationFood.FibersPercent = SourceFoodInMeal.FibersPercent;
         }
-        public void FromIngredientToFood(Ingredient SourceIngredient, Food DestinationFood)
+        internal void FromIngredientToFood(Ingredient SourceIngredient, Food DestinationFood)
         {
             if (SourceIngredient != null)
             { 
@@ -296,7 +296,7 @@ namespace GlucoMan.BusinessLayer
             Meal.AccuracyOfChoEstimate.Double = 0;
             Meal.IdTypeOfMeal = SetTypeOfMealBasedOnTimeNow();
         }
-        public void SaveFoodInMealParameters()
+        internal void SaveFoodInMealParameters()
         {
             dl.SaveParameter("FoodInMeal_ChoGrams", FoodInMeal.CarbohydratesGrams.Text);
             dl.SaveParameter("FoodInMeal_QuantityGrams", FoodInMeal.QuantityInUnits.Text);
@@ -304,7 +304,7 @@ namespace GlucoMan.BusinessLayer
             dl.SaveParameter("FoodInMeal_Name", FoodInMeal.Name);
             dl.SaveParameter("FoodInMeal_AccuracyOfChoEstimate", FoodInMeal.AccuracyOfChoEstimate.Text);
         }
-        public void RestoreFoodInMealParameters()
+        internal void RestoreFoodInMealParameters()
         {
             FoodInMeal.CarbohydratesGrams.Text = dl.RestoreParameter("FoodInMeal_ChoGrams");
             FoodInMeal.QuantityInUnits.Text = dl.RestoreParameter("FoodInMeal_QuantityGrams");
@@ -312,11 +312,11 @@ namespace GlucoMan.BusinessLayer
             FoodInMeal.Name = dl.RestoreParameter("FoodInMeal_Name");
             FoodInMeal.AccuracyOfChoEstimate.Text = dl.RestoreParameter("FoodInMeal_AccuracyOfChoEstimate");
         }
-        public void SaveMealParameters()
+        internal void SaveMealParameters()
         {
             dl.SaveParameter("Meal_ChoGrams", Meal.CarbohydratesGrams.Text);
         }
-        public void RestoreMealParameters()
+        internal void RestoreMealParameters()
         {
             Meal.CarbohydratesGrams.Text = dl.RestoreParameter("Meal_ChoGrams");
         }

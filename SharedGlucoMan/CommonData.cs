@@ -27,7 +27,7 @@ namespace GlucoMan
 
         internal static DataLayer Database;
         public static BL_General BlGeneral;
-        public static BL_MealAndFood MealAndFood_CommonBL;
+        internal static BL_MealAndFood MealAndFood_CommonBL;
 
         public static string Version { get; private set; }
 

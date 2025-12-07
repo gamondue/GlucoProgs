@@ -3,7 +3,7 @@ using gamon;
 
 namespace GlucoMan
 {
-    public class Food
+    internal class Food
     {
         public int? IdFood { get; set; }
         public string Name { get; set; }

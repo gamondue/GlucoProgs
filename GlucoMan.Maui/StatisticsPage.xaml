@@ -2,76 +2,436 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:res="clr-namespace:GlucoMan.Maui.Resources.Strings"
-             xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.StatisticsPage"
              Title="{x:Static res:AppStrings.StatisticsPageTitle}">
-    <ScrollView Padding="15,10,15,10">
-        <VerticalStackLayout Spacing="20">
+    <ScrollView Padding="10,10,10,10">
+        <VerticalStackLayout Spacing="12">
+
+            <Label Text="{x:Static res:AppStrings.StatisticsPageHeader}"
+                   FontSize="22" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,10"/>
 
             <Label x:Name="lblDateRange" 
-                   FontSize="16"
+                   FontSize="14"
                    HorizontalOptions="Center"
                    TextColor="Gray"/>
+
+            <BoxView HeightRequest="2" 
+                     Color="LightGray" 
+                     Margin="0,10,0,10"/>
+
+            <!-- ==================== GLUCOSE SECTION (Light Red Background) ==================== -->
             
-            <!-- Glucose Section -->
-            <Frame Padding="5" 
+            <!-- Blood Glucose -->
+            <Frame Padding="12" 
                    CornerRadius="8"
-                   BorderColor="#3498db"
-                   BackgroundColor="#ecf9ff"
+                   BorderColor="#e74c3c"
+                   BackgroundColor="#fdecea"
                    HasShadow="True"
-                   Margin="0,10,0,0">
-                <VerticalStackLayout Spacing="12">
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
                     <Label Text="Blood Glucose"
-                           FontSize="17"
+                           FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
-                           TextColor="#2c3e50"
-                           Margin="0,0,0,3"/>
-
-                    <Grid ColumnDefinitions="Auto, *, Auto, *, Auto, *" 
-                          ColumnSpacing="5">
-                        <!-- Mean Value -->
-                        <Label Text="Mean:"
-                               Grid.Column="0"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               VerticalOptions="Center"
-                               TextColor="#34495e"/>
-                        <Label x:Name="lblMeanValue"
-                               Grid.Column="1"
-                               FontSize="16"
-                               VerticalOptions="Center"
-                               TextColor="#27ae60"
-                               HorizontalOptions="End"/>
-                        <!-- Standard Deviation -->
-                        <Label Text="Std Dev:"
-                               Grid.Column="2"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               VerticalOptions="Center"
-                               TextColor="#34495e"/>
-                        <Label x:Name="lblStdDeviation"
-                               Grid.Column="3"
-                               FontSize="16"
-                               VerticalOptions="Center"
-                               TextColor="#e67e22"
-                               HorizontalOptions="End"/>
-                        <!-- Sample Count -->
-                        <Label Text="Samples:"
-                               Grid.Column="4"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               VerticalOptions="Center"
-                               TextColor="#34495e"/>
-                        <Label x:Name="lblSampleCount"
-                               Grid.Column="5"
-                               FontSize="16"
-                               VerticalOptions="Center"
-                               TextColor="#8e44ad"
-                               HorizontalOptions="End"/>
+                           TextColor="#c0392b"/>
+                    <Label x:Name="lblGlucoseDataSource"
+                           FontSize="12"
+                           HorizontalOptions="Center"
+                           TextColor="Gray"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblGlucoseMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblGlucoseSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
             </Frame>
+
+            <!-- Morning Glucose -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#e74c3c"
+                   BackgroundColor="#fdecea"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Morning Glucose"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#c0392b"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblMorningGlucoseMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60" Text="--"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblMorningGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22" Text="--"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblMorningGlucoseSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad" Text="--"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Midday Glucose -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#e74c3c"
+                   BackgroundColor="#fdecea"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Midday Glucose"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#c0392b"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblMiddayGlucoseMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60" Text="--"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblMiddayGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22" Text="--"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblMiddayGlucoseSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad" Text="--"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Evening Glucose -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#e74c3c"
+                   BackgroundColor="#fdecea"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Evening Glucose"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#c0392b"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblEveningGlucoseMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60" Text="--"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblEveningGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22" Text="--"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblEveningGlucoseSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad" Text="--"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Night Glucose -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#e74c3c"
+                   BackgroundColor="#fdecea"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Night Glucose"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#c0392b"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblNightGlucoseMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60" Text="--"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblNightGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22" Text="--"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblNightGlucoseSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad" Text="--"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <BoxView HeightRequest="2" 
+                     Color="#f39c12" 
+                     Margin="0,10,0,10"/>
+
+            <!-- ==================== INSULIN SECTION (Light Yellow Background) ==================== -->
+
+            <!-- Total Quick Acting Insulin -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#f39c12"
+                   BackgroundColor="#fef9e7"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Total Quick Acting Insulin"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#b7950b"/>
+                    <Label Text="(Rapid + Short)"
+                           FontSize="12"
+                           HorizontalOptions="Center"
+                           TextColor="Gray"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblQuickInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblQuickInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblQuickInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Total Long Acting Insulin -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#f39c12"
+                   BackgroundColor="#fef9e7"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Total Long Acting Insulin"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#b7950b"/>
+                    <Label Text="(Intermediate + Long)"
+                           FontSize="12"
+                           HorizontalOptions="Center"
+                           TextColor="Gray"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLongInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLongInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLongInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Breakfast Insulin -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#f39c12"
+                   BackgroundColor="#fef9e7"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Breakfast Insulin"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#b7950b"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblBreakfastInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblBreakfastInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblBreakfastInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Lunch Insulin -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#f39c12"
+                   BackgroundColor="#fef9e7"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Lunch Insulin"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#b7950b"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLunchInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLunchInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLunchInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Dinner Insulin -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#f39c12"
+                   BackgroundColor="#fef9e7"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Dinner Insulin"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#b7950b"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblDinnerInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblDinnerInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblDinnerInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Other Insulin -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#f39c12"
+                   BackgroundColor="#fef9e7"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Other Insulin"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#b7950b"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblOtherInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblOtherInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblOtherInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <BoxView HeightRequest="2" 
+                     Color="#3498db" 
+                     Margin="0,10,0,10"/>
+
+            <!-- ==================== CHO SECTION (Light Blue Background) ==================== -->
+
+            <!-- Total Day CHO -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#3498db"
+                   BackgroundColor="#ebf5fb"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Total Day CHO"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#2980b9"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblTotalChoMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblTotalChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblTotalChoSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Breakfast CHO -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#3498db"
+                   BackgroundColor="#ebf5fb"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Breakfast CHO"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#2980b9"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblBreakfastChoMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblBreakfastChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblBreakfastChoSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Lunch CHO -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#3498db"
+                   BackgroundColor="#ebf5fb"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Lunch CHO"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#2980b9"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLunchChoMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLunchChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLunchChoSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Dinner CHO -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#3498db"
+                   BackgroundColor="#ebf5fb"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Dinner CHO"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#2980b9"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblDinnerChoMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblDinnerChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblDinnerChoSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Other CHO -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#3498db"
+                   BackgroundColor="#ebf5fb"
+                   HasShadow="True"
+                   Margin="0,5,0,5">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Other CHO"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#2980b9"/>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblOtherChoMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
+                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblOtherChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
+                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblOtherChoSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

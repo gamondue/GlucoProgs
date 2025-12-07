@@ -8,7 +8,7 @@ namespace GlucoMan.Maui;
 public partial class FoodsPage : ContentPage
 {
     BL_MealAndFood bl = Common.MealAndFood_CommonBL;
-    public Food Food { get; set; }
+    internal Food Food { get; set; }
     bool foodIsChosen = false;
     public bool FoodIsChosen { get => foodIsChosen; }
 
@@ -21,13 +21,13 @@ public partial class FoodsPage : ContentPage
     private bool loading = false;
     private Recipe recipe;
 
-    public FoodsPage(Food Food)
+    internal FoodsPage(Food Food)
     {
         InitializeComponent();
         this.Food = Food;
         _taskCompletionSource = new TaskCompletionSource<bool>();
     }
-    public FoodsPage(string FoodNameForSearch, string FoodDescriptionForSearch)
+    internal FoodsPage(string FoodNameForSearch, string FoodDescriptionForSearch)
     {
         InitializeComponent();
         if (Food == null)

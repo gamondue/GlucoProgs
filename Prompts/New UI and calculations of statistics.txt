@@ -21,6 +21,10 @@ modifichiamo la UI della StatisticsPage. Inseriamo la UI ed il codice per visual
 - "other CHO" per le iniezioni che non rientrano fra le precedenti.
 
 La UI dovrà essere come quella, presente attualmente nella pagina StatisticsPage, di "Blood Glucose". 
+Il background dei gruppi dovrà essere:
+- celeste come quello che c'è attualmente nella pagina, per i gruppi che fanno riferimento al CHO
+- rosso pastello molto chiaro, per i gruppi che fanno riferimento al Glucose
+- giallo pastello molto charo per gli "insulin"
 
 
 ????????????????????
