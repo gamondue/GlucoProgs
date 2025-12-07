@@ -36,3 +36,6 @@ This is a program that should have merged the data taken from the different sour
 - the Android app "FatSecret", that manages a big database of foods.
 Currently I excluded this program from the solution because I started implementing its functionalities in the UI program GlucoMan itself.
 
+GlucoMan is Free Software by:  
+Ing.Gabriele Monti (gamon) - Forlì - Italia  
+Licence: GPL v.2;

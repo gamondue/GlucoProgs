@@ -15,7 +15,7 @@ public partial class WeighFoodPage : ContentPage
     private Food selectedFood;
 
     // Properties to handle data exchange with calling page
-    public Food ResultFood { get; private set; }
+    internal Food ResultFood { get; private set; }
     public bool FoodDataWasModified { get; private set; } = false;
     public bool UserCancelled { get; private set; } = false;
     // Properties for RadioButton options
@@ -106,7 +106,7 @@ public partial class WeighFoodPage : ContentPage
         }
     }
     // Constructor that accepts Food data from MealPage
-    public WeighFoodPage(Food initialFood) : this()
+    internal WeighFoodPage(Food initialFood) : this()
     {
         try
         {

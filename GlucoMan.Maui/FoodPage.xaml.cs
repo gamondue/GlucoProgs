@@ -7,7 +7,7 @@ namespace GlucoMan.Maui;
 public partial class FoodPage : ContentPage
 {
     BL_MealAndFood bl = Common.MealAndFood_CommonBL;
-    public Food CurrentFood { get; set; }
+    internal Food CurrentFood { get; set; }
     
     // Add TaskCompletionSource to handle page completion
     private TaskCompletionSource<bool> _taskCompletionSource;
@@ -15,8 +15,8 @@ public partial class FoodPage : ContentPage
     
     // Property to indicate if user chose/confirmed the food
     public bool FoodIsChosen { get; private set; }
-    
-    public FoodPage(Food Food)
+
+    internal FoodPage(Food Food)
     {
         InitializeComponent();
         FoodIsChosen = false;
