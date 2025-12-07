@@ -1461,8 +1461,8 @@
   <data name="FromLabel" xml:space="preserve">
     <value>Da:</value>
   </data>
-  <data name="ToLabel" xml:space="preserve">
-    <value>A:</value>
+  <data name="DateLabel" xml:space="preserve">
+    <value>Data: </value>
   </data>
   <data name="TooltipFromDate" xml:space="preserve">
     <value>Data di inizio: seleziona la data iniziale per l'analisi. Questa data non influenza il grafico.</value>
@@ -2175,5 +2175,11 @@
   </data>
   <data name="LabelRoundButton" xml:space="preserve">
     <value>Arrotonda insulina</value>
+  </data>
+  <data name="labelNoOfWeeks" xml:space="preserve">
+    <value>N. settimane</value>
+  </data>
+  <data name="IdentificationPageTitle" xml:space="preserve">
+    <value>Identificazione dei parametri</value>
   </data>
 </root>

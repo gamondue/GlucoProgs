@@ -1,0 +1,27 @@
+modifichiamo la UI della StatisticsPage. Inseriamo la UI ed il codice per visualizzare valor medio, standard deviation e numero di campioni per i seguenti parametri:
+- "Blood Glucose", che fa la media dei dati provenienti  dalla TabellaSensorRecords del database
+	(se nel periodo selezionato la query di SensorRecords è vuota, prendere i dati da glucose Records.)
+	Se SensorRecords ha valori scrivere anche la seguente frase:
+		"data source is sensors' data collection"
+	Se i dati sono acquisiti da GlucoseRecords scrivere la seguente frase:
+		"data source is manual data collection" (scrivere la data in rosso)
+- "morning glucose", per ora senza medie
+- "midday glucose", per ora senza medie
+- "evening glucose", per ora senza medie
+- "night glucose", per ora senza medie
+- "total quick acting insulin" (insulin of Rapid and Short type) calcolare dalla tabella "Injections" la media di tutti i valori di bolo di quel tipo nell'intervallo di tempo di questa pagina
+- "total long acting insulin" (Intermediate and Long type) bolus come la precedente, ma con quegli altri due tipi di inieziuoni
+- "breakfast insulin" lo stesso che le precedenti, ma devono essere filtrate solo le iniezioni fatte fra l'inizio e la fine dell'ora del breakfast (vedi pagina SettingsPage, sezione "Meal Time Settings")
+- "dinner insulin" lo stesso della precedente, ma con le iniezioni all'ora del pranzo
+- "lunch insulin" per l'ora di cena
+- "other insulin" per le iniezioni che non rientrano fra le precedenti.
+- "total day CHO" i cui criteri vedremo più avanti
+- "dinner CHO" lo stesso della precedente, ma con le iniezioni all'ora del pranzo
+- "lunch CHO" per l'ora di cena
+- "other CHO" per le iniezioni che non rientrano fra le precedenti.
+
+La UI dovrà essere come quella, presente attualmente nella pagina StatisticsPage, di "Blood Glucose". 
+
+
+????????????????????
+Tutte le medie dovranno essere degli integrali, nel senso che ogni valore dovrà "contare" nella somma 

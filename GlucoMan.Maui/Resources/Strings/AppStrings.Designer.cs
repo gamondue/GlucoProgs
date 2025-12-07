@@ -1402,6 +1402,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Date: .
+        /// </summary>
+        public static string DateLabel {
+            get {
+                return ResourceManager.GetString("DateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Date/Time.
         /// </summary>
         public static string DateTime {
@@ -2329,6 +2338,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Parameters&apos; identification.
+        /// </summary>
+        public static string IdentificationPageTitle {
+            get {
+                return ResourceManager.GetString("IdentificationPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Id Meal.
         /// </summary>
         public static string IdMeal {
@@ -2676,6 +2694,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string LabelImportSensorData {
             get {
                 return ResourceManager.GetString("LabelImportSensorData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a No of Weeks.
+        /// </summary>
+        public static string labelNoOfWeeks {
+            get {
+                return ResourceManager.GetString("labelNoOfWeeks", resourceCulture);
             }
         }
         
@@ -4351,15 +4378,6 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Today {
             get {
                 return ResourceManager.GetString("Today", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a To:.
-        /// </summary>
-        public static string ToLabel {
-            get {
-                return ResourceManager.GetString("ToLabel", resourceCulture);
             }
         }
         

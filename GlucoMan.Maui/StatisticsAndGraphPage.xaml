@@ -7,52 +7,6 @@
     <ScrollView Padding="10,5,10,5">
         <VerticalStackLayout Spacing="8">
             
-            <!-- Radio Buttons Section (2 rows x 3 columns) -->
-            <Grid RowDefinitions="Auto,Auto" 
-                  ColumnDefinitions="*,*,*"
-                  RowSpacing="3"
-                  ColumnSpacing="8">
-                
-                <!-- First row -->
-                <RadioButton x:Name="rbGlucose" 
-                             Content="{x:Static strings:AppStrings.Glucose}"
-                             Grid.Row="0" Grid.Column="0"
-                             GroupName="DataType"
-                             IsChecked="True"
-                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipGlucose}"/>
-                
-                <RadioButton x:Name="rbShortInsulin" 
-                             Content="{x:Static strings:AppStrings.ShortInsulin}"
-                             Grid.Row="0" Grid.Column="1"
-                             GroupName="DataType"
-                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShortInsulin}"/>
-                
-                <RadioButton x:Name="rbLongInsulin" 
-                             Content="{x:Static strings:AppStrings.LongInsulin}"
-                             Grid.Row="0" Grid.Column="2"
-                             GroupName="DataType"
-                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipLongInsulin}"/>
-                
-                <!-- Second row -->
-                <RadioButton x:Name="rbFoods" 
-                             Content="{x:Static strings:AppStrings.Foods}"
-                             Grid.Row="1" Grid.Column="0"
-                             GroupName="DataType"
-                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFoodsSelection}"/>
-                
-                <RadioButton x:Name="rbMeals" 
-                             Content="{x:Static strings:AppStrings.Meals}"
-                             Grid.Row="1" Grid.Column="1"
-                             GroupName="DataType"
-                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealsSelection}"/>
-                
-                <RadioButton x:Name="rbRecipes" 
-                             Content="{x:Static strings:AppStrings.Recipes}"
-                             Grid.Row="1" Grid.Column="2"
-                             GroupName="DataType"
-                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipRecipesSelection}"/>
-            </Grid>
-            
             <!-- Date and Time Range Section -->
             <Label x:Name="lblSelectTimeRange" 
                    Text="{x:Static strings:AppStrings.SelectTimeRange}"
@@ -68,36 +22,15 @@
                    HasShadow="False"
                    Margin="3,0,3,2">
                 
-                <Grid RowDefinitions="Auto" 
+                <Grid RowDefinitions="Auto,Auto" 
                       ColumnDefinitions="40,*,40,*"
                       RowSpacing="5"
                       ColumnSpacing="6">
-                    
-                    <!-- From column -->
-                    <Label x:Name="lblFrom" 
-                           Text="{x:Static strings:AppStrings.FromLabel}"
-                           Grid.Row="0" Grid.Column="0"
-                           VerticalOptions="Center"
-                           HorizontalOptions="End"
-                           FontSize="13"
-                           FontAttributes="Bold"
-                           TextColor="#2980b9"
-                           Margin="0,0,2,0"/>
-                    
-                    <DatePicker x:Name="datePickerFrom" 
-                                Grid.Row="0" Grid.Column="1"
-                                Format="dd/MM/yyyy"
-                                BackgroundColor="#d6eaf8"
-                                TextColor="Black"
-                                VerticalOptions="Center"
-                                HorizontalOptions="Fill"
-                                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFromDate}"
-                                HeightRequest="34"/>
 
                     <!-- To column -->
                     <Label x:Name="lblTo" 
-                           Text="{x:Static strings:AppStrings.ToLabel}"
-                           Grid.Row="0" Grid.Column="2"
+                           Text="{x:Static strings:AppStrings.DateLabel}"
+                           Grid.Row="0" Grid.Column="0"
                            VerticalOptions="Center"
                            HorizontalOptions="End"
                            FontSize="13"
@@ -105,8 +38,8 @@
                            TextColor="#27ae60"
                            Margin="0,0,2,0"/>
                     
-                    <DatePicker x:Name="datePickerTo" 
-                                Grid.Row="0" Grid.Column="3"
+                    <DatePicker x:Name="datePicker" 
+                                Grid.Row="0" Grid.Column="1"
                                 Format="dd/MM/yyyy"
                                 BackgroundColor="#d5f4e6"
                                 TextColor="Black"
@@ -114,6 +47,25 @@
                                 HorizontalOptions="Fill"
                                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipToDate}"
                                 HeightRequest="34"/>
+
+                    <!-- Number of weeks label and entry placed below the date pickers, centered across columns -->
+                    <HorizontalStackLayout Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
+                                           HorizontalOptions="Center" Spacing="8" Margin="0,8,0,0">
+                        <Label x:Name="lblNoOfWeeks" Text="No of weeks"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#27ae60"
+                               ToolTipProperties.Text="{x:Static strings:AppStrings.labelNoOfWeeks}"
+                               />
+                        <Entry x:Name="txtNoOfWeeks"
+                               WidthRequest="40"
+                               HorizontalTextAlignment="Center"
+                               Keyboard="Numeric"
+                               Placeholder="No of weeks"
+                               Text="2"/>
+                    </HorizontalStackLayout>
                 </Grid>
             </Frame>
             
@@ -200,7 +152,12 @@
                         </VisualState>
                     </VisualStateGroup>
                 </VisualStateManager.VisualStateGroups>
-            </Image>      
+            </Image>
+            <Button x:Name="btnIdentify" 
+                        Text="Identifications"
+                        Clicked="btnIdentification_Click"
+                        HorizontalOptions="Center"/>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -75,8 +75,17 @@
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
         <Label Grid.Row="5" Grid.Column="1" Text="{x:Static strings:AppStrings.TargetGluc}" 
                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-        <Label Grid.Row="5" Grid.Column="2" Text="{x:Static strings:AppStrings.GlucToCorrect}" 
-               HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+        <!-- Calculator icon replacing GlucToCorrect label -->
+        <Image Grid.Row="5" Grid.Column="2" 
+               Grid.RowSpan="2"
+               Source="calculator.png"
+               ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipCalculator}"
+               HorizontalOptions="Center"
+               VerticalOptions="Center">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Calculator_Click" />
+            </Image.GestureRecognizers>
+        </Image>
         <Label Grid.Row="5" Grid.Column="3" Text="{x:Static strings:AppStrings.CHOToEat}" 
                HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
@@ -93,9 +102,7 @@
                Keyboard="Numeric" x:Name="txtTargetGlucose" Text="mg/dl" 
                Placeholder="" FontSize="Large"
                BackgroundColor="PaleGoldenrod" TextColor="Black"/>
-        <Label Grid.Row="6" Grid.Column="2" x:Name="txtGlucoseToBeCorrected" Text="----" 
-                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipGlucoseToBeCorrected}"
-                HorizontalTextAlignment="End" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+        <!-- txtGlucoseToBeCorrected removed - calculator icon shows here instead -->
         <Entry Grid.Row="6" Grid.Column="3" x:Name="txtChoToEat" Text="" FontSize="Large" Margin="1"
                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipTargetCHO}"
                Keyboard="Numeric" Placeholder="g" 

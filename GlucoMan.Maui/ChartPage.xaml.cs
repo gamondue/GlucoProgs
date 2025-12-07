@@ -9,7 +9,6 @@ public partial class ChartPage : ContentPage
 {
     BL_GlucoseMeasurements bl = new();
     private BL_BolusesAndInjections blInj = new();
-    private string _dataType;
     private DateTime _dateOfGraph;
     private List<(float Hour, float Value)> _dataPoints = new();
     private List<GlucoseRecord> list;
@@ -39,17 +38,14 @@ public partial class ChartPage : ContentPage
     private float alarmHigh = 240;
     private float alarmLow = 60;
 
-    public ChartPage(string dataType, DateTime dateOfGraph)
+    public ChartPage(DateTime dateOfGraph)
     {
         try
         {
-            System.Diagnostics.Debug.WriteLine("ChartPage constructor start");
-
             InitializeComponent();
 
             System.Diagnostics.Debug.WriteLine("InitializeComponent completed");
 
-            _dataType = dataType;
             _dateOfGraph = dateOfGraph;
 
             // Display the parameters

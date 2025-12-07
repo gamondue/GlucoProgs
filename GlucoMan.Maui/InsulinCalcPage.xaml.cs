@@ -1,4 +1,7 @@
 using GlucoMan.BusinessLayer;
+using Microsoft.Maui.Controls;
+using System;
+using System.Collections.Generic;
 
 namespace GlucoMan.Maui;
 
@@ -6,6 +9,7 @@ public partial class InsulinCalcPage : ContentPage
 {
     BL_BolusesAndInjections currentBolusCalculation;
     BL_GlucoseMeasurements currentGlucoseMeasurement;
+    
     public InsulinCalcPage()
     {
         InitializeComponent();
@@ -22,13 +26,13 @@ public partial class InsulinCalcPage : ContentPage
         FromClassToUi();
         txtGlucoseBeforeMeal.Focus();
     }
+    
     private void FromClassToUi()
     {
         txtChoToEat.Text = currentBolusCalculation.ChoToEat.Text;
         txtInsulinCorrectionSensitivity.Text = currentBolusCalculation.InsulinCorrectionSensitivity.Text;
         ////txtTdd.Text = currentBolusCalculation.TotalDailyDoseOfInsulin.Text;
         txtGlucoseBeforeMeal.Text = currentBolusCalculation.GlucoseBeforeMeal.Text;
-        txtGlucoseToBeCorrected.Text = currentBolusCalculation.GlucoseToBeCorrected.Text;
         txtCorrectionInsulin.Text = currentBolusCalculation.BolusInsulinDueToCorrectionOfGlucose.Text;
         txtChoInsulinMeal.Text = currentBolusCalculation.BolusInsulinDueToChoOfMeal.Text;
         txtTargetGlucose.Text = currentBolusCalculation.TargetGlucose.Text;
@@ -57,6 +61,7 @@ public partial class InsulinCalcPage : ContentPage
                 break;
         }
     }
+    
     private void FromUiToClass()
     {
         // since it is easy to mistakenly insert blanks during editing, we tear blanks off 
@@ -82,17 +87,18 @@ public partial class InsulinCalcPage : ContentPage
         if (rdbIsSnack.IsChecked)
             currentBolusCalculation.MealOfBolus.IdTypeOfMeal = Common.TypeOfMeal.Snack;
     }
+    
     private string NoBlank(string Text)
     {
-        if (Text == null)
-            return null;
-        Text.Replace(" ", "");
-        return Text;
+        if (Text == null) return null;
+        return Text.Replace(" ", "");
     }
+    
     private async void btnSetParameters_Click(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new CorrectionParametersPage());
     }
+    
     protected override void OnAppearing()
     {
         // emulates Windows modal behaviour in Android 
@@ -100,6 +106,7 @@ public partial class InsulinCalcPage : ContentPage
         currentBolusCalculation.RestoreBolusParameters();
         FromClassToUi();
     }
+    
     private void btnBolusCalculations_Click(object sender, EventArgs e)
     {
         FromUiToClass();
@@ -108,6 +115,7 @@ public partial class InsulinCalcPage : ContentPage
         currentBolusCalculation.SaveBolusLog();
         FromClassToUi();
     }
+    
     private void btnRoundInsulin_Click(object sender, EventArgs e)
     {
         if (rdbIsBreakfast.IsChecked || rdbIsDinner.IsChecked || rdbIsLunch.IsChecked)
@@ -118,26 +126,98 @@ public partial class InsulinCalcPage : ContentPage
             FromClassToUi();
         }
     }
+    
     private void btnReadGlucose_Click(object sender, EventArgs e)
     {
         List<GlucoseRecord> list = currentGlucoseMeasurement.GetLastTwoGlucoseMeasurements();
         if (list.Count > 0)
             txtGlucoseBeforeMeal.Text = list[0].GlucoseValue.ToString();
     }
+    
     private void btnSaveBolus_Click(object sender, EventArgs e)
     {
         currentBolusCalculation.SaveBolusParameters();
     }
+    
     private void btnReadCho_Click(object sender, EventArgs e)
     {
         txtChoToEat.Text = currentBolusCalculation.RestoreChoToEat();
     }
+    
     private void btnInjection_Click(object sender, EventArgs e)
     {
         Navigation.PushAsync(new InjectionsPage(null));
     }
+    
     private void btnMeasureGlucose_Click(object sender, EventArgs e)
     {
         Navigation.PushAsync(new GlucoseMeasurementsPage(null));
+    }
+
+    /// <summary>
+    /// Opens calculator for the focused entry field
+    /// </summary>
+    private async void Calculator_Click(object sender, TappedEventArgs e)
+    {
+        // IMPORTANT: Get the focused entry BEFORE opening the modal
+        // because the focus will be lost when the modal opens
+        var focusedEntry = GetFocusedEntry();
+        
+        // If no entry of those interested has focus, do not open the calculator page
+        if (focusedEntry == null)
+        {
+            return;
+        }
+        
+        string sValue = focusedEntry?.Text ?? "0";
+        double dValue = double.TryParse(sValue, out var val) ? val : 0;
+
+        var calculator = new CalculatorPage(dValue);
+        await Navigation.PushModalAsync(calculator);
+        var result = await calculator.ResultSource.Task;
+
+        // Update the entry that had focus BEFORE opening the calculator
+        if (result.HasValue && focusedEntry != null)
+        {
+            focusedEntry.Text = result.Value.ToString();
+            if (result.HasValue)
+            {
+                if (focusedEntry == txtChoToEat)
+                {
+                    txtChoToEat.Text = result.Value.ToString();
+                }
+                //    else if (focusedEntry == txtFoodCarbohydratesPerUnit)
+                //    {
+                //        txtFoodCarbohydratesPerUnit.Text = result.Value.ToString();
+                //    }
+                //    else if (focusedEntry == txtFoodQuantityInUnits)
+                //    {
+                //        txtFoodQuantityInUnits.Text = result.Value.ToString();
+                //    }
+                //    else if (focusedEntry == txtFoodCarbohydratesGrams)
+                //    {
+                //        txtFoodCarbohydratesGrams.Text = result.Value.ToString();
+                //    }
+                //    FromClassToBoxesFoodInMeal();
+                //}
+            }
+            //FromUiToClass();
+            // restore focus to the updated entry
+            //focusedEntry.Focus();
+        }
+    }
+
+    /// <summary>
+    /// Returns the Entry control that currently has focus
+    /// </summary>
+    private Entry GetFocusedEntry()
+    {
+        if (txtChoInsulinRatioBreakfast.IsFocused) return txtChoInsulinRatioBreakfast;
+        if (txtChoInsulinRatioLunch.IsFocused) return txtChoInsulinRatioLunch;
+        if (txtChoInsulinRatioDinner.IsFocused) return txtChoInsulinRatioDinner;
+        if (txtInsulinCorrectionSensitivity.IsFocused) return txtInsulinCorrectionSensitivity;
+        if (txtGlucoseBeforeMeal.IsFocused) return txtGlucoseBeforeMeal;
+        if (txtChoToEat.IsFocused) return txtChoToEat;
+        return null;
     }
 }

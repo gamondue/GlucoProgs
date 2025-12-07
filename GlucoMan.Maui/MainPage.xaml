@@ -81,6 +81,7 @@
                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPrediction}"/>
 
         <Button x:Name="btnPysicalActivity" 
+                IsEnabled="False"
                 ImageSource="jogging.png"
                 Grid.Row="5" Grid.Column="0" 
                 Clicked="btnPysicalActivity_Clicked" 
@@ -88,9 +89,10 @@
                 Margin="6,3,3,3"/>
         
         <Button x:Name="btnAlarms" 
+                IsEnabled="False"
                 ImageSource="ringing_clock.png"
                 Grid.Row="5" Grid.Column="1" 
-                IsVisible="True" IsEnabled="True" 
+                IsVisible="True"
                 Clicked="btnAlarms_Clicked" 
                 Margin="3,3,6,3" 
                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipAlarms}"/>

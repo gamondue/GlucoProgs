@@ -318,6 +318,9 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>AppStrings.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="IdentificationPage.xaml.cs">
+	    <DependentUpon>IdentificationPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -362,6 +365,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="StatisticsAndGraphPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="IdentificationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="StatisticsPage.xaml">
