@@ -6,20 +6,13 @@
              Title="{x:Static res:AppStrings.StatisticsPageTitle}">
     <ScrollView Padding="10,10,10,10">
         <VerticalStackLayout Spacing="12">
-
-            <Label Text="{x:Static res:AppStrings.StatisticsPageHeader}"
-                   FontSize="22" 
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   Margin="0,10,0,10"/>
-
             <Label x:Name="lblDateRange" 
                    FontSize="14"
                    HorizontalOptions="Center"
                    TextColor="Gray"/>
 
             <BoxView HeightRequest="2" 
-                     Color="LightGray" 
+                     Color="#e74c3c" 
                      Margin="0,10,0,10"/>
 
             <!-- ==================== GLUCOSE SECTION (Light Red Background) ==================== -->
@@ -30,9 +23,9 @@
                    BorderColor="#e74c3c"
                    BackgroundColor="#fdecea"
                    HasShadow="True"
-                   Margin="0,5,0,5">
+                   Margin="0,0,0,0">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Blood Glucose"
+                    <Label Text="{x:Static res:AppStrings.StatBloodGlucose}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
@@ -42,11 +35,11 @@
                            HorizontalOptions="Center"
                            TextColor="Gray"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblGlucoseMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblGlucoseSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -58,19 +51,19 @@
                    BorderColor="#e74c3c"
                    BackgroundColor="#fdecea"
                    HasShadow="True"
-                   Margin="0,5,0,5">
+                   Margin="0,0,0,0">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Morning Glucose"
+                    <Label Text="{x:Static res:AppStrings.StatMorningGlucose}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#c0392b"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblMorningGlucoseMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60" Text="--"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblMorningGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22" Text="--"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblMorningGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b" Text="--"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblMorningGlucoseSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad" Text="--"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -82,19 +75,19 @@
                    BorderColor="#e74c3c"
                    BackgroundColor="#fdecea"
                    HasShadow="True"
-                   Margin="0,5,0,5">
+                   Margin="0,0,0,0">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Midday Glucose"
+                    <Label Text="{x:Static res:AppStrings.StatMiddayGlucose}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#c0392b"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblMiddayGlucoseMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60" Text="--"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblMiddayGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22" Text="--"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblMiddayGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b" Text="--"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblMiddayGlucoseSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad" Text="--"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -108,17 +101,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Evening Glucose"
+                    <Label Text="{x:Static res:AppStrings.StatEveningGlucose}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#c0392b"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblEveningGlucoseMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60" Text="--"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblEveningGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22" Text="--"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblEveningGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b" Text="--"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblEveningGlucoseSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad" Text="--"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -132,17 +125,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Night Glucose"
+                    <Label Text="{x:Static res:AppStrings.StatNightGlucose}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#c0392b"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblNightGlucoseMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60" Text="--"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblNightGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22" Text="--"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblNightGlucoseStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b" Text="--"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblNightGlucoseSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad" Text="--"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -162,21 +155,21 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Total Quick Acting Insulin"
+                    <Label Text="{x:Static res:AppStrings.StatTotalQuickActingInsulin}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#b7950b"/>
-                    <Label Text="(Rapid + Short)"
+                    <Label Text="{x:Static res:AppStrings.StatRapidPlusShort}"
                            FontSize="12"
                            HorizontalOptions="Center"
                            TextColor="Gray"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblQuickInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblQuickInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblQuickInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblQuickInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -190,21 +183,21 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Total Long Acting Insulin"
+                    <Label Text="{x:Static res:AppStrings.StatTotalLongActingInsulin}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#b7950b"/>
-                    <Label Text="(Intermediate + Long)"
+                    <Label Text="{x:Static res:AppStrings.StatIntermediatePlusLong}"
                            FontSize="12"
                            HorizontalOptions="Center"
                            TextColor="Gray"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblLongInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblLongInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLongInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblLongInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -218,17 +211,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Breakfast Insulin"
+                    <Label Text="{x:Static res:AppStrings.StatBreakfastInsulin}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#b7950b"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblBreakfastInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblBreakfastInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblBreakfastInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblBreakfastInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -242,17 +235,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Lunch Insulin"
+                    <Label Text="{x:Static res:AppStrings.StatLunchInsulin}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#b7950b"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblLunchInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblLunchInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLunchInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblLunchInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -266,17 +259,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Dinner Insulin"
+                    <Label Text="{x:Static res:AppStrings.StatDinnerInsulin}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#b7950b"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblDinnerInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblDinnerInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblDinnerInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblDinnerInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -290,17 +283,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Other Insulin"
+                    <Label Text="{x:Static res:AppStrings.StatOtherInsulin}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#b7950b"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblOtherInsulinMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblOtherInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblOtherInsulinStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblOtherInsulinSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -320,17 +313,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Total Day CHO"
+                    <Label Text="{x:Static res:AppStrings.StatTotalDayCHO}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#2980b9"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblTotalChoMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblTotalChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblTotalChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblTotalChoSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -344,17 +337,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Breakfast CHO"
+                    <Label Text="{x:Static res:AppStrings.StatBreakfastCHO}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#2980b9"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblBreakfastChoMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblBreakfastChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblBreakfastChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblBreakfastChoSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -368,17 +361,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Lunch CHO"
+                    <Label Text="{x:Static res:AppStrings.StatLunchCHO}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#2980b9"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblLunchChoMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblLunchChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblLunchChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblLunchChoSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -392,17 +385,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Dinner CHO"
+                    <Label Text="{x:Static res:AppStrings.StatDinnerCHO}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#2980b9"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblDinnerChoMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblDinnerChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblDinnerChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblDinnerChoSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>
@@ -416,17 +409,17 @@
                    HasShadow="True"
                    Margin="0,5,0,5">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Other CHO"
+                    <Label Text="{x:Static res:AppStrings.StatOtherCHO}"
                            FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            TextColor="#2980b9"/>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                        <Label Text="Mean:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatMean}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblOtherChoMean" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
-                        <Label Text="Std Dev:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
-                        <Label x:Name="lblOtherChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#e67e22"/>
-                        <Label Text="Samples:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label x:Name="lblOtherChoStdDev" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
+                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblOtherChoSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>

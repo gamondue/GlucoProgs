@@ -4175,6 +4175,69 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Blood Glucose.
+        /// </summary>
+        public static string StatBloodGlucose {
+            get {
+                return ResourceManager.GetString("StatBloodGlucose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Breakfast CHO.
+        /// </summary>
+        public static string StatBreakfastCHO {
+            get {
+                return ResourceManager.GetString("StatBreakfastCHO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Breakfast Insulin.
+        /// </summary>
+        public static string StatBreakfastInsulin {
+            get {
+                return ResourceManager.GetString("StatBreakfastInsulin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Dinner CHO.
+        /// </summary>
+        public static string StatDinnerCHO {
+            get {
+                return ResourceManager.GetString("StatDinnerCHO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Dinner Insulin.
+        /// </summary>
+        public static string StatDinnerInsulin {
+            get {
+                return ResourceManager.GetString("StatDinnerInsulin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Evening Glucose.
+        /// </summary>
+        public static string StatEveningGlucose {
+            get {
+                return ResourceManager.GetString("StatEveningGlucose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a (Intermediate + Long).
+        /// </summary>
+        public static string StatIntermediatePlusLong {
+            get {
+                return ResourceManager.GetString("StatIntermediatePlusLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Statistics.
         /// </summary>
         public static string Statistics {
@@ -4207,6 +4270,132 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string StatisticsPageTitle {
             get {
                 return ResourceManager.GetString("StatisticsPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Lunch CHO.
+        /// </summary>
+        public static string StatLunchCHO {
+            get {
+                return ResourceManager.GetString("StatLunchCHO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Lunch Insulin.
+        /// </summary>
+        public static string StatLunchInsulin {
+            get {
+                return ResourceManager.GetString("StatLunchInsulin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Mean:.
+        /// </summary>
+        public static string StatMean {
+            get {
+                return ResourceManager.GetString("StatMean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Midday Glucose.
+        /// </summary>
+        public static string StatMiddayGlucose {
+            get {
+                return ResourceManager.GetString("StatMiddayGlucose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Morning Glucose.
+        /// </summary>
+        public static string StatMorningGlucose {
+            get {
+                return ResourceManager.GetString("StatMorningGlucose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Night Glucose.
+        /// </summary>
+        public static string StatNightGlucose {
+            get {
+                return ResourceManager.GetString("StatNightGlucose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Other CHO.
+        /// </summary>
+        public static string StatOtherCHO {
+            get {
+                return ResourceManager.GetString("StatOtherCHO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Other Insulin.
+        /// </summary>
+        public static string StatOtherInsulin {
+            get {
+                return ResourceManager.GetString("StatOtherInsulin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a (Rapid + Short).
+        /// </summary>
+        public static string StatRapidPlusShort {
+            get {
+                return ResourceManager.GetString("StatRapidPlusShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Samples:.
+        /// </summary>
+        public static string StatSamples {
+            get {
+                return ResourceManager.GetString("StatSamples", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Std Dev:.
+        /// </summary>
+        public static string StatStdDev {
+            get {
+                return ResourceManager.GetString("StatStdDev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Total Day CHO.
+        /// </summary>
+        public static string StatTotalDayCHO {
+            get {
+                return ResourceManager.GetString("StatTotalDayCHO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Total Long Acting Insulin.
+        /// </summary>
+        public static string StatTotalLongActingInsulin {
+            get {
+                return ResourceManager.GetString("StatTotalLongActingInsulin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Total Quick Acting Insulin.
+        /// </summary>
+        public static string StatTotalQuickActingInsulin {
+            get {
+                return ResourceManager.GetString("StatTotalQuickActingInsulin", resourceCulture);
             }
         }
         

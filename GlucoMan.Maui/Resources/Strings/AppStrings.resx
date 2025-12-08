@@ -2217,4 +2217,67 @@
   <data name="TooltipMenu" xml:space="preserve">
     <value>Opens the main page</value>
   </data>
+  <data name="StatBloodGlucose" xml:space="preserve">
+    <value>Blood Glucose</value>
+  </data>
+  <data name="StatMean" xml:space="preserve">
+    <value>Mean:</value>
+  </data>
+  <data name="StatStdDev" xml:space="preserve">
+    <value>Std Dev:</value>
+  </data>
+  <data name="StatSamples" xml:space="preserve">
+    <value>Samples:</value>
+  </data>
+  <data name="StatMorningGlucose" xml:space="preserve">
+    <value>Morning Glucose</value>
+  </data>
+  <data name="StatMiddayGlucose" xml:space="preserve">
+    <value>Midday Glucose</value>
+  </data>
+  <data name="StatEveningGlucose" xml:space="preserve">
+    <value>Evening Glucose</value>
+  </data>
+  <data name="StatNightGlucose" xml:space="preserve">
+    <value>Night Glucose</value>
+  </data>
+  <data name="StatTotalQuickActingInsulin" xml:space="preserve">
+    <value>Total Quick Acting Insulin</value>
+  </data>
+  <data name="StatRapidPlusShort" xml:space="preserve">
+    <value>(Rapid + Short)</value>
+  </data>
+  <data name="StatTotalLongActingInsulin" xml:space="preserve">
+    <value>Total Long Acting Insulin</value>
+  </data>
+  <data name="StatIntermediatePlusLong" xml:space="preserve">
+    <value>(Intermediate + Long)</value>
+  </data>
+  <data name="StatBreakfastInsulin" xml:space="preserve">
+    <value>Breakfast Insulin</value>
+  </data>
+  <data name="StatLunchInsulin" xml:space="preserve">
+    <value>Lunch Insulin</value>
+  </data>
+  <data name="StatDinnerInsulin" xml:space="preserve">
+    <value>Dinner Insulin</value>
+  </data>
+  <data name="StatOtherInsulin" xml:space="preserve">
+    <value>Other Insulin</value>
+  </data>
+  <data name="StatTotalDayCHO" xml:space="preserve">
+    <value>Total Day CHO</value>
+  </data>
+  <data name="StatBreakfastCHO" xml:space="preserve">
+    <value>Breakfast CHO</value>
+  </data>
+  <data name="StatLunchCHO" xml:space="preserve">
+    <value>Lunch CHO</value>
+  </data>
+  <data name="StatDinnerCHO" xml:space="preserve">
+    <value>Dinner CHO</value>
+  </data>
+  <data name="StatOtherCHO" xml:space="preserve">
+    <value>Other CHO</value>
+  </data>
 </root>

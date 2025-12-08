@@ -64,7 +64,11 @@ namespace GlucoMan.BusinessLayer
                         .Select(e => e.EventTime.DateTime.Value)
                 );
 
-                General.LogOfProgram?.Event($"CSV file processed successfully. Lines read: {lines.Length}, Existing sensor records: {existingSensorTimes.Count}, Existing meals: {existingMealTimes.Count}, Existing injections: {existingInjectionTimes.Count}, Existing events: {existingEventTimes.Count}");
+                General.LogOfProgram?.Event($"CSV file processed successfully. Lines read: {lines.Length}, " +
+                    $"Existing sensor records: {existingSensorTimes.Count}, " +
+                    $"Existing meals: {existingMealTimes.Count}, " +
+                    $"Existing injections: {existingInjectionTimes.Count}, " +
+                    $"Existing events: {existingEventTimes.Count}");
 
                 // TODO: Implement actual data import logic
                 // - Parse CSV lines according to FreeStyle Libre format

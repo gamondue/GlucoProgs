@@ -48,8 +48,8 @@ public partial class StatisticsAndGraphPage : ContentPage
             await DisplayAlert(AppStrings.ImportErrorTitle, string.Format("Failed to open chart page: {0}", ex.Message), AppStrings.OK);
         }
     }
-    
-    private async void btnImportGlucose_Clicked(object sender, EventArgs e)
+
+    private async void btnImportGlucose_Clicked(object sender, TappedEventArgs e)
     {
         try
         {
@@ -79,10 +79,10 @@ public partial class StatisticsAndGraphPage : ContentPage
             // Use FilePicker to select the database file (to get the folder location)
             var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
-                { DevicePlatform.Android, new[] { "application/x-sqlite3", "application/octet-stream", ".csv"} },
-                { DevicePlatform.iOS, new[] { "public.data", ".csv" } },
+                { DevicePlatform.Android, new[] { "text/csv", "text/comma-separated-values", "application/csv" } },
+                { DevicePlatform.iOS, new[] { "public.comma-separated-values-text" } },
                 { DevicePlatform.WinUI, new[] { ".csv" } },
-                { DevicePlatform.MacCatalyst, new[] { ".csv" } }
+                { DevicePlatform.MacCatalyst, new[] { "public.comma-separated-values-text" } }
             });
 
             var picked = await FilePicker.Default.PickAsync(new PickOptions

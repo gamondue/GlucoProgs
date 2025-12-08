@@ -2201,7 +2201,7 @@
     <value>Ferma completamente questo programma</value>
   </data>
   <data name="StopApplication" xml:space="preserve">
-    <value>Ferma il programma</value>
+    <value>Ferma il progr,</value>
   </data>
   <data name="TooltipViewLogs" xml:space="preserve">
     <value>Apre e mostra il contenuto del file di log errori</value>
@@ -2214,5 +2214,68 @@
   </data>
   <data name="TooltipMenu" xml:space="preserve">
     <value>Apre la pagina principale</value>
+  </data>
+  <data name="StatBloodGlucose" xml:space="preserve">
+    <value>Glicemia</value>
+  </data>
+  <data name="StatMean" xml:space="preserve">
+    <value>Media:</value>
+  </data>
+  <data name="StatStdDev" xml:space="preserve">
+    <value>Dev. Std:</value>
+  </data>
+  <data name="StatSamples" xml:space="preserve">
+    <value>Campioni:</value>
+  </data>
+  <data name="StatMorningGlucose" xml:space="preserve">
+    <value>Glicemia Mattino</value>
+  </data>
+  <data name="StatMiddayGlucose" xml:space="preserve">
+    <value>Glicemia Mezzogiorno</value>
+  </data>
+  <data name="StatEveningGlucose" xml:space="preserve">
+    <value>Glicemia Sera</value>
+  </data>
+  <data name="StatNightGlucose" xml:space="preserve">
+    <value>Glicemia Notte</value>
+  </data>
+  <data name="StatTotalQuickActingInsulin" xml:space="preserve">
+    <value>Insulina Totale ad Azione Rapida</value>
+  </data>
+  <data name="StatRapidPlusShort" xml:space="preserve">
+    <value>(Rapida + Breve)</value>
+  </data>
+  <data name="StatTotalLongActingInsulin" xml:space="preserve">
+    <value>Insulina Totale ad Azione Lenta</value>
+  </data>
+  <data name="StatIntermediatePlusLong" xml:space="preserve">
+    <value>(Intermedia + Lenta)</value>
+  </data>
+  <data name="StatBreakfastInsulin" xml:space="preserve">
+    <value>Insulina Colazione</value>
+  </data>
+  <data name="StatLunchInsulin" xml:space="preserve">
+    <value>Insulina Pranzo</value>
+  </data>
+  <data name="StatDinnerInsulin" xml:space="preserve">
+    <value>Insulina Cena</value>
+  </data>
+  <data name="StatOtherInsulin" xml:space="preserve">
+    <value>Altra Insulina</value>
+  </data>
+  <data name="StatTotalDayCHO" xml:space="preserve">
+    <value>CHO Totali Giornata</value>
+  </data>
+  <data name="StatBreakfastCHO" xml:space="preserve">
+    <value>CHO Colazione</value>
+  </data>
+  <data name="StatLunchCHO" xml:space="preserve">
+    <value>CHO Pranzo</value>
+  </data>
+  <data name="StatDinnerCHO" xml:space="preserve">
+    <value>CHO Cena</value>
+  </data>
+  <data name="StatOtherCHO" xml:space="preserve">
+    <value>Altri CHO</value>
   </data>
 </root>
