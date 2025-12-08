@@ -1117,10 +1117,10 @@
     <value>Funzioni Varie</value>
   </data>
   <data name="ExportData" xml:space="preserve">
-    <value>Esporta Dati</value>
+    <value>Esporta dati e file</value>
   </data>
-  <data name="ImportData" xml:space="preserve">
-    <value>Importa Dati</value>
+  <data name="ImportFoods" xml:space="preserve">
+    <value>Importa cibi</value>
   </data>
   <data name="LabelImportSensorData" xml:space="preserve">
     <value>Importa i dati del sensore: clicca per importare misurazioni del glucosio da file csv del sensore Freestyle Libre</value>
@@ -2181,5 +2181,38 @@
   </data>
   <data name="IdentificationPageTitle" xml:space="preserve">
     <value>Identificazione dei parametri</value>
+  </data>
+  <data name="ImportDatabase" xml:space="preserve">
+    <value>Importa database</value>
+  </data>
+  <data name="TooltipImportDatabase" xml:space="preserve">
+    <value>Sostituisce il database attuale con quello scelto dall'utente</value>
+  </data>
+  <data name="TooltipExportFiles" xml:space="preserve">
+    <value>Esporta dati e file d'interesse nella cartella "GlucoMan"dentro "Download",  da dove possono essere letti</value>
+  </data>
+  <data name="TooltipResetDatabase" xml:space="preserve">
+    <value>Ricomincia daccapo, rigenerando il database senza dati</value>
+  </data>
+  <data name="TooltipImportFoods" xml:space="preserve">
+    <value>Importa in questo database tutti i cibi presenti in un altro</value>
+  </data>
+  <data name="TooltipStopAppllcation" xml:space="preserve">
+    <value>Ferma completamente questo programma</value>
+  </data>
+  <data name="StopApplication" xml:space="preserve">
+    <value>Ferma il programma</value>
+  </data>
+  <data name="TooltipViewLogs" xml:space="preserve">
+    <value>Apre e mostra il contenuto del file di log errori</value>
+  </data>
+  <data name="TooltipClearAllLogs" xml:space="preserve">
+    <value>Cancella il contenuto di tutti i file di log del programma</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menù</value>
+  </data>
+  <data name="TooltipMenu" xml:space="preserve">
+    <value>Apre la pagina principale</value>
   </data>
 </root>

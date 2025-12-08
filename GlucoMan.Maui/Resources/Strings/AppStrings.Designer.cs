@@ -1753,7 +1753,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Export Data.
+        ///   Cerca una stringa localizzata simile a Export Files and Data .
         /// </summary>
         public static string ExportData {
             get {
@@ -2356,11 +2356,11 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a ImportData.
+        ///   Cerca una stringa localizzata simile a Import Database.
         /// </summary>
-        public static string ImportData {
+        public static string ImportDatabase {
             get {
-                return ResourceManager.GetString("ImportData", resourceCulture);
+                return ResourceManager.GetString("ImportDatabase", resourceCulture);
             }
         }
         
@@ -2379,6 +2379,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string ImportFinishedTitle {
             get {
                 return ResourceManager.GetString("ImportFinishedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Import Foods.
+        /// </summary>
+        public static string ImportFoods {
+            get {
+                return ResourceManager.GetString("ImportFoods", resourceCulture);
             }
         }
         
@@ -3036,6 +3045,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Medium {
             get {
                 return ResourceManager.GetString("Medium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Menu.
+        /// </summary>
+        public static string Menu {
+            get {
+                return ResourceManager.GetString("Menu", resourceCulture);
             }
         }
         
@@ -4202,6 +4220,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Stop application.
+        /// </summary>
+        public static string StopApplication {
+            get {
+                return ResourceManager.GetString("StopApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Success.
         /// </summary>
         public static string Success {
@@ -4652,6 +4679,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Deletes the content of all log files of the program.
+        /// </summary>
+        public static string TooltipClearAllLogs {
+            get {
+                return ResourceManager.GetString("TooltipClearAllLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Clear Data: deletes the fields in the UI.
         /// </summary>
         public static string TooltipClearData {
@@ -4868,6 +4904,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Export &quot;interesting&quot; Files and Data to &quot;GlucoMan&quot; folder inside &quot;Download&quot;, from which they can be read.
+        /// </summary>
+        public static string TooltipExportFiles {
+            get {
+                return ResourceManager.GetString("TooltipExportFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Finish day hour of breakfast in hours [0.0-24.0].
         /// </summary>
         public static string TooltipFinalTimeBreakfast {
@@ -5062,6 +5107,24 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string TooltipHourPrevious {
             get {
                 return ResourceManager.GetString("TooltipHourPrevious", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Substitutes the current database with user&apos;s chosen file.
+        /// </summary>
+        public static string TooltipImportDatabase {
+            get {
+                return ResourceManager.GetString("TooltipImportDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Import in this database all foods in another database.
+        /// </summary>
+        public static string TooltipImportFoods {
+            get {
+                return ResourceManager.GetString("TooltipImportFoods", resourceCulture);
             }
         }
         
@@ -5269,6 +5332,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string TooltipMeasureGlucose {
             get {
                 return ResourceManager.GetString("TooltipMeasureGlucose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Opens the main page.
+        /// </summary>
+        public static string TooltipMenu {
+            get {
+                return ResourceManager.GetString("TooltipMenu", resourceCulture);
             }
         }
         
@@ -5579,6 +5651,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Reset database, starting from scratch with no data.
+        /// </summary>
+        public static string TooltipResetDatabase {
+            get {
+                return ResourceManager.GetString("TooltipResetDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Restores the application database and settings from a backup.
         /// </summary>
         public static string TooltipRestore {
@@ -5705,6 +5786,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Completely stops this program.
+        /// </summary>
+        public static string TooltipStopAppllcation {
+            get {
+                return ResourceManager.GetString("TooltipStopAppllcation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Picture: take a photo of the container with the camera.
         /// </summary>
         public static string TooltipTakePicture {
@@ -5818,6 +5908,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string TooltipUnitReset {
             get {
                 return ResourceManager.GetString("TooltipUnitReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Opens and shows the content of the error log file.
+        /// </summary>
+        public static string TooltipViewLogs {
+            get {
+                return ResourceManager.GetString("TooltipViewLogs", resourceCulture);
             }
         }
         

@@ -7,7 +7,7 @@
         <ScrollView>
             <Label
                    x:Name="txtText"
-                   TextColor="Black"
+                   TextColor="White"
                 VerticalOptions="Start" 
                 HorizontalOptions="Start" />
         </ScrollView>

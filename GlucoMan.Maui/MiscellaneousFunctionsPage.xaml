@@ -28,40 +28,40 @@
                     x:Name="btnSettings" Clicked="btnSettings_Click" />
             <!--Text="Settings"-->
             <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
-                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipOpenGlucosePage}"
+                   ToolTipProperties.Text="{x:Static res:AppStrings.TooltipResetDatabase}"
                    Text="{x:Static res:AppStrings.ResetDatabase}" WidthRequest="150"
                    BackgroundColor="Red" TextColor="Yellow"
                    x:Name="btnResetDatabase" Clicked="btnResetDatabase_Click" />
             <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
-                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipImportSensor}"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipExportFiles}"
                     Text="{x:Static res:AppStrings.ExportData}" WidthRequest="150"
                     x:Name="btnCopyDatabase" Clicked="btnCopyProgramsFiles_Click" />
             <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" 
-                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipImportSensor}"
-                    Text="{x:Static res:AppStrings.ImportData}" WidthRequest="150"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipImportFoods}"
+                    Text="{x:Static res:AppStrings.ImportFoods}" WidthRequest="150"
                     x:Name="btnImport" Clicked="btnImport_Click"
                     IsEnabled="False" BackgroundColor="Grey" TextColor="White"
                     />
             <Button Grid.Row="7" Grid.Column="1" 
-                    Text="{x:Static res:AppStrings.ImportData}" WidthRequest="150"
-                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipImportSensor}"
+                    Text="{x:Static res:AppStrings.ImportDatabase}" WidthRequest="150"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipImportDatabase}"
                     BackgroundColor="Red" TextColor="Yellow"
                     x:Name="btnReadDatabase" Clicked="btnReadDatabase_Click" />
             <Button Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="{x:Static res:AppStrings.Abort}" WidthRequest="150"
-                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipAbout}"
+                    Text="{x:Static res:AppStrings.StopApplication}" WidthRequest="150"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipStopAppllcation}"
                     x:Name="btnStopApplication" Clicked="btnStopApplication_Click" />
             <Button Grid.Row="9" Grid.Column="0"
                     Text="{x:Static res:AppStrings.ViewLogs}" WidthRequest="150"
-                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipOpenGlucosePage}"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipViewLogs}"
                     x:Name="btnShowErrorLog" Clicked="btnShowErrorLog_ClickAsync" />
             <Button Grid.Row="9" Grid.Column="1"
                     Text="{x:Static res:AppStrings.ClearLogs}" WidthRequest="150"
-                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipClearData}"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipClearLogs}"
                     x:Name="btnDeleteErrorLog" Clicked="btnDeleteErrorLog_ClickAsync" />
             <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" 
-                    Text="{x:Static res:AppStrings.Back}" WidthRequest="150"
-                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipOpenGlucosePage}"
+                    Text="{x:Static res:AppStrings.Menu}" WidthRequest="150"
+                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipMenu}"
                     x:Name="btnMenu" Clicked="btnMenu_Click" />
         </Grid>
     </ContentPage.Content>

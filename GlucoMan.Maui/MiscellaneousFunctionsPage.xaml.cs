@@ -437,7 +437,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     private async void btnImport_Click(object sender, EventArgs e)
     {
         bool import = await DisplayAlert(
-            AppStrings.ImportData,
+            AppStrings.ImportFoods,
             AppStrings.ConfirmAction,
             AppStrings.Yes, AppStrings.No);
 
@@ -647,11 +647,50 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     {
         try
         {
-            string fileContent = File.ReadAllText(General.LogOfProgram.ErrorsFile);
+            var path = General.LogOfProgram.ErrorsFile;
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
+            {
+                await DisplayAlert(AppStrings.Error, "File not existing or not accessible", AppStrings.OK);
+                return;
+            }
+
+            var fi = new FileInfo(path);
+            const long twoMb = 2 * 1024 * 1024;
+
+            string fileContent;
+
+            // If file is large, ask user to confirm and show only the last part to avoid freezing UI
+            if (fi.Length > twoMb)
+            {
+                bool show = await DisplayAlert("Large file", "The error log is large and may take time to load. Show last 200 KB?", "Show", "Cancel");
+                if (!show) return;
+
+                const int tailSize = 200 * 1024; // 200 KB
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var sr = new StreamReader(fs, Encoding.Default))
+                {
+                    long start = Math.Max(0, fs.Length - tailSize);
+                    fs.Seek(start, SeekOrigin.Begin);
+                    fileContent = await sr.ReadToEndAsync();
+                    if (start > 0)
+                        fileContent = "... (truncated head of file) ...\n" + fileContent;
+                }
+            }
+            else
+            {
+                // Read asynchronously using FileStream with shared read so writer can continue writing
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var sr = new StreamReader(fs, Encoding.Default))
+                {
+                    fileContent = await sr.ReadToEndAsync();
+                }
+            }
+
             await Navigation.PushAsync(new ShowTextPage(fileContent));
         }
-        catch
+        catch (Exception ex)
         {
+            General.LogOfProgram.Error("btnShowErrorLog_ClickAsync", ex);
             await DisplayAlert(AppStrings.Error, "File not existing or not accessible", AppStrings.OK);
         }
     }
@@ -663,7 +702,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
     
     private async void btnReadDatabase_Click(object sender, EventArgs e)
     {
-        bool read = await DisplayAlert(AppStrings.ImportData,
+        bool read = await DisplayAlert(AppStrings.ImportDatabase,
             AppStrings.ConfirmAction,
             AppStrings.Yes, AppStrings.No);
         if (!read)
