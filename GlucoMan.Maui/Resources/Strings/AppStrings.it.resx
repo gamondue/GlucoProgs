@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -220,7 +220,7 @@
     <value>Contenitori</value>
   </data>
   <data name="TooltipPhysicalActivity" xml:space="preserve">
-    <value>Attività Fisica: apre la pagina che permette di tenere traccia dell'attività fisica per il consumo di glucosio</value>
+    <value>Attività  Fisica: apre la pagina che permette di tenere traccia dell'attività  fisica per il consumo di glucosio</value>
   </data>
   <data name="MiscellaneousFunctions" xml:space="preserve">
     <value>Funzioni Varie</value>
@@ -262,7 +262,7 @@
     <value>Previsione Ipoglicemia</value>
   </data>
   <data name="FoodToHitTarget" xml:space="preserve">
-    <value>Cibo per Raggiungere l'Obiettivo</value>
+    <value>Cibo per raggiungere CHO obiettivo</value>
   </data>
   <data name="Food" xml:space="preserve">
     <value>Alimento</value>
@@ -271,7 +271,7 @@
     <value>Nome cibo</value>
   </data>
   <data name="Quantity" xml:space="preserve">
-    <value>Quantità</value>
+    <value>Quantità </value>
   </data>
   <data name="Weight" xml:space="preserve">
     <value>Peso</value>
@@ -334,10 +334,10 @@
     <value>grammi</value>
   </data>
   <data name="Units" xml:space="preserve">
-    <value>unità</value>
+    <value>unità </value>
   </data>
   <data name="RequiredField" xml:space="preserve">
-    <value>Questo campo è obbligatorio</value>
+    <value>Questo campo à¨ obbligatorio</value>
   </data>
   <data name="InvalidValue" xml:space="preserve">
     <value>Valore non valido</value>
@@ -403,7 +403,7 @@
     <value>Glicemia: apre la pagina degli eventi di misurazione del glucosio</value>
   </data>
   <data name="TooltipInsulinCalculation" xml:space="preserve">
-    <value>Calcolo insulina: apre una pagina che calcola la quantità di insulina da iniettare prima di un pasto</value>
+    <value>Calcolo insulina: apre una pagina che calcola la quantità  di insulina da iniettare prima di un pasto</value>
   </data>
   <data name="TooltipInjections" xml:space="preserve">
     <value>Iniezioni: apre la pagina delle iniezioni passate e presenti</value>
@@ -499,7 +499,7 @@
     <value>Adesso: imposta data e ora all'istante corrente</value>
   </data>
   <data name="TooltipPlusButton" xml:space="preserve">
-    <value>Più: aggiunge una nuova misurazione con i dati dall'interfaccia</value>
+    <value>Pià¹: aggiunge una nuova misurazione con i dati dall'interfaccia</value>
   </data>
   <data name="TooltipMinusButton" xml:space="preserve">
     <value>Meno: elimina la misurazione selezionata</value>
@@ -583,7 +583,7 @@
     <value>Parametri: apre la pagina che calcola o imposta i parametri di sensibilita</value>
   </data>
   <data name="TooltipEmbarkedInsulinLabel" xml:space="preserve">
-    <value>Insulina residua: quantità di insulina assunta in precedenza e ancora efficace (embarked insulin)</value>
+    <value>Insulina residua: quantità  di insulina assunta in precedenza e ancora efficace (embarked insulin)</value>
   </data>
   <data name="TooltipRoundButton" xml:space="preserve">
     <value>Arrotonda insulina: calcola i CHO da mangiare per iniettare un valore intero del bolo insulinico</value>
@@ -709,7 +709,7 @@
     <value>Zuccheri</value>
   </data>
   <data name="FoodToHitTargetCarbsPageTitle" xml:space="preserve">
-    <value>Cibo per Raggiungere Carboidrati Obiettivo</value>
+    <value>Cibo per raggiungere CHO</value>
   </data>
   <data name="TooltipCalculateFoodGrams" xml:space="preserve">
     <value>Calcolatore cibo: calcola i grammi necessari per raggiungere i carboidrati obiettivo</value>
@@ -718,10 +718,10 @@
     <value>CHO obiettivo [g]</value>
   </data>
   <data name="CHOAlreadyTaken" xml:space="preserve">
-    <value>CHO già consumati [g]</value>
+    <value>CHO già  consumati [g]</value>
   </data>
   <data name="TooltipCHOAlreadyTaken" xml:space="preserve">
-    <value>Carboidrati già consumati [g]</value>
+    <value>Carboidrati già  consumati [g]</value>
   </data>
   <data name="CHOFoodPercent" xml:space="preserve">
     <value>CHO cibo da mangiare [%]</value>
@@ -739,7 +739,7 @@
     <value>Leggi CHO obiettivo: legge dalla pagina di calcolo bolo</value>
   </data>
   <data name="TooltipReadEatenCHO" xml:space="preserve">
-    <value>Legge dalla pagina dei pasti i CHO già mangiati</value>
+    <value>Legge dalla pagina dei pasti i CHO già  mangiati</value>
   </data>
   <data name="TooltipReadFoodCHO" xml:space="preserve">
     <value>Legge dalla pagina dei pasti la % CHO dell'alimento selezionato</value>
@@ -808,7 +808,7 @@
     <value>CHO [%]</value>
   </data>
   <data name="Unit" xml:space="preserve">
-    <value>Unità</value>
+    <value>Unità </value>
   </data>
   <data name="CHOGrams" xml:space="preserve">
     <value>CHO [g]</value>
@@ -820,10 +820,10 @@
     <value>CHO%: percentuale carboidrati di questo alimento [%]</value>
   </data>
   <data name="TooltipUnitReset" xml:space="preserve">
-    <value>Unità: unità di misura del cibo scelto. Clicca per tornare ai grammi.</value>
+    <value>Unità : unità  di misura del cibo scelto. Clicca per tornare ai grammi.</value>
   </data>
   <data name="TooltipQuantityUnits" xml:space="preserve">
-    <value>Quantità: numero di unità di questo alimento [Unit]</value>
+    <value>Quantità : numero di unità  di questo alimento [Unit]</value>
   </data>
   <data name="TooltipCHOGrams" xml:space="preserve">
     <value>CHO: carboidrati totali in questo alimento in grammi [g]</value>
@@ -853,7 +853,7 @@
     <value>Seleziona questo alimento</value>
   </data>
   <data name="QuantityNeeded" xml:space="preserve">
-    <value>Quantità Necessaria</value>
+    <value>Quantità  Necessaria</value>
   </data>
   <data name="WeighFoodPageTitle" xml:space="preserve">
     <value>Pesa Alimento</value>
@@ -961,7 +961,7 @@
     <value>Statistiche e Grafici</value>
   </data>
   <data name="ViewMode" xml:space="preserve">
-    <value>Modalità Visualizzazione</value>
+    <value>Modalità  Visualizzazione</value>
   </data>
   <data name="Daily" xml:space="preserve">
     <value>Giornaliero</value>
@@ -1024,7 +1024,7 @@
     <value>Impostazioni Generali</value>
   </data>
   <data name="UnitsOfMeasure" xml:space="preserve">
-    <value>Unità di Misura</value>
+    <value>Unità  di Misura</value>
   </data>
   <data name="TargetRange" xml:space="preserve">
     <value>Range Obiettivo</value>
@@ -1039,13 +1039,13 @@
     <value>Parametri di correzione</value>
   </data>
   <data name="InsulinSensitivityFactor" xml:space="preserve">
-    <value>Fattore di Sensibilità Insulinica</value>
+    <value>Fattore di Sensibilità  Insulinica</value>
   </data>
   <data name="CarbRatio" xml:space="preserve">
     <value>Rapporto Carboidrati</value>
   </data>
   <data name="ActiveInsulinTime" xml:space="preserve">
-    <value>Tempo di attività insulina</value>
+    <value>Tempo di attività  insulina</value>
   </data>
   <data name="Hours" xml:space="preserve">
     <value>Ore</value>
@@ -1072,16 +1072,16 @@
     <value>Modifica Contenitore</value>
   </data>
   <data name="PhysicalActivityPageTitle" xml:space="preserve">
-    <value>Attività Fisica</value>
+    <value>Attività  Fisica</value>
   </data>
   <data name="ActivityType" xml:space="preserve">
-    <value>Tipo di Attività</value>
+    <value>Tipo di Attività </value>
   </data>
   <data name="Duration" xml:space="preserve">
     <value>Durata</value>
   </data>
   <data name="Intensity" xml:space="preserve">
-    <value>Intensità</value>
+    <value>Intensità </value>
   </data>
   <data name="Low" xml:space="preserve">
     <value>Bassa</value>
@@ -1105,7 +1105,7 @@
     <value>Sviluppatore</value>
   </data>
   <data name="TooltipRecipesDescription" xml:space="preserve">
-    <value>Descrizione della ricetta (più lunga)</value>
+    <value>Descrizione della ricetta (pià¹ lunga)</value>
   </data>
   <data name="Contact" xml:space="preserve">
     <value>Contatto</value>
@@ -1264,10 +1264,10 @@
     <value>Seleziona il tipo di insulina di questa iniezione</value>
   </data>
   <data name="PositionAlreadySet" xml:space="preserve">
-    <value>Posizione già impostata</value>
+    <value>Posizione già  impostata</value>
   </data>
   <data name="PositionAlreadySetMessage" xml:space="preserve">
-    <value>Questa iniezione ha già una posizione da una selezione precedente.\nVuoi mantenere questa posizione per la nuova iniezione?</value>
+    <value>Questa iniezione ha già  una posizione da una selezione precedente.\nVuoi mantenere questa posizione per la nuova iniezione?</value>
   </data>
   <data name="KeepPosition" xml:space="preserve">
     <value>Mantieni Posizione</value>
@@ -1279,10 +1279,10 @@
     <value>Errore di Configurazione</value>
   </data>
   <data name="NoShortInsulinConfigured" xml:space="preserve">
-    <value>Nessuna insulina rapida configurata.\nConfigura le impostazioni dell'insulina.\nIl farmaco insulinico sarà impostato a null</value>
+    <value>Nessuna insulina rapida configurata.\nConfigura le impostazioni dell'insulina.\nIl farmaco insulinico sarà  impostato a null</value>
   </data>
   <data name="NoLongInsulinConfigured" xml:space="preserve">
-    <value>Nessuna insulina lenta configurata.\nConfigura le impostazioni dell'insulina.\nIl tipo di farmaco insulinico sarà impostato a null</value>
+    <value>Nessuna insulina lenta configurata.\nConfigura le impostazioni dell'insulina.\nIl tipo di farmaco insulinico sarà  impostato a null</value>
   </data>
   <data name="DeleteInjectionConfirm" xml:space="preserve">
     <value>Devo eliminare l'iniezione di {1}, insulina {0}?</value>
@@ -1312,7 +1312,7 @@
     <value>Discrepanza valori</value>
   </data>
   <data name="ValueDiscrepancyMessage" xml:space="preserve">
-    <value>Il valore dei Carboidrati totali e/o dell'accuratezza è diverso da quello calcolato con i singoli alimenti.\nSalviamo i valori visualizzati o quelli calcolati?</value>
+    <value>Il valore dei Carboidrati totali e/o dell'accuratezza à¨ diverso da quello calcolato con i singoli alimenti.\nSalviamo i valori visualizzati o quelli calcolati?</value>
   </data>
   <data name="UseCalculated" xml:space="preserve">
     <value>Usa Calcolati</value>
@@ -1378,10 +1378,10 @@
     <value>Scegli un alimento da salvare</value>
   </data>
   <data name="FoodNameCannotBeEmpty" xml:space="preserve">
-    <value>Il nome dell'alimento non può essere vuoto.\nInserisci un nome per l'alimento.</value>
+    <value>Il nome dell'alimento non puà² essere vuoto.\nInserisci un nome per l'alimento.</value>
   </data>
   <data name="FoodNameCannotBeEmptyBeforeChoosing" xml:space="preserve">
-    <value>Il nome dell'alimento non può essere vuoto.\nInserisci un nome prima di scegliere.</value>
+    <value>Il nome dell'alimento non puà² essere vuoto.\nInserisci un nome prima di scegliere.</value>
   </data>
   <data name="CarbohydratesMustBeSet" xml:space="preserve">
     <value>I carboidrati di un nuovo alimento devono essere impostati e maggiori di zero.\nAlimento non salvato</value>
@@ -1396,10 +1396,10 @@
     <value>Impossibile chiudere la pagina: {0}</value>
   </data>
   <data name="UnitApplicabilityTitle" xml:space="preserve">
-    <value>Applicabilità della Unità</value>
+    <value>Applicabilità  della Unità </value>
   </data>
   <data name="UnitApplicabilityMessage" xml:space="preserve">
-    <value>Questa nuova unità deve essere applicabile a tutti i cibi o solo a questo?</value>
+    <value>Questa nuova unità  deve essere applicabile a tutti i cibi o solo a questo?</value>
   </data>
   <data name="UnitApplicabilityAll" xml:space="preserve">
     <value>Tutte</value>
@@ -1408,10 +1408,10 @@
     <value>Questa</value>
   </data>
   <data name="UnitSymbolExistsMessage" xml:space="preserve">
-    <value>Il simbolo dell'Unità esiste già. Dare un simbolo univoco a questa unità.</value>
+    <value>Il simbolo dell'Unità  esiste già . Dare un simbolo univoco a questa unità .</value>
   </data>
   <data name="UnitSaveFailedMessage" xml:space="preserve">
-    <value>Errore nel salvataggio della nuova Unità. Nuova unità non salvata.</value>
+    <value>Errore nel salvataggio della nuova Unità . Nuova unità  non salvata.</value>
   </data>
   <data name="SelectManufacturerToRemove" xml:space="preserve">
     <value>Scegliere il Produttore da cancellare</value>
@@ -1486,7 +1486,7 @@
     <value>Intervallo di date non valido</value>
   </data>
   <data name="InvalidDateRangeMessage" xml:space="preserve">
-    <value>La data 'Da' non può essere successiva alla data 'A'.\nLa data 'A' è stata impostata a 1 giorno più della data 'Da'</value>
+    <value>La data 'Da' non puà² essere successiva alla data 'A'.\nLa data 'A' à¨ stata impostata a 1 giorno pià¹ della data 'Da'</value>
   </data>
   <data name="ImportGlucoseConfirmTitle" xml:space="preserve">
     <value>Importa dati dal sensore</value>
@@ -1504,13 +1504,13 @@
     <value>Inserisci ora attuale: copia giorno e ora correnti nella data della misurazione glicemica corrente</value>
   </data>
   <data name="BtnNextTooltip" xml:space="preserve">
-    <value>Inserisci la prossima misurazione: sposta la misurazione corrente in precedente e copia l'ora corrente nella misurazione più recente</value>
+    <value>Inserisci la prossima misurazione: sposta la misurazione corrente in precedente e copia l'ora corrente nella misurazione pià¹ recente</value>
   </data>
   <data name="BtnReadTooltip" xml:space="preserve">
     <value>Leggi: legge le ultime due misurazioni di glicemia dal database</value>
   </data>
   <data name="BtnPredictTooltip" xml:space="preserve">
-    <value>Prevedi: stima l'ora in cui la glicemia raggiungerà il valore di allarme (estrapolazione lineare, usare solo in condizioni molto rigorose)</value>
+    <value>Prevedi: stima l'ora in cui la glicemia raggiungerà  il valore di allarme (estrapolazione lineare, usare solo in condizioni molto rigorose)</value>
   </data>
   <data name="GlucoseForAlarmLabel" xml:space="preserve">
     <value>Glicemia per allarme</value>
@@ -1570,7 +1570,7 @@
     <value>Minuti della misurazione precedente</value>
   </data>
   <data name="TooltipSlope" xml:space="preserve">
-    <value>Pendenza: velocità di variazione della glicemia [unità glicemia/ora]</value>
+    <value>Pendenza: velocità  di variazione della glicemia [unità  glicemia/ora]</value>
   </data>
   <data name="SlopeUnitLabel" xml:space="preserve">
     <value>Pendenza
@@ -1646,7 +1646,7 @@
     <value>Funzioni Varie</value>
   </data>
   <data name="MiscellaneousHeader" xml:space="preserve">
-    <value>Utilità e strumenti vari</value>
+    <value>Utilità  e strumenti vari</value>
   </data>
   <data name="MiscClearLogsLabel" xml:space="preserve">
     <value>Cancella Log</value>
@@ -1670,16 +1670,16 @@
     <value>Fatto</value>
   </data>
   <data name="AppShortScope" xml:space="preserve">
-    <value>GlucoMan (Glucose Manager) è un programma per la gestione del glucosio per le persone diabetiche</value>
+    <value>GlucoMan (Glucose Manager) à¨ un programma per la gestione del glucosio per le persone diabetiche</value>
   </data>
   <data name="AppAboutParagrah1" xml:space="preserve">
     <value>Aiuta nelle operazioni quotidiane che servono per gestire la conta dei carboidrati. Attualmente gestisce dati che riguardano il glucosio del sangue misurato, i carboidrati ingeriti ai pasti, i cibi e le iniezioni di insulina.</value>
   </data>
   <data name="AppAboutParagrah2" xml:space="preserve">
-    <value>Calcola: il bolo di insulina da iniettare, basandosi sui carboidrati da ingerire durante i pasti, la quantità di cibo da ingerire per raggiungere i carboidrati desiderati, una previsione approssimativa del momento in cui si raggiungerà l'ipoglicemia. Visualizza un grafico temporale del glucosio e degli altri parametri</value>
+    <value>Calcola: il bolo di insulina da iniettare, basandosi sui carboidrati da ingerire durante i pasti, la quantità  di cibo da ingerire per raggiungere i carboidrati desiderati, una previsione approssimativa del momento in cui si raggiungerà  l'ipoglicemia. Visualizza un grafico temporale del glucosio e degli altri parametri</value>
   </data>
   <data name="AppAboutParagrah3" xml:space="preserve">
-    <value>Il programma ha la possibilità di gestire ricette per cibo ed aiutare nella pesatura dei cibi. Sono anche presenti funzioni a stato prototipale che non sono ancora state implementate.</value>
+    <value>Il programma ha la possibilità  di gestire ricette per cibo ed aiutare nella pesatura dei cibi. Sono anche presenti funzioni a stato prototipale che non sono ancora state implementate.</value>
   </data>
   <data name="CalcClear" xml:space="preserve">
     <value>C</value>
@@ -1690,7 +1690,7 @@
     <comment>Cancella voce (tasto CE)</comment>
   </data>
   <data name="CalcBackspace" xml:space="preserve">
-    <value>⌫</value>
+    <value>âŒ«</value>
     <comment>Tasto Backspace</comment>
   </data>
   <data name="CalcEscape" xml:space="preserve">
@@ -1698,18 +1698,18 @@
     <comment>Tasto Annulla per cancellare il calcolo</comment>
   </data>
   <data name="ChartPagePreviousDay" xml:space="preserve">
-    <value>◀</value>
+    <value>â—€</value>
     <comment>Pulsante navigazione giorno precedente</comment>
   </data>
   <data name="ChartPageNextDay" xml:space="preserve">
-    <value>▶</value>
+    <value>â–¶</value>
     <comment>Pulsante navigazione giorno successivo</comment>
   </data>
   <data name="ClickableImagePageTitle" xml:space="preserve">
     <value>Seleziona Posizione</value>
   </data>
   <data name="TooltipChoosePosition" xml:space="preserve">
-    <value>Scegli: chiude la pagina memorizzando la posizione corrente, che verrà salvata nell'altra pagina</value>
+    <value>Scegli: chiude la pagina memorizzando la posizione corrente, che verrà  salvata nell'altra pagina</value>
   </data>
   <data name="TooltipEscapePosition" xml:space="preserve">
     <value>Annulla: chiude la pagina dimenticando la posizione corrente</value>
@@ -1784,7 +1784,7 @@
     <value>Cancella campi: cancella tutti i dati nell'interfaccia</value>
   </data>
   <data name="TooltipPlus" xml:space="preserve">
-    <value>Più: aggiunge un nuovo contenitore con i dati dall'interfaccia</value>
+    <value>Pià¹: aggiunge un nuovo contenitore con i dati dall'interfaccia</value>
   </data>
   <data name="TooltipMinus" xml:space="preserve">
     <value>Meno: cancella i campi o rimuove il contenitore selezionato</value>
@@ -1811,10 +1811,10 @@
     <value>Identificazione 2</value>
   </data>
   <data name="Method1SingleTau" xml:space="preserve">
-    <value>Metodo 1 (Singolo τ)</value>
+    <value>Metodo 1 (Singolo Ï„)</value>
   </data>
   <data name="Method2TwoTau" xml:space="preserve">
-    <value>Metodo 2 (Due τ)</value>
+    <value>Metodo 2 (Due Ï„)</value>
   </data>
   <data name="AutoregressiveA" xml:space="preserve">
     <value>a (autoregressivo):</value>
@@ -1841,37 +1841,37 @@
     <value>SSE (errore adattamento):</value>
   </data>
   <data name="CHOTauMeanSd" xml:space="preserve">
-    <value>CHO - τ [s] (μ ± σ):</value>
+    <value>CHO - Ï„ [s] (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="CHOGainMeanSd" xml:space="preserve">
-    <value>CHO - k (μ ± σ):</value>
+    <value>CHO - k (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="CHODelaySamplesMeanSd" xml:space="preserve">
-    <value>CHO - Ritardo [campioni] (μ ± σ):</value>
+    <value>CHO - Ritardo [campioni] (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="CHOOffsetMeanSd" xml:space="preserve">
-    <value>CHO - Offset (μ ± σ):</value>
+    <value>CHO - Offset (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="CHOR2Avg" xml:space="preserve">
-    <value>CHO - R² medio:</value>
+    <value>CHO - RÂ² medio:</value>
   </data>
   <data name="CHOSegmentsCount" xml:space="preserve">
     <value>CHO - # Segmenti:</value>
   </data>
   <data name="InsulinTauMeanSd" xml:space="preserve">
-    <value>Insulina - τ [s] (μ ± σ):</value>
+    <value>Insulina - Ï„ [s] (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="InsulinGainMeanSd" xml:space="preserve">
-    <value>Insulina - k (μ ± σ):</value>
+    <value>Insulina - k (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="InsulinDelaySamplesMeanSd" xml:space="preserve">
-    <value>Insulina - Ritardo [campioni] (μ ± σ):</value>
+    <value>Insulina - Ritardo [campioni] (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="InsulinOffsetMeanSd" xml:space="preserve">
-    <value>Insulina - Offset (μ ± σ):</value>
+    <value>Insulina - Offset (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="InsulinR2Avg" xml:space="preserve">
-    <value>Insulina - R² medio:</value>
+    <value>Insulina - RÂ² medio:</value>
   </data>
   <data name="InsulinSegmentsCount" xml:space="preserve">
     <value>Insulina - # Segmenti:</value>
@@ -1901,7 +1901,7 @@
     <value>Crudo</value>
   </data>
   <data name="TooltipRawFood" xml:space="preserve">
-    <value>Cibo crudo: se selezionato il valore di CHO% del cibo è riferito al cibo crudo. Il peso della porzione cotta verrà convertito in peso crudo da questi calcoli</value>
+    <value>Cibo crudo: se selezionato il valore di CHO% del cibo à¨ riferito al cibo crudo. Il peso della porzione cotta verrà  convertito in peso crudo da questi calcoli</value>
   </data>
   <data name="TooltipCalculatorFood" xml:space="preserve">
     <value>Apri calcolatrice per i calcoli del cibo</value>
@@ -1937,10 +1937,10 @@
     <value>Porzioni uguali</value>
   </data>
   <data name="TooltipEqualPortions" xml:space="preserve">
-    <value>Dividi tutto il cibo in porzioni uguali: la porzione verrà calcolata dividendo il cibo totale per N persone</value>
+    <value>Dividi tutto il cibo in porzioni uguali: la porzione verrà  calcolata dividendo il cibo totale per N persone</value>
   </data>
   <data name="NumberOfPortions" xml:space="preserve">
-    <value>N° di porzioni</value>
+    <value>NÂ° di porzioni</value>
   </data>
   <data name="SummaryData" xml:space="preserve">
     <value>Dati riassuntivi</value>
@@ -1958,25 +1958,25 @@
     <value>Ritaglia Foto</value>
   </data>
   <data name="CropSizeIndicator" xml:space="preserve">
-    <value>📏 300x300 px</value>
+    <value>ðŸ“ 300x300 px</value>
   </data>
   <data name="CropZoomHint" xml:space="preserve">
-    <value>Per ingrandire 🤏 Pizzica | 🖱️ trascina angoli verdi</value>
+    <value>Per ingrandire ðŸ¤ Pizzica | ðŸ–±ï¸ trascina angoli verdi</value>
   </data>
   <data name="CropDragInstruction" xml:space="preserve">
-    <value>⬆️⬇️⬅️➡️ Trascina l'immagine in posizione</value>
+    <value>â¬†ï¸â¬‡ï¸â¬…ï¸âž¡ï¸ Trascina l'immagine in posizione</value>
   </data>
   <data name="CropResizeInstruction" xml:space="preserve">
-    <value>Per ridimensionare:🤏 Pizzica | 🖱️ trascina l'angolo verde</value>
+    <value>Per ridimensionare:ðŸ¤ Pizzica | ðŸ–±ï¸ trascina l'angolo verde</value>
   </data>
   <data name="CropResetButton" xml:space="preserve">
-    <value>↻ Reset</value>
+    <value>â†» Reset</value>
   </data>
   <data name="CropCancelButton" xml:space="preserve">
-    <value>✖ Annulla</value>
+    <value>âœ– Annulla</value>
   </data>
   <data name="CropConfirmButton" xml:space="preserve">
-    <value>✂️ Ritaglia</value>
+    <value>âœ‚ï¸ Ritaglia</value>
   </data>
   <data name="CalculationsOfRatioCHOInsulin" xml:space="preserve">
     <value>Calcolo del rapporto CHO/insulina</value>
@@ -2006,19 +2006,19 @@
     <value>Rapporto.Cena</value>
   </data>
   <data name="TooltipBreakfastRatio" xml:space="preserve">
-    <value>Carboidrati per unità di insulina- ora di colazione</value>
+    <value>Carboidrati per unità  di insulina- ora di colazione</value>
   </data>
   <data name="TooltipLunchRatio" xml:space="preserve">
-    <value>Carboidrati per unità di insulina- ora di pranzo</value>
+    <value>Carboidrati per unità  di insulina- ora di pranzo</value>
   </data>
   <data name="TooltipDinnerRatio" xml:space="preserve">
-    <value>Carboidrati per unità di insulina- ora di cena</value>
+    <value>Carboidrati per unità  di insulina- ora di cena</value>
   </data>
   <data name="TooltipSaveRatioCHOInsulin" xml:space="preserve">
-    <value>Salva: salva le sensibilità ai carboidrati (usate dal resto del programma)</value>
+    <value>Salva: salva le sensibilità  ai carboidrati (usate dal resto del programma)</value>
   </data>
   <data name="CalculationOfInsulinSensitivity" xml:space="preserve">
-    <value>Calcolo della sensibilità all'insulina</value>
+    <value>Calcolo della sensibilità  all'insulina</value>
   </data>
   <data name="TypicalBolusesPerDay" xml:space="preserve">
     <value>Totale dei boli tipici fatti durante un giorno</value>
@@ -2027,7 +2027,7 @@
     <value>mattino</value>
   </data>
   <data name="MiddayLabel" xml:space="preserve">
-    <value>metà giornata</value>
+    <value>metà  giornata</value>
   </data>
   <data name="EveningLabel" xml:space="preserve">
     <value>pomeriggo</value>
@@ -2054,7 +2054,7 @@
     <value>TDD</value>
   </data>
   <data name="SensFactorLabel" xml:space="preserve">
-    <value>Fattore di sensibilità</value>
+    <value>Fattore di sensibilità </value>
   </data>
   <data name="SensToInsulinLabel" xml:space="preserve">
     <value>Sens.a insul.</value>
@@ -2063,19 +2063,19 @@
     <value>Somma dei valori tipici di tutti i tipi di insulina in un giorno (Total Daily Dose )</value>
   </data>
   <data name="TooltipSensitivityFactor" xml:space="preserve">
-    <value>Coefficiente che divide la insulina totale tipica in un giorno per ottenere la sensibilità (valori tipici usati nella letteratura scientifica)</value>
+    <value>Coefficiente che divide la insulina totale tipica in un giorno per ottenere la sensibilità  (valori tipici usati nella letteratura scientifica)</value>
   </data>
   <data name="CalcButton" xml:space="preserve">
     <value>Calc.</value>
   </data>
   <data name="TooltipCalculateInsulinSensitivity" xml:space="preserve">
-    <value>Calcola la sensibilità all'insulina (somma dell'insulina iniettata in un giorno / coefficiente scelto)</value>
+    <value>Calcola la sensibilità  all'insulina (somma dell'insulina iniettata in un giorno / coefficiente scelto)</value>
   </data>
   <data name="TooltipSaveInsulinSensitivity" xml:space="preserve">
-    <value>Salva: salva la sensibilità come parametro del programma</value>
+    <value>Salva: salva la sensibilità  come parametro del programma</value>
   </data>
   <data name="PhysicalActivityParameters" xml:space="preserve">
-    <value>Parametri per Attività Fisica</value>
+    <value>Parametri per Attività  Fisica</value>
   </data>
   <data name="SensitivityFactorPickerTitle" xml:space="preserve">
     <value>Scegli un valore</value>
@@ -2210,7 +2210,7 @@
     <value>Cancella il contenuto di tutti i file di log del programma</value>
   </data>
   <data name="Menu" xml:space="preserve">
-    <value>Menù</value>
+    <value>Menà¹</value>
   </data>
   <data name="TooltipMenu" xml:space="preserve">
     <value>Apre la pagina principale</value>
@@ -2277,5 +2277,14 @@
   </data>
   <data name="StatOtherCHO" xml:space="preserve">
     <value>Altri CHO</value>
+  </data>
+  <data name="StatUiPerDay" xml:space="preserve">
+    <value>Ui/giorno medie</value>
+  </data>
+  <data name="StatChoPerDay" xml:space="preserve">
+    <value>CHO/giorno medie</value>
+  </data>
+  <data name="StatTotalDayDose" xml:space="preserve">
+    <value>TDD: Insulina totale (rapida + lenta).</value>
   </data>
 </root>

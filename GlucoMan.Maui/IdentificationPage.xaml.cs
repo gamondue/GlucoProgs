@@ -9,12 +9,12 @@ public partial class IdentificationPage : ContentPage
     private DateTime _dateFrom;
     private DateTime _dateTo;
 
-    public IdentificationPage(DateTime dateFrom, DateTime dateTo)
+    public IdentificationPage(DateTime dateFrom, int nWeeks)
     {
         InitializeComponent();
         _dateFrom = dateFrom;
-        _dateTo = dateTo;
-        lblDateRange.Text = $"From: {dateFrom:dd/MM/yyyy} - To: {dateTo:dd/MM/yyyy}";
+        _dateTo = dateFrom.AddDays(7 * nWeeks);
+        lblDateRange.Text = $"From: {dateFrom:dd/MM/yyyy} - To: {_dateTo:dd/MM/yyyy}";
 
         ////////// !!!! 
         ////////_dateTo = DateTime.Now.AddMonths(-15);

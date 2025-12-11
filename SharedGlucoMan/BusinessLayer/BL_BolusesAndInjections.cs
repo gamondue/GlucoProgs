@@ -544,5 +544,59 @@ namespace GlucoMan.BusinessLayer
                 return true;
             }
         }
+        internal void CalculateAndDisplayInsulinStats(List<Injection> injections,
+            Label meanLabel, Label stdDevLabel, Label samplesLabel)
+        {
+            if (injections == null || injections.Count == 0)
+            {
+                meanLabel.Text = "No data";
+                stdDevLabel.Text = "No data";
+                samplesLabel.Text = "0";
+                return;
+            }
+
+            var values = injections
+                .Where(i => i.InsulinValue?.Double.HasValue == true)
+                .Select(i => i.InsulinValue.Double.Value)
+                .ToList();
+
+            if (values.Count == 0)
+            {
+                meanLabel.Text = "No valid values";
+                stdDevLabel.Text = "No valid values";
+                samplesLabel.Text = "0";
+                return;
+            }
+
+            var (mean, stdDev) = General.CalculateMeanAndStdDev(values);
+            meanLabel.Text = $"{mean:F2} U";
+            stdDevLabel.Text = $"{stdDev:F2} U";
+            samplesLabel.Text = $"{values.Count}";
+        }
+        internal void CalculateAndDisplayInsulinPerDayStats(List<Injection> injections, Label perDayMeanLabel)
+        {
+            if (injections == null || injections.Count == 0)
+            {
+                perDayMeanLabel.Text = "No data";
+                return;
+            }
+
+            // Group injections by day and sum insulin for each day
+            var dailyTotals = injections
+                .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
+                .GroupBy(i => i.EventTime.DateTime.Value.Date)
+                .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
+                .ToList();
+
+            if (dailyTotals.Count == 0)
+            {
+                perDayMeanLabel.Text = "No data";
+                return;
+            }
+
+            double meanPerDay = dailyTotals.Average();
+            perDayMeanLabel.Text = $"{meanPerDay:F2} U/day";
+        }
+
     }
 }

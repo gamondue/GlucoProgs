@@ -23,12 +23,12 @@ public partial class StatisticsPage : ContentPage
     public StatisticsPage(DateTime dateFrom, DateTime dateTo)
     {
         InitializeComponent();
+
         _dateFrom = dateFrom;
         _dateTo = dateTo;
         _blInjections = new BL_BolusesAndInjections();
         _blGlucose = new BL_GlucoseMeasurements();
         _blMealAndFood = new BL_MealAndFood();
-
 
         // Load meal time settings from Common
         _breakfastStartHour = Common.breakfastStartHour ?? 6;
@@ -157,7 +157,7 @@ public partial class StatisticsPage : ContentPage
             return;
         }
 
-        var (mean, stdDev) = CalculateMeanAndStdDev(values);
+        var (mean, stdDev) = General.CalculateMeanAndStdDev(values);
         meanLabel.Text = $"{mean:F1} {unit}";
         stdDevLabel.Text = $"{stdDev:F1} {unit}";
         samplesLabel.Text = $"{values.Count}";
@@ -184,31 +184,40 @@ public partial class StatisticsPage : ContentPage
 
             // Get Intermediate type injections
             var intermediateInjections = _blInjections.GetInjections(_dateFrom, _dateTo, Common.TypeOfInsulinAction.Intermediate);
+            if (intermediateInjections != null) allInjections.AddRange(intermediateInjections);
             
             // Get Long type injections
             var longInjections = _blInjections.GetInjections(_dateFrom, _dateTo, Common.TypeOfInsulinAction.Long);
+            if (longInjections != null) allInjections.AddRange(longInjections);
+
+            CalculateAndDisplayTddStats(allInjections);
 
             // Total Quick Acting (Rapid + Short)
             var quickActingInjections = new List<Injection>();
             if (rapidInjections != null) quickActingInjections.AddRange(rapidInjections);
             if (shortInjections != null) quickActingInjections.AddRange(shortInjections);
-            CalculateAndDisplayInsulinStats(quickActingInjections, lblQuickInsulinMean, lblQuickInsulinStdDev, lblQuickInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinStats(quickActingInjections, lblQuickInsulinMean, lblQuickInsulinStdDev, lblQuickInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinPerDayStats(quickActingInjections, lblQuickInsulinPerDayMean);
 
             // Total Long Acting (Intermediate + Long)
             var longActingInjections = new List<Injection>();
             if (intermediateInjections != null) longActingInjections.AddRange(intermediateInjections);
             if (longInjections != null) longActingInjections.AddRange(longInjections);
-            CalculateAndDisplayInsulinStats(longActingInjections, lblLongInsulinMean, lblLongInsulinStdDev, lblLongInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinStats(longActingInjections, lblLongInsulinMean, lblLongInsulinStdDev, lblLongInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinPerDayStats(longActingInjections, lblLongInsulinPerDayMean);
 
             // Filter quick acting by meal time
             var breakfastInsulin = FilterInjectionsByMealTime(quickActingInjections, _breakfastStartHour, _breakfastEndHour);
-            CalculateAndDisplayInsulinStats(breakfastInsulin, lblBreakfastInsulinMean, lblBreakfastInsulinStdDev, lblBreakfastInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinStats(breakfastInsulin, lblBreakfastInsulinMean, lblBreakfastInsulinStdDev, lblBreakfastInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinPerDayStats(breakfastInsulin, lblBreakfastInsulinPerDayMean);
 
             var lunchInsulin = FilterInjectionsByMealTime(quickActingInjections, _lunchStartHour, _lunchEndHour);
-            CalculateAndDisplayInsulinStats(lunchInsulin, lblLunchInsulinMean, lblLunchInsulinStdDev, lblLunchInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinStats(lunchInsulin, lblLunchInsulinMean, lblLunchInsulinStdDev, lblLunchInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinPerDayStats(lunchInsulin, lblLunchInsulinPerDayMean);
 
             var dinnerInsulin = FilterInjectionsByMealTime(quickActingInjections, _dinnerStartHour, _dinnerEndHour);
-            CalculateAndDisplayInsulinStats(dinnerInsulin, lblDinnerInsulinMean, lblDinnerInsulinStdDev, lblDinnerInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinStats(dinnerInsulin, lblDinnerInsulinMean, lblDinnerInsulinStdDev, lblDinnerInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinPerDayStats(dinnerInsulin, lblDinnerInsulinPerDayMean);
 
             // Other insulin: quick acting not in breakfast, lunch, or dinner time
             var otherInsulin = quickActingInjections.Where(i =>
@@ -220,7 +229,8 @@ public partial class StatisticsPage : ContentPage
                 bool isDinner = hour >= _dinnerStartHour && hour < _dinnerEndHour;
                 return !isBreakfast && !isLunch && !isDinner;
             }).ToList();
-            CalculateAndDisplayInsulinStats(otherInsulin, lblOtherInsulinMean, lblOtherInsulinStdDev, lblOtherInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinStats(otherInsulin, lblOtherInsulinMean, lblOtherInsulinStdDev, lblOtherInsulinSamples);
+            _blInjections.CalculateAndDisplayInsulinPerDayStats(otherInsulin, lblOtherInsulinPerDayMean);
         }
         catch (Exception ex)
         {
@@ -240,35 +250,34 @@ public partial class StatisticsPage : ContentPage
         }).ToList();
     }
 
-    private void CalculateAndDisplayInsulinStats(List<Injection> injections, Label meanLabel, Label stdDevLabel, Label samplesLabel)
+    private void CalculateAndDisplayTddStats(List<Injection> injections)
     {
         if (injections == null || injections.Count == 0)
         {
-            meanLabel.Text = "No data";
-            stdDevLabel.Text = "No data";
-            samplesLabel.Text = "0";
+            lblTddPerDayMean.Text = "No data";
+            SetNoDataLabels(lblTddMean, lblTddStdDev, lblTddSamples);
             return;
         }
 
-        var values = injections
-            .Where(i => i.InsulinValue?.Double.HasValue == true)
-            .Select(i => i.InsulinValue.Double.Value)
+        var dailyTotals = injections
+            .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
+            .GroupBy(i => i.EventTime.DateTime.Value.Date)
+            .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
             .ToList();
 
-        if (values.Count == 0)
+        if (dailyTotals.Count == 0)
         {
-            meanLabel.Text = "No valid values";
-            stdDevLabel.Text = "No valid values";
-            samplesLabel.Text = "0";
+            lblTddPerDayMean.Text = "No data";
+            SetNoDataLabels(lblTddMean, lblTddStdDev, lblTddSamples);
             return;
         }
 
-        var (mean, stdDev) = CalculateMeanAndStdDev(values);
-        meanLabel.Text = $"{mean:F2} U";
-        stdDevLabel.Text = $"{stdDev:F2} U";
-        samplesLabel.Text = $"{values.Count}";
+        var (mean, stdDev) = General.CalculateMeanAndStdDev(dailyTotals);
+        lblTddPerDayMean.Text = $"{mean:F2} U/day";
+        lblTddMean.Text = $"{mean:F2} U";
+        lblTddStdDev.Text = $"{stdDev:F2} U";
+        lblTddSamples.Text = $"{dailyTotals.Count} days";
     }
-
     #endregion
 
     #region CHO Statistics
@@ -283,10 +292,15 @@ public partial class StatisticsPage : ContentPage
             if (meals == null || meals.Count == 0)
             {
                 SetNoDataLabels(lblTotalChoMean, lblTotalChoStdDev, lblTotalChoSamples);
+                lblTotalChoPerDayMean.Text = "No data";
                 SetNoDataLabels(lblBreakfastChoMean, lblBreakfastChoStdDev, lblBreakfastChoSamples);
+                lblBreakfastChoPerDayMean.Text = "No data";
                 SetNoDataLabels(lblLunchChoMean, lblLunchChoStdDev, lblLunchChoSamples);
+                lblLunchChoPerDayMean.Text = "No data";
                 SetNoDataLabels(lblDinnerChoMean, lblDinnerChoStdDev, lblDinnerChoSamples);
+                lblDinnerChoPerDayMean.Text = "No data";
                 SetNoDataLabels(lblOtherChoMean, lblOtherChoStdDev, lblOtherChoSamples);
+                lblOtherChoPerDayMean.Text = "No data";
                 return;
             }
 
@@ -296,12 +310,15 @@ public partial class StatisticsPage : ContentPage
             // Filter meals by type or time
             var breakfastMeals = FilterMealsByMealTime(meals, _breakfastStartHour, _breakfastEndHour);
             CalculateAndDisplayChoStats(breakfastMeals, lblBreakfastChoMean, lblBreakfastChoStdDev, lblBreakfastChoSamples);
+            CalculateAndDisplayChoPerDayStats(breakfastMeals, lblBreakfastChoPerDayMean);
 
             var lunchMeals = FilterMealsByMealTime(meals, _lunchStartHour, _lunchEndHour);
             CalculateAndDisplayChoStats(lunchMeals, lblLunchChoMean, lblLunchChoStdDev, lblLunchChoSamples);
+            CalculateAndDisplayChoPerDayStats(lunchMeals, lblLunchChoPerDayMean);
 
             var dinnerMeals = FilterMealsByMealTime(meals, _dinnerStartHour, _dinnerEndHour);
             CalculateAndDisplayChoStats(dinnerMeals, lblDinnerChoMean, lblDinnerChoStdDev, lblDinnerChoSamples);
+            CalculateAndDisplayChoPerDayStats(dinnerMeals, lblDinnerChoPerDayMean);
 
             // Other CHO: meals not in breakfast, lunch, or dinner time
             var otherMeals = meals.Where(m =>
@@ -314,6 +331,7 @@ public partial class StatisticsPage : ContentPage
                 return !isBreakfast && !isLunch && !isDinner;
             }).ToList();
             CalculateAndDisplayChoStats(otherMeals, lblOtherChoMean, lblOtherChoStdDev, lblOtherChoSamples);
+            CalculateAndDisplayChoPerDayStats(otherMeals, lblOtherChoPerDayMean);
         }
         catch (Exception ex)
         {
@@ -334,13 +352,15 @@ public partial class StatisticsPage : ContentPage
         if (dailyTotals.Count == 0)
         {
             SetNoDataLabels(lblTotalChoMean, lblTotalChoStdDev, lblTotalChoSamples);
+            lblTotalChoPerDayMean.Text = "No data";
             return;
         }
 
-        var (mean, stdDev) = CalculateMeanAndStdDev(dailyTotals);
+        var (mean, stdDev) = General.CalculateMeanAndStdDev(dailyTotals);
         lblTotalChoMean.Text = $"{mean:F1} g";
         lblTotalChoStdDev.Text = $"{stdDev:F1} g";
         lblTotalChoSamples.Text = $"{dailyTotals.Count} days";
+        lblTotalChoPerDayMean.Text = $"{mean:F1} g/day";
     }
 
     private List<Meal> FilterMealsByMealTime(List<Meal> meals, double startHour, double endHour)
@@ -376,28 +396,40 @@ public partial class StatisticsPage : ContentPage
             return;
         }
 
-        var (mean, stdDev) = CalculateMeanAndStdDev(values);
+        var (mean, stdDev) = General.CalculateMeanAndStdDev(values);
         meanLabel.Text = $"{mean:F1} g";
         stdDevLabel.Text = $"{stdDev:F1} g";
         samplesLabel.Text = $"{values.Count}";
     }
 
+    private void CalculateAndDisplayChoPerDayStats(List<Meal> meals, Label perDayMeanLabel)
+    {
+        if (meals == null || meals.Count == 0)
+        {
+            perDayMeanLabel.Text = "No data";
+            return;
+        }
+
+        // Group meals by day and sum CHO for each day
+        var dailyTotals = meals
+            .Where(m => m.EventTime?.DateTime != null && m.CarbohydratesGrams?.Double.HasValue == true)
+            .GroupBy(m => m.EventTime.DateTime.Value.Date)
+            .Select(g => g.Sum(m => m.CarbohydratesGrams.Double.Value))
+            .ToList();
+
+        if (dailyTotals.Count == 0)
+        {
+            perDayMeanLabel.Text = "No data";
+            return;
+        }
+
+        double meanPerDay = dailyTotals.Average();
+        perDayMeanLabel.Text = $"{meanPerDay:F1} g/day";
+    }
+
     #endregion
 
     #region Helper Methods
-
-    private (double mean, double stdDev) CalculateMeanAndStdDev(List<double> values)
-    {
-        if (values == null || values.Count == 0)
-            return (0, 0);
-
-        double mean = values.Average();
-        double sumOfSquaredDifferences = values.Sum(val => Math.Pow(val - mean, 2));
-        double variance = sumOfSquaredDifferences / values.Count;
-        double stdDev = Math.Sqrt(variance);
-
-        return (mean, stdDev);
-    }
 
     private void SetErrorLabels(Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {

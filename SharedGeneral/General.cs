@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using GlucoMan.Maui.Resources.Strings;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -113,6 +114,10 @@ namespace gamon
                 target += 7;
             return from.AddDays(target - start);
         }
+        internal static string ReplaceNewLine(string ResourceString)
+        {
+            return ResourceString.Replace("\\n", Environment.NewLine);
+        }
         public static object CloneObject(object o)
         {
             // from https://stackoverflow.com/questions/4544657/duplicate-group-box
@@ -142,5 +147,18 @@ namespace gamon
                 "$1 $2"
             );
         }
+        public static (double mean, double stdDev) CalculateMeanAndStdDev(List<double> values)
+        {
+            if (values == null || values.Count == 0)
+                return (0, 0);
+
+            double mean = values.Average();
+            double sumOfSquaredDifferences = values.Sum(val => Math.Pow(val - mean, 2));
+            double variance = sumOfSquaredDifferences / values.Count;
+            double stdDev = Math.Sqrt(variance);
+
+            return (mean, stdDev);
+        }
+
     }
 }

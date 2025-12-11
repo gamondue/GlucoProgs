@@ -154,8 +154,12 @@
                 </VisualStateManager.VisualStateGroups>
             </Image>
             <Button x:Name="btnIdentify" 
-                        Text="Identifications"
+                        Text="Identifications 1"
                         Clicked="btnIdentification_Click"
+                        HorizontalOptions="Center"/>
+            <Button x:Name="btnIdentify3" 
+                        Text="Identifications 2"
+                        Clicked="btnIdentification2_Click"
                         HorizontalOptions="Center"/>
 
         </VerticalStackLayout>

@@ -1987,7 +1987,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Food to Hit Target.
+        ///   Cerca una stringa localizzata simile a Food to Hit Target CHO.
         /// </summary>
         public static string FoodToHitTarget {
             get {
@@ -1996,7 +1996,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Food to reach target Carbohydrates.
+        ///   Cerca una stringa localizzata simile a Food to reach target CHO.
         /// </summary>
         public static string FoodToHitTargetCarbsPageTitle {
             get {
@@ -4202,6 +4202,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Mean CHO/day.
+        /// </summary>
+        public static string StatChoPerDay {
+            get {
+                return ResourceManager.GetString("StatChoPerDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Dinner CHO.
         /// </summary>
         public static string StatDinnerCHO {
@@ -4382,6 +4391,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a TTD. Total Day Dose (short + long action).
+        /// </summary>
+        public static string StatTotalDayDose {
+            get {
+                return ResourceManager.GetString("StatTotalDayDose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Total Long Acting Insulin.
         /// </summary>
         public static string StatTotalLongActingInsulin {
@@ -4396,6 +4414,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string StatTotalQuickActingInsulin {
             get {
                 return ResourceManager.GetString("StatTotalQuickActingInsulin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Mean Ui/Day.
+        /// </summary>
+        public static string StatUiPerDay {
+            get {
+                return ResourceManager.GetString("StatUiPerDay", resourceCulture);
             }
         }
         

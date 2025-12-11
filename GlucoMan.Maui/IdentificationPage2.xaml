@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:res="clr-namespace:GlucoMan.Maui.Resources.Strings"
+             x:Class="GlucoMan.Maui.IdentificationPage2"
+             Title="{x:Static res:AppStrings.IdentificationPageTitle}">
+    <ScrollView Padding="15,10,15,10">
+        <VerticalStackLayout Spacing="15">
+            
+            <Label x:Name="lblDataType" 
+                   FontSize="18"
+                   HorizontalOptions="Center"/>
+            
+            <Label x:Name="lblDateRange" 
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   TextColor="Gray"/>
+
+            <!-- Button to start MIMO Identification -->
+            <Button x:Name="btnIdentify3"
+                    Text="MIMO Identification (Single τ)"
+                    Clicked="btnIdentify3_Click"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Margin="0,10,0,10"/>
+
+            <BoxView HeightRequest="2" 
+                     Color="#2196F3" 
+                     Margin="0,5,0,5"/>
+
+            <!-- MIMO Results Frame -->
+            <Frame Padding="12" 
+                   CornerRadius="8"
+                   BorderColor="#2196F3"
+                   BackgroundColor="#E3F2FD"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="MIMO First-Order Model Results"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#1565C0"/>
+
+                    <!-- Physical Parameters -->
+                    <Label Text="Physical Parameters:"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#1976D2"
+                           Margin="0,10,0,5"/>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="Time constant τ:" Grid.Row="0" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblTau" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#1565C0" Text="--"/>
+                        
+                        <Label Text="CHO gain K₁:" Grid.Row="1" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblK1" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#4CAF50" Text="--"/>
+                        
+                        <Label Text="Insulin gain K₂:" Grid.Row="2" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblK2" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#F44336" Text="--"/>
+                        
+                        <Label Text="Equilibrium Y₀:" Grid.Row="3" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblY0" Grid.Row="3" Grid.Column="1" HorizontalOptions="End" TextColor="#9C27B0" Text="--"/>
+                    </Grid>
+
+                    <!-- Delays -->
+                    <Label Text="Delays:"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#1976D2"
+                           Margin="0,10,0,5"/>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto" RowSpacing="4">
+                        <Label Text="CHO delay:" Grid.Row="0" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblDelay1" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#4CAF50" Text="--"/>
+                        
+                        <Label Text="Insulin delay:" Grid.Row="1" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblDelay2" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#F44336" Text="--"/>
+                    </Grid>
+
+                    <!-- Discrete Parameters -->
+                    <Label Text="Discrete Parameters:"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#1976D2"
+                           Margin="0,10,0,5"/>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="a (pole):" Grid.Row="0" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblA" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#1565C0" Text="--"/>
+                        
+                        <Label Text="b₁ (CHO):" Grid.Row="1" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblB1" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#4CAF50" Text="--"/>
+                        
+                        <Label Text="b₂ (Insulin):" Grid.Row="2" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblB2" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#F44336" Text="--"/>
+                        
+                        <Label Text="c (offset):" Grid.Row="3" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblC" Grid.Row="3" Grid.Column="1" HorizontalOptions="End" TextColor="#9C27B0" Text="--"/>
+                    </Grid>
+
+                    <!-- Fit Quality -->
+                    <Label Text="Fit Quality:"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#1976D2"
+                           Margin="0,10,0,5"/>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                        <Label Text="R²:" Grid.Row="0" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblR2" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" TextColor="#1565C0" Text="--"/>
+                        
+                        <Label Text="RMSE:" Grid.Row="1" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblRMSE" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#FF9800" Text="--"/>
+                        
+                        <Label Text="Valid samples:" Grid.Row="2" Grid.Column="0" TextColor="#333"/>
+                        <Label x:Name="lblSamples" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#607D8B" Text="--"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Status/Message Label -->
+            <Label x:Name="lblStatus"
+                   FontSize="12"
+                   HorizontalOptions="Center"
+                   TextColor="Gray"
+                   Margin="0,10,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

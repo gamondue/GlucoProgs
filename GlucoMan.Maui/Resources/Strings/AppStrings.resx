@@ -263,7 +263,7 @@
     <value>Hypoglycemia Prediction</value>
   </data>
   <data name="FoodToHitTarget" xml:space="preserve">
-    <value>Food to Hit Target</value>
+    <value>Food to Hit Target CHO</value>
   </data>
   <data name="Food" xml:space="preserve">
     <value>Food</value>
@@ -711,7 +711,7 @@
     <value>Sugar</value>
   </data>
   <data name="FoodToHitTargetCarbsPageTitle" xml:space="preserve">
-    <value>Food to reach target Carbohydrates</value>
+    <value>Food to reach target CHO</value>
   </data>
   <data name="TooltipCalculateFoodGrams" xml:space="preserve">
     <value>Food Calculator: calculates the grams of selected food that you have to eat to reach target carbohydrates</value>
@@ -2279,5 +2279,14 @@
   </data>
   <data name="StatOtherCHO" xml:space="preserve">
     <value>Other CHO</value>
+  </data>
+  <data name="StatUiPerDay" xml:space="preserve">
+    <value>Mean Ui/Day</value>
+  </data>
+  <data name="StatChoPerDay" xml:space="preserve">
+    <value>Mean CHO/day</value>
+  </data>
+  <data name="StatTotalDayDose" xml:space="preserve">
+    <value>TTD. Total Day Dose (short + long action)</value>
   </data>
 </root>

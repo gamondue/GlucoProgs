@@ -10,7 +10,8 @@ namespace GlucoMan.Maui;
 public partial class StatisticsAndGraphPage : ContentPage
 {
     private BL_ImportData bl = new BL_ImportData();
-    
+    bool processingLongCalculations = false;
+
     public StatisticsAndGraphPage()
     {
         InitializeComponent();
@@ -18,7 +19,6 @@ public partial class StatisticsAndGraphPage : ContentPage
         // Initialize date pickers with default values
         InitializeDatePickers();
     }
-
     private void InitializeDatePickers()
     {
         // Set default dates: To = now, From = 2 weeks before
@@ -26,7 +26,6 @@ public partial class StatisticsAndGraphPage : ContentPage
         // timePickerTo.Time = DateTime.Now.TimeOfDay; // Temporarily commented - using date only
 
     }
-
     private async void btnChart_Clicked(object sender, TappedEventArgs e)
     {
         try
@@ -48,9 +47,14 @@ public partial class StatisticsAndGraphPage : ContentPage
             await DisplayAlert(AppStrings.ImportErrorTitle, string.Format("Failed to open chart page: {0}", ex.Message), AppStrings.OK);
         }
     }
-
     private async void btnImportGlucose_Clicked(object sender, TappedEventArgs e)
     {
+        if (processingLongCalculations)
+        {
+            Console.Beep();
+            return;
+        }
+        processingLongCalculations = true;
         try
         {
             // Prompt user confirmation
@@ -68,10 +72,11 @@ public partial class StatisticsAndGraphPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("StatisticsAndGraphPage - btnImportGlucose_Clicked", ex);
-            await DisplayAlert(AppStrings.ImportErrorTitle, string.Format("Failed to import glucose data: {0}", ex.Message), AppStrings.OK);
+            await DisplayAlert(General.ReplaceNewLine(AppStrings.ImportErrorTitle), 
+                string.Format("Failed to import glucose data: {0}", ex.Message), AppStrings.OK);
         }
+        processingLongCalculations = true;
     }
-
     private async Task ImportSensorDataFromCsvFile()
     {
         try
@@ -105,57 +110,69 @@ public partial class StatisticsAndGraphPage : ContentPage
             // Read and parse the CSV file, save in the database the imported data
             string summaryString = await bl.ImportDataFromFreeStyleLibre(picked.FullPath);
             
-            await DisplayAlert(AppStrings.ImportFinishedTitle, summaryString, AppStrings.OK);
+            await DisplayAlert(General.ReplaceNewLine(AppStrings.ImportFinishedTitle), 
+                summaryString, AppStrings.OK);
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("ImportSensorDataFromCsvFile", ex);
-            await DisplayAlert(AppStrings.ImportErrorTitle, string.Format("Error importing sensor data: {0}", ex.Message), AppStrings.OK);
+            await DisplayAlert(General.ReplaceNewLine(AppStrings.ImportErrorTitle), 
+                string.Format("Error importing sensor data: {0}", ex.Message), AppStrings.OK);
         }
-    }   
+    }
     /// <summary>
     /// Gets the selected data type from radio buttons
     /// </summary>
     /// <returns>String representing the selected data type</returns>
-
     private void btnStatistics_Clicked(object sender, TappedEventArgs e)
     {
+        if (processingLongCalculations)
+        {
+            Console.Beep();
+            return;
+        }
+        processingLongCalculations = true;
         int nWeeks = 2;
         int.TryParse(txtNoOfWeeks.Text, out nWeeks);
-        // Navigate to Chart page (to be implemented)
         var statisticsPage = new StatisticsPage(datePicker.Date.AddDays(-7 * nWeeks), datePicker.Date);
         Navigation.PushAsync(statisticsPage);
+        processingLongCalculations = false;
     }
-
     private void btnIdentification_Click(object sender, EventArgs e)
     {
         try
         {
-            ////////// Get date range (using midnight for From, end of day for To)
-            ////////DateTime dateTimeFrom = datePickerFrom.Date; // Midnight of selected day
-            ////////DateTime dateTimeTo = datePicker.Date.AddDays(1).AddSeconds(-1); // 23:59:59 of selected day
+            ////// Validate date range
+            ////if (dateTime> dateTimeTo)
+            ////{
+            ////    DisplayAlert(AppStrings.InvalidDateRangeTitle, AppStrings.InvalidDateRangeMessage, AppStrings.OK);
+            ////    datePicker.Date = datePickerFrom.Date.AddDays(1);
+            ////    return;
+            ////}
 
-            DateTime dateTimeTo = datePicker.Date.AddDays(1).AddSeconds(-1); // 23:59:59 of selected day
+            //Log the action
+            //General.LogOfProgram?.Event($"Opening Statistics page - From: {dateTimeFrom}, To: {dateTimeTo}");
 
-            ////////// Validate date range
-            ////////if (dateTimeFrom > dateTimeTo)
-            ////////{
-            ////////    DisplayAlert(AppStrings.InvalidDateRangeTitle, AppStrings.InvalidDateRangeMessage, AppStrings.OK);
-            ////////    datePicker.Date = datePickerFrom.Date.AddDays(1);
-            ////////    return;
-            ////////}
+            int nWeeks = 2;
+            int.TryParse(txtNoOfWeeks.Text, out nWeeks);
 
-            // Log the action
-            //////////General.LogOfProgram?.Event($"Opening Statistics page - From: {dateTimeFrom}, To: {dateTimeTo}");
-
-            // Navigate to Statistics page (to be implemented)
-            //////////var statisticsPage = new IdentificationPage(dateTimeFrom, dateTimeTo);
-            //////////Navigation.PushAsync(statisticsPage);
+            // Navigate to Identifications page (to be implemented)
+            var identificationPage = new IdentificationPage(datePicker.Date, nWeeks);
+            Navigation.PushAsync(identificationPage);
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("StatisticsAndGraphPage - btnStatistics_Clicked", ex);
             DisplayAlert(AppStrings.ImportErrorTitle, string.Format("Failed to open statistics page: {0}", ex.Message), AppStrings.OK);
         }
+    }
+    private void btnIdentification2_Click(object sender, EventArgs e)
+    {
+        int nWeeks = 2;
+        int.TryParse(txtNoOfWeeks.Text, out nWeeks);
+
+        // Navigate to Identifications page (to be implemented)
+        var identificationPage = new IdentificationPage2(datePicker.Date, nWeeks);
+        Navigation.PushAsync(identificationPage);
     }
 }

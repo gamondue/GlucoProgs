@@ -15,29 +15,24 @@ public class GlucoseChartView : SKCanvasView
     public float MinX { get; set; } = 0;
     public float MaxX { get; set; } = 24;
     public float XStep { get; set; } = 2;
-    
     public SKColor BackgroundColor { get; set; } = SKColors.White;
     public SKColor AxisColor { get; set; } = SKColors.Black;
     public SKColor CurveColor { get; set; } = SKColor.Parse("#8B0000");
     public SKColor SafeZoneColor { get; set; } = SKColor.Parse("#E8F5E9");
     public SKColor ThresholdColor { get; set; } = SKColors.Red;
-    
     public float HighThreshold { get; set; } = 240;
     public float LowThreshold { get; set; } = 80;
     public float SafeZoneMin { get; set; } = 60;
     public float SafeZoneMax { get; set; } = 180;
-    
     public GlucoseChartView()
     {
         PaintSurface += OnPaintSurface;
     }
-    
     public void SetData(List<(float Hour, float Value)> dataPoints)
     {
         _dataPoints = dataPoints ?? new();
         InvalidateSurface();
     }
-    
     private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
     {
         var canvas = e.Surface.Canvas;
@@ -77,7 +72,6 @@ public class GlucoseChartView : SKCanvasView
         // 5. Disegna label e tick
         DrawLabels(canvas, chartRect);
     }
-    
     private void DrawSafeZone(SKCanvas canvas, SKRect chartRect)
     {
         float yMin = MapYToCanvas(SafeZoneMax, chartRect);
@@ -91,7 +85,6 @@ public class GlucoseChartView : SKCanvasView
         
         canvas.DrawRect(chartRect.Left, yMin, chartRect.Width, yMax - yMin, paint);
     }
-    
     private void DrawGrid(SKCanvas canvas, SKRect chartRect)
     {
         using var paint = new SKPaint
@@ -109,7 +102,6 @@ public class GlucoseChartView : SKCanvasView
             canvas.DrawLine(chartRect.Left, yPos, chartRect.Right, yPos, paint);
         }
     }
-    
     private void DrawThresholds(SKCanvas canvas, SKRect chartRect)
     {
         using var paint = new SKPaint
@@ -128,7 +120,6 @@ public class GlucoseChartView : SKCanvasView
         float y80 = MapYToCanvas(LowThreshold, chartRect);
         canvas.DrawLine(chartRect.Left, y80, chartRect.Right, y80, paint);
     }
-    
     private void DrawAxes(SKCanvas canvas, SKRect chartRect)
     {
         using var paint = new SKPaint
@@ -144,7 +135,6 @@ public class GlucoseChartView : SKCanvasView
         // Asse X (basso)
         canvas.DrawLine(chartRect.Left, chartRect.Bottom, chartRect.Right, chartRect.Bottom, paint);
     }
-    
     private void DrawLabels(SKCanvas canvas, SKRect chartRect)
     {
         using var textPaint = new SKPaint
@@ -221,7 +211,6 @@ public class GlucoseChartView : SKCanvasView
         canvas.DrawText("mg/dL", chartRect.Left - 30, chartRect.Top - 10, textPaint);
         canvas.DrawText("Hours", chartRect.Left + chartRect.Width / 2, chartRect.Bottom + 55, textPaint);
     }
-    
     private void DrawCurve(SKCanvas canvas, SKRect chartRect)
     {
         using var path = new SKPath();
@@ -255,13 +244,11 @@ public class GlucoseChartView : SKCanvasView
         
         canvas.DrawPath(path, paint);
     }
-    
     private float MapXToCanvas(float x, SKRect chartRect)
     {
         float ratio = (x - MinX) / (MaxX - MinX);
         return chartRect.Left + ratio * chartRect.Width;
-    }
-    
+    } 
     private float MapYToCanvas(float y, SKRect chartRect)
     {
         float ratio = (y - MinY) / (MaxY - MinY);

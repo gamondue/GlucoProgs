@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Identification1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Identification2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Identification3.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Documentation\API_Examples_Identification2.md" />
@@ -21,6 +22,7 @@
     <None Include="$(MSBuildThisFileDirectory)Documentation\Implementation_Summary.md" />
     <None Include="$(MSBuildThisFileDirectory)Documentation\Mathematical methods used in Identification1.md" />
     <None Include="$(MSBuildThisFileDirectory)Documentation\Mathematical methods used in Identification2.md" />
+    <None Include="$(MSBuildThisFileDirectory)Documentation\MIMO_First_Order_Identification.md" />
     <None Include="$(MSBuildThisFileDirectory)Documentation\MISO_Two_Dynamics_Method.md" />
     <None Include="$(MSBuildThisFileDirectory)Documentation\README.md" />
     <None Include="$(MSBuildThisFileDirectory)Documentation\User_Guide_Two_Channel_Identification.md" />
