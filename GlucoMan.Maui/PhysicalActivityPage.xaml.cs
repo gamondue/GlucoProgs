@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using System.ComponentModel;
 using static GlucoMan.Common;
 using System.Collections.ObjectModel;
@@ -277,7 +277,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
             double accuracy = GetAccuracyFromNotes(CurrentActivity.Notes);
             txtAccuracyOfActivity.Text = accuracy.ToString();
 
-            // Extract notes without accuracy
+            // Extract notes without accuracy and IdTrack
             string notesWithoutAccuracy = CurrentActivity.Notes ?? "";
             var accuracyIndex = notesWithoutAccuracy.IndexOf("Accuracy:");
             if (accuracyIndex >= 0)
@@ -288,6 +288,18 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
                 else
                     notesWithoutAccuracy = notesWithoutAccuracy.Remove(accuracyIndex);
             }
+            
+            // Remove IdTrack from display notes
+            var trackIndex = notesWithoutAccuracy.IndexOf("IdTrack:");
+            if (trackIndex >= 0)
+            {
+                var endIndex = notesWithoutAccuracy.IndexOf(' ', trackIndex);
+                if (endIndex > 0)
+                    notesWithoutAccuracy = notesWithoutAccuracy.Remove(trackIndex, endIndex - trackIndex + 1);
+                else
+                    notesWithoutAccuracy = notesWithoutAccuracy.Remove(trackIndex);
+            }
+            
             txtNotes.Text = notesWithoutAccuracy.Trim();
 
             // Set intensity radio buttons based on activity level
@@ -310,8 +322,11 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
                 rdbHighIntensity.IsChecked = false;
             }
 
-            // Update accuracy controls after data is loaded
+            // Update accuracy controls after Data is loaded
             await RefreshActivityAccuracyControls();
+            
+            // Update GPS Track button state based on track availability
+            UpdateGpsTrackButtonState();
 
             loadingUi = false;
         }
@@ -337,7 +352,15 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
 
             // Store accuracy in Notes field with special format
             double accuracy = Safe.Double(txtAccuracyOfActivity.Text) ?? 100;
-            CurrentActivity.Notes = SetAccuracyInNotes(txtNotes.Text, accuracy);
+            
+            // Preserve IdTrack if it exists
+            int? existingIdTrack = ExtractIdTrackFromNotes(CurrentActivity.Notes);
+            
+            // Build notes with both Accuracy and IdTrack
+            string notes = SetAccuracyInNotes(txtNotes.Text, accuracy);
+            notes = SetIdTrackInNotes(notes, existingIdTrack);
+            
+            CurrentActivity.Notes = notes;
 
             // Set type as Other for activities
             CurrentActivity.IdTypeOfInjection = (int)Common.TypeOfInjection.Other;
@@ -443,28 +466,220 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
         }
     }
 
-    private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
+    private async void btnGpsTrack_Click(object sender, EventArgs e)
     {
-        if (e.SelectedItem == null)
-        {
-            return;
-        }
-
         try
         {
-            CurrentActivity = (Injection)e.SelectedItem;
-            await FromClassToUi();
+            // Check if we have a valid current activity
+            if (CurrentActivity == null)
+            {
+                await DisplayAlert("No Activity Selected", "Please select or create an activity first.", "OK");
+                return;
+            }
 
-            // Update accuracy controls after data selection
-            await RefreshActivityAccuracyControls();
+            // Get IdTrack from CurrentActivity's Notes field (temporary storage)
+            // TODO: When PhysicalActivity class is integrated, use activity.IdTrack directly
+            int? idTrack = ExtractIdTrackFromNotes(CurrentActivity.Notes);
+
+            if (idTrack.HasValue && idTrack.Value > 0)
+            {
+                // Track exists - ask user what to do
+                var action = await DisplayActionSheet(
+                    "GPS Track Options",
+                    "Cancel",
+                    null,
+                    "View Existing Track",
+                    "Record New Track (Replace)");
+
+                if (action == "View Existing Track")
+                {
+                    // Open existing track in view-only mode
+                    await Navigation.PushAsync(new TrackPage(idTrack.Value));
+                    General.LogOfProgram?.Event($"PhysicalActivityPage - Opened existing GPS Track {idTrack.Value}");
+                }
+                else if (action == "Record New Track (Replace)")
+                {
+                    // Confirm replacement
+                    bool confirm = await DisplayAlert(
+                        "Replace Track?",
+                        "This will replace the existing GPS track. The old track will be deleted. Continue?",
+                        "Yes, Replace",
+                        "Cancel");
+
+                    if (confirm)
+                    {
+                        // Delete old track (will be done after new one is created)
+                        // For now, just open new tracking page
+                        var trackPage = new TrackPage();
+                        await Navigation.PushAsync(trackPage);
+                        
+                        // TODO: After track is saved, update CurrentActivity.Notes with new IdTrack
+                        // and delete the old track
+                        General.LogOfProgram?.Event($"PhysicalActivityPage - Recording new GPS Track to replace {idTrack.Value}");
+                    }
+                }
+            }
+            else
+            {
+                // No track yet - create new one
+                var trackPage = new TrackPage();
+                await Navigation.PushAsync(trackPage);
+                
+                // TODO: After track is saved, store IdTrack in CurrentActivity.Notes
+                // Format: "IdTrack:123 OtherNotes..."
+                General.LogOfProgram?.Event("PhysicalActivityPage - Recording new GPS Track");
+            }
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("PhysicalActivityPage - OnGridSelectionAsync", ex);
+            General.LogOfProgram?.Error("PhysicalActivityPage - btnGpsTrack_Click", ex);
+            await DisplayAlert("Error", "Failed to open GPS tracking page. Check logs for details.", "OK");
         }
     }
 
-    // ACCURACY MANAGEMENT METHODS (like MealPage)
+    // Helper methods for IdTrack management in Notes field (temporary until PhysicalActivity class is integrated)
+    private int? ExtractIdTrackFromNotes(string notes)
+    {
+        if (string.IsNullOrEmpty(notes))
+            return null;
+
+        // Look for "IdTrack:XX" pattern in notes
+        var trackIndex = notes.IndexOf("IdTrack:");
+        if (trackIndex >= 0)
+        {
+            var trackString = notes.Substring(trackIndex + 8);
+            var spaceIndex = trackString.IndexOf(' ');
+            if (spaceIndex > 0)
+                trackString = trackString.Substring(0, spaceIndex);
+
+            if (int.TryParse(trackString, out int idTrack))
+                return idTrack;
+        }
+        return null;
+    }
+
+    private string SetIdTrackInNotes(string notes, int? idTrack)
+    {
+        if (string.IsNullOrEmpty(notes))
+            notes = "";
+
+        // Remove existing IdTrack pattern
+        var trackIndex = notes.IndexOf("IdTrack:");
+        if (trackIndex >= 0)
+        {
+            var endIndex = notes.IndexOf(' ', trackIndex);
+            if (endIndex > 0)
+                notes = notes.Remove(trackIndex, endIndex - trackIndex + 1);
+            else
+                notes = notes.Remove(trackIndex);
+        }
+
+        // Add new IdTrack
+        if (idTrack.HasValue && idTrack.Value > 0)
+        {
+            if (!string.IsNullOrEmpty(notes.Trim()))
+                return $"IdTrack:{idTrack.Value} {notes.Trim()}";
+            else
+                return $"IdTrack:{idTrack.Value}";
+        }
+
+        return notes.Trim();
+    }
+
+    // Method to update button appearance based on track availability
+    private void UpdateGpsTrackButtonState()
+    {
+        try
+        {
+            if (CurrentActivity == null)
+            {
+                btnGpsTrack.ImageSource = "map_marker.png";
+                btnGpsTrack.BackgroundColor = initialButtonBackground;
+                return;
+            }
+
+            int? idTrack = ExtractIdTrackFromNotes(CurrentActivity.Notes);
+
+            if (idTrack.HasValue && idTrack.Value > 0)
+            {
+                // Track exists - show different icon/color
+                // Try to use filled icon, fall back to normal if not available
+                try
+                {
+                    btnGpsTrack.ImageSource = "map_marker_filled.png";
+                }
+                catch
+                {
+                    btnGpsTrack.ImageSource = "map_marker.png";
+                }
+                btnGpsTrack.BackgroundColor = Colors.LightGreen; // Highlight that track exists
+                ToolTipProperties.SetText(btnGpsTrack, "GPS Track: View or replace existing GPS track");
+            }
+            else
+            {
+                // No track - default state
+                btnGpsTrack.ImageSource = "map_marker.png";
+                btnGpsTrack.BackgroundColor = initialButtonBackground;
+                ToolTipProperties.SetText(btnGpsTrack, "GPS Track: Record GPS track for this activity");
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("PhysicalActivityPage - UpdateGpsTrackButtonState", ex);
+        }
+    }
+
+    /// <summary>
+    /// Public method to be called by TrackPage after saving a track
+    /// Associates the saved track with the current physical activity
+    /// </summary>
+    /// <param name="idTrack">The ID of the saved GPS track</param>
+    public void OnTrackSaved(int idTrack)
+    {
+        try
+        {
+            if (CurrentActivity == null)
+            {
+                General.LogOfProgram?.Error("PhysicalActivityPage - OnTrackSaved: CurrentActivity is null", null);
+                return;
+            }
+
+            // Update Notes field with new IdTrack
+            CurrentActivity.Notes = SetIdTrackInNotes(CurrentActivity.Notes, idTrack);
+
+            // Save the updated activity
+            bl.SaveOneInjection(CurrentActivity);
+
+            // Update button state
+            UpdateGpsTrackButtonState();
+
+            General.LogOfProgram?.Event($"PhysicalActivityPage - Associated Track {idTrack} with Activity {CurrentActivity.IdInjection}");
+
+            // Show confirmation
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await DisplayAlert("Track Saved", 
+                    $"GPS Track {idTrack} has been associated with this activity.", 
+                    "OK");
+            });
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("PhysicalActivityPage - OnTrackSaved", ex);
+        }
+    }
+
+    protected override void OnAppearing()
+    {
+        try
+        {
+            RefreshUi();
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("PhysicalActivityPage - OnAppearing", ex);
+        }
+    }
 
     private void InitializeAccuracyControls()
     {
@@ -490,10 +705,10 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
     {
         try
         {
-            // Small delay to ensure data binding has completed
+            // Small delay to ensure Data binding has completed
             await Task.Delay(50);
 
-            // Update activity accuracy controls after data binding changes
+            // Update activity accuracy controls after Data binding changes
             if (accuracyActivity != null && !string.IsNullOrEmpty(txtAccuracyOfActivity.Text))
             {
                 if (double.TryParse(txtAccuracyOfActivity.Text, out double activityAccuracy))
@@ -529,7 +744,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
             {
                 if (double.TryParse(txtAccuracyOfActivity.Text, out double accuracy))
                 {
-                    // Update the activity's accuracy in the data model via Notes field
+                    // Update the activity's accuracy in the Data model via Notes field
                     CurrentActivity.Notes = SetAccuracyInNotes(txtNotes.Text, accuracy);
 
                     // The UiAccuracy class will handle combo box and color updates automatically
@@ -550,7 +765,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
 
     private void cmbAccuracyActivity_SelectedIndexChanged(object sender, EventArgs e)
     {
-        // Let UiAccuracy handle the text box update, we only update the data model
+        // Let UiAccuracy handle the text box update, we only update the Data model
         try
         {
             if (!loadingUi && CurrentActivity != null && cmbAccuracyActivity.SelectedItem != null)
@@ -558,7 +773,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
                 var selectedAccuracy = (QualitativeAccuracy)cmbAccuracyActivity.SelectedItem;
                 double numericValue = (double)selectedAccuracy;
 
-                // Update the activity's accuracy in the data model via Notes field
+                // Update the activity's accuracy in the Data model via Notes field
                 CurrentActivity.Notes = SetAccuracyInNotes(txtNotes.Text, numericValue);
 
                 // Update colors based on the new value
@@ -575,15 +790,24 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
         }
     }
 
-    protected override void OnAppearing()
+    private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
     {
+        if (e.SelectedItem == null)
+        {
+            return;
+        }
+
         try
         {
-            RefreshUi();
+            CurrentActivity = (Injection)e.SelectedItem;
+            await FromClassToUi();
+
+            // Update accuracy controls after Data selection
+            await RefreshActivityAccuracyControls();
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("PhysicalActivityPage - OnAppearing", ex);
+            General.LogOfProgram?.Error("PhysicalActivityPage - OnGridSelectionAsync", ex);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using gamon;
+﻿using gamon;
 
 namespace GlucoMan
 {
@@ -25,7 +24,10 @@ namespace GlucoMan
         public DoubleAndText GramsInOneUnit { get; set; } // [g]
         public string Manufacturer { get; set; }
         public string Category { get; set; }
+        public bool IsRaw { get; set; }  // Indicates if the food is raw (true) or cooked (false)
+        public DoubleAndText RawCookedRatio { get; set; }  // Ratio between raw and cooked weight
         public List<UnitOfFood> Units { get; set; }
+        
         // unit is mandative to set the "internal" values in grams
         public Food(UnitOfFood Unit)
         {
@@ -43,6 +45,8 @@ namespace GlucoMan
             PotassiumPercent = new DoubleAndText();     // [g]  
             GlycemicIndex = new DoubleAndText();  // [n]
             GramsInOneUnit = new DoubleAndText(); // [g]
+            RawCookedRatio = new DoubleAndText();  // ratio
+            IsRaw = true;  // Default value
         }
     }
 }

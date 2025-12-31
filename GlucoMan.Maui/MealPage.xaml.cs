@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
 using System.ComponentModel;
 using static GlucoMan.Common;
@@ -138,7 +138,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     }
     private void FromBoxesFoodInMealToClass()
     {
-        //bl.FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
+        //blMeal.FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
         bl.FoodInMeal.Name = Safe.String(txtFoodInMealName.Text);
         bl.FoodInMeal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoFoodInMeal.Text;
         bl.FoodInMeal.CarbohydratesPercent.Text = txtFoodCarbohydratesPerUnit.Text;
@@ -154,7 +154,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         {
             // Ensure the food is associated with the current meal (not necessary)
             bl.FoodInMeal.IdMeal = bl.Meal.IdMeal;
-            // update the data from the FoodInMeal boxes
+            // update the Data from the FoodInMeal boxes
             FromBoxesFoodInMealToClass();
             // also update the list of the foods in the meal
             bl.UpdateOldFoodInMealInList();
@@ -162,7 +162,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             bl.SaveAllFoodsInMeal();
 
             // check if the totals are updated and ask if the user wants to save the 
-            // original data or the updated
+            // original Data or the updated
             double? originalCho = Safe.Double(txtMealCarbohydratesGrams.Text);
             double? originalAccuracy = Safe.Double(txtAccuracyOfChoMeal.Text);
 
@@ -178,7 +178,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             if ((bl.FoodsInMeal != null && bl.FoodsInMeal.Count != 0) &&
                 (choChanged || accuracyChanged))
             {
-                // ask the user if he wants to save old or new data
+                // ask the user if he wants to save old or new Data
                 bool useCalculatedValues = await DisplayAlert(
                     AppStrings.ValueDiscrepancy,
                     AppStrings.ValueDiscrepancyMessage,
@@ -191,7 +191,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
                     bl.Meal.CarbohydratesGrams.Double = originalCho;
                     bl.Meal.AccuracyOfChoEstimate.Double = originalAccuracy;
                 }
-                // If useCalculatedValues is true, keep the calculated values already in bl.Meal
+                // If useCalculatedValues is true, keep the calculated values already in blMeal.Meal
             }
             else
             {
@@ -334,7 +334,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             }
             // recalculate the carbohydrates in grams of this FoodInMeal
             bl.CalculateChoOfFoodGrams();
-            // Update the user interface with the new data
+            // Update the user interface with the new Data
             FromClassToBoxesFoodInMeal();
             // Recalculate all values
             bl.RecalcAll();
@@ -361,7 +361,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             // Check if the user chose a recipe in called page
             if (recipeWasChosen && recipesPage.RecipeIsChosen && recipesPage.CurrentRecipe != null)
             {
-                // Update the current FoodInMeal with the Recipe data
+                // Update the current FoodInMeal with the Recipe Data
                 bl.FoodInMeal.Name = recipesPage.CurrentRecipe.Name;
 
                 // Import CHO% from recipe
@@ -383,7 +383,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
                 // Recalculate the carbohydrates in grams
                 bl.CalculateChoOfFoodGrams();
 
-                // Update the user interface with the new data
+                // Update the user interface with the new Data
                 FromClassToBoxesFoodInMeal();
 
                 // Recalculate all values
@@ -423,10 +423,10 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     {
         try
         {
-            // take the data from the UI controls and put it into the business layer class
+            // take the Data from the UI controls and put it into the business layer class
             FromBoxesFoodInMealToClass();
             bl.UpdateOldFoodInMealInList();
-            // Refresh the bound UI data related to the Meal, since it has changed
+            // Refresh the bound UI Data related to the Meal, since it has changed
             if (mealSection != null && bl?.Meal != null)
             {
                 mealSection.BindingContext = null;
@@ -445,7 +445,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     }
     private async void btnInsulinCalc_ClickAsync(object sender, EventArgs e)
     {
-        //insulinCalcPage = new InsulinCalcPage(bl.Meal.IdBolusCalculation);
+        //insulinCalcPage = new InsulinCalcPage(blMeal.Meal.IdBolusCalculation);
         insulinCalcPage = new InsulinCalcPage();
         await Navigation.PushAsync(insulinCalcPage);
     }
@@ -461,64 +461,30 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             // Update the current food from UI before opening WeighFoodPage
             FromBoxesFoodInMealToClass();
 
-            // Open WeighFoodPage with current food data
+            // Open WeighFoodPage with current food Data
             var weighFoodPage = new WeighFoodPage(bl.FoodInMeal);
             await Navigation.PushModalAsync(weighFoodPage);
 
             // Wait for the page to be closed and get the result
             bool dataWasModified = await weighFoodPage.PageClosedTask;
 
-            // Check if the user modified food data in the WeighFoodPage
-            if (dataWasModified && weighFoodPage.ResultFood != null)
+            // Check if the user modified food Data in the WeighFoodPage
+            if (dataWasModified)
             {
-                // Update the current FoodInMeal with the modified Food data
-                bl.FromFoodToFoodInMeal(weighFoodPage.ResultFood, bl.FoodInMeal);
-
-                // Determine which weight to use for QuantityInUnits
-                double weightToUse = 0;
-
-                // Priority1: WeightOfPortion returned by WeighFoodPage
-                if (weighFoodPage.WeightOfPortion > 0)
+                // Update food name from WeighFoodPage
+                if (!string.IsNullOrEmpty(weighFoodPage.FoodName))
                 {
-                    weightToUse = weighFoodPage.WeightOfPortion;
-                    General.LogOfProgram?.Event($"MealPage - Using WeightOfPortion: {weightToUse:F1}g");
+                    bl.FoodInMeal.Name = weighFoodPage.FoodName;
                 }
-                else
-                {
-                    // Priority2: Raw net weight (TxtRawNet) persisted by BL_WeighFood
-                    try
-                    {
-                        var blWeigh = new BL_WeighFood();
-                        blWeigh.RestoreData();
-                        var rawNet = blWeigh.RawNet?.Double ?? 0;
-                        if (rawNet > 0)
-                        {
-                            weightToUse = rawNet;
-                            General.LogOfProgram?.Event($"MealPage - Using RawNet fallback: {weightToUse:F1}g");
-                        }
-                        else
-                        {
-                            General.LogOfProgram?.Event("MealPage - No WeightOfPortion and RawNet is empty; keeping previous quantity");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        General.LogOfProgram?.Error("MealPage - Fallback to RawNet failed", ex);
-                    }
-                }
-
-                // Apply the weight if determined
-                if (weightToUse > 0)
-                {
-                    bl.FoodInMeal.QuantityInUnits.Double = weightToUse;
-                    bl.FoodInMeal.QuantityInUnits.Text = weightToUse.ToString("F1");
-                    General.LogOfProgram?.Event($"MealPage - Quantity set to {weightToUse:F1}g from WeighFoodPage");
-                }
+                
+                // Update CHO% and weight
+                bl.FoodInMeal.CarbohydratesPercent = weighFoodPage.ResultCarbohydratesPercent;
+                bl.FoodInMeal.QuantityInUnits = weighFoodPage.ResultWeightOfPortion;
 
                 // Recalculate the carbohydrates in grams of this FoodInMeal
                 bl.CalculateChoOfFoodGrams();
 
-                // Update the user interface with the new data
+                // Update the user interface with the new Data
                 FromClassToBoxesFoodInMeal();
 
                 // Recalculate all values
@@ -527,7 +493,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
                 // Update the meal UI
                 RefreshMeal();
 
-                General.LogOfProgram?.Event("Food data updated from WeighFoodPage successfully");
+                General.LogOfProgram?.Event($"Food data updated from WeighFoodPage: Name={bl.FoodInMeal.Name}, CHO%={bl.FoodInMeal.CarbohydratesPercent?.Double:F1}, Weight={bl.FoodInMeal.QuantityInUnits?.Double:F1}g");
             }
         }
         catch (Exception ex)
@@ -536,9 +502,9 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             await DisplayAlert(AppStrings.Error, AppStrings.FailedToOpenWeighFood, AppStrings.OK);
         }
     }
-    private async void btnFoodCalc_ClickAsync(object sender, EventArgs e)
+    private async void btnFoodCalcAsync_Click(object sender, EventArgs e)
     {
-        // update the data from the record modified
+        // update the Data from the record modified
         FromBoxesFoodInMealToClass();
         bl.UpdateOldFoodInMealInList();
         // save the parameters that have to be read by the page we are opening
@@ -572,14 +538,14 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     }
     private void foodSection_Unfocused(object sender, FocusEventArgs e)
     {
-        // when finished with the current food, update the data in the bl 
+        // when finished with the current food, update the Data in the blMeal 
         // and show the changes
 
-        // update bl.FoodInMeal from the UI controls
+        // update blMeal.FoodInMeal from the UI controls
         FromBoxesFoodInMealToClass();
         bl.RecalcAll();
         bl.SaveAllFoodsInMeal();
-        // Refresh the bound UI data related to the Meal, since it has changed
+        // Refresh the bound UI Data related to the Meal, since it has changed
         if (mealSection != null && bl?.Meal != null)
         {
             mealSection.BindingContext = null;
@@ -643,7 +609,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             // the user is changing manually
             programmaticModification = false;
 
-            // aggiorna bl.FoodInMeal con i dati dell'interfaccia
+            // aggiorna blMeal.FoodInMeal con i dati dell'interfaccia
             FromBoxesFoodInMealToClass();
             // ricalcola il totale dei carboidrati della voce del cibo corrente
             bl.CalculateChoOfFoodGrams();
@@ -651,8 +617,8 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             txtFoodCarbohydratesGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
 
             // Propaga la modifica al resto dell'app
-            // bl.RecalcAll() potrebbe essere pesante, quindi da valutare se necessario
-            //bl.RecalcAll();
+            // blMeal.RecalcAll() potrebbe essere pesante, quindi da valutare se necessario
+            //blMeal.RecalcAll();
 
             programmaticModification = true;
         }
@@ -665,7 +631,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     }
     private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
     {
-        // Let UiAccuracy handle the text box update, we only update the data model
+        // Let UiAccuracy handle the text box update, we only update the Data model
         try
         {
             if (!cmbAccuracyMeal.IsLoaded && bl.Meal != null && cmbAccuracyMeal.SelectedItem != null)
@@ -673,7 +639,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
                 var selectedAccuracy = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
                 double numericValue = (double)selectedAccuracy;
 
-                // Update the meal's accuracy in the data model
+                // Update the meal's accuracy in the Data model
                 bl.Meal.AccuracyOfChoEstimate.Double = numericValue;
             }
         }
@@ -684,12 +650,12 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     }
     private void cmbAccuracyFoodInMeal_SelectedIndexChanged(object sender, EventArgs e)
     {
-        // Let UiAccuracy handle the text box update, we only update the data model
+        // Let UiAccuracy handle the text box update, we only update the Data model
         try
         {
             if (!cmbAccuracyFoodInMeal.IsLoaded && bl.FoodInMeal != null && cmbAccuracyFoodInMeal.SelectedItem != null)
             {
-                // Update the food's accuracy in the data model
+                // Update the food's accuracy in the Data model
                 bl.FoodInMeal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text);
                 // Recalculate meal accuracy since food accuracy changed
                 bl.RecalcAll();

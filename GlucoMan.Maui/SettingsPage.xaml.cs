@@ -1,5 +1,4 @@
-using GlucoMan.BusinessLayer;
-using GlucoMan.BusinessObjects;
+using GlucoMan;
 using GlucoMan.Maui.Services;
 using GlucoMan.Maui.Resources.Strings;
 using System.ComponentModel;

@@ -1,7 +1,7 @@
 ﻿using gamon;
-using GlucoMan.BusinessObjects;
+using GlucoMan;
 
-namespace GlucoMan.BusinessLayer
+namespace GlucoMan
 {
     // Business Layer, general part
     public class BL_General

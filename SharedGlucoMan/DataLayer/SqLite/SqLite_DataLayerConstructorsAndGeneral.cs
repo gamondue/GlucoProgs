@@ -1,5 +1,5 @@
 ﻿using gamon;
-using GlucoMan.BusinessObjects;
+using GlucoMan;
 using Microsoft.Data.Sqlite;
 using System.Data;
 using System.Data.Common;
@@ -10,7 +10,7 @@ namespace GlucoMan
     internal partial class DL_Sqlite : DataLayer
     {
         /// <summary>
-        /// Data Access Layer: abstracts the access to dbms using to transfer data 
+        /// Data Access Layer: abstracts the access to dbms using to transfer Data 
         /// DbClasses and ADO db classes (ADO should be avoided, if possible) 
         /// </summary>
         internal string dbName;

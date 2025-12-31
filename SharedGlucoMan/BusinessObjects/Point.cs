@@ -1,4 +1,4 @@
-namespace GlucoMan.BusinessObjects
+namespace GlucoMan
 {
     /// <summary>
     /// Rappresenta un punto con coordinate X e Y

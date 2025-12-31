@@ -1,5 +1,5 @@
 ﻿using gamon;
-using GlucoMan.BusinessObjects;
+using GlucoMan;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 using System.Data;
@@ -296,7 +296,7 @@ namespace GlucoMan
         }
         internal override void SaveOneReferenceCoordinate(PositionOfInjection position)
         {
-            // save in table PositionsOfReferences one record with the data contained in position
+            // save in table PositionsOfReferences one record with the Data contained in position
             try
             {
                 using (DbConnection conn = Connect())

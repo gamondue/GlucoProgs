@@ -1,4 +1,4 @@
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using GlucoMan.Maui.Helpers;
 using SkiaSharp;
 using SkiaSharp.Views.Maui;
@@ -53,7 +53,7 @@ public partial class ChartPage : ContentPage
 
             System.Diagnostics.Debug.WriteLine("Labels set");
 
-            // Setup chart data
+            // Setup chart Data
             SetupChart();
 
             // Enable touch events on SKCanvasView to allow tap detection
@@ -176,7 +176,7 @@ public partial class ChartPage : ContentPage
         lblDateRange.Text = string.Empty;
 
         // Load records from database for the selected day
-        ////////_dataPoints = bl.GetGraphData(_dateOfGraph);
+        ////////_dataPoints = blMeal.GetGraphData(_dateOfGraph);
         SetupChart();
     }
     private void OnPreviousDayClicked(object sender, EventArgs e)
@@ -203,7 +203,7 @@ public partial class ChartPage : ContentPage
         {
             System.Diagnostics.Debug.WriteLine("SetupChart start");
 
-            // Clear previous data
+            // Clear previous Data
             _dataPoints.Clear();
             _injections.Clear();
             _meals.Clear();
@@ -215,7 +215,7 @@ public partial class ChartPage : ContentPage
             // Try to load sensor (continuous) records first
             list = bl.GetSensorsRecords(startOfDay, endOfDay);
 
-            // If continuous sensor data is completely missing, fallback to all glucose records
+            // If continuous sensor Data is completely missing, fallback to all glucose records
             if (list == null || list.Count ==0)
             {
                 System.Diagnostics.Debug.WriteLine("No sensor (continuous) records found for the day, falling back to GetGlucoseRecords().");
@@ -232,7 +232,7 @@ public partial class ChartPage : ContentPage
 
             if (list != null && list.Count >0)
             {
-                // Convert GlucoseRecord to chart data points
+                // Convert GlucoseRecord to chart Data points
                 foreach (var record in list)
                 {
                     if (record.EventTime != null && record.EventTime.DateTime.HasValue &&
@@ -253,8 +253,8 @@ public partial class ChartPage : ContentPage
             }
             //else
             //{
-            //    //// If no data from database, use sample data for testing
-            //    //System.Diagnostics.Debug.WriteLine("No data found in database, using sample data");
+            //    //// If no Data from database, use sample Data for testing
+            //    //System.Diagnostics.Debug.WriteLine("No Data found in database, using sample Data");
 
             //    //_dataPoints.Add((2, 100));
             //    //_dataPoints.Add((8, 130)); 
@@ -656,9 +656,9 @@ public partial class ChartPage : ContentPage
                     float x = MapXToCanvas(hour, chartRect, initialX, finalX);
 
                     // Find the glucose value at this time by interpolating or using nearest point
-                    float glucoseY = chartRect.Top + iconSize; // default if no data
+                    float glucoseY = chartRect.Top + iconSize; // default if no Data
 
-                    // Find nearest data point or interpolate
+                    // Find nearest Data point or interpolate
                     var orderedPoints = _dataPoints.OrderBy(p => p.Hour).ToList();
                     if (orderedPoints.Count >0)
                     {
@@ -720,7 +720,7 @@ public partial class ChartPage : ContentPage
         return chartRect.Bottom - ratio * chartRect.Height;
     }
 
-    // Return interpolated glucose value (mg/dL) for a given hour (fractional), or null if no data
+    // Return interpolated glucose value (mg/dL) for a given hour (fractional), or null if no Data
     private double? GetInterpolatedGlucoseValue(double hour)
     {
     if (_dataPoints == null || _dataPoints.Count ==0)
@@ -831,7 +831,7 @@ public partial class ChartPage : ContentPage
                 }
             }
 
-            // If no data points, ignore
+            // If no Data points, ignore
             if (_dataPoints == null || _dataPoints.Count ==0)
             {
                 e.Handled = true;

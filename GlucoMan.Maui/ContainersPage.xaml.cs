@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using GlucoMan.Maui.Models;
 
 namespace GlucoMan.Maui;
@@ -11,7 +11,7 @@ public partial class ContainersPage : ContentPage
     private List<ContainerViewModel> containerViewModels = new();
     private Container selectedContainer;
 
-    // Properties to handle data exchange with calling page
+    // Properties to handle Data exchange with calling page
     public Container SelectedContainer { get; private set; }
     public bool ContainerWasSelected { get; private set; } = false;
     // TaskCompletionSource for modal behavior
@@ -131,7 +131,7 @@ public partial class ContainersPage : ContentPage
                 {
                     selectedContainer = selectedViewModel.Container;
 
-                    // Update entry fields with selected container data
+                    // Update entry fields with selected container Data
                     txtContainerName.Text = selectedContainer.Name;
                     txtContainerWeight.Text = selectedContainer.Weight?.Text ?? "";
 
@@ -264,7 +264,7 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
             {
          await DisplayAlert("Success", "Container updated successfully!", "OK");
 
-        // Reload list to show updated data
+        // Reload list to show updated Data
                 LoadContainers();
 
     General.LogOfProgram?.Event($"ContainersPage - Container updated: {selectedContainer.Name} (ID: {selectedContainer.IdContainer}), Photo: {selectedContainer.PhotoFileName ?? "none"}");
@@ -284,7 +284,7 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
     {
         try
         {
-            // Validate that we have weight data
+            // Validate that we have weight Data
             if (string.IsNullOrWhiteSpace(txtContainerWeight.Text))
             {
                 await DisplayAlert("Validation Error", "Please enter or select a container weight.", "OK");

@@ -94,7 +94,7 @@
                 <Button Grid.Row="4" Grid.Column="4" x:Name="btnFoodCalc" 
                     ImageSource="food_to_sugar.png"
                     ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipOpenFoodToTargetPage}"
-                    Clicked="btnFoodCalc_ClickAsync" />
+                    Clicked="btnFoodCalcAsync_Click" />
                 <!--Text="Food to&#10;target FontSize="Micro" Margin="1" LineBreakMode="WordWrap""-->
             </Grid>
             <Grid x:Name="foodSection" Grid.Row="1"

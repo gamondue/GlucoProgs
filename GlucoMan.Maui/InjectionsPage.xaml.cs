@@ -1,6 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
-using GlucoMan.BusinessObjects;
+using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
 using System.ComponentModel.Design;
 

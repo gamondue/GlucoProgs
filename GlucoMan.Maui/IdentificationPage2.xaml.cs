@@ -1,4 +1,3 @@
-using GlucoMan.BusinessLayer;
 using GlucoMan;
 using Mathematics.Identification1;
 
@@ -25,7 +24,7 @@ public partial class IdentificationPage2 : ContentPage
             btnIdentify3.IsEnabled = false;
             lblStatus.Text = "Identifying MIMO model...";
 
-            // Get data from business layer
+            // Get Data from business layer
             var blMeals = new BL_MealAndFood();
             var blGlucose = new BL_GlucoseMeasurements();
             var blInj = new BL_BolusesAndInjections();
@@ -34,7 +33,7 @@ public partial class IdentificationPage2 : ContentPage
             var injections = blInj.GetQuickInjections(_dateFrom, _dateTo);
             var glucose = blGlucose.GetSensorsRecords(_dateFrom, _dateTo);
 
-            // Validate data availability
+            // Validate Data availability
             if (glucose == null || glucose.Count < 10)
             {
                 await DisplayAlert("Error", "Insufficient glucose data. Need at least 10 measurements.", "OK");
@@ -94,7 +93,7 @@ public partial class IdentificationPage2 : ContentPage
                 $"Insulin gain K? = {result.K2:G3} mg/dL per U\n" +
                 $"Equilibrium Y? = {result.Y0:F0} mg/dL\n\n" +
                 $"Delays: CHO = {result.Delay1Seconds / 60:F0} min, Insulin = {result.Delay2Seconds / 60:F0} min\n\n" +
-                $"Fit: R² = {result.RSquared:F3}, RMSE = {result.RMSE:F1} mg/dL",
+                $"Fit: RÂ² = {result.RSquared:F3}, RMSE = {result.RMSE:F1} mg/dL",
                 "OK");
         }
         catch (Exception ex)

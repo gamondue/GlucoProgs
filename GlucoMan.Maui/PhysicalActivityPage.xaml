@@ -8,7 +8,8 @@
               ColumnDefinitions="*,*,*,*">
             <Label Grid.Row="0" Grid.Column="0" Text="Activity Level" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="0" Grid.Column="1" Text="Duration [min]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="0" Grid.Column="2" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <Label Grid.Row="0" Grid.Column="2" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="0" Grid.Column="3" Text="Track" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
             <Entry Grid.Row="1" Grid.Column="0" x:Name="txtActivityLevel" 
                    ToolTipProperties.Text="Level of physical activity (1-10 scale)"
@@ -22,45 +23,76 @@
                    ToolTipProperties.Text="Code of this activity"
                    FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
             <Button Grid.Row="1" Grid.Column="3" 
+                    ImageSource="tracking.png"
+                    x:Name="btnGpsTrack"
+                    BackgroundColor="Transparent"
+                    BorderColor="DeepSkyBlue"
+                    BorderWidth="2"
+                    TextColor="DeepSkyBlue"
+                    FontAttributes="Bold"
+                    ToolTipProperties.Text="GPS Track: record or view GPS track for this activity"
+                    Clicked="btnGpsTrack_Click">
+            </Button>
+
+            <Button Grid.Row="2" Grid.Column="3" 
                     ImageSource="floppy_disc.png"
                     x:Name="btnSave"
+                    BackgroundColor="LightGreen"
+                    TextColor="Black"
+                    FontAttributes="Bold"
                     ToolTipProperties.Text="Save: save this activity to the database"
                     Clicked="btnSave_Click"></Button>
 
             <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Activity date and time"  
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <RadioButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" x:Name="rdbLowIntensity" Content="Low intensity" 
-                         HorizontalOptions="Center" VerticalOptions="End" GroupName="groupIntensity" WidthRequest="180" />
-            <RadioButton Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" x:Name="rdbHighIntensity" Content="High intensity" 
-                         HorizontalOptions="Center" VerticalOptions="End" GroupName="groupIntensity" WidthRequest="180"/>
+            
+            <!-- Intensity RadioButtons - moved to separate row to avoid overlap with Save button -->
+            <Label Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Text="Intensity level"
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+                   FontSize="Small" Margin="0,0,0,5"/>
+            <HorizontalStackLayout Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"
+                                   HorizontalOptions="Center" VerticalOptions="End" Spacing="10">
+                <RadioButton x:Name="rdbLowIntensity" Content="Low" 
+                             GroupName="groupIntensity" FontSize="Small" />
+                <RadioButton x:Name="rdbHighIntensity" Content="High" 
+                             GroupName="groupIntensity" FontSize="Small" />
+            </HorizontalStackLayout>
 
-            <DatePicker Grid.Row="3" Grid.Column="0" x:Name="dtpActivityDate" 
+            <DatePicker Grid.Row="4" Grid.Column="0" x:Name="dtpActivityDate" 
                         ToolTipProperties.Text="Date of this activity"
                         BackgroundColor="PaleGreen" FontSize="Small"  HorizontalOptions="Center" />
-            <TimePicker Grid.Row="3" Grid.Column="1" x:Name="dtpActivityTime" 
+            <TimePicker Grid.Row="4" Grid.Column="1" x:Name="dtpActivityTime" 
                         ToolTipProperties.Text="Time of this activity"
                         BackgroundColor="PaleGreen" FontSize="Small"
                         HorizontalOptions="Center"
                         Format="HH:mm:ss"/>
-            <Button Grid.Row="3" Grid.Column="2" 
+            <Button Grid.Row="4" Grid.Column="2" 
                     ImageSource="clock.png"
                     x:Name="btnNow"
+                    BackgroundColor="Orange"
+                    TextColor="White"
                     ToolTipProperties.Text="Now: set the time of this instant as the time of this activity"
                     Clicked="btnNow_Click"></Button>
-            <Grid Grid.Row="3" Grid.Column="3" ColumnDefinitions="*, *">
+            <Grid Grid.Row="4" Grid.Column="3" ColumnDefinitions="*, *">
                 <Button Grid.Row="0" Grid.Column="0" 
                         ImageSource="plus.png"
                         x:Name="btnAddActivity"
+                        BackgroundColor="LightGreen"
+                        TextColor="Black"
+                        FontAttributes="Bold"
                         ToolTipProperties.Text="Plus: add a new activity"
                         Clicked="btnAddActivity_Click"></Button>
                 <Button Grid.Row="0" Grid.Column="1" 
                         ImageSource="minus.png"
                         x:Name="btnRemoveActivity"
+                        BackgroundColor="LightCoral"
+                        TextColor="White"
+                        FontAttributes="Bold"
                         ToolTipProperties.Text="Minus: remove this activity"
                         Clicked="btnRemoveActivity_Click"></Button>
             </Grid>
 
-            <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
+            <HorizontalStackLayout Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2">
                 <CheckBox VerticalOptions="Center" x:Name="chkNowInAdd" IsChecked="True">
                     <CheckBox.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
@@ -78,28 +110,28 @@
                 </Label>
             </HorizontalStackLayout>
 
-            <Entry Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="PaleGoldenrod" 
+            <Entry Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" x:Name="txtNotes" BackgroundColor="PaleGoldenrod" 
                    ToolTipProperties.Text="Notes about this activity"
                    FontSize="Small" HorizontalTextAlignment="Start" IsReadOnly="false"/>
 
             <!-- Accuracy Section -->
-            <Label Grid.Row="6" Grid.Column="0" Text="Activity Accuracy" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="6" Grid.Column="1" Text="Accuracy" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="7" Grid.Column="0" Text="Activity Accuracy" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Label Grid.Row="7" Grid.Column="1" Text="Accuracy" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
 
-            <Entry Grid.Row="7" Grid.Column="0" x:Name="txtAccuracyOfActivity" 
+            <Entry Grid.Row="8" Grid.Column="0" x:Name="txtAccuracyOfActivity" 
                    ToolTipProperties.Text="Numerical accuracy of activity estimation in percent"
                    Margin="1" Keyboard="Numeric" HorizontalTextAlignment="End" 
                    BackgroundColor="LightGreen" TextColor="Black"
                    FontSize="Medium"
                    Unfocused="txtAccuracyOfActivity_Unfocused"/>
-            <Picker Grid.Row="7" Grid.Column="1" x:Name="cmbAccuracyActivity"
+            <Picker Grid.Row="8" Grid.Column="1" x:Name="cmbAccuracyActivity"
                     Margin="1" HorizontalTextAlignment="End"
                     ToolTipProperties.Text="Qualitative accuracy of the activity estimation as a word"
                     BackgroundColor="PaleGoldenrod" TextColor="Black" 
                     SelectedIndexChanged="cmbAccuracyActivity_SelectedIndexChanged"/>
 
             <!-- Grid Headers -->
-            <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4"
+            <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4"
                   RowDefinitions="30,30" ColumnDefinitions="*,60,60,60">
                 <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Text="Physical Activities" FontAttributes="Bold"
                        HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>

@@ -1,7 +1,7 @@
 ﻿using System;
 using gamon; 
 
-namespace GlucoMan.BusinessLayer
+namespace GlucoMan
 {
     internal class BL_GrossTareAndNetWeight
     {

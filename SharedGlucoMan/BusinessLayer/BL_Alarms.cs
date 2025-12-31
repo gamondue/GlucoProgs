@@ -1,4 +1,4 @@
-﻿namespace GlucoMan.BusinessLayer
+﻿namespace GlucoMan
 {
     public class BL_Alarms
     {

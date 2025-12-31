@@ -1,7 +1,7 @@
 ﻿using gamon;
 using System;
 
-namespace GlucoMan.BusinessLayer
+namespace GlucoMan
 {
     public class BL_HypoPrediction
     {

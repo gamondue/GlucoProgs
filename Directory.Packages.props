@@ -1,0 +1,100 @@
+<Project>
+  <!-- 
+    Central Package Management per GlucoProgs Solution
+    
+    Questo file gestisce centralmente le versioni di tutti i pacchetti NuGet usati nella solution.
+    
+    VANTAGGI:
+    - Versione unica per tutti i progetti
+    - Aggiornamenti centralizzati (cambi in un solo posto)
+    - Garantita consistenza tra progetti
+    - Più facile gestire dipendenze complesse
+    
+    COME USARLO:
+    1. Nei file .csproj, rimuovi l'attributo Version dai PackageReference
+    2. Prima:  <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
+    3. Dopo:   <PackageReference Include="Microsoft.Maui.Controls" />
+    
+    AGGIORNAMENTI:
+    - Per aggiornare un pacchetto, modifica solo la versione qui
+    - Tutti i progetti useranno automaticamente la nuova versione dopo rebuild
+    
+    OVERRIDE:
+    - Se serve una versione diversa per UN singolo progetto:
+      <PackageReference Include="NomePackage" VersionOverride="X.Y.Z" />
+  -->
+  
+  <PropertyGroup>
+    <!-- Abilita la gestione centralizzata delle versioni dei pacchetti -->
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- ============================================ -->
+    <!-- .NET MAUI Core Packages -->
+    <!-- ============================================ -->
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.110" />
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.110" />
+    
+    <!-- ============================================ -->
+    <!-- Microsoft Extensions & Logging -->
+    <!-- ============================================ -->
+    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
+    
+    <!-- ============================================ -->
+    <!-- Community Toolkits -->
+    <!-- ============================================ -->
+    <PackageVersion Include="CommunityToolkit.Maui" Version="12.2.0" />
+    
+    <!-- ============================================ -->
+    <!-- Database (SQLite) -->
+    <!-- ============================================ -->
+    <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="9.0.9" />
+    <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
+    <!-- Nota: System.Data.SQLite.Core usato solo in SharedGlucoMan? -->
+    <!-- <PackageVersion Include="System.Data.SQLite.Core" Version="1.0.119" /> -->
+    
+    <!-- ============================================ -->
+    <!-- Graphics & Drawing -->
+    <!-- ============================================ -->
+    <PackageVersion Include="SkiaSharp.Views.Maui.Controls" Version="3.116.1" />
+    
+    <!-- Windows-specific: System.Drawing (solo per Windows) -->
+    <!-- Nota: Questo va condizionato nel .csproj con Condition="$(TargetFramework.Contains('windows'))" -->
+    <PackageVersion Include="System.Drawing.Common" Version="9.0.0" />
+    
+    <!-- ============================================ -->
+    <!-- Mathematics & Numerics -->
+    <!-- ============================================ -->
+    <PackageVersion Include="MathNet.Numerics" Version="5.0.0" />
+    
+    <!-- ============================================ -->
+    <!-- Testing (NUnit) -->
+    <!-- ============================================ -->
+    <PackageVersion Include="NUnit" Version="4.4.0" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="5.1.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    
+    <!-- ============================================ -->
+    <!-- Altre dipendenze comuni -->
+    <!-- ============================================ -->
+    <!-- Aggiungi qui altri pacchetti usati nei progetti SharedGlucoMan, SharedGeneral, ecc. -->
+    
+  </ItemGroup>
+  
+  <!-- 
+    NOTE PER FUTURE AGGIUNTE:
+    
+    - Quando aggiungi un nuovo pacchetto NuGet a qualsiasi progetto:
+      1. Aggiungi qui la versione con <PackageVersion Include="NomePackage" Version="X.Y.Z" />
+      2. Nel .csproj usa solo <PackageReference Include="NomePackage" /> (senza Version)
+    
+    - Per vedere quali pacchetti usa ogni progetto:
+      dotnet list <percorso-progetto> package
+    
+    - Per aggiornare tutti i pacchetti:
+      1. Modifica le versioni qui
+      2. dotnet restore
+      3. dotnet build
+  -->
+</Project>

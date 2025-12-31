@@ -1,6 +1,6 @@
 # GlucoMan Documentation Index
 
-This folder contains the user documentation for GlucoMan, a diabetes management application.
+This folder contains the user documentation for GlucoMan, a glucose  management application for diabetic persons.
 
 ## User Manuals
 
@@ -49,7 +49,7 @@ All user documentation is derived from the tooltips present in the GlucoMan appl
 
 ## Feedback
 
-If you find areas where the documentation could be improved or expanded, please provide feedback to help make GlucoMan more accessible and user-friendly.
+If you find areas where the UI or documentation could be improved or expanded, please provide feedback to help make GlucoMan more accessible and user-friendly.
 
 ---
 

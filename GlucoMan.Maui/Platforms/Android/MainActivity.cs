@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using Android.Widget;
 using System;
 using System.Threading.Tasks;

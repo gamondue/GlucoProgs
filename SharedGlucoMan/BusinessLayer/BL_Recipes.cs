@@ -1,6 +1,6 @@
 ﻿using gamon;
 
-namespace GlucoMan.BusinessLayer
+namespace GlucoMan
 {
     public class BL_Recipes
     {
@@ -96,7 +96,7 @@ namespace GlucoMan.BusinessLayer
                 CalculatePercentagesAndChoGramsOfIngredients();
                 // save the new percentages
                 SaveAllIngredientsInRecipe();
-                // other survey data
+                // other survey Data
                 // TotalWeight is already calculated by CalculatePercentagesAndChoGramsOfIngredients();
                 double? sumOfChoGrams = 0;
                 double? sumOfWeightedAccuracies = 0;

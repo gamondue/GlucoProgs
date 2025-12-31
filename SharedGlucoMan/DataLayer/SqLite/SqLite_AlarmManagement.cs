@@ -1,5 +1,5 @@
 ﻿using gamon;
-using GlucoMan.BusinessObjects;
+using GlucoMan;
 //using Microsoft.Data.Sqlite;
 using System.Data.Common;
 

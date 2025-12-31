@@ -1,6 +1,6 @@
 ﻿using gamon;
 
-namespace GlucoMan.BusinessLayer
+namespace GlucoMan
 {
     class BL_GlucoseMeasurements
     {

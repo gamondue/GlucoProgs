@@ -1,23 +1,26 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 
 namespace GlucoMan.Maui;
 
 public partial class WeighFoodPage : ContentPage
 {
+    // Add business layer for food weighing
     BL_WeighFood blFood = new BL_WeighFood();
     BL_GrossTareAndNetWeight blMealRaw;
     BL_GrossTareAndNetWeight blMealCooked;
 
     // Add business layer for food management and properties for Food selection like in MealPage
-    private BL_MealAndFood bl = new BL_MealAndFood();
+    private BL_MealAndFood blMeal = new BL_MealAndFood();
     FoodsPage foodsPage;
-    private Food selectedFood;
 
-    // Properties to handle data exchange with calling page
-    internal Food ResultFood { get; private set; }
+    // Properties to handle Data exchange with calling page
+    internal DoubleAndText ResultCarbohydratesPercent { get; private set; } = new DoubleAndText();
+    internal DoubleAndText ResultWeightOfPortion { get; private set; } = new();
+    internal string FoodName => txtFoodName?.Text ?? "";
     public bool FoodDataWasModified { get; private set; } = false;
     public bool UserCancelled { get; private set; } = false;
+    
     // Properties for RadioButton options
     public bool DivideIntoEqualPortions { get; set; } = false;
     public bool WeighCookedPortion { get; set; } = false;
@@ -40,6 +43,9 @@ public partial class WeighFoodPage : ContentPage
     private bool portionGrossOrTareChanging = false;
     private bool portionNetChanging = false;
 
+    // Flag to prevent event storm during page loading
+    private bool isLoading = true;
+
     // Properties to access RadioButton states
     public bool IsDivideIntoEqualPortionsSelected => rbDivideIntoEqualPortions?.IsChecked ?? false;
     public bool IsWeighCookedPortionSelected => rbWeighCookedPortion?.IsChecked ?? false;
@@ -50,39 +56,30 @@ public partial class WeighFoodPage : ContentPage
     {
         try
         {
+            isLoading = true;  // Prevent calculations during initialization
+            
             InitializeComponent();
-
-            // Initialize selectedFood with default unit BEFORE calling FromClassToUi()
-            selectedFood = new Food(new UnitOfFood());
 
             // Restore saved weighing data from database
             blFood.RestoreData();
 
-            blMealRaw = new BL_GrossTareAndNetWeight(blFood.RawGross, blFood.RawTare, blFood.RawNet);
-            blMealCooked = new BL_GrossTareAndNetWeight(blFood.CookedGross, blFood.CookedTare, blFood.CookedNet);
+            blMealRaw = new BL_GrossTareAndNetWeight(blFood.Data.Raw.Gross, blFood.Data.Raw.Tare, blFood.Data.Raw.Net);
+            blMealCooked = new BL_GrossTareAndNetWeight(blFood.Data.Cooked.Gross, blFood.Data.Cooked.Tare, blFood.Data.Cooked.Net);
 
-            // Populate UI with restored data
-            PopulateUIFromBlFood();
+            // Set BindingContext to blFood.Data for automatic UI binding
+            this.BindingContext = blFood.Data;
 
             // Set default selection to WeighCookedPortion
             WeighCookedPortion = true;
+            blFood.Data.DoWeighCookedPortion = true;
             if (rbWeighCookedPortion != null)
                 rbWeighCookedPortion.IsChecked = true;
 
             // Set default CHO of raw food to checked
             ChoOfRawFood = true;
+            blFood.Data.IsChoOfRawFood = true;
             if (chkChoOfRawFood != null)
                 chkChoOfRawFood.IsChecked = true;
-
-            // Hook up TextChanged for CHO% and Number of portions for summary calculation
-            if (txtFoodCarbohydratesPerUnit != null)
-            {
-                txtFoodCarbohydratesPerUnit.TextChanged += TxtFoodCarbohydratesPerUnit_TextChanged;
-            }
-            if (TxtNPortions != null)
-            {
-                TxtNPortions.TextChanged += TxtNPortions_TextChanged;
-            }
 
             // Use Loaded event to enable automatic calculations after all controls are loaded
             this.Loaded += WeighFoodPage_Loaded;
@@ -93,28 +90,21 @@ public partial class WeighFoodPage : ContentPage
             // Initialize with safe defaults to prevent further errors
             InitializeSafeDefaults();
         }
-    }
-    private void WeighFoodPage_Loaded(object sender, EventArgs e)
-    {
-        try
+        finally
         {
-            General.LogOfProgram?.Event("WeighFoodPage - Page loaded, automatic calculations enabled");
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("WeighFoodPage - WeighFoodPage_Loaded", ex);
+            isLoading = false;  // Re-enable calculations after initialization
         }
     }
-    // Constructor that accepts Food data from MealPage
+    // Constructor that accepts Food Data from MealPage
     internal WeighFoodPage(Food initialFood) : this()
     {
         try
         {
+            isLoading = true;  // Prevent calculations during initialization
+            
             if (initialFood != null)
             {
-                selectedFood = initialFood;
-
-                // Populate UI fields with food data
+                // Populate UI fields with food Data
                 if (txtFoodName != null)
                 {
                     txtFoodName.Text = initialFood.Name ?? "";
@@ -133,19 +123,25 @@ public partial class WeighFoodPage : ContentPage
             General.LogOfProgram?.Error("WeighFoodPage - Constructor with Food", ex);
             InitializeSafeDefaults();
         }
+        finally
+        {
+            isLoading = false;  // Re-enable calculations
+        }
     }
-    // Constructor that accepts FoodInMeal data from MealPage
+    // Constructor that accepts FoodInMeal Data from MealPage
     public WeighFoodPage(FoodInMeal initialFoodInMeal) : this()
     {
         try
         {
+            isLoading = true;  // Prevent calculations during initialization
+            
             if (initialFoodInMeal != null)
             {
                 // Convert FoodInMeal to Food for internal use
-                selectedFood = new Food(new UnitOfFood());
-                bl.FromFoodInMealToFood(initialFoodInMeal, selectedFood);
+                Food outputFood = new Food(new UnitOfFood());
+                blMeal.FromFoodInMealToFood(initialFoodInMeal, outputFood);
 
-                // Populate UI fields with food data
+                // Populate UI fields with food Data
                 if (txtFoodName != null)
                 {
                     txtFoodName.Text = initialFoodInMeal.Name ?? "";
@@ -164,19 +160,25 @@ public partial class WeighFoodPage : ContentPage
             General.LogOfProgram?.Error("WeighFoodPage - Constructor with FoodInMeal", ex);
             InitializeSafeDefaults();
         }
+        finally
+        {
+            isLoading = false;  // Re-enable calculations
+        }
     }
-    // Constructor that accepts Ingredient data from RecipePage
+    // Constructor that accepts Ingredient Data from RecipePage
     public WeighFoodPage(Ingredient initialIngredient) : this()
     {
         try
         {
+            isLoading = true;  // Prevent calculations during initialization
+            
             if (initialIngredient != null)
             {
                 // Convert Ingredient to Food for internal use
-                selectedFood = new Food(new UnitOfFood());
-                bl.FromIngredientToFood(initialIngredient, selectedFood);
+                Food outputFood = new Food(new UnitOfFood());
+                blMeal.FromIngredientToFood(initialIngredient, outputFood);
 
-                // Populate UI fields with ingredient data
+                // Populate UI fields with ingredient Data
                 if (txtFoodName != null)
                 {
                     txtFoodName.Text = initialIngredient.Name ?? "";
@@ -195,14 +197,29 @@ public partial class WeighFoodPage : ContentPage
             General.LogOfProgram?.Error("WeighFoodPage - Constructor with Ingredient", ex);
             InitializeSafeDefaults();
         }
+        finally
+        {
+            isLoading = false;  // Re-enable calculations
+        }
+    }
+    private void WeighFoodPage_Loaded(object sender, EventArgs e)
+    {
+        //try
+        //{
+        //    General.LogOfProgram?.Event("WeighFoodPage - Page loaded, automatic calculations enabled");
+        //}
+        //catch (Exception ex)
+        //{
+        //    General.LogOfProgram?.Error("WeighFoodPage - WeighFoodPage_Loaded", ex);
+        //}
     }
     private void InitializeSafeDefaults()
     {
         try
         {
-            selectedFood ??= new Food(new UnitOfFood());
-            blMealRaw ??= new BL_GrossTareAndNetWeight(blFood?.RawGross, blFood?.RawTare, blFood?.RawNet);
-            blMealCooked ??= new BL_GrossTareAndNetWeight(blFood?.CookedGross, blFood?.CookedTare, blFood?.CookedNet);
+            //////////outputFood ??= new Food(new UnitOfFood());
+            //////////blMealRaw ??= new BL_GrossTareAndNetWeight(blFood?.RawGross, blFood?.RawTare, blFood?.RawNet);
+            //////////blMealCooked ??= new BL_GrossTareAndNetWeight(blFood?.CookedGross, blFood?.CookedTare, blFood?.CookedNet);
         }
         catch (Exception ex)
         {
@@ -219,7 +236,7 @@ public partial class WeighFoodPage : ContentPage
             if (!UserCancelled)
             {
                 //FromUiToClass();
-                ResultFood = selectedFood;
+                ////////ResultFood = selectedFood;
             }
             // Complete the task when the page is closed
             if (!pageClosedTaskSource.Task.IsCompleted)
@@ -272,45 +289,44 @@ public partial class WeighFoodPage : ContentPage
             // Update Result CHO% from UI before calculation
             if (txtFoodCarbohydratesPerUnit != null && !string.IsNullOrEmpty(txtFoodCarbohydratesPerUnit.Text))
             {
-                double choPercent = Safe.Double(txtFoodCarbohydratesPerUnit.Text) ??0;
-                if (selectedFood?.CarbohydratesPercent != null)
-                {
-                    selectedFood.CarbohydratesPercent.Double = choPercent;
-                    General.LogOfProgram?.Event($"WeighFoodPage - Updated selectedFood.CarbohydratesPercent to {choPercent:F1}%");
-                }
+                ResultCarbohydratesPercent.Double = Safe.Double(TxtCarboydratesPercentOfTotal.Text) ?? 0;
+                //if (.CarbohydratesPercent != null)
+                //{
+                //    selectedFood.CarbohydratesPercent.Double = choPercent;
+                //    General.LogOfProgram?.Event($"WeighFoodPage - Updated selectedFood.CarbohydratesPercent to {choPercent:F1}%");
+                //}
             }
-
-            // Ensure latest calculations
-            CalculateSummaryData();
-            if (blFood != null)
+            if (!string.IsNullOrEmpty(TxtWeightOfPortion.Text))
             {
-                blFood.CalcUnknownData();
+                ResultWeightOfPortion.Double = Safe.Double(TxtWeightOfPortion.Text) ?? 0;
+                //if (selectedFood?.CarbohydratesPercent != null)
+                //{
+                //    selectedFood. .Double = weightOfPortion;
+                //    General.LogOfProgram?.Event($"WeighFoodPage - Updated selectedFood.CarbohydratesPercent to {choPercent:F1}%");
+                //}
             }
+            
+            //// Centralize output selection here: prefer WeightOfPortion, fallback to RawNet (TxtRawNet)
+            //double effectiveWeight = WeightOfPortion;
+            //if (effectiveWeight <=0)
+            //{
+            //    double rawNet = Safe.Double(TxtRawNet?.Text) ??0;
+            //    if (rawNet >0)
+            //    {
+            //        effectiveWeight = rawNet;
+            //        General.LogOfProgram?.Event($"WeighFoodPage - Fallback to RawNet for output weight: {effectiveWeight:F1}g");
+            //    }
+            //    else
+            //    {
+            //        General.LogOfProgram?.Event("WeighFoodPage - No WeightOfPortion and RawNet empty; output weight remains0");
+            //    }
+            //}
+            //// Expose the chosen weight via WeightOfPortion so callers have a single source
+            //WeightOfPortion = effectiveWeight;
 
-            // Centralize output selection here: prefer WeightOfPortion, fallback to RawNet (TxtRawNet)
-            double effectiveWeight = WeightOfPortion;
-            if (effectiveWeight <=0)
-            {
-                double rawNet = Safe.Double(TxtRawNet?.Text) ??0;
-                if (rawNet >0)
-                {
-                    effectiveWeight = rawNet;
-                    General.LogOfProgram?.Event($"WeighFoodPage - Fallback to RawNet for output weight: {effectiveWeight:F1}g");
-                }
-                else
-                {
-                    General.LogOfProgram?.Event("WeighFoodPage - No WeightOfPortion and RawNet empty; output weight remains0");
-                }
-            }
-            // Expose the chosen weight via WeightOfPortion so callers have a single source
-            WeightOfPortion = effectiveWeight;
-
-            // Set result data
-            ResultFood = selectedFood;
+            // Signal result Data
             UserCancelled = false;
             FoodDataWasModified = true;
-
-            General.LogOfProgram?.Event($"WeighFoodPage - Choose: OutputWeight={WeightOfPortion:F1}g, CHO%={ResultFood.CarbohydratesPercent?.Double ??0:F1}%");
 
             // Close the page and return to the calling page
             await Navigation.PopModalAsync();
@@ -342,7 +358,7 @@ public partial class WeighFoodPage : ContentPage
                 if (SectionWeightOfCookedPortion != null) SectionWeightOfCookedPortion.IsVisible = false;
                 if (SectionNumberCookedPortion != null) SectionNumberCookedPortion.IsVisible = true;
 
-                // Recalculate summary data
+                // Recalculate summary Data
                 CalculateSummaryData();
             }
         }
@@ -359,12 +375,12 @@ public partial class WeighFoodPage : ContentPage
             {
                 DivideIntoEqualPortions = false;
                 WeighCookedPortion = true;
-                General.LogOfProgram?.Event("WeighFoodPage - Weigh cooked portion option selected");
+                General.LogOfProgram?.Event("WeighFoodPage - Weigh cooked Portion option selected");
 
                 if (SectionWeightOfCookedPortion != null) SectionWeightOfCookedPortion.IsVisible = true;
                 if (SectionNumberCookedPortion != null) SectionNumberCookedPortion.IsVisible = false;
 
-                // Recalculate summary data
+                // Recalculate summary Data
                 CalculateSummaryData();
             }
         }
@@ -381,7 +397,7 @@ public partial class WeighFoodPage : ContentPage
             ChoOfRawFood = e.Value;
             General.LogOfProgram?.Event($"WeighFoodPage - CHO of raw food option: {(e.Value ? "enabled" : "disabled")}");
 
-            // Recalculate summary data when CHO of raw food changes
+            // Recalculate summary Data when CHO of raw food changes
             CalculateSummaryData();
         }
         catch (Exception ex)
@@ -402,99 +418,6 @@ public partial class WeighFoodPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("WeighFoodPage - OnChoOfRawFoodLabelTapped", ex);
-        }
-    }
-    #region Summary Data Calculation
-    /// <summary>
-    /// Calculates Summary Data: Raw/Cooked ratio, Weight of portion, CHO of portion
-    /// Called whenever any weight or portion value changes
-    /// </summary>
-    private void CalculateSummaryData()
-    {
-        try
-        {
-            General.LogOfProgram?.Debug($"WeighFoodPage - CalculateSummaryData STARTED");
-
-            // Parse values from UI
-            double rawNet = Safe.Double(TxtRawNet?.Text) ?? 0;
-            double cookedNet = Safe.Double(TxtCookedNet?.Text) ?? 0;
-            double portionNet = Safe.Double(TxtCookedPortionNet?.Text) ?? 0;
-            int nPortions = (int)(Safe.Double(TxtNPortions?.Text) ?? 0);
-            double choPercent = Safe.Double(txtFoodCarbohydratesPerUnit?.Text) ?? 0;
-
-            General.LogOfProgram?.Debug($"WeighFoodPage - Parsed values: rawNet={rawNet}, cookedNet={cookedNet}, portionNet={portionNet}, nPortions={nPortions}, choPercent={choPercent}");
-
-            // Calculate Raw/Cooked ratio
-            double rawCookedRatio = 0;
-            if (cookedNet > 0)
-            {
-                rawCookedRatio = rawNet / cookedNet;
-            }
-
-            // Update Raw/Cooked ratio display
-            if (TxtRawByCooked != null)
-            {
-                TxtRawByCooked.Text = rawCookedRatio > 0 ? rawCookedRatio.ToString("F3") : "";
-            }
-
-            double weightOfPortion = 0;
-            double choOfPortion = 0;
-
-            // Calculate based on selected option
-            if (WeighCookedPortion)
-            {
-                // Weigh the portion option
-                if (ChoOfRawFood)
-                {
-                    // CHO of raw food enabled: Weight of portion = Raw/cooked ratio * Net of portion
-                    weightOfPortion = rawCookedRatio * portionNet;
-                }
-                else
-                {
-                    // CHO of raw food disabled: Weight of portion = Net of portion
-                    weightOfPortion = portionNet;
-                }
-            }
-            else if (DivideIntoEqualPortions && nPortions > 0)
-            {
-                // Equal portions option
-                if (ChoOfRawFood)
-                {
-                    weightOfPortion = rawCookedRatio * cookedNet / nPortions;
-                }
-                else
-                {
-                    weightOfPortion = cookedNet / nPortions;
-                }
-            }
-            // CHO [g] of portion = Weight of portion * CHO [%] / 100
-            choOfPortion = weightOfPortion * choPercent / 100;
-
-            // Update Summary Data displays
-            if (TxtWeightOfPortion != null)
-            {
-                TxtWeightOfPortion.Text = weightOfPortion > 0 ? weightOfPortion.ToString("F1") : "";
-            }
-
-            if (TxtCarboydratesOfPortion != null)
-            {
-                TxtCarboydratesOfPortion.Text = choOfPortion > 0 ? choOfPortion.ToString("F1") : "";
-            }
-
-            // Store the calculated weight of portion for return to calling page
-            WeightOfPortion = weightOfPortion;
-
-            General.LogOfProgram?.Event($"WeighFoodPage - Summary calculated: Ratio={rawCookedRatio:F3}, Weight={weightOfPortion:F1}g, CHO={choOfPortion:F1}g");
-
-            // Save weighing data to database after calculation
-            CopyUIToBlFood();
-            General.LogOfProgram?.Debug($"WeighFoodPage - About to call blFood.SaveData()");
-            blFood.SaveData();
-            General.LogOfProgram?.Debug($"WeighFoodPage - CalculateSummaryData COMPLETED");
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("WeighFoodPage - CalculateSummaryData", ex);
         }
     }
     private async void Calculator_Click(object sender, TappedEventArgs e)
@@ -660,55 +583,52 @@ public partial class WeighFoodPage : ContentPage
         }
     }
     // TextChanged event handlers for Raw food weighing
-    private void TxtRawGrossOrTare_TextChanged(object sender, TextChangedEventArgs e)
+    private void TxtRawGross_TextChanged(object sender, TextChangedEventArgs e)
     {
-        var entry = sender as Entry;
-        if (entry == null || !entry.IsLoaded || rawGrossOrTareChanging || rawNetChanging)
-        {
-            return;
-        }
-
+        if (isLoading) return;  // Skip during page loading
+        
         rawGrossOrTareChanging = true;
         try
         {
-            double gross = Safe.Double(TxtRawGross?.Text) ?? 0;
-            double tare = Safe.Double(TxtRawTare?.Text) ?? 0;
-            double net = gross - tare;
-
-            if (TxtRawNet != null && net >= 0)
-            {
-                TxtRawNet.Text = net.ToString("F1");
-            }
-
-            // Recalculate summary data after weight changes
-            CalculateSummaryData();
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Raw, BL_WeighFood.TypeOfWeigh.Gross);
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("WeighFoodPage - TxtRawGrossOrTare_TextChanged", ex);
+            General.LogOfProgram?.Error("WeighFoodPage - TxtRawGross_TextChanged", ex);
         }
         finally
         {
             rawGrossOrTareChanging = false;
         }
     }
-    private void TxtRawNet_TextChanged(object sender, TextChangedEventArgs e)
+    
+    private void TxtRawTare_TextChanged(object sender, TextChangedEventArgs e)
     {
-        var entry = sender as Entry;
-        if (entry == null || !entry.IsLoaded || rawNetChanging || rawGrossOrTareChanging)
-        {
-            return;
-        }
-
-        rawNetChanging = true;
+        if (isLoading) return;  // Skip during page loading
+        
+        rawGrossOrTareChanging = true;
         try
         {
-            // User is manually changing Net, so clear Gross and Tare
-            if (TxtRawGross != null) TxtRawGross.Text = "";
-            if (TxtRawTare != null) TxtRawTare.Text = "";
-
-            // Recalculate summary data
-            CalculateSummaryData();
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Raw, BL_WeighFood.TypeOfWeigh.Tare);
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("WeighFoodPage - TxtRawTare_TextChanged", ex);
+        }
+        finally
+        {
+            rawGrossOrTareChanging = false;
+        }
+    }
+    
+    private void TxtRawNet_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (isLoading) return;  // Skip during page loading
+        
+        rawGrossOrTareChanging = true;
+        try
+        {
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Raw, BL_WeighFood.TypeOfWeigh.Net);
         }
         catch (Exception ex)
         {
@@ -716,68 +636,55 @@ public partial class WeighFoodPage : ContentPage
         }
         finally
         {
-            rawNetChanging = false;
+            rawGrossOrTareChanging = false;
         }
     }
-    // TextChanged event handlers for Cooked food weighing
-    private void TxtCookedGrossOrTare_TextChanged(object sender, TextChangedEventArgs e)
+    
+    private void TxtCookedGross_TextChanged(object sender, TextChangedEventArgs e)
     {
-        var entry = sender as Entry;
-        if (entry == null || !entry.IsLoaded || cookedGrossOrTareChanging || cookedNetChanging)
-        {
-            return;
-        }
-
+        if (isLoading) return;  // Skip during page loading
+        
         cookedGrossOrTareChanging = true;
         try
         {
-            double gross = Safe.Double(TxtCookedGross?.Text) ?? 0;
-            double tare = Safe.Double(TxtCookedTare?.Text) ?? 0;
-            double net = gross - tare;
-
-            if (TxtCookedNet != null && net >= 0)
-            {
-                TxtCookedNet.Text = net.ToString("F1");
-            }
-
-            // Recalculate summary data after weight changes
-            CalculateSummaryData();
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Cooked, BL_WeighFood.TypeOfWeigh.Gross);
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("WeighFoodPage - TxtCookedGrossOrTare_TextChanged", ex);
+            General.LogOfProgram?.Error("WeighFoodPage - TxtCookedGross_TextChanged", ex);
         }
         finally
         {
             cookedGrossOrTareChanging = false;
         }
     }
-    private void TxtCookedNet_TextChanged(object sender, TextChangedEventArgs e)
+    
+    private void TxtCookedTare_TextChanged(object sender, TextChangedEventArgs e)
     {
-        var entry = sender as Entry;
-
-        // Log entry point
-        General.LogOfProgram?.Debug($"WeighFoodPage - TxtCookedNet_TextChanged STARTED: OldValue='{e.OldTextValue}', NewValue='{e.NewTextValue}'");
-
-        if (entry == null || !entry.IsLoaded || cookedNetChanging || cookedGrossOrTareChanging)
-        {
-            General.LogOfProgram?.Debug($"WeighFoodPage - TxtCookedNet_TextChanged SKIPPED: entry={entry != null}, IsLoaded={entry?.IsLoaded}, cookedNetChanging={cookedNetChanging}, cookedGrossOrTareChanging={cookedGrossOrTareChanging}");
-            return;
-        }
-
-        cookedNetChanging = true;
+        if (isLoading) return;  // Skip during page loading
+        
+        cookedGrossOrTareChanging = true;
         try
         {
-            // User is manually changing Net, so clear Gross and Tare
-            if (TxtCookedGross != null) TxtCookedGross.Text = "";
-            if (TxtCookedTare != null) TxtCookedTare.Text = "";
-
-            General.LogOfProgram?.Debug($"WeighFoodPage - TxtCookedNet_TextChanged: Cleared Gross and Tare, calling CalculateSummaryData");
-
-            // Recalculate summary data
-            CalculateSummaryData();
-
-            General.LogOfProgram?.Debug($"WeighFoodPage - TxtCookedNet_TextChanged COMPLETED successfully");
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Cooked, BL_WeighFood.TypeOfWeigh.Tare);
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("WeighFoodPage - TxtCookedTare_TextChanged", ex);
+        }
+        finally
+        {
+            cookedGrossOrTareChanging = false;
+        }
+    }
+    
+    private void TxtCookedNet_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (isLoading) return;  // Skip during page loading
+        
+        try
+        {
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Cooked, BL_WeighFood.TypeOfWeigh.Net);
         }
         catch (Exception ex)
         {
@@ -785,60 +692,57 @@ public partial class WeighFoodPage : ContentPage
         }
         finally
         {
-            cookedNetChanging = false;
-            General.LogOfProgram?.Debug($"WeighFoodPage - TxtCookedNet_TextChanged: Flag reset");
+            cookedGrossOrTareChanging = false;
         }
     }
+    
     // TextChanged event handlers for Portion weighing
-    private void TxtPortionGrossOrTare_TextChanged(object sender, TextChangedEventArgs e)
+    private void TxtPortionGross_TextChanged(object sender, TextChangedEventArgs e)
     {
-        var entry = sender as Entry;
-        if (entry == null || !entry.IsLoaded || portionGrossOrTareChanging || portionNetChanging)
-        {
-            return;
-        }
-
+        if (isLoading) return;  // Skip during page loading
+        
         portionGrossOrTareChanging = true;
         try
         {
-            double gross = Safe.Double(TxtCookedPortionGross?.Text) ?? 0;
-            double tare = Safe.Double(TxtCookedPortionTare?.Text) ?? 0;
-            double net = gross - tare;
-
-            if (TxtCookedPortionNet != null && net >= 0)
-            {
-                TxtCookedPortionNet.Text = net.ToString("F1");
-            }
-
-            // Recalculate summary data after weight changes
-            CalculateSummaryData();
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Portion, BL_WeighFood.TypeOfWeigh.Gross);
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("WeighFoodPage - TxtPortionGrossOrTare_TextChanged", ex);
+            General.LogOfProgram?.Error("WeighFoodPage - TxtPortionGross_TextChanged", ex);
         }
         finally
         {
             portionGrossOrTareChanging = false;
         }
     }
-    private void TxtPortionNet_TextChanged(object sender, TextChangedEventArgs e)
+    
+    private void TxtPortionTare_TextChanged(object sender, TextChangedEventArgs e)
     {
-        var entry = sender as Entry;
-        if (entry == null || !entry.IsLoaded || portionNetChanging || portionGrossOrTareChanging)
-        {
-            return;
-        }
-
-        portionNetChanging = true;
+        if (isLoading) return;  // Skip during page loading
+        
+        portionGrossOrTareChanging = true;
         try
         {
-            // User is manually changing Net, so clear Gross and Tare
-            if (TxtCookedPortionGross != null) TxtCookedPortionGross.Text = "";
-            if (TxtCookedPortionTare != null) TxtCookedPortionTare.Text = "";
-
-            // Recalculate summary data
-            CalculateSummaryData();
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Portion, BL_WeighFood.TypeOfWeigh.Tare);
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("WeighFoodPage - TxtPortionTare_TextChanged", ex);
+        }
+        finally
+        {
+            portionGrossOrTareChanging = false;
+        }
+    }
+    
+    private void TxtPortionNet_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (isLoading) return;  // Skip during page loading
+        
+        portionGrossOrTareChanging = true;
+        try
+        {
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Portion, BL_WeighFood.TypeOfWeigh.Net);
         }
         catch (Exception ex)
         {
@@ -846,12 +750,14 @@ public partial class WeighFoodPage : ContentPage
         }
         finally
         {
-            portionNetChanging = false;
+            portionGrossOrTareChanging = false;
         }
     }
     // TextChanged event handlers for CHO% and Number of portions
     private void TxtFoodCarbohydratesPerUnit_TextChanged(object sender, TextChangedEventArgs e)
     {
+        if (isLoading) return;  // Skip during page loading
+        
         var entry = sender as Entry;
         if (entry == null || !entry.IsLoaded)
         {
@@ -869,12 +775,13 @@ public partial class WeighFoodPage : ContentPage
     }
     private void TxtNPortions_TextChanged(object sender, TextChangedEventArgs e)
     {
+        if (isLoading) return;  // Skip during page loading
+        
         var entry = sender as Entry;
         if (entry == null || !entry.IsLoaded)
         {
             return;
         }
-
         try
         {
             CalculateSummaryData();
@@ -884,82 +791,10 @@ public partial class WeighFoodPage : ContentPage
             General.LogOfProgram?.Error("WeighFoodPage - TxtNPortions_TextChanged", ex);
         }
     }
-    #endregion
-    /// <summary>
-    /// Populates UI fields with data from blFood (restored from database)
-    /// </summary>
-    private void PopulateUIFromBlFood()
-    {
-        try
-        {
-            // Raw food weighing data
-            if (TxtRawGross != null) TxtRawGross.Text = blFood.RawGross.Text;
-            if (TxtRawTare != null) TxtRawTare.Text = blFood.RawTare.Text;
-            if (TxtRawNet != null) TxtRawNet.Text = blFood.RawNet.Text;
-
-            // Cooked food weighing data
-            if (TxtCookedGross != null) TxtCookedGross.Text = blFood.CookedGross.Text;
-            if (TxtCookedTare != null) TxtCookedTare.Text = blFood.CookedTare.Text;
-            if (TxtCookedNet != null) TxtCookedNet.Text = blFood.CookedNet.Text;
-
-            // Cooked portion weighing data
-            if (TxtCookedPortionGross != null) TxtCookedPortionGross.Text = blFood.CookedPortionGross.Text;
-            if (TxtCookedPortionTare != null) TxtCookedPortionTare.Text = blFood.CookedPortionTare.Text;
-            if (TxtCookedPortionNet != null) TxtCookedPortionNet.Text = blFood.CookedPortionNet.Text;
-
-            // Number of portions
-            if (TxtNPortions != null) TxtNPortions.Text = blFood.NPortions.Text;
-
-            General.LogOfProgram?.Event("WeighFoodPage - UI populated from saved data");
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("WeighFoodPage - PopulateUIFromBlFood", ex);
-        }
-    }
-    /// <summary>
-    /// Copies data from UI to blFood object before saving
-    /// </summary>
-    private void CopyUIToBlFood()
-    {
-        try
-        {
-            General.LogOfProgram?.Debug($"WeighFoodPage - CopyUIToBlFood STARTED");
-            General.LogOfProgram?.Debug($"WeighFoodPage - UI Values: RawGross='{TxtRawGross?.Text}', RawTare='{TxtRawTare?.Text}', RawNet='{TxtRawNet?.Text}'");
-            General.LogOfProgram?.Debug($"WeighFoodPage - UI Values: CookedGross='{TxtCookedGross?.Text}', CookedTare='{TxtCookedTare?.Text}', CookedNet='{TxtCookedNet?.Text}'");
-
-            // Raw food weighing data
-            blFood.RawGross.Text = TxtRawGross?.Text ?? "";
-            blFood.RawTare.Text = TxtRawTare?.Text ?? "";
-            blFood.RawNet.Text = TxtRawNet?.Text ?? "";
-
-            // Cooked food weighing data
-            blFood.CookedGross.Text = TxtCookedGross?.Text ?? "";
-            blFood.CookedTare.Text = TxtCookedTare?.Text ?? "";
-            blFood.CookedNet.Text = TxtCookedNet?.Text ?? "";
-
-            // Cooked portion weighing data
-            blFood.CookedPortionGross.Text = TxtCookedPortionGross?.Text ?? "";
-            blFood.CookedPortionTare.Text = TxtCookedPortionTare?.Text ?? "";
-            blFood.CookedPortionNet.Text = TxtCookedPortionNet?.Text ?? "";
-
-            // Number of portions
-            blFood.NPortions.Text = TxtNPortions?.Text ?? "";
-
-            General.LogOfProgram?.Event("WeighFoodPage - Data copied from UI to BL");
-            General.LogOfProgram?.Debug($"WeighFoodPage - BL Values: CookedGross='{blFood.CookedGross.Text}', CookedTare='{blFood.CookedTare.Text}', CookedNet='{blFood.CookedNet.Text}'");
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("WeighFoodPage - CopyUIToBlFood", ex);
-        }
-    }
-
     private void txtFoodName_TextChanged(object sender, TextChangedEventArgs e)
     {
         FoodDataWasModified = true;
     }
-
     private void btnClearFields_Click(object sender, EventArgs e)
     {
         TxtRawGross.Text = "";
@@ -968,11 +803,131 @@ public partial class WeighFoodPage : ContentPage
         TxtCookedGross.Text = "";
         TxtCookedTare.Text = "";
         TxtCookedNet.Text = "";
+        TxtSeasoningGross.Text = "";
+        TxtSeasoningTare.Text = "";
+        TxtSeasoningNet.Text = "";
         TxtCookedPortionGross.Text = "";
         TxtCookedPortionTare.Text = "";
         TxtCookedPortionNet.Text = "";
 
         TxtNPortions.Text = "";
     }
+    #region Seasoning Event Handlers
+    // TextChanged event handlers for Seasoning weighing
+    private bool seasoningGrossOrTareChanging = false;
+    private bool seasoningNetChanging = false;
+    
+    private void TxtSeasoningGross_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (isLoading) return;  // Skip during page loading
+        
+        seasoningGrossOrTareChanging = true;
+        try
+        {
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Seasoning, BL_WeighFood.TypeOfWeigh.Gross);
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("WeighFoodPage - TxtSeasoningGross_TextChanged", ex);
+        }
+        finally
+        {
+            seasoningGrossOrTareChanging = false;
+        }
+    }
+    
+    private void TxtSeasoningCarbohydratesPercent_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (isLoading) return;  // Skip during page loading
+        
+        blFood.CalculateSummaryData();
+    }
+    
+    private void TxtSeasoningTare_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (isLoading) return;  // Skip during page loading
+        
+        seasoningGrossOrTareChanging = true;
+        try
+        {
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Seasoning, BL_WeighFood.TypeOfWeigh.Tare);
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("WeighFoodPage - TxtSeasoningTare_TextChanged", ex);
+        }
+        finally
+        {
+            seasoningGrossOrTareChanging = false;
+        }
+    }
+    
+    private void TxtSeasoningNet_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (isLoading) return;  // Skip during page loading
+        
+        seasoningGrossOrTareChanging = true;
+        try
+        {
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Seasoning, BL_WeighFood.TypeOfWeigh.Net);
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("WeighFoodPage - TxtSeasoningNet_TextChanged", ex);
+        }
+        finally
+        {
+            seasoningGrossOrTareChanging = false;
+        }
+    }  
+    private async void btnSeasoningTareContainer_Click(object sender, TappedEventArgs e)
+    {
+        try
+        {
+            General.LogOfProgram?.Event("WeighFoodPage - Opening ContainersPage for seasoning tare");
+
+            // Get current tare value if exists
+            double? currentTare = Safe.Double(TxtSeasoningTare?.Text);
+
+            // Open ContainersPage
+            var containersPage = new ContainersPage(currentTare);
+            await Navigation.PushModalAsync(containersPage);
+
+            // Wait for the page to be closed and get the result
+            bool containerWasSelected = await containersPage.PageClosedTask;
+
+            // Check if container was selected
+            if (containerWasSelected && containersPage.SelectedContainer != null)
+            {
+                var selectedContainer = containersPage.SelectedContainer;
+
+                // Set the tare weight from the selected container
+                if (TxtSeasoningTare != null && selectedContainer.Weight != null)
+                {
+                    TxtSeasoningTare.Text = selectedContainer.Weight.Text;
+                    General.LogOfProgram?.Event($"WeighFoodPage - Seasoning tare set to: {selectedContainer.Weight.Text}g from container '{selectedContainer.Name}'");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("WeighFoodPage - btnSeasoningTareContainer_Click", ex);
+            await DisplayAlert("Error", "Failed to select container. Please try again.", "OK");
+        }
+    }
+    private void CalculateSummaryData()
+    {
+        try
+        {
+            General.LogOfProgram?.Debug($"WeighFoodPage - CalculateSummaryData STARTED");
+            // Just call the calculation method in business layer
+            blFood.CalculateSummaryData();
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("WeighFoodPage - CalculateSummaryData", ex);
+        }
+    }
+    #endregion
 }
 

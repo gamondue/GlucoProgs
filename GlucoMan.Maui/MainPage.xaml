@@ -81,7 +81,7 @@
                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPrediction}"/>
 
         <Button x:Name="btnPysicalActivity" 
-                IsEnabled="False"
+                IsEnabled="True"
                 ImageSource="jogging.png"
                 Grid.Row="5" Grid.Column="0" 
                 Clicked="btnPysicalActivity_Clicked" 

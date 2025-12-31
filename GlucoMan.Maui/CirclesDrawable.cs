@@ -1,6 +1,5 @@
 ﻿using gamon;
-using GlucoMan.BusinessLayer;
-using GlucoMan.BusinessObjects;
+using GlucoMan;
 using System.Security.AccessControl;
 using Microsoft.Maui.Graphics;
 
@@ -11,7 +10,7 @@ namespace GlucoMan.Maui
         BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
         // this is an IDrawable object that draws the circles of injections on the containing GraphicsView
         // it includes the logic to re-draw all the circles anytime anything has changhed in the graphics
-        // it also includes the logic to save the circles and read them from data file
+        // it also includes the logic to save the circles and read them from Data file
         public enum PointType
         {
             Front,
@@ -251,9 +250,9 @@ namespace GlucoMan.Maui
         {
             if (isCallerEditing)
             {
-                // Convert Microsoft.Maui.Graphics.Point to GlucoMan.BusinessObjects.Point
+                // Convert Microsoft.Maui.Graphics.Point to GlucoMan.Point
                 var businessPoints = ReferencePointsCoordinates.Select(p => 
-                    new GlucoMan.BusinessObjects.Point(p.X, p.Y)).ToList();
+                    new GlucoMan.Point(p.X, p.Y)).ToList();
                 bl.SaveNewReferenceCoordinates(businessPoints, ZoneOfPositions, imgWidth, imgHeight);
             }
         }

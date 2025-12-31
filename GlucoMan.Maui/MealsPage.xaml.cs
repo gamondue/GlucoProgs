@@ -1,6 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
-using GlucoMan.BusinessObjects;
+using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
 using static GlucoMan.Common;
 
@@ -70,7 +69,7 @@ public partial class MealsPage : ContentPage
 
         txtIdMeal.Text = bl.Meal.IdMeal.ToString();
         txtChoOfMeal.Text = Safe.String(bl.Meal.CarbohydratesGrams.Text);
-        ////cmbTypeOfMeal.SelectedItem = bl.Meal.IdTypeOfMeal;
+        ////cmbTypeOfMeal.SelectedItem = blMeal.Meal.IdTypeOfMeal;
         if (bl.Meal.EventTime.DateTime != General.DateNull)
         {
             dtpMealDateBegin.Date = (DateTime)Safe.DateTime(bl.Meal.EventTime.DateTime);
@@ -83,7 +82,7 @@ public partial class MealsPage : ContentPage
 
         loadingUi = false;
         
-        // Update accuracy controls after data is loaded and loadingUi is false
+        // Update accuracy controls after Data is loaded and loadingUi is false
         // This ensures UiAccuracy can work properly and combo box gets synchronized
         await RefreshAccuracyControls();
     }
@@ -133,7 +132,7 @@ public partial class MealsPage : ContentPage
     {
         // reset the meal because we want a new one
         bl.Meal = new Meal();
-        // add to the new meal the data coming from this page
+        // add to the new meal the Data coming from this page
         if (chkNowInAdd.IsChecked)
         {
             DateTime now = DateTime.Now;
@@ -228,7 +227,7 @@ public partial class MealsPage : ContentPage
         try
         {
             // Let UiAccuracy handle the initialization
-            // We just ensure the data is properly formatted
+            // We just ensure the Data is properly formatted
             if (!string.IsNullOrEmpty(txtAccuracyOfChoMeal.Text))
             {
                 if (!double.TryParse(txtAccuracyOfChoMeal.Text, out _))
@@ -251,10 +250,10 @@ public partial class MealsPage : ContentPage
     {
         try
         {
-            // Small delay to ensure data binding has completed (like in MealPage)
+            // Small delay to ensure Data binding has completed (like in MealPage)
             await Task.Delay(50);
             
-            // Update accuracy controls after data binding changes
+            // Update accuracy controls after Data binding changes
             if (accuracyClass != null && !string.IsNullOrEmpty(txtAccuracyOfChoMeal.Text))
             {
                 if (double.TryParse(txtAccuracyOfChoMeal.Text, out double accuracy))
@@ -286,15 +285,15 @@ public partial class MealsPage : ContentPage
     // Here they are not used
     //private void txtAccuracyOfChoMeal_Unfocused(object sender, FocusEventArgs e)
     //{
-    //    // Let UiAccuracy handle the combo box update, we only update the data model
+    //    // Let UiAccuracy handle the combo box update, we only update the Data model
     //    try
     //    {
-    //        if (!loadingUi && bl?.Meal != null && !string.IsNullOrEmpty(txtAccuracyOfChoMeal.Text))
+    //        if (!loadingUi && blMeal?.Meal != null && !string.IsNullOrEmpty(txtAccuracyOfChoMeal.Text))
     //        {
     //            if (double.TryParse(txtAccuracyOfChoMeal.Text, out double accuracy))
     //            {
-    //                // Update the meal's accuracy in the data model
-    //                bl.Meal.AccuracyOfChoEstimate.Double = accuracy;
+    //                // Update the meal's accuracy in the Data model
+    //                blMeal.Meal.AccuracyOfChoEstimate.Double = accuracy;
     //            }
     //        }
     //    }
@@ -306,16 +305,16 @@ public partial class MealsPage : ContentPage
 
     //private void cmbAccuracyMeal_SelectedIndexChanged(object sender, EventArgs e)
     //{
-    //    // Let UiAccuracy handle the text box update, we only update the data model
+    //    // Let UiAccuracy handle the text box update, we only update the Data model
     //    try
     //    {
-    //        if (!loadingUi && bl?.Meal != null && cmbAccuracyMeal.SelectedItem != null)
+    //        if (!loadingUi && blMeal?.Meal != null && cmbAccuracyMeal.SelectedItem != null)
     //        {
     //            var selectedAccuracy = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
     //            double numericValue = (double)selectedAccuracy;
 
-    //            // Update the meal's accuracy in the data model
-    //            bl.Meal.AccuracyOfChoEstimate.Double = numericValue;
+    //            // Update the meal's accuracy in the Data model
+    //            blMeal.Meal.AccuracyOfChoEstimate.Double = numericValue;
     //        }
     //    }
     //    catch (Exception ex)

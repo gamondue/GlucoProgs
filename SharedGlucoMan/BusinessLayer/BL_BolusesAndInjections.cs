@@ -1,7 +1,7 @@
 ﻿using gamon;
-using GlucoMan.BusinessObjects;
+using GlucoMan;
 
-namespace GlucoMan.BusinessLayer
+namespace GlucoMan
 {
     public class BL_BolusesAndInjections
     {
@@ -232,7 +232,7 @@ namespace GlucoMan.BusinessLayer
             dl.SaveParameter("Correction_FactorOfInsulinCorrectionSensitivity", FactorOfInsulinCorrectionSensitivity.Text);
             dl.SaveParameter("Bolus_TotalDailyDoseOfInsulin", TotalDailyDoseOfInsulin.Text);
             dl.SaveParameter("Bolus_InsulinCorrectionSensitivity", InsulinCorrectionSensitivity.Text);
-            // append the new data to the log file 
+            // append the new Data to the log file 
             AppendToLogOfParameters();
         }
         private void AppendToLogOfParameters()
@@ -450,7 +450,7 @@ namespace GlucoMan.BusinessLayer
         {
             dl.SaveOneReferenceCoordinate(position);
         }
-        internal void SaveNewReferenceCoordinates(List<GlucoMan.BusinessObjects.Point> pointsCoordinates, 
+        internal void SaveNewReferenceCoordinates(List<GlucoMan.Point> pointsCoordinates, 
             Common.ZoneOfPosition zone, double imgWidth, double imgHeight)
         {
             DeleteAllReferenceCoordinates(zone);

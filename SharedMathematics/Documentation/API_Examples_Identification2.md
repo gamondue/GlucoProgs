@@ -4,7 +4,7 @@
 
 ```csharp
 using Mathematics.Identification;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 
 // 1. Recupera i dati dal database
 var blMeals = new BL_MealAndFood();

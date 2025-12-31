@@ -14,16 +14,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_Containers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_FoodToHitTargetCarbs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_General.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_GpsTracking.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_MealAndFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_Recipes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Alarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Container.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Device.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\DevicesModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\GpsPosition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\ISystemAlarmScheduler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\PhysicalActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Point.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Track.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\WeighingData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\WeightsForWeighing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_Containers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_Events.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_GpsTracking.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_PhysicalActivities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Event.cs" />
     <Compile Include="..\SharedGlucoMan\BusinessObjects\CategoryOfFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodInMeal.cs" />
@@ -65,5 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)BusinessObjects\Directory.Build.props" />
+    <None Include="$(MSBuildThisFileDirectory)BusinessObjects\Directory.Packages.props" />
+    <None Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\Directory.Packages.props" />
   </ItemGroup>
 </Project>

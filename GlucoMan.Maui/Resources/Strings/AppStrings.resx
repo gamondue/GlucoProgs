@@ -1945,10 +1945,10 @@
     <value>No of portions</value>
   </data>
   <data name="SummaryData" xml:space="preserve">
-    <value>Summary data</value>
+    <value>Portion summary data</value>
   </data>
   <data name="CHOOfPortion" xml:space="preserve">
-    <value>CHO[g] of portion</value>
+    <value>CHO[g]</value>
   </data>
   <data name="WeightOfPortion" xml:space="preserve">
     <value>Weight of portion</value>
@@ -2288,5 +2288,17 @@
   </data>
   <data name="StatTotalDayDose" xml:space="preserve">
     <value>TTD. Total Day Dose (short + long action)</value>
+  </data>
+  <data name="WeightDataCookedSeasoning" xml:space="preserve">
+    <value>Weights for all Cooked seasoning</value>
+  </data>
+  <data name="ChoPercentSeasoning" xml:space="preserve">
+    <value>S.CHO%</value>
+  </data>
+  <data name="TooltipSeasoningCarbohydrates" xml:space="preserve">
+    <value>Percentage of carbohydrates in seasoning</value>
+  </data>
+  <data name="ChoPercentTotal" xml:space="preserve">
+    <value>CHO [%]</value>
   </data>
 </root>

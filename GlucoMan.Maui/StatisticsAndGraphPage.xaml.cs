@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
 using Microsoft.Maui.Controls;
 using System.ComponentModel.DataAnnotations;
@@ -107,7 +107,7 @@ public partial class StatisticsAndGraphPage : ContentPage
             var fileInfo = new FileInfo(picked.FullPath);
             General.LogOfProgram?.Debug($"CSV file found. Size: {fileInfo.Length} bytes");
 
-            // Read and parse the CSV file, save in the database the imported data
+            // Read and parse the CSV file, save in the database the imported Data
             string summaryString = await bl.ImportDataFromFreeStyleLibre(picked.FullPath);
             
             await DisplayAlert(General.ReplaceNewLine(AppStrings.ImportFinishedTitle), 
@@ -121,9 +121,9 @@ public partial class StatisticsAndGraphPage : ContentPage
         }
     }
     /// <summary>
-    /// Gets the selected data type from radio buttons
+    /// Gets the selected Data type from radio buttons
     /// </summary>
-    /// <returns>String representing the selected data type</returns>
+    /// <returns>String representing the selected Data type</returns>
     private void btnStatistics_Clicked(object sender, TappedEventArgs e)
     {
         if (processingLongCalculations)

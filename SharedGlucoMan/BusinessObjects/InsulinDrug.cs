@@ -1,4 +1,4 @@
-﻿namespace GlucoMan.BusinessObjects
+﻿namespace GlucoMan
 {
     public class InsulinDrug
     {

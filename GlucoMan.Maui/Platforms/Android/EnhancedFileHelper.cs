@@ -7,7 +7,7 @@ using System.IO;
 using AndroidX.Core.Content;
 using Android;
 
-namespace GlucoMan.BusinessLayer
+namespace GlucoMan
 {
     /// <summary>
     /// Enhanced file helper specifically designed for Huawei/Xiaomi devices

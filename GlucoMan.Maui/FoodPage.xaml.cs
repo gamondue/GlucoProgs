@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui;
@@ -27,7 +27,7 @@ public partial class FoodPage : ContentPage
 
         //if (Food.GramsInOneUnit.Double != 1)
         //{
-        //    bl.UpdateNutrientsDataWithNewUnit();
+        //    blMeal.UpdateNutrientsDataWithNewUnit();
         //}
 
         // bind to cmbUnit the units of this food, retrieved from the business layer

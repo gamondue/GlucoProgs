@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 
 namespace GlucoMan.Maui;
 
@@ -17,7 +17,7 @@ public partial class FoodToHitTargetCarbsPage : ContentPage
         initialButtonBackground = TxtChoLeftToTake.BackgroundColor;
         initialButtonTextColor = TxtChoLeftToTake.TextColor;
 
-        // read data from other pages
+        // read Data from other pages
         //blFoodToEat.TargetCho.Double = Safe.Double(Common.BlGeneral.RestoreParameter("Bolus_ChoToEat"));
         //blFoodToEat.NameOfFood = Safe.String(Common.BlGeneral.RestoreParameter("FoodInMeal_Name"));
         //blFoodToEat.RestoreParameters();

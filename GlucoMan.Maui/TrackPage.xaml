@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.TrackPage"
+             Title="GPS Activity Tracker">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        
+        <!-- Header Section -->
+        <Frame Grid.Row="0" BorderColor="LightBlue" Padding="10" Margin="5">
+            <VerticalStackLayout Spacing="5">
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Button x:Name="btnStartTracking" 
+                            Text="Start Tracking" 
+                            IsEnabled="True"
+                            TextColor="White"
+                            WidthRequest="140"
+                            Clicked="BtnStartTracking_Clicked"/>
+                  <!--BackgroundColor="Green"-->
+
+                  <Button x:Name="btnStopTracking" 
+                            Text="Stop Tracking" 
+                            IsEnabled="False"
+                            TextColor="White"
+                            WidthRequest="140"
+                            Clicked="BtnStopTracking_Clicked"/>
+                  <!--BackgroundColor="Red"-->
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Statistics Section -->
+        <Frame Grid.Row="1" BorderColor="LightGreen" Padding="10" Margin="5">
+            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto">
+                <Label Grid.Row="0" Grid.Column="0" Text="Points:" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Label Grid.Row="0" Grid.Column="1" Text="Distance:" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="Duration:" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Label Grid.Row="0" Grid.Column="3" Text="Avg Speed:" FontAttributes="Bold" HorizontalOptions="Center"/>
+                
+                <Label Grid.Row="1" Grid.Column="0" x:Name="lblPointsCount" Text="0" HorizontalOptions="Center"/>
+                <Label Grid.Row="1" Grid.Column="1" x:Name="lblDistance" Text="0 m" HorizontalOptions="Center"/>
+                <Label Grid.Row="1" Grid.Column="2" x:Name="lblDuration" Text="00:00:00" HorizontalOptions="Center"/>
+                <Label Grid.Row="1" Grid.Column="3" x:Name="lblSpeed" Text="0 km/h" HorizontalOptions="Center"/>
+            </Grid>
+        </Frame>
+
+        <!-- Map Section -->
+        <Frame Grid.Row="2" BorderColor="Gray" Padding="0" Margin="5">
+            <WebView x:Name="mapWebView" 
+                     VerticalOptions="FillAndExpand" 
+                     HorizontalOptions="FillAndExpand"/>
+        </Frame>
+
+        <!-- Bottom Section -->
+        <Frame Grid.Row="3" BorderColor="Orange" Padding="10" Margin="5">
+            <VerticalStackLayout Spacing="5">
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Label Text="Current Position:" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="lblCurrentPosition" Text="Waiting for GPS..." VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Label Text="Status:" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="lblStatus" Text="Ready" TextColor="Gray" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Button x:Name="btnSaveTrack" 
+                            Text="Save Track" 
+                            IsEnabled="False"
+                            TextColor="White"
+                            WidthRequest="120"
+                            Clicked="BtnSaveTrack_Clicked"/>
+                  <!--BackgroundColor="Blue"-->
+
+                  <Button x:Name="btnClearTrack" 
+                            Text="Clear" 
+                            IsEnabled="False"
+                            TextColor="White"
+                            WidthRequest="100"
+                            Clicked="BtnClearTrack_Clicked"/>
+                  <!--BackgroundColor="Gray"-->
+
+                  <Button x:Name="btnBack" 
+                            Text="Back" 
+                            TextColor="White"
+                            WidthRequest="100"
+                            Clicked="BtnBack_Clicked"/>
+                  <!--BackgroundColor="DarkGray"-->
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>

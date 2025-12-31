@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GlucoMan.BusinessObjects
+namespace GlucoMan
 {
     public class Parameters
     {

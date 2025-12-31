@@ -1,8 +1,9 @@
 ﻿using gamon;
 using System.Collections;
+using GlucoMan;
 using static GlucoMan.Common;
 
-namespace GlucoMan.BusinessLayer
+namespace GlucoMan
 {
     internal class BL_MealAndFood
     {

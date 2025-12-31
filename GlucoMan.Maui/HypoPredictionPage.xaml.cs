@@ -1,4 +1,4 @@
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GlucoMan.Maui;

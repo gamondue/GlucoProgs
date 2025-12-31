@@ -416,6 +416,9 @@ namespace GlucoMan
                 f.UnitSymbol = Safe.String(Row["UnitSymbol"]);
                 f.Manufacturer = Safe.String(Row["Manufacturer"]);
                 f.Category = Safe.String(Row["Category"]);
+                // Add new fields
+                f.IsRaw = Safe.Int(Row["IsRaw"]) == 1;
+                f.RawCookedRatio.Double = Safe.Double(Row["RawCookedRatio"]);
             }
             catch (Exception ex)
             {
@@ -554,7 +557,9 @@ namespace GlucoMan
                     "UnitSymbol=" + SqliteSafe.String(food.UnitSymbol) + "," +
                     "GramsInOneUnit=" + SqliteSafe.Double(food.GramsInOneUnit.Double) + "," +
                     "Manufacturer=" + SqliteSafe.String(food.Manufacturer) + "," +
-                    "Category=" + SqliteSafe.String(food.Category) + "" +
+                    "Category=" + SqliteSafe.String(food.Category) + "," +
+                    "IsRaw=" + SqliteSafe.Int(food.IsRaw ? 1 : 0) + "," +
+                    "RawCookedRatio=" + SqliteSafe.Double(food.RawCookedRatio.Double) + "" +
                     " WHERE IdFood=" + SqliteSafe.Int(food.IdFood) + "" +
                     ";";
                     cmd.CommandText = query;
@@ -582,7 +587,7 @@ namespace GlucoMan
                     "MonounsaturatedFatsPercent,PolyunsaturatedFatsPercent" +
                     ",CarbohydratesPercent,SugarPercent,FibersPercent,ProteinsPercent" +
                     ",SaltPercent,PotassiumPercent,Cholesterol,GlycemicIndex" +
-                    ",UnitSymbol,GramsInOneUnit,Manufacturer,Category";
+                    ",UnitSymbol,GramsInOneUnit,Manufacturer,Category,IsRaw,RawCookedRatio";
                     query += ")VALUES(" +
                     SqliteSafe.Int(food.IdFood) + "," +
                     SqliteSafe.String(food.Name) + "," +
@@ -603,7 +608,9 @@ namespace GlucoMan
                     SqliteSafe.Double(food.UnitSymbol) + "," +
                     SqliteSafe.Double(food.GramsInOneUnit.Double) + "," +
                     SqliteSafe.Double(food.Manufacturer) + "," +
-                    SqliteSafe.Double(food.Category) + "" +
+                    SqliteSafe.Double(food.Category) + "," +
+                    SqliteSafe.Int(food.IsRaw ? 1 : 0) + "," +
+                    SqliteSafe.Double(food.RawCookedRatio.Double) + "" +
                     ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -1288,5 +1295,3 @@ namespace GlucoMan
         }
     }
 }
-
-

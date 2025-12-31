@@ -880,7 +880,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a CHO[g] of portion.
+        ///   Cerca una stringa localizzata simile a CHO[g].
         /// </summary>
         public static string CHOOfPortion {
             get {
@@ -975,6 +975,24 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string CHOPercentLabel {
             get {
                 return ResourceManager.GetString("CHOPercentLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a S.CHO%.
+        /// </summary>
+        public static string ChoPercentSeasoning {
+            get {
+                return ResourceManager.GetString("ChoPercentSeasoning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a CHO [%].
+        /// </summary>
+        public static string ChoPercentTotal {
+            get {
+                return ResourceManager.GetString("ChoPercentTotal", resourceCulture);
             }
         }
         
@@ -4463,7 +4481,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Summary data.
+        ///   Cerca una stringa localizzata simile a Portion summary data.
         /// </summary>
         public static string SummaryData {
             get {
@@ -5939,6 +5957,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Percentage of carbohydrates in seasoning.
+        /// </summary>
+        public static string TooltipSeasoningCarbohydrates {
+            get {
+                return ResourceManager.GetString("TooltipSeasoningCarbohydrates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Click to select a container from the list.
         /// </summary>
         public static string TooltipSelectContainer {
@@ -6493,6 +6520,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string WeightDataCookedPortion {
             get {
                 return ResourceManager.GetString("WeightDataCookedPortion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Weights for all Cooked seasoning.
+        /// </summary>
+        public static string WeightDataCookedSeasoning {
+            get {
+                return ResourceManager.GetString("WeightDataCookedSeasoning", resourceCulture);
             }
         }
         

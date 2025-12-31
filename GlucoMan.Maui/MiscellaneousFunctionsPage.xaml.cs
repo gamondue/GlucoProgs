@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using GlucoMan.Maui.Services;
 using System.Diagnostics;
 using Microsoft.Maui.Storage;
@@ -17,7 +17,7 @@ namespace GlucoMan.Maui;
 
 public partial class MiscellaneousFunctionsPage : ContentPage
 {
-    GlucoMan.BusinessLayer.BL_General blGeneral = new GlucoMan.BusinessLayer.BL_General();
+    GlucoMan.BL_General blGeneral = new GlucoMan.BL_General();
     bool canModify = true;
     private readonly LocalizationService _localizationService;
     

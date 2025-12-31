@@ -1,6 +1,8 @@
 ﻿using gamon;
-using GlucoMan.BusinessObjects;
+using GlucoMan;
 using System.Data.Common;
+// Use alias to resolve ambiguity between GlucoMan.Device and Microsoft.Maui.Controls.Device
+using Device = GlucoMan.Device;
 
 namespace GlucoMan
 {
@@ -145,5 +147,25 @@ namespace GlucoMan
         internal abstract void UpdateOneDeviceModel(DeviceModel model);
         internal abstract void DeleteOneDeviceModel(int? idModel);
         #endregion
+        #region Physical Activities and Tracks
+        internal abstract int? SavePhysicalActivity(PhysicalActivity activity);
+        internal abstract List<PhysicalActivity> GetPhysicalActivities(DateTime? initialTime, DateTime? finalTime);
+        internal abstract PhysicalActivity GetOnePhysicalActivity(int? idActivity);
+        internal abstract int? SaveTrack(Track track);
+        internal abstract List<Track> GetTracks(DateTime? initialTime, DateTime? finalTime);
+        internal abstract Track GetOneTrack(int? idTrack);
+        internal abstract int? SaveGpsPosition(GpsPosition position);
+        internal abstract int? InsertGpsPosition(GpsPosition position);
+        internal abstract List<GpsPosition> GetGpsPositions(int? idTrack);
+        internal abstract List<GpsPosition> GetGpsPositionsForTrack(int? idTrack);
+        internal abstract void SaveGpsPositions(List<GpsPosition> positions);
+        internal abstract void DeleteTrack(int? idTrack);
+        internal abstract void DeleteGpsPositions(int? idTrack);
+        internal abstract void DeleteGpsPositionsForTrack(int? idTrack);
+        internal abstract void UpdateGpsPosition(GpsPosition position);
+        #endregion
+
+
+
     }
 }

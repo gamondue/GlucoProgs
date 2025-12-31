@@ -16,12 +16,30 @@ public partial class CropPhotoPage : ContentPage
     private double currentY = 0;
     private double startX = 0;
     private double startY = 0;
+    
+    // Smoothing for pan gesture to reduce jitter
+    private double targetX = 0;
+    private double targetY = 0;
+    private const double SmoothingFactor = 0.3; // Lower = smoother but more lag
+    
+    // Debouncing for pan gesture to avoid vibration
+    private bool isPanProcessing = false;
 
     // Crop overlay size tracking for pinch gesture
     private double currentCropSize = 300;
     private double startCropSize = 300;
     private const double MinCropSize = 100;
     private const double MaxCropSize = 600;
+    
+    // Smoothing for crop resize to reduce jitter
+    private double targetCropSize = 300;
+    private const double CropSmoothingFactor = 0.4; // Slightly more responsive than pan
+    private bool isResizeProcessing = false;
+    private System.Timers.Timer cropSmoothingTimer;
+
+    // Gesture conflict prevention
+    private bool isCornerDragging = false;
+    private bool isPanning = false;
 
     // Original image dimensions
     private int originalImageWidth;
@@ -31,6 +49,11 @@ public partial class CropPhotoPage : ContentPage
     {
         InitializeComponent();
         originalPhotoPath = photoPath;
+
+        // Initialize smoothing timer for crop resize
+        cropSmoothingTimer = new System.Timers.Timer(16); // ~60 FPS
+        cropSmoothingTimer.Elapsed += CropSmoothingTimer_Elapsed;
+        cropSmoothingTimer.AutoReset = true;
 
         // Load the photo
         if (File.Exists(photoPath))
@@ -115,25 +138,76 @@ public partial class CropPhotoPage : ContentPage
             switch (e.StatusType)
             {
                 case GestureStatus.Started:
+                    // Don't start pan if corner is being dragged
+                    if (isCornerDragging)
+                    {
+                        return;
+                    }
+                    
+                    isPanning = true;
+                    isPanProcessing = false;
                     startX = currentX;
                     startY = currentY;
+                    targetX = currentX;
+                    targetY = currentY;
+                    
+                    General.LogOfProgram?.Debug($"CropPhotoPage - Pan started at: X={currentX:F1}, Y={currentY:F1}");
                     break;
 
                 case GestureStatus.Running:
-                    // Update position
-                    currentX = startX + e.TotalX;
-                    currentY = startY + e.TotalY;
+                    // Don't continue pan if corner dragging started or already processing
+                    if (isCornerDragging || !isPanning || isPanProcessing)
+                    {
+                        return;
+                    }
+                    
+                    isPanProcessing = true;
+                    
+                    try
+                    {
+                        // Calculate target position (where we want to go)
+                        targetX = startX + e.TotalX;
+                        targetY = startY + e.TotalY;
+                        
+                        // Apply exponential smoothing for fluid movement
+                        // newPosition = currentPosition + smoothingFactor * (target - currentPosition)
+                        double newX = currentX + SmoothingFactor * (targetX - currentX);
+                        double newY = currentY + SmoothingFactor * (targetY - currentY);
+                        
+                        // Only update if movement is significant enough (0.5 pixel threshold)
+                        double deltaX = Math.Abs(newX - currentX);
+                        double deltaY = Math.Abs(newY - currentY);
+                        
+                        if (deltaX > 0.5 || deltaY > 0.5)
+                        {
+                            // Update position
+                            currentX = newX;
+                            currentY = newY;
 
-                    // Apply translation to image
-                    imgPhoto.TranslationX = currentX;
-                    imgPhoto.TranslationY = currentY;
+                            // Apply translation to image
+                            imgPhoto.TranslationX = currentX;
+                            imgPhoto.TranslationY = currentY;
 
-                    General.LogOfProgram?.Debug($"CropPhotoPage - Pan: X={currentX:F1}, Y={currentY:F1}");
+                            General.LogOfProgram?.Debug($"CropPhotoPage - Pan: X={currentX:F1}, Y={currentY:F1}, Target: X={targetX:F1}, Y={targetY:F1}");
+                        }
+                    }
+                    finally
+                    {
+                        isPanProcessing = false;
+                    }
                     break;
 
                 case GestureStatus.Completed:
                 case GestureStatus.Canceled:
-                    // Keep the current position
+                    isPanning = false;
+                    isPanProcessing = false;
+                    
+                    // Snap to final target position
+                    currentX = targetX;
+                    currentY = targetY;
+                    imgPhoto.TranslationX = currentX;
+                    imgPhoto.TranslationY = currentY;
+                    
                     General.LogOfProgram?.Debug($"CropPhotoPage - Pan completed at: X={currentX:F1}, Y={currentY:F1}");
                     break;
             }
@@ -141,6 +215,7 @@ public partial class CropPhotoPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("CropPhotoPage - OnPanUpdated", ex);
+            isPanProcessing = false;
         }
     }
 
@@ -196,7 +271,13 @@ public partial class CropPhotoPage : ContentPage
             switch (e.StatusType)
             {
                 case GestureStatus.Started:
+                    isCornerDragging = true;
+                    isResizeProcessing = false;
                     startCropSize = currentCropSize;
+                    targetCropSize = currentCropSize;
+                    
+                    // Stop any ongoing smoothing
+                    cropSmoothingTimer?.Stop();
 
                     // Show zoom hint
                     if (lblZoomHint != null)
@@ -208,49 +289,71 @@ public partial class CropPhotoPage : ContentPage
                     break;
 
                 case GestureStatus.Running:
-                    // Simplified algorithm: use the maximum of X or Y drag distance
-                    // Multiply by 2 because we're dragging from center to corner
-                    double dragDistance;
-
-                    // Determine which direction has more movement
-                    if (Math.Abs(e.TotalX) > Math.Abs(e.TotalY))
+                    if (!isCornerDragging)
                     {
-                        dragDistance = e.TotalX * 2;
+                        return;
                     }
-                    else
+                    
+                    try
                     {
-                        dragDistance = e.TotalY * 2;
-                    }
-
-                    // For top-left and top-right corners, invert Y direction
-                    if (corner == cornerTopLeft || corner == cornerTopRight)
-                    {
-                        if (Math.Abs(e.TotalY) > Math.Abs(e.TotalX))
+                        // Improved algorithm for smoother Android experience
+                        // Use a sensitivity factor to make movement more responsive
+                        const double sensitivityFactor = 1.5; // Adjust this to control sensitivity (1.0 = original, higher = more sensitive)
+                        
+                        // Calculate drag distance based on dominant direction
+                        double dragDistance;
+                        
+                        // Use the direction with maximum absolute value
+                        double absX = Math.Abs(e.TotalX);
+                        double absY = Math.Abs(e.TotalY);
+                        
+                        if (absX > absY)
                         {
-                            dragDistance = -e.TotalY * 2;
+                            // Horizontal drag dominant - multiply by sensitivity
+                            dragDistance = e.TotalX * sensitivityFactor * 2;
                         }
+                        else
+                        {
+                            // Vertical drag dominant - multiply by sensitivity
+                            dragDistance = e.TotalY * sensitivityFactor * 2;
+                            
+    
+                            // For top corners, invert Y direction
+                            if (corner == cornerTopLeft || corner == cornerTopRight)
+                            {
+                                dragDistance = -dragDistance;
+                            }
+                        }
+
+                        // Calculate target size (where we want to go)
+                        targetCropSize = startCropSize + dragDistance;
+                        
+                        // Clamp target to min/max values
+                        targetCropSize = Math.Max(MinCropSize, Math.Min(MaxCropSize, targetCropSize));
+                        
+                        // Start/restart the smoothing timer for continuous animation
+                        if (!cropSmoothingTimer.Enabled)
+                        {
+                            cropSmoothingTimer.Start();
+                        }
+
+                        General.LogOfProgram?.Debug($"CropPhotoPage - Corner drag: TotalX={e.TotalX:F1}, TotalY={e.TotalY:F1}, Target={targetCropSize:F0}, Current={currentCropSize:F0}");
                     }
-
-                    // Calculate new size
-                    double newSize = startCropSize + dragDistance;
-
-                    // Clamp to min/max values
-                    newSize = Math.Max(MinCropSize, Math.Min(MaxCropSize, newSize));
-
-                    // Apply new size to crop overlay
-                    currentCropSize = newSize;
-                    cropOverlay.WidthRequest = currentCropSize;
-                    cropOverlay.HeightRequest = currentCropSize;
-
-                    // Update size indicator
-                    UpdateSizeIndicator();
-
-                    General.LogOfProgram?.Debug($"CropPhotoPage - Corner drag: TotalX={e.TotalX:F1}, TotalY={e.TotalY:F1}, Distance={dragDistance:F1}, Size={currentCropSize:F0}");
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error("CropPhotoPage - OnCornerDrag Running", ex);
+                    }
                     break;
 
                 case GestureStatus.Completed:
                 case GestureStatus.Canceled:
-                    General.LogOfProgram?.Debug($"CropPhotoPage - Corner drag completed at size: {currentCropSize:F0}");
+                    isCornerDragging = false;
+                    isResizeProcessing = false;
+                    
+                    // Timer will handle smooth animation to final size
+                    // It will auto-stop when close enough to target
+                    
+                    General.LogOfProgram?.Debug($"CropPhotoPage - Corner drag completed, animating to size: {targetCropSize:F0}");
 
                     // Hide zoom hint after a delay
                     HideZoomHintAfterDelay();
@@ -260,6 +363,8 @@ public partial class CropPhotoPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("CropPhotoPage - OnCornerDrag", ex);
+            isResizeProcessing = false;
+            cropSmoothingTimer?.Stop();
         }
     }
 
@@ -291,11 +396,14 @@ public partial class CropPhotoPage : ContentPage
             // Reset image position
             currentX = 0;
             currentY = 0;
+            targetX = 0;
+            targetY = 0;
             imgPhoto.TranslationX = 0;
             imgPhoto.TranslationY = 0;
 
             // Reset crop size
             currentCropSize = 300;
+            targetCropSize = 300;
             cropOverlay.WidthRequest = currentCropSize;
             cropOverlay.HeightRequest = currentCropSize;
 
@@ -529,4 +637,48 @@ if (codec.FormatID == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
         return null;
     }
 #endif
+
+    /// <summary>
+    /// Timer callback for continuous crop size smoothing
+    /// </summary>
+    private void CropSmoothingTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+    {
+        try
+        {
+            // Check if we need to continue smoothing
+            double delta = Math.Abs(targetCropSize - currentCropSize);
+            
+            if (delta < 0.5) // Close enough to target
+            {
+                // Snap to final value and stop timer
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    currentCropSize = targetCropSize;
+                    cropOverlay.WidthRequest = currentCropSize;
+                    cropOverlay.HeightRequest = currentCropSize;
+                    UpdateSizeIndicator();
+                });
+                
+                cropSmoothingTimer?.Stop();
+                return;
+            }
+            
+            // Apply exponential smoothing
+            double newSize = currentCropSize + CropSmoothingFactor * (targetCropSize - currentCropSize);
+            
+            // Update UI on main thread
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                currentCropSize = newSize;
+                cropOverlay.WidthRequest = currentCropSize;
+                cropOverlay.HeightRequest = currentCropSize;
+                UpdateSizeIndicator();
+            });
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("CropPhotoPage - CropSmoothingTimer_Elapsed", ex);
+            cropSmoothingTimer?.Stop();
+        }
+    }
 }

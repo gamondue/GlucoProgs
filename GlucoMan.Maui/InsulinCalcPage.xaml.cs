@@ -1,4 +1,4 @@
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;

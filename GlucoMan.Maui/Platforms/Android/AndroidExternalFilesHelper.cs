@@ -10,7 +10,7 @@ using gamon;
 using Java.IO;
 using Microsoft.Maui.Storage;
 
-namespace GlucoMan.BusinessLayer
+namespace GlucoMan
 {
     public static class AndroidExternalFilesHelper
     {

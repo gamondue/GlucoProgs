@@ -1,4 +1,3 @@
-using GlucoMan.BusinessLayer;
 using GlucoMan;
 using Mathematics.Identification1;
 
@@ -25,7 +24,7 @@ public partial class IdentificationPage : ContentPage
     {
         try
         {
-            // 2. Get data from business layer
+            // 2. Get Data from business layer
             var blMeals = new BL_MealAndFood();
             var blGlucose = new BL_GlucoseMeasurements();
             var blInj = new BL_BolusesAndInjections();
@@ -78,7 +77,7 @@ public partial class IdentificationPage : ContentPage
     {
         try
         {
-            // 2. Get data from business layer
+            // 2. Get Data from business layer
             var blMeals = new BL_MealAndFood();
             var blGlucose = new BL_GlucoseMeasurements();
             var blInj = new BL_BolusesAndInjections();
@@ -93,7 +92,7 @@ public partial class IdentificationPage : ContentPage
             
             // RIGHT SIDE parameters (after event)
             double afterIsolationHours = 3.0;      // No opposite events for 3 hours after event
-            double minDataHours = 3.0;             // Minimum glucose data duration after event
+            double minDataHours = 3.0;             // Minimum glucose Data duration after event
             
             // LEFT SIDE parameters (before event)
             double basalCheckHours = 2.0;          // Check 2 hours before event for basal stability
@@ -169,10 +168,10 @@ public partial class IdentificationPage : ContentPage
             // 5. Display CHO results
             if (choResults != null)
             {
-                entryTauCHO.Text = $"{choResults.TauMean:F0} ± {choResults.TauStd:F0}";
-                entryGainCHO.Text = $"{choResults.GainMean:G4} ± {choResults.GainStd:G4}";
-                entryDelayCHO2.Text = $"{choResults.DelayMean:F1} ± {choResults.DelayStd:F1}";
-                entryOffsetCHO.Text = $"{choResults.OffsetMean:F1} ± {choResults.OffsetStd:F1}";
+                entryTauCHO.Text = $"{choResults.TauMean:F0} Â± {choResults.TauStd:F0}";
+                entryGainCHO.Text = $"{choResults.GainMean:G4} Â± {choResults.GainStd:G4}";
+                entryDelayCHO2.Text = $"{choResults.DelayMean:F1} Â± {choResults.DelayStd:F1}";
+                entryOffsetCHO.Text = $"{choResults.OffsetMean:F1} Â± {choResults.OffsetStd:F1}";
                 entryR2CHO.Text = choResults.AvgRSquared.ToString("F3");
                 entrySegmentsCHO.Text = choResults.NumSegments.ToString();
             }
@@ -189,10 +188,10 @@ public partial class IdentificationPage : ContentPage
             // 6. Display Insulin results
             if (insulinResults != null)
             {
-                entryTauInsulin.Text = $"{insulinResults.TauMean:F0} ± {insulinResults.TauStd:F0}";
-                entryGainInsulin.Text = $"{insulinResults.GainMean:G4} ± {insulinResults.GainStd:G4}";
-                entryDelayInsulin2.Text = $"{insulinResults.DelayMean:F1} ± {insulinResults.DelayStd:F1}";
-                entryOffsetInsulin.Text = $"{insulinResults.OffsetMean:F1} ± {insulinResults.OffsetStd:F1}";
+                entryTauInsulin.Text = $"{insulinResults.TauMean:F0} Â± {insulinResults.TauStd:F0}";
+                entryGainInsulin.Text = $"{insulinResults.GainMean:G4} Â± {insulinResults.GainStd:G4}";
+                entryDelayInsulin2.Text = $"{insulinResults.DelayMean:F1} Â± {insulinResults.DelayStd:F1}";
+                entryOffsetInsulin.Text = $"{insulinResults.OffsetMean:F1} Â± {insulinResults.OffsetStd:F1}";
                 entryR2Insulin.Text = insulinResults.AvgRSquared.ToString("F3");
                 entrySegmentsInsulin.Text = insulinResults.NumSegments.ToString();
             }
@@ -219,11 +218,11 @@ public partial class IdentificationPage : ContentPage
                 $"- Isolated Meals: {isolatedMealsCount}\n" +
                 $"- Isolated Injections: {isolatedInjectionsCount}\n\n" +
                 $"LEFT SIDE (before event):\n" +
-                $"  • Basal stability: {basalCheckHours:F1}h, max slope {maxBasalSlope:F1} mg/dL/h\n" +
-                $"  • Opposite isolation: {beforeIsolationHours:F1}h\n\n" +
+                $"  Â• Basal stability: {basalCheckHours:F1}h, max slope {maxBasalSlope:F1} mg/dL/h\n" +
+                $"  Â• Opposite isolation: {beforeIsolationHours:F1}h\n\n" +
                 $"RIGHT SIDE (after event):\n" +
-                $"  • Opposite isolation: {afterIsolationHours:F1}h\n" +
-                $"  • No glucose stability check (free dynamics)\n\n" +
+                $"  Â• Opposite isolation: {afterIsolationHours:F1}h\n" +
+                $"  Â• No glucose stability check (free dynamics)\n\n" +
                 $"Sampling: {Ts/60:F0} min ({Ts:F0}s)",
                 "OK");
         }

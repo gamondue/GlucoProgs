@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using static GlucoMan.Common;
 using Microsoft.Maui.Graphics;
 
@@ -42,10 +42,10 @@ public partial class RecipePage : ContentPage
 
         // Bind sections once; controls use TwoWay bindings in XAML
         recipeSection.BindingContext = bl.Recipe;
-        //ingredientSection.BindingContext = bl.Ingredient;
+        //ingredientSection.BindingContext = blMeal.Ingredient;
 
         // calculate non database values 
-        // First load ingredients from DB into bl.Recipe, then recalc totals
+        // First load ingredients from DB into blMeal.Recipe, then recalc totals
         RefreshGrid();
         bl.RecalcAll();
         // ensure recipe section reflects recalculated totals
@@ -198,7 +198,7 @@ public partial class RecipePage : ContentPage
                     // the chosen food is different, 
                     bl.Ingredient.QuantityGrams.Double = 0;
                 }
-                //ingredientSection.BindingContext = bl.Ingredient; // ensure UI shows updated ingredient
+                //ingredientSection.BindingContext = blMeal.Ingredient; // ensure UI shows updated ingredient
                 bl.UpdateOldIngredientInList();
                 bl.RecalcAll();
                 FromClassToBoxesIngredient();
@@ -212,7 +212,6 @@ public partial class RecipePage : ContentPage
             await DisplayAlert("Error", $"Failed to import food: {ex.Message}", "OK");
         }
     }
-
     private async void btnWeighFood_Click(object sender, EventArgs e)
     {
         try
@@ -223,76 +222,47 @@ public partial class RecipePage : ContentPage
             // Update ingredient from current UI values
             FromBoxesIngredientToClass();
             
-            // Create WeighFoodPage with current ingredient data
+            // Create WeighFoodPage with current ingredient Data
             var weighFoodPage = new WeighFoodPage(bl.Ingredient);
             await Navigation.PushModalAsync(weighFoodPage);
 
             // Wait for the page to be closed and get the result
             bool dataWasModified = await weighFoodPage.PageClosedTask;
- 
-            if (dataWasModified && weighFoodPage.ResultFood != null)
-         {
-           // Update ingredient from result food
-      bl.FromFoodToIngredient(weighFoodPage.ResultFood, bl.Ingredient);
 
-   // Determine which weight value to use for QuantityGrams
-           double weightToUse = 0;
-    
-   if (weighFoodPage.WeightOfPortion > 0)
-{
-            // Priority 1: Use WeightOfPortion if available
- weightToUse = weighFoodPage.WeightOfPortion;
-     General.LogOfProgram?.Event($"RecipePage - Using WeightOfPortion: {weightToUse:F1}g");
-        }
-     else
-     {
-                  // Priority 2: Use TxtRawNet (raw net weight) as fallback
-        // Access the business layer data that was saved
-     var blFood = new BL_WeighFood();
-         blFood.RestoreData();
-               
-        if (blFood.RawNet?.Double != null && blFood.RawNet.Double > 0)
-  {
-            weightToUse = blFood.RawNet.Double.Value;
-       General.LogOfProgram?.Event($"RecipePage - Using RawNet weight: {weightToUse:F1}g");
-        }
-     else
-        {
-       General.LogOfProgram?.Event("RecipePage - No weight data available from WeighFoodPage");
-         }
-   }
+            if (dataWasModified)
+            {
+                // Update ingredient name from WeighFoodPage
+                if (!string.IsNullOrEmpty(weighFoodPage.FoodName))
+                {
+                    bl.Ingredient.Name = weighFoodPage.FoodName;
+                }
+                
+                // Update CHO% and weight
+                bl.Ingredient.CarbohydratesPercent = weighFoodPage.ResultCarbohydratesPercent;
+                bl.Ingredient.QuantityGrams = weighFoodPage.ResultWeightOfPortion;
 
-       // Apply the weight to QuantityGrams
-                if (weightToUse > 0)
-    {
-          bl.Ingredient.QuantityGrams ??= new DoubleAndText();
-    bl.Ingredient.QuantityGrams.Double = weightToUse;
-     bl.Ingredient.QuantityGrams.Text = weightToUse.ToString("F1");
-    General.LogOfProgram?.Event($"RecipePage - Ingredient quantity set to {weightToUse:F1}g from WeighFoodPage");
-   }
-
-     // Recalculate carbohydrates in grams
-       CalculateChoOfIngredientGrams();
+                // Recalculate carbohydrates in grams
+                CalculateChoOfIngredientGrams();
      
-             // Update the user interface with the new data
- FromClassToBoxesIngredient();
+                // Update the user interface with the new Data
+                FromClassToBoxesIngredient();
           
-        // Update the ingredient in the list
-              bl.UpdateOldIngredientInList();
+                // Update the ingredient in the list
+                bl.UpdateOldIngredientInList();
         
-  // Recalculate all values
-       bl.RecalcAll();
+                // Recalculate all values
+                bl.RecalcAll();
 
                 // Refresh the grid
-      RefreshGrid();
+                RefreshGrid();
                 
-           // Update accuracy controls
-        await RefreshAccuracyControls();
+                // Update accuracy controls
+                await RefreshAccuracyControls();
          
-             General.LogOfProgram?.Event("RecipePage - Ingredient data updated from WeighFoodPage successfully");
-    }
+                General.LogOfProgram?.Event($"RecipePage - Ingredient data updated from WeighFoodPage: Name={bl.Ingredient.Name}, CHO%={bl.Ingredient.CarbohydratesPercent?.Double:F1}, Weight={bl.Ingredient.QuantityGrams?.Double:F1}g");
+            }
         }
-   catch (Exception ex)
+        catch (Exception ex)
         {
             General.LogOfProgram?.Error("RecipePage - btnWeighFood_Click", ex);
             await DisplayAlert("Error", $"Failed to open weigh food page: {ex.Message}\n\nCheck logs for details.", "OK");
@@ -304,7 +274,7 @@ public partial class RecipePage : ContentPage
         try
         {
             bl.Ingredient = new Ingredient();
-            //ingredientSection.BindingContext = bl.Ingredient; // rebind to fresh ingredient
+            //ingredientSection.BindingContext = blMeal.Ingredient; // rebind to fresh ingredient
             await RefreshAccuracyControls();
         }
         catch (Exception ex)
@@ -320,7 +290,7 @@ public partial class RecipePage : ContentPage
             // Update the ingredient in the list before switching
             FromBoxesIngredientToClass();
             bl.UpdateOldIngredientInList();
-            // calc riepilogative data
+            // calc riepilogative Data
             bl.RecalcAll();
             FromClassToBoxesIngredient();
             RefreshGrid();
@@ -394,7 +364,7 @@ public partial class RecipePage : ContentPage
 
     private void FromBoxesIngredientToClass()
     {
-        //bl.Ingredient.IdIngredient = Safe.Int(txtIdIngredient.Text);
+        //blMeal.Ingredient.IdIngredient = Safe.Int(txtIdIngredient.Text);
         bl.Ingredient.Name = Safe.String(txtIngredientName.Text);
         bl.Ingredient.QuantityGrams.Text = txtIngredientQuantityGrams.Text;
         bl.Ingredient.QuantityPercent.Text = txtIngredientQuantityPercent.Text;
@@ -486,12 +456,12 @@ public partial class RecipePage : ContentPage
         //////////try
         //////////{
         //////////    // Do heavy operations: recalculate all percentages and totals
-        //////////    bl.RecalcAll();
+        //////////    blMeal.RecalcAll();
 
         //////////    // Update only the calculated read-only field manually
-        //////////    if (bl.Ingredient?.QuantityPercent?.Text != null)
+        //////////    if (blMeal.Ingredient?.QuantityPercent?.Text != null)
         //////////    {
-        //////////        txtIngredientQuantityPercent.Text = bl.Ingredient.QuantityPercent.Text;
+        //////////        txtIngredientQuantityPercent.Text = blMeal.Ingredient.QuantityPercent.Text;
         //////////    }
 
         //////////    // Refresh the grid to show updated values
@@ -563,7 +533,7 @@ public partial class RecipePage : ContentPage
             // Check if the user chose a recipe in called page
             if (recipeWasChosen && recipesPage.RecipeIsChosen && recipesPage.CurrentRecipe != null)
             {
-                // Update the current Ingredient with the Recipe data
+                // Update the current Ingredient with the Recipe Data
                 bl.Ingredient.Name = recipesPage.CurrentRecipe.Name;
                 bl.Ingredient.Description = recipesPage.CurrentRecipe.Description;
 
@@ -586,7 +556,7 @@ public partial class RecipePage : ContentPage
                 // Recalculate the carbohydrates in grams
                 CalculateChoOfIngredientGrams();
 
-                // Update the user interface with the new data
+                // Update the user interface with the new Data
                 FromClassToBoxesIngredient();
 
                 // Update the ingredient in the list

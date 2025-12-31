@@ -26,9 +26,28 @@
     <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
     <ApplicationIdGuid>30939246-cae7-40ff-92ce-a308f5c8b0e8</ApplicationIdGuid>
 
-		<!-- Versions -->
-		<ApplicationDisplayVersion>0.9.5.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+		<!-- Deterministic Versioning System -->
+		<!-- AssemblyVersion uses 4-part numeric format: Major.Minor.Patch.BuildNumber -->
+		<!-- FileVersion uses readable date/time format as string -->
+		<VersionMajor>0</VersionMajor>
+		<VersionMinor>9</VersionMinor>
+		<VersionPatch>6</VersionPatch>
+		<!-- Build number as days since 2025-01-01 (avoids overflow) -->
+		<VersionBuildNumber>$([MSBuild]::Subtract($([System.DateTime]::Now.Subtract($([System.DateTime]::Parse('2025-01-01'))).Days), 0))</VersionBuildNumber>
+		<VersionRevision>$([System.DateTime]::Now.ToString('HHmm'))</VersionRevision>
+		<VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
+		
+		<!-- AssemblyVersion: 4-part numeric (0.9.6.DaysSince2025) -->
+		<AssemblyVersion>$(VersionPrefix).$(VersionBuildNumber)</AssemblyVersion>
+		
+		<!-- FileVersion: Human-readable with full timestamp -->
+		<FileVersion>$(VersionPrefix).$([System.DateTime]::Now.ToString('yyMMdd')).$([System.DateTime]::Now.ToString('HHmm'))</FileVersion>
+		<InformationalVersion>$(VersionPrefix).$([System.DateTime]::Now.ToString('yyMMdd')).$([System.DateTime]::Now.ToString('HHmm'))</InformationalVersion>
+		<Version>$(VersionPrefix).$(VersionBuildNumber)</Version>
+		
+		<!-- MAUI Platform Versions -->
+		<ApplicationDisplayVersion>$(VersionPrefix)</ApplicationDisplayVersion>
+		<ApplicationVersion>$([System.DateTime]::Now.ToString('yyMMdd'))</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
@@ -53,57 +72,49 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
-	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.9.5</ApplicationDisplayVersion>
+	  <Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
-	  <Deterministic>False</Deterministic>
+	  <Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
-	  <Deterministic>False</Deterministic>
+	  <Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
-	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.9.5</ApplicationDisplayVersion>
+	  <Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
-	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.9.5</ApplicationDisplayVersion>
+	  <Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
-	  <Deterministic>False</Deterministic>
+	  <Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
-	  <Deterministic>False</Deterministic>
+	  <Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationTitle>GlucoMan</ApplicationTitle>
 	  <ApplicationId>it.ingmonti.glucoman</ApplicationId>
-	  <Deterministic>False</Deterministic>
-	  <ApplicationDisplayVersion>0.9.5</ApplicationDisplayVersion>
-	</PropertyGroup>
-
-	<PropertyGroup>
-	  <FileVersion></FileVersion>
+	  <Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<ItemGroup>

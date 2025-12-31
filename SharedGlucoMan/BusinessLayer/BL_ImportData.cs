@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GlucoMan.BusinessLayer
+namespace GlucoMan
 {
     public class BL_ImportData
     {
@@ -70,10 +70,10 @@ namespace GlucoMan.BusinessLayer
                     $"Existing injections: {existingInjectionTimes.Count}, " +
                     $"Existing events: {existingEventTimes.Count}");
 
-                // TODO: Implement actual data import logic
+                // TODO: Implement actual Data import logic
                 // - Parse CSV lines according to FreeStyle Libre format
                 // - Create GlucoseRecord objects
-                // - Validate data
+                // - Validate Data
                 // - Import into database
                 // - Show import summary
 
@@ -234,7 +234,7 @@ namespace GlucoMan.BusinessLayer
                                 // (if it will be used later, will be mapped here)
                                 //meal.CarbohydratesString = fields[8];
                                 meal.CarbohydratesGrams.Double = Safe.Double(fields[9]);
-                                // the field "carbohydrates (portions)" (index 10) not used in my data
+                                // the field "carbohydrates (portions)" (index 10) not used in my Data
                                 // nor understood by myself, so we are ignoring it for now
 
                                 // Add to import list
@@ -246,7 +246,7 @@ namespace GlucoMan.BusinessLayer
                                       // (some of 6 type records have notes only, others have nothing)
                                       // Notes property already set above
                                       // if the note isn't present we null the glucose
-                                      // because the other data is never present in csv file
+                                      // because the other Data is never present in csv file
 
                                 // Skip lines that have already been imported
                                 if (existingEventTimes.Contains(timestamp.Value))

@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using System.Globalization;
 using GlucoMan.Maui.Resources.Strings;
 
@@ -62,9 +62,9 @@ public partial class FoodsPage : ContentPage
         //Food.Name = "";
         //Food.Description = "";
         allFoods = new List<Food>();
-        // if a specific food is passed, load its persistent data from database 
+        // if a specific food is passed, load its persistent Data from database 
         // if what is passed has not and IdFood,
-        // we use the data actually passed 
+        // we use the Data actually passed 
         if (Food.IdFood != 0 && Food.IdFood != null)
         {
             Food = bl.GetOneFood(Food.IdFood);
@@ -250,7 +250,7 @@ public partial class FoodsPage : ContentPage
         }
 
         foodIsChosen = true;
-        //bl.SaveOneFood(Food);
+        //blMeal.SaveOneFood(Food);
 
         // Set the result and close the page
         _taskCompletionSource?.SetResult(true);
@@ -283,7 +283,7 @@ public partial class FoodsPage : ContentPage
     {
         try
         {
-            // Return to calling page without saving changes or passing any data
+            // Return to calling page without saving changes or passing any Data
             foodIsChosen = false;
 
             // Set the result to false (no food chosen)

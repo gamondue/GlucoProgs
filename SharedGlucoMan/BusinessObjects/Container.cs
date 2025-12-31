@@ -1,6 +1,6 @@
 using gamon;
 
-namespace gamon
+namespace GlucoMan
 {
     /// <summary>
     /// Represents a container (pot, plate, bowl, etc.) with its tare weight

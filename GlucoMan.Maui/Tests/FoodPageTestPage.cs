@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 
 namespace GlucoMan.Maui.Tests;
 

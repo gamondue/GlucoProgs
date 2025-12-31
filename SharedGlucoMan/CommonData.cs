@@ -1,4 +1,4 @@
-﻿using GlucoMan.BusinessLayer;
+﻿using GlucoMan;
 
 namespace GlucoMan
 {

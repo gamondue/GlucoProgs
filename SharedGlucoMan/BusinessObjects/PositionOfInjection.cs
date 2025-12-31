@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using static GlucoMan.Common;
 
-namespace GlucoMan.BusinessObjects
+namespace GlucoMan
 {
     internal class PositionOfInjection
     {

@@ -1889,7 +1889,7 @@
     <value>Cancella: cancella tutti i valori nelle caselle</value>
   </data>
   <data name="WeighFoodToGetWeight" xml:space="preserve">
-    <value>Pesa il cibo per ottenere il peso della porzione</value>
+    <value>Pesa il cibo, calcola la porzione</value>
   </data>
   <data name="NameLabel" xml:space="preserve">
     <value>Nome</value>
@@ -1907,7 +1907,7 @@
     <value>Apri calcolatrice per i calcoli del cibo</value>
   </data>
   <data name="WeightDataRawFood" xml:space="preserve">
-    <value>Dati di peso su TUTTO il cibo prima della cottura (crudo)</value>
+    <value>Dati di peso su TUTTO il cibo crudo</value>
   </data>
   <data name="GrossLabel" xml:space="preserve">
     <value>Lordo</value>
@@ -1940,13 +1940,13 @@
     <value>Dividi tutto il cibo in porzioni uguali: la porzione verrà  calcolata dividendo il cibo totale per N persone</value>
   </data>
   <data name="NumberOfPortions" xml:space="preserve">
-    <value>NÂ° di porzioni</value>
+    <value>N. di porzioni</value>
   </data>
   <data name="SummaryData" xml:space="preserve">
-    <value>Dati riassuntivi</value>
+    <value>Dati riassuntivi sulla porzione</value>
   </data>
   <data name="CHOOfPortion" xml:space="preserve">
-    <value>CHO[g] della porzione</value>
+    <value>CHO[g]</value>
   </data>
   <data name="WeightOfPortion" xml:space="preserve">
     <value>Peso della porzione</value>
@@ -1958,25 +1958,25 @@
     <value>Ritaglia Foto</value>
   </data>
   <data name="CropSizeIndicator" xml:space="preserve">
-    <value>ðŸ“ 300x300 px</value>
+    <value>📏 300x300 px</value>
   </data>
   <data name="CropZoomHint" xml:space="preserve">
-    <value>Per ingrandire ðŸ¤ Pizzica | ðŸ–±ï¸ trascina angoli verdi</value>
+    <value>Per ingrandire 🤏Pizzica | 🖱️ trascina angoli verdi</value>
   </data>
   <data name="CropDragInstruction" xml:space="preserve">
-    <value>â¬†ï¸â¬‡ï¸â¬…ï¸âž¡ï¸ Trascina l'immagine in posizione</value>
+    <value>⬆️⬇️⬅️➡️ Trascina in pos.l'immagine </value>
   </data>
   <data name="CropResizeInstruction" xml:space="preserve">
-    <value>Per ridimensionare:ðŸ¤ Pizzica | ðŸ–±ï¸ trascina l'angolo verde</value>
+    <value>Per ridimensionare: 🤏 Pizzica | 🖱️trascina l'angolo verde</value>
   </data>
   <data name="CropResetButton" xml:space="preserve">
-    <value>â†» Reset</value>
+    <value>↻ Reset</value>
   </data>
   <data name="CropCancelButton" xml:space="preserve">
-    <value>âœ– Annulla</value>
+    <value>✖ Annulla</value>
   </data>
   <data name="CropConfirmButton" xml:space="preserve">
-    <value>âœ‚ï¸ Ritaglia</value>
+    <value>✂️ Ritaglia</value>
   </data>
   <data name="CalculationsOfRatioCHOInsulin" xml:space="preserve">
     <value>Calcolo del rapporto CHO/insulina</value>
@@ -2286,5 +2286,17 @@
   </data>
   <data name="StatTotalDayDose" xml:space="preserve">
     <value>TDD: Insulina totale (rapida + lenta).</value>
+  </data>
+  <data name="WeightDataCookedSeasoning" xml:space="preserve">
+    <value>Pesi per tutto il condimento cotto</value>
+  </data>
+  <data name="ChoPercentSeasoning" xml:space="preserve">
+    <value>CHO C.</value>
+  </data>
+  <data name="TooltipSeasoningCarbohydrates" xml:space="preserve">
+    <value>Percentuale di carboidrati nel condimento cotto</value>
+  </data>
+  <data name="ChoPercentTotal" xml:space="preserve">
+    <value>CHO [%]</value>
   </data>
 </root>

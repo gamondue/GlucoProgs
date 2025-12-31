@@ -1,5 +1,5 @@
 using gamon;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 
 namespace GlucoMan.Maui;
 
@@ -42,9 +42,9 @@ public partial class RecipesPage : ContentPage
     /*public RecipesPage(Ingredient Ingredient)
     {
         InitializeComponent();
-        if (bl.Recipe == null)
-            bl.Recipe = new Food();
-        bl.FromIngredientToFood(Ingredient, bl.Recipe);
+        if (blMeal.Recipe == null)
+            blMeal.Recipe = new Food();
+        blMeal.FromIngredientToFood(Ingredient, blMeal.Recipe);
     }*/
     private void PageLoaded(object sender, EventArgs e)
     {
@@ -58,12 +58,12 @@ public partial class RecipesPage : ContentPage
         bl.Recipe.Name = "";
         bl.Recipe.Description = "";
         allRecipes = new List<Recipe>();
-        // if a specific food is passed, load its persistent data from database 
+        // if a specific food is passed, load its persistent Data from database 
         if (bl.Recipe.IdRecipe != 0 && bl.Recipe.IdRecipe != null)
         {
             bl.Recipe = bl.GetOneRecipe(bl.Recipe.IdRecipe);
             // if what is passed has not and IdFood,
-            // we use the data actually passed 
+            // we use the Data actually passed 
 
             // let's show the current Recipe
             FromClassToUi();
@@ -79,7 +79,7 @@ public partial class RecipesPage : ContentPage
         txtRecipeCarbohydrates.Text = bl.Recipe.CarbohydratesPercent.Text;
         chkCooked.IsChecked = (bool)Safe.Bool(bl.Recipe.IsCooked);
         txtRawToCookedRatio.Text = bl.Recipe.RawToCookedRatio.Text;
-        // XXXX = bl.Recipe.AccuracyOfChoEstimate;
+        // XXXX = blMeal.Recipe.AccuracyOfChoEstimate;
     }
     private void FromUiToCurrentRecipe()
     {
@@ -89,7 +89,7 @@ public partial class RecipesPage : ContentPage
         bl.Recipe.CarbohydratesPercent.Double = Safe.Double(txtRecipeCarbohydrates.Text);
         bl.Recipe.IsCooked = (bool)Safe.Bool(chkCooked.IsChecked);
         bl.Recipe.RawToCookedRatio.Double = Safe.Double(txtRawToCookedRatio.Text);
-        // bl.Recipe.AccuracyOfChoEstimate = XXXX;
+        // blMeal.Recipe.AccuracyOfChoEstimate = XXXX;
     }
     private void OnGridSelection(object sender, SelectedItemChangedEventArgs e)
     {
@@ -119,11 +119,11 @@ public partial class RecipesPage : ContentPage
     //private void btnRecipeDetails_Click(object sender, EventArgs e)
     //{
     //    FromUiToCurrentRecipe();
-    //    recipePage = new RecipePage(bl.Recipe);
+    //    recipePage = new RecipePage(blMeal.Recipe);
     //    await Navigation.PushAsync(recipePage);
     //    if (recipePage.RecipeIsChosen)
     //    {
-    //        //bl.FromFoodToIngredient(recipePage.bl.Recipe, bl.Ingredient);
+    //        //blMeal.FromFoodToIngredient(recipePage.blMeal.Recipe, blMeal.Ingredient);
     //        FromClassesToUi();
     //    }
     //}
@@ -134,7 +134,7 @@ public partial class RecipesPage : ContentPage
         Navigation.PushAsync(recipePage);
         if (recipePage.RecipeIsChosen)
         {
-            //bl.FromFoodToIngredient(recipePage.bl.Recipe, bl.Ingredient);
+            //blMeal.FromFoodToIngredient(recipePage.blMeal.Recipe, blMeal.Ingredient);
             FromClassToUi();
         }
     }

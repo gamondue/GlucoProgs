@@ -1,0 +1,4 @@
+Nel codice del bottone "Manage Tracks" aggiugiamo la chiamata ad una nuova pagina "TrackPage" che raccolga la posizione col GPS una volta ogni 10 secondi.
+La posizione viene archiviata in una lista di una classe da sviluppare e mettere fra i Business Objects. 
+La posizione e la traiettoria viene anche visualizzata in una mappa Google Maps.
+Prepariamo anche l'accesso al database nel Business Layer e nel DataLayer, e le create per la nuova tabella "Positions", dove memorizzeremo i dati delle tracce.

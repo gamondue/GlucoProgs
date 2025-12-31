@@ -1,5 +1,4 @@
-using GlucoMan.BusinessObjects;
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using gamon;
 
 namespace GlucoMan.Maui;
@@ -88,7 +87,7 @@ public partial class ClickableImagePage : ContentPage
             var children = cerchiGraphicsView.GetChildElements(new Microsoft.Maui.Graphics.Point(100, 100));
             firstPass = false;
             
-            // Load necessary data
+            // Load necessary Data
             LoadTheReferencePositions();
             LoadTheLastSensorsPositions();
 
@@ -186,7 +185,7 @@ public partial class ClickableImagePage : ContentPage
         }
         editing = false;
         
-        // the zone and other data are already included in the currentInjection that has been passed
+        // the zone and other Data are already included in the currentInjection that has been passed
         // close the page
         this.Navigation.PopAsync();
     }

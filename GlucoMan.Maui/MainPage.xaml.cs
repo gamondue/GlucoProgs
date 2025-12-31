@@ -95,7 +95,7 @@ namespace GlucoMan.Maui
         }
         private async Task RequestPermissionsIfNotGiven()
         {
-            // request permissions if not already given
+            // Storage permissions
             var PermissionStorageRead = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
             if (PermissionStorageRead != PermissionStatus.Granted)
             {
@@ -106,6 +106,15 @@ namespace GlucoMan.Maui
             {
                 PermissionStorageWrite = await Permissions.RequestAsync<Permissions.StorageWrite>();
             }
+            
+            // GPS/Location permissions for physical activity tracking
+            var PermissionLocation = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (PermissionLocation != PermissionStatus.Granted)
+            {
+                PermissionLocation = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+                General.LogOfProgram?.Event($"MainPage - Location permission requested: {PermissionLocation}");
+            }
+            
             //var PermissionAlarm = await Permissions.CheckStatusAsync<Permissions.Alarm>();
             //if (PermissionAlarm != PermissionStatus.Granted)
             //{

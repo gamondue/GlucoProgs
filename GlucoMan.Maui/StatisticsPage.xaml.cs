@@ -1,4 +1,4 @@
-using GlucoMan.BusinessLayer;
+using GlucoMan;
 using GlucoMan;
 using gamon;
 
