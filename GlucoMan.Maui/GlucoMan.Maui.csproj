@@ -303,19 +303,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
-		<PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.9" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
-		<PackageReference Include="NUnit" Version="4.4.0" />
-		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.116.1" />
-		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
+		<PackageReference Include="CommunityToolkit.Maui" />
+		<PackageReference Include="MathNet.Numerics" />
+		<PackageReference Include="Microsoft.Data.Sqlite.Core" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+		<PackageReference Include="Microsoft.Maui.Controls" />
+		<PackageReference Include="NUnit" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" />
 	</ItemGroup>
 
 	<!-- Windows-specific packages -->
 	<ItemGroup Condition="$(TargetFramework.Contains('windows'))">
-		<PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+		<PackageReference Include="System.Drawing.Common" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -405,8 +405,6 @@
 	<Import Project="..\SharedGeneral\SharedGeneral.projitems" Label="Shared" />
 
 	<Import Project="..\SharedMaui\SharedMaui.projitems" Label="Shared" />
-
-	<Import Project="..\SharedMathematics\SharedMathematics.projitems" Label="Shared" />
 
 	<Import Project="..\SharedMathematics\SharedMathematics.projitems" Label="Shared" />
 
