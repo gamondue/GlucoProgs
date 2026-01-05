@@ -105,23 +105,88 @@ namespace GlucoMan
                     string backupFile = Path.Combine(Common.PathDatabase, backupFilename);
                     // backup the current database, in Android it is in internal storage, so we can use the class File 
                     File.Copy(pathAndFileInternalDatabase, backupFile, true);
-                    //File.Delete(pathAndFileInternalDatabase);
                 }
+
+                // IMPORTANT: Close the current database connection before copying the new file
+                // This releases the file lock on the SQLite database
+                CloseDatabase();
+
+                // Small delay to ensure file handle is released
+                await Task.Delay(100);
+
 #if ANDROID
                 // if the user has not given the permissions, then return with false
                 if (!await AndroidExternalFilesHelper.RequestStoragePermissionsAsync())
+                {
+                    // Re-open the database before returning
+                    ReopenDatabase();
                     return false;
-                 return await AndroidExternalFilesHelper.ReadFileFromExternalPublicDirectoryAsync
+                }
+                bool result = await AndroidExternalFilesHelper.ReadFileFromExternalPublicDirectoryAsync
                     (pathAndFileInternalDatabase, pathAndFileExternalDatabase);
 #else
                 File.Copy(pathAndFileExternalDatabase, pathAndFileInternalDatabase, true);
+                bool result = true;
 #endif
-                return true;
+                // Re-open the database with the new file
+                ReopenDatabase();
+
+                return result;
             }
             catch (Exception ex)
             {
                 General.LogOfProgram.Error("ReadDatabaseFromExternal", ex);
+                // Try to re-open the database even on error
+                try { ReopenDatabase(); } catch { }
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Closes all database connections to release file locks.
+        /// Call this before any FILE operation on the database file.
+        /// </summary>
+        private void CloseDatabase()
+        {
+            try
+            {
+                // Set the database reference to null to release the connection
+                // The using pattern in DL_Sqlite should close connections automatically,
+                // but we need to ensure no cached connections remain
+                Common.Database = null;
+                dl = null;
+
+                // Force garbage collection to release any lingering handles
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                // SQLite specific: clear the connection pool
+                Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools();
+
+                General.LogOfProgram?.Debug("Database connection closed for file operation");
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram?.Error("CloseDatabase", ex);
+            }
+        }
+
+        /// <summary>
+        /// Re-opens the database connection after a file operation.
+        /// </summary>
+        private void ReopenDatabase()
+        {
+            try
+            {
+                // Re-create the database connection
+                Common.Database = new DL_Sqlite();
+                dl = Common.Database;
+
+                General.LogOfProgram?.Debug("Database connection re-opened");
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram?.Error("ReopenDatabase", ex);
             }
         }
         internal bool ImportFoodsFromExternal(string pathAndFileDatabase, string v)

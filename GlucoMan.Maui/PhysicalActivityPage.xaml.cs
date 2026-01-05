@@ -593,7 +593,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
         {
             if (CurrentActivity == null)
             {
-                btnGpsTrack.ImageSource = "map_marker.png";
+                btnGpsTrack.Source = "tracking.png";
                 btnGpsTrack.BackgroundColor = initialButtonBackground;
                 return;
             }
@@ -602,24 +602,16 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
 
             if (idTrack.HasValue && idTrack.Value > 0)
             {
-                // Track exists - show different icon/color
-                // Try to use filled icon, fall back to normal if not available
-                try
-                {
-                    btnGpsTrack.ImageSource = "map_marker_filled.png";
-                }
-                catch
-                {
-                    btnGpsTrack.ImageSource = "map_marker.png";
-                }
+                // Track exists - show different color to indicate track is available
+                btnGpsTrack.Source = "tracking.png";
                 btnGpsTrack.BackgroundColor = Colors.LightGreen; // Highlight that track exists
                 ToolTipProperties.SetText(btnGpsTrack, "GPS Track: View or replace existing GPS track");
             }
             else
             {
                 // No track - default state
-                btnGpsTrack.ImageSource = "map_marker.png";
-                btnGpsTrack.BackgroundColor = initialButtonBackground;
+                btnGpsTrack.Source = "tracking.png";
+                btnGpsTrack.BackgroundColor = Colors.LightBlue;
                 ToolTipProperties.SetText(btnGpsTrack, "GPS Track: Record GPS track for this activity");
             }
         }

@@ -52,11 +52,15 @@ namespace GlucoMan.Maui
             // Register Localization Service as Singleton
             builder.Services.AddSingleton<LocalizationService>();
 
+            // Register GPS tracking service based on platform
 #if ANDROID
+            builder.Services.AddSingleton<IBackgroundGpsService, BackgroundGpsServiceAndroid>();
             builder.Services.AddSingleton<ISystemAlarmScheduler, GlucoMan.Maui.Platforms.Android.SystemAlarmScheduler>();
 #elif WINDOWS
+            builder.Services.AddSingleton<IBackgroundGpsService, DefaultBackgroundGpsService>();
             builder.Services.AddSingleton<ISystemAlarmScheduler, GlucoMan.Maui.Platforms.Windows.SystemAlarmScheduler>();
 #else
+            builder.Services.AddSingleton<IBackgroundGpsService, DefaultBackgroundGpsService>();
             builder.Services.AddSingleton<ISystemAlarmScheduler, DummyAlarmScheduler>();
 #endif
 

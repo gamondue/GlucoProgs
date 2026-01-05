@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.TrackPage"
-             Title="GPS Activity Tracker">
+             Title="{x:Static strings:AppStrings.TrackPageTitle}">
     <Grid RowDefinitions="Auto,Auto,*,Auto">
         
         <!-- Header Section -->
@@ -10,20 +11,18 @@
             <VerticalStackLayout Spacing="5">
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                     <Button x:Name="btnStartTracking" 
-                            Text="Start Tracking" 
+                            Text="{x:Static strings:AppStrings.TrackBtnStartTracking}" 
                             IsEnabled="True"
                             TextColor="White"
                             WidthRequest="140"
                             Clicked="BtnStartTracking_Clicked"/>
-                  <!--BackgroundColor="Green"-->
 
-                  <Button x:Name="btnStopTracking" 
-                            Text="Stop Tracking" 
+                    <Button x:Name="btnStopTracking" 
+                            Text="{x:Static strings:AppStrings.TrackBtnStopTracking}" 
                             IsEnabled="False"
                             TextColor="White"
                             WidthRequest="140"
                             Clicked="BtnStopTracking_Clicked"/>
-                  <!--BackgroundColor="Red"-->
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </Frame>
@@ -31,10 +30,10 @@
         <!-- Statistics Section -->
         <Frame Grid.Row="1" BorderColor="LightGreen" Padding="10" Margin="5">
             <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto">
-                <Label Grid.Row="0" Grid.Column="0" Text="Points:" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Grid.Row="0" Grid.Column="1" Text="Distance:" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Grid.Row="0" Grid.Column="2" Text="Duration:" FontAttributes="Bold" HorizontalOptions="Center"/>
-                <Label Grid.Row="0" Grid.Column="3" Text="Avg Speed:" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Label Grid.Row="0" Grid.Column="0" Text="{x:Static strings:AppStrings.TrackLabelPoints}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Label Grid.Row="0" Grid.Column="1" Text="{x:Static strings:AppStrings.TrackLabelDistance}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="{x:Static strings:AppStrings.TrackLabelDuration}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Label Grid.Row="0" Grid.Column="3" Text="{x:Static strings:AppStrings.TrackLabelAvgSpeed}" FontAttributes="Bold" HorizontalOptions="Center"/>
                 
                 <Label Grid.Row="1" Grid.Column="0" x:Name="lblPointsCount" Text="0" HorizontalOptions="Center"/>
                 <Label Grid.Row="1" Grid.Column="1" x:Name="lblDistance" Text="0 m" HorizontalOptions="Center"/>
@@ -54,38 +53,35 @@
         <Frame Grid.Row="3" BorderColor="Orange" Padding="10" Margin="5">
             <VerticalStackLayout Spacing="5">
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                    <Label Text="Current Position:" FontAttributes="Bold" VerticalOptions="Center"/>
-                    <Label x:Name="lblCurrentPosition" Text="Waiting for GPS..." VerticalOptions="Center"/>
+                    <Label Text="{x:Static strings:AppStrings.TrackLabelCurrentPosition}" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="lblCurrentPosition" Text="{x:Static strings:AppStrings.TrackWaitingForGPS}" VerticalOptions="Center"/>
                 </HorizontalStackLayout>
                 
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                    <Label Text="Status:" FontAttributes="Bold" VerticalOptions="Center"/>
-                    <Label x:Name="lblStatus" Text="Ready" TextColor="Gray" VerticalOptions="Center"/>
+                    <Label Text="{x:Static strings:AppStrings.TrackLabelStatus}" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label x:Name="lblStatus" Text="{x:Static strings:AppStrings.TrackReady}" TextColor="Gray" VerticalOptions="Center"/>
                 </HorizontalStackLayout>
                 
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                     <Button x:Name="btnSaveTrack" 
-                            Text="Save Track" 
+                            Text="{x:Static strings:AppStrings.TrackBtnSaveTrack}" 
                             IsEnabled="False"
                             TextColor="White"
                             WidthRequest="120"
                             Clicked="BtnSaveTrack_Clicked"/>
-                  <!--BackgroundColor="Blue"-->
 
-                  <Button x:Name="btnClearTrack" 
-                            Text="Clear" 
+                    <Button x:Name="btnClearTrack" 
+                            Text="{x:Static strings:AppStrings.TrackBtnClear}" 
                             IsEnabled="False"
                             TextColor="White"
                             WidthRequest="100"
                             Clicked="BtnClearTrack_Clicked"/>
-                  <!--BackgroundColor="Gray"-->
 
-                  <Button x:Name="btnBack" 
-                            Text="Back" 
+                    <Button x:Name="btnBack" 
+                            Text="{x:Static strings:AppStrings.Back}" 
                             TextColor="White"
                             WidthRequest="100"
                             Clicked="BtnBack_Clicked"/>
-                  <!--BackgroundColor="DarkGray"-->
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </Frame>

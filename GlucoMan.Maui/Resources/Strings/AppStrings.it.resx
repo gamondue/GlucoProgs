@@ -163,7 +163,7 @@
     <value>Pulisci</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Dietro</value>
+    <value>Indietro</value>
   </data>
   <data name="Next" xml:space="preserve">
     <value>Avanti</value>
@@ -1698,11 +1698,11 @@
     <comment>Tasto Annulla per cancellare il calcolo</comment>
   </data>
   <data name="ChartPagePreviousDay" xml:space="preserve">
-    <value>â—€</value>
+    <value>◀</value>
     <comment>Pulsante navigazione giorno precedente</comment>
   </data>
   <data name="ChartPageNextDay" xml:space="preserve">
-    <value>â–¶</value>
+    <value>▶</value>
     <comment>Pulsante navigazione giorno successivo</comment>
   </data>
   <data name="ClickableImagePageTitle" xml:space="preserve">
@@ -2298,5 +2298,222 @@
   </data>
   <data name="ChoPercentTotal" xml:space="preserve">
     <value>CHO [%]</value>
+  </data>
+  <data name="TrackStatusChecking" xml:space="preserve">
+    <value>Controllo stato tracciamento...</value>
+  </data>
+  <data name="TrackStatusReady" xml:space="preserve">
+    <value>Pronto per tracciare</value>
+  </data>
+  <data name="TrackStatusBackground" xml:space="preserve">
+    <value>Tracciamento in background...</value>
+  </data>
+  <data name="TrackStatusResumed" xml:space="preserve">
+    <value>Tracciamento ripreso...</value>
+  </data>
+  <data name="TrackStatusReadyToSave" xml:space="preserve">
+    <value>Tracciamento fermato - pronto per salvare</value>
+  </data>
+  <data name="TrackStatusDiscarded" xml:space="preserve">
+    <value>Traccia precedente scartata</value>
+  </data>
+  <data name="TrackStatusNotFound" xml:space="preserve">
+    <value>Traccia ID {0} non trovata</value>
+  </data>
+  <data name="TrackStatusViewing" xml:space="preserve">
+    <value>Visualizzazione: {0}</value>
+  </data>
+  <data name="TrackStatusDisplayError" xml:space="preserve">
+    <value>Errore nella visualizzazione della traccia</value>
+  </data>
+  <data name="TrackStatusLoadError" xml:space="preserve">
+    <value>Errore nel caricamento della traccia</value>
+  </data>
+  <data name="TrackStatusNoPositions" xml:space="preserve">
+    <value>La traccia non ha posizioni</value>
+  </data>
+  <data name="TrackStatusPermissionDenied" xml:space="preserve">
+    <value>Permesso GPS negato</value>
+  </data>
+  <data name="TrackStatusPermissionGrantedBackground" xml:space="preserve">
+    <value>Permesso GPS concesso (incluso background)</value>
+  </data>
+  <data name="TrackStatusPermissionGrantedForeground" xml:space="preserve">
+    <value>Permesso GPS concesso (solo in foreground)</value>
+  </data>
+  <data name="TrackStatusPermissionCheckError" xml:space="preserve">
+    <value>Errore nella verifica dei permessi</value>
+  </data>
+  <data name="TrackStatusStartingBackground" xml:space="preserve">
+    <value>Avvio tracciamento in background...</value>
+  </data>
+  <data name="TrackStatusBackgroundFailed" xml:space="preserve">
+    <value>Tracciamento in background fallito, uso solo foreground</value>
+  </data>
+  <data name="TrackStatusStartError" xml:space="preserve">
+    <value>Errore nell'avvio del tracciamento</value>
+  </data>
+  <data name="TrackStatusStopped" xml:space="preserve">
+    <value>Tracciamento fermato</value>
+  </data>
+  <data name="TrackStatusStopError" xml:space="preserve">
+    <value>Errore nell'arresto del tracciamento</value>
+  </data>
+  <data name="TrackStatusSaved" xml:space="preserve">
+    <value>Traccia salvata</value>
+  </data>
+  <data name="TrackStatusCleared" xml:space="preserve">
+    <value>Traccia cancellata</value>
+  </data>
+  <data name="TrackRecoveryTitle" xml:space="preserve">
+    <value>Recupero Tracciamento GPS
+
+Trovate {0} posizioni registrate da una sessione di tracciamento precedente.</value>
+  </data>
+  <data name="TrackRecoveryCancel" xml:space="preserve">
+    <value>Scarta e Ferma</value>
+  </data>
+  <data name="TrackRecoveryContinue" xml:space="preserve">
+    <value>Continua Tracciamento</value>
+  </data>
+  <data name="TrackRecoverySaveStop" xml:space="preserve">
+    <value>Salva e Ferma</value>
+  </data>
+  <data name="TrackReadyTitle" xml:space="preserve">
+    <value>Traccia Pronta</value>
+  </data>
+  <data name="TrackReadyMessage" xml:space="preserve">
+    <value>La tua traccia con {0} posizioni è pronta.
+
+Premi 'Salva Traccia' per salvarla nel database.</value>
+  </data>
+  <data name="TrackNotFoundTitle" xml:space="preserve">
+    <value>Traccia Non Trovata</value>
+  </data>
+  <data name="TrackNotFoundMessage" xml:space="preserve">
+    <value>Impossibile trovare la traccia con ID {0}</value>
+  </data>
+  <data name="TrackLoadErrorTitle" xml:space="preserve">
+    <value>Errore</value>
+  </data>
+  <data name="TrackLoadErrorMessage" xml:space="preserve">
+    <value>Impossibile caricare la traccia dal database</value>
+  </data>
+  <data name="TrackPermissionRequiredTitle" xml:space="preserve">
+    <value>Permesso Richiesto</value>
+  </data>
+  <data name="TrackPermissionRequiredMessage" xml:space="preserve">
+    <value>Il permesso di localizzazione è richiesto per tracciare la tua attività.</value>
+  </data>
+  <data name="TrackBackgroundPermissionTitle" xml:space="preserve">
+    <value>Tracciamento GPS in Background</value>
+  </data>
+  <data name="TrackBackgroundPermissionMessage" xml:space="preserve">
+    <value>GlucoMan necessita del permesso per tracciare la tua posizione anche quando l'app è chiusa o in background.
+
+Questo ti permette di continuare a registrare la tua traccia di attività fisica senza mantenere l'app aperta.
+
+Vuoi abilitare il tracciamento GPS in background?</value>
+  </data>
+  <data name="TrackYesEnableButton" xml:space="preserve">
+    <value>Sì, Abilita</value>
+  </data>
+  <data name="TrackNoForegroundOnlyButton" xml:space="preserve">
+    <value>No, Solo Quando in Uso</value>
+  </data>
+  <data name="TrackLimitedGpsTitle" xml:space="preserve">
+    <value>Accesso GPS Limitato</value>
+  </data>
+  <data name="TrackLimitedGpsMessage" xml:space="preserve">
+    <value>Il permesso di localizzazione in background non è stato concesso.
+
+Il tracciamento GPS funzionerà solo quando l'app è aperta.
+
+Puoi modificare questo in seguito in Impostazioni Android &gt; App &gt; GlucoMan &gt; Permessi &gt; Posizione &gt; Consenti sempre.</value>
+  </data>
+  <data name="TrackNoDataTitle" xml:space="preserve">
+    <value>Nessun Dato Traccia</value>
+  </data>
+  <data name="TrackNoDataMessage" xml:space="preserve">
+    <value>Non ci sono dati della traccia da salvare.
+
+Posizioni nella traccia: {0}
+Posizioni nel servizio background: {1}
+
+Avvia il tracciamento e muoviti per registrare le posizioni.</value>
+  </data>
+  <data name="TrackSavedTitle" xml:space="preserve">
+    <value>Traccia Salvata</value>
+  </data>
+  <data name="TrackSavedMessage" xml:space="preserve">
+    <value>Traccia salvata con successo!
+Punti: {0}
+Distanza: {1}
+Durata: {2}</value>
+  </data>
+  <data name="TrackSaveErrorTitle" xml:space="preserve">
+    <value>Errore</value>
+  </data>
+  <data name="TrackSaveErrorMessage" xml:space="preserve">
+    <value>Impossibile salvare la traccia: {0}
+
+  Controlla i log per i dettagli.</value>
+  </data>
+  <data name="TrackClearTitle" xml:space="preserve">
+    <value>Cancella Traccia</value>
+  </data>
+  <data name="TrackClearMessage" xml:space="preserve">
+    <value>Sei sicuro di voler cancellare la traccia corrente?</value>
+  </data>
+  <data name="TrackKeepTrackingTitle" xml:space="preserve">
+    <value>Continuare il Tracciamento?</value>
+  </data>
+  <data name="TrackKeepTrackingMessage" xml:space="preserve">
+    <value>Il tracciamento GPS è attivo. Vuoi continuare il tracciamento in background?</value>
+  </data>
+  <data name="TrackKeepTrackingAccept" xml:space="preserve">
+    <value>Continua Tracciamento</value>
+  </data>
+  <data name="TrackKeepTrackingCancel" xml:space="preserve">
+    <value>Ferma e Torna Indietro</value>
+  </data>
+  <data name="TrackPageTitle" xml:space="preserve">
+    <value>Tracciatore Attività GPS</value>
+  </data>
+  <data name="TrackBtnStartTracking" xml:space="preserve">
+    <value>Avvia Tracciamento</value>
+  </data>
+  <data name="TrackBtnStopTracking" xml:space="preserve">
+    <value>Ferma Tracciamento</value>
+  </data>
+  <data name="TrackBtnSaveTrack" xml:space="preserve">
+    <value>Salva Traccia</value>
+  </data>
+  <data name="TrackBtnClear" xml:space="preserve">
+    <value>Cancella</value>
+  </data>
+  <data name="TrackLabelPoints" xml:space="preserve">
+    <value>Punti:</value>
+  </data>
+  <data name="TrackLabelDistance" xml:space="preserve">
+    <value>Distanza:</value>
+  </data>
+  <data name="TrackLabelDuration" xml:space="preserve">
+    <value>Durata:</value>
+  </data>
+  <data name="TrackLabelAvgSpeed" xml:space="preserve">
+    <value>Velocità Media:</value>
+  </data>
+  <data name="TrackLabelCurrentPosition" xml:space="preserve">
+    <value>Posizione Corrente:</value>
+  </data>
+  <data name="TrackLabelStatus" xml:space="preserve">
+    <value>Stato:</value>
+  </data>
+  <data name="TrackWaitingForGPS" xml:space="preserve">
+    <value>In attesa del GPS...</value>
+  </data>
+  <data name="TrackReady" xml:space="preserve">
+    <value>Pronto</value>
   </data>
 </root>

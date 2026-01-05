@@ -6227,6 +6227,613 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a GlucoMan needs permission to track your location even when the app is closed or in background.
+        ///
+        ///This allows you to continue recording your physical activity track without keeping the app open.
+        ///
+        ///Do you want to enable background GPS tracking?.
+        /// </summary>
+        public static string TrackBackgroundPermissionMessage {
+            get {
+                return ResourceManager.GetString("TrackBackgroundPermissionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Background GPS Tracking.
+        /// </summary>
+        public static string TrackBackgroundPermissionTitle {
+            get {
+                return ResourceManager.GetString("TrackBackgroundPermissionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Clear.
+        /// </summary>
+        public static string TrackBtnClear {
+            get {
+                return ResourceManager.GetString("TrackBtnClear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Save Track.
+        /// </summary>
+        public static string TrackBtnSaveTrack {
+            get {
+                return ResourceManager.GetString("TrackBtnSaveTrack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Start Tracking.
+        /// </summary>
+        public static string TrackBtnStartTracking {
+            get {
+                return ResourceManager.GetString("TrackBtnStartTracking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Stop Tracking.
+        /// </summary>
+        public static string TrackBtnStopTracking {
+            get {
+                return ResourceManager.GetString("TrackBtnStopTracking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Are you sure you want to clear the current track?.
+        /// </summary>
+        public static string TrackClearMessage {
+            get {
+                return ResourceManager.GetString("TrackClearMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Clear Track.
+        /// </summary>
+        public static string TrackClearTitle {
+            get {
+                return ResourceManager.GetString("TrackClearTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Keep Tracking.
+        /// </summary>
+        public static string TrackKeepTrackingAccept {
+            get {
+                return ResourceManager.GetString("TrackKeepTrackingAccept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Stop and Go Back.
+        /// </summary>
+        public static string TrackKeepTrackingCancel {
+            get {
+                return ResourceManager.GetString("TrackKeepTrackingCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GPS tracking is active. Do you want to keep tracking in background?.
+        /// </summary>
+        public static string TrackKeepTrackingMessage {
+            get {
+                return ResourceManager.GetString("TrackKeepTrackingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Keep Tracking?.
+        /// </summary>
+        public static string TrackKeepTrackingTitle {
+            get {
+                return ResourceManager.GetString("TrackKeepTrackingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Avg Speed:.
+        /// </summary>
+        public static string TrackLabelAvgSpeed {
+            get {
+                return ResourceManager.GetString("TrackLabelAvgSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Current Position:.
+        /// </summary>
+        public static string TrackLabelCurrentPosition {
+            get {
+                return ResourceManager.GetString("TrackLabelCurrentPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Distance:.
+        /// </summary>
+        public static string TrackLabelDistance {
+            get {
+                return ResourceManager.GetString("TrackLabelDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Duration:.
+        /// </summary>
+        public static string TrackLabelDuration {
+            get {
+                return ResourceManager.GetString("TrackLabelDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Points:.
+        /// </summary>
+        public static string TrackLabelPoints {
+            get {
+                return ResourceManager.GetString("TrackLabelPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Status:.
+        /// </summary>
+        public static string TrackLabelStatus {
+            get {
+                return ResourceManager.GetString("TrackLabelStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Background location permission was not granted.
+        ///
+        ///GPS tracking will only work while the app is open.
+        ///
+        ///You can change this later in Android Settings &gt; Apps &gt; GlucoMan &gt; Permissions &gt; Location &gt; Allow all the time..
+        /// </summary>
+        public static string TrackLimitedGpsMessage {
+            get {
+                return ResourceManager.GetString("TrackLimitedGpsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Limited GPS Access.
+        /// </summary>
+        public static string TrackLimitedGpsTitle {
+            get {
+                return ResourceManager.GetString("TrackLimitedGpsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Failed to load track from database.
+        /// </summary>
+        public static string TrackLoadErrorMessage {
+            get {
+                return ResourceManager.GetString("TrackLoadErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Error.
+        /// </summary>
+        public static string TrackLoadErrorTitle {
+            get {
+                return ResourceManager.GetString("TrackLoadErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a There is no track data to save.
+        ///
+        ///Positions in track: {0}
+        ///Positions in background service: {1}
+        ///
+        ///Please start tracking and move around to record positions..
+        /// </summary>
+        public static string TrackNoDataMessage {
+            get {
+                return ResourceManager.GetString("TrackNoDataMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a No Track Data.
+        /// </summary>
+        public static string TrackNoDataTitle {
+            get {
+                return ResourceManager.GetString("TrackNoDataTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a No, Only When Using.
+        /// </summary>
+        public static string TrackNoForegroundOnlyButton {
+            get {
+                return ResourceManager.GetString("TrackNoForegroundOnlyButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Could not find track with ID {0}.
+        /// </summary>
+        public static string TrackNotFoundMessage {
+            get {
+                return ResourceManager.GetString("TrackNotFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Track Not Found.
+        /// </summary>
+        public static string TrackNotFoundTitle {
+            get {
+                return ResourceManager.GetString("TrackNotFoundTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GPS Activity Tracker.
+        /// </summary>
+        public static string TrackPageTitle {
+            get {
+                return ResourceManager.GetString("TrackPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Location permission is required to track your activity..
+        /// </summary>
+        public static string TrackPermissionRequiredMessage {
+            get {
+                return ResourceManager.GetString("TrackPermissionRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Permission Required.
+        /// </summary>
+        public static string TrackPermissionRequiredTitle {
+            get {
+                return ResourceManager.GetString("TrackPermissionRequiredTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Ready.
+        /// </summary>
+        public static string TrackReady {
+            get {
+                return ResourceManager.GetString("TrackReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Your track with {0} positions is ready.
+        ///
+        ///Press &apos;Save Track&apos; to save it to the database..
+        /// </summary>
+        public static string TrackReadyMessage {
+            get {
+                return ResourceManager.GetString("TrackReadyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Track Ready.
+        /// </summary>
+        public static string TrackReadyTitle {
+            get {
+                return ResourceManager.GetString("TrackReadyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Discard and Stop.
+        /// </summary>
+        public static string TrackRecoveryCancel {
+            get {
+                return ResourceManager.GetString("TrackRecoveryCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Continue Tracking.
+        /// </summary>
+        public static string TrackRecoveryContinue {
+            get {
+                return ResourceManager.GetString("TrackRecoveryContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Save and Stop.
+        /// </summary>
+        public static string TrackRecoverySaveStop {
+            get {
+                return ResourceManager.GetString("TrackRecoverySaveStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GPS Tracking Recovery
+        ///
+        ///Found {0} recorded positions from a previous tracking session..
+        /// </summary>
+        public static string TrackRecoveryTitle {
+            get {
+                return ResourceManager.GetString("TrackRecoveryTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Track saved successfully!
+        ///Points: {0}
+        ///Distance: {1}
+        ///Duration: {2}.
+        /// </summary>
+        public static string TrackSavedMessage {
+            get {
+                return ResourceManager.GetString("TrackSavedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Track Saved.
+        /// </summary>
+        public static string TrackSavedTitle {
+            get {
+                return ResourceManager.GetString("TrackSavedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Failed to save track: {0}
+        ///
+        ///  Check logs for details..
+        /// </summary>
+        public static string TrackSaveErrorMessage {
+            get {
+                return ResourceManager.GetString("TrackSaveErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Error.
+        /// </summary>
+        public static string TrackSaveErrorTitle {
+            get {
+                return ResourceManager.GetString("TrackSaveErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Tracking in background....
+        /// </summary>
+        public static string TrackStatusBackground {
+            get {
+                return ResourceManager.GetString("TrackStatusBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Background tracking failed, using foreground only.
+        /// </summary>
+        public static string TrackStatusBackgroundFailed {
+            get {
+                return ResourceManager.GetString("TrackStatusBackgroundFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Checking tracking status....
+        /// </summary>
+        public static string TrackStatusChecking {
+            get {
+                return ResourceManager.GetString("TrackStatusChecking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Track cleared.
+        /// </summary>
+        public static string TrackStatusCleared {
+            get {
+                return ResourceManager.GetString("TrackStatusCleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Previous track discarded.
+        /// </summary>
+        public static string TrackStatusDiscarded {
+            get {
+                return ResourceManager.GetString("TrackStatusDiscarded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Error displaying track.
+        /// </summary>
+        public static string TrackStatusDisplayError {
+            get {
+                return ResourceManager.GetString("TrackStatusDisplayError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Error loading track.
+        /// </summary>
+        public static string TrackStatusLoadError {
+            get {
+                return ResourceManager.GetString("TrackStatusLoadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Track has no positions.
+        /// </summary>
+        public static string TrackStatusNoPositions {
+            get {
+                return ResourceManager.GetString("TrackStatusNoPositions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Track ID {0} not found.
+        /// </summary>
+        public static string TrackStatusNotFound {
+            get {
+                return ResourceManager.GetString("TrackStatusNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Error checking permissions.
+        /// </summary>
+        public static string TrackStatusPermissionCheckError {
+            get {
+                return ResourceManager.GetString("TrackStatusPermissionCheckError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GPS permission denied.
+        /// </summary>
+        public static string TrackStatusPermissionDenied {
+            get {
+                return ResourceManager.GetString("TrackStatusPermissionDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GPS permission granted (including background).
+        /// </summary>
+        public static string TrackStatusPermissionGrantedBackground {
+            get {
+                return ResourceManager.GetString("TrackStatusPermissionGrantedBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GPS permission granted (foreground only).
+        /// </summary>
+        public static string TrackStatusPermissionGrantedForeground {
+            get {
+                return ResourceManager.GetString("TrackStatusPermissionGrantedForeground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Ready to track.
+        /// </summary>
+        public static string TrackStatusReady {
+            get {
+                return ResourceManager.GetString("TrackStatusReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Tracking stopped - ready to save.
+        /// </summary>
+        public static string TrackStatusReadyToSave {
+            get {
+                return ResourceManager.GetString("TrackStatusReadyToSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Tracking resumed....
+        /// </summary>
+        public static string TrackStatusResumed {
+            get {
+                return ResourceManager.GetString("TrackStatusResumed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Track saved.
+        /// </summary>
+        public static string TrackStatusSaved {
+            get {
+                return ResourceManager.GetString("TrackStatusSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Error starting tracking.
+        /// </summary>
+        public static string TrackStatusStartError {
+            get {
+                return ResourceManager.GetString("TrackStatusStartError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Starting background tracking....
+        /// </summary>
+        public static string TrackStatusStartingBackground {
+            get {
+                return ResourceManager.GetString("TrackStatusStartingBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Error stopping tracking.
+        /// </summary>
+        public static string TrackStatusStopError {
+            get {
+                return ResourceManager.GetString("TrackStatusStopError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Tracking stopped.
+        /// </summary>
+        public static string TrackStatusStopped {
+            get {
+                return ResourceManager.GetString("TrackStatusStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Viewing: {0}.
+        /// </summary>
+        public static string TrackStatusViewing {
+            get {
+                return ResourceManager.GetString("TrackStatusViewing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Waiting for GPS....
+        /// </summary>
+        public static string TrackWaitingForGPS {
+            get {
+                return ResourceManager.GetString("TrackWaitingForGPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Yes, Enable.
+        /// </summary>
+        public static string TrackYesEnableButton {
+            get {
+                return ResourceManager.GetString("TrackYesEnableButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Type.
         /// </summary>
         public static string Type {

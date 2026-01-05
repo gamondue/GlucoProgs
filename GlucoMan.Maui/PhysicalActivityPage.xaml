@@ -22,17 +22,18 @@
             <Entry Grid.Row="1" Grid.Column="2" x:Name="txtIdActivity" BackgroundColor="White" 
                    ToolTipProperties.Text="Code of this activity"
                    FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
-            <Button Grid.Row="1" Grid.Column="3" 
-                    ImageSource="tracking.png"
-                    x:Name="btnGpsTrack"
-                    BackgroundColor="Transparent"
-                    BorderColor="DeepSkyBlue"
-                    BorderWidth="2"
-                    TextColor="DeepSkyBlue"
-                    FontAttributes="Bold"
-                    ToolTipProperties.Text="GPS Track: record or view GPS track for this activity"
-                    Clicked="btnGpsTrack_Click">
-            </Button>
+            
+            <ImageButton Grid.Row="1" Grid.Column="3" 
+                         Source="tracking.png"
+                         x:Name="btnGpsTrack"
+                         BackgroundColor="LightBlue"
+                         BorderColor="DeepSkyBlue"
+                         BorderWidth="2"
+                         CornerRadius="5"
+                         Padding="5"
+                         Aspect="AspectFit"
+                         ToolTipProperties.Text="GPS Track: record or view GPS track for this activity"
+                         Clicked="btnGpsTrack_Click" />
 
             <Button Grid.Row="2" Grid.Column="3" 
                     ImageSource="floppy_disc.png"
@@ -46,7 +47,7 @@
             <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Activity date and time"  
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             
-            <!-- Intensity RadioButtons - moved to separate row to avoid overlap with Save button -->
+            <!-- Intensity RadioButtons -->
             <Label Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Text="Intensity level"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
                    FontSize="Small" Margin="0,0,0,5"/>
@@ -103,9 +104,7 @@
                 </CheckBox>
                 <Label VerticalTextAlignment="End" VerticalOptions="Center" Text="Add with Now as time">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer>
-
-                        </TapGestureRecognizer>
+                        <TapGestureRecognizer />
                     </Label.GestureRecognizers>
                 </Label>
             </HorizontalStackLayout>
@@ -148,7 +147,6 @@
                       ToolTipProperties.Text="Past physical activities"
                       ItemSelected="OnGridSelectionAsync"
                       RowHeight="25">
-                <!-- description of data to be shown, in a DataTemplate -->
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

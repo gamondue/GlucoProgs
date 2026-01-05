@@ -458,7 +458,6 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             // Use Community Toolkit file picker with better error handling
             var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
-                //{ DevicePlatform.Android, new[] { "application/x-sqlite3", "application/octet-stream", ".sqlite", ".db", "*/*" } },
                 { DevicePlatform.Android, new[] { "application/x-sqlite3", "application/octet-stream", ".sqlite", ".db" } },
                 { DevicePlatform.iOS, new[] { "public.data", ".sqlite", ".db" } },
                 { DevicePlatform.WinUI, new[] { ".sqlite", ".db" } },
@@ -489,41 +488,50 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                 General.LogOfProgram.Debug("User declined importing photos during database import");
             }
 
-            // Create backup of current database first
+            // IMPORTANT: Close database connection BEFORE any file operations
+            // This releases the file lock on the SQLite database
+            CloseDatabaseConnection();
+
+            // Small delay to ensure file handle is released
+            await Task.Delay(200);
+
+            // Create backup of current database (now that connection is closed)
             await CreateDatabaseBackup();
 
             // Copy the selected file to GlucoMan folder in app directory
             string glucoManFolder = picked.FullPath.Replace(picked.FileName, "");
-            string tempImportPath = picked.FullPath;
             try
             {
-                //// Create the GlucoMan directory if it doesn't exist
-                //Directory.CreateDirectory(glucoManFolder);
-                General.LogOfProgram.Debug($"Created/verified GlucoMan folder: {glucoManFolder}");
+                General.LogOfProgram.Debug($"Source folder: {glucoManFolder}");
 
-                using var src = await picked.OpenReadAsync();
-                using var dst = File.Create(Common.PathAndFileDatabase);
-                await src.CopyToAsync(dst);
-
-                General.LogOfProgram.Debug($"File copied to GlucoMan folder: {tempImportPath}");
-
-                // Verify the copied file
-                if (!File.Exists(tempImportPath))
+                // Read from the picked file and write to the database location
+                using (var src = await picked.OpenReadAsync())
+                using (var dst = File.Create(Common.PathAndFileDatabase))
                 {
-                    throw new FileNotFoundException("Copied file not found in GlucoMan folder");
+                    await src.CopyToAsync(dst);
                 }
 
-                var fileInfo = new FileInfo(tempImportPath);
+                General.LogOfProgram.Debug($"File copied to: {Common.PathAndFileDatabase}");
+
+                // Verify the copied file
+                if (!File.Exists(Common.PathAndFileDatabase))
+                {
+                    throw new FileNotFoundException("Copied file not found in app folder");
+                }
+
+                var fileInfo = new FileInfo(Common.PathAndFileDatabase);
                 General.LogOfProgram.Debug($"Copied file size: {fileInfo.Length} bytes");
 
-                if (fileInfo.Length ==0)
+                if (fileInfo.Length == 0)
                 {
                     throw new InvalidDataException("Copied file is empty");
                 }
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Error copying selected file to GlucoMan folder", ex);
+                General.LogOfProgram.Error("Error copying selected file to app folder", ex);
+                // Re-open database before returning with error
+                ReopenDatabaseConnection();
                 await DisplayAlert(AppStrings.Error, $"Error copying selected file: {ex.Message}", AppStrings.OK);
                 return;
             }
@@ -540,7 +548,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                     {
                         Directory.CreateDirectory(internalPhotosFolder);
                         var externalPhotos = Directory.GetFiles(externalPhotosFolder);
-                        int copied =0;
+                        int copied = 0;
                         foreach (var externalFile in externalPhotos)
                         {
                             try
@@ -556,7 +564,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                         }
 
                         General.LogOfProgram.Debug($"Imported {copied} photos from {externalPhotosFolder} into {internalPhotosFolder}");
-                        if (copied >0)
+                        if (copied > 0)
                         {
                             var toast = Toast.Make($"Imported {copied} images into {photosSubfolderName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
                             await toast.Show();
@@ -578,38 +586,69 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                 }
             }
 
-            // Import from the internal file
-            bool success = await blGeneral.ReadDatabaseFromExternal(Common.PathAndFileDatabase, tempImportPath);
-            
-            if (!success)
-            {
-                General.LogOfProgram.Error("ImportDatabaseFromExternal returned false", new Exception("ImportDatabaseFromExternal returned false"));
-                await DisplayAlert("", "Error reading from selected file into app database", AppStrings.OK);
-            }
-            else
-            {
-                General.LogOfProgram.Debug("Database reading completed successfully");
-                await DisplayAlert(AppStrings.Success, "Database reading completed successfully.", AppStrings.OK);
-            }
+            // Re-open the database with the new file
+            ReopenDatabaseConnection();
 
-            // Clean up temporary file
-            try
-            {
-                if (File.Exists(tempImportPath))
-                {
-                    File.Delete(tempImportPath);
-                    General.LogOfProgram.Debug($"Temporary file cleaned up: {tempImportPath}");
-                }
-            }
-            catch (Exception ex)
-            {
-                General.LogOfProgram.Error("Error cleaning up temporary file", ex);
-            }
+            General.LogOfProgram.Debug("Database import completed successfully");
+            await DisplayAlert(AppStrings.Success, "Database import completed successfully.", AppStrings.OK);
         }
         catch (Exception ex)
         {
             General.LogOfProgram.Error("ImportDatabaseFile", ex);
-            await DisplayAlert(AppStrings.Error, $"Error during database reading: {ex.Message}", AppStrings.OK);
+            // Ensure database is re-opened even on error
+            try { ReopenDatabaseConnection(); } catch { }
+            await DisplayAlert(AppStrings.Error, $"Error during database import: {ex.Message}", AppStrings.OK);
+        }
+    }
+
+    /// <summary>
+    /// Closes all database connections to release file locks.
+    /// Call this before any file operation on the database file.
+    /// </summary>
+    private void CloseDatabaseConnection()
+    {
+        try
+        {
+            General.LogOfProgram?.Debug("Closing database connection for file operation...");
+
+            // Clear the singleton database reference
+            Common.Database = null;
+
+            // Force garbage collection to release any lingering handles
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            // SQLite specific: clear the connection pool to release all file handles
+            Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools();
+
+            General.LogOfProgram?.Debug("Database connection closed successfully");
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("CloseDatabaseConnection", ex);
+        }
+    }
+
+    /// <summary>
+    /// Re-opens the database connection after a file operation.
+    /// </summary>
+    private void ReopenDatabaseConnection()
+    {
+        try
+        {
+            General.LogOfProgram?.Debug("Re-opening database connection...");
+
+            // Re-create the database connection
+            Common.Database = new DL_Sqlite();
+
+            // Also update the blGeneral reference
+            blGeneral = new BL_General();
+
+            General.LogOfProgram?.Debug("Database connection re-opened successfully");
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("ReopenDatabaseConnection", ex);
         }
     }
 

@@ -1,4 +1,4 @@
-using Android.Content;
+ using Android.Content;
 using GlucoMan.Maui.Services;
 using gamon;
 using AndroidOS = Android.OS;
@@ -73,9 +73,6 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
     {
         // Subscribe to service events
         GpsTrackingService.OnPositionRecorded += HandlePositionRecorded;
-        
-        // Log initialization state
-        General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - Initialized. IsTracking={IsTracking}, StartTime={TrackingStartTime}, PositionsCount={GetPositionsCount()}");
     }
     
     private void HandlePositionRecorded(object sender, GpsTrackingService.GpsPositionData e)
@@ -97,9 +94,11 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
         {
             // Check and request permissions first
             var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            
             if (status != PermissionStatus.Granted)
             {
                 status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+                
                 if (status != PermissionStatus.Granted)
                 {
                     General.LogOfProgram?.Error("BackgroundGpsServiceAndroid - Location permission denied", null);
@@ -113,17 +112,7 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
                 var bgStatus = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();
                 if (bgStatus != PermissionStatus.Granted)
                 {
-                    // Show explanation and request
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Background Location Required",
-                        "To track your activity while the app is in the background (e.g., during phone calls), please grant 'Allow all the time' location permission.",
-                        "OK");
-                    
-                    bgStatus = await Permissions.RequestAsync<Permissions.LocationAlways>();
-                    if (bgStatus != PermissionStatus.Granted)
-                    {
-                        General.LogOfProgram?.Event("BackgroundGpsServiceAndroid - Background location permission denied, will use foreground only");
-                    }
+                    General.LogOfProgram?.Event("BackgroundGpsServiceAndroid - Background location permission not granted, will use foreground only");
                 }
             }
             
@@ -150,6 +139,9 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
             {
                 context.StartService(intent);
             }
+            
+            // Wait a moment to let the service start
+            await Task.Delay(500);
             
             // Update cache
             cachedIsTracking = true;

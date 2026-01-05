@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui.Services;
@@ -16,9 +17,21 @@ public class LocalizationService : INotifyPropertyChanged
 
     public LocalizationService()
     {
-        // Load saved culture or use system default
-        var savedCulture = Preferences.Get(CurrentCultureKey, CultureInfo.CurrentUICulture.Name);
-        SetCulture(savedCulture);
+        // Load saved culture
+        var savedCultureName = Preferences.Get(CurrentCultureKey, string.Empty);
+        CultureInfo initialCulture;
+
+        if (!string.IsNullOrWhiteSpace(savedCultureName))
+        {
+            initialCulture = ResolveSupportedCulture(savedCultureName);
+        }
+        else
+        {
+            // Use device culture, fallback to English if not supported
+            initialCulture = ResolveSupportedCulture(CultureInfo.CurrentUICulture.Name);
+        }
+
+        SetCulture(initialCulture);
     }
 
     /// <summary>
@@ -69,16 +82,8 @@ public class LocalizationService : INotifyPropertyChanged
     /// <param name="cultureName">Culture name (e.g., "en", "it")</param>
     public void SetCulture(string cultureName)
     {
-        try
-        {
-            var culture = new CultureInfo(cultureName);
-            SetCulture(culture);
-        }
-        catch (CultureNotFoundException)
-        {
-            // Fallback to English if culture not found
-            SetCulture(new CultureInfo("en"));
-        }
+        var culture = ResolveSupportedCulture(cultureName);
+        SetCulture(culture);
     }
 
     /// <summary>
@@ -87,10 +92,8 @@ public class LocalizationService : INotifyPropertyChanged
     /// <param name="culture">CultureInfo object</param>
     public void SetCulture(CultureInfo culture)
     {
-        if (culture == null)
-        {
-            culture = new CultureInfo("en");
-        }
+        culture ??= new CultureInfo("en");
+        culture = ResolveSupportedCulture(culture.Name);
 
         CurrentCulture = culture;
 
@@ -108,6 +111,38 @@ public class LocalizationService : INotifyPropertyChanged
 
         // Notify listeners that culture changed
         OnCultureChanged();
+    }
+
+    private CultureInfo ResolveSupportedCulture(string cultureName)
+    {
+        CultureInfo requestedCulture;
+        try
+        {
+            requestedCulture = new CultureInfo(string.IsNullOrWhiteSpace(cultureName) ? "en" : cultureName);
+        }
+        catch (CultureNotFoundException)
+        {
+            requestedCulture = new CultureInfo("en");
+        }
+
+        // Exact match (en-US, it-IT, etc.)
+        var exactMatch = AvailableCultures.FirstOrDefault(c =>
+            string.Equals(c.Name, requestedCulture.Name, StringComparison.OrdinalIgnoreCase));
+        if (exactMatch != null)
+        {
+            return exactMatch;
+        }
+
+        // Match on two letter ISO code (en, it, etc.)
+        var isoMatch = AvailableCultures.FirstOrDefault(c =>
+            string.Equals(c.TwoLetterISOLanguageName, requestedCulture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase));
+        if (isoMatch != null)
+        {
+            return isoMatch;
+        }
+
+        // Default to English if unsupported
+        return AvailableCultures.First(c => c.TwoLetterISOLanguageName == "en");
     }
 
     /// <summary>
