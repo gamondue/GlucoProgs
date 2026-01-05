@@ -103,6 +103,9 @@ public partial class TrackPage : ContentPage
     {
         base.OnAppearing();
 
+        // Re-subscribe to events in case we lost the subscription
+        EnsureEventSubscription();
+
         // Wait for map to be ready before doing anything with it
         await WaitForMapReady();
 
@@ -136,6 +139,12 @@ public partial class TrackPage : ContentPage
                     isTracking = true;
                     trackingStartTime = backgroundGpsService.TrackingStartTime ?? DateTime.Now;
 
+                    // Initialize track if needed
+                    if (bl.CurrentTrack == null || bl.CurrentTrack.Positions == null)
+                    {
+                        bl.StartNewTrack();
+                    }
+
                     await SyncAndDisplayPositionsFromBackgroundService();
 
                     btnStartTracking.IsEnabled = false;
@@ -157,6 +166,22 @@ public partial class TrackPage : ContentPage
     }
 
     /// <summary>
+    /// Ensure we are subscribed to the background GPS service events
+    /// </summary>
+    private void EnsureEventSubscription()
+    {
+        if (backgroundGpsService != null)
+        {
+            // Unsubscribe first to avoid duplicate subscriptions
+            backgroundGpsService.OnPositionRecorded -= OnBackgroundPositionRecorded;
+            // Re-subscribe
+            backgroundGpsService.OnPositionRecorded += OnBackgroundPositionRecorded;
+            
+            General.LogOfProgram?.Event("TrackPage - EnsureEventSubscription: Re-subscribed to OnPositionRecorded");
+        }
+    }
+
+    /// <summary>
     /// Show dialog when recovering a tracking session after app restart
     /// </summary>
     private async Task ShowRecoveryDialog(int positionsCount)
@@ -172,10 +197,18 @@ public partial class TrackPage : ContentPage
 
             if (action == AppStrings.TrackRecoveryContinue)
             {
-                // Resume tracking
+                // Resume tracking - IMPORTANT: Initialize track FIRST
+                if (bl.CurrentTrack == null || bl.CurrentTrack.Positions == null)
+                {
+                    bl.StartNewTrack();
+                }
+                
+                // Sync existing positions
                 await SyncAndDisplayPositionsFromBackgroundService();
 
                 isTracking = true;
+                trackingStartTime = backgroundGpsService?.TrackingStartTime ?? DateTime.Now;
+                
                 btnStartTracking.IsEnabled = false;
                 btnStopTracking.IsEnabled = true;
                 btnSaveTrack.IsEnabled = false;
@@ -184,11 +217,16 @@ public partial class TrackPage : ContentPage
                 UpdateStatus(AppStrings.TrackStatusResumed, Colors.Green);
                 UpdateStatistics();
 
-                General.LogOfProgram?.Event($"TrackPage - User chose to continue tracking {positionsCount} positions");
+                General.LogOfProgram?.Event($"TrackPage - User chose to continue tracking {positionsCount} positions. bl.CurrentTrack now has {bl.CurrentTrack?.Positions?.Count ?? 0} positions");
             }
             else if (action == AppStrings.TrackRecoverySaveStop)
             {
-                // Save and stop
+                // Save and stop - Initialize track FIRST
+                if (bl.CurrentTrack == null || bl.CurrentTrack.Positions == null)
+                {
+                    bl.StartNewTrack();
+                }
+                
                 await SyncAndDisplayPositionsFromBackgroundService();
 
                 // Stop the background service
@@ -198,9 +236,12 @@ public partial class TrackPage : ContentPage
                 }
 
                 isTracking = false;
+                
+                int finalCount = bl.CurrentTrack?.Positions?.Count ?? 0;
+                
                 btnStartTracking.IsEnabled = true;
                 btnStopTracking.IsEnabled = false;
-                btnSaveTrack.IsEnabled = true;
+                btnSaveTrack.IsEnabled = finalCount > 0;  // Enable save if we have positions
                 btnClearTrack.IsEnabled = true;
 
                 UpdateStatus(AppStrings.TrackStatusReadyToSave, Colors.Orange);
@@ -208,10 +249,10 @@ public partial class TrackPage : ContentPage
 
                 // Optionally show save reminder
                 await DisplayAlert(AppStrings.TrackReadyTitle,
-                    string.Format(AppStrings.TrackReadyMessage, positionsCount),
+                    string.Format(AppStrings.TrackReadyMessage, finalCount),
                     AppStrings.OK);
 
-                General.LogOfProgram?.Event($"TrackPage - User chose to save and stop {positionsCount} positions");
+                General.LogOfProgram?.Event($"TrackPage - User chose to save and stop. bl.CurrentTrack has {finalCount} positions. Save button enabled: {btnSaveTrack.IsEnabled}");
             }
             else // "Discard and Stop" or dismissed
             {
@@ -289,10 +330,20 @@ public partial class TrackPage : ContentPage
     {
         try
         {
-            if (bl == null || bl.CurrentTrack == null)
+            General.LogOfProgram?.Event($"TrackPage - OnBackgroundPositionRecorded RECEIVED: Lat={e.Latitude:F6}, Lon={e.Longitude:F6}");
+            
+            // Ensure we have a track to add to
+            if (bl == null)
             {
-                General.LogOfProgram?.Error("TrackPage - OnBackgroundPositionRecorded: bl or bl.CurrentTrack is NULL!", null);
+                General.LogOfProgram?.Error("TrackPage - OnBackgroundPositionRecorded: bl is NULL!", null);
                 return;
+            }
+            
+            // If CurrentTrack is null, initialize it
+            if (bl.CurrentTrack == null || bl.CurrentTrack.Positions == null)
+            {
+                General.LogOfProgram?.Event("TrackPage - OnBackgroundPositionRecorded: CurrentTrack was null, starting new track");
+                bl.StartNewTrack();
             }
 
             // Add position to business layer
@@ -300,9 +351,11 @@ public partial class TrackPage : ContentPage
 
             if (addedPosition == null)
             {
-                General.LogOfProgram?.Error("TrackPage - OnBackgroundPositionRecorded: bl.AddPosition returned NULL - track might not be recording!", null);
+                General.LogOfProgram?.Error("TrackPage - OnBackgroundPositionRecorded: bl.AddPosition returned NULL", null);
                 return;
             }
+            
+            General.LogOfProgram?.Event($"TrackPage - OnBackgroundPositionRecorded: Added to track, now has {bl.CurrentTrack?.Positions?.Count ?? 0} positions");
             
             // Update UI on main thread
             await MainThread.InvokeOnMainThreadAsync(async () =>
@@ -310,8 +363,11 @@ public partial class TrackPage : ContentPage
                 try
                 {
                     // Update map with new position
-                    string script = $"updatePosition({e.Latitude.ToString(CultureInfo.InvariantCulture)}, {e.Longitude.ToString(CultureInfo.InvariantCulture)})";
-                    await mapWebView.EvaluateJavaScriptAsync(script);
+                    if (mapIsReady)
+                    {
+                        string script = $"updatePosition({e.Latitude.ToString(CultureInfo.InvariantCulture)}, {e.Longitude.ToString(CultureInfo.InvariantCulture)})";
+                        await mapWebView.EvaluateJavaScriptAsync(script);
+                    }
 
                     // Update current position label
                     lblCurrentPosition.Text = $"{e.Latitude:F6}, {e.Longitude:F6}";
@@ -344,12 +400,13 @@ public partial class TrackPage : ContentPage
             // Get positions WITHOUT clearing them (we'll clear only after explicit save or stop)
             var positions = backgroundGpsService.GetRecordedPositions();
 
-            General.LogOfProgram?.Event($"TrackPage - Found {positions.Count} positions in background service");
+            General.LogOfProgram?.Event($"TrackPage - SyncAndDisplay: Found {positions.Count} positions in background service");
 
             // Start new track if not already started
             if (bl.CurrentTrack == null || bl.CurrentTrack.Positions == null)
             {
                 bl.StartNewTrack();
+                General.LogOfProgram?.Event("TrackPage - SyncAndDisplay: Started new track");
             }
 
             // Clear map first to avoid duplicates
@@ -362,37 +419,24 @@ public partial class TrackPage : ContentPage
                 General.LogOfProgram?.Error("TrackPage - Error clearing map", ex);
             }
 
-            // First, display any positions already in blMeal.CurrentTrack (from previous sessions)
-            if (bl.CurrentTrack.Positions != null && bl.CurrentTrack.Positions.Count > 0)
+            // IMPORTANT: Clear existing positions in bl.CurrentTrack to avoid duplicates
+            // since we're going to add all positions from the background service
+            int existingCount = bl.CurrentTrack.Positions?.Count ?? 0;
+            if (existingCount > 0)
             {
-                foreach (var pos in bl.CurrentTrack.Positions)
-                {
-                    if (pos.Latitude.HasValue && pos.Longitude.HasValue)
-                    {
-                        string script = $"updatePosition({pos.Latitude.Value.ToString(CultureInfo.InvariantCulture)}, {pos.Longitude.Value.ToString(CultureInfo.InvariantCulture)})";
-                        await mapWebView.EvaluateJavaScriptAsync(script);
-                    }
-                }
-                General.LogOfProgram?.Event($"TrackPage - Displayed {bl.CurrentTrack.Positions.Count} existing positions on map");
+                General.LogOfProgram?.Event($"TrackPage - SyncAndDisplay: Clearing {existingCount} existing positions from bl.CurrentTrack");
+                bl.CurrentTrack.Positions.Clear();
             }
 
-            // Then add new positions from background service (if any)
-            int newPositionsAdded = 0;
-            foreach (var pos in positions)
+            // Add ALL positions from background service to business layer and display on map
+            int addedCount = 0;
+            foreach (var pos in positions.OrderBy(p => p.Timestamp))
             {
-                // Check if this position is already in the track (avoid duplicates based on lat/lon)
-                bool alreadyExists = bl.CurrentTrack.Positions?.Any(p =>
-                    p.Latitude == pos.Latitude &&
-                    p.Longitude == pos.Longitude) ?? false;
+                // Add to business layer
+                bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed);
+                addedCount++;
 
-                if (!alreadyExists)
-                {
-                    // Add to business layer
-                    bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed);
-                    newPositionsAdded++;
-                }
-
-                // Always display on map (even if duplicate in BL, we cleared the map)
+                // Display on map
                 string script = $"updatePosition({pos.Latitude.ToString(CultureInfo.InvariantCulture)}, {pos.Longitude.ToString(CultureInfo.InvariantCulture)})";
                 await mapWebView.EvaluateJavaScriptAsync(script);
             }
@@ -403,18 +447,11 @@ public partial class TrackPage : ContentPage
                 var lastPos = positions.Last();
                 lblCurrentPosition.Text = $"{lastPos.Latitude:F6}, {lastPos.Longitude:F6}";
             }
-            else if (bl.CurrentTrack.Positions?.Count > 0)
-            {
-                var lastPos = bl.CurrentTrack.Positions.Last();
-                if (lastPos.Latitude.HasValue && lastPos.Longitude.HasValue)
-                {
-                    lblCurrentPosition.Text = $"{lastPos.Latitude.Value:F6}, {lastPos.Longitude.Value:F6}";
-                }
-            }
 
             UpdateStatistics();
 
-            General.LogOfProgram?.Event($"TrackPage - Synced {newPositionsAdded} new positions, total displayed: {(bl.CurrentTrack.Positions?.Count ?? 0) + positions.Count}");
+            int finalCount = bl.CurrentTrack?.Positions?.Count ?? 0;
+            General.LogOfProgram?.Event($"TrackPage - SyncAndDisplay: Added {addedCount} positions. bl.CurrentTrack now has {finalCount} positions");
         }
         catch (Exception ex)
         {
@@ -501,49 +538,34 @@ public partial class TrackPage : ContentPage
 
         try
         {
-            // Convert positions to JSON format for JavaScript
             var pointsJson = "[";
             for (int i = 0; i < track.Positions.Count; i++)
             {
                 var pos = track.Positions[i];
                 if (pos.Latitude.HasValue && pos.Longitude.HasValue)
                 {
-                    pointsJson += $"{{\"lat\":{pos.Latitude.Value.ToString(CultureInfo.InvariantCulture)},\"lng\":{pos.Longitude.Value.ToString(CultureInfo.InvariantCulture)}}}";
+                    pointsJson += "{\"lat\":" + pos.Latitude.Value.ToString(CultureInfo.InvariantCulture) + ",\"lng\":" + pos.Longitude.Value.ToString(CultureInfo.InvariantCulture) + "}";
                     if (i < track.Positions.Count - 1)
                         pointsJson += ",";
                 }
             }
             pointsJson += "]";
 
-            // Call JavaScript function to load and display the track
-            string script = $"loadTrack('{pointsJson}')";
+            string script = "loadTrack('" + pointsJson + "')";
             await mapWebView.EvaluateJavaScriptAsync(script);
-
-            General.LogOfProgram?.Event($"TrackPage - Displayed {track.Positions.Count} positions on map");
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("TrackPage - DisplayTrackOnMap", ex);
-            throw;
         }
     }
 
-    /// <summary>
-    /// Sets the page to view-only mode (disables recording controls)
-    /// </summary>
     private void SetViewOnlyMode()
     {
-        try
-        {
-            btnStartTracking.IsEnabled = false;
-            btnStopTracking.IsEnabled = false;
-            btnSaveTrack.IsEnabled = false;
-            btnClearTrack.IsEnabled = false;
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("TrackPage - SetViewOnlyMode", ex);
-        }
+        btnStartTracking.IsEnabled = false;
+        btnStopTracking.IsEnabled = false;
+        btnSaveTrack.IsEnabled = false;
+        btnClearTrack.IsEnabled = false;
     }
 
     #endregion
@@ -554,72 +576,31 @@ public partial class TrackPage : ContentPage
     {
         try
         {
-            // Prima richiediamo il permesso base "When In Use"
             var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-
             if (status != PermissionStatus.Granted)
-            {
                 status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            }
-
             if (status != PermissionStatus.Granted)
             {
                 UpdateStatus(AppStrings.TrackStatusPermissionDenied, Colors.Red);
-                await DisplayAlert(AppStrings.TrackPermissionRequiredTitle,
-                    AppStrings.TrackPermissionRequiredMessage,
-                    AppStrings.OK);
+                await DisplayAlert(AppStrings.TrackPermissionRequiredTitle, AppStrings.TrackPermissionRequiredMessage, AppStrings.OK);
                 return false;
             }
 
-            // Poi richiediamo il permesso Always (per tracking in background)
-            // IMPORTANTE: Su Android questo deve essere richiesto DOPO il permesso WhenInUse
             var alwaysStatus = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();
-
             if (alwaysStatus != PermissionStatus.Granted)
             {
-                // Mostra una spiegazione prima di richiedere il permesso Always
-                bool requestAlways = await DisplayAlert(
-                    AppStrings.TrackBackgroundPermissionTitle,
-                    AppStrings.TrackBackgroundPermissionMessage,
-                    AppStrings.TrackYesEnableButton,
-                    AppStrings.TrackNoForegroundOnlyButton);
-
+                bool requestAlways = await DisplayAlert(AppStrings.TrackBackgroundPermissionTitle, AppStrings.TrackBackgroundPermissionMessage, AppStrings.TrackYesEnableButton, AppStrings.TrackNoForegroundOnlyButton);
                 if (requestAlways)
                 {
                     alwaysStatus = await Permissions.RequestAsync<Permissions.LocationAlways>();
-
-                    if (alwaysStatus == PermissionStatus.Granted)
-                    {
-                        UpdateStatus(AppStrings.TrackStatusPermissionGrantedBackground, Colors.Green);
-                        General.LogOfProgram?.Event("TrackPage - Background location permission granted");
-                    }
-                    else
-                    {
-                        UpdateStatus(AppStrings.TrackStatusPermissionGrantedForeground, Colors.Orange);
-                        General.LogOfProgram?.Event("TrackPage - Background location permission denied, only foreground available");
-
-                        await DisplayAlert(AppStrings.TrackLimitedGpsTitle,
-                            AppStrings.TrackLimitedGpsMessage,
-                            AppStrings.OK);
-                    }
-                }
-                else
-                {
-                    UpdateStatus(AppStrings.TrackStatusPermissionGrantedForeground, Colors.Orange);
-                    General.LogOfProgram?.Event("TrackPage - User declined background location permission");
+                    UpdateStatus(alwaysStatus == PermissionStatus.Granted ? AppStrings.TrackStatusPermissionGrantedBackground : AppStrings.TrackStatusPermissionGrantedForeground, alwaysStatus == PermissionStatus.Granted ? Colors.Green : Colors.Orange);
                 }
             }
-            else
-            {
-                UpdateStatus(AppStrings.TrackStatusPermissionGrantedBackground, Colors.Green);
-            }
-
             return true;
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("TrackPage - CheckAndRequestLocationPermission", ex);
-            UpdateStatus(AppStrings.TrackStatusPermissionCheckError, Colors.Red);
             return false;
         }
     }
@@ -630,109 +611,13 @@ public partial class TrackPage : ContentPage
 
     private void InitializeMap()
     {
-        try
-        {
-            mapIsReady = false;
-            string html = GetMapHtml();
-            mapWebView.Source = new HtmlWebViewSource { Html = html };
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("TrackPage - InitializeMap", ex);
-        }
+        mapIsReady = false;
+        mapWebView.Source = new HtmlWebViewSource { Html = GetMapHtml() };
     }
 
     private string GetMapHtml()
     {
-        // Default center: Piazza del Quirinale, Rome (41.8992, 12.4872)
-        return @"
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'>
-    <link rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css' />
-    <script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>
-    <style>
-        html, body { height: 100%; margin: 0; padding: 0; }
-        #map { height: 100%; width: 100%; }
-    </style>
-</head>
-<body>
-    <div id='map'></div>
-    <script>
-        var map = L.map('map').setView([41.899125, 12.486705], 15); // Default: Piazza del Quirinale, Rome
-        
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-        
-        var trackLine = null;
-        var trackPoints = [];
-        var currentMarker = null;
-        
-        function updatePosition(lat, lng) {
-            var latlng = L.latLng(lat, lng);
-            trackPoints.push(latlng);
-            
-            if (trackLine) {
-                trackLine.setLatLngs(trackPoints);
-            } else {
-                trackLine = L.polyline(trackPoints, {
-                    color: 'blue',
-                    weight: 4,
-                    opacity: 0.7
-                }).addTo(map);
-            }
-            
-            if (currentMarker) {
-                currentMarker.setLatLng(latlng);
-            } else {
-                currentMarker = L.circleMarker(latlng, {
-                    radius: 8,
-                    fillColor: 'red',
-                    color: 'white',
-                    weight: 2,
-                    fillOpacity: 1
-                }).addTo(map);
-            }
-            
-            map.setView(latlng, map.getZoom());
-        }
-        
-        function clearTrack() {
-            trackPoints = [];
-            if (trackLine) {
-                map.removeLayer(trackLine);
-                trackLine = null;
-            }
-            if (currentMarker) {
-                map.removeLayer(currentMarker);
-                currentMarker = null;
-            }
-        }
-        
-        function setCenter(lat, lng, zoom) {
-            map.setView([lat, lng], zoom || 15);
-        }
-        
-        function loadTrack(pointsJson) {
-            clearTrack();
-            try {
-                var points = JSON.parse(pointsJson);
-                points.forEach(function(p) {
-                    updatePosition(p.lat, p.lng);
-                });
-                if (trackPoints.length > 0) {
-                    map.fitBounds(trackLine.getBounds(), { padding: [20, 20] });
-                }
-            } catch(e) {
-                console.error('Error loading track:', e);
-            }
-        }
-    </script>
-</body>
-</html>";
+        return "<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'><link rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css' /><script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script><style>html, body { height: 100%; margin: 0; padding: 0; } #map { height: 100%; width: 100%; }</style></head><body><div id='map'></div><script>var map = L.map('map').setView([41.899125, 12.486705], 15);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '© OpenStreetMap contributors'}).addTo(map);var trackLine = null;var trackPoints = [];var currentMarker = null;function updatePosition(lat, lng) {var latlng = L.latLng(lat, lng);trackPoints.push(latlng);if (trackLine) { trackLine.setLatLngs(trackPoints); } else { trackLine = L.polyline(trackPoints, { color: 'blue', weight: 4, opacity: 0.7 }).addTo(map); }if (currentMarker) { currentMarker.setLatLng(latlng); } else { currentMarker = L.circleMarker(latlng, { radius: 8, fillColor: 'red', color: 'white', weight: 2, fillOpacity: 1 }).addTo(map); }map.setView(latlng, map.getZoom());}function clearTrack() {trackPoints = [];if (trackLine) { map.removeLayer(trackLine); trackLine = null; }if (currentMarker) { map.removeLayer(currentMarker); currentMarker = null; }}function setCenter(lat, lng, zoom) { map.setView([lat, lng], zoom || 15); }function loadTrack(pointsJson) {clearTrack();try {var points = JSON.parse(pointsJson);points.forEach(function(p) { updatePosition(p.lat, p.lng); });if (trackPoints.length > 0) { map.fitBounds(trackLine.getBounds(), { padding: [20, 20] }); }} catch(e) { console.error('Error loading track:', e); }}</script></body></html>";
     }
 
     #endregion
@@ -743,71 +628,34 @@ public partial class TrackPage : ContentPage
     {
         try
         {
-            General.LogOfProgram?.Event("TrackPage - BtnStartTracking: Button clicked");
+            if (backgroundGpsService == null) { await DisplayAlert("Error", "GPS service not available.", "OK"); return; }
+            if (!await CheckAndRequestLocationPermission()) return;
 
-            if (backgroundGpsService == null)
-            {
-                General.LogOfProgram?.Error("TrackPage - BtnStartTracking: backgroundGpsService is NULL!", null);
-                await DisplayAlert("Error", "GPS service is not available. Please restart the app.", "OK");
-                return;
-            }
-
-            General.LogOfProgram?.Event($"TrackPage - BtnStartTracking: Service type = {backgroundGpsService.GetType().Name}");
-
-            if (!await CheckAndRequestLocationPermission())
-            {
-                General.LogOfProgram?.Event("TrackPage - BtnStartTracking: Permission denied");
-                return;
-            }
-
-            General.LogOfProgram?.Event("TrackPage - BtnStartTracking: Permissions granted, starting new track in BL");
-
-            // Start new track in business layer
             bl.StartNewTrack();
-
             isTracking = true;
             trackingStartTime = DateTime.Now;
-
             btnStartTracking.IsEnabled = false;
             btnStopTracking.IsEnabled = true;
             btnSaveTrack.IsEnabled = false;
+            btnClearTrack.IsEnabled = false;
 
             UpdateStatus(AppStrings.TrackStatusStartingBackground, Colors.Green);
-
             await mapWebView.EvaluateJavaScriptAsync("clearTrack()");
 
-            General.LogOfProgram?.Event("TrackPage - BtnStartTracking: Calling backgroundGpsService.StartTrackingAsync()");
-
             bool started = await backgroundGpsService.StartTrackingAsync();
-
-            General.LogOfProgram?.Event($"TrackPage - BtnStartTracking: StartTrackingAsync returned {started}");
-
             if (started)
             {
                 UpdateStatus(AppStrings.TrackStatusBackground, Colors.Green);
-                // Reset current position label to waiting state (it will be updated when first GPS fix arrives)
                 lblCurrentPosition.Text = AppStrings.TrackWaitingForGPS;
-                General.LogOfProgram?.Event("TrackPage - BtnStartTracking: GPS tracking started successfully");
             }
             else
             {
                 UpdateStatus(AppStrings.TrackStatusBackgroundFailed, Colors.Orange);
-                General.LogOfProgram?.Error("TrackPage - BtnStartTracking: StartTrackingAsync returned false", null);
-
-                await DisplayAlert("GPS Error",
-                    "Failed to start GPS tracking. Please check:\n" +
-                    "1. Location services are enabled\n" +
-                    "2. App has location permissions\n" +
-                    "3. Check logs for details",
-                    "OK");
             }
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("TrackPage - BtnStartTracking_Clicked", ex);
-            UpdateStatus(AppStrings.TrackStatusStartError, Colors.Red);
-
-            await DisplayAlert("Exception", $"Error starting GPS: {ex.Message}", "OK");
         }
     }
 
@@ -816,39 +664,25 @@ public partial class TrackPage : ContentPage
         try
         {
             isTracking = false;
-
             if (backgroundGpsService != null)
             {
-                // Get final positions and add to BL before stopping
-                var finalPositions = backgroundGpsService.GetAndClearPositions();
-                foreach (var pos in finalPositions)
-                {
-                    bool alreadyExists = bl.CurrentTrack?.Positions?.Any(p =>
-                        p.Latitude == pos.Latitude &&
-                        p.Longitude == pos.Longitude) ?? false;
-
-                    if (!alreadyExists)
-                    {
-                        bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed);
-                    }
-                }
-
+                await SyncAndDisplayPositionsFromBackgroundService();
                 await backgroundGpsService.StopTrackingAsync();
             }
-
             bl.StopCurrentTrack();
 
+            int finalCount = bl.CurrentTrack?.Positions?.Count ?? 0;
             btnStartTracking.IsEnabled = true;
             btnStopTracking.IsEnabled = false;
-            btnSaveTrack.IsEnabled = true;
+            btnSaveTrack.IsEnabled = finalCount > 0;
+            btnClearTrack.IsEnabled = true;
 
-            UpdateStatus(AppStrings.TrackStatusStopped, Colors.Orange);
+            UpdateStatus(finalCount > 0 ? string.Format(AppStrings.TrackStatusStopped + " ({0} points)", finalCount) : AppStrings.TrackStatusStopped + " (no points)", finalCount > 0 ? Colors.Orange : Colors.Red);
             UpdateStatistics();
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("TrackPage - BtnStopTracking_Clicked", ex);
-            UpdateStatus(AppStrings.TrackStatusStopError, Colors.Red);
         }
     }
 
@@ -871,16 +705,7 @@ public partial class TrackPage : ContentPage
                 lblPointsCount.Text = bl.CurrentTrack.Positions?.Count.ToString() ?? "0";
                 lblDistance.Text = bl.GetFormattedDistance(bl.CurrentTrack);
                 lblSpeed.Text = bl.GetFormattedSpeed(bl.CurrentTrack);
-
-                if (isTracking)
-                {
-                    var elapsed = DateTime.Now - trackingStartTime;
-                    lblDuration.Text = elapsed.ToString(@"hh\:mm\:ss");
-                }
-                else
-                {
-                    lblDuration.Text = bl.GetFormattedDuration(bl.CurrentTrack);
-                }
+                lblDuration.Text = isTracking ? (DateTime.Now - trackingStartTime).ToString(@"hh\:mm\:ss") : bl.GetFormattedDuration(bl.CurrentTrack);
             }
         }
         catch (Exception ex)
@@ -897,125 +722,36 @@ public partial class TrackPage : ContentPage
     {
         try
         {
-            General.LogOfProgram?.Event("TrackPage - BtnSaveTrack: Starting save process");
+            if (bl.CurrentTrack == null) bl.StartNewTrack();
 
-            // FIRST: Ensure we have a track initialized
-            if (bl.CurrentTrack == null)
-            {
-                bl.StartNewTrack();
-            }
-
-            // Count what we have BEFORE merging
             int existingPositions = bl.CurrentTrack.Positions?.Count ?? 0;
             int servicePositions = backgroundGpsService?.GetPositionsCount() ?? 0;
 
-            General.LogOfProgram?.Event($"TrackPage - BtnSaveTrack: Before merge - bl.CurrentTrack has {existingPositions} positions, background service has {servicePositions} positions");
-
-            // SECOND: Merge positions from background service if available
-            if (backgroundGpsService != null && servicePositions > 0)
+            if (backgroundGpsService != null && servicePositions > 0 && existingPositions == 0)
             {
-                try
-                {
-                    // Use GetRecordedPositions (peek) to see what we have
-                    var allPositions = backgroundGpsService.GetRecordedPositions();
-
-                    General.LogOfProgram?.Event($"TrackPage - BtnSaveTrack: Retrieved {allPositions?.Count ?? 0} positions from background service");
-
-                    if (allPositions != null && allPositions.Count > 0)
-                    {
-                        // If blMeal.CurrentTrack already has positions, merge them
-                        // Otherwise, rebuild from scratch
-                        if (existingPositions > 0)
-                        {
-                            // Merge: add only new positions from service that aren't already in track
-                            int addedCount = 0;
-                            foreach (var pos in allPositions.OrderBy(p => p.Timestamp))
-                            {
-                                bool alreadyExists = bl.CurrentTrack.Positions?.Any(p =>
-                                    Math.Abs(p.Latitude.GetValueOrDefault() - pos.Latitude) < 0.00001 &&
-                                    Math.Abs(p.Longitude.GetValueOrDefault() - pos.Longitude) < 0.00001) ?? false;
-
-                                if (!alreadyExists)
-                                {
-                                    bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed);
-                                    addedCount++;
-                                }
-                            }
-                            General.LogOfProgram?.Event($"TrackPage - BtnSaveTrack: Merged {addedCount} new positions into existing track");
-                        }
-                        else
-                        {
-                            // Rebuild from scratch - track was empty
-                            var oldTrack = bl.CurrentTrack;
-                            bl.StartNewTrack();
-
-                            // Copy metadata
-                            if (oldTrack != null)
-                            {
-                                bl.CurrentTrack.Name = oldTrack.Name;
-                                bl.CurrentTrack.StartTime = oldTrack.StartTime;
-                            }
-
-                            // Add all positions from background service
-                            foreach (var pos in allPositions.OrderBy(p => p.Timestamp))
-                            {
-                                bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed);
-                            }
-
-                            General.LogOfProgram?.Event($"TrackPage - BtnSaveTrack: Rebuilt track from scratch with {bl.CurrentTrack.Positions?.Count ?? 0} positions");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    General.LogOfProgram?.Error("TrackPage - BtnSaveTrack_Clicked merge background positions", ex);
-                }
+                var allPositions = backgroundGpsService.GetRecordedPositions();
+                foreach (var pos in allPositions.OrderBy(p => p.Timestamp))
+                    bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed);
             }
 
-            // THIRD: Final check - do we have anything to save?
             int finalPositionCount = bl.CurrentTrack?.Positions?.Count ?? 0;
-
-            General.LogOfProgram?.Event($"TrackPage - BtnSaveTrack: Final position count before save: {finalPositionCount}");
-
-            if (bl.CurrentTrack == null || bl.CurrentTrack.Positions == null || finalPositionCount == 0)
+            if (finalPositionCount == 0)
             {
-                await DisplayAlert(AppStrings.TrackNoDataTitle,
-                    string.Format(AppStrings.TrackNoDataMessage, existingPositions, servicePositions),
-                    AppStrings.OK);
+                await DisplayAlert(AppStrings.TrackNoDataTitle, AppStrings.TrackNoDataMessage, AppStrings.OK);
                 return;
             }
 
-            // FOURTH: Save the track (persist to database)
             bl.SaveTrack(bl.CurrentTrack);
+            await DisplayAlert(AppStrings.TrackSavedTitle, string.Format(AppStrings.TrackSavedMessage, finalPositionCount, bl.GetFormattedDistance(bl.CurrentTrack), bl.GetFormattedDuration(bl.CurrentTrack)), AppStrings.OK);
 
-            General.LogOfProgram?.Event($"TrackPage - BtnSaveTrack: Successfully saved track with {finalPositionCount} positions to database");
-
-            await DisplayAlert(AppStrings.TrackSavedTitle,
-                string.Format(AppStrings.TrackSavedMessage, finalPositionCount,
-                    bl.GetFormattedDistance(bl.CurrentTrack),
-                    bl.GetFormattedDuration(bl.CurrentTrack)),
-                AppStrings.OK);
-
-            // FIFTH: Clear the background service queue since we've saved everything
-            try
-            {
-                backgroundGpsService?.ClearPositions();
-                General.LogOfProgram?.Event("TrackPage - BtnSaveTrack: Cleared background service positions after save");
-            }
-            catch (Exception ex)
-            {
-                General.LogOfProgram?.Error("TrackPage - BtnSaveTrack: Error clearing background positions", ex);
-            }
-
+            backgroundGpsService?.ClearPositions();
             btnSaveTrack.IsEnabled = false;
             UpdateStatus(AppStrings.TrackStatusSaved, Colors.Green);
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("TrackPage - BtnSaveTrack_Clicked", ex);
-            await DisplayAlert(AppStrings.TrackSaveErrorTitle,
-                string.Format(AppStrings.TrackSaveErrorMessage, ex.Message),
-                AppStrings.OK);
+            await DisplayAlert(AppStrings.TrackSaveErrorTitle, ex.Message, AppStrings.OK);
         }
     }
 
@@ -1023,36 +759,25 @@ public partial class TrackPage : ContentPage
     {
         try
         {
-            bool confirm = await DisplayAlert(AppStrings.TrackClearTitle,
-                AppStrings.TrackClearMessage,
-                AppStrings.Yes,
-                AppStrings.No);
-
+            bool confirm = await DisplayAlert(AppStrings.TrackClearTitle, AppStrings.TrackClearMessage, AppStrings.Yes, AppStrings.No);
             if (confirm)
             {
                 if (isTracking)
                 {
                     isTracking = false;
-                    if (backgroundGpsService != null)
-                    {
-                        await backgroundGpsService.StopTrackingAsync();
-                    }
+                    await backgroundGpsService?.StopTrackingAsync();
                     btnStartTracking.IsEnabled = true;
                     btnStopTracking.IsEnabled = false;
                 }
-
                 backgroundGpsService?.ClearPositions();
                 bl.CurrentTrack = new Track();
-
                 await mapWebView.EvaluateJavaScriptAsync("clearTrack()");
-
                 lblPointsCount.Text = "0";
                 lblDistance.Text = "0 m";
                 lblDuration.Text = "00:00:00";
                 lblSpeed.Text = "0 km/h";
                 lblCurrentPosition.Text = AppStrings.TrackWaitingForGPS;
                 btnSaveTrack.IsEnabled = false;
-
                 UpdateStatus(AppStrings.TrackStatusCleared, Colors.Gray);
             }
         }
@@ -1066,13 +791,9 @@ public partial class TrackPage : ContentPage
     {
         try
         {
-            if (isTracking && backgroundGpsService != null && backgroundGpsService.IsTracking)
+            if (isTracking && backgroundGpsService?.IsTracking == true)
             {
-                bool continueInBackground = await DisplayAlert(AppStrings.TrackKeepTrackingTitle,
-                    AppStrings.TrackKeepTrackingMessage,
-                    AppStrings.TrackKeepTrackingAccept,
-                    AppStrings.TrackKeepTrackingCancel);
-
+                bool continueInBackground = await DisplayAlert(AppStrings.TrackKeepTrackingTitle, AppStrings.TrackKeepTrackingMessage, AppStrings.TrackKeepTrackingAccept, AppStrings.TrackKeepTrackingCancel);
                 if (!continueInBackground)
                 {
                     isTracking = false;
@@ -1080,7 +801,6 @@ public partial class TrackPage : ContentPage
                     bl.StopCurrentTrack();
                 }
             }
-
             await Navigation.PopAsync();
         }
         catch (Exception ex)
@@ -1089,5 +809,6 @@ public partial class TrackPage : ContentPage
             await Navigation.PopAsync();
         }
     }
+
     #endregion
 }

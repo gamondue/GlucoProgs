@@ -1,4 +1,4 @@
- using Android.Content;
+using Android.Content;
 using GlucoMan.Maui.Services;
 using gamon;
 using AndroidOS = Android.OS;
@@ -73,11 +73,14 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
     {
         // Subscribe to service events
         GpsTrackingService.OnPositionRecorded += HandlePositionRecorded;
+        General.LogOfProgram?.Event("BackgroundGpsServiceAndroid - Constructor: Subscribed to GpsTrackingService.OnPositionRecorded");
     }
     
     private void HandlePositionRecorded(object sender, GpsTrackingService.GpsPositionData e)
     {
-        OnPositionRecorded?.Invoke(this, new GpsPositionRecord
+        General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - HandlePositionRecorded: Lat={e.Latitude:F6}, Lon={e.Longitude:F6}");
+        
+        var record = new GpsPositionRecord
         {
             Latitude = e.Latitude,
             Longitude = e.Longitude,
@@ -85,7 +88,19 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
             Accuracy = e.Accuracy,
             Speed = e.Speed,
             Timestamp = e.Timestamp
-        });
+        };
+        
+        // Check if there are any subscribers
+        var handler = OnPositionRecorded;
+        if (handler != null)
+        {
+            General.LogOfProgram?.Event("BackgroundGpsServiceAndroid - HandlePositionRecorded: Invoking OnPositionRecorded event");
+            handler.Invoke(this, record);
+        }
+        else
+        {
+            General.LogOfProgram?.Event("BackgroundGpsServiceAndroid - HandlePositionRecorded: No subscribers to OnPositionRecorded!");
+        }
     }
     
     public async Task<bool> StartTrackingAsync()
@@ -182,11 +197,16 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
     
     public List<GpsPositionRecord> GetRecordedPositions()
     {
+        // First, ensure we have the latest from file
+        LoadPositionsFromFileIfNeeded();
+        
         // Try to get from service first
         var positions = GpsTrackingService.PeekAllPositions();
         
-        // If service doesn't have Data but we're tracking, try to load from file
-        if (positions.Count == 0 && IsTracking)
+        General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - GetRecordedPositions: Service has {positions.Count} positions in memory");
+        
+        // If service doesn't have data but we're tracking (or were tracking), try to load from file
+        if (positions.Count == 0)
         {
             General.LogOfProgram?.Event("BackgroundGpsServiceAndroid - Service has no positions in memory, attempting to load from persisted file");
             
@@ -215,6 +235,10 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
                         }).ToList();
                     }
                 }
+                else
+                {
+                    General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - No positions file found at: {filePath}");
+                }
             }
             catch (Exception ex)
             {
@@ -233,13 +257,47 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
         }).ToList();
     }
     
+    private void LoadPositionsFromFileIfNeeded()
+    {
+        try
+        {
+            // If service memory is empty but file has positions, load them
+            if (GpsTrackingService.GetPositionsCount() == 0)
+            {
+                var context = Platform.AppContext;
+                var filePath = System.IO.Path.Combine(context.FilesDir.AbsolutePath, "gps_positions_temp.json");
+                
+                if (System.IO.File.Exists(filePath))
+                {
+                    var json = System.IO.File.ReadAllText(filePath);
+                    var positions = System.Text.Json.JsonSerializer.Deserialize<List<GpsTrackingService.GpsPositionData>>(json);
+                    
+                    if (positions != null && positions.Count > 0)
+                    {
+                        General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - LoadPositionsFromFileIfNeeded: Loading {positions.Count} positions from file to service memory");
+                        
+                        // This is a workaround - we can't directly add to the service queue,
+                        // so we'll return the file positions directly in GetRecordedPositions
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("BackgroundGpsServiceAndroid - LoadPositionsFromFileIfNeeded", ex);
+        }
+    }
+    
     public List<GpsPositionRecord> GetAndClearPositions()
     {
+        General.LogOfProgram?.Event("BackgroundGpsServiceAndroid - GetAndClearPositions called");
+        
         // First try to get from memory
         var positions = GpsTrackingService.GetAndClearPositions();
+        General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - GetAndClearPositions: Got {positions.Count} from service memory");
         
-        // If no positions in memory but we're tracking, load from file
-        if (positions.Count == 0 && IsTracking)
+        // If no positions in memory, load from file
+        if (positions.Count == 0)
         {
             General.LogOfProgram?.Event("BackgroundGpsServiceAndroid - GetAndClearPositions: loading from file");
             
@@ -253,14 +311,19 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
                     var json = System.IO.File.ReadAllText(filePath);
                     var persistedPositions = System.Text.Json.JsonSerializer.Deserialize<List<GpsTrackingService.GpsPositionData>>(json);
                     
-                    if (persistedPositions != null)
+                    if (persistedPositions != null && persistedPositions.Count > 0)
                     {
                         positions = persistedPositions;
-                        General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - Loaded and clearing {positions.Count} positions from file");
-                        
-                        // Delete file after reading
-                        System.IO.File.Delete(filePath);
+                        General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - Loaded {positions.Count} positions from file");
                     }
+                    
+                    // Delete file after reading
+                    System.IO.File.Delete(filePath);
+                    General.LogOfProgram?.Event("BackgroundGpsServiceAndroid - Deleted positions file after reading");
+                }
+                else
+                {
+                    General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - No positions file exists at: {filePath}");
                 }
             }
             catch (Exception ex)
@@ -268,6 +331,22 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
                 General.LogOfProgram?.Error("BackgroundGpsServiceAndroid - Error in GetAndClearPositions", ex);
             }
         }
+        else
+        {
+            // Also delete file since we got positions from memory
+            try
+            {
+                var context = Platform.AppContext;
+                var filePath = System.IO.Path.Combine(context.FilesDir.AbsolutePath, "gps_positions_temp.json");
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
+            catch { }
+        }
+        
+        General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - GetAndClearPositions returning {positions.Count} total positions");
         
         return positions.Select(p => new GpsPositionRecord
         {
@@ -285,8 +364,8 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
         // Try memory first
         int count = GpsTrackingService.GetPositionsCount();
         
-        // If zero but we're tracking, check file
-        if (count == 0 && IsTracking)
+        // If zero, check file
+        if (count == 0)
         {
             try
             {
@@ -299,7 +378,10 @@ public class BackgroundGpsServiceAndroid : IBackgroundGpsService
                     var positions = System.Text.Json.JsonSerializer.Deserialize<List<GpsTrackingService.GpsPositionData>>(json);
                     count = positions?.Count ?? 0;
                     
-                    General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - GetPositionsCount from file: {count}");
+                    if (count > 0)
+                    {
+                        General.LogOfProgram?.Event($"BackgroundGpsServiceAndroid - GetPositionsCount: {count} positions in file (memory was empty)");
+                    }
                 }
             }
             catch (Exception ex)

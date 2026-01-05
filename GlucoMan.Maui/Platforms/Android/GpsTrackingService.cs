@@ -27,12 +27,15 @@ public class GpsTrackingService : Service, ILocationListener
     private const string KEY_IS_TRACKING = "IsTracking";
     private const string KEY_START_TIME = "StartTime";
     private const string POSITIONS_FILE = "gps_positions_temp.json";
-    private const int SAVE_INTERVAL_POSITIONS = 10; // Save every 10 positions
+    private const int SAVE_INTERVAL_POSITIONS = 1; // Save after EVERY position for reliability
+    private const int KEEPALIVE_INTERVAL_MS = 30000; // 30 seconds keepalive timer
     
     private LocationManager locationManager;
     private AndroidOS.PowerManager.WakeLock wakeLock;
     private bool isTracking = false;
     private int positionsSinceLastSave = 0;
+    private System.Timers.Timer keepAliveTimer; // Timer to periodically request location
+    private DateTime lastPositionTime = DateTime.MinValue;
     
     // Thread-safe collection for storing positions in memory
     private static readonly ConcurrentQueue<GpsPositionData> positionsQueue = new();
@@ -133,43 +136,191 @@ public class GpsTrackingService : Service, ILocationListener
                 StartForeground(NOTIFICATION_ID, notification);
             }
             
-            // Clear previous positions
-            while (positionsQueue.TryDequeue(out _)) { }
-            DeletePositionsFile();
-            
-            // Record tracking start time
-            TrackingStartTime = DateTime.Now;
+            // DON'T clear previous positions - they may be from a recovery scenario
+            // Only clear if this is a fresh start (no positions in file)
+            var existingPositions = LoadPositionsFromFileInternal();
+            if (existingPositions == null || existingPositions.Count == 0)
+            {
+                // Fresh start - clear queue
+                while (positionsQueue.TryDequeue(out _)) { }
+                DeletePositionsFile();
+                TrackingStartTime = DateTime.Now;
+                General.LogOfProgram?.Event("GpsTrackingService - Fresh start, cleared queue");
+            }
+            else
+            {
+                // Recovery - keep existing positions
+                General.LogOfProgram?.Event($"GpsTrackingService - Resuming with {positionsQueue.Count} existing positions");
+                if (!TrackingStartTime.HasValue)
+                {
+                    var prefs = GetSharedPreferences(PREFS_NAME, FileCreationMode.Private);
+                    long startTimeTicks = prefs.GetLong(KEY_START_TIME, 0);
+                    TrackingStartTime = startTimeTicks > 0 ? new DateTime(startTimeTicks) : DateTime.Now;
+                }
+            }
             
             // Save tracking state to preferences
-            SaveTrackingState(true, TrackingStartTime.Value);
+            SaveTrackingState(true, TrackingStartTime ?? DateTime.Now);
             
-            // Request location updates
-            if (locationManager.IsProviderEnabled(LocationManager.GpsProvider))
-            {
-                locationManager.RequestLocationUpdates(
-                    LocationManager.GpsProvider,
-                    5000, // 5 seconds
-                    8,     // 8 meters minimum distance
-                    this);
-            }
+            // Request location updates with aggressive settings for continuous tracking
+            RequestLocationUpdates();
             
-            if (locationManager.IsProviderEnabled(LocationManager.NetworkProvider))
-            {
-                locationManager.RequestLocationUpdates(
-                    LocationManager.NetworkProvider,
-                    15000, // 15 seconds
-                    10,    // 10 meters
-                    this);
-            }
+            // Start keepalive timer to periodically request location
+            // This prevents Android from suspending GPS updates when stationary
+            StartKeepAliveTimer();
             
             isTracking = true;
             IsRunning = true;
+            lastPositionTime = DateTime.Now;
             
-            General.LogOfProgram?.Event("GpsTrackingService - Started background GPS tracking with WakeLock");
+            General.LogOfProgram?.Event($"GpsTrackingService - Started background GPS tracking. Queue has {positionsQueue.Count} positions");
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("GpsTrackingService - StartTracking", ex);
+        }
+    }
+    
+    /// <summary>
+    /// Request location updates from all available providers
+    /// </summary>
+    private void RequestLocationUpdates()
+    {
+        try
+        {
+            // Remove any existing listeners first
+            locationManager?.RemoveUpdates(this);
+            
+            // GPS provider - most accurate
+            if (locationManager.IsProviderEnabled(LocationManager.GpsProvider))
+            {
+                locationManager.RequestLocationUpdates(
+                    LocationManager.GpsProvider,
+                    3000, // 3 seconds (more frequent)
+                    0,    // 0 meters - get ALL updates regardless of movement
+                    this);
+                General.LogOfProgram?.Event("GpsTrackingService - GPS provider: listening (3s, 0m)");
+            }
+            else
+            {
+                General.LogOfProgram?.Error("GpsTrackingService - GPS provider NOT enabled!", null);
+            }
+            
+            // Network provider - backup
+            if (locationManager.IsProviderEnabled(LocationManager.NetworkProvider))
+            {
+                locationManager.RequestLocationUpdates(
+                    LocationManager.NetworkProvider,
+                    10000, // 10 seconds
+                    0,     // 0 meters
+                    this);
+                General.LogOfProgram?.Event("GpsTrackingService - Network provider: listening (10s, 0m)");
+            }
+            
+            // Passive provider - receives updates from other apps
+            if (locationManager.IsProviderEnabled(LocationManager.PassiveProvider))
+            {
+                locationManager.RequestLocationUpdates(
+                    LocationManager.PassiveProvider,
+                    0,
+                    0,
+                    this);
+                General.LogOfProgram?.Event("GpsTrackingService - Passive provider: listening");
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("GpsTrackingService - RequestLocationUpdates", ex);
+        }
+    }
+    
+    /// <summary>
+    /// Start a timer that periodically requests location to keep GPS active
+    /// </summary>
+    private void StartKeepAliveTimer()
+    {
+        try
+        {
+            StopKeepAliveTimer(); // Stop any existing timer
+            
+            keepAliveTimer = new System.Timers.Timer(KEEPALIVE_INTERVAL_MS);
+            keepAliveTimer.Elapsed += OnKeepAliveTimerElapsed;
+            keepAliveTimer.AutoReset = true;
+            keepAliveTimer.Start();
+            
+            General.LogOfProgram?.Event($"GpsTrackingService - KeepAlive timer started ({KEEPALIVE_INTERVAL_MS}ms interval)");
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("GpsTrackingService - StartKeepAliveTimer", ex);
+        }
+    }
+    
+    private void StopKeepAliveTimer()
+    {
+        try
+        {
+            if (keepAliveTimer != null)
+            {
+                keepAliveTimer.Stop();
+                keepAliveTimer.Dispose();
+                keepAliveTimer = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("GpsTrackingService - StopKeepAliveTimer", ex);
+        }
+    }
+    
+    /// <summary>
+    /// Keepalive timer callback - check if we're still receiving updates
+    /// </summary>
+    private void OnKeepAliveTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+    {
+        try
+        {
+            if (!isTracking) return;
+            
+            var timeSinceLastPosition = DateTime.Now - lastPositionTime;
+            
+            General.LogOfProgram?.Event($"GpsTrackingService - KeepAlive check: {timeSinceLastPosition.TotalSeconds:F0}s since last position, queue has {positionsQueue.Count} positions");
+            
+            // If we haven't received a position in more than 60 seconds, try to wake up GPS
+            if (timeSinceLastPosition.TotalSeconds > 60)
+            {
+                General.LogOfProgram?.Event("GpsTrackingService - GPS appears stalled, requesting single update to wake it up");
+                
+                // Request a single immediate location update to wake up GPS
+                try
+                {
+                    if (locationManager.IsProviderEnabled(LocationManager.GpsProvider))
+                    {
+                        var lastKnown = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+                        if (lastKnown != null)
+                        {
+                            General.LogOfProgram?.Event($"GpsTrackingService - Last known GPS: Lat={lastKnown.Latitude:F6}, Lon={lastKnown.Longitude:F6}, Age={(DateTime.Now - DateTimeOffset.FromUnixTimeMilliseconds(lastKnown.Time).DateTime).TotalSeconds:F0}s");
+                        }
+                    }
+                    
+                    // Re-request location updates (this can help restart stalled GPS)
+                    RequestLocationUpdates();
+                }
+                catch (Exception ex)
+                {
+                    General.LogOfProgram?.Error("GpsTrackingService - Error requesting wake-up location", ex);
+                }
+            }
+            
+            // Also save positions periodically as a safety measure
+            if (positionsQueue.Count > 0)
+            {
+                SavePositionsToFile();
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("GpsTrackingService - OnKeepAliveTimerElapsed", ex);
         }
     }
     
@@ -179,6 +330,13 @@ public class GpsTrackingService : Service, ILocationListener
         
         try
         {
+            // Stop keepalive timer first
+            StopKeepAliveTimer();
+            
+            // IMPORTANT: Save positions to file BEFORE stopping, so they can be recovered
+            SavePositionsToFile();
+            General.LogOfProgram?.Event($"GpsTrackingService - StopTracking: Saved {positionsQueue.Count} positions to file before stopping");
+            
             locationManager?.RemoveUpdates(this);
             isTracking = false;
             IsRunning = false;
@@ -190,12 +348,13 @@ public class GpsTrackingService : Service, ILocationListener
                 General.LogOfProgram?.Event("GpsTrackingService - WakeLock released");
             }
             
-            // Clear tracking state
+            // Clear tracking state but DON'T delete positions file yet
+            // The positions file will be deleted when positions are consumed by the UI
             SaveTrackingState(false, null);
             
             StopForeground(StopForegroundFlags.Remove);
             
-            General.LogOfProgram?.Event($"GpsTrackingService - Stopped. Recorded {positionsQueue.Count} positions");
+            General.LogOfProgram?.Event($"GpsTrackingService - Stopped. Queue still has {positionsQueue.Count} positions");
         }
         catch (Exception ex)
         {
@@ -252,6 +411,7 @@ public class GpsTrackingService : Service, ILocationListener
     
     public override void OnDestroy()
     {
+        StopKeepAliveTimer();
         StopTracking();
         
         // Release wake lock if still held
@@ -271,6 +431,9 @@ public class GpsTrackingService : Service, ILocationListener
         
         try
         {
+            // Update last position time
+            lastPositionTime = DateTime.Now;
+            
             var positionData = new GpsPositionData
             {
                 Latitude = location.Latitude,
@@ -281,14 +444,30 @@ public class GpsTrackingService : Service, ILocationListener
                 Timestamp = DateTime.Now
             };
             
+            // Check for duplicate position (same lat/lon as last)
+            var lastPosition = positionsQueue.LastOrDefault();
+            if (lastPosition != null)
+            {
+                double latDiff = Math.Abs(lastPosition.Latitude - positionData.Latitude);
+                double lonDiff = Math.Abs(lastPosition.Longitude - positionData.Longitude);
+                
+                // If position hasn't changed significantly (less than ~1 meter), skip it
+                // but still update lastPositionTime to show GPS is active
+                if (latDiff < 0.00001 && lonDiff < 0.00001)
+                {
+                    // Position hasn't changed, but GPS is still working
+                    return;
+                }
+            }
+            
             // Store in memory queue
             positionsQueue.Enqueue(positionData);
             positionsSinceLastSave++;
             
             // Log position recording
-            General.LogOfProgram?.Event($"GpsTrackingService - OnLocationChanged: Lat={positionData.Latitude:F6}, Lon={positionData.Longitude:F6}, QueueCount={positionsQueue.Count}");
+            General.LogOfProgram?.Event($"GpsTrackingService - OnLocationChanged: Lat={positionData.Latitude:F6}, Lon={positionData.Longitude:F6}, Acc={positionData.Accuracy:F1}m, QueueCount={positionsQueue.Count}");
             
-            // Periodically save to file
+            // Save to file after every position for reliability
             if (positionsSinceLastSave >= SAVE_INTERVAL_POSITIONS)
             {
                 SavePositionsToFile();
@@ -347,11 +526,17 @@ public class GpsTrackingService : Service, ILocationListener
         try
         {
             var positions = positionsQueue.ToList();
+            if (positions.Count == 0)
+            {
+                General.LogOfProgram?.Event("GpsTrackingService - SavePositionsToFile: No positions to save");
+                return;
+            }
+            
             var json = JsonSerializer.Serialize(positions);
             var filePath = Path.Combine(FilesDir.AbsolutePath, POSITIONS_FILE);
             File.WriteAllText(filePath, json);
             
-            General.LogOfProgram?.Event($"GpsTrackingService - Saved {positions.Count} positions to file");
+            General.LogOfProgram?.Event($"GpsTrackingService - Saved {positions.Count} positions to file: {filePath}");
         }
         catch (Exception ex)
         {
@@ -359,7 +544,10 @@ public class GpsTrackingService : Service, ILocationListener
         }
     }
     
-    private void LoadPositionsFromFile()
+    /// <summary>
+    /// Internal method that returns the loaded positions without modifying the queue
+    /// </summary>
+    private List<GpsPositionData> LoadPositionsFromFileInternal()
     {
         try
         {
@@ -368,17 +556,36 @@ public class GpsTrackingService : Service, ILocationListener
             {
                 var json = File.ReadAllText(filePath);
                 var positions = JsonSerializer.Deserialize<List<GpsPositionData>>(json);
+                return positions ?? new List<GpsPositionData>();
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("GpsTrackingService - LoadPositionsFromFileInternal", ex);
+        }
+        return new List<GpsPositionData>();
+    }
+    
+    private void LoadPositionsFromFile()
+    {
+        try
+        {
+            var positions = LoadPositionsFromFileInternal();
+            
+            if (positions != null && positions.Count > 0)
+            {
+                // Merge with existing queue (avoid duplicates based on timestamp)
+                var existingTimestamps = positionsQueue.Select(p => p.Timestamp).ToHashSet();
                 
-                if (positions != null)
+                foreach (var pos in positions)
                 {
-                    while (positionsQueue.TryDequeue(out _)) { } // Clear existing
-                    foreach (var pos in positions)
+                    if (!existingTimestamps.Contains(pos.Timestamp))
                     {
                         positionsQueue.Enqueue(pos);
                     }
-                    
-                    General.LogOfProgram?.Event($"GpsTrackingService - Loaded {positions.Count} positions from file");
                 }
+                
+                General.LogOfProgram?.Event($"GpsTrackingService - Loaded {positions.Count} positions from file, queue now has {positionsQueue.Count}");
             }
         }
         catch (Exception ex)
