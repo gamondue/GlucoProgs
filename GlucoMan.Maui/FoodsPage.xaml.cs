@@ -95,8 +95,23 @@ public partial class FoodsPage : ContentPage
             return;
         }
         loading = true;
+        
+        var selectedFood = (Food)e.SelectedItem;
+        
+        // Deseleziona tutti gli altri elementi nella lista
+        if (allFoods != null)
+        {
+            foreach (var food in allFoods)
+            {
+                food.IsSelectedInList = false;
+            }
+        }
+        
+        // Seleziona l'elemento corrente
+        selectedFood.IsSelectedInList = true;
+        
         //make the tapped row the current food
-        Food = (Food)gridFoods.SelectedItem;
+        Food = selectedFood;
         this.BindingContext = Food;
         FromClassToUi();
         // fill the combo box of UnitSymbol

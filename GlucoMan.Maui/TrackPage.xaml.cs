@@ -674,7 +674,8 @@ public partial class TrackPage : ContentPage
             int finalCount = bl.CurrentTrack?.Positions?.Count ?? 0;
             btnStartTracking.IsEnabled = true;
             btnStopTracking.IsEnabled = false;
-            btnSaveTrack.IsEnabled = finalCount > 0;
+            //btnSaveTrack.IsEnabled = finalCount > 0;
+            btnSaveTrack.IsEnabled = true;
             btnClearTrack.IsEnabled = true;
 
             UpdateStatus(finalCount > 0 ? string.Format(AppStrings.TrackStatusStopped + " ({0} points)", finalCount) : AppStrings.TrackStatusStopped + " (no points)", finalCount > 0 ? Colors.Orange : Colors.Red);

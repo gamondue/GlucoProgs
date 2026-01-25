@@ -564,16 +564,30 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
 
             if (selectedFood != bl.FoodInMeal)
             {
+                // Deseleziona il precedente FoodInMeal
                 if (bl.FoodInMeal?.Name != null)
                 {
+                    bl.FoodInMeal.IsSelectedInList = false;
                     FromBoxesFoodInMealToClass();
                     bl.UpdateOldFoodInMealInList();
-                    RefreshGrid();
                 }
-                // after refresh the selected FoodInMeal becomes the current FoodInMeal 
+                // Update the current FoodInMeal 
                 bl.FoodInMeal = selectedFood;
                 FromClassToBoxesFoodInMeal();
             }
+            
+            // Deseleziona tutti gli altri elementi nella lista
+            if (bl.FoodsInMeal != null)
+            {
+                foreach (var food in bl.FoodsInMeal)
+                {
+                    food.IsSelectedInList = false;
+                }
+            }
+            
+            // Seleziona l'elemento corrente
+            selectedFood.IsSelectedInList = true;
+            
             // Mantieni la selezione visibile
             if (gridFoodsInMeal.SelectedItem != selectedFood)
             {

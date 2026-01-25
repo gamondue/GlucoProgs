@@ -52,12 +52,12 @@ namespace GlucoMan
         /// <summary>
         /// Weights for cooked food (after cooking, whole quantity)
         /// </summary>
-        public WeightsForWeighing Cooked { get; set; } = new WeightsForWeighing();
+        public WeightsForWeighing CookedFood { get; set; } = new WeightsForWeighing();
         
         /// <summary>
         /// Weights for seasoning/condiment
         /// </summary>
-        public WeightsForWeighing Seasoning { get; set; } = new WeightsForWeighing();
+        public WeightsForWeighing CookedSeasoning { get; set; } = new WeightsForWeighing();
         
         /// <summary>
         /// Weights for the cooked portion

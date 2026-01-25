@@ -1,4 +1,4 @@
-﻿using gamon;
+using gamon;
 using Microsoft.Data.Sqlite;
 using System.Data;
 using System.Data.Common;
@@ -22,7 +22,7 @@ namespace GlucoMan
                     if (InitialInstant != null && FinalInstant != null)
                     {   // add WHERE clause
                         query += " WHERE TimeBegin BETWEEN " + SqliteSafe.Date(((DateTime)InitialInstant).ToString("yyyy-MM-dd")) +
-                            " AND " + SqliteSafe.Date(((DateTime)FinalInstant).ToString("yyyy-MM-dd 23:59:29")) + "";
+                            " AND " + SqliteSafe.Date(((DateTime)FinalInstant).ToString("yyyy-MM-dd 23:59:59")) + "";
                     }
                     query += " ORDER BY TimeBegin DESC, IdMeal;";
                     cmd = new SqliteCommand(query);

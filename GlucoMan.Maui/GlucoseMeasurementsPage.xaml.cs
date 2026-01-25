@@ -148,8 +148,23 @@ public partial class GlucoseMeasurementsPage : ContentPage
         {
             return;
         }
+        
+        var selectedGlucose = (GlucoseRecord)e.SelectedItem;
+        
+        // Deseleziona tutti gli altri elementi nella lista
+        if (glucoseReadings != null)
+        {
+            foreach (var glucose in glucoseReadings)
+            {
+                glucose.IsSelectedInList = false;
+            }
+        }
+        
+        // Seleziona l'elemento corrente
+        selectedGlucose.IsSelectedInList = true;
+        
         // make the tapped row current
-        currentGlucose = (GlucoseRecord)e.SelectedItem;
+        currentGlucose = selectedGlucose;
         FromClassToUi();
     }
 }

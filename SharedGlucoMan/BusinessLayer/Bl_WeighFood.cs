@@ -18,7 +18,7 @@ namespace GlucoMan
         }
 
         /// <summary>
-        /// Calculates Summary Data: Raw/Cooked ratio, Weight of portion, CHO of portion
+        /// Calculates Summary Data: Raw/CookedFood ratio, Weight of portion, CHO of portion
         /// Called whenever any weight or portion value changes
         /// </summary>
         internal void CalculateSummaryData()
@@ -26,41 +26,38 @@ namespace GlucoMan
             try
             {
                 //General.LogOfProgram?.Debug($"BL_WeighFood - CalculateSummaryData STARTED");
-                //General.LogOfProgram?.Debug($"BL_WeighFood - Parsed values: RawNet={Data.Raw.Net.Double}, CookedNet={Data.Cooked.Net.Double}, PortionNet={Data.Portion.Net.Double}, NPortions={Data.NPortions.Int}, CarbohydratesPercent={Data.CarbohydratesPercent.Double}");
+                //General.LogOfProgram?.Debug($"BL_WeighFood - Parsed values: RawNet={Data.Raw.Net.Double}, CookedNet={Data.CookedFood.Net.Double}, PortionNet={Data.Portion.Net.Double}, NPortions={Data.NPortions.Int}, CarbohydratesPercent={Data.CarbohydratesPercent.Double}");
 
                 // temporary value of total cooked
-                double? totalCookedWeightTemp = Data.Cooked.Net.Double;
+                double? totalCookedWeightTemp = Data.CookedFood.Net.Double;
 
                 // if total cooked food is "null" we put the raw net as weight portion
                 // (will be overwritten by the next part if the rest is not null)
-                if (ValueIsNullOrZero(Data.Cooked.Net))
+                if (ValueIsNullOrZero(Data.CookedFood.Net))
                     totalCookedWeightTemp = Data.Raw.Net.Double;
 
                 // if we are weighing the portion and portion net value is null,
                 // we put the raw net as weight portion
-                if (ValueIsNullOrZero(Data.Cooked.Net) && Data.DoWeighCookedPortion)
-                    totalCookedWeightTemp = Data.Cooked.Net.Double;
+                if (ValueIsNullOrZero(Data.CookedFood.Net) && Data.DoWeighCookedPortion)
+                    totalCookedWeightTemp = Data.CookedFood.Net.Double;
 
-                // Calculate Raw/Cooked ratio
-                if (Data.Cooked.Net.Double > 0)
+                if (ValueIsNullOrZero(Data.CookedSeasoning.Net))
                 {
-                    Data.RawCookedRatio.Double = Data.Raw.Net.Double / totalCookedWeightTemp;
-                }
-
-                if (ValueIsNullOrZero(Data.Seasoning.Net))
-                {
+                    //  if we have no seasoning we don't need to measure CHO
                     Data.TotalCarbohydratesPercent.Double = Data.FoodCarbohydratesPercent.Double;
                 }
                 else
                 {
-                    // if we have the seasoning we calculate the portion with the 
-                    // sum of weights and the CHO with the weighted average of CHOs
-                    totalCookedWeightTemp = Data.Cooked.Net.Double + Data.Seasoning.Net.Double;
+                    // totalCookedWeightTemp contains the weiight of the seasoning
+
+                    // the CHO of all is the weighted mean of foood and seasonin
                     Data.TotalCarbohydratesPercent.Double =
-                        (Data.Cooked.Net.Double * Data.FoodCarbohydratesPercent.Double +
-                        Data.Seasoning.Net.Double * Data.Seasoning.CarbohydratesPercent.Double)
-                        / totalCookedWeightTemp;
+                        ((Data.CookedFood.Net.Double - Data.CookedSeasoning.Net.Double) * Data.FoodCarbohydratesPercent.Double +
+                        Data.CookedSeasoning.Net.Double * Data.CookedSeasoning.CarbohydratesPercent.Double)
+                            / totalCookedWeightTemp;
                 }
+
+                Data.RawCookedRatio.Double = Data.Raw.Net.Double / totalCookedWeightTemp;
 
                 Data.WeightOfPortion.Double = 0;
                 Data.CarbohydratesOfPortion.Double = 0;
@@ -127,16 +124,16 @@ namespace GlucoMan
                 dl.SaveParameter("Weigh_RawTare", Data.Raw.Tare.Text);
                 dl.SaveParameter("Weigh_RawNet", Data.Raw.Net.Text);
 
-                // Cooked food weighing Data
-                dl.SaveParameter("Weigh_CookedGross", Data.Cooked.Gross.Text);
-                dl.SaveParameter("Weigh_CookedTare", Data.Cooked.Tare.Text);
-                dl.SaveParameter("Weigh_CookedNet", Data.Cooked.Net.Text);
+                // CookedFood food weighing Data
+                dl.SaveParameter("Weigh_CookedGross", Data.CookedFood.Gross.Text);
+                dl.SaveParameter("Weigh_CookedTare", Data.CookedFood.Tare.Text);
+                dl.SaveParameter("Weigh_CookedNet", Data.CookedFood.Net.Text);
 
-                // Seasoning weighing Data
-                dl.SaveParameter("Weigh_SeasoningGross", Data.Seasoning.Gross.Text);
-                dl.SaveParameter("Weigh_SeasoningTare", Data.Seasoning.Tare.Text);
-                dl.SaveParameter("Weigh_SeasoningNet", Data.Seasoning.Net.Text);
-                dl.SaveParameter("Weigh_SeasoningCarbohydratesPercent", Data.Seasoning.CarbohydratesPercent.Text);
+                // CookedSeasoning weighing Data
+                dl.SaveParameter("Weigh_SeasoningGross", Data.CookedSeasoning.Gross.Text);
+                dl.SaveParameter("Weigh_SeasoningTare", Data.CookedSeasoning.Tare.Text);
+                dl.SaveParameter("Weigh_SeasoningNet", Data.CookedSeasoning.Net.Text);
+                dl.SaveParameter("Weigh_SeasoningCarbohydratesPercent", Data.CookedSeasoning.CarbohydratesPercent.Text);
 
                 // Portion weighing Data
                 dl.SaveParameter("Weigh_PortionGross", Data.Portion.Gross.Text);
@@ -179,16 +176,17 @@ namespace GlucoMan
                 Data.Raw.Tare.Text = dl.RestoreParameter("Weigh_RawTare") ?? "";
                 Data.Raw.Net.Text = dl.RestoreParameter("Weigh_RawNet") ?? "";
 
-                // Cooked food weighing Data
-                Data.Cooked.Gross.Text = dl.RestoreParameter("Weigh_CookedGross") ?? "";
-                Data.Cooked.Tare.Text = dl.RestoreParameter("Weigh_CookedTare") ?? "";
-                Data.Cooked.Net.Text = dl.RestoreParameter("Weigh_CookedNet") ?? "";
+                // CookedFood food weighing Data
+                Data.CookedFood.Gross.Text = dl.RestoreParameter("Weigh_CookedGross") ?? "";
+                Data.CookedFood.Tare.Text = dl.RestoreParameter("Weigh_CookedTare") ?? "";
+                Data.CookedFood.Net.Text = dl.RestoreParameter("Weigh_CookedNet") ?? "";
 
-                // Seasoning weighing Data
-                Data.Seasoning.Gross.Text = dl.RestoreParameter("Weigh_SeasoningGross") ?? "";
-                Data.Seasoning.Tare.Text = dl.RestoreParameter("Weigh_SeasoningTare") ?? "";
-                Data.Seasoning.Net.Text = dl.RestoreParameter("Weigh_SeasoningNet") ?? "";
-                Data.Seasoning.CarbohydratesPercent.Text = dl.RestoreParameter("Weigh_SeasoningCarbohydratesPercent") ?? "";
+                // CookedSeasoning weighing Data
+                
+                Data.CookedSeasoning.Gross.Text = dl.RestoreParameter("Weigh_SeasoningGross") ?? "";
+                Data.CookedSeasoning.Tare.Text = dl.RestoreParameter("Weigh_SeasoningTare") ?? "";
+                Data.CookedSeasoning.Net.Text = dl.RestoreParameter("Weigh_SeasoningNet") ?? "";
+                Data.CookedSeasoning.CarbohydratesPercent.Text = dl.RestoreParameter("Weigh_SeasoningCarbohydratesPercent") ?? "";
 
                 // Portion weighing Data
                 Data.Portion.Gross.Text = dl.RestoreParameter("Weigh_PortionGross") ?? "";
@@ -260,7 +258,7 @@ namespace GlucoMan
                                 Weights.Tare.Double = Weights.Gross.Double - Weights.Net.Double;
                         else
                             // if the tare and the gross have a value, we calculate the net
-                            Weights.Net.Double = Weights.Gross.Double - Weights.Tare.Double;
+                             Weights.Net.Double = Weights.Gross.Double - Weights.Tare.Double;
                         break;
                     }
                 case TypeOfWeigh.Net:

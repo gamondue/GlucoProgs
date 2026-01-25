@@ -139,7 +139,8 @@
             </HorizontalStackLayout>
             <!-- a nested Grid to get different Widths of columns -->
             <ListView Grid.Row="8" Grid.ColumnSpan="4" 
-                          x:Name="gridMeals" ItemsSource="{Binding}"
+                          x:Name="gridMeals"
+                          BackgroundColor="White"
                           ToolTipProperties.Text="{x:Static strings:AppStrings.MealsList}"
                           ItemSelected="OnGridSelectionAsync"
                           RowHeight="22">
@@ -175,15 +176,20 @@
                         <ViewCell>
                             <ViewCell.View>
                                 <Grid RowDefinitions="19" ColumnDefinitions="180*,50*,50*,50*"
+                                      BackgroundColor="White"
                                         Margin="1" VerticalOptions="Center">
                                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center"
-                                            Grid.Column="0" Text="{Binding EventTime.DateTime}"/>
+                                            Grid.Column="0" Text="{Binding EventTime.DateTime, StringFormat='{0:yyyy-MM-dd HH:mm}'}"
+                                            TextColor="Black" FontSize="14"/>
                                     <Label HorizontalTextAlignment="Center" 
-                                            Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"/>
+                                            Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"
+                                            TextColor="Black" FontSize="14"/>
                                     <Label HorizontalTextAlignment="Center" 
-                                            Grid.Column="2" Text="{Binding IdTypeOfMeal}"/>
+                                            Grid.Column="2" Text="{Binding IdTypeOfMeal}"
+                                            TextColor="Black" FontSize="14"/>
                                     <Label HorizontalTextAlignment="Center" 
-                                            Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"/>
+                                            Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"
+                                            TextColor="Black" FontSize="14"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

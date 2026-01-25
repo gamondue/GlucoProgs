@@ -1,6 +1,8 @@
+
 using gamon;
 using GlucoMan;
 using GlucoMan.Maui.Models;
+using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui;
 
@@ -379,6 +381,68 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("ContainersPage - btnClearFields_Click", ex);
+        }
+    }
+    private async void btnChoosePhotoFile_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // FilePicker per immagini
+            var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+            {
+                { DevicePlatform.Android, new[] { "image/jpeg", "image/png", "image/bmp", ".jpg", ".jpeg", ".png", ".bmp" } },
+                { DevicePlatform.WinUI, new[] { ".jpg", ".jpeg", ".png", ".bmp" } }
+            });
+
+            var picked = await FilePicker.Default.PickAsync(new PickOptions
+            {
+                PickerTitle = AppStrings.ResourceManager.GetString("ChoosePhotoFile"),
+                FileTypes = customFileType
+            });
+
+            if (picked is null)
+                return;
+
+            // Copia il file selezionato nella cartella interna ContainerPhotos
+            string containerPhotosFolder = Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos");
+            Directory.CreateDirectory(containerPhotosFolder);
+            string destFile = Path.Combine(containerPhotosFolder, picked.FileName);
+
+            using (var src = await picked.OpenReadAsync())
+            using (var dst = File.Create(destFile))
+            {
+                await src.CopyToAsync(dst);
+            }
+
+            // Aggiorna la foto visualizzata
+            imgContainerPhoto.Source = ImageSource.FromFile(destFile);
+
+            // Aggiorna il nome file nella container selezionata se presente
+            if (selectedContainer == null)
+            {
+                selectedContainer = new Container();
+            }
+            selectedContainer.PhotoFileName = picked.FileName;
+            if (selectedContainer.IdContainer.HasValue)
+            {
+                int? result = bl.SaveContainer(selectedContainer);
+                if (result.HasValue && result.Value > 0)
+                {
+                    General.LogOfProgram?.Event($"ContainersPage - Photo filename saved to database for container ID: {selectedContainer.IdContainer}");
+                }
+            }
+
+            await DisplayAlert(
+                AppStrings.ResourceManager.GetString("Success"),
+                AppStrings.ResourceManager.GetString("PhotoImported"),
+                AppStrings.ResourceManager.GetString("OK"));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert(
+                AppStrings.ResourceManager.GetString("Error"),
+                $"Errore nell'importazione della foto: {ex.Message}",
+                AppStrings.ResourceManager.GetString("OK"));
         }
     }
     private async void btnTakePicture_Click(object sender, EventArgs e)

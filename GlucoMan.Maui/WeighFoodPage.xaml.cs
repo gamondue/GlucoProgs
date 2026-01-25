@@ -64,7 +64,7 @@ public partial class WeighFoodPage : ContentPage
             blFood.RestoreData();
 
             blMealRaw = new BL_GrossTareAndNetWeight(blFood.Data.Raw.Gross, blFood.Data.Raw.Tare, blFood.Data.Raw.Net);
-            blMealCooked = new BL_GrossTareAndNetWeight(blFood.Data.Cooked.Gross, blFood.Data.Cooked.Tare, blFood.Data.Cooked.Net);
+            blMealCooked = new BL_GrossTareAndNetWeight(blFood.Data.CookedFood.Gross, blFood.Data.CookedFood.Tare, blFood.Data.CookedFood.Net);
 
             // Set BindingContext to blFood.Data for automatic UI binding
             this.BindingContext = blFood.Data;
@@ -459,7 +459,7 @@ public partial class WeighFoodPage : ContentPage
         if (TxtRawTare != null && TxtRawTare.IsFocused) return TxtRawTare;
         if (TxtRawNet != null && TxtRawNet.IsFocused) return TxtRawNet;
 
-        // Cooked food section
+        // CookedFood food section
         if (TxtCookedGross != null && TxtCookedGross.IsFocused) return TxtCookedGross;
         if (TxtCookedTare != null && TxtCookedTare.IsFocused) return TxtCookedTare;
         if (TxtCookedNet != null && TxtCookedNet.IsFocused) return TxtCookedNet;
@@ -586,7 +586,7 @@ public partial class WeighFoodPage : ContentPage
     private void TxtRawGross_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.Raw.Gross.Double = Safe.Double(TxtRawGross.Text);
         rawGrossOrTareChanging = true;
         try
         {
@@ -605,7 +605,7 @@ public partial class WeighFoodPage : ContentPage
     private void TxtRawTare_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.Raw.Tare.Double = Safe.Double(TxtRawTare.Text);
         rawGrossOrTareChanging = true;
         try
         {
@@ -624,7 +624,7 @@ public partial class WeighFoodPage : ContentPage
     private void TxtRawNet_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.Raw.Net.Double = Safe.Double(TxtRawNet.Text);
         rawGrossOrTareChanging = true;
         try
         {
@@ -643,11 +643,11 @@ public partial class WeighFoodPage : ContentPage
     private void TxtCookedGross_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.CookedFood.Gross.Double = Safe.Double(TxtCookedGross.Text);
         cookedGrossOrTareChanging = true;
         try
         {
-            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Cooked, BL_WeighFood.TypeOfWeigh.Gross);
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.CookedFood, BL_WeighFood.TypeOfWeigh.Gross);
         }
         catch (Exception ex)
         {
@@ -662,11 +662,11 @@ public partial class WeighFoodPage : ContentPage
     private void TxtCookedTare_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.CookedFood.Tare.Double = Safe.Double(TxtCookedTare.Text);
         cookedGrossOrTareChanging = true;
         try
         {
-            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Cooked, BL_WeighFood.TypeOfWeigh.Tare);
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.CookedFood, BL_WeighFood.TypeOfWeigh.Tare);
         }
         catch (Exception ex)
         {
@@ -681,10 +681,10 @@ public partial class WeighFoodPage : ContentPage
     private void TxtCookedNet_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.CookedFood.Net.Double = Safe.Double(TxtCookedNet.Text);
         try
         {
-            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Cooked, BL_WeighFood.TypeOfWeigh.Net);
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.CookedFood, BL_WeighFood.TypeOfWeigh.Net);
         }
         catch (Exception ex)
         {
@@ -700,7 +700,7 @@ public partial class WeighFoodPage : ContentPage
     private void TxtPortionGross_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.Portion.Gross.Double = Safe.Double(TxtCookedPortionGross.Text);
         portionGrossOrTareChanging = true;
         try
         {
@@ -719,7 +719,7 @@ public partial class WeighFoodPage : ContentPage
     private void TxtPortionTare_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.Portion.Tare.Double = Safe.Double(TxtCookedPortionTare.Text);
         portionGrossOrTareChanging = true;
         try
         {
@@ -738,7 +738,7 @@ public partial class WeighFoodPage : ContentPage
     private void TxtPortionNet_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.Portion.Net.Double = Safe.Double(TxtCookedPortionNet.Text);
         portionGrossOrTareChanging = true;
         try
         {
@@ -813,18 +813,18 @@ public partial class WeighFoodPage : ContentPage
         TxtNPortions.Text = "";
     }
     #region Seasoning Event Handlers
-    // TextChanged event handlers for Seasoning weighing
+    // TextChanged event handlers for CookedSeasoning weighing
     private bool seasoningGrossOrTareChanging = false;
     private bool seasoningNetChanging = false;
     
     private void TxtSeasoningGross_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.CookedSeasoning.Gross.Double = Safe.Double(TxtSeasoningGross.Text);
         seasoningGrossOrTareChanging = true;
         try
         {
-            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Seasoning, BL_WeighFood.TypeOfWeigh.Gross);
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.CookedSeasoning, BL_WeighFood.TypeOfWeigh.Gross);
         }
         catch (Exception ex)
         {
@@ -839,18 +839,18 @@ public partial class WeighFoodPage : ContentPage
     private void TxtSeasoningCarbohydratesPercent_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        blFood.Data.CarbohydratesOfPortion.Double = Safe.Double(TxtSeasoningCarbohydratesPercent.Text);
         blFood.CalculateSummaryData();
     }
     
     private void TxtSeasoningTare_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (isLoading) return;  // Skip during page loading
-        
+        //blFood.Data.CookedSeasoning.Tare.Double = Safe.Double(TxtSeasoningTare.Text);
         seasoningGrossOrTareChanging = true;
         try
         {
-            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Seasoning, BL_WeighFood.TypeOfWeigh.Tare);
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.CookedSeasoning, BL_WeighFood.TypeOfWeigh.Tare);
         }
         catch (Exception ex)
         {
@@ -869,11 +869,11 @@ public partial class WeighFoodPage : ContentPage
         seasoningGrossOrTareChanging = true;
         try
         {
-            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.Seasoning, BL_WeighFood.TypeOfWeigh.Net);
+            blFood.CalculateThirdFromTwoAndSummaryData(blFood.Data.CookedSeasoning, BL_WeighFood.TypeOfWeigh.Net);
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("WeighFoodPage - TxtSeasoningNet_TextChanged", ex);
+            General.LogOfProgram?.Error("WeighFoodPage - TxtSeasoningNet_TextChanged", ex); 
         }
         finally
         {

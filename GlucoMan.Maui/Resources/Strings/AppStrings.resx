@@ -485,6 +485,15 @@
   <data name="TooltipGlucoseMeasurement" xml:space="preserve">
     <value>Glucose measurement taken from the instrument</value>
   </data>
+  <data name="ChoosePhotoFile" xml:space="preserve">
+    <value>Choose photo file</value>
+  </data>
+  <data name="TooltipChoosePhotoFile" xml:space="preserve">
+    <value>Choose a photo from the Download folder</value>
+  </data>
+  <data name="PhotoImported" xml:space="preserve">
+    <value>Photo imported successfully!</value>
+  </data>
   <data name="TooltipDateOfMeasurement" xml:space="preserve">
     <value>Date of measurement of glucose</value>
   </data>
@@ -2185,10 +2194,10 @@
     <value>Parameters' identification</value>
   </data>
   <data name="ImportDatabase" xml:space="preserve">
-    <value>Import Database</value>
+    <value>Import DB and pictures</value>
   </data>
   <data name="TooltipImportDatabase" xml:space="preserve">
-    <value>Substitutes the current database with user's chosen file</value>
+    <value>Substitutes the current database with user's chosen file and imports the images in the folder./value></value>
   </data>
   <data name="TooltipExportFiles" xml:space="preserve">
     <value>Export "interesting" Files and Data to "GlucoMan" folder inside "Download", from which they can be read</value>
@@ -2521,5 +2530,11 @@ Duration: {2}</value>
   </data>
   <data name="TrackReady" xml:space="preserve">
     <value>Ready</value>
+  </data>
+  <data name="ImportImages" xml:space="preserve">
+    <value>Import images</value>
+  </data>
+  <data name="ImportImages_Description" xml:space="preserve">
+    <value>The import will also copy all images found in the subfolder '{0}' located next to the selected database file into the app's internal '{0}' folder.\n\nDo you want to continue and import those images?</value>
   </data>
 </root>

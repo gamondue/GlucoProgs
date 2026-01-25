@@ -1,9 +1,10 @@
 ﻿using gamon;
 using System;
+using System.ComponentModel;
 
 namespace GlucoMan
 {
-    public class GlucoseRecord : Event
+    public class GlucoseRecord : Event, INotifyPropertyChanged
     {
         // properties inherited from Event class
         // public DateTimeAndText EventTime { get; set; }
@@ -18,6 +19,26 @@ namespace GlucoMan
         public int? IdOfDevice { get; set; }
         public string IdTypeOfDevice { get; set; }
         public int? IdDeviceModel { get; internal set; }
+
+        private bool _isSelectedInList;
+
+        public bool IsSelectedInList
+        {
+            get => _isSelectedInList;
+            set
+            {
+                if (_isSelectedInList != value)
+                {
+                    _isSelectedInList = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelectedInList)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RowBorderColor)));
+                }
+            }
+        }
+
+        public string RowBorderColor => IsSelectedInList ? "Orange" : "Transparent";
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public GlucoseRecord()
         {

@@ -99,8 +99,23 @@ public partial class RecipesPage : ContentPage
             return;
         }
         loading = true;
+        
+        var selectedRecipe = (Recipe)e.SelectedItem;
+        
+        // Deseleziona tutti gli altri elementi nella lista
+        if (allRecipes != null)
+        {
+            foreach (var recipe in allRecipes)
+            {
+                recipe.IsSelectedInList = false;
+            }
+        }
+        
+        // Seleziona l'elemento corrente
+        selectedRecipe.IsSelectedInList = true;
+        
         //make the tapped row the current food
-        bl.Recipe = (Recipe)gridRecipes.SelectedItem;
+        bl.Recipe = selectedRecipe;
         this.BindingContext = bl.Recipe;
         FromClassToUi();
         loading = false;

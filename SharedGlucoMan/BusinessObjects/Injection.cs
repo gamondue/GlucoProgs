@@ -1,9 +1,10 @@
 ﻿using gamon;
 using GlucoMan;
+using System.ComponentModel;
 
 namespace GlucoMan
 {
-    public class Injection : Event
+    public class Injection : Event, INotifyPropertyChanged
     {
         public int? IdInjection { get; set; }
         public DoubleAndText InsulinValue { get; set; }
@@ -49,6 +50,27 @@ namespace GlucoMan
                 return "";
             }
         }
+
+        private bool _isSelectedInList;
+
+        public bool IsSelectedInList
+        {
+            get => _isSelectedInList;
+            set
+            {
+                if (_isSelectedInList != value)
+                {
+                    _isSelectedInList = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelectedInList)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RowBorderColor)));
+                }
+            }
+        }
+
+        public string RowBorderColor => IsSelectedInList ? "Orange" : "Transparent";
+
+        public new event PropertyChangedEventHandler? PropertyChanged;
+
         public Injection()
         {
             EventTime = new DateTimeAndText();

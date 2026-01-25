@@ -31,7 +31,7 @@
 		<!-- FileVersion uses readable date/time format as string -->
 		<VersionMajor>0</VersionMajor>
 		<VersionMinor>9</VersionMinor>
-		<VersionPatch>6</VersionPatch>
+		<VersionPatch>7</VersionPatch>
 		<!-- Build number as days since 2025-01-01 (avoids overflow) -->
 		<VersionBuildNumber>$([MSBuild]::Subtract($([System.DateTime]::Now.Subtract($([System.DateTime]::Parse('2025-01-01'))).Days), 0))</VersionBuildNumber>
 		<VersionRevision>$([System.DateTime]::Now.ToString('HHmm'))</VersionRevision>
@@ -43,7 +43,7 @@
 		<!-- FileVersion: Human-readable with full timestamp -->
 		<FileVersion>$(VersionPrefix).$([System.DateTime]::Now.ToString('yyMMdd')).$([System.DateTime]::Now.ToString('HHmm'))</FileVersion>
 		<InformationalVersion>$(VersionPrefix).$([System.DateTime]::Now.ToString('yyMMdd')).$([System.DateTime]::Now.ToString('HHmm'))</InformationalVersion>
-		<Version>$(VersionPrefix).$(VersionBuildNumber)</Version>
+		<Version>$(VersionPrefix)</Version>
 		
 		<!-- MAUI Platform Versions -->
 		<ApplicationDisplayVersion>$(VersionPrefix)</ApplicationDisplayVersion>

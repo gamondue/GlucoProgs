@@ -153,12 +153,25 @@
                  <DataTemplate>
      <ViewCell>
         <ViewCell.View>
-    <Grid RowDefinitions="18" ColumnDefinitions="160*,50,50,50" VerticalOptions="Center">
-     <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
-    <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesPercent.Text}"/>
-          <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding IsCooked}"/>
-   <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"/>
-           </Grid>
+            <Border Margin="1" 
+                    BackgroundColor="White"
+                    StrokeThickness="2"
+                    Stroke="{Binding RowBorderColor}">
+                <Grid VerticalOptions="Center" ColumnDefinitions="160*,50,50,50">
+                    <Label HorizontalTextAlignment="Start" Grid.Column="0" 
+                           Text="{Binding Name}"
+                           TextColor="Black" FontSize="14"/>
+                    <Label HorizontalTextAlignment="Center" Grid.Column="1" 
+                           Text="{Binding CarbohydratesPercent.Text}"
+                           TextColor="Black" FontSize="14"/>
+                    <Label HorizontalTextAlignment="Center" Grid.Column="2" 
+                           Text="{Binding IsCooked}"
+                           TextColor="Black" FontSize="14"/>
+                    <Label HorizontalTextAlignment="Center" Grid.Column="3" 
+                           Text="{Binding AccuracyOfChoEstimate.Text}"
+                           TextColor="Black" FontSize="14"/>
+                </Grid>
+            </Border>
            </ViewCell.View>
     </ViewCell>
             </DataTemplate>

@@ -2374,7 +2374,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Import Database.
+        ///   Cerca una stringa localizzata simile a Import DB and pictures.
         /// </summary>
         public static string ImportDatabase {
             get {
@@ -2424,6 +2424,24 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string ImportGlucoseConfirmTitle {
             get {
                 return ResourceManager.GetString("ImportGlucoseConfirmTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Import images.
+        /// </summary>
+        public static string ImportImages {
+            get {
+                return ResourceManager.GetString("ImportImages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a The import will also copy all images found in the subfolder &apos;{0}&apos; located next to the selected database file into the app&apos;s internal &apos;{0}&apos; folder.\n\nDo you want to continue and import those images?.
+        /// </summary>
+        public static string ImportImages_Description {
+            get {
+                return ResourceManager.GetString("ImportImages_Description", resourceCulture);
             }
         }
         
@@ -5345,7 +5363,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Substitutes the current database with user&apos;s chosen file.
+        ///   Cerca una stringa localizzata simile a Substitutes the current database with user&apos;s chosen file and imports the images in the folder./value&gt;.
         /// </summary>
         public static string TooltipImportDatabase {
             get {
@@ -7190,6 +7208,33 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Choose photo file.
+        /// </summary>
+        public static string ChoosePhotoFile {
+            get {
+                return ResourceManager.GetString("ChoosePhotoFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Choose a photo from the Download folder.
+        /// </summary>
+        public static string TooltipChoosePhotoFile {
+            get {
+                return ResourceManager.GetString("TooltipChoosePhotoFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Photo imported successfully!.
+        /// </summary>
+        public static string PhotoImported {
+            get {
+                return ResourceManager.GetString("PhotoImported", resourceCulture);
             }
         }
     }

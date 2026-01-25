@@ -142,13 +142,19 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid RowDefinitions="19" ColumnDefinitions="*,36"
-                                      Margin="2" VerticalOptions="Center">
-                                    <Label HorizontalTextAlignment="Start" Grid.Column="0" 
-                                           Text="{Binding Name}" Margin="5,0" />
-                                    <Label HorizontalTextAlignment="Center" Grid.Column="1" 
-                                           Text="{Binding CarbohydratesPercent.Text, Converter={StaticResource DoubleTextConverter}}"/>
-                                </Grid>
+                                <Border Margin="1" 
+                                        BackgroundColor="White"
+                                        StrokeThickness="2"
+                                        Stroke="{Binding RowBorderColor}">
+                                    <Grid VerticalOptions="Center" ColumnDefinitions="*,36">
+                                        <Label HorizontalTextAlignment="Start" Grid.Column="0" 
+                                               Text="{Binding Name}" Margin="5,0"
+                                               TextColor="Black" FontSize="14"/>
+                                        <Label HorizontalTextAlignment="Center" Grid.Column="1" 
+                                               Text="{Binding CarbohydratesPercent.Text, Converter={StaticResource DoubleTextConverter}}"
+                                               TextColor="Black" FontSize="14"/>
+                                    </Grid>
+                                </Border>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>

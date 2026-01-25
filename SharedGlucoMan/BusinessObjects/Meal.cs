@@ -10,31 +10,31 @@ namespace GlucoMan
     public class Meal : Event
     {      
         [DisplayName("Meal Code")]
-        internal int? IdMeal { get; set; }
+        public int? IdMeal { get; set; }
         [DisplayName("Type of meal")]
-        internal TypeOfMeal IdTypeOfMeal { get; set; }
+        public TypeOfMeal IdTypeOfMeal { get; set; }
         [DisplayName("CHO of meal")]
-        internal DoubleAndText CarbohydratesGrams { get; set; }
+        public DoubleAndText CarbohydratesGrams { get; set; }
 
         // the following property is for string representation of carbohydrates, e.g. "2 slices of bread"
         // currently it is NOT STORED in the database, nor used in the code logic
-        internal DoubleAndText CarbohydratesString { get; set; }
+        public DoubleAndText CarbohydratesString { get; set; }
 
         [DisplayName("Start time")]
-        internal new DateTimeAndText EventTime
+        public new DateTimeAndText EventTime
         {
             get => base.EventTime;
             set => base.EventTime = value;
         }
         [DisplayName("Accuracy of CHO")]
-        internal DoubleAndText AccuracyOfChoEstimate { get; set; }
-        internal int? IdBolusCalculation { get; set; }
-        internal int? IdGlucoseRecord { get; set; }
-        internal int? IdInjection { get; set; }
+        public DoubleAndText AccuracyOfChoEstimate { get; set; }
+        public int? IdBolusCalculation { get; set; }
+        public int? IdGlucoseRecord { get; set; }
+        public int? IdInjection { get; set; }
         [DisplayName("End time")]
-        internal DateTimeAndText TimeEnd { get; set; }
-        internal List<Food> FoodsEaten { get; set; }
-        internal Meal()
+        public DateTimeAndText TimeEnd { get; set; }
+        public List<Food> FoodsEaten { get; set; }
+        public Meal()
         {
             // default type of meal is NotSet
             IdTypeOfMeal = Common.TypeOfMeal.NotSet;

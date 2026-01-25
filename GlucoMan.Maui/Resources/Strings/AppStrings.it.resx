@@ -1901,7 +1901,7 @@
     <value>Crudo</value>
   </data>
   <data name="TooltipRawFood" xml:space="preserve">
-    <value>Cibo crudo: se selezionato il valore di CHO% del cibo à¨ riferito al cibo crudo. Il peso della porzione cotta verrà  convertito in peso crudo da questi calcoli</value>
+    <value>Cibo crudo: se selezionato il valore di CHO% del cibo è riferito al cibo crudo. Il peso della porzione cotta verrà  convertito in peso crudo da questi calcoli</value>
   </data>
   <data name="TooltipCalculatorFood" xml:space="preserve">
     <value>Apri calcolatrice per i calcoli del cibo</value>
@@ -1922,7 +1922,7 @@
     <value>Clicca per selezionare un contenitore dall'elenco</value>
   </data>
   <data name="WeightDataCookedFood" xml:space="preserve">
-    <value>Dati di peso su TUTTO il cibo dopo la cottura (cotto)</value>
+    <value>Pesi di TUTTO il cibo cotto (CON condimento)</value>
   </data>
   <data name="WeightDataCookedPortion" xml:space="preserve">
     <value>Dati di peso sulla porzione cotta</value>
@@ -1937,7 +1937,7 @@
     <value>Porzioni uguali</value>
   </data>
   <data name="TooltipEqualPortions" xml:space="preserve">
-    <value>Dividi tutto il cibo in porzioni uguali: la porzione verrà  calcolata dividendo il cibo totale per N persone</value>
+    <value>Dividi tutto il cibo in porzioni uguali: la porzione verrà  calcolata dividendo il cibo totale per N porzioni</value>
   </data>
   <data name="NumberOfPortions" xml:space="preserve">
     <value>N. di porzioni</value>
@@ -2183,10 +2183,10 @@
     <value>Identificazione dei parametri</value>
   </data>
   <data name="ImportDatabase" xml:space="preserve">
-    <value>Importa database</value>
+    <value>Import DB e foto</value>
   </data>
   <data name="TooltipImportDatabase" xml:space="preserve">
-    <value>Sostituisce il database attuale con quello scelto dall'utente</value>
+    <value>Sostituisce il database attuale con quello scelto dall'utente e importa le immagini della cartella</value>
   </data>
   <data name="TooltipExportFiles" xml:space="preserve">
     <value>Esporta dati e file d'interesse nella cartella "GlucoMan"dentro "Download",  da dove possono essere letti</value>
@@ -2210,7 +2210,7 @@
     <value>Cancella il contenuto di tutti i file di log del programma</value>
   </data>
   <data name="Menu" xml:space="preserve">
-    <value>Menà¹</value>
+    <value>Menù</value>
   </data>
   <data name="TooltipMenu" xml:space="preserve">
     <value>Apre la pagina principale</value>
@@ -2288,10 +2288,10 @@
     <value>TDD: Insulina totale (rapida + lenta).</value>
   </data>
   <data name="WeightDataCookedSeasoning" xml:space="preserve">
-    <value>Pesi per tutto il condimento cotto</value>
+    <value>Pesi di tutto il condimento cotto</value>
   </data>
   <data name="ChoPercentSeasoning" xml:space="preserve">
-    <value>CHO C.</value>
+    <value>CHO Cond.</value>
   </data>
   <data name="TooltipSeasoningCarbohydrates" xml:space="preserve">
     <value>Percentuale di carboidrati nel condimento cotto</value>
@@ -2489,6 +2489,15 @@ Durata: {2}</value>
   <data name="TrackBtnSaveTrack" xml:space="preserve">
     <value>Salva Traccia</value>
   </data>
+  <data name="ChoosePhotoFile" xml:space="preserve">
+    <value>Scegli file foto</value>
+  </data>
+  <data name="TooltipChoosePhotoFile" xml:space="preserve">
+    <value>Scegli una foto dalla cartella Download</value>
+  </data>
+  <data name="PhotoImported" xml:space="preserve">
+    <value>Foto importata con successo!</value>
+  </data>
   <data name="TrackBtnClear" xml:space="preserve">
     <value>Cancella</value>
   </data>
@@ -2515,5 +2524,11 @@ Durata: {2}</value>
   </data>
   <data name="TrackReady" xml:space="preserve">
     <value>Pronto</value>
+  </data>
+  <data name="ImportImages" xml:space="preserve">
+    <value>Importa immagini</value>
+  </data>
+  <data name="ImportImages_Description" xml:space="preserve">
+    <value>L'importazione copierà anche tutte le immagini trovate nella sottocartella '{0}' situata accanto al file di database selezionato nella cartella interna '{0}' dell'app.\n\nVuoi continuare e importare queste immagini?</value>
   </data>
 </root>

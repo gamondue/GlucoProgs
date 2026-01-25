@@ -1,8 +1,9 @@
 ﻿using gamon;
+using System.ComponentModel;
 
 namespace GlucoMan
 {
-    internal class Food
+    public class Food : INotifyPropertyChanged
     {
         public int? IdFood { get; set; }
         public string Name { get; set; }
@@ -27,6 +28,26 @@ namespace GlucoMan
         public bool IsRaw { get; set; }  // Indicates if the food is raw (true) or cooked (false)
         public DoubleAndText RawCookedRatio { get; set; }  // Ratio between raw and cooked weight
         public List<UnitOfFood> Units { get; set; }
+
+        private bool _isSelectedInList;
+
+        public bool IsSelectedInList
+        {
+            get => _isSelectedInList;
+            set
+            {
+                if (_isSelectedInList != value)
+                {
+                    _isSelectedInList = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelectedInList)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RowBorderColor)));
+                }
+            }
+        }
+
+        public string RowBorderColor => IsSelectedInList ? "Orange" : "Transparent";
+
+        public event PropertyChangedEventHandler? PropertyChanged;
         
         // unit is mandative to set the "internal" values in grams
         public Food(UnitOfFood Unit)

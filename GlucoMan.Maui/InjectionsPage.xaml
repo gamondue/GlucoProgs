@@ -190,19 +190,30 @@
                      <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid ColumnDefinitions="150*,35*,50*,50*,60*">
-                                    <Label Grid.Column="0" Text="{Binding EventTime.DateTime}" 
-                                        HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                    <Label Grid.Column="1" Text="{Binding InsulinValue.Text}" 
-                                        HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                    <Label Grid.Column="2" Text="{Binding TypeOfInjection}" 
-                                        HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                    <Label Grid.Column="3" Text="{Binding TypeOfInsulinAction}" 
-                                        HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                    <Label Grid.Column="4" Text="{Binding InsulinDrugName}" 
-                                        HorizontalTextAlignment="Center" VerticalOptions="Center"
-                                        LineBreakMode="TailTruncation" MaxLines="1"/>
-                                </Grid>
+                                <Border Margin="1" 
+                                        BackgroundColor="White"
+                                        StrokeThickness="2"
+                                        Stroke="{Binding RowBorderColor}">
+                                    <Grid VerticalOptions="Center" 
+                                          ColumnDefinitions="150*,35*,50*,50*,60*">
+                                        <Label Grid.Column="0" Text="{Binding EventTime.DateTime}" 
+                                            HorizontalTextAlignment="Center"
+                                            TextColor="Black" FontSize="14"/>
+                                        <Label Grid.Column="1" Text="{Binding InsulinValue.Text}" 
+                                            HorizontalTextAlignment="Center"
+                                            TextColor="Black" FontSize="14"/>
+                                        <Label Grid.Column="2" Text="{Binding TypeOfInjection}" 
+                                            HorizontalTextAlignment="Center"
+                                            TextColor="Black" FontSize="14"/>
+                                        <Label Grid.Column="3" Text="{Binding TypeOfInsulinAction}" 
+                                            HorizontalTextAlignment="Center"
+                                            TextColor="Black" FontSize="14"/>
+                                        <Label Grid.Column="4" Text="{Binding InsulinDrugName}" 
+                                            HorizontalTextAlignment="Center"
+                                            TextColor="Black" FontSize="14"
+                                            LineBreakMode="TailTruncation" MaxLines="1"/>
+                                    </Grid>
+                                </Border>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>

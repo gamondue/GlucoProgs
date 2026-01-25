@@ -388,6 +388,9 @@ public partial class InjectionsPage : ContentPage
         {
             return;
         }
+        
+        var selectedInjection = (Injection)e.SelectedItem;
+        
         // Check if there are unsaved changes before changing selection
         if (HasUnsavedChanges)
         {
@@ -409,8 +412,21 @@ public partial class InjectionsPage : ContentPage
                 HasUnsavedChanges = false;
             }
         }
+        
+        // Deseleziona tutti gli altri elementi nella lista
+        if (allInjections != null)
+        {
+            foreach (var injection in allInjections)
+            {
+                injection.IsSelectedInList = false;
+            }
+        }
+        
+        // Seleziona l'elemento corrente
+        selectedInjection.IsSelectedInList = true;
+        
         // make the tapped row the current injection 
-        CurrentInjection = (Injection)e.SelectedItem;
+        CurrentInjection = selectedInjection;
 
         SetTheColorsOfPictureButtons();
         

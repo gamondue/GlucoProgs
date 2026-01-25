@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace GlucoMan
 {
-    public class FoodInMeal
+    public class FoodInMeal : INotifyPropertyChanged
     {
         public int? IdFoodInMeal { get; set; }
         public int? IdMeal { get; set; }
@@ -21,6 +21,23 @@ namespace GlucoMan
         public string Description;
 
         private DoubleAndText _accuracyOfChoEstimate;
+        private bool _isSelectedInList;
+
+        public bool IsSelectedInList
+        {
+            get => _isSelectedInList;
+            set
+            {
+                if (_isSelectedInList != value)
+                {
+                    _isSelectedInList = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelectedInList)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RowBorderColor)));
+                }
+            }
+        }
+
+        public string RowBorderColor => IsSelectedInList ? "Orange" : "Transparent";
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

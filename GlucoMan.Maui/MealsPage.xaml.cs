@@ -41,7 +41,6 @@ public partial class MealsPage : ContentPage
         // Initialize accuracy controls to sync combo boxes with current text values
         InitializeAccuracyControls();
 
-        RefreshGrid();
         loadingUi = false;
     }
 
@@ -106,11 +105,30 @@ public partial class MealsPage : ContentPage
     }
     private void RefreshGrid()
     {
-        DateTime now = DateTime.Now;
-        allTheMeals = bl.GetMeals(
-            now.AddMonths(-(int)(MonthsOfDataShownInTheGrids)),
-            now.AddDays(1));
-        gridMeals.BindingContext = allTheMeals;
+        try
+        {
+            DateTime now = DateTime.Now;
+            allTheMeals = bl.GetMeals(
+                now.AddMonths(-(int)(MonthsOfDataShownInTheGrids)),
+                now.AddDays(1));
+            
+            General.LogOfProgram?.Debug($"RefreshGrid: Loaded {allTheMeals?.Count ?? 0} meals");
+            
+            // DEBUG: Verify data
+            if (allTheMeals != null && allTheMeals.Count > 0)
+            {
+                General.LogOfProgram?.Debug($"First meal: ID={allTheMeals[0].IdMeal}, Date={allTheMeals[0].EventTime.DateTime}, CHO={allTheMeals[0].CarbohydratesGrams.Double}");
+            }
+            
+            gridMeals.ItemsSource = null; // Clear first
+            gridMeals.ItemsSource = allTheMeals;
+            
+            General.LogOfProgram?.Debug($"ListView ItemsSource set to {allTheMeals?.Count ?? 0} items");
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("RefreshGrid error", ex);
+        }
     }
     protected override async void OnAppearing()
     {

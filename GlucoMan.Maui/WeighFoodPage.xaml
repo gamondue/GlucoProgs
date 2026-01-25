@@ -192,7 +192,7 @@
                     <Label Grid.Row="0" Grid.Column="4" Margin="2" Text="{x:Static res:AppStrings.NetLabel}"
                             HorizontalTextAlignment="Center"/>
                     <Entry Grid.Row="1" Grid.Column="0" x:Name="TxtCookedGross" 
-                           Text="{Binding Cooked.Gross.Text, Mode=TwoWay}"
+                           Text="{Binding CookedFood.Gross.Text, Mode=TwoWay}"
                            HorizontalTextAlignment ="End"
                            Keyboard="Numeric" 
                            TextChanged="TxtCookedGross_TextChanged"
@@ -210,17 +210,17 @@
                         </Image.GestureRecognizers>
                     </Image>
                     <Entry Grid.Row="1" Grid.Column="2" x:Name="TxtCookedTare"
-                           Text="{Binding Cooked.Tare.Text, Mode=TwoWay}"
+                           Text="{Binding CookedFood.Tare.Text, Mode=TwoWay}"
                            HorizontalTextAlignment ="End"
                        Keyboard="Numeric" 
                        TextChanged="TxtCookedTare_TextChanged"
                        Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
                     <Entry Grid.Row="1" Grid.Column="4" x:Name="TxtCookedNet"
-                           Text="{Binding Cooked.Net.Text, Mode=TwoWay}"
-                           HorizontalTextAlignment ="End"
-                       Keyboard="Numeric" 
-                       TextChanged="TxtCookedNet_TextChanged"
-                       Placeholder="[g]" BackgroundColor="PaleGreen" />
+                        Text="{Binding CookedFood.Net.Text, Mode=TwoWay}"
+                        HorizontalTextAlignment ="End"
+                        Keyboard="Numeric" 
+                        TextChanged="TxtCookedNet_TextChanged"
+                        Placeholder="[g]" BackgroundColor="PaleGreen" />
                 </Grid>
                 
                 <!--Separator - Seasoning section-->
@@ -238,7 +238,7 @@
                            Margin="5,0,5,0"/>
                     <Entry Grid.Column="2"
                            x:Name="TxtSeasoningCarbohydratesPercent"
-						   Text="{Binding Seasoning.CarbohydratesPercent.Text, Mode=TwoWay}"
+						   Text="{Binding CookedSeasoning.CarbohydratesPercent.Text, Mode=TwoWay}"
                            BackgroundColor="GreenYellow" TextColor="Black"
                            Margin="0,0,5,0"
                            WidthRequest="40"
@@ -259,7 +259,7 @@
                     <Label Grid.Row="0" Grid.Column="4" Margin="2" Text="{x:Static res:AppStrings.NetLabel}"
                             HorizontalTextAlignment="Center"/>
                     <Entry Grid.Row="1" Grid.Column="0" x:Name="TxtSeasoningGross" 
-                           Text="{Binding Seasoning.Gross.Text, Mode=TwoWay}"
+                           Text="{Binding CookedSeasoning.Gross.Text, Mode=TwoWay}"
                            HorizontalTextAlignment ="End"
                            Keyboard="Numeric" 
                            TextChanged="TxtSeasoningGross_TextChanged"
@@ -277,13 +277,13 @@
                         </Image.GestureRecognizers>
                     </Image>
                     <Entry Grid.Row="1" Grid.Column="2" x:Name="TxtSeasoningTare"
-                           Text="{Binding Seasoning.Tare.Text, Mode=TwoWay}"
+                           Text="{Binding CookedSeasoning.Tare.Text, Mode=TwoWay}"
                            HorizontalTextAlignment ="End"
                            Keyboard="Numeric" 
                            TextChanged="TxtSeasoningTare_TextChanged"
                            Placeholder="[g]" BackgroundColor="PaleGoldenrod" />
                     <Entry Grid.Row="1" Grid.Column="4" x:Name="TxtSeasoningNet"
-                           Text="{Binding Seasoning.Net.Text, Mode=TwoWay}"
+                           Text="{Binding CookedSeasoning.Net.Text, Mode=TwoWay}"
                            HorizontalTextAlignment ="End"
                            Keyboard="Numeric" 
                            TextChanged="TxtSeasoningNet_TextChanged"
@@ -409,27 +409,27 @@
 					<StackLayout Grid.Row="1" Grid.Column="0" 
 								 Orientation="Horizontal">
 						<Entry x:Name="TxtCarboydratesOfPortion"
-                        Text="{Binding CarbohydratesOfPortion.Text, Mode=OneWay}"
+                        Text="{Binding CarbohydratesOfPortion.Text, Mode=TwoWay}"
                         Keyboard="Numeric" HorizontalTextAlignment ="End" 
                         Placeholder="[g]" 
                         IsReadOnly="True"
                         BackgroundColor="CadetBlue" TextColor="White" />
 						
 						<Entry x:Name="TxtCarboydratesPercentOfTotal"
-                        Text="{Binding TotalCarbohydratesPercent.Text, Mode=OneWay}"
+                        Text="{Binding TotalCarbohydratesPercent.Text, Mode=TwoWay}"
                         Keyboard="Numeric" HorizontalTextAlignment ="End" 
                         Placeholder="[g]" 
                         IsReadOnly="True"
                         BackgroundColor="CadetBlue" TextColor="White" />
 					</StackLayout>
 					<Entry Grid.Row="1" Grid.Column="1" x:Name="TxtWeightOfPortion"
-                    Text="{Binding WeightOfPortion.Text, Mode=OneWay}"
+                    Text="{Binding WeightOfPortion.Text, Mode=TwoWay}"
                     HorizontalTextAlignment ="End"
                     Keyboard="Numeric" Placeholder="[g]"
                     IsReadOnly="True"
                     BackgroundColor="DeepSkyBlue" TextColor="Black"/>
                     <Entry Grid.Row="1" Grid.Column="2" x:Name="TxtRawByCooked"
-                    Text="{Binding RawCookedRatio.Text, Mode=OneWay}"
+                    Text="{Binding RawCookedRatio.Text, Mode=TwoWay}"
                     HorizontalTextAlignment ="End"
                     Keyboard="Numeric" Placeholder="[g]"
                     IsReadOnly="True"

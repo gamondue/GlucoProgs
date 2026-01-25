@@ -94,13 +94,14 @@
  HeightRequest="{Binding Source={x:Reference brdContainerPhoto}, Path=HeightRequest}"
  RowSpacing="4" ColumnSpacing="4">
 
- <Button Grid.Row="0" Grid.Column="0" x:Name="btnBack" ImageSource="escape.png" Clicked="btnBack_Click"
+<Button Grid.Row="0" Grid.Column="0" x:Name="btnChoose" ImageSource="choose.png" Clicked="btnChoose_Click"
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipChoose}"
+ VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
+                    
+<Button Grid.Row="0" Grid.Column="1" x:Name="btnBack" ImageSource="escape.png" Clicked="btnBack_Click"
  ToolTipProperties.Text="{x:Static res:AppStrings.TooltipBack}"
  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
 
- <Button Grid.Row="0" Grid.Column="1" x:Name="btnChoose" ImageSource="choose.png" Clicked="btnChoose_Click"
- ToolTipProperties.Text="{x:Static res:AppStrings.TooltipChoose}"
- VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
 
  <Button Grid.Row="0" Grid.Column="2" x:Name="btnSave" ImageSource="floppy_disc.png" Clicked="btnSave_Click"
  ToolTipProperties.Text="{x:Static res:AppStrings.TooltipSave}"
@@ -108,6 +109,10 @@
 
  <Button Grid.Row="0" Grid.Column="3" x:Name="btnTakePicture" ImageSource="camera.png" Clicked="btnTakePicture_Click"
  ToolTipProperties.Text="{x:Static res:AppStrings.TooltipTakePicture}"
+ VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
+
+ <Button Grid.Row="1" Grid.Column="3" x:Name="btnChoosePhotoFile" ImageSource="folder.png" Clicked="btnChoosePhotoFile_Click"
+ ToolTipProperties.Text="{x:Static res:AppStrings.TooltipChoosePhotoFile}"
  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0" />
 
  <Button Grid.Row="1" Grid.Column="0" x:Name="btnClearFields" ImageSource="clear_fields.png" Clicked="btnClearFields_Click"

@@ -271,20 +271,29 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid Margin="2">
-                                    <Grid ColumnDefinitions="*,50,50,50,50">
+                                <Border Margin="1" 
+                                        BackgroundColor="White"
+                                        StrokeThickness="2"
+                                        Stroke="{Binding RowBorderColor}">
+                                    <Grid VerticalOptions="Center" 
+                                          ColumnDefinitions="*,50,50,50,50">
                                         <Label Grid.Column="0" Margin="2" HorizontalTextAlignment="Start" 
+                                            TextColor="Black" FontSize="14"
                                             Text="{Binding Name}"/>
                                         <Label Grid.Column="1" Margin="2" HorizontalTextAlignment="Center" 
+                                            TextColor="Black" FontSize="14"
                                             Text="{Binding CarbohydratesPercent.Text}"/>
                                         <Label Grid.Column="2" Margin="2" HorizontalTextAlignment="Center" 
+                                            TextColor="Black" FontSize="14"
                                             Text="{Binding QuantityInUnits.Text}"/>
                                         <Label Grid.Column="3" Margin="2" HorizontalTextAlignment="Center" 
+                                            TextColor="Black" FontSize="14"
                                             Text="{Binding CarbohydratesGrams.Text}"/>
                                         <Label Grid.Column="4" Margin="2" HorizontalTextAlignment="Center" 
+                                            TextColor="Black" FontSize="14"
                                             Text="{Binding AccuracyOfChoEstimate.Text}"/>
                                     </Grid>
-                                </Grid>
+                                </Border>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>
