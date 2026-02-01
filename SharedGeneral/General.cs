@@ -147,18 +147,5 @@ namespace gamon
                 "$1 $2"
             );
         }
-        public static (double mean, double stdDev) CalculateMeanAndStdDev(List<double> values)
-        {
-            if (values == null || values.Count == 0)
-                return (0, 0);
-
-            double mean = values.Average();
-            double sumOfSquaredDifferences = values.Sum(val => Math.Pow(val - mean, 2));
-            double variance = sumOfSquaredDifferences / values.Count;
-            double stdDev = Math.Sqrt(variance);
-
-            return (mean, stdDev);
-        }
-
     }
 }

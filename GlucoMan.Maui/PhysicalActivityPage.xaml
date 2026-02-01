@@ -143,29 +143,46 @@
                        ToolTipProperties.Text="Accuracy of estimation"/>
             </Grid>
 
-            <ListView Grid.Row="10" Grid.ColumnSpan="4" x:Name="gridActivities" ItemsSource="{Binding}"
-                      ToolTipProperties.Text="Past physical activities"
-                      ItemSelected="OnGridSelectionAsync"
-                      RowHeight="25">
-                <ListView.ItemTemplate>
+            <CollectionView Grid.Row="10" Grid.ColumnSpan="4" x:Name="gridActivities" ItemsSource="{Binding}"
+                            ToolTipProperties.Text="Past physical activities"
+                            SelectionMode="Single"
+                            SelectionChanged="OnGridSelectionAsync"
+                            Margin="0"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="Fill">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Grid ColumnDefinitions="*,60,60,60">
-                                    <Label Grid.Column="0" HorizontalTextAlignment="Center" VerticalOptions="Center"
-                                           Text="{Binding Timestamp.DateTime}"/>
-                                    <Label Grid.Column="1" HorizontalTextAlignment="Center" VerticalOptions="Center"
-                                           Text="{Binding InsulinValue.Text}"/>
-                                    <Label Grid.Column="2" HorizontalTextAlignment="Center" VerticalOptions="Center"
-                                           Text="{Binding InsulinCalculated.Text}"/>
-                                    <Label Grid.Column="3" HorizontalTextAlignment="Center" VerticalOptions="Center"
-                                           Text="--"/>
-                                </Grid>
-                            </ViewCell.View>
-                        </ViewCell>
+                        <Frame CornerRadius="6" Padding="6" Margin="2,1" BackgroundColor="White" BorderColor="LightGray" HasShadow="False" HorizontalOptions="FillAndExpand">
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelectedInList}" Value="True">
+                                    <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding RowBorderColor}" Value="Orange">
+                                    <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                </DataTrigger>
+                            </Frame.Triggers>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnItemTapped" NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,60,60,60" Padding="2">
+                                <Label Grid.Column="0" HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                       Text="{Binding Timestamp.DateTime}" />
+                                <Label Grid.Column="1" HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                       Text="{Binding InsulinValue.Text}" />
+                                <Label Grid.Column="2" HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                       Text="{Binding InsulinCalculated.Text}" />
+                                <Label Grid.Column="3" HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                       Text="--" />
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

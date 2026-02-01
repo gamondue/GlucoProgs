@@ -15,16 +15,9 @@ public partial class StatisticsAndGraphPage : ContentPage
     public StatisticsAndGraphPage()
     {
         InitializeComponent();
-        
-        // Initialize date pickers with default values
-        InitializeDatePickers();
-    }
-    private void InitializeDatePickers()
-    {
-        // Set default dates: To = now, From = 2 weeks before
-        datePicker.Date = DateTime.Now.Date;
-        // timePickerTo.Time = DateTime.Now.TimeOfDay; // Temporarily commented - using date only
 
+        // Set default date To = now - 1 day (because we do not have full data about today),
+        datePicker.Date = DateTime.Today.AddDays(-1);
     }
     private async void btnChart_Clicked(object sender, TappedEventArgs e)
     {
@@ -37,7 +30,7 @@ public partial class StatisticsAndGraphPage : ContentPage
             // Log the action
             ////////General.LogOfProgram?.Event($"Opening Chart page - From: {dateTimeFrom}, To: {date}");
             
-            // Navigate to Chart page (to be implemented)
+            // Navigate to Chart page
             var chartPage = new ChartPage(date);
             await Navigation.PushAsync(chartPage);
         }

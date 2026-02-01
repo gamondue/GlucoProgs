@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Identification1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Identification2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Identification3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GamonStats.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Documentation\API_Examples_Identification2.md" />

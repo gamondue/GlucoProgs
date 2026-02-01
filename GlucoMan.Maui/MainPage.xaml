@@ -89,7 +89,7 @@
                 Margin="6,3,3,3"/>
         
         <Button x:Name="btnAlarms" 
-                IsEnabled="False"
+                IsEnabled="True"
                 ImageSource="ringing_clock.png"
                 Grid.Row="5" Grid.Column="1" 
                 IsVisible="True"

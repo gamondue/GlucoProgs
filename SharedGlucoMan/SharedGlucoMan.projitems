@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\ISystemAlarmScheduler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\PhysicalActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Point.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\StatisticsData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Track.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\WeighingData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\WeightsForWeighing.cs" />

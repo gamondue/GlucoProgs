@@ -163,6 +163,7 @@ namespace GlucoMan
         internal abstract void DeleteGpsPositions(int? idTrack);
         internal abstract void DeleteGpsPositionsForTrack(int? idTrack);
         internal abstract void UpdateGpsPosition(GpsPosition position);
+        internal abstract List<FoodInMeal> Get200MatchingFoodsInMeals(string name);
         #endregion
 
 

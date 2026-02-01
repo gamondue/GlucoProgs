@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GlucoMan.Maui.WindowsAlarmPage"
+             BackgroundColor="#DC143C">
+    
+    <Grid RowDefinitions="Auto,*,Auto" Padding="40">
+        
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0" Spacing="10">
+            <Label Text="GLUCOMAN ALARM"
+                   FontSize="48"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalTextAlignment="Center"/>
+            
+            <BoxView HeightRequest="3" Color="White" Margin="0,10"/>
+        </VerticalStackLayout>
+        
+        <!-- Main content -->
+        <VerticalStackLayout Grid.Row="1" 
+                            Spacing="30"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center">
+            
+            <!-- Alarm icon using Unicode character -->
+            <Label Text="&#x23F0;"
+                   FontSize="120"
+                   TextColor="White"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,20,0,20"/>
+            
+            <!-- Current time -->
+            <Label x:Name="lblAlarmTime"
+                   FontSize="96"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalTextAlignment="Center"/>
+            
+            <!-- Message box -->
+            <Frame BackgroundColor="#8B0000"
+                   Padding="30"
+                   CornerRadius="15"
+                   HasShadow="True"
+                   MinimumWidthRequest="500">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="REMINDER:"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#FFD700"
+                           HorizontalTextAlignment="Center"/>
+                    
+                    <Label x:Name="lblAlarmMessage"
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           LineBreakMode="WordWrap"
+                           HorizontalTextAlignment="Center"
+                           MaxLines="6"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+        </VerticalStackLayout>
+        
+        <!-- Bottom buttons -->
+        <VerticalStackLayout Grid.Row="2" Spacing="20">
+            
+            <Label Text="ACTION REQUIRED - CHOOSE AN OPTION"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="#FFD700"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,0,0,10"/>
+            
+            <HorizontalStackLayout Spacing="30"
+                                  HorizontalOptions="Center">
+                
+                <!-- Snooze button -->
+                <Button x:Name="btnSnooze"
+                        Text="SNOOZE&#x0a;5 MINUTES"
+                        FontSize="24"
+                        FontAttributes="Bold"
+                        TextColor="#DC143C"
+                        BackgroundColor="White"
+                        WidthRequest="250"
+                        HeightRequest="120"
+                        CornerRadius="15"
+                        Clicked="BtnSnooze_Clicked"/>
+                
+                <!-- Dismiss button -->
+                <Button x:Name="btnDismiss"
+                        Text="DISMISS"
+                        FontSize="28"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        BackgroundColor="#8B0000"
+                        WidthRequest="250"
+                        HeightRequest="120"
+                        CornerRadius="15"
+                        BorderColor="White"
+                        BorderWidth="4"
+                        Clicked="BtnDismiss_Clicked"/>
+            </HorizontalStackLayout>
+            
+            <Label Text="Press ESC key or click a button to dismiss"
+                   FontSize="14"
+                   TextColor="#FFCCCC"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,10,0,0"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

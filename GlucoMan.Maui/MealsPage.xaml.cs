@@ -122,8 +122,6 @@ public partial class MealsPage : ContentPage
             
             gridMeals.ItemsSource = null; // Clear first
             gridMeals.ItemsSource = allTheMeals;
-            
-            General.LogOfProgram?.Debug($"ListView ItemsSource set to {allTheMeals?.Count ?? 0} items");
         }
         catch (Exception ex)
         {
@@ -135,16 +133,47 @@ public partial class MealsPage : ContentPage
         await RefreshUi();
         base.OnAppearing();
     }
-    private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
+    // Support a direct tap on the item Frame to set selection (helps on Android)
+    private void OnItemTapped(object? sender, EventArgs e)
     {
-        if (e.SelectedItem == null)
+        if (sender is Frame frame && frame.BindingContext is Meal tapped)
         {
-            // await DisplayAlert("XXXX", "YYYY", "Ok");
-            return;
+            gridMeals.SelectedItem = tapped;
         }
-        // make the tapped row the current meal 
-        bl.Meal = (Meal)e.SelectedItem;
-        await FromClassToUi();
+    }
+
+    private async void OnGridSelectionAsync(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection == null || e.CurrentSelection.Count == 0)
+            return;
+
+        try
+        {
+            var selectedMeal = (Meal)e.CurrentSelection[0];
+
+            // Deselect all other meals
+            if (allTheMeals != null)
+            {
+                foreach (var meal in allTheMeals)
+                {
+                    meal.IsSelectedInList = false;
+                }
+            }
+
+            // Select the current meal
+            selectedMeal.IsSelectedInList = true;
+
+            // make the tapped row the current meal
+            bl.Meal = selectedMeal;
+            await FromClassToUi();
+
+            // Clear CollectionView SelectedItem to avoid default selection visuals
+            gridMeals.SelectedItem = null;
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("MealsPage - OnGridSelectionAsync", ex);
+        }
     }
     private async void btnAddMeal_ClickAsync(object sender, EventArgs e)
     {

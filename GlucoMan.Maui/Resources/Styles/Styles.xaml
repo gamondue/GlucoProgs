@@ -142,6 +142,12 @@
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
     </Style>
 
+    <!-- Selection colors for CollectionView rows -->
+    <Color x:Key="SelectedRowBorderColor">Orange</Color>
+    <!-- Color used for newly added rows' border (was missing and caused XAML parse errors in Release) -->
+    <Color x:Key="NewRowBorderColor">Red</Color>
+    <Color x:Key="SelectedRowBackgroundColor">#e6f7ff</Color>
+
     <Style TargetType="ImageButton">
         <Setter Property="Opacity" Value="1" />
         <Setter Property="BorderColor" Value="Transparent"/>
@@ -198,11 +204,6 @@
         <Setter Property="FontSize" Value="24" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
-    </Style>
-
-    <Style TargetType="ListView">
-        <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="RefreshControlColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
     </Style>
 
     <Style TargetType="Picker">

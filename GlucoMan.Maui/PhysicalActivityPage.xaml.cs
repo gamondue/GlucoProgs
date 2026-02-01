@@ -22,7 +22,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
     private Injection CurrentActivity = new Injection();
     private List<Injection> allActivities;
 
-    // Observable collection for ListView binding
+    // Observable collection for binding
     private ObservableCollection<Injection> _activities;
     public ObservableCollection<Injection> Activities
     {
@@ -51,7 +51,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
 
             loadingUi = true;
 
-            // Initialize ObservableCollection for ListView binding
+            // Initialize ObservableCollection for binding
             Activities = new ObservableCollection<Injection>();
 
             // Set the page as its own BindingContext for property binding
@@ -248,7 +248,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
                 .Where(i => i.IdTypeOfInjection == (int)Common.TypeOfInjection.Other)
                 .ToList();
 
-            UpdateActivitiesCollection();
+            UpdateActivitiesCollection(); // Update the activities collection
             gridActivities.ItemsSource = Activities;
         }
         catch (Exception ex)
@@ -782,24 +782,58 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
         }
     }
 
-    private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
+    private async void OnGridSelectionAsync(object sender, Microsoft.Maui.Controls.SelectionChangedEventArgs e)
     {
-        if (e.SelectedItem == null)
-        {
+        if (e.CurrentSelection == null || e.CurrentSelection.Count == 0)
             return;
-        }
 
         try
         {
-            CurrentActivity = (Injection)e.SelectedItem;
+            var selected = (Injection)e.CurrentSelection[0];
+            CurrentActivity = selected;
             await FromClassToUi();
 
             // Update accuracy controls after Data selection
             await RefreshActivityAccuracyControls();
+
+            // Standardize selection markers across the collection
+            try
+            {
+                if (Activities != null)
+                {
+                    foreach (var act in Activities)
+                    {
+                        act.IsSelectedInList = false;
+                    }
+                }
+                selected.IsSelectedInList = true;
+                // Clear SelectedItem to avoid default CollectionView selection visuals
+                gridActivities.SelectedItem = null;
+            }
+            catch { }
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("PhysicalActivityPage - OnGridSelectionAsync", ex);
+        }
+    }
+
+    // Support a direct tap on the item Frame to set selection (helps on Android)
+    private void OnItemTapped(object? sender, EventArgs e)
+    {
+        if (sender is Frame frame && frame.BindingContext is Injection tapped)
+        {
+            // set selected item which will trigger SelectionChanged
+            gridActivities.SelectedItem = tapped;
+            try
+            {
+                CurrentActivity = tapped;
+                _ = FromClassToUi();
+            }
+            catch
+            {
+                // ignore any errors from manual invocation
+            }
         }
     }
 }

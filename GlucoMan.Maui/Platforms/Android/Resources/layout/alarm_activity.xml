@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FF1744"
+    android:padding="24dp">
+
+    <!-- Alarm Icon -->
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@android:drawable/ic_lock_idle_alarm"
+        android:tint="#FFFFFF"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/txtAlarmTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GlucoMan Alarm"
+        android:textSize="32sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Current Time -->
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format12Hour="hh:mm a"
+        android:format24Hour="HH:mm"
+        android:textSize="48sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Message -->
+    <TextView
+        android:id="@+id/txtAlarmMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reminder"
+        android:textSize="24sp"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_marginBottom="48dp"
+        android:maxLines="3"
+        android:ellipsize="end"/>
+
+    <!-- Buttons Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="24dp">
+
+        <!-- Snooze Button -->
+        <Button
+            android:id="@+id/btnSnooze"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Snooze\n5 min"
+            android:textSize="18sp"
+            android:textColor="#FF1744"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:layout_marginEnd="8dp"
+            android:textAllCaps="false"/>
+
+        <!-- Dismiss Button -->
+        <Button
+            android:id="@+id/btnDismiss"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Dismiss"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:background="#C62828"
+            android:padding="16dp"
+            android:layout_marginStart="8dp"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
+    <!-- Instructions -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Swipe or press button to dismiss"
+        android:textSize="14sp"
+        android:textColor="#FFCDD2"
+        android:layout_marginTop="24dp"/>
+</LinearLayout>

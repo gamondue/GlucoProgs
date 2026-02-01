@@ -211,11 +211,14 @@
                                 IsEnabled="True"></Button>
                         <!--Text="Recipes"-->
                     </Grid>
-                    <ListView Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5" 
+                    <CollectionView Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5" 
                         x:Name="gridIngredients" ItemsSource="{Binding}"
-                        VerticalOptions="Center" Margin="3"
-                        ItemSelected="gridIngredients_ItemSelected" >
-                        <ListView.Header>
+                        ToolTipProperties.Text="Ingredients"
+                        SelectionMode="Single"
+                        SelectionChanged="gridIngredients_SelectionChanged"
+                        Margin="3"
+                        VerticalOptions="Center">
+                        <CollectionView.Header>
                             <Grid ColumnDefinitions="*,65,65,65"
                                 BackgroundColor="#e8f5e9"
                                 Margin="2"
@@ -242,23 +245,37 @@
                                     FontSize="14"
                                     TextColor="#2c3e50"/>
                             </Grid>
-                        </ListView.Header>
+                        </CollectionView.Header>
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+                        </CollectionView.ItemsLayout>
                         <!-- description of data to be shown, in a DataTemplate -->
-                        <ListView.ItemTemplate>
+                        <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <ViewCell>
-                                    <ViewCell.View>
-                                        <Grid Margin="0" Grid.RowDefinitions="*" ColumnDefinitions="*,65,65,65" >
-                                            <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}"/>
-                                            <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding QuantityGrams.Text}"/>
-                                            <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding QuantityPercent.Text}"/>
-                                            <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding CarbohydratesPercent.Text}"/>
-                                        </Grid>
-                                    </ViewCell.View>
-                                </ViewCell>
+                                <Frame CornerRadius="6" Padding="6" Margin="2,1" BackgroundColor="White" BorderColor="LightGray" HasShadow="False" HorizontalOptions="FillAndExpand">
+                                    <Frame.Triggers>
+                                        <DataTrigger TargetType="Frame" Binding="{Binding IsSelectedInList}" Value="True">
+                                            <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                            <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Frame" Binding="{Binding RowBorderColor}" Value="Orange">
+                                            <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                            <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                        </DataTrigger>
+                                    </Frame.Triggers>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnItemTapped" NumberOfTapsRequired="1" />
+                                    </Frame.GestureRecognizers>
+                                    <Grid Margin="0" ColumnDefinitions="*,65,65,65" Padding="2">
+                                        <Label HorizontalTextAlignment="Start" Grid.Column="0" Text="{Binding Name}" />
+                                        <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding QuantityGrams.Text}" />
+                                        <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding QuantityPercent.Text}" />
+                                        <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding CarbohydratesPercent.Text}" />
+                                    </Grid>
+                                </Frame>
                             </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </Grid>
             </Grid>
         </Grid>

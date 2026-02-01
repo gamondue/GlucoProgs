@@ -268,6 +268,70 @@ namespace GlucoMan
             }
             return null;
         }
+        internal override List<FoodInMeal> Get200MatchingFoodsInMeals(string name)
+        {
+            List<FoodInMeal> list = new List<FoodInMeal>();
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
+                {
+                    // Group by Name and CarbohydratesPercent: rows with same Name+CarbohydratesPercent
+                    // but different IdMeal are considered equal;
+                    // return the most recent (highest) IdMeal for each group.
+                    // Limit results to maximum 200 rows and order by the meal date (TimeBegin) descending.
+                    // Use case-insensitive grouping on Name so names that differ only by case
+                    // are considered the same group. Use COLLATE NOCASE on WHERE and GROUP BY.
+                    string query = "SELECT f.Name, f.CarbohydratesPercent, " +
+                        "MAX(f.IdMeal) AS IdMeal, MAX(m.TimeBegin)" +
+                        " FROM FoodsInMeals f" +
+                        " LEFT JOIN Meals m ON f.IdMeal = m.IdMeal";
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        query += " WHERE f.Name LIKE @pattern COLLATE NOCASE";
+                    }
+                    // Group by Name (case-insensitive) and CarbohydratesPercent to get unique combinations
+                    query += " GROUP BY f.Name COLLATE NOCASE, f.CarbohydratesPercent";
+                    // Order by the most recent meal time (max) descending, then by IdMeal for deterministic ordering
+                    query += " ORDER BY MAX(f.IdMeal) DESC LIMIT 200" +
+                        ";";
+
+                    cmd = new SqliteCommand(query);
+                    cmd.Connection = conn;
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        var p = cmd.CreateParameter();
+                        p.ParameterName = "@pattern";
+                        p.Value = "%" + name + "%";
+                        cmd.Parameters.Add(p);
+                    }
+                    dRead = cmd.ExecuteReader();
+                    while (dRead.Read())
+                    {
+                        FoodInMeal f = new();
+                        try
+                        {
+                            f.Name = Safe.String(dRead["Name"]);
+                            f.CarbohydratesPercent.Double = Safe.Double(dRead["CarbohydratesPercent"]);
+                            f.IdMeal = Safe.Int(dRead["IdMeal"]);
+                        }
+                        catch (Exception ex)
+                        {
+                            General.LogOfProgram.Error("Sqlite_MealAndFood | GetFoodInMealFromRow", ex);
+                        }
+                        list.Add(f);
+                    }
+                    dRead.Dispose();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | GetAllMatchingFoodsInMeals", ex);
+            }
+            return list;
+        }
         internal FoodInMeal GetFoodInMealFromRow(DbDataReader Row)
         {
             FoodInMeal f = new FoodInMeal();

@@ -87,18 +87,16 @@ public partial class FoodsPage : ContentPage
         //gridFoods.ItemsSource = glucoseReadings;
         loading = false;
     }
-    private void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
+    private void OnGridSelectionAsync(object sender, Microsoft.Maui.Controls.SelectionChangedEventArgs e)
     {
-        if (e.SelectedItem == null)
-        {
-            //await DisplayAlert("XXXX", "YYYY", "Ok");
+        if (e.CurrentSelection == null || e.CurrentSelection.Count == 0)
             return;
-        }
+
         loading = true;
-        
-        var selectedFood = (Food)e.SelectedItem;
-        
-        // Deseleziona tutti gli altri elementi nella lista
+
+        var selectedFood = (Food)e.CurrentSelection[0];
+
+        // Deselect all other items in the list
         if (allFoods != null)
         {
             foreach (var food in allFoods)
@@ -106,20 +104,29 @@ public partial class FoodsPage : ContentPage
                 food.IsSelectedInList = false;
             }
         }
-        
-        // Seleziona l'elemento corrente
+
+        // Select the current item
         selectedFood.IsSelectedInList = true;
-        
-        //make the tapped row the current food
+
+        // Make the tapped row the current food
         Food = selectedFood;
         this.BindingContext = Food;
         FromClassToUi();
-        // fill the combo box of UnitSymbol
+        // Fill the combo box of UnitSymbol
         cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
-        // set the selected item to first
+        // Set the selected item to first
         if (cmbUnit.Items.Count > 0)
             cmbUnit.SelectedIndex = 0;
         loading = false;
+    }
+
+    // Support a direct tap on the item Frame to set selection (helps on Android)
+    private void OnItemTapped(object? sender, EventArgs e)
+    {
+        if (sender is Frame frame && frame.BindingContext is Food tapped)
+        {
+            gridFoods.SelectedItem = tapped;
+        }
     }
     private void FromClassToUi()
     {

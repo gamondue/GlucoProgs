@@ -207,7 +207,7 @@
                        Margin="1" Keyboard="Numeric"
                        HorizontalTextAlignment="Center" IsReadOnly="true"/>-->
                 <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" 
-                      ColumnDefinitions="Auto,*,*,*,*">
+                      ColumnDefinitions="*,*,*,*,*">
                     <Button Grid.Column="0" x:Name="btnDefaults" 
                        ImageSource="clear_fields.png"
                        ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipClearData}" Margin="1"
@@ -232,14 +232,20 @@
                        LineBreakMode="WordWrap" Clicked="btnRecipes_ClickAsync" 
                             IsEnabled="True" />
                     <!--Text="Recipes"-->
+                    <Button Grid.Column="4" x:Name="btnSearchFoodInMeal"
+                            ImageSource="magnifier.png"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.SearchFood}"
+                    Margin="1" Clicked="btnSearchFoodInMeal_Click"></Button>
                 </Grid>
             </Grid>
-            <ListView Grid.Row="2" Grid.ColumnSpan="5"
-                      x:Name="gridFoodsInMeal" ItemsSource="{Binding}"
-                      ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFoodsInMealList}"
-                      ItemSelected="gridFoodsInMeal_ItemSelected" 
-                      RowHeight="25">
-                <ListView.Header>
+            <CollectionView Grid.Row="2" Grid.ColumnSpan="5"
+                            x:Name="gridFoodsInMeal" ItemsSource="{Binding}"
+                            ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFoodsInMealList}"
+                            SelectionMode="Single"
+                            SelectionChanged="gridFoodsInMeal_SelectionChanged"
+                            Margin="0"
+                            VerticalOptions="FillAndExpand">
+                <CollectionView.Header>
                     <Grid ColumnDefinitions="*,50,50,50,50"
                           BackgroundColor="#e8f5e9"
                           Margin="2"
@@ -265,40 +271,37 @@
                                FontSize="14"
                                TextColor="#2c3e50"/>
                     </Grid>
-                </ListView.Header>
-                <!-- description of data to be shown, in a DataTemplate -->
-                <ListView.ItemTemplate>
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Border Margin="1" 
-                                        BackgroundColor="White"
-                                        StrokeThickness="2"
-                                        Stroke="{Binding RowBorderColor}">
-                                    <Grid VerticalOptions="Center" 
-                                          ColumnDefinitions="*,50,50,50,50">
-                                        <Label Grid.Column="0" Margin="2" HorizontalTextAlignment="Start" 
-                                            TextColor="Black" FontSize="14"
-                                            Text="{Binding Name}"/>
-                                        <Label Grid.Column="1" Margin="2" HorizontalTextAlignment="Center" 
-                                            TextColor="Black" FontSize="14"
-                                            Text="{Binding CarbohydratesPercent.Text}"/>
-                                        <Label Grid.Column="2" Margin="2" HorizontalTextAlignment="Center" 
-                                            TextColor="Black" FontSize="14"
-                                            Text="{Binding QuantityInUnits.Text}"/>
-                                        <Label Grid.Column="3" Margin="2" HorizontalTextAlignment="Center" 
-                                            TextColor="Black" FontSize="14"
-                                            Text="{Binding CarbohydratesGrams.Text}"/>
-                                        <Label Grid.Column="4" Margin="2" HorizontalTextAlignment="Center" 
-                                            TextColor="Black" FontSize="14"
-                                            Text="{Binding AccuracyOfChoEstimate.Text}"/>
-                                    </Grid>
-                                </Border>
-                            </ViewCell.View>
-                        </ViewCell>
+                        <Frame CornerRadius="6" Padding="6" Margin="2,1" BackgroundColor="White" BorderColor="{Binding RowBorderColor}" HasShadow="False" HorizontalOptions="FillAndExpand">
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelectedInList}" Value="True">
+                                    <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding RowBorderColor}" Value="Orange">
+                                    <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                </DataTrigger>
+                            </Frame.Triggers>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnItemTapped" NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                            <Grid VerticalOptions="Center" ColumnDefinitions="*,50,50,50,50" Padding="2">
+                                <Label Grid.Column="0" Margin="2" HorizontalTextAlignment="Start" TextColor="Black" FontSize="14" Text="{Binding Name}" />
+                                <Label Grid.Column="1" Margin="2" HorizontalTextAlignment="Center" TextColor="Black" FontSize="14" Text="{Binding CarbohydratesPercent.Text}" />
+                                <Label Grid.Column="2" Margin="2" HorizontalTextAlignment="Center" TextColor="Black" FontSize="14" Text="{Binding QuantityInUnits.Text}" />
+                                <Label Grid.Column="3" Margin="2" HorizontalTextAlignment="Center" TextColor="Black" FontSize="14" Text="{Binding CarbohydratesGrams.Text}" />
+                                <Label Grid.Column="4" Margin="2" HorizontalTextAlignment="Center" TextColor="Black" FontSize="14" Text="{Binding AccuracyOfChoEstimate.Text}" />
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

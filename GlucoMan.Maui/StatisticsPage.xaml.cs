@@ -1,6 +1,10 @@
-using GlucoMan;
-using GlucoMan;
 using gamon;
+using GlucoMan;
+using GlucoMan;
+using GlucoMan.BusinessObjects;
+using GlucoMan.Maui.Resources.Strings;
+using Mathematics;
+using MathNet.Numerics.Statistics;
 
 namespace GlucoMan.Maui;
 
@@ -38,199 +42,146 @@ public partial class StatisticsPage : ContentPage
         _dinnerStartHour = Common.dinnerStartHour ?? 17;
         _dinnerEndHour = Common.dinnerEndHour ?? 21;
 
-        lblDateRange.Text = $"From: {dateFrom:dd/MM/yyyy} - To: {dateTo:dd/MM/yyyy}";
+        lblDateRange.Text = string.Format(AppStrings.DateRangeLabel, dateFrom.ToString("dd/MM/yyyy"), dateTo.ToString("dd/MM/yyyy"));
 
         // Calculate and display all statistics
         CalculateAllStatistics();
     }
-
     private void CalculateAllStatistics()
     {
         try
         {
-            CalculateGlucoseStatistics();
-            CalculateInsulinStatistics();
-            CalculateChoStatistics();
+            CalculateAndShowCarbohydratesStatistics();
+            CalculateAndShowInsulinStatistics();
+            CalculateAndShuwChoStatistics();
         }
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("StatisticsPage - CalculateAllStatistics", ex);
         }
     }
-
-    #region Glucose Statistics
-
-    private void CalculateGlucoseStatistics()
+    private void CalculateAndShowCarbohydratesStatistics()
     {
-        try
+        _blGlucose.GetGlucoseRecordsForStatistics(_dateFrom, _dateTo);
+        if (_blGlucose.UsingSensorData)
         {
-            // Try to get sensor records first
-            var sensorRecords = _blGlucose.GetSensorsRecords(_dateFrom, _dateTo);
-            bool usingSensorData = sensorRecords != null && sensorRecords.Count > 0;
-
-            List<GlucoseRecord> glucoseRecords;
-            if (usingSensorData)
-            {
-                glucoseRecords = sensorRecords;
-                lblGlucoseDataSource.Text = "data source is sensors' data collection";
-                lblGlucoseDataSource.TextColor = Colors.Gray;
-            }
-            else
-            {
-                glucoseRecords = _blGlucose.GetGlucoseRecords(_dateFrom, _dateTo);
-                lblGlucoseDataSource.Text = "data source is manual data collection";
-                lblGlucoseDataSource.TextColor = Colors.Red;
-            }
-
-            // Calculate overall blood glucose statistics
-            CalculateAndDisplayGlucoseStats(glucoseRecords, lblGlucoseMean, lblGlucoseStdDev, lblGlucoseSamples, "mg/dL");
-
-            // For time-based glucose, we use all records and filter by time of day
-            // Morning: 6:00 - 12:00
-            var morningRecords = FilterRecordsByTimeOfDay(glucoseRecords, 6, 12);
-            CalculateAndDisplayGlucoseStats(morningRecords, lblMorningGlucoseMean, lblMorningGlucoseStdDev, lblMorningGlucoseSamples, "mg/dL");
-
-            // Midday: 12:00 - 18:00
-            var middayRecords = FilterRecordsByTimeOfDay(glucoseRecords, 12, 18);
-            CalculateAndDisplayGlucoseStats(middayRecords, lblMiddayGlucoseMean, lblMiddayGlucoseStdDev, lblMiddayGlucoseSamples, "mg/dL");
-
-            // Evening: 18:00 - 22:00
-            var eveningRecords = FilterRecordsByTimeOfDay(glucoseRecords, 18, 22);
-            CalculateAndDisplayGlucoseStats(eveningRecords, lblEveningGlucoseMean, lblEveningGlucoseStdDev, lblEveningGlucoseSamples, "mg/dL");
-
-            // Night: 22:00 - 6:00
-            var nightRecords = FilterRecordsByTimeOfDay(glucoseRecords, 22, 6, isNightPeriod: true);
-            CalculateAndDisplayGlucoseStats(nightRecords, lblNightGlucoseMean, lblNightGlucoseStdDev, lblNightGlucoseSamples, "mg/dL");
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("StatisticsPage - CalculateGlucoseStatistics", ex);
-            SetErrorLabels(lblGlucoseMean, lblGlucoseStdDev, lblGlucoseSamples);
-        }
-    }
-
-    private List<GlucoseRecord> FilterRecordsByTimeOfDay(List<GlucoseRecord> records, double startHour, double endHour, bool isNightPeriod = false)
-    {
-        if (records == null) return new List<GlucoseRecord>();
-
-        if (isNightPeriod)
-        {
-            // Night period crosses midnight (e.g., 22:00 - 6:00)
-            return records.Where(r =>
-            {
-                if (r.EventTime?.DateTime == null) return false;
-                double hour = r.EventTime.DateTime.Value.Hour + r.EventTime.DateTime.Value.Minute / 60.0;
-                return hour >= startHour || hour < endHour;
-            }).ToList();
+            lblGlucoseDataSource.Text = AppStrings.GlucoseDataSourceSensors;
+            lblGlucoseDataSource.TextColor = Colors.Black;
         }
         else
         {
-            return records.Where(r =>
-            {
-                if (r.EventTime?.DateTime == null) return false;
-                double hour = r.EventTime.DateTime.Value.Hour + r.EventTime.DateTime.Value.Minute / 60.0;
-                return hour >= startHour && hour < endHour;
-            }).ToList();
+            lblGlucoseDataSource.Text = AppStrings.GlucoseDataSourceManual;
+            lblGlucoseDataSource.TextColor = Colors.Red;
         }
+        // Calculate overall blood glucose statistics
+        // For time-based glucose, we use all data and filter by time of day
+        StatisticsData sd = _blGlucose.CalculateGlucoseStatistics(0, 24);
+        DisplayGlucoseStats(sd, lblGlucoseMean, lblGlucoseStdDev, lblGlucoseSamples);
+        // Morning: 6:00 - 12:00
+        sd = _blGlucose.CalculateGlucoseStatistics(6, 12);
+        DisplayGlucoseStats(sd, lblMorningGlucoseMean, lblMorningGlucoseStdDev,
+            lblMorningGlucoseSamples);
+        // Midday: 12:00 - 18:00
+        sd = _blGlucose.CalculateGlucoseStatistics(12, 18);
+        DisplayGlucoseStats(sd, lblMiddayGlucoseMean,
+            lblMiddayGlucoseStdDev, lblMiddayGlucoseSamples);
+        // Evening: 18:00 - 22:00
+        sd = _blGlucose.CalculateGlucoseStatistics(18, 22);
+        DisplayGlucoseStats(sd, lblEveningGlucoseMean,
+            lblEveningGlucoseStdDev, lblEveningGlucoseSamples);
+        // Night: 22:00 - 6:00
+        sd = _blGlucose.CalculateGlucoseStatistics(22, 6);
+        DisplayGlucoseStats(sd, lblNightGlucoseMean,
+            lblNightGlucoseStdDev, lblNightGlucoseSamples);
     }
-
-    private void CalculateAndDisplayGlucoseStats(List<GlucoseRecord> records, Label meanLabel, Label stdDevLabel, Label samplesLabel, string unit)
+    #region Glucose Statistics
+    private void DisplayGlucoseStats(StatisticsData data, 
+        Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
-        if (records == null || records.Count == 0)
+        if (data == null)
         {
-            meanLabel.Text = "No data";
-            stdDevLabel.Text = "No data";
-            samplesLabel.Text = "0";
+            meanLabel.Text = "No statistics";
+            stdDevLabel.Text = "No statistics";
+            samplesLabel.Text = "-";
             return;
         }
+        //dailyMeanLabel.Text = $"{dailyMean:F1} {data.Daily Mean}";
+        //meanLabel.Text = $"{mean:F1} {data.Mean}";
+        //stdDevLabel.Text = $"{stdDev:F1} {data.StandardDeviation}";
+        //samplesLabel.Text = $"{data.NSamples}";
 
-        var values = records
-            .Where(r => r.GlucoseValue?.Double.HasValue == true)
-            .Select(r => r.GlucoseValue.Double.Value)
-            .ToList();
-
-        if (values.Count == 0)
-        {
-            meanLabel.Text = "No valid values";
-            stdDevLabel.Text = "No valid values";
-            samplesLabel.Text = "0";
-            return;
-        }
-
-        var (mean, stdDev) = General.CalculateMeanAndStdDev(values);
-        meanLabel.Text = $"{mean:F1} {unit}";
-        stdDevLabel.Text = $"{stdDev:F1} {unit}";
-        samplesLabel.Text = $"{values.Count}";
+        meanLabel.Text = $"{data.Mean:F1} mg/dL";
+        stdDevLabel.Text = $"{data.StandardDeviation:F1} mg/dL";
+        samplesLabel.Text = $"{data.NSamples:F1}";
     }
-
     #endregion
-
     #region Insulin Statistics
-
-    private void CalculateInsulinStatistics()
+    private void CalculateAndShowInsulinStatistics()
     {
         try
         {
-            // Get all injections in the time range
-            var allInjections = new List<Injection>();
+            _blInjections.GetInjectionsForStatistics(_dateFrom, _dateTo);
 
-            // Get Rapid type injections
-            var rapidInjections = _blInjections.GetInjections(_dateFrom, _dateTo, Common.TypeOfInsulinAction.Rapid);
-            if (rapidInjections != null) allInjections.AddRange(rapidInjections);
-
-            // Get Short type injections
-            var shortInjections = _blInjections.GetInjections(_dateFrom, _dateTo, Common.TypeOfInsulinAction.Short);
-            if (shortInjections != null) allInjections.AddRange(shortInjections);
-
-            // Get Intermediate type injections
-            var intermediateInjections = _blInjections.GetInjections(_dateFrom, _dateTo, Common.TypeOfInsulinAction.Intermediate);
-            if (intermediateInjections != null) allInjections.AddRange(intermediateInjections);
-            
-            // Get Long type injections
-            var longInjections = _blInjections.GetInjections(_dateFrom, _dateTo, Common.TypeOfInsulinAction.Long);
-            if (longInjections != null) allInjections.AddRange(longInjections);
-
-            CalculateAndDisplayTddStats(allInjections);
+            // Display TDD stats (!!!!!!!!!!!! mettere le label giuste !!!!!!!!!)
+            StatisticsData sd = _blInjections.CalculateTddInsulin();
+            DisplayInsulinStats(sd, lblTddPerDayMean, lblTddMean, lblTddStdDev,
+                lblTddSamples);
 
             // Total Quick Acting (Rapid + Short)
-            var quickActingInjections = new List<Injection>();
-            if (rapidInjections != null) quickActingInjections.AddRange(rapidInjections);
-            if (shortInjections != null) quickActingInjections.AddRange(shortInjections);
-            _blInjections.CalculateAndDisplayInsulinStats(quickActingInjections, lblQuickInsulinMean, lblQuickInsulinStdDev, lblQuickInsulinSamples);
-            _blInjections.CalculateAndDisplayInsulinPerDayStats(quickActingInjections, lblQuickInsulinPerDayMean);
+            sd = _blInjections.CalculateTotalQuickActingInsulin();
+            DisplayInsulinStats(sd, lblQuickInsulinPerDayMean, lblQuickInsulinMean, lblQuickInsulinStdDev, 
+                lblQuickInsulinSamples);
+            //var quickActingInjections = new List<Injection>();
+            //if (rapidInjections != null) quickActingInjections.AddRange(rapidInjections);
+            //if (shortInjections != null) quickActingInjections.AddRange(shortInjections);
+            //_blInjections.CalculateAndDisplayInsulinStats(quickActingInjections, lblQuickInsulinMean, lblQuickInsulinStdDev, lblQuickInsulinSamples);
+            //_blInjections.CalculateAndDisplayInsulinPerDayStats(quickActingInjections, lblQuickInsulinPerDayMean);
 
             // Total Long Acting (Intermediate + Long)
-            var longActingInjections = new List<Injection>();
-            if (intermediateInjections != null) longActingInjections.AddRange(intermediateInjections);
-            if (longInjections != null) longActingInjections.AddRange(longInjections);
-            _blInjections.CalculateAndDisplayInsulinStats(longActingInjections, lblLongInsulinMean, lblLongInsulinStdDev, lblLongInsulinSamples);
-            _blInjections.CalculateAndDisplayInsulinPerDayStats(longActingInjections, lblLongInsulinPerDayMean);
+            sd = _blInjections.CalculateTotalLongActingInsulin();
+            DisplayInsulinStats(sd, lblLongInsulinPerDayMean, lblLongInsulinMean, lblLongInsulinStdDev, 
+                lblLongInsulinSamples);
 
-            // Filter quick acting by meal time
-            var breakfastInsulin = FilterInjectionsByMealTime(quickActingInjections, _breakfastStartHour, _breakfastEndHour);
-            _blInjections.CalculateAndDisplayInsulinStats(breakfastInsulin, lblBreakfastInsulinMean, lblBreakfastInsulinStdDev, lblBreakfastInsulinSamples);
-            _blInjections.CalculateAndDisplayInsulinPerDayStats(breakfastInsulin, lblBreakfastInsulinPerDayMean);
+            //var longActingInjections = new List<Injection>();
+            //if (intermediateInjections != null) longActingInjections.AddRange(intermediateInjections);
+            //if (longInjections != null) longActingInjections.AddRange(longInjections);
+            //_blInjections.CalculateAndDisplayInsulinStats(longActingInjections, lblLongInsulinMean, lblLongInsulinStdDev, lblLongInsulinSamples);
+            //_blInjections.CalculateAndDisplayInsulinPerDayStats(longActingInjections, lblLongInsulinPerDayMean);
 
-            var lunchInsulin = FilterInjectionsByMealTime(quickActingInjections, _lunchStartHour, _lunchEndHour);
-            _blInjections.CalculateAndDisplayInsulinStats(lunchInsulin, lblLunchInsulinMean, lblLunchInsulinStdDev, lblLunchInsulinSamples);
-            _blInjections.CalculateAndDisplayInsulinPerDayStats(lunchInsulin, lblLunchInsulinPerDayMean);
+            // quick acting at breakfast time
+            sd = _blInjections.CalculateRapidActingBreakfast();
+            DisplayInsulinStats(sd, lblBreakfastInsulinPerDayMean, lblBreakfastInsulinMean, 
+                lblBreakfastInsulinStdDev, lblBreakfastInsulinSamples);
+            //_blInjections.CalculateAndDisplayInsulinPerDayStats(breakfastInsulin, lblBreakfastInsulinPerDayMean);
+            //var breakfastInsulin = FilterInjectionsByMealTime(quickActingInjections, _breakfastStartHour, _breakfastEndHour);
+            //_blInjections.CalculateAndDisplayInsulinStats(breakfastInsulin, lblBreakfastInsulinMean, lblBreakfastInsulinStdDev, lblBreakfastInsulinSamples);
+            //_blInjections.CalculateAndDisplayInsulinPerDayStats(breakfastInsulin, lblBreakfastInsulinPerDayMean);
 
-            var dinnerInsulin = FilterInjectionsByMealTime(quickActingInjections, _dinnerStartHour, _dinnerEndHour);
-            _blInjections.CalculateAndDisplayInsulinStats(dinnerInsulin, lblDinnerInsulinMean, lblDinnerInsulinStdDev, lblDinnerInsulinSamples);
-            _blInjections.CalculateAndDisplayInsulinPerDayStats(dinnerInsulin, lblDinnerInsulinPerDayMean);
+            // quick acting at lunch time
+            sd = _blInjections.CalculateRapidActingBreakfast();
+            DisplayInsulinStats(sd, lblLunchInsulinPerDayMean, lblLunchInsulinMean, 
+                lblLunchInsulinStdDev, lblLunchInsulinSamples);
 
-            // Other insulin: quick acting not in breakfast, lunch, or dinner time
-            var otherInsulin = quickActingInjections.Where(i =>
-            {
-                if (i.EventTime?.DateTime == null) return true;
-                double hour = i.EventTime.DateTime.Value.Hour + i.EventTime.DateTime.Value.Minute / 60.0;
-                bool isBreakfast = hour >= _breakfastStartHour && hour < _breakfastEndHour;
-                bool isLunch = hour >= _lunchStartHour && hour < _lunchEndHour;
-                bool isDinner = hour >= _dinnerStartHour && hour < _dinnerEndHour;
-                return !isBreakfast && !isLunch && !isDinner;
-            }).ToList();
-            _blInjections.CalculateAndDisplayInsulinStats(otherInsulin, lblOtherInsulinMean, lblOtherInsulinStdDev, lblOtherInsulinSamples);
-            _blInjections.CalculateAndDisplayInsulinPerDayStats(otherInsulin, lblOtherInsulinPerDayMean);
+            //var lunchInsulin = FilterInjectionsByMealTime(quickActingInjections, _lunchStartHour, _lunchEndHour);
+            //_blInjections.CalculateAndDisplayInsulinStats(lunchInsulin, lblLunchInsulinMean, lblLunchInsulinStdDev, lblLunchInsulinSamples);
+            //_blInjections.CalculateAndDisplayInsulinPerDayStats(lunchInsulin, lblLunchInsulinPerDayMean);
+
+            // quick acting at dinner time
+            sd = _blInjections.CalculateRapidActingDinner();
+            DisplayInsulinStats(sd, lblDinnerInsulinPerDayMean, lblDinnerInsulinMean, 
+                lblDinnerInsulinStdDev, lblDinnerInsulinSamples);
+
+            //var dinnerInsulin = FilterInjectionsByMealTime(quickActingInjections, _dinnerStartHour, _dinnerEndHour);
+            //_blInjections.CalculateAndDisplayInsulinStats(dinnerInsulin, lblDinnerInsulinMean, lblDinnerInsulinStdDev, lblDinnerInsulinSamples);
+            //_blInjections.CalculateAndDisplayInsulinPerDayStats(dinnerInsulin, lblDinnerInsulinPerDayMean);
+
+            // quick acting not in breakfast, lunch  nor dinner time
+            sd = _blInjections.CalculateRapidActingOtherTimes();
+            DisplayInsulinStats(sd, lblOtherInsulinPerDayMean, lblOtherInsulinMean, 
+                lblOtherInsulinStdDev, lblOtherInsulinSamples);
+
+            //_blInjections.CalculateAndDisplayInsulinStats(otherInsulin, lblOtherInsulinMean, lblOtherInsulinStdDev, lblOtherInsulinSamples);
+            //_blInjections.CalculateAndDisplayInsulinPerDayStats(otherInsulin, lblOtherInsulinPerDayMean);
         }
         catch (Exception ex)
         {
@@ -238,51 +189,36 @@ public partial class StatisticsPage : ContentPage
         }
     }
 
-    private List<Injection> FilterInjectionsByMealTime(List<Injection> injections, double startHour, double endHour)
+    private void DisplayInsulinStats(StatisticsData sd, Label lblPerDayMean,
+        Label lblMean, Label lblStdDev, Label lblNSamples)
     {
-        if (injections == null) return new List<Injection>();
-
-        return injections.Where(i =>
+        if (sd == null || sd.NSamples == 0)
         {
-            if (i.EventTime?.DateTime == null) return false;
-            double hour = i.EventTime.DateTime.Value.Hour + i.EventTime.DateTime.Value.Minute / 60.0;
-            return hour >= startHour && hour < endHour;
-        }).ToList();
-    }
-
-    private void CalculateAndDisplayTddStats(List<Injection> injections)
-    {
-        if (injections == null || injections.Count == 0)
-        {
-            lblTddPerDayMean.Text = "No data";
-            SetNoDataLabels(lblTddMean, lblTddStdDev, lblTddSamples);
+            lblPerDayMean.Text = "No data";
+            //SetNoDataLabels(lblTddMean, lblTddStdDev, lblTddSamples);
             return;
         }
 
-        var dailyTotals = injections
-            .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
-            .GroupBy(i => i.EventTime.DateTime.Value.Date)
-            .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
-            .ToList();
+        //var dailyTotals = injections
+        //    .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
+        //    .GroupBy(i => i.EventTime.DateTime.Value.Date)
+        //    .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
+        //    .ToList();
 
-        if (dailyTotals.Count == 0)
-        {
-            lblTddPerDayMean.Text = "No data";
-            SetNoDataLabels(lblTddMean, lblTddStdDev, lblTddSamples);
-            return;
-        }
-
-        var (mean, stdDev) = General.CalculateMeanAndStdDev(dailyTotals);
-        lblTddPerDayMean.Text = $"{mean:F2} U/day";
-        lblTddMean.Text = $"{mean:F2} U";
-        lblTddStdDev.Text = $"{stdDev:F2} U";
-        lblTddSamples.Text = $"{dailyTotals.Count} days";
+        //if (dailyTotals.Count == 0)
+        //{
+        //    lblTddPerDayMean.Text = "No data";
+        //    SetNoDataLabels(lblTddMean, lblTddStdDev, lblTddSamples);
+        //    return;
+        //}
+        lblPerDayMean.Text = $"{sd.DailyMean:F2} U/day";
+        lblMean.Text = $"{sd.Mean:F2} U";
+        lblStdDev.Text = $"{sd.StandardDeviation:F2} U";
+        lblNSamples.Text = $"{sd.NSamples}";
     }
     #endregion
-
     #region CHO Statistics
-
-    private void CalculateChoStatistics()
+    private void CalculateAndShuwChoStatistics()
     {
         try
         {
@@ -339,7 +275,6 @@ public partial class StatisticsPage : ContentPage
             SetErrorLabels(lblTotalChoMean, lblTotalChoStdDev, lblTotalChoSamples);
         }
     }
-
     private void CalculateTotalDayChoStats(List<Meal> meals)
     {
         // Group meals by day and sum CHO for each day
@@ -356,13 +291,12 @@ public partial class StatisticsPage : ContentPage
             return;
         }
 
-        var (mean, stdDev) = General.CalculateMeanAndStdDev(dailyTotals);
+        var (mean, stdDev, count) = GamonStats.CalculateMeanAndStdDev(dailyTotals);
         lblTotalChoMean.Text = $"{mean:F1} g";
         lblTotalChoStdDev.Text = $"{stdDev:F1} g";
         lblTotalChoSamples.Text = $"{dailyTotals.Count} days";
         lblTotalChoPerDayMean.Text = $"{mean:F1} g/day";
     }
-
     private List<Meal> FilterMealsByMealTime(List<Meal> meals, double startHour, double endHour)
     {
         if (meals == null) return new List<Meal>();
@@ -374,7 +308,6 @@ public partial class StatisticsPage : ContentPage
             return hour >= startHour && hour < endHour;
         }).ToList();
     }
-
     private void CalculateAndDisplayChoStats(List<Meal> meals, Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
         if (meals == null || meals.Count == 0)
@@ -396,12 +329,11 @@ public partial class StatisticsPage : ContentPage
             return;
         }
 
-        var (mean, stdDev) = General.CalculateMeanAndStdDev(values);
+        var (mean, stdDev, count) = GamonStats.CalculateMeanAndStdDev(values);
         meanLabel.Text = $"{mean:F1} g";
         stdDevLabel.Text = $"{stdDev:F1} g";
         samplesLabel.Text = $"{values.Count}";
     }
-
     private void CalculateAndDisplayChoPerDayStats(List<Meal> meals, Label perDayMeanLabel)
     {
         if (meals == null || meals.Count == 0)
@@ -426,31 +358,25 @@ public partial class StatisticsPage : ContentPage
         double meanPerDay = dailyTotals.Average();
         perDayMeanLabel.Text = $"{meanPerDay:F1} g/day";
     }
-
     #endregion
-
     #region Helper Methods
-
     private void SetErrorLabels(Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
         meanLabel.Text = "Error";
         stdDevLabel.Text = "Error";
         samplesLabel.Text = "0";
     }
-
     private void SetNoDataLabels(Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
         meanLabel.Text = "No data";
         stdDevLabel.Text = "No data";
         samplesLabel.Text = "0";
     }
-
     private void SetPlaceholderLabels(Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
         meanLabel.Text = "Coming soon";
         stdDevLabel.Text = "Coming soon";
         samplesLabel.Text = "--";
     }
-
     #endregion
 }

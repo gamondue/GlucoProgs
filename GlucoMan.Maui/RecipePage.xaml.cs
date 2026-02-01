@@ -1,4 +1,4 @@
-using gamon;
+ using gamon;
 using GlucoMan;
 using static GlucoMan.Common;
 using Microsoft.Maui.Graphics;
@@ -18,7 +18,8 @@ public partial class RecipePage : ContentPage
     private bool ingredientModifications = false;
     private bool ingredientPercentOrQuantityChanging = false;
     private bool ingredientChoGramsChanging = false;
-    private bool programmaticModification = true;
+    // Guard flag retained to satisfy hot-reload/tooling expectations
+    private bool programmaticModification = false;
 
     public bool RecipeIsChosen { get; internal set; }
 
@@ -55,6 +56,81 @@ public partial class RecipePage : ContentPage
             recipeSection.BindingContext = bl.Recipe;
         }
         catch { }
+    }
+
+    // Support a direct tap on the item Frame to set selection (helps on Android)
+    private void OnItemTapped(object? sender, EventArgs e)
+    {
+        if (sender is Frame frame && frame.BindingContext is Ingredient tapped)
+        {
+            try
+            {
+                SetSelectedIngredientById(tapped?.IdIngredient);
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("RecipePage - OnItemTapped", ex);
+            }
+        }
+    }
+
+    private void SetSelectedIngredientById(int? id)
+    {
+        try
+        {
+            Ingredient selectedInstance = null;
+            var items = gridIngredients.ItemsSource as System.Collections.IEnumerable;
+            if (items != null)
+            {
+                foreach (var it in items)
+                {
+                    if (it is Ingredient ing)
+                    {
+                        if (id.HasValue && ing.IdIngredient == id.Value)
+                        {
+                            selectedInstance = ing;
+                        }
+                        ing.IsSelectedInList = false;
+                        try { ing.GetType().GetProperty("IsSelected")?.SetValue(ing, false); } catch { }
+                    }
+                }
+            }
+
+            if (selectedInstance == null && id == null)
+            {
+                // nothing to select
+                gridIngredients.SelectedItem = null;
+                return;
+            }
+
+            if (selectedInstance == null)
+            {
+                // fallback: try to find by reference in current BL.Ingredient
+                if (bl.Ingredient != null && bl.Ingredient.IdIngredient == id)
+                    selectedInstance = bl.Ingredient;
+            }
+
+            if (selectedInstance != null)
+            {
+                selectedInstance.IsSelectedInList = true;
+                try { selectedInstance.GetType().GetProperty("IsSelected")?.SetValue(selectedInstance, true); } catch { }
+
+                // Update current ingredient in BL and UI
+                bl.Ingredient = selectedInstance;
+                FromClassToBoxesIngredient();
+            }
+
+            // Set the CollectionView.SelectedItem to the mapped instance so UI selection is in sync
+            try
+            {
+                gridIngredients.SelectedItem = selectedInstance;
+            }
+            catch { }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram.Error("RecipePage - SetSelectedIngredientById", ex);
+        }
     }
 
     private void ContentPage_Loaded(object sender, EventArgs e)
@@ -313,37 +389,86 @@ public partial class RecipePage : ContentPage
         await RefreshAccuracyControls();
     }
 
-    private async void gridIngredients_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    private void gridIngredients_SelectionChanged(object sender, Microsoft.Maui.Controls.SelectionChangedEventArgs e)
     {
-        if (e.SelectedItem == null)
-        {
+        if (e.CurrentSelection == null || e.CurrentSelection.Count == 0)
             return;
-        }
+
         try
         {
-            var selectedIngredient = (Ingredient)e.SelectedItem;
+            // Remember the selected id to find it after any refresh
+            var selectedIngredientFromEvent = (Ingredient)e.CurrentSelection[0];
+            int? selectedId = selectedIngredientFromEvent?.IdIngredient;
 
-            if (selectedIngredient != bl.Ingredient)
+            // If there is a current ingredient being edited, ensure its values are saved back to the list
+            if (selectedIngredientFromEvent != bl.Ingredient)
             {
                 if (bl.Ingredient?.Name != null)
                 {
-                    // Update the ingredient in the list before switching
                     FromBoxesIngredientToClass();
                     bl.UpdateOldIngredientInList();
-                    RefreshGrid();
+                    // Avoid RefreshGrid here — recreating ItemsSource inside SelectionChanged caused selection issues
                 }
-                // after refresh the selected ingredient becomes the current ingredient 
-                bl.Ingredient = selectedIngredient;
+
+                // Set the business-layer current ingredient to the selected one
+                bl.Ingredient = selectedIngredientFromEvent;
                 FromClassToBoxesIngredient();
             }
-            if (gridIngredients.SelectedItem != selectedIngredient)
+
+            // After potential refresh, map to the instance contained in the ItemsSource
+            Ingredient selectedInstance = null;
+            try
             {
-                gridIngredients.SelectedItem = selectedIngredient;
+                // Map to the instance contained in the current ItemsSource (do not rebind here)
+                var items = gridIngredients.ItemsSource as System.Collections.IEnumerable;
+                if (items != null && selectedId.HasValue)
+                {
+                    foreach (var it in items)
+                    {
+                        if (it is Ingredient ing)
+                        {
+                            if (ing.IdIngredient == selectedId)
+                            {
+                                selectedInstance = ing;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // If mapping failed, fall back to the original instance from the event
+                if (selectedInstance == null)
+                    selectedInstance = selectedIngredientFromEvent;
+
+                // Deselect all others and set selection flag on the mapped instance
+                if (items != null)
+                {
+                    foreach (var it in items)
+                    {
+                        if (it is Ingredient ing)
+                        {
+                            ing.IsSelectedInList = false;
+                            try { ing.GetType().GetProperty("IsSelected")?.SetValue(ing, false); } catch { }
+                        }
+                    }
+                }
+
+                selectedInstance.IsSelectedInList = true;
+                try { selectedInstance.GetType().GetProperty("IsSelected")?.SetValue(selectedInstance, true); } catch { }
+
+                // Keep CollectionView SelectedItem in sync briefly then clear to use IsSelectedInList visuals
+                try
+                {
+                    // Keep CollectionView.SelectedItem in sync with our mapped instance
+                    gridIngredients.SelectedItem = selectedInstance;
+                }
+                catch { }
             }
+            catch (Exception) { }
         }
         catch (Exception ex)
         {
-            General.LogOfProgram.Error("RecipePage - gridIngredients_ItemSelected", ex);
+            General.LogOfProgram.Error("RecipePage - gridIngredients_SelectionChanged", ex);
         }
     }
 

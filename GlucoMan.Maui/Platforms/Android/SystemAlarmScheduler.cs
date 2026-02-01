@@ -45,6 +45,9 @@ namespace GlucoMan.Maui.Platforms.Android
             var intent = new Intent(_context, typeof(AlarmFireReceiver));
             intent.PutExtra("AlarmId", alarm.IdAlarm.Value);
             intent.PutExtra("ReminderText", alarm.ReminderText ?? "Alarm");
+            intent.PutExtra("Vibrate", alarm.DoVibrate ?? false);
+            intent.PutExtra("PlaySound", alarm.EnablePlaySoundFile ?? false);
+            intent.PutExtra("SoundPath", alarm.SoundFilePath ?? "");
 
             var pending = PendingIntent.GetBroadcast(
                 _context,

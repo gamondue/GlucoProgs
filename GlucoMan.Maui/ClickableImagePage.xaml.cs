@@ -1,5 +1,6 @@
 using GlucoMan;
 using gamon;
+using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui;
 
@@ -34,7 +35,7 @@ public partial class ClickableImagePage : ContentPage
                 {
                     // Load the image "front.png" from resources
                     imgToBeTapped.Source = "front.png";
-                    this.Title = "Front past injections";
+                    this.Title = AppStrings.ClickableImagePageFrontTitle;
                     circlesVisibilityMaxTimeInDays = 60.0 / 3 + 1; // 60 positions / the 3 fast injections per day
                     break;
                 }
@@ -42,7 +43,7 @@ public partial class ClickableImagePage : ContentPage
                 {
                     // Load the image "back.png" from resources
                     imgToBeTapped.Source = "back.png";
-                    this.Title = "Back past injections";
+                    this.Title = AppStrings.ClickableImagePageBackTitle;
                     circlesVisibilityMaxTimeInDays = 40.0 / 1 + 1; // 40 positions / the 1 slow injections per day
                     break;
                 }
@@ -50,7 +51,7 @@ public partial class ClickableImagePage : ContentPage
                 {
                     // Load the image "hands.png" from resources
                     imgToBeTapped.Source = "hands.png";
-                    this.Title = "Hand blood samples positions";
+                    this.Title = AppStrings.ClickableImagePageHandsTitle;
                     circlesVisibilityMaxTimeInDays = 100 / 4.5 + 1; // 100 positions, 4.5 per day 
                     break;
                 }
@@ -58,7 +59,7 @@ public partial class ClickableImagePage : ContentPage
                 {
                     // Load the image "sensor.png" from resources
                     imgToBeTapped.Source = "arms_back.png";
-                    this.Title = "Sensors' past positions";
+                    this.Title = AppStrings.ClickableImagePageSensorTitle;
                     circlesVisibilityMaxTimeInDays = 2 * 7 * 6 + 12; // 2 weeks by 6 positions (+2 weeks)
                     break;
                 }

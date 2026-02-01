@@ -664,22 +664,37 @@ public partial class TrackPage : ContentPage
         try
         {
             isTracking = false;
+            
+            // First sync positions from background service BEFORE stopping the track
             if (backgroundGpsService != null)
             {
                 await SyncAndDisplayPositionsFromBackgroundService();
                 await backgroundGpsService.StopTrackingAsync();
             }
-            bl.StopCurrentTrack();
-
+            
+            // Get count BEFORE calling StopCurrentTrack (which may save and clear)
             int finalCount = bl.CurrentTrack?.Positions?.Count ?? 0;
+            
+            // Update statistics before stopping
+            UpdateStatistics();
+            
+            // Don't call bl.StopCurrentTrack() here - it auto-saves the track
+            // Instead, just mark the track as not recording
+            if (bl.CurrentTrack != null)
+            {
+                bl.CurrentTrack.IsRecording = false;
+                bl.CurrentTrack.EndTime.DateTime = DateTime.Now;
+                bl.CurrentTrack.UpdateStatistics();
+            }
+
             btnStartTracking.IsEnabled = true;
             btnStopTracking.IsEnabled = false;
-            //btnSaveTrack.IsEnabled = finalCount > 0;
-            btnSaveTrack.IsEnabled = true;
+            btnSaveTrack.IsEnabled = finalCount > 0;  // Enable only if we have positions
             btnClearTrack.IsEnabled = true;
 
             UpdateStatus(finalCount > 0 ? string.Format(AppStrings.TrackStatusStopped + " ({0} points)", finalCount) : AppStrings.TrackStatusStopped + " (no points)", finalCount > 0 ? Colors.Orange : Colors.Red);
-            UpdateStatistics();
+            
+            General.LogOfProgram?.Event($"TrackPage - Tracking stopped. Track has {finalCount} positions ready to save.");
         }
         catch (Exception ex)
         {
@@ -723,29 +738,59 @@ public partial class TrackPage : ContentPage
     {
         try
         {
-            if (bl.CurrentTrack == null) bl.StartNewTrack();
+            // Initialize track if null
+            if (bl.CurrentTrack == null) 
+            {
+                General.LogOfProgram?.Error("BtnSaveTrack_Clicked - CurrentTrack is null, attempting to initialize", null);
+                bl.StartNewTrack();
+            }
 
             int existingPositions = bl.CurrentTrack.Positions?.Count ?? 0;
             int servicePositions = backgroundGpsService?.GetPositionsCount() ?? 0;
 
+            General.LogOfProgram?.Event($"BtnSaveTrack_Clicked - CurrentTrack has {existingPositions} positions, BackgroundService has {servicePositions} positions");
+
+            // If bl.CurrentTrack has no positions but background service does, sync them
             if (backgroundGpsService != null && servicePositions > 0 && existingPositions == 0)
             {
+                General.LogOfProgram?.Event($"BtnSaveTrack_Clicked - Syncing {servicePositions} positions from background service");
                 var allPositions = backgroundGpsService.GetRecordedPositions();
+                
+                // Temporarily enable recording to allow adding positions
+                bool wasRecording = bl.CurrentTrack.IsRecording;
+                bl.CurrentTrack.IsRecording = true;
+                
                 foreach (var pos in allPositions.OrderBy(p => p.Timestamp))
                     bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed);
+                
+                // Restore recording state
+                bl.CurrentTrack.IsRecording = wasRecording;
             }
 
+            // Final check for positions
             int finalPositionCount = bl.CurrentTrack?.Positions?.Count ?? 0;
+            General.LogOfProgram?.Event($"BtnSaveTrack_Clicked - Final position count: {finalPositionCount}");
+            
             if (finalPositionCount == 0)
             {
+                General.LogOfProgram?.Error("BtnSaveTrack_Clicked - No positions available to save", null);
                 await DisplayAlert(AppStrings.TrackNoDataTitle, AppStrings.TrackNoDataMessage, AppStrings.OK);
                 return;
             }
 
-            bl.SaveTrack(bl.CurrentTrack);
+            // Update track statistics before saving
+            bl.CurrentTrack.UpdateStatistics();
+
+            // Save the track
+            var savedId = bl.SaveTrack(bl.CurrentTrack);
+            General.LogOfProgram?.Event($"BtnSaveTrack_Clicked - Track saved with ID: {savedId}, Positions: {finalPositionCount}");
+
             await DisplayAlert(AppStrings.TrackSavedTitle, string.Format(AppStrings.TrackSavedMessage, finalPositionCount, bl.GetFormattedDistance(bl.CurrentTrack), bl.GetFormattedDuration(bl.CurrentTrack)), AppStrings.OK);
 
+            // Clear background service positions after successful save
             backgroundGpsService?.ClearPositions();
+            
+            // Disable save button after successful save
             btnSaveTrack.IsEnabled = false;
             UpdateStatus(AppStrings.TrackStatusSaved, Colors.Green);
         }

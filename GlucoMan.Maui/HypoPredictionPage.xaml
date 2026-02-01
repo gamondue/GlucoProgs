@@ -115,8 +115,16 @@
                    ToolTipProperties.Text="{x:Static res:AppStrings.TooltipAlarmMinute}"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
                    BackgroundColor="SkyBlue" TextColor="Black"/>
-            <Button Grid.Row="10" IsVisible="false" Grid.Column="3" 
-                   Clicked="btnAlarm_Click" Text="{x:Static res:AppStrings.Alarm}"/>
+            <ImageButton Grid.Row="10" Grid.Column="3" 
+                   x:Name="btnSetAlarm"
+                   Source="ringing_clock.png"
+                   WidthRequest="50"
+                   HeightRequest="50"
+                   Padding="6"
+                   CornerRadius="6"
+                   BackgroundColor="Orange"
+                   Clicked="btnAlarm_Click"
+                   ToolTipProperties.Text="Set alarm for this time" />
 
             <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Margin="1"
                     x:Name="txtStatusBar" Text=""  FontSize="Small"

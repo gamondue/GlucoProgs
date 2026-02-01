@@ -401,6 +401,18 @@
   <data name="License" xml:space="preserve">
     <value>License</value>
   </data>
+  <data name="ClickableImagePageFrontTitle" xml:space="preserve">
+    <value>Front past injections</value>
+  </data>
+  <data name="ClickableImagePageBackTitle" xml:space="preserve">
+    <value>Back past injections</value>
+  </data>
+  <data name="ClickableImagePageHandsTitle" xml:space="preserve">
+    <value>Hand blood samples positions</value>
+  </data>
+  <data name="ClickableImagePageSensorTitle" xml:space="preserve">
+    <value>Sensors' past positions</value>
+  </data>
   <data name="TooltipBloodGlucose" xml:space="preserve">
     <value>Blood glucose: opens the page of glucose measurement events</value>
   </data>
@@ -661,6 +673,15 @@
   </data>
   <data name="To" xml:space="preserve">
     <value>To</value>
+  </data>
+  <data name="DateRangeLabel" xml:space="preserve">
+    <value>From: {0} - To: {1}</value>
+  </data>
+  <data name="GlucoseDataSourceSensors" xml:space="preserve">
+    <value>data source is sensors' data collection</value>
+  </data>
+  <data name="GlucoseDataSourceManual" xml:space="preserve">
+    <value>data source is manual data collection</value>
   </data>
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
@@ -1128,7 +1149,7 @@
     <value>Miscellaneous Functions</value>
   </data>
   <data name="ExportData" xml:space="preserve">
-    <value>Export Files and Data </value>
+    <value>Export Files</value>
   </data>
   <data name="ImportFoods" xml:space="preserve">
     <value>Import Foods</value>
@@ -1304,8 +1325,11 @@
   <data name="SavingNotPossible" xml:space="preserve">
     <value>Saving not possible</value>
   </data>
-  <data name="Front" xml:space="preserve">
+  <data name="FrontSide" xml:space="preserve">
     <value>Front</value>
+  </data>
+  <data name="BackSide" xml:space="preserve">
+    <value>Back</value>
   </data>
   <data name="Hands" xml:space="preserve">
     <value>Hands</value>
@@ -2197,7 +2221,7 @@
     <value>Import DB and pictures</value>
   </data>
   <data name="TooltipImportDatabase" xml:space="preserve">
-    <value>Substitutes the current database with user's chosen file and imports the images in the folder./value></value>
+    <value>Substitutes the current database with user's chosen file and imports the images in the folder./value&gt;</value>
   </data>
   <data name="TooltipExportFiles" xml:space="preserve">
     <value>Export "interesting" Files and Data to "GlucoMan" folder inside "Download", from which they can be read</value>
@@ -2263,16 +2287,16 @@
     <value>(Intermediate + Long)</value>
   </data>
   <data name="StatBreakfastInsulin" xml:space="preserve">
-    <value>Breakfast Insulin</value>
+    <value>Fast insulin at Breakfast time</value>
   </data>
   <data name="StatLunchInsulin" xml:space="preserve">
-    <value>Lunch Insulin</value>
+    <value>Fast insulin at Lunch time</value>
   </data>
   <data name="StatDinnerInsulin" xml:space="preserve">
-    <value>Dinner Insulin</value>
+    <value>Fast insulin at Dinner time</value>
   </data>
   <data name="StatOtherInsulin" xml:space="preserve">
-    <value>Other Insulin</value>
+    <value>Fast insulin at Other times</value>
   </data>
   <data name="StatTotalDayCHO" xml:space="preserve">
     <value>Total Day CHO</value>
@@ -2310,7 +2334,6 @@
   <data name="ChoPercentTotal" xml:space="preserve">
     <value>CHO [%]</value>
   </data>
-  <!-- TrackPage Status Messages -->
   <data name="TrackStatusChecking" xml:space="preserve">
     <value>Checking tracking status...</value>
   </data>
@@ -2377,8 +2400,6 @@
   <data name="TrackStatusCleared" xml:space="preserve">
     <value>Track cleared</value>
   </data>
-
-  <!-- TrackPage Dialogs -->
   <data name="TrackRecoveryTitle" xml:space="preserve">
     <value>GPS Tracking Recovery
 
@@ -2443,7 +2464,7 @@ Do you want to enable background GPS tracking?</value>
 
 GPS tracking will only work while the app is open.
 
-You can change this later in Android Settings > Apps > GlucoMan > Permissions > Location > Allow all the time.</value>
+You can change this later in Android Settings &gt; Apps &gt; GlucoMan &gt; Permissions &gt; Location &gt; Allow all the time.</value>
   </data>
   <data name="TrackNoDataTitle" xml:space="preserve">
     <value>No Track Data</value>
@@ -2491,7 +2512,6 @@ Duration: {2}</value>
   <data name="TrackKeepTrackingCancel" xml:space="preserve">
     <value>Stop and Go Back</value>
   </data>
-  <!-- TrackPage XAML UI -->
   <data name="TrackPageTitle" xml:space="preserve">
     <value>GPS Activity Tracker</value>
   </data>
@@ -2536,5 +2556,20 @@ Duration: {2}</value>
   </data>
   <data name="ImportImages_Description" xml:space="preserve">
     <value>The import will also copy all images found in the subfolder '{0}' located next to the selected database file into the app's internal '{0}' folder.\n\nDo you want to continue and import those images?</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="InjectionType" xml:space="preserve">
+    <value>Inject.</value>
+  </data>
+  <data name="TooltipSearchOnPastFoods" xml:space="preserve">
+    <value>Search of the name in all past foods in all meals</value>
+  </data>
+  <data name="FoodsInMealSearchResults" xml:space="preserve">
+    <value>Search the name in the foods in past meals</value>
+  </data>
+  <data name="SearchOfFoodsInMealsPageTitle" xml:space="preserve">
+    <value>Foods in Meals matching given name</value>
   </data>
 </root>

@@ -110,56 +110,65 @@
                     x:Name="btnSearchFood" Margin="1"
                 ToolTipProperties.Text="{x:Static strings:AppStrings.SearchFood}"
                 Clicked="btnSearchFood_Click"/>
-            <ListView Grid.Row="8" Grid.ColumnSpan="4" 
-                      x:Name="gridFoods" ItemsSource="{Binding}"
-                      ToolTipProperties.Text="{x:Static strings:AppStrings.FoodList}"
-                      ItemSelected="OnGridSelectionAsync"
-                      RowHeight="22">
-    <ListView.Header>
-      <Grid RowDefinitions="25" ColumnDefinitions="*,50"
-       BackgroundColor="#e8f5e9"
-            Margin="2"
-            Padding="0,3,0,3">
-            <Label Grid.Column="0" 
-            Text="{x:Static strings:AppStrings.Food}" 
-            FontAttributes="Bold"
-            FontSize="14"
-            TextColor="#2c3e50"
-            HorizontalTextAlignment="Start"
-            VerticalTextAlignment="Center"
-            Margin="5,0"/>
-            <Label Grid.Column="1" 
-            Text="CHO%" 
-            FontAttributes="Bold"
-            FontSize="14"
-            TextColor="#2c3e50"
-            HorizontalTextAlignment="Center"
-            VerticalTextAlignment="Center"/>
-      </Grid>
-    </ListView.Header>
-                <!-- description of data to be shown, in a DataTemplate -->
-                <ListView.ItemTemplate Margin="4">
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Border Margin="1" 
-                                        BackgroundColor="White"
-                                        StrokeThickness="2"
-                                        Stroke="{Binding RowBorderColor}">
-                                    <Grid VerticalOptions="Center" ColumnDefinitions="*,36">
-                                        <Label HorizontalTextAlignment="Start" Grid.Column="0" 
+            <Grid Grid.Row="8" Grid.ColumnSpan="4">
+                <Grid RowDefinitions="Auto,*">
+                    <Grid Row="0" ColumnDefinitions="*,50"
+                          BackgroundColor="#e8f5e9"
+                          Margin="2"
+                          Padding="0,3,0,3">
+                        <Label Grid.Column="0"
+                               Text="{x:Static strings:AppStrings.Food}"
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#2c3e50"
+                               HorizontalTextAlignment="Start"
+                               VerticalTextAlignment="Center"
+                               Margin="5,0"/>
+                        <Label Grid.Column="1"
+                               Text="CHO%"
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="#2c3e50"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"/>
+                    </Grid>
+
+                    <CollectionView Grid.Row="1" x:Name="gridFoods" ItemsSource="{Binding}"
+                                    ToolTipProperties.Text="{x:Static strings:AppStrings.FoodList}"
+                                    SelectionMode="Single"
+                                    SelectionChanged="OnGridSelectionAsync"
+                                    BackgroundColor="LightGray"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="FillAndExpand">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame CornerRadius="6" Padding="6" Margin="2,1" BackgroundColor="White" BorderColor="{Binding RowBorderColor}" HasShadow="False" HorizontalOptions="FillAndExpand">
+                                    <Frame.Triggers>
+                                        <DataTrigger TargetType="Frame" Binding="{Binding IsSelectedInList}" Value="True">
+                                            <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                            <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                        </DataTrigger>
+                                    </Frame.Triggers>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnItemTapped" NumberOfTapsRequired="1" />
+                                    </Frame.GestureRecognizers>
+                                    <Grid VerticalOptions="Center" ColumnDefinitions="*,36" ColumnSpacing="0" Padding="2">
+                                        <Label HorizontalTextAlignment="Start" Grid.Column="0"
                                                Text="{Binding Name}" Margin="5,0"
                                                TextColor="Black" FontSize="14"/>
-                                        <Label HorizontalTextAlignment="Center" Grid.Column="1" 
+                                        <Label HorizontalTextAlignment="Center" Grid.Column="1"
                                                Text="{Binding CarbohydratesPercent.Text, Converter={StaticResource DoubleTextConverter}}"
                                                TextColor="Black" FontSize="14"/>
                                     </Grid>
-                                </Border>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

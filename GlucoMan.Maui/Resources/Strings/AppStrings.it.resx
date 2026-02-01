@@ -399,6 +399,18 @@
   <data name="License" xml:space="preserve">
     <value>Licenza</value>
   </data>
+  <data name="ClickableImagePageFrontTitle" xml:space="preserve">
+    <value>Iniezioni passate - Anteriore</value>
+  </data>
+  <data name="ClickableImagePageBackTitle" xml:space="preserve">
+    <value>Iniezioni passate - Posteriore</value>
+  </data>
+  <data name="ClickableImagePageHandsTitle" xml:space="preserve">
+    <value>Campioni di sangue - Mani</value>
+  </data>
+  <data name="ClickableImagePageSensorTitle" xml:space="preserve">
+    <value>Posizioni passate dei sensori</value>
+  </data>
   <data name="TooltipBloodGlucose" xml:space="preserve">
     <value>Glicemia: apre la pagina degli eventi di misurazione del glucosio</value>
   </data>
@@ -482,6 +494,15 @@
   </data>
   <data name="TooltipGlucoseMeasurement" xml:space="preserve">
     <value>Misurazione glicemica rilevata dallo strumento</value>
+  </data>
+  <data name="ChoosePhotoFile" xml:space="preserve">
+    <value>Scegli file foto</value>
+  </data>
+  <data name="TooltipChoosePhotoFile" xml:space="preserve">
+    <value>Scegli una foto dalla cartella Download</value>
+  </data>
+  <data name="PhotoImported" xml:space="preserve">
+    <value>Foto importata con successo!</value>
   </data>
   <data name="TooltipDateOfMeasurement" xml:space="preserve">
     <value>Data della misurazione della glicemia</value>
@@ -650,6 +671,15 @@
   </data>
   <data name="To" xml:space="preserve">
     <value>A</value>
+  </data>
+  <data name="DateRangeLabel" xml:space="preserve">
+    <value>Dal: {0} - Al: {1}</value>
+  </data>
+  <data name="GlucoseDataSourceSensors" xml:space="preserve">
+    <value>origine dati: raccolta dati da sensori</value>
+  </data>
+  <data name="GlucoseDataSourceManual" xml:space="preserve">
+    <value>origine dati: raccolta dati manuale</value>
   </data>
   <data name="Apply" xml:space="preserve">
     <value>Applica</value>
@@ -1117,7 +1147,7 @@
     <value>Funzioni Varie</value>
   </data>
   <data name="ExportData" xml:space="preserve">
-    <value>Esporta dati e file</value>
+    <value>Esporta dati</value>
   </data>
   <data name="ImportFoods" xml:space="preserve">
     <value>Importa cibi</value>
@@ -1126,7 +1156,7 @@
     <value>Importa i dati del sensore: clicca per importare misurazioni del glucosio da file csv del sensore Freestyle Libre</value>
   </data>
   <data name="ResetDatabase" xml:space="preserve">
-    <value>Reimposta Database</value>
+    <value>Reimposta Datab.</value>
   </data>
   <data name="ViewLogs" xml:space="preserve">
     <value>Visualizza Log</value>
@@ -1293,8 +1323,11 @@
   <data name="SavingNotPossible" xml:space="preserve">
     <value>Salvataggio non possibile</value>
   </data>
-  <data name="Front" xml:space="preserve">
+  <data name="FrontSide" xml:space="preserve">
     <value>Davanti</value>
+  </data>
+  <data name="BackSide" xml:space="preserve">
+    <value>Dietro</value>
   </data>
   <data name="Hands" xml:space="preserve">
     <value>Mani</value>
@@ -2252,16 +2285,16 @@
     <value>(Intermedia + Lenta)</value>
   </data>
   <data name="StatBreakfastInsulin" xml:space="preserve">
-    <value>Insulina Colazione</value>
+    <value>Insulina rapida ad ora di colazione</value>
   </data>
   <data name="StatLunchInsulin" xml:space="preserve">
-    <value>Insulina Pranzo</value>
+    <value>Insulina rapida ad ora di pranzo</value>
   </data>
   <data name="StatDinnerInsulin" xml:space="preserve">
-    <value>Insulina Cena</value>
+    <value>Insulina rapida ad ora di cena</value>
   </data>
   <data name="StatOtherInsulin" xml:space="preserve">
-    <value>Altra Insulina</value>
+    <value>Insulina rapida ad in altre ore</value>
   </data>
   <data name="StatTotalDayCHO" xml:space="preserve">
     <value>CHO Totali Giornata</value>
@@ -2489,15 +2522,6 @@ Durata: {2}</value>
   <data name="TrackBtnSaveTrack" xml:space="preserve">
     <value>Salva Traccia</value>
   </data>
-  <data name="ChoosePhotoFile" xml:space="preserve">
-    <value>Scegli file foto</value>
-  </data>
-  <data name="TooltipChoosePhotoFile" xml:space="preserve">
-    <value>Scegli una foto dalla cartella Download</value>
-  </data>
-  <data name="PhotoImported" xml:space="preserve">
-    <value>Foto importata con successo!</value>
-  </data>
   <data name="TrackBtnClear" xml:space="preserve">
     <value>Cancella</value>
   </data>
@@ -2530,5 +2554,20 @@ Durata: {2}</value>
   </data>
   <data name="ImportImages_Description" xml:space="preserve">
     <value>L'importazione copierà anche tutte le immagini trovate nella sottocartella '{0}' situata accanto al file di database selezionato nella cartella interna '{0}' dell'app.\n\nVuoi continuare e importare queste immagini?</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>Marca</value>
+  </data>
+  <data name="InjectionType" xml:space="preserve">
+    <value>Iniez.</value>
+  </data>
+  <data name="TooltipSearchOnPastFoods" xml:space="preserve">
+    <value>Ricerca del nome in ogni cibo passato in ogni pasto</value>
+  </data>
+  <data name="FoodsInMealSearchResults" xml:space="preserve">
+    <value>Cerca il nome nei cibi dei pasti passati</value>
+  </data>
+  <data name="SearchOfFoodsInMealsPageTitle" xml:space="preserve">
+    <value>Cibi nei pasti che hanno un nome simile a quello passato</value>
   </data>
 </root>

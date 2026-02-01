@@ -36,17 +36,52 @@
         </Style>
     </ContentPage.Resources>
 
-    <ScrollView>
-        <VerticalStackLayout Padding="6" Spacing="4">
+    <Grid RowDefinitions="Auto,*">
+        <ScrollView Grid.Row="0" HeightRequest="420" VerticalOptions="Start">
+            <VerticalStackLayout Padding="6" Spacing="4">
+            
+            <!-- Windows-specific warning banner -->
+            <Frame x:Name="frmWindowsWarning" 
+                   IsVisible="False"
+                   BackgroundColor="#FFF3CD" 
+                   BorderColor="#FFC107" 
+                   CornerRadius="6" 
+                   Padding="12" 
+                   Margin="0,0,0,8">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="⚠️ WINDOWS ALARM NOTICE" 
+                           FontSize="16" 
+                           FontAttributes="Bold" 
+                           TextColor="#856404" />
+                    <Label TextColor="#856404" FontSize="13">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Alarms on Windows require the app to be running. " />
+                                <Span Text="Do NOT close the app " FontAttributes="Bold" />
+                                <Span Text="if you have active alarms. You can minimize it instead."/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Text="Tip: Keep GlucoMan minimized in the taskbar for reliable alarms." 
+                           FontSize="12" 
+                           FontAttributes="Italic" 
+                           TextColor="#856404" />
+                </VerticalStackLayout>
+            </Frame>
+            
             <!-- Current Alarm Editing Panel -->
             <Frame BorderColor="#888" CornerRadius="6" Padding="8" Margin="0,0,0,6">
-                <Grid ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                <Grid ColumnDefinitions="60,*,70,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                     <!-- Row 0: Id / Reminder -->
-                    <Label Grid.Row="0" Grid.Column="0" Text="{x:Static strings:AppStrings.Id}" />
-                    <Entry x:Name="txtIdAlarm" Grid.Row="0" Grid.Column="1" Style="{StaticResource ResultEntryStyle}" WidthRequest="90" />
-                    <Label Grid.Row="0" Grid.Column="2" Text="Reminder" />
-                    <Entry x:Name="txtReminderText" Grid.Row="0" Grid.Column="3" Style="{StaticResource EditEntryStyle}" Placeholder="Reminder text" />
-
+                    <Grid Grid.Row="0" Grid.ColumnSpan="4" ColumnDefinitions="20, 45, Auto, *">
+                        <Label Grid.Column="0" VerticalOptions="Center" Text="{x:Static strings:AppStrings.Id}" />
+                        <Entry Grid.Column="1" VerticalOptions="Center" x:Name="txtIdAlarm" 
+                               Style="{StaticResource ResultEntryStyle}" />
+                        <Label Grid.Column="2" VerticalOptions="Center" Text="Rem." />
+                        <Entry Grid.Column="3" VerticalOptions="Center" x:Name="txtReminderText" 
+                               Style="{StaticResource EditEntryStyle}" 
+                               Placeholder="Reminder text" />
+                    </Grid>
                     <!-- Row 1: TimeStart Date/Time -->
                     <Label Grid.Row="1" Grid.Column="0" Text="Start Date" />
                     <DatePicker x:Name="dtpStartDate" Grid.Row="1" Grid.Column="1" BackgroundColor="{StaticResource EditBackColor}" />
@@ -114,7 +149,7 @@
             </FlexLayout>
 
             <!-- Filters Panel -->
-            <Frame BorderColor="#888" CornerRadius="6" Padding="6" Margin="0,6,0,4">
+            <Frame BorderColor="#888" CornerRadius="6" Padding="6" Margin="0,3,0,2">
                 <Grid ColumnDefinitions="Auto,*,Auto,*,Auto,*,Auto,*" RowDefinitions="Auto,Auto">
                     <Label Grid.Row="0" Grid.Column="0" Text="{x:Static strings:AppStrings.From}" />
                     <DatePicker x:Name="dtpFrom" Grid.Row="0" Grid.Column="1" BackgroundColor="{StaticResource EditBackColor}" />
@@ -133,30 +168,68 @@
                 </Grid>
             </Frame>
 
-            <!-- List of Alarms -->
-            <Label Text="{x:Static strings:AppStrings.AlarmsList}" FontAttributes="Bold" />
-            <CollectionView x:Name="cvAlarms" SelectionMode="Single" HeightRequest="300">
-                <CollectionView.Header>
-                    <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" Padding="4" BackgroundColor="#ececec">
-                        <Label Text="{x:Static strings:AppStrings.Id}" FontAttributes="Bold" />
-                        <Label Grid.Column="1" Text="Reminder" FontAttributes="Bold" />
-                        <Label Grid.Column="2" Text="Start" FontAttributes="Bold" />
-                        <Label Grid.Column="3" Text="Next" FontAttributes="Bold" />
-                        <Label Grid.Column="4" Text="{x:Static strings:AppStrings.Status}" FontAttributes="Bold" />
-                    </Grid>
-                </CollectionView.Header>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom: list area so CollectionView owns scrolling/touches -->
+        <Grid Grid.Row="1" Padding="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <HorizontalStackLayout Grid.Row="0" Spacing="10">
+                <Label Text="{x:Static strings:AppStrings.AlarmsList}" FontAttributes="Bold" />
+                <Label x:Name="lblAlarmCount" Text="(0 alarms)" FontSize="12" TextColor="Gray" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <!-- Fixed column header for the alarms list (does not scroll) -->
+            <Grid Grid.Row="1" ColumnDefinitions="20*,40*,80*,80*,20*" ColumnSpacing="4" BackgroundColor="#ececec" Margin="0,6,0,0" Padding="4,6">
+                <Label Text="{x:Static strings:AppStrings.Id}" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                <Label Grid.Column="1" Text="Reminder" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+                <Label Grid.Column="2" Text="Start" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                <Label Grid.Column="3" Text="Next" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                <Label Grid.Column="4" Text="St" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            </Grid>
+            <CollectionView Grid.Row="2" x:Name="cvAlarms" SelectionMode="Single" BackgroundColor="LightGray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" Padding="4" Margin="0,0,0,1" BackgroundColor="White">
-                            <Label Text="{Binding IdAlarm}" />
-                            <Label Grid.Column="1" Text="{Binding ReminderText}" LineBreakMode="TailTruncation" />
-                            <Label Grid.Column="2" Text="{Binding TimeStart.DateTime, StringFormat='{}{0:MM-dd HH:mm}'}" />
-                            <Label Grid.Column="3" Text="{Binding NextTriggerTime, StringFormat='{}{0:MM-dd HH:mm}'}" />
-                            <Label Grid.Column="4" Text="{Binding TriggeredCount}" />
-                        </Grid>
+                <Frame CornerRadius="6" Padding="6" Margin="2,1" BackgroundColor="White" BorderColor="#DDD" HasShadow="True" HorizontalOptions="FillAndExpand">
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelectedInList}" Value="True">
+                                    <Setter Property="BorderColor" Value="DeepSkyBlue" />
+                                    <Setter Property="BackgroundColor" Value="#e6f7ff" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelectedInList}" Value="False">
+                                    <Setter Property="BorderColor" Value="#DDD" />
+                                    <Setter Property="BackgroundColor" Value="White" />
+                                </DataTrigger>
+                            </Frame.Triggers>
+                            <Grid ColumnDefinitions="20*,40*,80*,80*,20*" ColumnSpacing="4">
+                                <Label Text="{Binding IdAlarm}" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="14" />
+                                <Label Grid.Column="1" Text="{Binding ReminderText, TargetNullValue='(no reminder)'}" 
+                                       TextColor="Black" LineBreakMode="TailTruncation" 
+                                       VerticalTextAlignment="Center" 
+                                       FontSize="14" HorizontalOptions="StartAndExpand" MaxLines="2" />
+                                <Label Grid.Column="2" Text="{Binding TimeStart.DateTime}" TextColor="Black" 
+                                       VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="3" Text="{Binding NextTriggerTime}" TextColor="Black" 
+                                       VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="4" Text="{Binding TriggeredCount}" TextColor="Black" 
+                                       VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="14" />
+                            </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnItemTapped" NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Label Text="No alarms to display" TextColor="Gray" HorizontalOptions="Center" VerticalOptions="Center" />
+                </CollectionView.EmptyView>
             </CollectionView>
-        </VerticalStackLayout>
-    </ScrollView>
+        </Grid>
+    </Grid>
 </ContentPage>

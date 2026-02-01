@@ -96,7 +96,25 @@ namespace GlucoMan
                 if (track == null)
                     return null;
 
-                return dl.SaveTrack(track);
+                // Save to database
+                var trackId = dl.SaveTrack(track);
+
+                // Also export to GPX file in Tracks folder
+                if (trackId.HasValue && track.Positions != null && track.Positions.Count > 0)
+                {
+                    try
+                    {
+                        ExportTrackToGpxFile(track);
+                        General.LogOfProgram?.Event($"Track {trackId} saved to database and exported to GPX file");
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error($"Error exporting track {trackId} to GPX file", ex);
+                        // Don't fail the save operation if GPX export fails
+                    }
+                }
+
+                return trackId;
             }
             catch (Exception ex)
             {
@@ -178,11 +196,18 @@ namespace GlucoMan
         {
             try
             {
-                if (CurrentTrack == null || !CurrentTrack.IsRecording)
+                if (CurrentTrack == null)
                 {
-                    General.LogOfProgram?.Event("BL_GpsTracking - AddPosition: No active track");
-                    return null;
+                    General.LogOfProgram?.Event("BL_GpsTracking - AddPosition: No active track, creating new one");
+                    StartNewTrack();
                 }
+
+                // Allow adding positions even if not recording (for syncing saved positions)
+                // if (CurrentTrack == null || !CurrentTrack.IsRecording)
+                // {
+                //     General.LogOfProgram?.Event("BL_GpsTracking - AddPosition: No active track");
+                //     return null;
+                // }
 
                 var position = new GpsPosition
                 {
@@ -324,6 +349,129 @@ namespace GlucoMan
             // Convert m/s to km/h
             double kmh = track.AverageSpeedMps.Value * 3.6;
             return $"{kmh:F1} km/h";
+        }
+
+        #endregion
+
+        #region Track File Export
+
+        /// <summary>
+        /// Exports a track to GPX format and saves it to the Tracks folder.
+        /// </summary>
+        /// <param name="track">Track to export</param>
+        /// <returns>Path to the exported file, or null if export failed</returns>
+        public string ExportTrackToGpxFile(Track track)
+        {
+            try
+            {
+                if (track == null || track.Positions == null || track.Positions.Count == 0)
+                {
+                    General.LogOfProgram?.Error("ExportTrackToGpxFile - Track is null or has no positions", null);
+                    return null;
+                }
+
+                // Create Tracks folder if it doesn't exist
+                string tracksFolder = GetTracksFolder();
+                Directory.CreateDirectory(tracksFolder);
+
+                // Generate filename
+                string safeTrackName = GetSafeFileName(track.Name ?? $"Track_{track.IdTrack}");
+                string fileName = $"{safeTrackName}_{track.StartTime.DateTime:yyyyMMdd_HHmmss}.gpx";
+                string filePath = Path.Combine(tracksFolder, fileName);
+
+                // Generate GPX content
+                string gpxContent = GenerateGpxContent(track);
+
+                // Save to file
+                File.WriteAllText(filePath, gpxContent, System.Text.Encoding.UTF8);
+
+                General.LogOfProgram?.Event($"Track exported to GPX: {filePath}");
+                return filePath;
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram?.Error("BL_GpsTracking - ExportTrackToGpxFile", ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the path to the Tracks folder (creates it if it doesn't exist).
+        /// </summary>
+        public static string GetTracksFolder()
+        {
+#if ANDROID || IOS
+            string tracksFolder = Path.Combine(Microsoft.Maui.Storage.FileSystem.AppDataDirectory, "Tracks");
+#else
+            // For Windows, use a Tracks folder in the app data directory
+            string tracksFolder = Path.Combine(Microsoft.Maui.Storage.FileSystem.AppDataDirectory, "Tracks");
+#endif
+            return tracksFolder;
+        }
+
+        /// <summary>
+        /// Generates GPX XML content for a track.
+        /// </summary>
+        private string GenerateGpxContent(Track track)
+        {
+            var sb = new System.Text.StringBuilder();
+            
+            // GPX header
+            sb.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            sb.AppendLine("<gpx version=\"1.1\" creator=\"GlucoMan\" xmlns=\"http://www.topografix.com/GPX/1/1\">");
+            
+            // Metadata
+            sb.AppendLine("  <metadata>");
+            sb.AppendLine($"    <name>{System.Security.SecurityElement.Escape(track.Name ?? "Unnamed Track")}</name>");
+            sb.AppendLine($"    <time>{track.StartTime.DateTime:yyyy-MM-ddTHH:mm:ssZ}</time>");
+            sb.AppendLine("  </metadata>");
+            
+            // Track
+            sb.AppendLine("  <trk>");
+            sb.AppendLine($"    <name>{System.Security.SecurityElement.Escape(track.Name ?? "Unnamed Track")}</name>");
+            sb.AppendLine("    <trkseg>");
+
+            // Track points
+            foreach (var pos in track.Positions.OrderBy(p => p.EventTime.DateTime))
+            {
+                if (pos.Latitude.HasValue && pos.Longitude.HasValue)
+                {
+                    sb.Append($"      <trkpt lat=\"{pos.Latitude.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)}\" ");
+                    sb.AppendLine($"lon=\"{pos.Longitude.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)}\">");
+                    
+                    if (pos.Altitude.HasValue)
+                    {
+                        sb.AppendLine($"        <ele>{pos.Altitude.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)}</ele>");
+                    }
+                    
+                    sb.AppendLine($"        <time>{pos.EventTime.DateTime:yyyy-MM-ddTHH:mm:ssZ}</time>");
+                    
+                    if (pos.Speed.HasValue)
+                    {
+                        sb.AppendLine($"        <speed>{pos.Speed.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)}</speed>");
+                    }
+                    
+                    sb.AppendLine("      </trkpt>");
+                }
+            }
+
+            sb.AppendLine("    </trkseg>");
+            sb.AppendLine("  </trk>");
+            sb.AppendLine("</gpx>");
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Makes a filename safe by removing invalid characters.
+        /// </summary>
+        private string GetSafeFileName(string fileName)
+        {
+            foreach (char c in Path.GetInvalidFileNameChars())
+            {
+                fileName = fileName.Replace(c, '_');
+            }
+            return fileName;
         }
 
         #endregion

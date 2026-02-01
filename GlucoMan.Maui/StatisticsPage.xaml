@@ -37,7 +37,7 @@
                         <Label x:Name="lblTddMean" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" TextColor="#27ae60"/>
                         <Label Text="{x:Static res:AppStrings.StatStdDev}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblTddStdDev" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" TextColor="#c0392b"/>
-                        <Label Text="{x:Static res:AppStrings.StatSamples}" Grid.Row="3" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
+                        <Label Text="{x:Static res:AppStrings.Days}" Grid.Row="3" Grid.Column="0" FontAttributes="Bold" TextColor="#34495e"/>
                         <Label x:Name="lblTddSamples" Grid.Row="3" Grid.Column="1" HorizontalOptions="End" TextColor="#8e44ad"/>
                     </Grid>
                 </VerticalStackLayout>

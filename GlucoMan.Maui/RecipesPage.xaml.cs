@@ -91,18 +91,16 @@ public partial class RecipesPage : ContentPage
         bl.Recipe.RawToCookedRatio.Double = Safe.Double(txtRawToCookedRatio.Text);
         // blMeal.Recipe.AccuracyOfChoEstimate = XXXX;
     }
-    private void OnGridSelection(object sender, SelectedItemChangedEventArgs e)
+    private void OnGridSelection(object sender, Microsoft.Maui.Controls.SelectionChangedEventArgs e)
     {
-        if (e.SelectedItem == null)
-        {
-            //await DisplayAlert("XXXX", "YYYY", "Ok");
+        if (e.CurrentSelection == null || e.CurrentSelection.Count == 0)
             return;
-        }
+
         loading = true;
-        
-        var selectedRecipe = (Recipe)e.SelectedItem;
-        
-        // Deseleziona tutti gli altri elementi nella lista
+
+        var selectedRecipe = (Recipe)e.CurrentSelection[0];
+
+        // Deselect all other items in the list
         if (allRecipes != null)
         {
             foreach (var recipe in allRecipes)
@@ -110,15 +108,24 @@ public partial class RecipesPage : ContentPage
                 recipe.IsSelectedInList = false;
             }
         }
-        
-        // Seleziona l'elemento corrente
+
+        // Select the current item
         selectedRecipe.IsSelectedInList = true;
-        
-        //make the tapped row the current food
+
+        // Make the tapped row the current recipe
         bl.Recipe = selectedRecipe;
         this.BindingContext = bl.Recipe;
         FromClassToUi();
         loading = false;
+    }
+
+    // Support a direct tap on the item Frame to set selection (helps on Android)
+    private void OnItemTapped(object? sender, EventArgs e)
+    {
+        if (sender is Frame frame && frame.BindingContext is Recipe tapped)
+        {
+            gridRecipes.SelectedItem = tapped;
+        }
     }
     private void RefreshUi()
     {

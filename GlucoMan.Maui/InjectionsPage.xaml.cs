@@ -1,7 +1,8 @@
-using gamon;
+ using gamon;
 using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
 using System.ComponentModel.Design;
+using Microsoft.Maui.ApplicationModel;
 
 namespace GlucoMan.Maui;
 public partial class InjectionsPage : ContentPage
@@ -29,43 +30,67 @@ public partial class InjectionsPage : ContentPage
     {
         InitializeComponent();
 
-        Parameters parameters = Common.Database.GetParameters();
-        if (parameters != null && parameters.MonthsOfDataShownInTheGrids > 0)
-            MonthsOfDataShownInTheGrids = parameters.MonthsOfDataShownInTheGrids;
+        // Wrap initialization that may touch the database or platform APIs
+        // in a try/catch so Release builds don't crash the app silently.
+        try
+        {
+            Parameters parameters = Common.Database.GetParameters();
+            if (parameters != null && parameters.MonthsOfDataShownInTheGrids > 0)
+                MonthsOfDataShownInTheGrids = parameters.MonthsOfDataShownInTheGrids;
 
-        pageIsLoading = true;
-        // set rdbShortInsulin and rdbInsulin text to the name of the right insulins 
-        // read from Parameters the Id of current short action insulin
+            pageIsLoading = true;
+            // set rdbShortInsulin and rdbInsulin text to the name of the right insulins 
+            // read from Parameters the Id of current short action insulin
 
-        IdCurrentShortActingInsulin = parameters?.IdInsulinDrug_Short;
-        IdCurrentLongActingInsulin = parameters?.IdInsulinDrug_Long;
-        currentShortInsulin = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin);
-        currentLongInsulin = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin); 
-        
-        if (IdCurrentShortActingInsulin != null && currentShortInsulin != null)
-        {
-            CurrentInjection.IdInsulinDrug = IdCurrentShortActingInsulin;
-            rdbShortInsulin.Content = currentShortInsulin.Name ?? "Short act.";
+            IdCurrentShortActingInsulin = parameters?.IdInsulinDrug_Short;
+            IdCurrentLongActingInsulin = parameters?.IdInsulinDrug_Long;
+            currentShortInsulin = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin);
+            currentLongInsulin = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin);
+
+            if (IdCurrentShortActingInsulin != null && currentShortInsulin != null)
+            {
+                CurrentInjection.IdInsulinDrug = IdCurrentShortActingInsulin;
+                rdbShortInsulin.Content = currentShortInsulin.Name ?? "Short act.";
+            }
+            else
+            {
+                rdbShortInsulin.Content = "Short act.";
+            }
+
+            if (IdCurrentLongActingInsulin != null && currentLongInsulin != null)
+            {
+                rdbLongInsulin.Content = currentLongInsulin.Name ?? "Long act.";
+            }
+            else
+            {
+                rdbLongInsulin.Content = "Long act.";
+            }
+            pageIsLoading = false;
+            RefreshUi();
+            // Initialize change tracking
+            SaveOriginalInjection();
+            // Add event handlers for change tracking
+            AttachChangeHandlers();
         }
-        else
+        catch (Exception ex)
         {
-            rdbShortInsulin.Content = "Short act.";
+            // Log and show user-friendly alert on UI thread. In Release the app
+            // previously crashed without any visible alert — this ensures we log
+            // the root cause and notify the user while keeping the app alive.
+            General.LogOfProgram?.Error("InjectionsPage | ctor", ex);
+            try
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    // Fire-and-forget DisplayAlert to avoid blocking constructor
+                    _ = DisplayAlert("Errore", "Impossibile aprire la pagina Iniezioni. Controlla i log.", "OK");
+                });
+            }
+            catch
+            {
+                // swallow — nothing else we can do safely here
+            }
         }
-        
-        if (IdCurrentLongActingInsulin != null && currentLongInsulin != null)
-        {
-            rdbLongInsulin.Content = currentLongInsulin.Name ?? "Long act.";
-        }
-        else
-        {
-            rdbLongInsulin.Content = "Long act.";
-        }
-        pageIsLoading = false;
-        RefreshUi();
-        // Initialize change tracking
-        SaveOriginalInjection();
-        // Add event handlers for change tracking
-        AttachChangeHandlers();
     }
     protected override bool OnBackButtonPressed()
     {
@@ -382,23 +407,38 @@ public partial class InjectionsPage : ContentPage
         }
         return abort;
     }
-    private async void OnGridSelectionAsync(object sender, SelectedItemChangedEventArgs e)
+    // Support a direct tap on the item Frame to set selection (helps on Android)
+    private async void OnItemTapped(object? sender, EventArgs e)
     {
-        if (e.SelectedItem == null)
+        if (sender is Frame frame && frame.BindingContext is Injection tapped)
         {
-            return;
+            // set selected item which will trigger SelectionChanged
+            gridInjections.SelectedItem = tapped;
+            try
+            {
+                await HandleSelectionAsync(tapped);
+            }
+            catch
+            {
+                // ignore any errors from manual invocation
+            }
         }
-        
-        var selectedInjection = (Injection)e.SelectedItem;
-        
+    }
+
+    // Centralized selection handling extracted so both tap and selectionchanged can reuse it
+    private async Task HandleSelectionAsync(Injection selectedInjection)
+    {
+        if (selectedInjection == null)
+            return;
+
         // Check if there are unsaved changes before changing selection
         if (HasUnsavedChanges)
         {
-            var result = await DisplayAlert(
+            var save = await DisplayAlert(
                 AppStrings.UnsavedChanges,
                 AppStrings.UnsavedChangesMessage,
                 AppStrings.Save, AppStrings.Discard);
-            if (result)
+            if (save)
             {
                 if (!await TrySaveCurrentInjection())
                 {
@@ -408,12 +448,12 @@ public partial class InjectionsPage : ContentPage
             }
             else
             {
-                // Continue with new selection. without saving
+                // Continue with new selection without saving
                 HasUnsavedChanges = false;
             }
         }
-        
-        // Deseleziona tutti gli altri elementi nella lista
+
+        // Deselect all other items in the list
         if (allInjections != null)
         {
             foreach (var injection in allInjections)
@@ -421,46 +461,39 @@ public partial class InjectionsPage : ContentPage
                 injection.IsSelectedInList = false;
             }
         }
-        
-        // Seleziona l'elemento corrente
+
+        // Select the current item
         selectedInjection.IsSelectedInList = true;
-        
+
         // make the tapped row the current injection 
         CurrentInjection = selectedInjection;
 
         SetTheColorsOfPictureButtons();
-        
+
         FromClassToUi();
-        
+
         // Update radio button content based on the injection type
-        // Show the actual insulin name for the selected injection type, and default names for the other
-        if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.Short 
+        if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.Short
             || CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.Rapid)
         {
-            // the short insulin is the one that we took from the grid
             rdbShortInsulin.Content = bl.GetOneInsulinDrug(CurrentInjection.IdInsulinDrug)?.Name ?? "Short act.";
-            // the long insulin is the default long insulin that we are using
             rdbLongInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin)?.Name ?? "Long act.";
         }
         else if (CurrentInjection.IdTypeOfInsulinAction == (int)Common.TypeOfInsulinAction.Long)
         {
-            // the short insulin is the default short insulin that we are using
             rdbShortInsulin.Content = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin)?.Name ?? "Short act.";
-            // the long insulin is the one that we took from the grid
             rdbLongInsulin.Content = bl.GetOneInsulinDrug(CurrentInjection.IdInsulinDrug)?.Name ?? "Long act.";
         }
         else
         {
-            // IdTypeOfInsulinAction is null, NotSet, or some other value
-            // Show default insulin names
             rdbShortInsulin.Content = bl.GetOneInsulinDrug(IdCurrentShortActingInsulin)?.Name ?? "Short act.";
             rdbLongInsulin.Content = bl.GetOneInsulinDrug(IdCurrentLongActingInsulin)?.Name ?? "Long act.";
         }
 
         // Keep the selection visible
-        if (gridInjections.SelectedItem != e.SelectedItem)
+        if (gridInjections.SelectedItem != selectedInjection)
         {
-            gridInjections.SelectedItem = e.SelectedItem;
+            gridInjections.SelectedItem = selectedInjection;
         }
         picturePageHasBeenVisited = false;
 
@@ -468,6 +501,14 @@ public partial class InjectionsPage : ContentPage
         SaveOriginalInjection();
         HasUnsavedChanges = false;
         UpdateTitleWithUnsavedIndicator();
+    }
+    private async void OnGridSelectionAsync(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection == null || e.CurrentSelection.Count == 0)
+            return;
+
+        var selectedInjection = (Injection)e.CurrentSelection[0];
+        await HandleSelectionAsync(selectedInjection);
     }
     private void SetTheColorsOfPictureButtons()
     {

@@ -172,7 +172,16 @@ namespace GlucoMan.Maui
         }
         private async void btnInjections_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new InjectionsPage(null));
+            try
+            {
+                var page = new InjectionsPage(null);
+                await Navigation.PushAsync(page);
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("MainPage | btnInjections_Clicked", ex);
+                try { await DisplayAlert("Error", $"Impossibile aprire la pagina Injections: {ex.Message}", "OK"); } catch { /* ignore UI errors */ }
+            }
         }
         private async void btnFoods_Clicked(object sender, EventArgs e)
         {

@@ -32,6 +32,30 @@ public partial class ContainersPage : ContentPage
             General.LogOfProgram?.Error("ContainersPage - Constructor", ex);
         }
     }
+
+    // Support a direct tap on the item Frame to set selection (helps on Android)
+    private async void OnItemTapped(object? sender, EventArgs e)
+    {
+        if (sender is Frame frame && frame.BindingContext is ContainerViewModel tapped)
+        {
+            // set selected item which will trigger SelectionChanged
+            cvContainers.SelectedItem = tapped;
+            try
+            {
+                selectedContainer = tapped.Container;
+                // Update entry fields with selected container Data
+                txtContainerName.Text = selectedContainer.Name;
+                txtContainerWeight.Text = selectedContainer.Weight?.Text ?? "";
+                // Load container photo
+                LoadContainerPhoto(selectedContainer);
+                General.LogOfProgram?.Event($"ContainersPage - Container selected: {selectedContainer.Name}");
+            }
+            catch
+            {
+                // ignore any errors from manual invocation
+            }
+        }
+    }
     // Constructor with pre-selected container weight
     public ContainersPage(double? currentWeight) : this()
     {
@@ -81,8 +105,8 @@ public partial class ContainersPage : ContentPage
                 .Select(c => new ContainerViewModel(c))
                 .ToList();
 
-            lvContainers.ItemsSource = null;
-            lvContainers.ItemsSource = containerViewModels;
+            cvContainers.ItemsSource = null;
+            cvContainers.ItemsSource = containerViewModels;
 
             General.LogOfProgram?.Event($"ContainersPage - Loaded {allContainers.Count} containers");
         }
@@ -149,6 +173,50 @@ public partial class ContainersPage : ContentPage
             General.LogOfProgram?.Error("ContainersPage - lvContainers_ItemSelected", ex);
         }
     }
+
+    private void cvContainers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        try
+        {
+            if (e.CurrentSelection != null && e.CurrentSelection.Count > 0)
+            {
+                var selectedViewModel = e.CurrentSelection[0] as ContainerViewModel;
+
+                if (selectedViewModel != null)
+                {
+                    // Deselect all other viewmodels
+                    if (containerViewModels != null)
+                    {
+                        foreach (var vm in containerViewModels)
+                        {
+                            vm.IsSelectedInList = false;
+                        }
+                    }
+
+                    // Mark selected viewmodel
+                    selectedViewModel.IsSelectedInList = true;
+
+                    selectedContainer = selectedViewModel.Container;
+
+                    // Update entry fields with selected container Data
+                    txtContainerName.Text = selectedContainer.Name;
+                    txtContainerWeight.Text = selectedContainer.Weight?.Text ?? "";
+
+                    // Load container photo
+                    LoadContainerPhoto(selectedContainer);
+
+                    General.LogOfProgram?.Event($"ContainersPage - Container selected: {selectedContainer.Name}");
+
+                    // Clear CollectionView SelectedItem to avoid default selection visuals
+                    cvContainers.SelectedItem = null;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("ContainersPage - cvContainers_SelectionChanged", ex);
+        }
+    }
     private async void btnNew_Click(object sender, EventArgs e)
     {
         try
@@ -192,7 +260,7 @@ public partial class ContainersPage : ContentPage
                 txtContainerWeight.Text = "";
                 imgContainerPhoto.Source = null;
                 selectedContainer = null;
-                lvContainers.SelectedItem = null;
+                cvContainers.SelectedItem = null;
 
                 // Reload list
                 LoadContainers();
@@ -374,7 +442,7 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
 
             // Clear selection
             selectedContainer = null;
-            lvContainers.SelectedItem = null;
+            cvContainers.SelectedItem = null;
 
             General.LogOfProgram?.Event("ContainersPage - Fields cleared");
         }
@@ -609,7 +677,7 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
 
         return result;
     }
-    private async void imgContainerPhoto_Tapped(object sender, EventArgs e)
+    private async void imgContainerPhoto_Tapped(object sender, TappedEventArgs e)
     {
         try
         {
@@ -698,7 +766,7 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
                 txtContainerWeight.Text = "";
                 imgContainerPhoto.Source = null;
                 selectedContainer = null;
-                lvContainers.SelectedItem = null;
+                cvContainers.SelectedItem = null;
 
                 // Reload list
                 LoadContainers();
@@ -713,8 +781,5 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
         }
     }
 
-    private void imgContainerPhoto_Tapped(object sender, TappedEventArgs e)
-    {
-
-    }
+    
 }

@@ -5,7 +5,7 @@ namespace GlucoMan.Maui.Models;
 /// <summary>
 /// Wrapper for Container that includes UI-specific properties like thumbnail
 /// </summary>
-public class ContainerViewModel
+public class ContainerViewModel : System.ComponentModel.INotifyPropertyChanged
 {
     public Container Container { get; set; }
     
@@ -69,6 +69,27 @@ _cachedThumbnail = ImageSource.FromFile(photoPath);
     public ContainerViewModel(Container container)
     {
         Container = container;
+    }
+
+    private bool _isSelectedInList;
+    public bool IsSelectedInList
+    {
+        get => _isSelectedInList;
+        set
+        {
+            if (_isSelectedInList == value) return;
+            _isSelectedInList = value;
+            OnPropertyChanged(nameof(IsSelectedInList));
+            OnPropertyChanged(nameof(RowBorderColor));
+        }
+    }
+
+    public string RowBorderColor => IsSelectedInList ? "Orange" : "Transparent";
+
+    public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
     }
     
     /// <summary>

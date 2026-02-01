@@ -7,21 +7,23 @@
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,
               Auto,Auto,Auto,50,Auto,
-              65,20,*"
+              65,20,Auto,*"
             ColumnDefinitions="*,*,*,*">
-            <RadioButton Grid.Row="0" Grid.Column="0" Content="{x:Static strings:AppStrings.Breakfast}" x:Name="rdbIsBreakfast" 
-                         ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeBreakfast}" 
-                         CheckedChanged="rdb_CheckedChanged"/>
-            <RadioButton Grid.Row="0" Grid.Column="1" Content="{x:Static strings:AppStrings.Lunch}" x:Name="rdbIsLunch" 
-                         ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeLunch}" 
-                         CheckedChanged="rdb_CheckedChanged"/>
-            <RadioButton Grid.Row="0" Grid.Column="2" Content="{x:Static strings:AppStrings.Dinner}" x:Name="rdbIsDinner"
-                         ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeDinner}" 
-                         CheckedChanged="rdb_CheckedChanged"/>
-            <RadioButton Grid.Row="0" Grid.Column="3" Content="{x:Static strings:AppStrings.Snack}" x:Name="rdbIsSnack"
-                         ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeSnack}" 
-                         CheckedChanged="rdb_CheckedChanged"/>
-
+            <HorizontalStackLayout Grid.Row="0" Grid.Column="0">
+                <RadioButton Content="{x:Static strings:AppStrings.Breakfast}" x:Name="rdbIsBreakfast" 
+                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeBreakfast}" 
+                             CheckedChanged="rdb_CheckedChanged"/>
+                <RadioButton Content="{x:Static strings:AppStrings.Lunch}" x:Name="rdbIsLunch" 
+                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeLunch}" 
+                             CheckedChanged="rdb_CheckedChanged"/>
+                <RadioButton Content="{x:Static strings:AppStrings.Dinner}" x:Name="rdbIsDinner"
+                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeDinner}" 
+                             CheckedChanged="rdb_CheckedChanged"/>
+                <RadioButton Content="{x:Static strings:AppStrings.Snack}" x:Name="rdbIsSnack"
+                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeSnack}" 
+                             CheckedChanged="rdb_CheckedChanged"/>
+            </HorizontalStackLayout>
+            
             <Label Grid.Row="1" Grid.Column="3" Text="{x:Static strings:AppStrings.Id}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="0" Text="{x:Static strings:AppStrings.CHOToEat}" 
@@ -137,65 +139,69 @@
                     </Label.GestureRecognizers>
                 </Label>
             </HorizontalStackLayout>
-            <!-- a nested Grid to get different Widths of columns -->
-            <ListView Grid.Row="8" Grid.ColumnSpan="4" 
-                          x:Name="gridMeals"
-                          BackgroundColor="White"
-                          ToolTipProperties.Text="{x:Static strings:AppStrings.MealsList}"
-                          ItemSelected="OnGridSelectionAsync"
-                          RowHeight="22">
-                <ListView.Header>
-                    <Grid ColumnDefinitions="180*,50*,50*,50*"
-                            BackgroundColor="#e8f5e9"
-                            Margin="2"
-                            Padding="0,3,0,3">
-                        <Label Grid.Column="0" Text="{x:Static strings:AppStrings.DateTime}"
-                    HorizontalTextAlignment="Center" 
-                    FontAttributes="Bold"
-                    FontSize="14"
-                    TextColor="#2c3e50"/>
-                        <Label Grid.Column="1" Text="CHO [g]" 
-                    HorizontalTextAlignment="Center"
-                    FontAttributes="Bold"
-                    FontSize="14"
-                    TextColor="#2c3e50"/>
-                        <Label Grid.Column="2" Text="{x:Static strings:AppStrings.Type}" 
-                    HorizontalTextAlignment="Center"
-                    FontAttributes="Bold"
-                    FontSize="14"
-                    TextColor="#2c3e50"/>
-                        <Label Grid.Column="3" Text="Accur.%" 
-                    HorizontalTextAlignment="Center"
-                    FontAttributes="Bold"
-                    FontSize="14"
-                    TextColor="#2c3e50"/>
-                    </Grid>
-                </ListView.Header>
-                <ListView.ItemTemplate>
+            <!-- Fixed header for the meals list (does not scroll) -->
+            <Grid Grid.Row="8" Grid.ColumnSpan="4"
+                  ColumnDefinitions="180*,50*,50*,50*"
+                  ColumnSpacing="4"
+                  BackgroundColor="#e8f5e9"
+                  Margin="2"
+                  Padding="0,3,0,3">
+                <Label Grid.Column="0" Text="{x:Static strings:AppStrings.DateTime}"
+                       HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand"
+                       FontAttributes="Bold" FontSize="14" TextColor="#2c3e50" LineBreakMode="NoWrap" MaxLines="1"/>
+                <Label Grid.Column="1" Text="CHO [g]"
+                       HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand"
+                       FontAttributes="Bold" FontSize="14" TextColor="#2c3e50" LineBreakMode="NoWrap" MaxLines="1"/>
+                <Label Grid.Column="2" Text="{x:Static strings:AppStrings.Type}"
+                       HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand"
+                       FontAttributes="Bold" FontSize="14" TextColor="#2c3e50" LineBreakMode="NoWrap" MaxLines="1"/>
+                <Label Grid.Column="3" Text="Accur.%"
+                       HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand"
+                       FontAttributes="Bold" FontSize="14" TextColor="#2c3e50" LineBreakMode="NoWrap" MaxLines="1"/>
+            </Grid>
+
+            <CollectionView Grid.Row="9" Grid.ColumnSpan="4"
+                            x:Name="gridMeals"
+                            BackgroundColor="White"
+                            ToolTipProperties.Text="{x:Static strings:AppStrings.MealsList}"
+                            SelectionMode="Single"
+                            SelectionChanged="OnGridSelectionAsync"
+                            Background="LightGray"
+                            HorizontalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Grid RowDefinitions="19" ColumnDefinitions="180*,50*,50*,50*"
-                                      BackgroundColor="White"
-                                        Margin="1" VerticalOptions="Center">
-                                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center"
-                                            Grid.Column="0" Text="{Binding EventTime.DateTime, StringFormat='{0:yyyy-MM-dd HH:mm}'}"
-                                            TextColor="Black" FontSize="14"/>
-                                    <Label HorizontalTextAlignment="Center" 
-                                            Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"
-                                            TextColor="Black" FontSize="14"/>
-                                    <Label HorizontalTextAlignment="Center" 
-                                            Grid.Column="2" Text="{Binding IdTypeOfMeal}"
-                                            TextColor="Black" FontSize="14"/>
-                                    <Label HorizontalTextAlignment="Center" 
-                                            Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"
-                                            TextColor="Black" FontSize="14"/>
-                                </Grid>
-                            </ViewCell.View>
-                        </ViewCell>
+                        <Frame CornerRadius="6" Padding="6" Margin="2,1" BackgroundColor="White" BorderColor="{Binding RowBorderColor}" HasShadow="False" HorizontalOptions="FillAndExpand">
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelectedInList}" Value="True">
+                                    <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding RowBorderColor}" Value="Orange">
+                                    <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                </DataTrigger>
+                            </Frame.Triggers>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnItemTapped" NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                            <Grid VerticalOptions="Center" ColumnDefinitions="180*,50*,50*,50*" ColumnSpacing="0">
+                                <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center"
+                                       Grid.Column="0" Text="{Binding EventTime.DateTime, StringFormat='{0:dd/MM/yyyy HH:mm}'}"
+                                       TextColor="Black" FontSize="14" BackgroundColor="Transparent" LineBreakMode="NoWrap" MaxLines="1"/>
+                                <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"
+                                       TextColor="Black" FontSize="14" BackgroundColor="Transparent" LineBreakMode="NoWrap" MaxLines="1"/>
+                                <Label HorizontalTextAlignment="Center" Grid.Column="2" Text="{Binding IdTypeOfMeal}"
+                                       TextColor="Black" FontSize="14" BackgroundColor="Transparent" LineBreakMode="NoWrap" MaxLines="1"/>
+                                <Label HorizontalTextAlignment="Center" Grid.Column="3" Text="{Binding AccuracyOfChoEstimate.Text}"
+                                       TextColor="Black" FontSize="14" BackgroundColor="Transparent" LineBreakMode="NoWrap" MaxLines="1"/>
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

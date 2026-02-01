@@ -39,6 +39,14 @@
   <!-- Additional permissions -->
   <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
   <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+  
+  <!-- Alarm and notification permissions -->
+  <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+  <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
   <application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:requestLegacyExternalStorage="true">
     <!-- File Provider for sharing files -->
@@ -55,5 +63,30 @@
 			android:stopWithTask="false">
       <!-- stopWithTask="false" allows service to continue when app is closed -->
     </service>
+    
+    <!-- Alarm Broadcast Receiver -->
+    <receiver android:name="GlucoMan.Maui.Platforms.Android.AlarmFireReceiver"
+              android:enabled="true"
+              android:exported="true">
+    </receiver>
+    
+    <!-- Boot Completed Receiver - Restores alarms after device reboot -->
+    <receiver android:name="GlucoMan.Maui.Platforms.Android.BootCompletedReceiver"
+              android:enabled="true"
+              android:exported="true"
+              android:directBootAware="true">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+        <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+      </intent-filter>
+    </receiver>
+    
+    <!-- Fullscreen Alarm Activity -->
+    <activity android:name="GlucoMan.Maui.Platforms.Android.AlarmActivity"
+              android:theme="@style/Theme.AppCompat.NoActionBar"
+              android:launchMode="singleInstance"
+              android:excludeFromRecents="true"
+              android:showForAllUsers="true"
+              android:exported="true" />
   </application>
 </manifest>

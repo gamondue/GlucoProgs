@@ -31,7 +31,7 @@
 		<!-- FileVersion uses readable date/time format as string -->
 		<VersionMajor>0</VersionMajor>
 		<VersionMinor>9</VersionMinor>
-		<VersionPatch>7</VersionPatch>
+		<VersionPatch>8</VersionPatch>
 		<!-- Build number as days since 2025-01-01 (avoids overflow) -->
 		<VersionBuildNumber>$([MSBuild]::Subtract($([System.DateTime]::Now.Subtract($([System.DateTime]::Parse('2025-01-01'))).Days), 0))</VersionBuildNumber>
 		<VersionRevision>$([System.DateTime]::Now.ToString('HHmm'))</VersionRevision>
@@ -319,6 +319,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="FoodsInMealSearchResultsPage.xaml.cs">
+	    <DependentUpon>FoodsInMealSearchResultsPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="IdentificationPage2.xaml.cs">
 	    <DependentUpon>IdentificationPage2.xaml</DependentUpon>
 	  </Compile>
@@ -354,6 +357,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="AlarmDialogPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="CalculatorPage.xaml">
 	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 	  </MauiXaml>
@@ -364,6 +370,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="CropPhotoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="FoodsInMealSearchResultsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="FullScreenImagePage.xaml">
@@ -388,6 +397,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="StatisticsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="WindowsAlarmPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

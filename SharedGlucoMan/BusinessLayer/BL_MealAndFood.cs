@@ -438,5 +438,10 @@ namespace GlucoMan
             dl.SaveOneFoodInMeal(FoodInMeal);
             return;
         }
+
+        internal List<FoodInMeal> GetAllMatchingFoodsInMeals(string name)
+        {
+            return dl.Get200MatchingFoodsInMeals(name);
+        }
     }
 }

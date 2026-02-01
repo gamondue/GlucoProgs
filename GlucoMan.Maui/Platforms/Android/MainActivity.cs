@@ -23,6 +23,19 @@ namespace GlucoMan.Maui
             
             // Set activity for orientation helper
             AndroidExternalFilesHelper.SetMainActivity(this);
+            
+            // Request alarm permissions if needed
+            Task.Run(async () =>
+            {
+                try
+                {
+                    await Platforms.Android.AlarmPermissionHelper.CheckAndRequestAllPermissionsAsync(this);
+                }
+                catch (Exception ex)
+                {
+                    General.LogOfProgram?.Error("MainActivity - OnCreate - requesting alarm permissions", ex);
+                }
+            });
         }
         // erase the next method when the rest of the code is stable
         private async Task EnsureStoragePermissionsAsync()

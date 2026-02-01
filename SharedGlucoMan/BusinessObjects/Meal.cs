@@ -7,7 +7,7 @@ using static GlucoMan.Common;
 
 namespace GlucoMan
 {
-    public class Meal : Event
+    public class Meal : Event, INotifyPropertyChanged
     {      
         [DisplayName("Meal Code")]
         public int? IdMeal { get; set; }
@@ -45,5 +45,30 @@ namespace GlucoMan
             AccuracyOfChoEstimate = new DoubleAndText(); 
         }
         private string _name;
+        
+        private bool _isSelectedInList;
+
+        public bool IsSelectedInList
+        {
+            get => _isSelectedInList;
+            set
+            {
+                if (_isSelectedInList != value)
+                {
+                    _isSelectedInList = value;
+                    OnPropertyChanged(nameof(IsSelectedInList));
+                    OnPropertyChanged(nameof(RowBorderColor));
+                }
+            }
+        }
+
+        public string RowBorderColor => IsSelectedInList ? "Orange" : "Transparent";
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

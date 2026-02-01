@@ -1,4 +1,5 @@
 using GlucoMan;
+using GlucoMan.Maui.Resources.Strings;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GlucoMan.Maui;
@@ -7,11 +8,24 @@ public partial class HypoPredictionPage : ContentPage
 {
     BL_HypoPrediction hypo;
     BL_GlucoseMeasurements blMeasurements = new BL_GlucoseMeasurements();
+    private ISystemAlarmScheduler? _alarmScheduler;
+    
     public HypoPredictionPage()
     {
         InitializeComponent();
 
         hypo = new BL_HypoPrediction();
+
+        // Get alarm scheduler from DI
+        try
+        {
+            _alarmScheduler = Application.Current?.Handler?.MauiContext?.Services
+                .GetService<ISystemAlarmScheduler>();
+        }
+        catch (Exception ex)
+        {
+            gamon.General.LogOfProgram?.Error("HypoPredictionPage - Constructor - Getting alarm scheduler", ex);
+        }
 
         hypo.RestoreData();
         FromClassToUi();
@@ -97,9 +111,116 @@ public partial class HypoPredictionPage : ContentPage
         btnNow_Click(null, null);
         txtGlucoseLast.Focus();
     }
-    private void btnAlarm_Click(object sender, EventArgs e)
+    private async void btnAlarm_Click(object sender, EventArgs e)
     {
+        try
+        {
+            // Check if alarm scheduler is available
+            if (_alarmScheduler == null)
+            {
+                await DisplayAlert(AppStrings.Error, "Alarm system not available", AppStrings.OK);
+                return;
+            }
 
+            // Get hour and minute from labels
+            if (string.IsNullOrWhiteSpace(txtAlarmHour.Text) || txtAlarmHour.Text == "----" ||
+                string.IsNullOrWhiteSpace(txtAlarmMinute.Text) || txtAlarmMinute.Text == "----")
+            {
+                await DisplayAlert(AppStrings.Warning, 
+                    "Please calculate prediction first to get alarm time", 
+                    AppStrings.OK);
+                return;
+            }
+
+            if (!int.TryParse(txtAlarmHour.Text, out int hour) || 
+                !int.TryParse(txtAlarmMinute.Text, out int minute))
+            {
+                await DisplayAlert(AppStrings.Error, "Invalid alarm time format", AppStrings.OK);
+                return;
+            }
+
+            // Validate hour and minute
+            if (hour < 0 || hour > 23 || minute < 0 || minute > 59)
+            {
+                await DisplayAlert(AppStrings.Error, 
+                    $"Invalid time: {hour:D2}:{minute:D2}", 
+                    AppStrings.OK);
+                return;
+            }
+
+            // Create alarm datetime for today at the specified time
+            var today = DateTime.Today;
+            var alarmDateTime = new DateTime(today.Year, today.Month, today.Day, hour, minute, 0);
+
+            // If the time is in the past, schedule for tomorrow
+            if (alarmDateTime <= DateTime.Now)
+            {
+                bool setForTomorrow = await DisplayAlert(
+                    AppStrings.Warning,
+                    $"The alarm time ({hour:D2}:{minute:D2}) is in the past.\n\nSchedule for tomorrow?",
+                    AppStrings.Yes,
+                    AppStrings.No);
+
+                if (setForTomorrow)
+                {
+                    alarmDateTime = alarmDateTime.AddDays(1);
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // Get glucose target for the reminder text
+            string glucoseTarget = txtGlucoseTarget.Text;
+            string reminderText = $"?? Hypo Alert!\nPredicted glucose below {glucoseTarget} mg/dL";
+
+            // Create the alarm
+            var alarm = new Alarm
+            {
+                ReminderText = reminderText,
+                TimeStart = new gamon.DateTimeAndText { DateTime = alarmDateTime },
+                EnablePlaySoundFile = true,  // Always play sound for hypo alerts
+                DoVibrate = true,            // Always vibrate for hypo alerts
+                ValidTimeAfterStart = TimeSpan.FromHours(2), // Valid for 2 hours
+                Duration = TimeSpan.FromMinutes(10) // Ring up to 10 minutes
+            };
+
+            alarm.CalculateNextTriggerTime();
+
+            // Save to database
+            var blAlarms = new BL_Alarms();
+            blAlarms.AddAlarm(alarm);
+
+            // Schedule with system
+            if (alarm.IdAlarm.HasValue)
+            {
+                await _alarmScheduler.ScheduleAsync(alarm);
+
+                string message = $"?? Hypoglycemia alert set!\n\n" +
+                                $"? Time: {alarmDateTime:dd/MM/yyyy HH:mm}\n" +
+                                $"?? Target: {glucoseTarget} mg/dL\n\n" +
+                                $"The alarm will alert you before predicted hypoglycemia.";
+
+                await DisplayAlert("Alarm Set", message, AppStrings.OK);
+
+                // Update status bar
+                txtStatusBar.IsVisible = true;
+                txtStatusBar.Text = $"? Alarm set for {hour:D2}:{minute:D2}";
+                txtStatusBar.BackgroundColor = Colors.Green;
+            }
+            else
+            {
+                await DisplayAlert(AppStrings.Error, "Failed to create alarm - no ID assigned", AppStrings.OK);
+            }
+        }
+        catch (Exception ex)
+        {
+            gamon.General.LogOfProgram?.Error("HypoPredictionPage - btnAlarm_Click", ex);
+            await DisplayAlert(AppStrings.Error, 
+                $"Failed to set alarm:\n{ex.Message}", 
+                AppStrings.OK);
+        }
     }
     private void btnReadGlucose_Click(object sender, EventArgs e)
     {

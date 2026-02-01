@@ -140,15 +140,16 @@
  Margin="0,10,0,0" />
 
             <!-- Section: List of containers - Now in Grid.Row="7" with * height -->
-            <ListView Grid.Row="7" Grid.ColumnSpan="5"
- x:Name="lvContainers"
- ItemSelected="lvContainers_ItemSelected"
- ToolTipProperties.Text="{x:Static res:AppStrings.TooltipContainersList}"
- RowHeight="50"
- Margin="0,5,0,0"
- VerticalOptions="FillAndExpand"
- HorizontalOptions="Fill">
-                <ListView.Header>
+            <CollectionView Grid.Row="7" Grid.ColumnSpan="5"
+                            x:Name="cvContainers"
+                            ItemsSource="{Binding}"
+                            ToolTipProperties.Text="{x:Static res:AppStrings.TooltipContainersList}"
+                            SelectionMode="Single"
+                            SelectionChanged="cvContainers_SelectionChanged"
+                            Margin="0,5,0,0"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="Fill">
+                <CollectionView.Header>
                     <Grid ColumnDefinitions="100,*,80" RowDefinitions="Auto"
  BackgroundColor="#e8f5e9" Padding="0,3,0,3" Margin="2">
                         <Label Grid.Column="0" Text="{x:Static res:AppStrings.PhotoColumn}" FontAttributes="Bold" FontSize="14"
@@ -158,32 +159,50 @@
                         <Label Grid.Column="2" Text="{x:Static res:AppStrings.WeightGrams}" FontAttributes="Bold" FontSize="14"
  TextColor="#2c3e50" HorizontalTextAlignment="End" />
                     </Grid>
-                </ListView.Header>
-                <ListView.ItemTemplate>
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Grid ColumnDefinitions="100,*,80" Padding="2" RowDefinitions="46">
-                                    <!-- Thumbnail column -->
-                                    <Border Grid.Column="0" Stroke="LightGray" StrokeThickness="1" Margin="2" Padding="1"
+                        <Frame CornerRadius="6" Padding="6" Margin="2,1" BackgroundColor="White" BorderColor="LightGray" HasShadow="False" HorizontalOptions="FillAndExpand">
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelectedInList}" Value="True">
+                                    <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding RowBorderColor}" Value="Orange">
+                                    <Setter Property="BorderColor" Value="{StaticResource SelectedRowBorderColor}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource SelectedRowBackgroundColor}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="BorderColor" Value="DeepSkyBlue" />
+                                    <Setter Property="BackgroundColor" Value="#e6f7ff" />
+                                </DataTrigger>
+                            </Frame.Triggers>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnItemTapped" NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="100,*,80" Padding="2" RowDefinitions="46">
+                                <!-- Thumbnail column -->
+                                <Border Grid.Column="0" Stroke="LightGray" StrokeThickness="1" Margin="2" Padding="1"
  BackgroundColor="White" WidthRequest="46" HeightRequest="46">
-                                        <Image Source="{Binding ThumbnailSource}" Aspect="AspectFit" VerticalOptions="Fill"
+                                    <Image Source="{Binding ThumbnailSource}" Aspect="AspectFit" VerticalOptions="Fill"
  HorizontalOptions="Fill" />
-                                    </Border>
+                                </Border>
 
-                                    <!-- Name column -->
-                                    <Label Grid.Column="1" Text="{Binding Name}" Margin="2" VerticalTextAlignment="Center"
+                                <!-- Name column -->
+                                <Label Grid.Column="1" Text="{Binding Name}" Margin="2" VerticalTextAlignment="Center"
  HorizontalTextAlignment="Start" />
 
-                                    <!-- Weight column -->
-                                    <Label Grid.Column="2" Text="{Binding Weight.Text}" Margin="2" VerticalTextAlignment="Center"
+                                <!-- Weight column -->
+                                <Label Grid.Column="2" Text="{Binding Weight.Text}" Margin="2" VerticalTextAlignment="Center"
  HorizontalTextAlignment="End" />
-                                </Grid>
-                            </ViewCell.View>
-                        </ViewCell>
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

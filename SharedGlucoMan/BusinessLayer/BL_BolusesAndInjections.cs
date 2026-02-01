@@ -1,11 +1,22 @@
 ﻿using gamon;
-using GlucoMan;
+using GlucoMan.BusinessObjects;
+using Mathematics;
+using MathNet.Numerics.Distributions;
+using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 
 namespace GlucoMan
 {
     public class BL_BolusesAndInjections
     {
         DataLayer dl = Common.Database;
+
+        // Get all injections in the time range
+        List<Injection> _allInjections;
+        List<Injection> _rapidInjections;
+        List<Injection> _shortInjections;
+        List<Injection> _intermediateInjections;
+        List<Injection> _longInjections;
 
         private string statusMessage;
         public DoubleAndText ChoToEat { get; set; }
@@ -568,7 +579,7 @@ namespace GlucoMan
                 return;
             }
 
-            var (mean, stdDev) = General.CalculateMeanAndStdDev(values);
+            var (mean, stdDev, count) = GamonStats.CalculateMeanAndStdDev(values);
             meanLabel.Text = $"{mean:F2} U";
             stdDevLabel.Text = $"{stdDev:F2} U";
             samplesLabel.Text = $"{values.Count}";
@@ -597,6 +608,302 @@ namespace GlucoMan
             double meanPerDay = dailyTotals.Average();
             perDayMeanLabel.Text = $"{meanPerDay:F2} U/day";
         }
+        internal void GetInjectionsForStatistics(DateTime dateFrom, DateTime dateTo)
+        {
+            // Get all injections in the time range
+            _allInjections = new List<Injection>();
 
+            // TODO: optimize by filtering all injections with LINQ in memory
+            // Get Rapid type injections
+            _rapidInjections = GetInjections(dateFrom, dateTo, Common.TypeOfInsulinAction.Rapid);
+            if (_rapidInjections != null) _allInjections.AddRange(_rapidInjections);
+
+            // Get Short type injections
+            _shortInjections = GetInjections(dateFrom, dateTo, Common.TypeOfInsulinAction.Short);
+            if (_shortInjections != null) _allInjections.AddRange(_shortInjections);
+
+            // Get Intermediate type injections
+            _intermediateInjections = GetInjections(dateFrom, dateTo, Common.TypeOfInsulinAction.Intermediate);
+            if (_intermediateInjections != null) _allInjections.AddRange(_intermediateInjections);
+
+            // Get Long type injections
+            _longInjections = GetInjections(dateFrom, dateTo, Common.TypeOfInsulinAction.Long);
+            if (_longInjections != null) _allInjections.AddRange(_longInjections);
+        }
+        //internal void CalculateInsulinStats()
+        //{
+        //    if (injections == null || injections.Count == 0)
+        //    {
+        //        lblTddPerDayMean.Text = "No data";
+        //        SetNoDataLabels(lblTddMean, lblTddStdDev, lblTddSamples);
+        //        return;
+        //    }
+
+        //    var dailyTotals = injections
+        //        .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
+        //        .GroupBy(i => i.EventTime.DateTime.Value.Date)
+        //        .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
+        //        .ToList();
+
+        //    if (dailyTotals.Count == 0)
+        //    {
+        //        lblTddPerDayMean.Text = "No data";
+        //        SetNoDataLabels(lblTddMean, lblTddStdDev, lblTddSamples);
+        //        return;
+        //    }
+
+        //    var (mean, stdDev, count) = GamonStats.CalculateMeanAndStdDev(dailyTotals);
+
+        //    List<Injection> _allInjections;
+        //    List<Injection> _rapidInjections;
+        //    List<Injection> _shortInjections;
+        //    List<Injection> _intermediateInjections;
+        //    List<Injection> _longInjections;
+
+        //}
+
+        internal StatisticsData CalculateTddInsulin()
+        {
+            // total daily dose of insulin
+            // aggregate all injections per day and calculate mean and stddev
+            // on List _allInjections with LINQ
+            
+            if (_allInjections == null || _allInjections.Count == 0)
+            {
+                return null;
+            }
+
+            // Group injections by day and sum all kind of insulin for each day
+            var dailyTotals = _allInjections
+                .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
+                .GroupBy(i => i.EventTime.DateTime.Value.Date)
+                .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
+                .ToList();
+
+            if (dailyTotals.Count == 0)
+            {
+                return null;
+            }
+
+            // Calculate mean and standard deviation
+            var (mean, stdDev, count) = GamonStats.CalculateMeanAndStdDev(dailyTotals);
+
+            // Create and return statistics data
+            var data = new StatisticsData
+            {
+                Mean = mean,
+                StandardDeviation = stdDev,
+                NSamples = count,
+                DailyMean = mean  // For TDD, daily mean is the same as mean
+            };
+
+            return data;
+        }
+
+        internal StatisticsData CalculateTotalQuickActingInsulin()
+        {
+            // Total Quick Acting (Rapid + Short)
+            var quickActingInjections = new List<Injection>();
+            if (_rapidInjections != null) quickActingInjections.AddRange(_rapidInjections);
+            if (_shortInjections != null) quickActingInjections.AddRange(_shortInjections);
+
+            if (quickActingInjections.Count == 0)
+            {
+                return null;
+            }
+
+            // Calculate statistics on individual injections
+            var values = quickActingInjections
+                .Where(i => i.InsulinValue?.Double.HasValue == true)
+                .Select(i => i.InsulinValue.Double.Value)
+                .ToList();
+
+            if (values.Count == 0)
+            {
+                return null;
+            }
+
+            var (mean, stdDev, count) = GamonStats.CalculateMeanAndStdDev(values);
+
+            // Also calculate daily average
+            var dailyTotals = quickActingInjections
+                .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
+                .GroupBy(i => i.EventTime.DateTime.Value.Date)
+                .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
+                .ToList();
+
+            double dailyMean = dailyTotals.Count > 0 ? dailyTotals.Average() : 0;
+
+            return new StatisticsData
+            {
+                Mean = mean,
+                StandardDeviation = stdDev,
+                NSamples = count,
+                DailyMean = dailyMean
+            };
+        }
+
+        internal StatisticsData CalculateTotalLongActingInsulin()
+        {
+            // Total Long Acting (Intermediate + Long)
+            var longActingInjections = new List<Injection>();
+            if (_intermediateInjections != null) longActingInjections.AddRange(_intermediateInjections);
+            if (_longInjections != null) longActingInjections.AddRange(_longInjections);
+
+            if (longActingInjections.Count == 0)
+            {
+                return null;
+            }
+
+            // Calculate statistics on individual injections
+            var values = longActingInjections
+                .Where(i => i.InsulinValue?.Double.HasValue == true)
+                .Select(i => i.InsulinValue.Double.Value)
+                .ToList();
+
+            if (values.Count == 0)
+            {
+                return null;
+            }
+
+            var (mean, stdDev, count) = GamonStats.CalculateMeanAndStdDev(values);
+
+            // Also calculate daily average
+            var dailyTotals = longActingInjections
+                .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
+                .GroupBy(i => i.EventTime.DateTime.Value.Date)
+                .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
+                .ToList();
+
+            double dailyMean = dailyTotals.Count > 0 ? dailyTotals.Average() : 0;
+
+            return new StatisticsData
+            {
+                Mean = mean,
+                StandardDeviation = stdDev,
+                NSamples = count,
+                DailyMean = dailyMean
+            };
+        }
+
+        internal StatisticsData CalculateRapidActingBreakfast()
+        {
+            // Get quick acting injections (Rapid + Short)
+            var quickActingInjections = new List<Injection>();
+            if (_rapidInjections != null) quickActingInjections.AddRange(_rapidInjections);
+            if (_shortInjections != null) quickActingInjections.AddRange(_shortInjections);
+
+            if (quickActingInjections.Count == 0)
+            {
+                return null;
+            }
+
+            // Filter by breakfast time
+            var breakfastInjections = FilterInjectionsByMealTime(quickActingInjections, 
+                Common.breakfastStartHour ?? 6, Common.breakfastEndHour ?? 10);
+
+            return CalculateInsulinStatistics(breakfastInjections);
+        }
+
+        internal StatisticsData CalculateRapidActingDinner()
+        {
+            // Get quick acting injections (Rapid + Short)
+            var quickActingInjections = new List<Injection>();
+            if (_rapidInjections != null) quickActingInjections.AddRange(_rapidInjections);
+            if (_shortInjections != null) quickActingInjections.AddRange(_shortInjections);
+
+            if (quickActingInjections.Count == 0)
+            {
+                return null;
+            }
+
+            // Filter by dinner time
+            var dinnerInjections = FilterInjectionsByMealTime(quickActingInjections, 
+                Common.dinnerStartHour ?? 17, Common.dinnerEndHour ?? 21);
+
+            return CalculateInsulinStatistics(dinnerInjections);
+        }
+
+        internal StatisticsData CalculateRapidActingOtherTimes()
+        {
+            // Get quick acting injections (Rapid + Short)
+            var quickActingInjections = new List<Injection>();
+            if (_rapidInjections != null) quickActingInjections.AddRange(_rapidInjections);
+            if (_shortInjections != null) quickActingInjections.AddRange(_shortInjections);
+
+            if (quickActingInjections.Count == 0)
+            {
+                return null;
+            }
+
+            // Filter for other times (not breakfast, lunch, or dinner)
+            double breakfastStart = Common.breakfastStartHour ?? 6;
+            double breakfastEnd = Common.breakfastEndHour ?? 10;
+            double lunchStart = Common.lunchStartHour ?? 11;
+            double lunchEnd = Common.lunchEndHour ?? 15;
+            double dinnerStart = Common.dinnerStartHour ?? 17;
+            double dinnerEnd = Common.dinnerEndHour ?? 21;
+
+            var otherInsulin = quickActingInjections.Where(i =>
+            {
+                if (i.EventTime?.DateTime == null) return true;
+                double hour = i.EventTime.DateTime.Value.Hour + i.EventTime.DateTime.Value.Minute / 60.0;
+                bool isBreakfast = hour >= breakfastStart && hour < breakfastEnd;
+                bool isLunch = hour >= lunchStart && hour < lunchEnd;
+                bool isDinner = hour >= dinnerStart && hour < dinnerEnd;
+                return !isBreakfast && !isLunch && !isDinner;
+            }).ToList();
+
+            return CalculateInsulinStatistics(otherInsulin);
+        }
+        private List<Injection> FilterInjectionsByMealTime(List<Injection> injections, double startHour, double endHour)
+        {
+            if (injections == null) return new List<Injection>();
+
+            return injections.Where(i =>
+            {
+                if (i.EventTime?.DateTime == null) return false;
+                double hour = i.EventTime.DateTime.Value.Hour + i.EventTime.DateTime.Value.Minute / 60.0;
+                return hour >= startHour && hour < endHour;
+            }).ToList();
+        }
+
+        private StatisticsData CalculateInsulinStatistics(List<Injection> injections)
+        {
+            if (injections == null || injections.Count == 0)
+            {
+                return null;
+            }
+
+            // Calculate statistics on individual injections
+            var values = injections
+                .Where(i => i.InsulinValue?.Double.HasValue == true)
+                .Select(i => i.InsulinValue.Double.Value)
+                .ToList();
+
+            if (values.Count == 0)
+            {
+                return null;
+            }
+
+            var (mean, stdDev, count) = GamonStats.CalculateMeanAndStdDev(values);
+
+            // Also calculate daily average
+            var dailyTotals = injections
+                .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
+                .GroupBy(i => i.EventTime.DateTime.Value.Date)
+                .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
+                .ToList();
+
+            double dailyMean = dailyTotals.Count > 0 ? dailyTotals.Average() : 0;
+
+            return new StatisticsData
+            {
+                Mean = mean,
+                StandardDeviation = stdDev,
+                NSamples = count,
+                DailyMean = dailyMean
+            };
+        }
     }
 }

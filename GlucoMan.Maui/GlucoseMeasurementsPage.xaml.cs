@@ -1,6 +1,8 @@
 using gamon;
 using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
+using Microsoft.Maui.Controls;
+using System.Linq;
 
 namespace GlucoMan.Maui;
 
@@ -15,12 +17,24 @@ public partial class GlucoseMeasurementsPage : ContentPage
     {
         get
         {
-            return currentGlucose.IdGlucoseRecord;
+        return currentGlucose.IdGlucoseRecord;
+    }
+
+    }
+
+    // Support a direct tap on the item Frame to set selection (helps on Android)
+    private void OnItemTapped(object? sender, EventArgs e)
+    {
+        if (sender is Frame frame && frame.BindingContext is GlucoseRecord tapped)
+        {
+            // set selected item which will trigger SelectionChanged
+            cvMeasurements.SelectedItem = tapped;
         }
     }
     public GlucoseMeasurementsPage(int? IdGlucoseRecord)
     {
         InitializeComponent();
+        // The named CollectionView `cvMeasurements` is available via generated partial class after InitializeComponent
         Parameters parameters = Common.Database.GetParameters();
         if (parameters != null && parameters.MonthsOfDataShownInTheGrids > 0)
             MonthsOfDataShownInTheGrids = parameters.MonthsOfDataShownInTheGrids;   
@@ -74,11 +88,19 @@ public partial class GlucoseMeasurementsPage : ContentPage
     private void RefreshGrid()
     {
         DateTime now = DateTime.Now;
-        glucoseReadings = bl.ReadGlucoseMeasurements(
+        var readings = bl.ReadGlucoseMeasurements(
             now.Subtract(new TimeSpan((int)(MonthsOfDataShownInTheGrids * 365 / 12),
                 1, 0, 0)), now.AddDays(1));
-        this.BindingContext = glucoseReadings;
-        //gridMeasurements.ItemsSource = glucoseReadings;
+        
+        glucoseReadings.Clear();
+        foreach (var reading in readings)
+        {
+            glucoseReadings.Add(reading);
+        }
+        
+        // Always reset ItemsSource to refresh CollectionView
+        cvMeasurements.ItemsSource = null;
+        cvMeasurements.ItemsSource = glucoseReadings;
     }
     public void btnClearData_Click(object sender, EventArgs e)
     {
@@ -104,7 +126,8 @@ public partial class GlucoseMeasurementsPage : ContentPage
     }
     private async void btnRemoveMeasurement_Click(object sender, EventArgs e)
     {
-        GlucoseRecord gr = (GlucoseRecord)gridMeasurements.SelectedItem;
+        // Determine selected item by IsSelectedInList flag since we clear SelectedItem for visual reasons
+        GlucoseRecord gr = glucoseReadings.FirstOrDefault(g => g.IsSelectedInList);
         if (gr != null)
         {
             bool remove = await DisplayAlert(String.Format(
@@ -142,28 +165,42 @@ public partial class GlucoseMeasurementsPage : ContentPage
         dtpEventDate.Date = DateTime.Now;
         dtpEventTime.Time = DateTime.Now.TimeOfDay;
     }
-    void OnGridSelection(object sender, SelectedItemChangedEventArgs e)
+    void OnGridSelection(object sender, SelectionChangedEventArgs e)
     {
-        if (e.SelectedItem == null)
-        {
+        if (e.CurrentSelection == null || e.CurrentSelection.Count == 0)
             return;
-        }
-        
-        var selectedGlucose = (GlucoseRecord)e.SelectedItem;
-        
-        // Deseleziona tutti gli altri elementi nella lista
-        if (glucoseReadings != null)
+
+        var selectedGlucose = (GlucoseRecord)e.CurrentSelection[0];
+
+        // Deselect all others
+        foreach (var glucose in glucoseReadings)
         {
-            foreach (var glucose in glucoseReadings)
+            glucose.IsSelectedInList = false;
+        }
+
+        selectedGlucose.IsSelectedInList = true;
+
+        // Ensure the selected item is visible and centered
+        try
+        {
+            if (cvMeasurements != null)
             {
-                glucose.IsSelectedInList = false;
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    // Make the selected item visible without centering it in the viewport
+                    cvMeasurements.ScrollTo(selectedGlucose, position: ScrollToPosition.MakeVisible, animate: false);
+                });
+
+                // Deselect in CollectionView to avoid default selection visuals
+                // but keep IsSelectedInList flag so other code can determine the selected item
+                cvMeasurements.SelectedItem = null;
             }
         }
-        
-        // Seleziona l'elemento corrente
-        selectedGlucose.IsSelectedInList = true;
-        
-        // make the tapped row current
+        catch
+        {
+            // ignore scroll failures - non-critical
+        }
+
         currentGlucose = selectedGlucose;
         FromClassToUi();
     }

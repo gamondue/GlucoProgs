@@ -39,7 +39,7 @@ namespace GlucoMan
         public double? DurationSeconds { get; set; }
 
         /// <summary>
-        /// Average speed during the track in meters per second.
+        /// IntegralAverage speed during the track in meters per second.
         /// </summary>
         public double? AverageSpeedMps { get; set; }
 

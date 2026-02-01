@@ -307,6 +307,48 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             General.LogOfProgram.Error("MealPage - btnRemoveFoodInMeal_Click", ex);
         }
     }
+    private async void btnSearchFoodInMeal_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Get current data from UI
+            FromBoxesFoodInMealToClass();
+
+            // Open the search page passing current FoodInMeal
+            var searchPage = new FoodsInMealSearchResultsPage(bl.FoodInMeal);
+            await Navigation.PushModalAsync(searchPage);
+
+            // Wait for the page to be closed and get the result
+            FoodInMeal? result = await searchPage.PageClosedTask;
+
+            // Check if the user chose a food (result is not null)
+            if (result != null)
+            {
+                // Update only Name and CarbohydratesPercent from the search result
+                bl.FoodInMeal.Name = result.Name;
+                bl.FoodInMeal.CarbohydratesPercent = result.CarbohydratesPercent;
+
+                // Recalculate the carbohydrates in grams of this FoodInMeal
+                bl.CalculateChoOfFoodGrams();
+
+                // Update the user interface with the new Data
+                FromClassToBoxesFoodInMeal();
+
+                // Recalculate all values
+                bl.RecalcAll();
+
+                // Update the meal UI
+                RefreshMeal();
+
+                General.LogOfProgram?.Event($"Food search completed: Name={result.Name}, CHO%={result.CarbohydratesPercent?.Double ?? 0}");
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("MealPage - btnSearchFoodInMeal_Click", ex);
+            await DisplayAlert(AppStrings.Error, ex.Message, AppStrings.OK);
+        }
+    }
     private async void btnFoods_ClickAsync(object sender, EventArgs e)
     {
         if (txtFoodInMealName.Text == null || txtFoodInMealName.Text == "")
@@ -552,15 +594,15 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             mealSection.BindingContext = bl.Meal;
         }
     }
-    private async void gridFoodsInMeal_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    private void gridFoodsInMeal_SelectionChanged(object sender, Microsoft.Maui.Controls.SelectionChangedEventArgs e)
     {
-        if (e.SelectedItem == null)
+        if (e.CurrentSelection == null || e.CurrentSelection.Count == 0)
         {
             return;
         }
         try
         {
-            var selectedFood = (FoodInMeal)e.SelectedItem;
+            var selectedFood = (FoodInMeal)e.CurrentSelection[0];
 
             if (selectedFood != bl.FoodInMeal)
             {
@@ -575,7 +617,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
                 bl.FoodInMeal = selectedFood;
                 FromClassToBoxesFoodInMeal();
             }
-            
+
             // Deseleziona tutti gli altri elementi nella lista
             if (bl.FoodsInMeal != null)
             {
@@ -584,10 +626,10 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
                     food.IsSelectedInList = false;
                 }
             }
-            
+
             // Seleziona l'elemento corrente
             selectedFood.IsSelectedInList = true;
-            
+
             // Mantieni la selezione visibile
             if (gridFoodsInMeal.SelectedItem != selectedFood)
             {
@@ -596,7 +638,49 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            General.LogOfProgram.Error("MealPage - gridFoodsInMeal_ItemSelected", ex);
+            General.LogOfProgram.Error("MealPage - gridFoodsInMeal_SelectionChanged", ex);
+        }
+    }
+    // Support a direct tap on the item Frame to set selection (helps on Android)
+    private void OnItemTapped(object? sender, EventArgs e)
+    {
+        if (sender is Frame frame && frame.BindingContext is FoodInMeal tapped)
+        {
+            gridFoodsInMeal.SelectedItem = tapped;
+            try
+            {
+                var selectedFood = tapped;
+
+                if (selectedFood != bl.FoodInMeal)
+                {
+                    // Deselect previous FoodInMeal
+                    if (bl.FoodInMeal?.Name != null)
+                    {
+                        bl.FoodInMeal.IsSelectedInList = false;
+                        FromBoxesFoodInMealToClass();
+                        bl.UpdateOldFoodInMealInList();
+                    }
+
+                    // Update the current FoodInMeal
+                    bl.FoodInMeal = selectedFood;
+                    FromClassToBoxesFoodInMeal();
+                }
+                // Deselect all other items in the list
+                if (bl.FoodsInMeal != null)
+                {
+                    foreach (var food in bl.FoodsInMeal)
+                    {
+                        food.IsSelectedInList = false;
+                    }
+                }
+
+                // Select the current item
+                selectedFood.IsSelectedInList = true;
+            }
+            catch
+            {
+                // ignore any errors from manual invocation
+            }
         }
     }
     private void txtFoodCarbohydratesGrams_TextChanged(object sender, TextChangedEventArgs e)

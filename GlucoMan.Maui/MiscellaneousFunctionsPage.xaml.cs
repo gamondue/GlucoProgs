@@ -191,10 +191,16 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             int successCount = 0;
             int totalCount = logAndOtherFilesToExport.Count;
 
-            string containerPhotosInternal = Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos");
+            // Normalizza i percorsi delle cartelle interne per il confronto
+            string containerPhotosInternal = Path.GetFullPath(Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos"));
             string containerPhotosExport = Path.Combine(glucoManExportFolder, "ContainerPhotos");
             // Crea la cartella ContainerPhotos solo se serve
             bool containerPhotosDirCreated = false;
+
+            string tracksInternal = Path.GetFullPath(GlucoMan.BL_GpsTracking.GetTracksFolder());
+            string tracksExport = Path.Combine(glucoManExportFolder, "Tracks");
+            // Crea la cartella Tracks solo se serve
+            bool tracksDirCreated = false;
 
             foreach (var (sourceFile, fileName) in logAndOtherFilesToExport)
             {
@@ -207,15 +213,31 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                     }
 
                     string destinationPath;
+                    // Normalizza il percorso del file sorgente per il confronto
+                    string normalizedSourceFile = Path.GetFullPath(sourceFile);
+                    string sourceFileDirectory = Path.GetDirectoryName(normalizedSourceFile) ?? string.Empty;
+                    
                     // Se il file proviene dalla cartella interna ContainerPhotos, esportalo nella sottocartella
-                    if (sourceFile.StartsWith(containerPhotosInternal + Path.DirectorySeparatorChar) || sourceFile == containerPhotosInternal)
+                    if (sourceFileDirectory.Equals(containerPhotosInternal, StringComparison.OrdinalIgnoreCase))
                     {
                         if (!containerPhotosDirCreated)
                         {
                             Directory.CreateDirectory(containerPhotosExport);
                             containerPhotosDirCreated = true;
+                            General.LogOfProgram.Debug($"Created ContainerPhotos export folder: {containerPhotosExport}");
                         }
                         destinationPath = Path.Combine(containerPhotosExport, fileName);
+                    }
+                    // Se il file proviene dalla cartella interna Tracks, esportalo nella sottocartella
+                    else if (sourceFileDirectory.Equals(tracksInternal, StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!tracksDirCreated)
+                        {
+                            Directory.CreateDirectory(tracksExport);
+                            tracksDirCreated = true;
+                            General.LogOfProgram.Debug($"Created Tracks export folder: {tracksExport}");
+                        }
+                        destinationPath = Path.Combine(tracksExport, fileName);
                     }
                     else
                     {
@@ -447,6 +469,26 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             {
                 General.LogOfProgram?.Error("GetFilesToExport - adding container photos", ex);
             }
+
+            // Add GPS tracks if present
+            try
+            {
+                string tracksFolder = GlucoMan.BL_GpsTracking.GetTracksFolder();
+                if (Directory.Exists(tracksFolder))
+                {
+                    var trackFiles = Directory.GetFiles(tracksFolder);
+                    foreach (var trackFile in trackFiles)
+                    {
+                        string fileName = Path.GetFileName(trackFile);
+                        files.Add((trackFile, fileName));
+                    }
+                    General.LogOfProgram?.Debug($"GetFilesToExport - added {trackFiles.Length} track files from {tracksFolder}");
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram?.Error("GetFilesToExport - adding GPS tracks", ex);
+            }
         }
         catch (Exception ex)
         {
@@ -605,6 +647,50 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                     General.LogOfProgram.Error("Error importing photos from external folder", ex);
                     await DisplayAlert(AppStrings.Warning, "An error occurred while importing photos. Check logs for details.", AppStrings.OK);
                 }
+            }
+
+            // Import GPS tracks from external Tracks folder
+            try
+            {
+                const string tracksSubfolderName = "Tracks";
+                string externalTracksFolder = Path.Combine(Path.GetDirectoryName(picked.FullPath) ?? string.Empty, tracksSubfolderName);
+                string internalTracksFolder = GlucoMan.BL_GpsTracking.GetTracksFolder();
+
+                if (Directory.Exists(externalTracksFolder))
+                {
+                    Directory.CreateDirectory(internalTracksFolder);
+                    var externalTracks = Directory.GetFiles(externalTracksFolder);
+                    int copiedTracks = 0;
+                    foreach (var externalFile in externalTracks)
+                    {
+                        try
+                        {
+                            string destFile = Path.Combine(internalTracksFolder, Path.GetFileName(externalFile));
+                            File.Copy(externalFile, destFile, true);
+                            copiedTracks++;
+                        }
+                        catch (Exception ex)
+                        {
+                            General.LogOfProgram.Error($"Error copying track file {externalFile}", ex);
+                        }
+                    }
+
+                    General.LogOfProgram.Debug($"Imported {copiedTracks} track files from {externalTracksFolder} into {internalTracksFolder}");
+                    if (copiedTracks > 0)
+                    {
+                        var toast = Toast.Make($"Imported {copiedTracks} GPS tracks", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                        await toast.Show();
+                    }
+                }
+                else
+                {
+                    General.LogOfProgram.Debug($"External tracks folder not found: {externalTracksFolder}");
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Error importing tracks from external folder", ex);
+                // Don't show alert, just log - tracks are optional
             }
 
             // Re-open the database with the new file

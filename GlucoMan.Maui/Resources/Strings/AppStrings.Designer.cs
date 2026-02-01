@@ -403,6 +403,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Back.
+        /// </summary>
+        public static string BackSide {
+            get {
+                return ResourceManager.GetString("BackSide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Backup.
         /// </summary>
         public static string Backup {
@@ -453,6 +462,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string BolusPlaceholder {
             get {
                 return ResourceManager.GetString("BolusPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Brand.
+        /// </summary>
+        public static string Brand {
+            get {
+                return ResourceManager.GetString("Brand", resourceCulture);
             }
         }
         
@@ -952,6 +970,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Choose photo file.
+        /// </summary>
+        public static string ChoosePhotoFile {
+            get {
+                return ResourceManager.GetString("ChoosePhotoFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Choose Picture.
         /// </summary>
         public static string ChoosePicture {
@@ -1065,6 +1092,42 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string ClearRefPoints {
             get {
                 return ResourceManager.GetString("ClearRefPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Back past injections.
+        /// </summary>
+        public static string ClickableImagePageBackTitle {
+            get {
+                return ResourceManager.GetString("ClickableImagePageBackTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Front past injections.
+        /// </summary>
+        public static string ClickableImagePageFrontTitle {
+            get {
+                return ResourceManager.GetString("ClickableImagePageFrontTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Hand blood samples positions.
+        /// </summary>
+        public static string ClickableImagePageHandsTitle {
+            get {
+                return ResourceManager.GetString("ClickableImagePageHandsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Sensors&apos; past positions.
+        /// </summary>
+        public static string ClickableImagePageSensorTitle {
+            get {
+                return ResourceManager.GetString("ClickableImagePageSensorTitle", resourceCulture);
             }
         }
         
@@ -1429,6 +1492,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a From: {0} - To: {1}.
+        /// </summary>
+        public static string DateRangeLabel {
+            get {
+                return ResourceManager.GetString("DateRangeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Date/Time.
         /// </summary>
         public static string DateTime {
@@ -1771,7 +1843,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Export Files and Data .
+        ///   Cerca una stringa localizzata simile a Export Files.
         /// </summary>
         public static string ExportData {
             get {
@@ -1987,6 +2059,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Search the name in the foods in past meals.
+        /// </summary>
+        public static string FoodsInMealSearchResults {
+            get {
+                return ResourceManager.GetString("FoodsInMealSearchResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Foods.
         /// </summary>
         public static string FoodsPageTitle {
@@ -2052,9 +2133,9 @@ namespace GlucoMan.Maui.Resources.Strings {
         /// <summary>
         ///   Cerca una stringa localizzata simile a Front.
         /// </summary>
-        public static string Front {
+        public static string FrontSide {
             get {
-                return ResourceManager.GetString("Front", resourceCulture);
+                return ResourceManager.GetString("FrontSide", resourceCulture);
             }
         }
         
@@ -2136,6 +2217,24 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Glucose {
             get {
                 return ResourceManager.GetString("Glucose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a data source is manual data collection.
+        /// </summary>
+        public static string GlucoseDataSourceManual {
+            get {
+                return ResourceManager.GetString("GlucoseDataSourceManual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a data source is sensors&apos; data collection.
+        /// </summary>
+        public static string GlucoseDataSourceSensors {
+            get {
+                return ResourceManager.GetString("GlucoseDataSourceSensors", resourceCulture);
             }
         }
         
@@ -2550,6 +2649,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string InjectionsPageTitle {
             get {
                 return ResourceManager.GetString("InjectionsPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Inject..
+        /// </summary>
+        public static string InjectionType {
+            get {
+                return ResourceManager.GetString("InjectionType", resourceCulture);
             }
         }
         
@@ -3499,6 +3607,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Photo imported successfully!.
+        /// </summary>
+        public static string PhotoImported {
+            get {
+                return ResourceManager.GetString("PhotoImported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Physical Activity.
         /// </summary>
         public static string PhysicalActivityPageTitle {
@@ -3913,6 +4030,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Foods in Meals matching given name.
+        /// </summary>
+        public static string SearchOfFoodsInMealsPageTitle {
+            get {
+                return ResourceManager.GetString("SearchOfFoodsInMealsPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Select All.
         /// </summary>
         public static string SelectAll {
@@ -4229,7 +4355,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Breakfast Insulin.
+        ///   Cerca una stringa localizzata simile a Fast insulin at Breakfast time.
         /// </summary>
         public static string StatBreakfastInsulin {
             get {
@@ -4256,7 +4382,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Dinner Insulin.
+        ///   Cerca una stringa localizzata simile a Fast insulin at Dinner time.
         /// </summary>
         public static string StatDinnerInsulin {
             get {
@@ -4328,7 +4454,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Lunch Insulin.
+        ///   Cerca una stringa localizzata simile a Fast insulin at Lunch time.
         /// </summary>
         public static string StatLunchInsulin {
             get {
@@ -4382,7 +4508,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Other Insulin.
+        ///   Cerca una stringa localizzata simile a Fast insulin at Other times.
         /// </summary>
         public static string StatOtherInsulin {
             get {
@@ -4900,6 +5026,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string TooltipChoose {
             get {
                 return ResourceManager.GetString("TooltipChoose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Choose a photo from the Download folder.
+        /// </summary>
+        public static string TooltipChoosePhotoFile {
+            get {
+                return ResourceManager.GetString("TooltipChoosePhotoFile", resourceCulture);
             }
         }
         
@@ -5971,6 +6106,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string TooltipSaveSettings {
             get {
                 return ResourceManager.GetString("TooltipSaveSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Search of the name in all past foods in all meals.
+        /// </summary>
+        public static string TooltipSearchOnPastFoods {
+            get {
+                return ResourceManager.GetString("TooltipSearchOnPastFoods", resourceCulture);
             }
         }
         
@@ -7208,33 +7352,6 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Choose photo file.
-        /// </summary>
-        public static string ChoosePhotoFile {
-            get {
-                return ResourceManager.GetString("ChoosePhotoFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Choose a photo from the Download folder.
-        /// </summary>
-        public static string TooltipChoosePhotoFile {
-            get {
-                return ResourceManager.GetString("TooltipChoosePhotoFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Photo imported successfully!.
-        /// </summary>
-        public static string PhotoImported {
-            get {
-                return ResourceManager.GetString("PhotoImported", resourceCulture);
             }
         }
     }
