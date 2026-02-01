@@ -63,7 +63,8 @@ $insertions = ""
 foreach ($k in $missing) {
     # choose a default color or brush; default is light gray for unknown keys
     $color = '#CCCCCC'
-    $insertions += "    <Color x:Key=\"$k\">$color</Color>`n"
+    # build string with concatenation to avoid quoting/interpolation issues
+    $insertions += '    <Color x:Key="' + $k + '">' + $color + '</Color>' + "`n"
 }
 
 # Insert before the closing ResourceDictionary tag
@@ -76,9 +77,13 @@ if ($stylesText -notlike "*${closingTag}*") {
 
 # Ensure we don't add duplicates if script run twice
 foreach ($k in $missing) {
-    if ($stylesText -match "x:Key=\"$k\"") {
+    # use escaped key when matching
+    $escapedKey = [regex]::Escape($k)
+    if ($stylesText -match ('x:Key="' + $escapedKey + '"')) {
         Write-Output "Key $k already present in Styles.xaml, skipping."
-        $insertions = $insertions -replace "\s*<Color x:Key=\"$k\">.*?</Color>`n",""
+        # remove corresponding insertion if already present
+        $pattern = '\\s*<Color x:Key="' + $escapedKey + '">.*?</Color>\r?\n'
+        $insertions = [regex]::Replace($insertions, $pattern, '', [System.Text.RegularExpressions.RegexOptions]::Singleline)
     }
 }
 
