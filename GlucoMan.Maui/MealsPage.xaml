@@ -9,7 +9,8 @@
               Auto,Auto,Auto,50,Auto,
               65,20,Auto,*"
             ColumnDefinitions="*,*,*,*">
-            <HorizontalStackLayout Grid.Row="0" Grid.Column="0">
+            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" 
+                                   Margin="8" Spacing="6" BackgroundColor="Transparent">
                 <RadioButton Content="{x:Static strings:AppStrings.Breakfast}" x:Name="rdbIsBreakfast" 
                              ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeBreakfast}" 
                              CheckedChanged="rdb_CheckedChanged"/>
@@ -24,6 +25,7 @@
                              CheckedChanged="rdb_CheckedChanged"/>
             </HorizontalStackLayout>
             
+            <!-- Radio buttons moved to overlay AbsoluteLayout child so they are above any page overlays that may intercept touches -->         
             <Label Grid.Row="1" Grid.Column="3" Text="{x:Static strings:AppStrings.Id}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="0" Text="{x:Static strings:AppStrings.CHOToEat}" 
@@ -161,6 +163,7 @@
             </Grid>
 
             <CollectionView Grid.Row="9" Grid.ColumnSpan="4"
+                            Margin="4"
                             x:Name="gridMeals"
                             BackgroundColor="White"
                             ToolTipProperties.Text="{x:Static strings:AppStrings.MealsList}"
@@ -189,7 +192,7 @@
                             </Frame.GestureRecognizers>
                             <Grid VerticalOptions="Center" ColumnDefinitions="180*,50*,50*,50*" ColumnSpacing="0">
                                 <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center"
-                                       Grid.Column="0" Text="{Binding EventTime.DateTime, StringFormat='{0:dd/MM/yyyy HH:mm}'}"
+                                       Grid.Column="0" Text="{Binding EventTime.DateTime}"
                                        TextColor="Black" FontSize="14" BackgroundColor="Transparent" LineBreakMode="NoWrap" MaxLines="1"/>
                                 <Label HorizontalTextAlignment="Center" Grid.Column="1" Text="{Binding CarbohydratesGrams.Text}"
                                        TextColor="Black" FontSize="14" BackgroundColor="Transparent" LineBreakMode="NoWrap" MaxLines="1"/>
