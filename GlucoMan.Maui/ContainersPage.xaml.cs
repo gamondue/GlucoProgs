@@ -472,7 +472,7 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
                 return;
 
             // Copia il file selezionato nella cartella interna ContainerPhotos
-            string containerPhotosFolder = Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos");
+            string containerPhotosFolder = Common.GetContainerPhotosPath();
             Directory.CreateDirectory(containerPhotosFolder);
             string destFile = Path.Combine(containerPhotosFolder, picked.FileName);
 
@@ -572,7 +572,7 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
                 if (!string.IsNullOrEmpty(croppedPhotoPath))
                 {
                     // Move cropped photo to final location
-                    string containersFolder = Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos");
+                    string containersFolder = Common.GetContainerPhotosPath();
                     Directory.CreateDirectory(containersFolder);
 
                     // Generate unique filename based on container name or default and timestamp

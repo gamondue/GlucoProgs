@@ -60,8 +60,8 @@ public partial class GlucoseMeasurementsPage : ContentPage
         currentGlucose = new GlucoseRecord();
         currentGlucose.IdGlucoseRecord = Safe.Int(txtIdGlucoseRecord.Text);
         currentGlucose.GlucoseValue.Double = glucose;
-        DateTime instant = new DateTime(dtpEventDate.Date.Year, dtpEventDate.Date.Month, dtpEventDate.Date.Day,
-            dtpEventTime.Time.Hours, dtpEventTime.Time.Minutes, dtpEventTime.Time.Seconds);
+        DateTime instant = new DateTime(dtpEventDate.Date.Value.Year, dtpEventDate.Date.Value.Month, dtpEventDate.Date.Value.Day,
+            dtpEventTime.Time.Value.Hours, dtpEventTime.Time.Value.Minutes, dtpEventTime.Time.Value.Seconds);
         currentGlucose.Notes = txtNotes.Text;
         currentGlucose.EventTime.DateTime = instant;
         //currentGlucose.EventTime = dtpEventDate.Date;

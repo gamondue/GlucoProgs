@@ -92,8 +92,8 @@ public partial class MealsPage : ContentPage
 
         bl.Meal.AccuracyOfChoEstimate.Double = Safe.Double(txtAccuracyOfChoMeal.Text);
 
-        DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
-            dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
+        DateTime instant = new DateTime(dtpMealDateBegin.Date.Value.Year, dtpMealDateBegin.Date.Value.Month, dtpMealDateBegin.Date.Value.Day,
+            dtpMealTimeBegin.Time.Value.Hours, dtpMealTimeBegin.Time.Value.Minutes, dtpMealTimeBegin.Time.Value.Seconds);
         bl.Meal.EventTime.DateTime = instant;
         bl.Meal.Notes = txtNotes.Text;
         // TypeOfMeal treated by controls' events
@@ -188,8 +188,8 @@ public partial class MealsPage : ContentPage
         }
         else
         {
-            DateTime instant = new DateTime(dtpMealDateBegin.Date.Year, dtpMealDateBegin.Date.Month, dtpMealDateBegin.Date.Day,
-                dtpMealTimeBegin.Time.Hours, dtpMealTimeBegin.Time.Minutes, dtpMealTimeBegin.Time.Seconds);
+            DateTime instant = new DateTime(dtpMealDateBegin.Date.Value.Year, dtpMealDateBegin.Date.Value.Month, dtpMealDateBegin.Date.Value.Day,
+                dtpMealTimeBegin.Time.Value.Hours, dtpMealTimeBegin.Time.Value.Minutes, dtpMealTimeBegin.Time.Value.Seconds);
             bl.Meal.EventTime.DateTime = instant;
             bl.Meal.TimeEnd.DateTime = instant;
         }

@@ -226,8 +226,8 @@ public partial class InjectionsPage : ContentPage
         injection.InsulinCalculated.Text = txtInsulinCalculated.Text;
 
         DateTime instant = new DateTime(
-            dtpInjectionDate.Date.Year, dtpInjectionDate.Date.Month, dtpInjectionDate.Date.Day,
-            dtpInjectionTime.Time.Hours, dtpInjectionTime.Time.Minutes, dtpInjectionTime.Time.Seconds);
+            dtpInjectionDate.Date.Value.Year, dtpInjectionDate.Date.Value.Month, dtpInjectionDate.Date.Value.Day,
+            dtpInjectionTime.Time.Value.Hours, dtpInjectionTime.Time.Value.Minutes, dtpInjectionTime.Time.Value.Seconds);
         injection.EventTime.DateTime = instant;
         injection.Notes = txtNotes.Text;
 
@@ -336,11 +336,11 @@ public partial class InjectionsPage : ContentPage
         CurrentInjection.InsulinValue.Text = txtInsulinActual.Text;
         CurrentInjection.InsulinCalculated.Text = txtInsulinCalculated.Text;
         DateTime instant = new DateTime(
-            dtpInjectionDate.Date.Year, dtpInjectionDate.Date.Month, dtpInjectionDate.Date.Day,
-            dtpInjectionTime.Time.Hours, dtpInjectionTime.Time.Minutes, dtpInjectionTime.Time.Seconds);
+            dtpInjectionDate.Date.Value.Year, dtpInjectionDate.Date.Value.Month, dtpInjectionDate.Date.Value.Day,
+            dtpInjectionTime.Time.Value.Hours, dtpInjectionTime.Time.Value.Minutes, dtpInjectionTime.Time.Value.Seconds);
         CurrentInjection.EventTime.DateTime = instant;
         CurrentInjection.Notes = txtNotes.Text;
-        
+
         //  short radio button maps to Short, long to Long
         if (rdbShortInsulin.IsChecked)
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.Short;

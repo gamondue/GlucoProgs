@@ -346,8 +346,8 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
             CurrentActivity.InsulinCalculated.Text = txtDurationMinutes.Text; // Duration in minutes
 
             DateTime instant = new DateTime(
-                dtpActivityDate.Date.Year, dtpActivityDate.Date.Month, dtpActivityDate.Date.Day,
-                dtpActivityTime.Time.Hours, dtpActivityTime.Time.Minutes, dtpActivityTime.Time.Seconds);
+                dtpActivityDate.Date.Value.Year, dtpActivityDate.Date.Value.Month, dtpActivityDate.Date.Value.Day,
+                dtpActivityTime.Time.Value.Hours, dtpActivityTime.Time.Value.Minutes, dtpActivityTime.Time.Value.Seconds);
             CurrentActivity.EventTime.DateTime = instant;
 
             // Store accuracy in Notes field with special format

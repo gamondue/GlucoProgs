@@ -192,7 +192,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             int totalCount = logAndOtherFilesToExport.Count;
 
             // Normalizza i percorsi delle cartelle interne per il confronto
-            string containerPhotosInternal = Path.GetFullPath(Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos"));
+            string containerPhotosInternal = Path.GetFullPath(Common.GetContainerPhotosPath());
             string containerPhotosExport = Path.Combine(glucoManExportFolder, "ContainerPhotos");
             // Crea la cartella ContainerPhotos solo se serve
             bool containerPhotosDirCreated = false;
@@ -453,7 +453,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             // Add container photos if present
             try
             {
-                string containerPhotosFolder = Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos");
+                string containerPhotosFolder = Common.GetContainerPhotosPath();
                 if (Directory.Exists(containerPhotosFolder))
                 {
                     var photoFiles = Directory.GetFiles(containerPhotosFolder);
@@ -602,15 +602,38 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             {
                 try
                 {
-                    //string externalPhotosFolder = Path.Combine(Path.GetDirectoryName(picked.FullPath) ?? string.Empty, photosSubfolderName);
-                    // the pictures files are in download\Glucoman 
-                    string externalPhotosFolder = Path.Combine(Path.GetDirectoryName(picked.FullPath) ?? string.Empty, photosSubfolderName);
-                    string internalPhotosFolder = Path.Combine(FileSystem.AppDataDirectory, photosSubfolderName);
+                    // IMPORTANT: On Android, FilePicker returns a temporary cache path, not the actual file location
+                    // We need to look in the standard export folder (Downloads/GlucoMan/ContainerPhotos)
+                    string externalPhotosFolder;
+
+#if ANDROID
+                    // For Android, use the standard Downloads/GlucoMan export folder
+                    string downloadFolder = AndroidEnvironment.GetExternalStoragePublicDirectory(AndroidEnvironment.DirectoryDownloads)?.AbsolutePath ?? "";
+                    if (string.IsNullOrEmpty(downloadFolder))
+                    {
+                        downloadFolder = Path.Combine("/storage/emulated/0", "Download");
+                    }
+                    externalPhotosFolder = Path.Combine(downloadFolder, "GlucoMan", photosSubfolderName);
+#else
+                    // For other platforms, look in the same folder as the selected database file
+                    externalPhotosFolder = Path.Combine(Path.GetDirectoryName(picked.FullPath) ?? string.Empty, photosSubfolderName);
+#endif
+
+                    string internalPhotosFolder = Common.GetContainerPhotosPath();
+
+                    // IMPORTANT: Create the internal photos folder BEFORE checking if external folder exists
+                    // This ensures the destination exists even if there are no photos to import
+                    Directory.CreateDirectory(internalPhotosFolder);
+
+                    General.LogOfProgram.Debug($"Looking for photos in: {externalPhotosFolder}");
+                    General.LogOfProgram.Debug($"Target internal folder: {internalPhotosFolder}");
+                    General.LogOfProgram.Debug($"Internal folder created/verified: {Directory.Exists(internalPhotosFolder)}");
 
                     if (Directory.Exists(externalPhotosFolder))
                     {
-                        Directory.CreateDirectory(internalPhotosFolder);
                         var externalPhotos = Directory.GetFiles(externalPhotosFolder);
+                        General.LogOfProgram.Debug($"Found {externalPhotos.Length} photos to import");
+
                         int copied = 0;
                         foreach (var externalFile in externalPhotos)
                         {
@@ -619,6 +642,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                                 string destFile = Path.Combine(internalPhotosFolder, Path.GetFileName(externalFile));
                                 File.Copy(externalFile, destFile, true);
                                 copied++;
+                                General.LogOfProgram.Debug($"Copied photo: {Path.GetFileName(externalFile)}");
                             }
                             catch (Exception ex)
                             {
@@ -626,34 +650,56 @@ public partial class MiscellaneousFunctionsPage : ContentPage
                             }
                         }
 
-                        General.LogOfProgram.Debug($"Imported {copied} photos from {externalPhotosFolder} into {internalPhotosFolder}");
+                        General.LogOfProgram.Debug($"Successfully imported {copied} of {externalPhotos.Length} photos from {externalPhotosFolder} into {internalPhotosFolder}");
                         if (copied > 0)
                         {
-                            var toast = Toast.Make($"Imported {copied} images into {photosSubfolderName}", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                            var toast = Toast.Make($"Imported {copied} container photos", CommunityToolkit.Maui.Core.ToastDuration.Short);
                             await toast.Show();
                         }
                         else
                         {
                             General.LogOfProgram.Debug("No photos found to import in external photos folder");
+                            await DisplayAlert(AppStrings.Warning, $"No photos were found in:\n{externalPhotosFolder}", AppStrings.OK);
                         }
                     }
                     else
                     {
-                        General.LogOfProgram.Debug($"External photos folder not found: {externalPhotosFolder}");
+                        string errorMsg = $"External photos folder not found:\n{externalPhotosFolder}";
+                        General.LogOfProgram.Debug(errorMsg);
+                        await DisplayAlert(AppStrings.Warning, errorMsg, AppStrings.OK);
                     }
                 }
                 catch (Exception ex)
                 {
                     General.LogOfProgram.Error("Error importing photos from external folder", ex);
-                    await DisplayAlert(AppStrings.Warning, "An error occurred while importing photos. Check logs for details.", AppStrings.OK);
+                    await DisplayAlert(AppStrings.Warning, $"An error occurred while importing photos:\n{ex.Message}\nCheck logs for details.", AppStrings.OK);
                 }
+            }
+            else
+            {
+                General.LogOfProgram.Debug("User declined importing photos during database import");
+                await DisplayAlert(AppStrings.Info, "Database imported successfully, but photos were NOT imported.\n\nTo import photos, run import again and confirm photo import.", AppStrings.OK);
             }
 
             // Import GPS tracks from external Tracks folder
             try
             {
                 const string tracksSubfolderName = "Tracks";
-                string externalTracksFolder = Path.Combine(Path.GetDirectoryName(picked.FullPath) ?? string.Empty, tracksSubfolderName);
+                string externalTracksFolder;
+
+#if ANDROID
+                // For Android, use the standard Downloads/GlucoMan export folder
+                string downloadFolder = AndroidEnvironment.GetExternalStoragePublicDirectory(AndroidEnvironment.DirectoryDownloads)?.AbsolutePath ?? "";
+                if (string.IsNullOrEmpty(downloadFolder))
+                {
+                    downloadFolder = Path.Combine("/storage/emulated/0", "Download");
+                }
+                externalTracksFolder = Path.Combine(downloadFolder, "GlucoMan", tracksSubfolderName);
+#else
+                // For other platforms, look in the same folder as the selected database file
+                externalTracksFolder = Path.Combine(Path.GetDirectoryName(picked.FullPath) ?? string.Empty, tracksSubfolderName);
+#endif
+
                 string internalTracksFolder = GlucoMan.BL_GpsTracking.GetTracksFolder();
 
                 if (Directory.Exists(externalTracksFolder))

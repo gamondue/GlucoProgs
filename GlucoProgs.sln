@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementi di soluzione", "El
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedMathematics", "SharedMathematics\SharedMathematics.shproj", "{8C40022D-CC83-416D-8897-F315E95132BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlucoMan.Maui.UnitTests", "GlucoMan.Maui.UnitTests\GlucoMan.Maui.UnitTests.csproj", "{976C8391-D0A1-4E92-B48E-E43601E005CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,18 @@ Global
 		{F51DB3B7-A60C-4CC7-85F2-7EF8E3DAD09E}.Release|x64.Build.0 = Release|Any CPU
 		{F51DB3B7-A60C-4CC7-85F2-7EF8E3DAD09E}.Release|x86.ActiveCfg = Release|Any CPU
 		{F51DB3B7-A60C-4CC7-85F2-7EF8E3DAD09E}.Release|x86.Build.0 = Release|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Debug|x64.Build.0 = Debug|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Debug|x86.Build.0 = Debug|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Release|x64.ActiveCfg = Release|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Release|x64.Build.0 = Release|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Release|x86.ActiveCfg = Release|Any CPU
+		{976C8391-D0A1-4E92-B48E-E43601E005CA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

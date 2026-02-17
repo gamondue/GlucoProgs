@@ -1,0 +1,244 @@
+﻿using System;
+using gamon;
+using GlucoMan;
+using Microsoft.Maui.Controls;
+using NUnit.Framework;
+
+
+namespace GlucoMan.Maui.UnitTests;
+
+/// <summary>
+/// Test class for MealPage.
+/// </summary>
+/// <remarks>
+/// IMPORTANT: The MealPage constructor cannot be effectively unit tested in its current design due to:
+/// 1. Tight coupling to XAML/UI controls via InitializeComponent() which requires MAUI runtime
+/// 2. Direct access to UI controls (btnStartMeal, cmbAccuracyMeal, etc.) that are null without XAML initialization
+/// 3. Dependency on static Common.MealAndFood_CommonBL that cannot be mocked
+/// 4. Field-level initialization of 'bl' that occurs before constructor runs
+/// 5. Method calls (btnDefaults_Click, RefreshUi) that also depend on UI controls
+/// 
+/// To make this constructor testable, consider:
+/// - Extracting business logic from constructor to separate testable methods
+/// - Using dependency injection for BL_MealAndFood instead of static Common.MealAndFood_CommonBL
+/// - Moving UI control initialization logic to a separate InitializeUi() method called after InitializeComponent
+/// - Implementing the ViewModel pattern to separate UI concerns from business logic
+/// 
+/// The tests below are marked as [Ignore] and serve as documentation of what would need to be tested
+/// once the design is refactored for testability.
+/// </remarks>
+public partial class MealPageTests
+{
+    /// <summary>
+    /// Constructor test placeholder: Verifies that constructor initializes with non-null Meal parameter.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot run because:
+    /// - InitializeComponent() requires XAML runtime and will throw in unit test context
+    /// - UI controls accessed in constructor will be null
+    /// - Static dependencies cannot be mocked
+    /// </remarks>
+    [Test]
+    [Ignore("Constructor depends on XAML initialization and UI controls that are unavailable in unit test context. Requires refactoring for testability.")]
+    public void Constructor_WithValidMeal_InitializesSuccessfully()
+    {
+        // Arrange
+        // Would need: Mock Meal object, mocked UI controls, mocked BL_MealAndFood
+        // Cannot proceed: InitializeComponent requires XAML, UI controls will be null
+
+        // Act
+        // var meal = new Meal();
+        // var page = new MealPage(meal);
+
+        // Assert
+        // Would verify:
+        // - bl.Meal is set to provided meal
+        // - Button colors are stored
+        // - Combo boxes are populated with enum values
+        // - UiAccuracy objects are created
+        // - RefreshUi is called
+        // - BindingContext is set to page instance
+    }
+
+    /// <summary>
+    /// Constructor test placeholder: Verifies behavior when null Meal parameter is provided.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot run because:
+    /// - InitializeComponent() will fail without XAML runtime
+    /// - btnDefaults_Click accesses UI controls (txtFoodInMealName, etc.)
+    /// - New Meal() creation and default assignment cannot be verified
+    /// </remarks>
+    [Test]
+    [Ignore("Constructor depends on XAML initialization and calls btnDefaults_Click which accesses UI controls unavailable in unit test context.")]
+    public void Constructor_WithNullMeal_CreatesNewMealAndAppliesDefaults()
+    {
+        // Arrange
+        // Cannot proceed: InitializeComponent will fail
+
+        // Act
+        // var page = new MealPage(null);
+
+        // Assert
+        // Would verify:
+        // - New Meal is created
+        // - btnDefaults_Click is called
+        // - bl.Meal is assigned
+        // - Default UI values are set
+    }
+
+    /// <summary>
+    /// Constructor test placeholder: Verifies button color change for new or recent meals.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot run because:
+    /// - btnStartMeal UI control will be null without InitializeComponent
+    /// - Cannot verify BackgroundColor/TextColor properties
+    /// </remarks>
+    [Test]
+    [Ignore("Constructor accesses btnStartMeal UI control which is null without XAML initialization.")]
+    public void Constructor_WithNewMeal_ChangesButtonColorsToRedAndYellow()
+    {
+        // Arrange
+        // Would need: Meal with IdMeal = null
+        // Cannot proceed: btnStartMeal will be null
+
+        // Act
+        // var meal = new Meal { IdMeal = null };
+        // var page = new MealPage(meal);
+
+        // Assert
+        // Would verify:
+        // - btnStartMeal.BackgroundColor == Colors.Red
+        // - btnStartMeal.TextColor == Colors.Yellow
+    }
+
+    /// <summary>
+    /// Constructor test placeholder: Verifies button color change for recent meals within 15 minutes.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot run because btnStartMeal UI control requires XAML initialization.
+    /// </remarks>
+    [Test]
+    [Ignore("Constructor accesses btnStartMeal UI control which is null without XAML initialization.")]
+    public void Constructor_WithRecentMeal_ChangesButtonColorsToRedAndYellow()
+    {
+        // Arrange
+        // Would need: Meal with EventTime within last 15 minutes
+        // Cannot proceed: UI control dependency
+
+        // Act
+        // var meal = new Meal 
+        // { 
+        //     IdMeal = 1,
+        //     EventTime = new DateTimeAndText { DateTime = DateTime.Now.AddMinutes(-10) }
+        // };
+        // var page = new MealPage(meal);
+
+        // Assert
+        // Would verify button color changes
+    }
+
+    /// <summary>
+    /// Constructor test placeholder: Verifies enum values are loaded into combo boxes.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot run because cmbAccuracyMeal and cmbAccuracyFoodInMeal require XAML initialization.
+    /// </remarks>
+    [Test]
+    [Ignore("Constructor sets ItemsSource on Picker controls that are null without XAML initialization.")]
+    public void Constructor_Always_PopulatesAccuracyComboBoxes()
+    {
+        // Arrange & Act
+        // Cannot proceed: cmbAccuracyMeal and cmbAccuracyFoodInMeal will be null
+
+        // Assert
+        // Would verify:
+        // - cmbAccuracyMeal.ItemsSource contains QualitativeAccuracy enum values
+        // - cmbAccuracyFoodInMeal.ItemsSource contains QualitativeAccuracy enum values
+    }
+
+    /// <summary>
+    /// Constructor test placeholder: Verifies default IdTypeOfMeal is set when null or NotSet.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot run because it depends on static Common.SelectTypeOfMealBasedOnTimeNow() which cannot be mocked.
+    /// </remarks>
+    [Test]
+    [Ignore("Constructor calls static Common.SelectTypeOfMealBasedOnTimeNow() which cannot be mocked.")]
+    public void Constructor_WithNullIdTypeOfMeal_SetsDefaultBasedOnCurrentTime()
+    {
+        // Arrange
+        // Would need: Mock Common.SelectTypeOfMealBasedOnTimeNow()
+        // Cannot proceed: Static method cannot be mocked
+
+        // Act
+        // var meal = new Meal { IdTypeOfMeal = null };
+        // var page = new MealPage(meal);
+
+        // Assert
+        // Would verify:
+        // - bl.Meal.IdTypeOfMeal is set to result of SelectTypeOfMealBasedOnTimeNow()
+    }
+
+    /// <summary>
+    /// Constructor test placeholder: Verifies FoodInMeal is created when null.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot run because bl.FoodInMeal depends on static Common.MealAndFood_CommonBL.
+    /// </remarks>
+    [Test]
+    [Ignore("Constructor accesses bl.FoodInMeal where bl is initialized from static Common.MealAndFood_CommonBL which cannot be mocked.")]
+    public void Constructor_WithNullFoodInMeal_CreatesNewFoodInMeal()
+    {
+        // Arrange
+        // Would need: Control over bl.FoodInMeal initial state
+        // Cannot proceed: bl is static dependency
+
+        // Act
+        // var meal = new Meal();
+        // var page = new MealPage(meal);
+
+        // Assert
+        // Would verify:
+        // - bl.FoodInMeal is not null
+        // - New FoodInMeal instance is created
+    }
+
+    /// <summary>
+    /// Constructor test placeholder: Verifies BindingContext is set to page instance.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot run because BindingContext property requires ContentPage infrastructure from MAUI.
+    /// </remarks>
+    [Test]
+    [Ignore("Constructor sets BindingContext which requires MAUI ContentPage infrastructure unavailable in unit test context.")]
+    public void Constructor_Always_SetsBindingContextToSelf()
+    {
+        // Arrange & Act
+        // Cannot proceed: ContentPage infrastructure required
+
+        // Assert
+        // Would verify:
+        // - page.BindingContext == page
+    }
+
+    /// <summary>
+    /// Constructor test placeholder: Verifies UiAccuracy objects are created with correct controls.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot run because UiAccuracy constructor requires Entry and Picker controls from XAML.
+    /// </remarks>
+    [Test]
+    [Ignore("Constructor creates UiAccuracy objects with UI controls (Entry, Picker) that are null without XAML initialization.")]
+    public void Constructor_Always_CreatesUiAccuracyObjects()
+    {
+        // Arrange & Act
+        // Cannot proceed: txtAccuracyOfChoMeal, cmbAccuracyMeal, etc. will be null
+
+        // Assert
+        // Would verify:
+        // - accuracyMeal is created with txtAccuracyOfChoMeal and cmbAccuracyMeal
+        // - accuracyFoodInMeal is created with txtAccuracyOfChoFoodInMeal and cmbAccuracyFoodInMeal
+    }
+}

@@ -36,8 +36,9 @@ namespace GlucoMan
         {
             if (string.IsNullOrWhiteSpace(PhotoFileName))
                 return null;
-                
-            string containersFolder = Path.Combine(FileSystem.AppDataDirectory, "ContainerPhotos");
+
+            // Use platform-specific container photos path
+            string containersFolder = Common.GetContainerPhotosPath();
             return Path.Combine(containersFolder, PhotoFileName);
         }
         

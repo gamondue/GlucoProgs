@@ -25,7 +25,7 @@ public partial class StatisticsAndGraphPage : ContentPage
         {
    
             // Get date range (using only dates, not times)
-            DateTime date = datePicker.Date;
+            DateTime date = datePicker.Date ?? DateTime.Now;
       
             // Log the action
             ////////General.LogOfProgram?.Event($"Opening Chart page - From: {dateTimeFrom}, To: {date}");
@@ -127,7 +127,7 @@ public partial class StatisticsAndGraphPage : ContentPage
         processingLongCalculations = true;
         int nWeeks = 2;
         int.TryParse(txtNoOfWeeks.Text, out nWeeks);
-        var statisticsPage = new StatisticsPage(datePicker.Date.AddDays(-7 * nWeeks), datePicker.Date);
+        var statisticsPage = new StatisticsPage((datePicker.Date ?? DateTime.Now).AddDays(-7 * nWeeks), datePicker.Date ?? DateTime.Now);
         Navigation.PushAsync(statisticsPage);
         processingLongCalculations = false;
     }
@@ -150,7 +150,7 @@ public partial class StatisticsAndGraphPage : ContentPage
             int.TryParse(txtNoOfWeeks.Text, out nWeeks);
 
             // Navigate to Identifications page (to be implemented)
-            var identificationPage = new IdentificationPage(datePicker.Date, nWeeks);
+            var identificationPage = new IdentificationPage(datePicker.Date ?? DateTime.Now, nWeeks);
             Navigation.PushAsync(identificationPage);
         }
         catch (Exception ex)
@@ -165,7 +165,7 @@ public partial class StatisticsAndGraphPage : ContentPage
         int.TryParse(txtNoOfWeeks.Text, out nWeeks);
 
         // Navigate to Identifications page (to be implemented)
-        var identificationPage = new IdentificationPage2(datePicker.Date, nWeeks);
+        var identificationPage = new IdentificationPage2(datePicker.Date ?? DateTime.Now, nWeeks);
         Navigation.PushAsync(identificationPage);
     }
 }

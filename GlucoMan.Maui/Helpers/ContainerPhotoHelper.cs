@@ -14,7 +14,24 @@ namespace GlucoMan.Maui.Helpers
         /// </summary>
         public static string GetPhotosFolderPath()
         {
-            return Path.Combine(FileSystem.AppDataDirectory, PhotoFolderName);
+            // Use platform-specific container photos path
+            string path = GlucoMan.Common.GetContainerPhotosPath();
+
+            // Ensure the folder exists
+            try
+            {
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                    General.LogOfProgram?.Debug($"ContainerPhotoHelper - Created photos folder: {path}");
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram?.Error($"ContainerPhotoHelper - Failed to create photos folder: {path}", ex);
+            }
+
+            return path;
         }
         
         /// <summary>
