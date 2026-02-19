@@ -6,6 +6,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui.Platforms.Android
 {
@@ -74,7 +75,7 @@ namespace GlucoMan.Maui.Platforms.Android
             var btnSnooze = FindViewById<global::Android.Widget.Button>(btnSnoozeId);
 
             if (txtTitle != null)
-                txtTitle.Text = "GlucoMan Alarm";
+                txtTitle.Text = AppStrings.GlucoManAlarm;
             
             if (txtMessage != null)
                 txtMessage.Text = _reminderText;
@@ -222,7 +223,7 @@ namespace GlucoMan.Maui.Platforms.Android
         {
             try
             {
-                if (Common.Database != null && _alarmId > 0)
+                if (DatabaseService.Instance.Database != null && _alarmId > 0)
                 {
                     var blAlarms = new BL_Alarms();
                     var alarms = blAlarms.GetAllAlarms(all: true);
@@ -252,7 +253,7 @@ namespace GlucoMan.Maui.Platforms.Android
         {
             try
             {
-                if (Common.Database != null && _alarmId > 0)
+                if (DatabaseService.Instance.Database != null && _alarmId > 0)
                 {
                     // Create a new temporary alarm for snooze
                     var snoozeAlarm = new Alarm
@@ -313,3 +314,4 @@ namespace GlucoMan.Maui.Platforms.Android
     }
 }
 #endif
+

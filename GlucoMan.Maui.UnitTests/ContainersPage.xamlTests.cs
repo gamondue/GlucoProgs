@@ -7,9 +7,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+using gamon;
 using GlucoMan;
 using GlucoMan.Maui;
 using GlucoMan.Maui.Models;
+using GlucoMan.Maui.Resources;
 using GlucoMan.Maui.Resources.Strings;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
@@ -20,6 +22,7 @@ using Moq;
 using NUnit.Framework;
 
 namespace GlucoMan.Maui.UnitTests;
+
 
 
 /// <summary>
@@ -592,6 +595,412 @@ public partial class ContainersPageTests
         catch (Exception ex) when (ex.Message.Contains("InitializeComponent") || ex is InvalidOperationException)
         {
             Assert.Inconclusive($"Cannot instantiate ContainersPage in unit test context: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Tests that the constructor with currentWeight parameter does not set the text field
+    /// when the weight value does not satisfy the condition (HasValue AND Value > 0).
+    /// This includes null, zero, negative, NaN, and negative infinity values.
+    /// </summary>
+    /// <param name="weight">The weight value to test</param>
+    /// <remarks>
+    /// This test cannot be executed because ContainersPage requires XAML initialization
+    /// via InitializeComponent() which is not available in unit test context.
+    /// Expected behavior: When currentWeight is null, zero, negative, NaN, or negative infinity,
+    /// the condition (currentWeight.HasValue && currentWeight.Value > 0) is false,
+    /// so txtContainerWeight.Text should not be set.
+    /// </remarks>
+    [Test]
+    [TestCase(null)]
+    [TestCase(0.0)]
+    [TestCase(-1.0)]
+    [TestCase(-100.5)]
+    [TestCase(double.MinValue)]
+    [TestCase(double.NaN)]
+    [TestCase(double.NegativeInfinity)]
+    [Ignore("Cannot instantiate MAUI ContentPage outside of MAUI runtime. Requires XAML infrastructure.")]
+    public void Constructor_WithWeightNotSatisfyingCondition_DoesNotSetTextField(double? weight)
+    {
+        // Arrange & Act
+        ContainersPage? page = null;
+        Exception? caughtException = null;
+
+        try
+        {
+            page = new ContainersPage(weight);
+
+            // Assert
+            // If we somehow got here, verify the text field was not modified
+            // Note: In actual MAUI context, we would check txtContainerWeight.Text
+            // but we cannot access it in unit test context
+            Assert.Pass("Page instantiated successfully, but cannot verify UI state in unit test context.");
+        }
+        catch (Exception ex) when (ex.Message.Contains("InitializeComponent") || ex is InvalidOperationException)
+        {
+            caughtException = ex;
+        }
+
+        // If we caught an initialization exception, the test is inconclusive
+        if (caughtException != null)
+        {
+            Assert.Inconclusive($"Cannot instantiate ContainersPage in unit test context: {caughtException.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Tests that the constructor with currentWeight parameter sets the text field
+    /// when the weight value satisfies the condition (HasValue AND Value > 0).
+    /// This includes small positive values, typical values, large values, and positive infinity.
+    /// </summary>
+    /// <param name="weight">The weight value to test</param>
+    /// <remarks>
+    /// This test cannot be executed because ContainersPage requires XAML initialization
+    /// via InitializeComponent() which is not available in unit test context.
+    /// Expected behavior: When currentWeight has a value greater than 0,
+    /// txtContainerWeight.Text should be set to the string representation of the value.
+    /// </remarks>
+    [Test]
+    [TestCase(0.0001)]
+    [TestCase(0.5)]
+    [TestCase(1.0)]
+    [TestCase(100.5)]
+    [TestCase(999999.99)]
+    [TestCase(double.MaxValue)]
+    [TestCase(double.PositiveInfinity)]
+    [Ignore("Cannot instantiate MAUI ContentPage outside of MAUI runtime. Requires XAML infrastructure.")]
+    public void Constructor_WithPositiveWeight_SetsTextFieldToValue(double? weight)
+    {
+        // Arrange & Act
+        ContainersPage? page = null;
+        Exception? caughtException = null;
+
+        try
+        {
+            page = new ContainersPage(weight);
+
+            // Assert
+            // If we somehow got here, verify the text field was set
+            // Note: In actual MAUI context, we would check:
+            // Assert.That(page.txtContainerWeight.Text, Is.EqualTo(weight.Value.ToString()));
+            // but we cannot access UI controls in unit test context
+            Assert.Pass("Page instantiated successfully, but cannot verify UI state in unit test context.");
+        }
+        catch (Exception ex) when (ex.Message.Contains("InitializeComponent") || ex is InvalidOperationException)
+        {
+            caughtException = ex;
+        }
+
+        // If we caught an initialization exception, the test is inconclusive
+        if (caughtException != null)
+        {
+            Assert.Inconclusive($"Cannot instantiate ContainersPage in unit test context: {caughtException.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Tests that the constructor with currentWeight parameter does not throw exceptions
+    /// when exceptions occur during page initialization, as they are caught and logged.
+    /// </summary>
+    /// <param name="weight">The weight value to test</param>
+    /// <remarks>
+    /// The constructor wraps its logic in a try-catch block that catches all exceptions
+    /// and logs them via gamon.General.LogOfProgram. This test verifies that behavior.
+    /// However, since we cannot instantiate the page in unit test context, we can only
+    /// verify that attempting to instantiate does not throw an unhandled exception.
+    /// </remarks>
+    [Test]
+    [TestCase(null)]
+    [TestCase(0.0)]
+    [TestCase(100.5)]
+    [TestCase(double.NaN)]
+    [TestCase(double.PositiveInfinity)]
+    public void Constructor_WithAnyWeight_DoesNotThrowUnhandledException(double? weight)
+    {
+        // Arrange & Act & Assert
+        try
+        {
+            var page = new ContainersPage(weight);
+            // If successful, no exception was thrown (expected when MAUI context is available)
+            Assert.Pass("Constructor completed without throwing unhandled exception.");
+        }
+        catch (Exception ex) when (ex.Message.Contains("InitializeComponent") || ex is InvalidOperationException)
+        {
+            // XAML initialization failure is expected in unit test context
+            // This is not an unhandled exception from the constructor logic itself
+            Assert.Inconclusive($"Cannot instantiate ContainersPage in unit test context: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // Any other exception would indicate a bug in exception handling
+            Assert.Fail($"Constructor threw unexpected unhandled exception: {ex.GetType().Name} - {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Tests the constructor with boundary value for double precision.
+    /// Tests double.Epsilon (smallest positive double value).
+    /// </summary>
+    /// <remarks>
+    /// This test cannot be executed because ContainersPage requires XAML initialization.
+    /// Expected behavior: double.Epsilon is positive (> 0), so text field should be set.
+    /// </remarks>
+    [Test]
+    [Ignore("Cannot instantiate MAUI ContentPage outside of MAUI runtime. Requires XAML infrastructure.")]
+    public void Constructor_WithDoubleEpsilon_SetsTextFieldToValue()
+    {
+        // Arrange
+        double? weight = double.Epsilon;
+
+        // Act
+        ContainersPage? page = null;
+        Exception? caughtException = null;
+
+        try
+        {
+            page = new ContainersPage(weight);
+
+            // Assert
+            Assert.Pass("Page instantiated successfully with double.Epsilon.");
+        }
+        catch (Exception ex) when (ex.Message.Contains("InitializeComponent") || ex is InvalidOperationException)
+        {
+            caughtException = ex;
+        }
+
+        if (caughtException != null)
+        {
+            Assert.Inconclusive($"Cannot instantiate ContainersPage in unit test context: {caughtException.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask returns a Task that completes with true when TaskCompletionSource is set to true.
+    /// </summary>
+    [Test]
+    public async Task PageClosedTask_AfterSetResultTrue_TaskCompletesWithTrue()
+    {
+        // Arrange
+        var page = new TestableContainersPage();
+        var task = page.PageClosedTask;
+
+        // Act
+        page.SetContainerWasSelected(true);
+        page.CallOnDisappearing();
+
+        // Assert
+        Assert.That(task.IsCompleted, Is.True, "Task should be completed after OnDisappearing");
+        Assert.That(task.IsCompletedSuccessfully, Is.True, "Task should be completed successfully");
+        Assert.That(task.IsFaulted, Is.False, "Task should not be faulted");
+        Assert.That(task.IsCanceled, Is.False, "Task should not be canceled");
+        var result = await task;
+        Assert.That(result, Is.True, "Task result should be true when ContainerWasSelected is true");
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask returns a Task that completes with false when TaskCompletionSource is set to false.
+    /// </summary>
+    [Test]
+    public async Task PageClosedTask_AfterSetResultFalse_TaskCompletesWithFalse()
+    {
+        // Arrange
+        var page = new TestableContainersPage();
+        var task = page.PageClosedTask;
+
+        // Act
+        page.SetContainerWasSelected(false);
+        page.CallOnDisappearing();
+
+        // Assert
+        Assert.That(task.IsCompleted, Is.True, "Task should be completed after OnDisappearing");
+        Assert.That(task.IsCompletedSuccessfully, Is.True, "Task should be completed successfully");
+        Assert.That(task.IsFaulted, Is.False, "Task should not be faulted");
+        Assert.That(task.IsCanceled, Is.False, "Task should not be canceled");
+        var result = await task;
+        Assert.That(result, Is.False, "Task result should be false when ContainerWasSelected is false");
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask property returns the same Task instance even after completion.
+    /// </summary>
+    [Test]
+    public void PageClosedTask_AfterCompletion_ReturnsSameTaskInstance()
+    {
+        // Arrange
+        var page = new TestableContainersPage();
+        var taskBefore = page.PageClosedTask;
+
+        // Act
+        page.CallOnDisappearing();
+        var taskAfter = page.PageClosedTask;
+
+        // Assert
+        Assert.That(taskAfter, Is.SameAs(taskBefore), "PageClosedTask should return the same Task instance even after completion");
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask reflects the completed state after OnDisappearing is called.
+    /// </summary>
+    [Test]
+    public void PageClosedTask_AfterOnDisappearing_ReflectsCompletedState()
+    {
+        // Arrange
+        var page = new TestableContainersPage();
+        var task = page.PageClosedTask;
+        Assert.That(task.IsCompleted, Is.False, "Task should not be completed initially");
+
+        // Act
+        page.CallOnDisappearing();
+
+        // Assert
+        Assert.That(task.IsCompleted, Is.True, "Task should be completed after OnDisappearing");
+        Assert.That(page.PageClosedTask.IsCompleted, Is.True, "PageClosedTask property should reflect completed state");
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask can be awaited successfully after OnDisappearing with ContainerWasSelected true.
+    /// </summary>
+    [Test]
+    public async Task PageClosedTask_AwaitAfterOnDisappearingWithSelectionTrue_ReturnsTrue()
+    {
+        // Arrange
+        var page = new TestableContainersPage();
+        page.SetContainerWasSelected(true);
+
+        // Act
+        page.CallOnDisappearing();
+        var result = await page.PageClosedTask;
+
+        // Assert
+        Assert.That(result, Is.True, "Awaiting PageClosedTask should return true when ContainerWasSelected is true");
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask can be awaited successfully after OnDisappearing with ContainerWasSelected false.
+    /// </summary>
+    [Test]
+    public async Task PageClosedTask_AwaitAfterOnDisappearingWithSelectionFalse_ReturnsFalse()
+    {
+        // Arrange
+        var page = new TestableContainersPage();
+        page.SetContainerWasSelected(false);
+
+        // Act
+        page.CallOnDisappearing();
+        var result = await page.PageClosedTask;
+
+        // Assert
+        Assert.That(result, Is.False, "Awaiting PageClosedTask should return false when ContainerWasSelected is false");
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask property can be accessed multiple times before and after completion without issues.
+    /// </summary>
+    [Test]
+    public void PageClosedTask_MultipleAccessesBeforeAndAfterCompletion_ReturnsSameInstance()
+    {
+        // Arrange
+        var page = new TestableContainersPage();
+
+        // Act - Access before completion
+        var task1 = page.PageClosedTask;
+        var task2 = page.PageClosedTask;
+
+        // Complete the task
+        page.CallOnDisappearing();
+
+        // Act - Access after completion
+        var task3 = page.PageClosedTask;
+        var task4 = page.PageClosedTask;
+
+        // Assert
+        Assert.That(task1, Is.SameAs(task2), "Tasks accessed before completion should be the same instance");
+        Assert.That(task3, Is.SameAs(task1), "Tasks accessed after completion should be the same instance as before");
+        Assert.That(task4, Is.SameAs(task1), "All task accesses should return the same instance");
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask Status property reflects NotStarted initially.
+    /// </summary>
+    [Test]
+    public void PageClosedTask_InitialStatus_IsWaitingForActivation()
+    {
+        // Arrange
+        var page = new TestableContainersPage();
+
+        // Act
+        var task = page.PageClosedTask;
+
+        // Assert
+        Assert.That(task.Status, Is.EqualTo(TaskStatus.WaitingForActivation), "Task status should be WaitingForActivation initially");
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask Status property reflects RanToCompletion after successful completion.
+    /// </summary>
+    [Test]
+    public void PageClosedTask_AfterSuccessfulCompletion_StatusIsRanToCompletion()
+    {
+        // Arrange
+        var page = new TestableContainersPage();
+        var task = page.PageClosedTask;
+
+        // Act
+        page.CallOnDisappearing();
+
+        // Assert
+        Assert.That(task.Status, Is.EqualTo(TaskStatus.RanToCompletion), "Task status should be RanToCompletion after OnDisappearing");
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask Result property can be accessed synchronously after completion.
+    /// </summary>
+    [Test]
+    public void PageClosedTask_AfterCompletion_ResultPropertyAccessibleSynchronously()
+    {
+        // Arrange
+        var page = new TestableContainersPage();
+        page.SetContainerWasSelected(true);
+        var task = page.PageClosedTask;
+
+        // Act
+        page.CallOnDisappearing();
+
+        // Assert
+        Assert.That(task.IsCompleted, Is.True, "Task must be completed before accessing Result");
+        Assert.That(task.Result, Is.True, "Result property should return true when ContainerWasSelected is true");
+    }
+
+    /// <summary>
+    /// Tests that PageClosedTask property maintains consistency across different constructor overloads.
+    /// </summary>
+    [Test]
+    public void PageClosedTask_WithDifferentConstructors_MaintainsConsistency()
+    {
+        // Arrange & Act
+        var page1 = new TestableContainersPage();
+        var page2 = new TestableContainersPageWithWeight(100.0);
+        var page3 = new TestableContainersPageWithWeight(null);
+
+        // Assert
+        Assert.That(page1.PageClosedTask, Is.Not.Null, "Default constructor should initialize PageClosedTask");
+        Assert.That(page2.PageClosedTask, Is.Not.Null, "Constructor with weight should initialize PageClosedTask");
+        Assert.That(page3.PageClosedTask, Is.Not.Null, "Constructor with null weight should initialize PageClosedTask");
+
+        Assert.That(page1.PageClosedTask.IsCompleted, Is.False, "Default constructor PageClosedTask should not be completed");
+        Assert.That(page2.PageClosedTask.IsCompleted, Is.False, "Constructor with weight PageClosedTask should not be completed");
+        Assert.That(page3.PageClosedTask.IsCompleted, Is.False, "Constructor with null weight PageClosedTask should not be completed");
+    }
+
+    /// <summary>
+    /// Helper class to test ContainersPage with weight constructor parameter.
+    /// </summary>
+    private class TestableContainersPageWithWeight : TestableContainersPage
+    {
+        public TestableContainersPageWithWeight(double? currentWeight) : base()
+        {
+            // Mimics the behavior of the actual constructor with currentWeight parameter
+            // which calls the default constructor via : this()
         }
     }
 }

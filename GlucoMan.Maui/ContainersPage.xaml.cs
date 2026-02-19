@@ -777,9 +777,10 @@ selectedContainer.PhotoFileName = existingPhotoFileName;
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("ContainersPage - btnMinus_Click", ex);
-            await DisplayAlert("Error", "An error occurred while deleting. Please try again.", "OK");
+            await DisplayAlert(AppStrings.Error, AppStrings.ErrorDeletingContainer, AppStrings.OK);
         }
     }
 
     
 }
+

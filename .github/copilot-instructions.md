@@ -63,7 +63,9 @@ GlucoProgs is a diabetes management application suite with **GlucoMan** as the p
 ### Testing Strategy
 - Unit tests in `TestGlucoMan/` using NUnit framework
 - Android-specific tests in `TestGlucoMan.Android/` project
+- **SharedData.UnitTests**: Tests for `SqlHelper` utility class (54 tests)
 - Logger must be initialized in test setup: `General.LogOfProgram = new Logger(...)`
+- **Note**: Integration tests for `DL_Sqlite` cannot be created due to partial class architecture and circular dependencies (see SharedData.UnitTests/README.md)
 
 ## Development Patterns & Conventions
 

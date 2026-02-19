@@ -169,3 +169,4 @@ public partial class StatisticsAndGraphPage : ContentPage
         Navigation.PushAsync(identificationPage);
     }
 }
+

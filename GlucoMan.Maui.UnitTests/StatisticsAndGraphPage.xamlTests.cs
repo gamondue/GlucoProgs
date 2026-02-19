@@ -1,22 +1,25 @@
-﻿using GlucoMan;
-using GlucoMan.Maui;
-using GlucoMan.Maui.Resources;
-using GlucoMan.Maui.Resources.Strings;
-using gamon;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Devices;
-using Microsoft.Maui.Storage;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
+using gamon;
+using GlucoMan;
+using GlucoMan.Maui;
+using GlucoMan.Maui.Resources;
+using GlucoMan.Maui.Resources.Strings;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Devices;
+using Microsoft.Maui.Storage;
+using NUnit.Framework;
 
 namespace GlucoMan.Maui.UnitTests;
+
+
+
 
 /// <summary>
 /// Unit tests for StatisticsAndGraphPage.
@@ -65,5 +68,43 @@ public partial class StatisticsAndGraphPageTests
         // Assert.That(page.datePicker.Date, Is.EqualTo(expectedDate), "DatePicker should be initialized to yesterday's date (Today - 1 day).");
 
         Assert.Inconclusive("Unable to verify datePicker.Date without access to the private field. Consider using UI automation or making the field internal with InternalsVisibleTo attribute for testing.");
+    }
+
+    /// <summary>
+    /// Tests that multiple instances of StatisticsAndGraphPage can be created successfully.
+    /// Verifies that the constructor can be called multiple times without side effects or exceptions.
+    /// Expected behavior: Each call should create a new, independent instance.
+    /// </summary>
+    [Test]
+    public void Constructor_MultipleInstances_CreatesIndependentInstances()
+    {
+        // Arrange & Act
+        StatisticsAndGraphPage? page1 = null;
+        StatisticsAndGraphPage? page2 = null;
+        TestDelegate act1 = () => page1 = new StatisticsAndGraphPage();
+        TestDelegate act2 = () => page2 = new StatisticsAndGraphPage();
+
+        // Assert
+        Assert.DoesNotThrow(act1, "First constructor call should not throw any exceptions.");
+        Assert.DoesNotThrow(act2, "Second constructor call should not throw any exceptions.");
+        Assert.That(page1, Is.Not.Null, "First page instance should be created successfully.");
+        Assert.That(page2, Is.Not.Null, "Second page instance should be created successfully.");
+        Assert.That(page1, Is.Not.SameAs(page2), "Each constructor call should create a distinct instance.");
+    }
+
+    /// <summary>
+    /// Tests that the constructed page is of the correct type and inherits from ContentPage.
+    /// Verifies the inheritance hierarchy and type correctness.
+    /// Expected behavior: Instance should be assignable to ContentPage.
+    /// </summary>
+    [Test]
+    public void Constructor_WhenCalled_CreatesCorrectType()
+    {
+        // Arrange & Act
+        var page = new StatisticsAndGraphPage();
+
+        // Assert
+        Assert.That(page, Is.InstanceOf<StatisticsAndGraphPage>(), "Instance should be of type StatisticsAndGraphPage.");
+        Assert.That(page, Is.InstanceOf<ContentPage>(), "Instance should inherit from ContentPage.");
     }
 }

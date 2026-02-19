@@ -9,6 +9,9 @@ using NUnit.Framework;
 namespace GlucoMan.Maui.UnitTests;
 
 
+
+
+
 /// <summary>
 /// Unit tests for the ChartPage class.
 /// </summary>
@@ -422,5 +425,159 @@ public partial class ChartPageTests
         // Consider exposing the date via a public property for testing
 
         Assert.Inconclusive("Cannot verify private field assignment. Consider exposing date as a public or internal property for testing.");
+    }
+
+    /// <summary>
+    /// Tests that the constructor handles various dates throughout the year correctly.
+    /// </summary>
+    /// <remarks>
+    /// Tests boundary dates including leap year February 29th, year transitions, and month boundaries.
+    /// This test cannot run due to MAUI infrastructure requirements.
+    /// </remarks>
+    [Test]
+    [TestCase(2024, 1, 1, Description = "Start of year")]
+    [TestCase(2024, 12, 31, Description = "End of year")]
+    [TestCase(2024, 2, 29, Description = "Leap year date")]
+    [TestCase(2023, 2, 28, Description = "Non-leap year February")]
+    [TestCase(2024, 6, 15, Description = "Mid-year date")]
+    [Ignore("ChartPage requires XAML infrastructure and cannot be instantiated in unit tests without MAUI test host.")]
+    public void Constructor_VariousDates_HandlesCorrectly(int year, int month, int day)
+    {
+        // Arrange
+        DateTime testDate = new DateTime(year, month, day);
+
+        // Act
+        // Would execute: var chartPage = new ChartPage(testDate);
+        // Expected: _dateOfGraph field should be set correctly
+        // Expected: SetupChart() correctly calculates startOfDay and endOfDay for database query
+
+        // Assert
+        // Would verify: Assert.DoesNotThrow(() => new ChartPage(testDate));
+    }
+
+    /// <summary>
+    /// Tests that the constructor properly enables touch events when chartView is initialized.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot be implemented because:
+    /// 1. chartView is initialized by InitializeComponent() which requires XAML infrastructure
+    /// 2. Cannot verify that chartView.EnableTouchEvents is set to true without accessing the field
+    /// 3. Cannot verify that Touch event handler is attached without reflection
+    /// 
+    /// Expected behavior (lines 62-66):
+    /// - If chartView is not null after InitializeComponent, EnableTouchEvents should be set to true
+    /// - OnChartTouched handler should be attached to Touch event
+    /// </remarks>
+    [Test]
+    [Ignore("Cannot test chartView interaction without XAML infrastructure. chartView field is initialized by InitializeComponent().")]
+    public void Constructor_ChartViewInitialized_EnablesTouchEvents()
+    {
+        // Arrange
+        DateTime testDate = new DateTime(2024, 6, 15);
+
+        // Act
+        // Would execute: var chartPage = new ChartPage(testDate);
+        // Would need reflection to access chartView field (prohibited)
+
+        // Assert
+        // Would verify: chartView is not null
+        // Would verify: chartView.EnableTouchEvents is true
+        // Would verify: chartView.Touch event has OnChartTouched handler
+    }
+
+    /// <summary>
+    /// Tests that exceptions from touch event setup are caught and do not cause constructor failure.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot be implemented because:
+    /// 1. Cannot control whether chartView exists or throws during touch setup without XAML infrastructure
+    /// 2. The inner try-catch (lines 60-71) catches exceptions and logs them but doesn't rethrow
+    /// 3. Cannot verify Debug.WriteLine calls without mocking (static method)
+    /// 
+    /// Expected behavior:
+    /// - If touch event setup throws, exception is caught and logged to Debug
+    /// - Constructor continues execution and completes successfully
+    /// </remarks>
+    [Test]
+    [Ignore("Cannot test nested exception handling without XAML infrastructure and ability to control chartView state.")]
+    public void Constructor_TouchEventSetupThrows_CatchesAndContinues()
+    {
+        // Arrange
+        DateTime testDate = new DateTime(2024, 6, 15);
+
+        // Act
+        // Would need to mock chartView to throw on EnableTouchEvents or Touch.add
+        // Inner catch block logs to Debug.WriteLine (cannot verify static method call)
+
+        // Assert
+        // Would verify: Constructor completes without throwing
+        // Would verify: Debug.WriteLine was called with error message (cannot mock static)
+    }
+
+    /// <summary>
+    /// Tests that constructor exceptions are logged, display an alert, and are rethrown.
+    /// </summary>
+    /// <remarks>
+    /// This test cannot be implemented because:
+    /// 1. Cannot force InitializeComponent, UpdateGraphDisplay, or SetupChart to throw without mocking
+    /// 2. Cannot verify Debug.WriteLine calls (static method)
+    /// 3. Cannot verify DisplayAlert call without UI infrastructure and ability to await async method
+    /// 4. DisplayAlert is called without await, making verification impossible
+    /// 
+    /// Expected behavior (lines 75-82):
+    /// - Exception is caught
+    /// - Debug.WriteLine logs error message and stack trace
+    /// - DisplayAlert is called with error details
+    /// - Exception is rethrown
+    /// </remarks>
+    [Test]
+    [Ignore("Cannot test exception handling without ability to mock InitializeComponent or verify DisplayAlert/Debug.WriteLine calls.")]
+    public void Constructor_InitializationThrows_LogsDisplaysAndRethrows()
+    {
+        // Arrange
+        DateTime testDate = new DateTime(2024, 6, 15);
+
+        // Act & Assert
+        // Would need to mock InitializeComponent to throw (cannot mock generated method)
+        // Would verify: Debug.WriteLine called twice (error message and stack trace)
+        // Would verify: DisplayAlert called with "Error" title and exception message
+        // Would verify: Exception is rethrown
+        // Would execute: Assert.Throws<Exception>(() => new ChartPage(testDate));
+    }
+
+    /// <summary>
+    /// Tests OnDisappearing with various date values using parameterized tests.
+    /// Verifies the method works correctly regardless of the date used to initialize ChartPage.
+    /// </summary>
+    [TestCase(2024, 1, 1, Description = "Start of year")]
+    [TestCase(2024, 12, 31, Description = "End of year")]
+    [TestCase(2024, 2, 29, Description = "Leap year date")]
+    [TestCase(2023, 2, 28, Description = "Non-leap year February")]
+    [TestCase(2024, 6, 15, Description = "Mid-year date")]
+    public void OnDisappearing_WithVariousDates_ExecutesWithoutException(int year, int month, int day)
+    {
+        // Arrange
+        DateTime testDate = new DateTime(year, month, day);
+        var helper = new ChartPageTestHelper(testDate);
+
+        // Act & Assert
+        Assert.DoesNotThrow(() => helper.CallOnDisappearing());
+    }
+
+    /// <summary>
+    /// Tests that OnDisappearing executes correctly when called immediately after page creation.
+    /// </summary>
+    [Test]
+    public void OnDisappearing_CalledImmediatelyAfterCreation_ExecutesWithoutException()
+    {
+        // Arrange
+        DateTime testDate = DateTime.Now;
+
+        // Act & Assert
+        Assert.DoesNotThrow(() =>
+        {
+            var helper = new ChartPageTestHelper(testDate);
+            helper.CallOnDisappearing();
+        });
     }
 }

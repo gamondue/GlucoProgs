@@ -1,5 +1,4 @@
-﻿using GlucoMan.Maui.Resources.Strings;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 

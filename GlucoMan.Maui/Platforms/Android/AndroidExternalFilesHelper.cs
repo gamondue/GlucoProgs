@@ -1,4 +1,4 @@
-﻿using Android;
+using Android;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
@@ -321,7 +321,7 @@ namespace GlucoMan
                 {
                     var builder = new Android.App.AlertDialog.Builder(activity);
                     builder.SetTitle("Autorizzazioni Manuali Richieste")
-                           .SetMessage("Si aprirà la pagina delle impostazioni dell'app.\n\n" +
+                           .SetMessage("Si aprir� la pagina delle impostazioni dell'app.\n\n" +
                                      "Per Huawei:\n" +
                                      "1. Vai su 'Autorizzazioni'\n" +
                                      "2. Abilita 'Archiviazione' o 'File e media'\n" +
@@ -754,3 +754,4 @@ namespace GlucoMan
         }
     }
 }
+

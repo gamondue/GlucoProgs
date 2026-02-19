@@ -6,7 +6,8 @@ namespace GlucoMan.Maui;
 
 public partial class FoodPage : ContentPage
 {
-    BL_MealAndFood bl = Common.MealAndFood_CommonBL;
+    //BL_MealAndFood bl = Common.MealAndFood_CommonBL;
+    BL_MealAndFood bl = new();
     internal Food CurrentFood { get; set; }
     
     // Add TaskCompletionSource to handle page completion
@@ -202,4 +203,5 @@ public partial class FoodPage : ContentPage
 
     }
 }
+
 

@@ -1,10 +1,6 @@
 using gamon;
-using GlucoMan;
-using GlucoMan;
-using GlucoMan.BusinessObjects;
 using GlucoMan.Maui.Resources.Strings;
 using Mathematics;
-using MathNet.Numerics.Statistics;
 
 namespace GlucoMan.Maui;
 
@@ -122,7 +118,7 @@ public partial class StatisticsPage : ContentPage
         {
             _blInjections.GetInjectionsForStatistics(_dateFrom, _dateTo);
 
-            // Display TDD stats (!!!!!!!!!!!! mettere le label giuste !!!!!!!!!)
+            // Display TDD stats
             StatisticsData sd = _blInjections.CalculateTddInsulin();
             DisplayInsulinStats(sd, lblTddPerDayMean, lblTddMean, lblTddStdDev,
                 lblTddSamples);
@@ -291,7 +287,7 @@ public partial class StatisticsPage : ContentPage
             return;
         }
 
-        var (mean, stdDev, count) = GamonStats.CalculateMeanAndStdDev(dailyTotals);
+        var (mean, stdDev, count) = GamonStatistics.MeanAndStdDev(dailyTotals);
         lblTotalChoMean.Text = $"{mean:F1} g";
         lblTotalChoStdDev.Text = $"{stdDev:F1} g";
         lblTotalChoSamples.Text = $"{dailyTotals.Count} days";
@@ -329,7 +325,7 @@ public partial class StatisticsPage : ContentPage
             return;
         }
 
-        var (mean, stdDev, count) = GamonStats.CalculateMeanAndStdDev(values);
+        var (mean, stdDev, count) = GamonStatistics.MeanAndStdDev(values);
         meanLabel.Text = $"{mean:F1} g";
         stdDevLabel.Text = $"{stdDev:F1} g";
         samplesLabel.Text = $"{values.Count}";
@@ -362,21 +358,22 @@ public partial class StatisticsPage : ContentPage
     #region Helper Methods
     private void SetErrorLabels(Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
-        meanLabel.Text = "Error";
-        stdDevLabel.Text = "Error";
+        meanLabel.Text = AppStrings.Error;
+        stdDevLabel.Text = AppStrings.Error;
         samplesLabel.Text = "0";
     }
     private void SetNoDataLabels(Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
-        meanLabel.Text = "No data";
-        stdDevLabel.Text = "No data";
+        meanLabel.Text = AppStrings.NoData;
+        stdDevLabel.Text = AppStrings.NoData;
         samplesLabel.Text = "0";
     }
     private void SetPlaceholderLabels(Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
-        meanLabel.Text = "Coming soon";
-        stdDevLabel.Text = "Coming soon";
+        meanLabel.Text = AppStrings.ComingSoon;
+        stdDevLabel.Text = AppStrings.ComingSoon;
         samplesLabel.Text = "--";
     }
     #endregion
 }
+

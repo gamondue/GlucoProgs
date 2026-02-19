@@ -16,7 +16,8 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
     public InsulinDrug SelectedShortActingInsulin { get; set; }
     public InsulinDrug SelectedLongActingInsulin { get; set; }
     BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
-    
+    BL_General BlGeneral = new BL_General();
+
     private readonly LocalizationService _localizationService;
 
     public SettingsPage(LocalizationService localizationService)
@@ -31,7 +32,7 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         cmbShortActingInsulin.ItemsSource = ShortActingInsulins;
         cmbLongActingInsulin.ItemsSource = LongActingInsulins;
 
-        Parameters = Common.BlGeneral.GetSettingsPageParameters();
+        Parameters = BlGeneral.GetSettingsPageParameters();
 
         if (Parameters != null)
         {
@@ -123,7 +124,7 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
             out double shortDuration) ? shortDuration : 0;
         SelectedLongActingInsulin.DurationInHours = double.TryParse(txtInsulinLongDuration.Text, 
             out double longDuration) ? longDuration : 0;
-        Common.BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin,
+        BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin,
             SelectedLongActingInsulin);
     }
     

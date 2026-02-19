@@ -1,4 +1,4 @@
-﻿using gamon;
+using gamon;
 using GlucoMan;
 using System.Security.AccessControl;
 using Microsoft.Maui.Graphics;
@@ -206,7 +206,7 @@ namespace GlucoMan.Maui
         }
         internal void RemovePointIfNear(Microsoft.Maui.Graphics.Point LeftTopPosition)
         {
-            // Il click è già il centro - non aggiungere il raggio
+            // we already clicked on center - do not add the radius
             double XCenter = LeftTopPosition.X;
             double YCenter = LeftTopPosition.Y;
             
@@ -415,3 +415,4 @@ namespace GlucoMan.Maui
         }
     }
 }
+

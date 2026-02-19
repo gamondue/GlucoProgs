@@ -9,7 +9,8 @@ public partial class MealsPage : ContentPage
 {
     // since it is accessed by several pages, to avoid "concurrent" problems 
     // we use a common business layer object, between different pages 
-    private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
+    //private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
+    private BL_MealAndFood bl = new BL_MealAndFood();
     UiAccuracy accuracyClass;
 
     private bool loadingUi = true;
@@ -24,7 +25,7 @@ public partial class MealsPage : ContentPage
 
         loadingUi = true;
 
-        Parameters parameters = Common.Database.GetParameters();
+        Parameters parameters = DatabaseService.Instance.Database.GetParameters();
         if (parameters != null && parameters.MonthsOfDataShownInTheGrids > 0)
             MonthsOfDataShownInTheGrids = parameters.MonthsOfDataShownInTheGrids;
 

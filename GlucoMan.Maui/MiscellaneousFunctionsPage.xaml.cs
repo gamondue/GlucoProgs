@@ -763,15 +763,8 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         {
             General.LogOfProgram?.Debug("Closing database connection for file operation...");
 
-            // Clear the singleton database reference
-            Common.Database = null;
-
-            // Force garbage collection to release any lingering handles
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            // SQLite specific: clear the connection pool to release all file handles
-            Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools();
+            // Use DatabaseService to close the connection
+            DatabaseService.Instance.CloseConnection();
 
             General.LogOfProgram?.Debug("Database connection closed successfully");
         }
@@ -789,8 +782,8 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         {
             General.LogOfProgram?.Debug("Re-opening database connection...");
 
-            // Re-create the database connection
-            Common.Database = new DL_Sqlite();
+            // Use DatabaseService to reopen the connection
+            DatabaseService.Instance.ReopenConnection();
 
             // Also update the blGeneral reference
             blGeneral = new BL_General();
@@ -879,7 +872,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram.Error("btnShowErrorLog_ClickAsync", ex);
-            await DisplayAlert(AppStrings.Error, "File not existing or not accessible", AppStrings.OK);
+            await DisplayAlert(AppStrings.Error, AppStrings.FileNotExistingOrNotAccessible, AppStrings.OK);
         }
     }
     private async void btnDeleteErrorLog_ClickAsync(object sender, EventArgs e)
@@ -905,3 +898,4 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         Navigation.PushAsync(new MainPage());
     }
 }
+

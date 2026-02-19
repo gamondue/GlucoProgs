@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9d386be4-7a68-4c71-90ee-55da1bf5beaa</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SharedDataa</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DatabaseService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_AlarmManagement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_BolusesAndInjections.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_Containers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_DataLayerConstructorsAndGeneral.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_Events.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_GlucoseMeasurements.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_GpsTracking.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_GrossTareAndNetWeight.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_HypoPrediction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_MealAndFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_PhysicalActivities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_Recipes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\Sqlite_SqlToCreateDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqLite\SqLite_WeighFood.cs" />
+  </ItemGroup>
+</Project>

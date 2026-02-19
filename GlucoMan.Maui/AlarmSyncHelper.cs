@@ -15,7 +15,7 @@ namespace GlucoMan.Maui
         {
             try
             {
-                if (Common.Database == null)
+                if (DatabaseService.Instance.Database == null)
                 {
                     gamon.General.LogOfProgram?.Debug("AlarmSyncHelper: Database not initialized");
                     return;
@@ -93,7 +93,7 @@ namespace GlucoMan.Maui
         {
             try
             {
-                if (Common.Database == null)
+                if (DatabaseService.Instance.Database == null)
                     return;
 
                 var blAlarms = new BL_Alarms();
@@ -136,7 +136,7 @@ namespace GlucoMan.Maui
         {
             try
             {
-                if (Common.Database == null)
+                if (DatabaseService.Instance.Database == null)
                     return 0;
 
                 var blAlarms = new BL_Alarms();
@@ -153,3 +153,4 @@ namespace GlucoMan.Maui
         }
     }
 }
+

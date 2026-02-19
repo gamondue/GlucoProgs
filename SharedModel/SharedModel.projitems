@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>81439f26-72c6-4802-ab75-910b6cce293f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SharedModel</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Alarm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bolus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CategoryOfFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Container.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Device.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DevicesModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Event.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Food.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FoodInMeal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FoodToHitTargetCarbs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlucoseRecord.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GpsPosition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HypoPredictionData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ingredient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Injection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InsulinDrug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ISystemAlarmScheduler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Manufacturer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Meal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PhysicalActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Point.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PositionOfInjection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProducerOfFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Recipe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StatisticsData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Track.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UnitOfFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WeighingData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WeightsForWeighing.cs" />
+  </ItemGroup>
+</Project>

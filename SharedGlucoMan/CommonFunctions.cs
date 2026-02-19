@@ -1,5 +1,4 @@
 ﻿using gamon;
-using GlucoMan;
 
 namespace GlucoMan
 {
@@ -14,9 +13,10 @@ namespace GlucoMan
             General.MakeFolderIfDontExist(Common.PathDatabase);
             General.MakeFolderIfDontExist(Common.PathImportExport);
 
-            Common.Database = new DL_Sqlite();
-            Common.BlGeneral = new BL_General();
-            Common.MealAndFood_CommonBL = new BL_MealAndFood();
+            // NOTE: Database initialization has been moved to MauiProgram.cs
+            // to remove the dependency from SharedGlucoMan to SharedData.
+            // Call DatabaseService.Instance.Initialize(Common.PathAndFileDatabase) 
+            // in MauiProgram.cs after calling this method.
 
             Common.Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }

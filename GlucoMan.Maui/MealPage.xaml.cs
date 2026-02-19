@@ -10,7 +10,9 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
 {
     // since it is accessed by several pages, we use a common business
     // layer beetween different pages
-    private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
+    //private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
+    private BL_MealAndFood bl = new();
+    private BL_General BlGeneral = new BL_General();
 
     private UiAccuracy accuracyMeal;
     private UiAccuracy accuracyFoodInMeal;
@@ -550,9 +552,9 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         FromBoxesFoodInMealToClass();
         bl.UpdateOldFoodInMealInList();
         // save the parameters that have to be read by the page we are opening
-        Common.BlGeneral.SaveParameter("Hit_ChoAlreadyTaken", bl.Meal.CarbohydratesGrams.Text);
-        Common.BlGeneral.SaveParameter("Hit_ChoOfFood", bl.FoodInMeal.CarbohydratesPercent.Text);
-        Common.BlGeneral.SaveParameter("Hit_NameOfFood", bl.FoodInMeal.Name);
+        BlGeneral.SaveParameter("Hit_ChoAlreadyTaken", bl.Meal.CarbohydratesGrams.Text);
+        BlGeneral.SaveParameter("Hit_ChoOfFood", bl.FoodInMeal.CarbohydratesPercent.Text);
+        BlGeneral.SaveParameter("Hit_NameOfFood", bl.FoodInMeal.Name);
         await Navigation.PushAsync(new FoodToHitTargetCarbsPage());
     }
     private async void btnInjection_ClickAsync(object sender, EventArgs e)

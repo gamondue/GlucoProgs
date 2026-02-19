@@ -66,3 +66,4 @@ public class GpsPositionRecord
     public float? Speed { get; set; }
     public DateTime Timestamp { get; set; }
 }
+

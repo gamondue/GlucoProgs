@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
+
 using GlucoMan.Maui;
 using Microsoft.Maui.Controls;
 using NUnit.Framework;
 
-
 namespace GlucoMan.Maui.UnitTests;
+
+
+
 
 /// <summary>
 /// Unit tests for <see cref="FullScreenImagePage"/>.
@@ -166,5 +169,58 @@ public partial class FullScreenImagePageTests
             "The constructor calls InitializeComponent() which depends on XAML loading. " +
             "In a unit test context, this cannot be properly verified. " +
             "Please run as integration test with MAUI Test Host.");
+    }
+
+    /// <summary>
+    /// Tests that the constructor handles special characters in file path.
+    /// Expected: Constructor executes without throwing (File.Exists should handle gracefully).
+    /// Input conditions: Strings with special characters commonly used in file systems.
+    /// Note: Cannot verify behavior without MAUI runtime.
+    /// </summary>
+    [TestCase("C:\\Test\\file with spaces.png")]
+    [TestCase("C:\\Test\\file@special#chars.png")]
+    [TestCase("C:\\Test\\файл.png")]
+    [Ignore("Cannot test: InitializeComponent() requires MAUI UI infrastructure. File.Exists() is a static method that cannot be mocked with Moq.")]
+    public void Constructor_SpecialCharactersInPath_DoesNotThrow(string imagePath)
+    {
+        // Arrange
+        // (imagePath provided by test case)
+
+        // Act
+        // Would execute: var page = new FullScreenImagePage(imagePath);
+        // Expected: InitializeComponent() runs
+        // Expected: !string.IsNullOrWhiteSpace(imagePath) returns true
+        // Expected: File.Exists(imagePath) evaluates the path
+        // Expected: If file doesn't exist, image source is not set
+        // Expected: No exception thrown
+
+        // Assert
+        // Would verify: Assert.DoesNotThrow(() => new FullScreenImagePage(imagePath));
+    }
+
+    /// <summary>
+    /// Tests that the constructor handles relative file paths.
+    /// Expected: Constructor evaluates relative path using File.Exists without throwing.
+    /// Note: Cannot verify behavior without MAUI runtime.
+    /// </summary>
+    [TestCase("./image.png")]
+    [TestCase("../images/photo.jpg")]
+    [TestCase("resources\\picture.png")]
+    [Ignore("Cannot test: InitializeComponent() requires MAUI UI infrastructure. File.Exists() is a static method that cannot be mocked with Moq.")]
+    public void Constructor_RelativeFilePath_DoesNotThrow(string imagePath)
+    {
+        // Arrange
+        // (imagePath provided by test case)
+
+        // Act
+        // Would execute: var page = new FullScreenImagePage(imagePath);
+        // Expected: InitializeComponent() runs
+        // Expected: !string.IsNullOrWhiteSpace(imagePath) returns true
+        // Expected: File.Exists(imagePath) evaluates relative to current directory
+        // Expected: If file doesn't exist, image source is not set
+        // Expected: No exception thrown
+
+        // Assert
+        // Would verify: Assert.DoesNotThrow(() => new FullScreenImagePage(imagePath));
     }
 }

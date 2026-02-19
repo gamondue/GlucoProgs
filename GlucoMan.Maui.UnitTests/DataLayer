@@ -1,0 +1,268 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using gamon;
+using GlucoMan;
+using NUnit.Framework;
+
+namespace SharedGlucoMan.UnitTests.DataLayer
+{
+    /// <summary>
+    /// Integration tests for DL_Sqlite food operations.
+    /// </summary>
+    [TestFixture]
+    public class DL_Sqlite_FoodsTests
+    {
+        private DL_Sqlite _dataLayer;
+        private string _testDatabasePath;
+
+        [SetUp]
+        public void Setup()
+        {
+            if (General.LogOfProgram == null)
+            {
+                string tempLogPath = Path.Combine(Path.GetTempPath(), "GlucoManTests");
+                Directory.CreateDirectory(tempLogPath);
+                
+                General.LogOfProgram = new Logger(tempLogPath, true,
+                    "Test_Log.txt", "Test_Errors.txt", "Test_Debug.txt",
+                    "Test_Prompts.txt", "Test_Data.txt");
+            }
+
+            _testDatabasePath = Path.Combine(Path.GetTempPath(), $"GlucoManTest_{Guid.NewGuid()}.sqlite");
+            Common.PathAndFileDatabase = _testDatabasePath;
+            Common.PathDatabase = Path.GetDirectoryName(_testDatabasePath);
+            
+            _dataLayer = new DL_Sqlite();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            try
+            {
+                _dataLayer?.Dispose();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools();
+                
+                if (File.Exists(_testDatabasePath))
+                {
+                    File.Delete(_testDatabasePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram?.Error("Test TearDown", ex);
+            }
+        }
+
+        #region SaveOneFood Tests
+
+        /// <summary>
+        /// Tests that SaveOneFood inserts a new food when ID is null.
+        /// </summary>
+        [Test]
+        public void SaveOneFood_WithNullId_InsertsNewFood()
+        {
+            // Arrange
+            var food = new Food
+            {
+                IdFood = null,
+                Name = "Test Pasta",
+                Description = "Whole wheat pasta",
+                ChoPercent = { Double = 75.0 },
+                ProteinPercent = { Double = 12.0 },
+                FatPercent = { Double = 2.0 }
+            };
+
+            // Act
+            int? result = _dataLayer.SaveOneFood(food);
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Value, Is.GreaterThan(0));
+            
+            var retrieved = _dataLayer.GetOneFood(result);
+            Assert.That(retrieved.Name, Is.EqualTo("Test Pasta"));
+            Assert.That(retrieved.ChoPercent.Double, Is.EqualTo(75.0).Within(0.01));
+        }
+
+        /// <summary>
+        /// Tests that SaveOneFood updates an existing food when ID is provided.
+        /// </summary>
+        [Test]
+        public void SaveOneFood_WithExistingId_UpdatesFood()
+        {
+            // Arrange
+            var food = new Food
+            {
+                Name = "Apple",
+                ChoPercent = { Double = 14.0 }
+            };
+            int? id = _dataLayer.SaveOneFood(food);
+
+            // Modify
+            food.ChoPercent.Double = 15.0;
+            food.Description = "Updated description";
+
+            // Act
+            int? updateResult = _dataLayer.SaveOneFood(food);
+
+            // Assert
+            Assert.That(updateResult, Is.EqualTo(id));
+            
+            var retrieved = _dataLayer.GetOneFood(id);
+            Assert.That(retrieved.ChoPercent.Double, Is.EqualTo(15.0).Within(0.01));
+            Assert.That(retrieved.Description, Is.EqualTo("Updated description"));
+        }
+
+        /// <summary>
+        /// Tests that SaveOneFood saves all nutritional properties correctly.
+        /// </summary>
+        [Test]
+        public void SaveOneFood_WithAllNutritionalData_SavesAllFields()
+        {
+            // Arrange
+            var food = new Food
+            {
+                Name = "Complete Food",
+                Description = "Test food with all data",
+                ChoPercent = { Double = 60.0 },
+                ProteinPercent = { Double = 15.0 },
+                FatPercent = { Double = 10.0 },
+                FiberPercent = { Double = 5.0 },
+                SugarPercent = { Double = 30.0 },
+                Calories = { Double = 350.0 },
+                GlycemicIndex = { Double = 55.0 }
+            };
+
+            // Act
+            int? id = _dataLayer.SaveOneFood(food);
+
+            // Assert
+            var retrieved = _dataLayer.GetOneFood(id);
+            Assert.That(retrieved.ChoPercent.Double, Is.EqualTo(60.0).Within(0.01));
+            Assert.That(retrieved.ProteinPercent.Double, Is.EqualTo(15.0).Within(0.01));
+            Assert.That(retrieved.FatPercent.Double, Is.EqualTo(10.0).Within(0.01));
+            Assert.That(retrieved.FiberPercent.Double, Is.EqualTo(5.0).Within(0.01));
+            Assert.That(retrieved.SugarPercent.Double, Is.EqualTo(30.0).Within(0.01));
+            Assert.That(retrieved.Calories.Double, Is.EqualTo(350.0).Within(0.01));
+            Assert.That(retrieved.GlycemicIndex.Double, Is.EqualTo(55.0).Within(0.01));
+        }
+
+        #endregion
+
+        #region SearchFoods Tests
+
+        /// <summary>
+        /// Tests that SearchFoods finds foods by name.
+        /// </summary>
+        [Test]
+        public void SearchFoods_ByName_ReturnMatchingFoods()
+        {
+            // Arrange
+            _dataLayer.SaveOneFood(new Food { Name = "White Bread", ChoPercent = { Double = 50.0 } });
+            _dataLayer.SaveOneFood(new Food { Name = "Whole Wheat Bread", ChoPercent = { Double = 48.0 } });
+            _dataLayer.SaveOneFood(new Food { Name = "Rice", ChoPercent = { Double = 80.0 } });
+
+            // Act
+            var results = _dataLayer.SearchFoods("Bread", "");
+
+            // Assert
+            Assert.That(results, Is.Not.Null);
+            Assert.That(results.Count, Is.GreaterThanOrEqualTo(2));
+            Assert.That(results.All(f => f.Name.Contains("Bread")), Is.True);
+        }
+
+        /// <summary>
+        /// Tests that SearchFoods finds foods by description.
+        /// </summary>
+        [Test]
+        public void SearchFoods_ByDescription_ReturnsMatchingFoods()
+        {
+            // Arrange
+            _dataLayer.SaveOneFood(new Food 
+            { 
+                Name = "FoodA", 
+                Description = "Contains wheat",
+                ChoPercent = { Double = 50.0 } 
+            });
+            _dataLayer.SaveOneFood(new Food 
+            { 
+                Name = "FoodB", 
+                Description = "Contains wheat flour",
+                ChoPercent = { Double = 55.0 } 
+            });
+            _dataLayer.SaveOneFood(new Food 
+            { 
+                Name = "FoodC", 
+                Description = "Rice based",
+                ChoPercent = { Double = 60.0 } 
+            });
+
+            // Act
+            var results = _dataLayer.SearchFoods("", "wheat");
+
+            // Assert
+            Assert.That(results, Is.Not.Null);
+            var wheatFoods = results.Where(f => f.Description?.Contains("wheat") == true).ToList();
+            Assert.That(wheatFoods.Count, Is.GreaterThanOrEqualTo(2));
+        }
+
+        #endregion
+
+        #region GetFoods Tests
+
+        /// <summary>
+        /// Tests that GetFoods returns all foods in the database.
+        /// </summary>
+        [Test]
+        public void GetFoods_WithMultipleFoods_ReturnsAllFoods()
+        {
+            // Arrange
+            _dataLayer.SaveOneFood(new Food { Name = "Food1", ChoPercent = { Double = 50.0 } });
+            _dataLayer.SaveOneFood(new Food { Name = "Food2", ChoPercent = { Double = 60.0 } });
+            _dataLayer.SaveOneFood(new Food { Name = "Food3", ChoPercent = { Double = 70.0 } });
+
+            // Act
+            var results = _dataLayer.GetFoods();
+
+            // Assert
+            Assert.That(results, Is.Not.Null);
+            Assert.That(results.Count, Is.GreaterThanOrEqualTo(3));
+        }
+
+        #endregion
+
+        #region DeleteOneFood Tests
+
+        /// <summary>
+        /// Tests that DeleteOneFood removes food from database.
+        /// </summary>
+        [Test]
+        public void DeleteOneFood_WithExistingFood_DeletesFood()
+        {
+            // Arrange
+            var food = new Food
+            {
+                Name = "ToDelete",
+                ChoPercent = { Double = 50.0 }
+            };
+            int? id = _dataLayer.SaveOneFood(food);
+            
+            // Verify exists
+            var beforeDelete = _dataLayer.GetOneFood(id);
+            Assert.That(beforeDelete.IdFood, Is.EqualTo(id));
+
+            // Act
+            _dataLayer.DeleteOneFood(food);
+
+            // Assert
+            var afterDelete = _dataLayer.GetOneFood(id);
+            Assert.That(afterDelete.IdFood, Is.Null.Or.EqualTo(0));
+        }
+
+        #endregion
+    }
+}

@@ -34,7 +34,7 @@ public partial class InjectionsPage : ContentPage
         // in a try/catch so Release builds don't crash the app silently.
         try
         {
-            Parameters parameters = Common.Database.GetParameters();
+            Parameters parameters = DatabaseService.Instance.Database.GetParameters();
             if (parameters != null && parameters.MonthsOfDataShownInTheGrids > 0)
                 MonthsOfDataShownInTheGrids = parameters.MonthsOfDataShownInTheGrids;
 
@@ -678,3 +678,4 @@ public partial class InjectionsPage : ContentPage
         SetTheColorsOfPictureButtons();
     }
 }
+

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit.Analyzers" />
+    <PackageReference Include="NUnit3TestAdapter" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="NUnit.Framework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Include SqlHelper.cs - the only testable standalone file from SharedData -->
+    <Compile Include="..\SharedData\SqlHelper.cs" Link="SqlHelper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Include SqLite files as reference for visibility (not compiled due to complex dependencies) -->
+    <None Include="..\SharedData\SqLite\*.cs" Link="SqLite\%(Filename)%(Extension)" />
+    <None Include="..\SharedData\DataLayer.cs" Link="DataLayer.cs" />
+    <None Include="..\SharedData\DatabaseService.cs" Link="DatabaseService.cs" />
+  </ItemGroup>
+
+</Project>

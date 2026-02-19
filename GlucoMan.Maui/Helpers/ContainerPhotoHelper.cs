@@ -168,3 +168,4 @@ namespace GlucoMan.Maui.Helpers
         }
     }
 }
+

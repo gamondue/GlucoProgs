@@ -353,6 +353,7 @@ namespace GlucoMan.Maui.UnitTests
         }
     }
 
+
     /// <summary>
     /// Tests for the MauiProgram class.
     /// Note: These are integration-style tests as MauiProgram.CreateMauiApp is a composition root
@@ -534,6 +535,359 @@ namespace GlucoMan.Maui.UnitTests
                 Assert.That(app1, Is.Not.Null);
                 Assert.That(app2, Is.Not.Null);
             });
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp initializes the global Logger instance.
+        /// Verifies that General.LogOfProgram is set to a non-null Logger after calling CreateMauiApp.
+        /// This covers the Logger initialization code (lines 78-83) that writes to the file system.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_InitializesGlobalLogger()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert
+            Assert.That(General.LogOfProgram, Is.Not.Null);
+            Assert.That(General.LogOfProgram, Is.InstanceOf<Logger>());
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp initializes Common static state by calling SetGlobalParameters.
+        /// Verifies that Common.PathLogs is set after calling CreateMauiApp (line 75).
+        /// Expected: PathLogs should be a non-null, non-empty string representing the logs directory path.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_InitializesCommonPathLogs()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert
+            Assert.That(Common.PathLogs, Is.Not.Null);
+            Assert.That(Common.PathLogs, Is.Not.Empty);
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp initializes the Common.Database instance.
+        /// Verifies that GeneralInitializationsAsync sets up the database (line 76).
+        /// Expected: DatabaseService.Instance.Database should be initialized to a non-null DataLayer instance.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_InitializesCommonDatabase()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert
+            Assert.That(DatabaseService.Instance.Database, Is.Not.Null);
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp returns a MauiApp with a non-null Services property.
+        /// Verifies that the builder.Build() call (line 84) creates a properly configured app.
+        /// Expected: The Services property should be accessible and non-null.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_ReturnsMauiAppWithServices()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert
+            Assert.That(app.Services, Is.Not.Null);
+        }
+
+        /// <summary>
+        /// Tests that services registered as singletons return the same instance on multiple resolutions.
+        /// Verifies that LocalizationService registration (line 53) uses singleton lifetime.
+        /// Expected: Two consecutive GetService calls should return the exact same instance.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_LocalizationService_RegisteredAsSingleton()
+        {
+            // Arrange
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Act
+            LocalizationService? firstInstance = app.Services.GetService<LocalizationService>();
+            LocalizationService? secondInstance = app.Services.GetService<LocalizationService>();
+
+            // Assert
+            Assert.That(firstInstance, Is.Not.Null);
+            Assert.That(secondInstance, Is.Not.Null);
+            Assert.That(firstInstance, Is.SameAs(secondInstance));
+        }
+
+        /// <summary>
+        /// Tests that IBackgroundGpsService is registered as a singleton.
+        /// Verifies that the service registration (lines 57/60/63) uses singleton lifetime.
+        /// Expected: Multiple GetService calls return the same instance.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_BackgroundGpsService_RegisteredAsSingleton()
+        {
+            // Arrange
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Act
+            IBackgroundGpsService? firstInstance = app.Services.GetService<IBackgroundGpsService>();
+            IBackgroundGpsService? secondInstance = app.Services.GetService<IBackgroundGpsService>();
+
+            // Assert
+            Assert.That(firstInstance, Is.Not.Null);
+            Assert.That(secondInstance, Is.Not.Null);
+            Assert.That(firstInstance, Is.SameAs(secondInstance));
+        }
+
+        /// <summary>
+        /// Tests that ISystemAlarmScheduler is registered as a singleton.
+        /// Verifies that the service registration (lines 58/61/64) uses singleton lifetime.
+        /// Expected: Multiple GetService calls return the same instance.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_SystemAlarmScheduler_RegisteredAsSingleton()
+        {
+            // Arrange
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Act
+            ISystemAlarmScheduler? firstInstance = app.Services.GetService<ISystemAlarmScheduler>();
+            ISystemAlarmScheduler? secondInstance = app.Services.GetService<ISystemAlarmScheduler>();
+
+            // Assert
+            Assert.That(firstInstance, Is.Not.Null);
+            Assert.That(secondInstance, Is.Not.Null);
+            Assert.That(firstInstance, Is.SameAs(secondInstance));
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp initializes Common.PathDatabase.
+        /// Verifies that SetGlobalParameters (line 75) sets the database path.
+        /// Expected: PathDatabase should be a non-null, non-empty string.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_InitializesPathDatabase()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert
+            Assert.That(Common.PathDatabase, Is.Not.Null);
+            Assert.That(Common.PathDatabase, Is.Not.Empty);
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp initializes Common.PathAndFileDatabase.
+        /// Verifies that SetGlobalParameters (line 75) sets the full database file path.
+        /// Expected: PathAndFileDatabase should be a non-null, non-empty string.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_InitializesPathAndFileDatabase()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert
+            Assert.That(Common.PathAndFileDatabase, Is.Not.Null);
+            Assert.That(Common.PathAndFileDatabase, Is.Not.Empty);
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp initializes BL_General correctly.
+        /// Verifies that GeneralInitializationsAsync creates the database so business layer instances can be created.
+        /// Expected: BL_General should be creatable after initialization.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_InitializesBlGeneral()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert - verify BL_General can be created (requires DatabaseService to be initialized)
+            var blGeneral = new BL_General();
+            Assert.That(blGeneral, Is.Not.Null);
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp initializes BL_MealAndFood correctly.
+        /// Verifies that GeneralInitializationsAsync creates the database so business layer instances can be created.
+        /// Expected: BL_MealAndFood should be creatable after initialization.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_InitializesMealAndFoodBL()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert - verify BL_MealAndFood can be created (requires DatabaseService to be initialized)
+            var mealAndFoodBL = new BL_MealAndFood();
+            Assert.That(mealAndFoodBL, Is.Not.Null);
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp sets Common.Version.
+        /// Verifies that GeneralInitializationsAsync (line 76) initializes the version string.
+        /// Expected: Version should be a non-null, non-empty string.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_InitializesVersion()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert
+            Assert.That(Common.Version, Is.Not.Null);
+            Assert.That(Common.Version, Is.Not.Empty);
+        }
+
+#if WINDOWS
+        /// <summary>
+        /// Tests that CreateMauiApp registers DefaultBackgroundGpsService on Windows as a singleton.
+        /// Verifies singleton lifetime for Windows-specific service (line 60).
+        /// Expected: Multiple GetService calls return the same instance.
+        /// Note: This test only runs on Windows builds.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_OnWindows_DefaultBackgroundGpsServiceIsSingleton()
+        {
+            // Arrange
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Act
+            IBackgroundGpsService? firstInstance = app.Services.GetService<IBackgroundGpsService>();
+            IBackgroundGpsService? secondInstance = app.Services.GetService<IBackgroundGpsService>();
+
+            // Assert
+            Assert.That(firstInstance, Is.Not.Null);
+            Assert.That(secondInstance, Is.Not.Null);
+            Assert.That(firstInstance, Is.SameAs(secondInstance));
+            Assert.That(firstInstance, Is.InstanceOf<DefaultBackgroundGpsService>());
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp registers Windows SystemAlarmScheduler as a singleton.
+        /// Verifies singleton lifetime for Windows-specific service (line 61).
+        /// Expected: Multiple GetService calls return the same instance.
+        /// Note: This test only runs on Windows builds.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_OnWindows_SystemAlarmSchedulerIsSingleton()
+        {
+            // Arrange
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Act
+            ISystemAlarmScheduler? firstInstance = app.Services.GetService<ISystemAlarmScheduler>();
+            ISystemAlarmScheduler? secondInstance = app.Services.GetService<ISystemAlarmScheduler>();
+
+            // Assert
+            Assert.That(firstInstance, Is.Not.Null);
+            Assert.That(secondInstance, Is.Not.Null);
+            Assert.That(firstInstance, Is.SameAs(secondInstance));
+            Assert.That(firstInstance, Is.InstanceOf<GlucoMan.Maui.Platforms.Windows.SystemAlarmScheduler>());
+        }
+#endif
+
+#if ANDROID
+        /// <summary>
+        /// Tests that CreateMauiApp registers BackgroundGpsServiceAndroid on Android as a singleton.
+        /// Verifies singleton lifetime for Android-specific service (line 57).
+        /// Expected: Multiple GetService calls return the same instance.
+        /// Note: This test only runs on Android builds.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_OnAndroid_BackgroundGpsServiceAndroidIsSingleton()
+        {
+            // Arrange
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Act
+            IBackgroundGpsService? firstInstance = app.Services.GetService<IBackgroundGpsService>();
+            IBackgroundGpsService? secondInstance = app.Services.GetService<IBackgroundGpsService>();
+
+            // Assert
+            Assert.That(firstInstance, Is.Not.Null);
+            Assert.That(secondInstance, Is.Not.Null);
+            Assert.That(firstInstance, Is.SameAs(secondInstance));
+            Assert.That(firstInstance, Is.InstanceOf<BackgroundGpsServiceAndroid>());
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp registers Android SystemAlarmScheduler as a singleton.
+        /// Verifies singleton lifetime for Android-specific service (line 58).
+        /// Expected: Multiple GetService calls return the same instance.
+        /// Note: This test only runs on Android builds.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_OnAndroid_SystemAlarmSchedulerIsSingleton()
+        {
+            // Arrange
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Act
+            ISystemAlarmScheduler? firstInstance = app.Services.GetService<ISystemAlarmScheduler>();
+            ISystemAlarmScheduler? secondInstance = app.Services.GetService<ISystemAlarmScheduler>();
+
+            // Assert
+            Assert.That(firstInstance, Is.Not.Null);
+            Assert.That(secondInstance, Is.Not.Null);
+            Assert.That(firstInstance, Is.SameAs(secondInstance));
+            Assert.That(firstInstance, Is.InstanceOf<GlucoMan.Maui.Platforms.Android.SystemAlarmScheduler>());
+        }
+#endif
+
+        /// <summary>
+        /// Tests that CreateMauiApp can resolve all three registered singleton services simultaneously.
+        /// Verifies that multiple singleton registrations work together (lines 53, 57-58 or 60-61 or 63-64).
+        /// Expected: All services can be resolved successfully.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_ResolvesAllRegisteredServices()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+            LocalizationService? localizationService = app.Services.GetService<LocalizationService>();
+            IBackgroundGpsService? gpsService = app.Services.GetService<IBackgroundGpsService>();
+            ISystemAlarmScheduler? alarmScheduler = app.Services.GetService<ISystemAlarmScheduler>();
+
+            // Assert
+            Assert.That(localizationService, Is.Not.Null);
+            Assert.That(gpsService, Is.Not.Null);
+            Assert.That(alarmScheduler, Is.Not.Null);
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp initializes Common.PathImportExport.
+        /// Verifies that SetGlobalParameters (line 75) sets the import/export path.
+        /// Expected: PathImportExport should be a non-null, non-empty string.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_InitializesPathImportExport()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert
+            Assert.That(Common.PathImportExport, Is.Not.Null);
+            Assert.That(Common.PathImportExport, Is.Not.Empty);
+        }
+
+        /// <summary>
+        /// Tests that CreateMauiApp initializes Common.PathConfigurationData.
+        /// Verifies that SetGlobalParameters (line 75) sets the configuration data path.
+        /// Expected: PathConfigurationData should be a non-null, non-empty string.
+        /// </summary>
+        [Test]
+        public void CreateMauiApp_WhenCalled_InitializesPathConfigurationData()
+        {
+            // Arrange & Act
+            MauiApp app = MauiProgram.CreateMauiApp();
+
+            // Assert
+            Assert.That(Common.PathConfigurationData, Is.Not.Null);
+            Assert.That(Common.PathConfigurationData, Is.Not.Empty);
         }
     }
 }

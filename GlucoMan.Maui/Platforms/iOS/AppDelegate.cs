@@ -1,4 +1,4 @@
-﻿using Foundation;
+using Foundation;
 
 namespace GlucoMan.Maui
 {
@@ -8,3 +8,4 @@ namespace GlucoMan.Maui
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }
 }
+

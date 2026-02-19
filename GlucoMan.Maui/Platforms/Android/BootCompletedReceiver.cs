@@ -42,7 +42,7 @@ namespace GlucoMan.Maui.Platforms.Android
             try
             {
                 // Initialize database if needed
-                if (Common.Database == null)
+                if (DatabaseService.Instance.Database == null)
                 {
                     global::System.Diagnostics.Debug.WriteLine("BootCompletedReceiver: Database not initialized, skipping alarm restore");
                     return;
@@ -130,3 +130,4 @@ namespace GlucoMan.Maui.Platforms.Android
     }
 }
 #endif
+

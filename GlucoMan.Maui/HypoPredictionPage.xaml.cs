@@ -1,6 +1,5 @@
 using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GlucoMan.Maui;
 
@@ -34,6 +33,9 @@ public partial class HypoPredictionPage : ContentPage
         txtGlucoseLast.Focus();
 
         txtStatusBar.IsVisible = false;
+
+        // Disable alarm button if user has continuous glucose sensor
+        btnSetAlarm.IsVisible = !Common.CantSetAlarms;
     }
     private void FromClassToUi()
     {
@@ -200,25 +202,25 @@ public partial class HypoPredictionPage : ContentPage
                 string message = $"?? Hypoglycemia alert set!\n\n" +
                                 $"? Time: {alarmDateTime:dd/MM/yyyy HH:mm}\n" +
                                 $"?? Target: {glucoseTarget} mg/dL\n\n" +
-                                $"The alarm will alert you before predicted hypoglycemia.";
+                                $"{AppStrings.AlarmWillAlertBeforePredictedHypoglycemia}";
 
-                await DisplayAlert("Alarm Set", message, AppStrings.OK);
+                await DisplayAlert(AppStrings.AlarmSet, message, AppStrings.OK);
 
                 // Update status bar
                 txtStatusBar.IsVisible = true;
-                txtStatusBar.Text = $"? Alarm set for {hour:D2}:{minute:D2}";
+                txtStatusBar.Text = string.Format(AppStrings.AlarmSetForTime, hour, minute);
                 txtStatusBar.BackgroundColor = Colors.Green;
             }
             else
             {
-                await DisplayAlert(AppStrings.Error, "Failed to create alarm - no ID assigned", AppStrings.OK);
+                await DisplayAlert(AppStrings.Error, AppStrings.FailedToCreateAlarmNoId, AppStrings.OK);
             }
         }
         catch (Exception ex)
         {
             gamon.General.LogOfProgram?.Error("HypoPredictionPage - btnAlarm_Click", ex);
             await DisplayAlert(AppStrings.Error, 
-                $"Failed to set alarm:\n{ex.Message}", 
+                string.Format(AppStrings.FailedToSetAlarm, ex.Message), 
                 AppStrings.OK);
         }
     }
@@ -243,3 +245,4 @@ public partial class HypoPredictionPage : ContentPage
         FromClassToUi();
     }
 }
+

@@ -7,6 +7,7 @@ using AndroidOS = Android.OS;
 using Android.Runtime;
 using AndroidX.Core.App;
 using gamon;
+using GlucoMan.Maui.Resources.Strings;
 using System.Collections.Concurrent;
 using System.Text.Json;
 
@@ -652,7 +653,7 @@ public class GpsTrackingService : Service, ILocationListener
             .SetSmallIcon(global::Android.Resource.Drawable.IcMenuMyLocation)
             .SetOngoing(true)
             .SetContentIntent(pendingIntent)
-            .AddAction(0, "Stop Tracking", stopPendingIntent)
+            .AddAction(0, AppStrings.StopTracking, stopPendingIntent)
             .SetPriority(NotificationCompat.PriorityLow);
         
         return builder.Build();
@@ -700,3 +701,4 @@ public class GpsTrackingService : Service, ILocationListener
     
     #endregion
 }
+

@@ -1,5 +1,4 @@
 ﻿using gamon;
-using Microsoft.Maui.Controls.PlatformConfiguration;
 
 namespace GlucoMan
 {

@@ -7,7 +7,8 @@ namespace GlucoMan.Maui;
 
 public partial class FoodsPage : ContentPage
 {
-    BL_MealAndFood bl = Common.MealAndFood_CommonBL;
+    //BL_MealAndFood bl = Common.MealAndFood_CommonBL;
+    BL_MealAndFood bl = new();
     internal Food Food { get; set; }
     bool foodIsChosen = false;
     public bool FoodIsChosen { get => foodIsChosen; }
@@ -380,3 +381,4 @@ public partial class FoodsPage : ContentPage
         }
     }
 }
+

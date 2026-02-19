@@ -35,7 +35,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
     {
         InitializeComponent();
         // The named CollectionView `cvMeasurements` is available via generated partial class after InitializeComponent
-        Parameters parameters = Common.Database.GetParameters();
+        Parameters parameters = DatabaseService.Instance.Database.GetParameters();
         if (parameters != null && parameters.MonthsOfDataShownInTheGrids > 0)
             MonthsOfDataShownInTheGrids = parameters.MonthsOfDataShownInTheGrids;   
         if (IdGlucoseRecord != null)

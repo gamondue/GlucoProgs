@@ -541,5 +541,82 @@ namespace GlucoMan.Maui.UnitTests
             Assert.Inconclusive("Verifying fire-and-forget async call requires reflection or integration testing. " +
                 "Consider exposing initialization state for testing or using integration tests.");
         }
+
+        /// <summary>
+        /// Tests that OnSizeAllocated handles various edge case values for width and height parameters.
+        /// This parameterized test covers normal values, boundaries, and special double values (NaN, Infinity).
+        /// Expected behavior: The method should call base.OnSizeAllocated without throwing exceptions for all input values.
+        /// </summary>
+        /// <param name="width">The width value to test</param>
+        /// <param name="height">The height value to test</param>
+        /// <param name="testDescription">Description of what this test case validates</param>
+        [Test]
+        [TestCase(100.0, 200.0, "Normal positive values")]
+        [TestCase(0.0, 0.0, "Zero values (boundary case - no allocated size)")]
+        [TestCase(-50.0, -100.0, "Negative values (invalid but handled gracefully)")]
+        [TestCase(double.MaxValue, double.MaxValue, "Maximum double values (upper boundary)")]
+        [TestCase(double.MinValue, double.MinValue, "Minimum double values (large negative boundary)")]
+        [TestCase(double.NaN, double.NaN, "NaN values (undefined/unrepresentable)")]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity, "Positive infinity (unbounded size)")]
+        [TestCase(double.NegativeInfinity, double.NegativeInfinity, "Negative infinity (negative unbounded)")]
+        [TestCase(100.0, double.NaN, "Mixed values (normal width, NaN height)")]
+        [TestCase(double.PositiveInfinity, 0.0, "Mixed values (infinite width, zero height)")]
+        [Ignore("Requires MAUI application infrastructure (Application.Current, MauiContext, XAML compilation). " +
+                "MainPage constructor depends on Application.Current.Handler.MauiContext.Services for LocalizationService retrieval " +
+                "and calls InitializeComponent() which requires compiled XAML resources. " +
+                "Convert to integration test with MAUI test host or refactor constructor to accept IServiceProvider as parameter.")]
+        public void OnSizeAllocated_WithVariousDoubleValues_CallsBaseWithoutException(double width, double height, string testDescription)
+        {
+            // Arrange
+            // Cannot instantiate MainPage due to:
+            // 1. Constructor accesses static Application.Current which is null in unit tests
+            // 2. InitializeComponent() requires XAML compilation and MAUI infrastructure
+            // 3. LocalizationService retrieval from DI container requires MauiContext
+            // var mainPage = new MainPage();
+
+            // Act
+            // Would call: mainPage.OnSizeAllocated(width, height);
+            // Expected: Calls base.OnSizeAllocated(width, height) at line 60
+
+            // Assert
+            // Would verify: Assert.DoesNotThrow(() => mainPage.OnSizeAllocated(width, height));
+            // Expected: No exception thrown regardless of input values
+            // Expected: Base ContentPage.OnSizeAllocated is invoked with the provided parameters
+
+            Assert.Inconclusive($"Test case '{testDescription}': Cannot test OnSizeAllocated in isolation. " +
+                              $"Requires MAUI application context with initialized Application.Current, " +
+                              $"compiled XAML resources, and registered services. " +
+                              $"Consider implementing as integration test with MAUI test host.");
+        }
+
+        /// <summary>
+        /// Tests that OnSizeAllocated handles extreme combinations of special double values.
+        /// These edge cases test the robustness of the method with unusual but valid double combinations.
+        /// Expected behavior: The method should handle all combinations without throwing exceptions.
+        /// </summary>
+        /// <param name="width">The width value to test</param>
+        /// <param name="height">The height value to test</param>
+        /// <param name="testDescription">Description of what this test case validates</param>
+        [Test]
+        [TestCase(double.NaN, double.PositiveInfinity, "NaN width with infinite height")]
+        [TestCase(double.NegativeInfinity, double.MaxValue, "Negative infinite width with max height")]
+        [TestCase(double.Epsilon, double.Epsilon, "Smallest positive values (double.Epsilon)")]
+        [TestCase(-double.Epsilon, -double.Epsilon, "Smallest negative values (-double.Epsilon)")]
+        [TestCase(1.7976931348623157E+308, -1.7976931348623157E+308, "Near-max positive and near-min negative")]
+        [Ignore("Requires MAUI application infrastructure. See OnSizeAllocated_WithVariousDoubleValues_CallsBaseWithoutException for details.")]
+        public void OnSizeAllocated_WithExtremeValueCombinations_CallsBaseWithoutException(double width, double height, string testDescription)
+        {
+            // Arrange
+            // Cannot instantiate MainPage - see OnSizeAllocated_WithVariousDoubleValues_CallsBaseWithoutException
+
+            // Act
+            // Would call: mainPage.OnSizeAllocated(width, height);
+
+            // Assert
+            // Would verify: Assert.DoesNotThrow(() => mainPage.OnSizeAllocated(width, height));
+
+            Assert.Inconclusive($"Test case '{testDescription}': Requires MAUI infrastructure. " +
+                              $"Width={width}, Height={height}");
+        }
     }
 }

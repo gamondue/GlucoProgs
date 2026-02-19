@@ -148,3 +148,4 @@ public class DefaultBackgroundGpsService : IBackgroundGpsService
         while (positions.TryDequeue(out _)) { }
     }
 }
+

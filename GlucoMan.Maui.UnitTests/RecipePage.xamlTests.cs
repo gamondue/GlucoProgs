@@ -10,6 +10,8 @@ using NUnit.Framework;
 namespace GlucoMan.Maui.UnitTests;
 
 
+
+
 /// <summary>
 /// Unit tests for the RecipePage class.
 /// </summary>
@@ -311,5 +313,236 @@ public partial class RecipePageTests
 
         // Assert
         // Would verify: Assert.That(page.recipeSection.BindingContext, Is.SameAs(page.bl.Recipe));
+    }
+
+    /// <summary>
+    /// Tests that OnAppearing calls base.OnAppearing and does not execute the conditional block
+    /// when foodsPage is null.
+    /// </summary>
+    /// <remarks>
+    /// Input: foodsPage field is null.
+    /// Expected: base.OnAppearing() is called, FromFoodToIngredient is not called, FromClassesToUi is not called.
+    /// LIMITATION: Cannot run due to InitializeComponent() requiring MAUI UI infrastructure.
+    /// </remarks>
+    [Test]
+    [Ignore("Cannot test: InitializeComponent() requires MAUI UI infrastructure. Constructor fails at InitializeComponent() before test can execute.")]
+    public void OnAppearing_WhenFoodsPageIsNull_DoesNotCallFromFoodToIngredientOrFromClassesToUi()
+    {
+        // Arrange
+        var blRecipes = new BL_Recipes();
+        blRecipes.Recipe = new Recipe();
+        blRecipes.Ingredient = new Ingredient();
+
+        // Would execute: var page = new TestableRecipePage(blRecipes);
+        // Would execute: page.SetFoodsPage(null);  // Explicitly set to null
+        // Expected: foodsPage is null
+
+        // Act
+        // Would execute: page.CallOnAppearing();
+        // Expected: base.OnAppearing() called
+        // Expected: Conditional block (lines 150-154) not executed
+
+        // Assert
+        // Would verify: Assert.That(page.OnAppearingCalled, Is.True);
+        // Would verify: Assert.That(page.FromClassesToUiCalled, Is.False);
+        // Would verify: bl.Ingredient properties unchanged (FromFoodToIngredient not called)
+    }
+
+    /// <summary>
+    /// Tests that OnAppearing calls base.OnAppearing and does not execute the conditional block
+    /// when foodsPage is not null but FoodIsChosen is false.
+    /// </summary>
+    /// <remarks>
+    /// Input: foodsPage is not null, FoodIsChosen property is false.
+    /// Expected: base.OnAppearing() is called, FromFoodToIngredient is not called, FromClassesToUi is not called.
+    /// LIMITATION: Cannot run due to InitializeComponent() requiring MAUI UI infrastructure.
+    /// </remarks>
+    [Test]
+    [Ignore("Cannot test: InitializeComponent() requires MAUI UI infrastructure. Constructor fails at InitializeComponent() before test can execute.")]
+    public void OnAppearing_WhenFoodIsChosenIsFalse_DoesNotCallFromFoodToIngredientOrFromClassesToUi()
+    {
+        // Arrange
+        var blRecipes = new BL_Recipes();
+        blRecipes.Recipe = new Recipe();
+        blRecipes.Ingredient = new Ingredient();
+
+        var mockFoodsPage = new FoodsPage();
+        // mockFoodsPage.FoodIsChosen is false by default (private field foodIsChosen = false)
+
+        // Would execute: var page = new TestableRecipePage(blRecipes);
+        // Would execute: page.SetFoodsPage(mockFoodsPage);
+        // Expected: foodsPage is not null
+        // Expected: foodsPage.FoodIsChosen is false
+
+        // Act
+        // Would execute: page.CallOnAppearing();
+        // Expected: base.OnAppearing() called
+        // Expected: Conditional block (lines 150-154) not executed because FoodIsChosen is false
+
+        // Assert
+        // Would verify: Assert.That(page.OnAppearingCalled, Is.True);
+        // Would verify: Assert.That(page.FromClassesToUiCalled, Is.False);
+        // Would verify: bl.Ingredient properties unchanged (FromFoodToIngredient not called)
+    }
+
+    /// <summary>
+    /// Tests that OnAppearing calls base.OnAppearing, FromFoodToIngredient, and FromClassesToUi
+    /// when foodsPage is not null and FoodIsChosen is true.
+    /// </summary>
+    /// <remarks>
+    /// Input: foodsPage is not null, FoodIsChosen is true, foodsPage.Food has valid data.
+    /// Expected: base.OnAppearing() is called, FromFoodToIngredient is called with correct parameters,
+    /// FromClassesToUi is awaited and executed.
+    /// LIMITATION: Cannot run due to InitializeComponent() requiring MAUI UI infrastructure.
+    /// </remarks>
+    [Test]
+    [Ignore("Cannot test: InitializeComponent() requires MAUI UI infrastructure. Constructor fails at InitializeComponent() before test can execute.")]
+    public void OnAppearing_WhenFoodsPageNotNullAndFoodIsChosen_CallsFromFoodToIngredientAndFromClassesToUi()
+    {
+        // Arrange
+        var blRecipes = new BL_Recipes();
+        blRecipes.Recipe = new Recipe();
+        blRecipes.Ingredient = new Ingredient
+        {
+            IdFood = 0,
+            Name = "Original Ingredient",
+            Description = "Original Description",
+            CarbohydratesPercent = new DoubleAndText { Double = 10.0 }
+        };
+
+        var testFood = new Food
+        {
+            IdFood = 123,
+            Name = "Test Food",
+            Description = "Test Description",
+            CarbohydratesPercent = new DoubleAndText { Double = 25.5 }
+        };
+
+        // Would need a FoodsPage with FoodIsChosen = true
+        // This requires accessing private field or using a testable version
+        // var mockFoodsPage = new FoodsPage();
+        // mockFoodsPage.Food = testFood;
+        // Set foodIsChosen private field to true via reflection
+
+        // Would execute: var page = new TestableRecipePage(blRecipes);
+        // Would execute: page.SetFoodsPage(mockFoodsPage);
+        // Expected: foodsPage is not null
+        // Expected: foodsPage.FoodIsChosen is true
+        // Expected: foodsPage.Food contains test data
+
+        // Act
+        // Would execute: page.CallOnAppearing();
+        // Expected: base.OnAppearing() called
+        // Expected: bl.FromFoodToIngredient(foodsPage.Food, bl.Ingredient) called
+        // Expected: FromClassesToUi() awaited and executed
+
+        // Assert
+        // Would verify: Assert.That(page.OnAppearingCalled, Is.True);
+        // Would verify: Assert.That(page.FromClassesToUiCalled, Is.True);
+        // Would verify: Assert.That(blRecipes.Ingredient.IdFood, Is.EqualTo(123));
+        // Would verify: Assert.That(blRecipes.Ingredient.Name, Is.EqualTo("Test Food"));
+        // Would verify: Assert.That(blRecipes.Ingredient.Description, Is.EqualTo("Test Description"));
+        // Would verify: Assert.That(blRecipes.Ingredient.CarbohydratesPercent.Double, Is.EqualTo(25.5));
+    }
+
+    /// <summary>
+    /// Tests that OnAppearing handles null Food property gracefully when FoodIsChosen is true.
+    /// </summary>
+    /// <remarks>
+    /// Input: foodsPage is not null, FoodIsChosen is true, but foodsPage.Food is null.
+    /// Expected: FromFoodToIngredient is called but handles null gracefully (checks null in implementation),
+    /// FromClassesToUi is still called.
+    /// LIMITATION: Cannot run due to InitializeComponent() requiring MAUI UI infrastructure.
+    /// </remarks>
+    [Test]
+    [Ignore("Cannot test: InitializeComponent() requires MAUI UI infrastructure. Constructor fails at InitializeComponent() before test can execute.")]
+    public void OnAppearing_WhenFoodsPageFoodIsNull_CallsFromFoodToIngredientWithNullFood()
+    {
+        // Arrange
+        var blRecipes = new BL_Recipes();
+        blRecipes.Recipe = new Recipe();
+        blRecipes.Ingredient = new Ingredient
+        {
+            IdFood = 999,
+            Name = "Original Ingredient",
+            Description = "Original Description",
+            CarbohydratesPercent = new DoubleAndText { Double = 10.0 }
+        };
+
+        // Would need a FoodsPage with FoodIsChosen = true and Food = null
+        // var mockFoodsPage = new FoodsPage();
+        // mockFoodsPage.Food = null;
+        // Set foodIsChosen private field to true via reflection
+
+        // Would execute: var page = new TestableRecipePage(blRecipes);
+        // Would execute: page.SetFoodsPage(mockFoodsPage);
+        // Expected: foodsPage is not null
+        // Expected: foodsPage.FoodIsChosen is true
+        // Expected: foodsPage.Food is null
+
+        // Act
+        // Would execute: page.CallOnAppearing();
+        // Expected: base.OnAppearing() called
+        // Expected: bl.FromFoodToIngredient(null, bl.Ingredient) called
+        // Expected: FromFoodToIngredient handles null food gracefully (line 130 check)
+        // Expected: FromClassesToUi() awaited and executed
+
+        // Assert
+        // Would verify: Assert.That(page.OnAppearingCalled, Is.True);
+        // Would verify: Assert.That(page.FromClassesToUiCalled, Is.True);
+        // Would verify: Assert.That(blRecipes.Ingredient.IdFood, Is.EqualTo(999)); // Unchanged
+        // Would verify: Assert.That(blRecipes.Ingredient.Name, Is.EqualTo("Original Ingredient")); // Unchanged
+        // FromFoodToIngredient should not modify ingredient when sourceFood is null
+    }
+
+    /// <summary>
+    /// Tests that OnAppearing handles null Ingredient property gracefully when conditions are met.
+    /// </summary>
+    /// <remarks>
+    /// Input: foodsPage is not null, FoodIsChosen is true, but bl.Ingredient is null.
+    /// Expected: FromFoodToIngredient is called but handles null destination gracefully,
+    /// FromClassesToUi is still called.
+    /// LIMITATION: Cannot run due to InitializeComponent() requiring MAUI UI infrastructure.
+    /// </remarks>
+    [Test]
+    [Ignore("Cannot test: InitializeComponent() requires MAUI UI infrastructure. Constructor fails at InitializeComponent() before test can execute.")]
+    public void OnAppearing_WhenIngredientIsNull_CallsFromFoodToIngredientWithNullIngredient()
+    {
+        // Arrange
+        var blRecipes = new BL_Recipes();
+        blRecipes.Recipe = new Recipe();
+        blRecipes.Ingredient = null;  // Null ingredient
+
+        var testFood = new Food
+        {
+            IdFood = 456,
+            Name = "Test Food",
+            Description = "Test Description",
+            CarbohydratesPercent = new DoubleAndText { Double = 30.0 }
+        };
+
+        // Would need a FoodsPage with FoodIsChosen = true
+        // var mockFoodsPage = new FoodsPage();
+        // mockFoodsPage.Food = testFood;
+        // Set foodIsChosen private field to true via reflection
+
+        // Would execute: var page = new TestableRecipePage(blRecipes);
+        // Would execute: page.SetFoodsPage(mockFoodsPage);
+        // Expected: foodsPage is not null
+        // Expected: foodsPage.FoodIsChosen is true
+        // Expected: bl.Ingredient is null
+
+        // Act
+        // Would execute: page.CallOnAppearing();
+        // Expected: base.OnAppearing() called
+        // Expected: bl.FromFoodToIngredient(foodsPage.Food, null) called
+        // Expected: FromFoodToIngredient handles null destination gracefully (line 130 check)
+        // Expected: FromClassesToUi() awaited and executed
+
+        // Assert
+        // Would verify: Assert.That(page.OnAppearingCalled, Is.True);
+        // Would verify: Assert.That(page.FromClassesToUiCalled, Is.True);
+        // Would verify: Assert.That(blRecipes.Ingredient, Is.Null); // Still null
+        // FromFoodToIngredient should not throw when destinationIngredient is null
     }
 }

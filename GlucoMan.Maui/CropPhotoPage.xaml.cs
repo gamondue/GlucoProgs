@@ -1,4 +1,5 @@
 using gamon;
+using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui;
 
@@ -439,7 +440,7 @@ public partial class CropPhotoPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram?.Error("CropPhotoPage - btnConfirm_Clicked", ex);
-            await DisplayAlert("Errore", $"Errore durante il ritaglio: {ex.Message}", "OK");
+            await DisplayAlert(AppStrings.Error, string.Format(AppStrings.ErrorDuringCrop, ex.Message), AppStrings.OK);
         }
     }
 
@@ -682,3 +683,4 @@ if (codec.FormatID == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
         }
     }
 }
+

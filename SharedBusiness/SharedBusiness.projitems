@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4d370765-d29f-4e0d-a766-42e4694f903f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SharedBusiness</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BL_Alarms.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BL_BolusesAndInjections.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BL_Containers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bl_FoodToHitTargetCarbs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BL_General.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BL_GlucoseMeasurements.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BL_GpsTracking.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bl_GrossTareAndNetWeight.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bl_HypoPrediction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BL_ImportData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BL_MealAndFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BL_PhysicalActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BL_Recipes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bl_WeighFood.cs" />
+  </ItemGroup>
+</Project>

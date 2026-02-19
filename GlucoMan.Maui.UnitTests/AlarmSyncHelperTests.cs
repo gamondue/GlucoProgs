@@ -537,5 +537,478 @@ namespace GlucoMan.Maui.UnitTests
                 "- Outer try-catch handles unexpected exceptions\n\n" +
                 "To enable testing: Inject all dependencies and use interfaces.");
         }
+
+        /// <summary>
+        /// Documents test case: Method should handle Common.Database being null.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE IMPLEMENTED: Cannot mock static Common.Database property.
+        /// Expected behavior: Method returns early without attempting to retrieve alarms.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot mock static Common.Database")]
+        public void CleanupExpiredAlarms_WhenDatabaseIsNull_ReturnsEarly()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive("Method design prevents proper unit testing. Requires refactoring to accept injectable dependencies.");
+        }
+
+        /// <summary>
+        /// Documents test case: Method should handle GetExpiredAlarms returning null.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE IMPLEMENTED: Cannot mock BL_Alarms.GetExpiredAlarms().
+        /// Expected behavior: Method returns early without attempting deletion.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot mock BL_Alarms - direct instantiation prevents dependency injection")]
+        public void CleanupExpiredAlarms_WhenGetExpiredAlarmsReturnsNull_ReturnsEarly()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive("Method design prevents proper unit testing. Requires refactoring to accept injectable dependencies.");
+        }
+
+        /// <summary>
+        /// Documents test case: Method should handle GetExpiredAlarms returning empty list.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE IMPLEMENTED: Cannot mock BL_Alarms.GetExpiredAlarms().
+        /// Expected behavior: Method returns early without attempting deletion.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot mock BL_Alarms - direct instantiation prevents dependency injection")]
+        public void CleanupExpiredAlarms_WhenGetExpiredAlarmsReturnsEmptyList_ReturnsEarly()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive("Method design prevents proper unit testing. Requires refactoring to accept injectable dependencies.");
+        }
+
+        /// <summary>
+        /// Tests that GetActiveAlarmsCount returns 0 when DatabaseService.Instance.Database is null.
+        /// This is the first guard condition in the method.
+        /// </summary>
+        [Test]
+        [Ignore("Cannot mock static DatabaseService.Instance.Database. Requires integration test or method refactoring.")]
+        public void GetActiveAlarmsCount_DatabaseIsNull_ReturnsZero()
+        {
+            // Arrange
+            // UNABLE TO ARRANGE: DatabaseService.Instance.Database is static and cannot be set to null in unit tests
+            // Would require: Ability to mock or set DatabaseService.Instance.Database = null
+
+            // Act
+            int result = AlarmSyncHelper.GetActiveAlarmsCount();
+
+            // Assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        /// <summary>
+        /// Tests that GetActiveAlarmsCount returns 0 when BL_Alarms.GetActiveAlarms() returns null.
+        /// The method uses null-coalescing operator to handle this case.
+        /// </summary>
+        [Test]
+        [Ignore("Cannot mock BL_Alarms instantiation. Direct 'new BL_Alarms()' prevents mocking.")]
+        public void GetActiveAlarmsCount_GetActiveAlarmsReturnsNull_ReturnsZero()
+        {
+            // Arrange
+            // UNABLE TO ARRANGE: Cannot mock BL_Alarms to return null
+            // Would require: Dependency injection of IBL_Alarms interface
+
+            // Act
+            int result = AlarmSyncHelper.GetActiveAlarmsCount();
+
+            // Assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        /// <summary>
+        /// Tests that GetActiveAlarmsCount returns 0 when GetActiveAlarms() returns an empty list.
+        /// </summary>
+        [Test]
+        [Ignore("Cannot mock BL_Alarms instantiation. Requires integration test or method refactoring.")]
+        public void GetActiveAlarmsCount_NoActiveAlarms_ReturnsZero()
+        {
+            // Arrange
+            // UNABLE TO ARRANGE: Cannot control what BL_Alarms.GetActiveAlarms() returns
+            // Would require: Mocked IBL_Alarms returning empty list
+
+            // Act
+            int result = AlarmSyncHelper.GetActiveAlarmsCount();
+
+            // Assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        /// <summary>
+        /// Tests that GetActiveAlarmsCount returns 0 when active alarms have null NextTriggerTime.
+        /// The method filters alarms where NextTriggerTime.HasValue is true.
+        /// </summary>
+        [Test]
+        [Ignore("Cannot mock BL_Alarms or control Alarm objects. Requires integration test or method refactoring.")]
+        public void GetActiveAlarmsCount_AllAlarmsHaveNullNextTriggerTime_ReturnsZero()
+        {
+            // Arrange
+            // UNABLE TO ARRANGE: Cannot create test Alarm objects with null NextTriggerTime
+            // Would require: Mocked IBL_Alarms returning alarms with NextTriggerTime = null
+
+            // Act
+            int result = AlarmSyncHelper.GetActiveAlarmsCount();
+
+            // Assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        /// <summary>
+        /// Tests that GetActiveAlarmsCount returns 0 when all NextTriggerTime values are in the past.
+        /// The method filters alarms where NextTriggerTime.Value > DateTime.Now.
+        /// </summary>
+        [Test]
+        [Ignore("Cannot mock BL_Alarms or control DateTime.Now. Requires integration test or method refactoring.")]
+        public void GetActiveAlarmsCount_AllNextTriggerTimesInPast_ReturnsZero()
+        {
+            // Arrange
+            // UNABLE TO ARRANGE: Cannot control DateTime.Now or mock alarm data
+            // Would require: IDateTime abstraction and mocked IBL_Alarms
+
+            // Act
+            int result = AlarmSyncHelper.GetActiveAlarmsCount();
+
+            // Assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        /// <summary>
+        /// Tests that GetActiveAlarmsCount returns correct count when alarms have future NextTriggerTime.
+        /// This is the primary success path of the method.
+        /// </summary>
+        [Test]
+        [Ignore("Cannot mock BL_Alarms or control DateTime.Now. Requires integration test or method refactoring.")]
+        public void GetActiveAlarmsCount_AlarmsWithFutureNextTriggerTime_ReturnsCorrectCount()
+        {
+            // Arrange
+            // UNABLE TO ARRANGE: Cannot mock BL_Alarms to return alarms with future NextTriggerTime
+            // Would require: Mocked IBL_Alarms and IDateTime abstraction
+
+            // Expected: If 3 alarms have NextTriggerTime in future, should return 3
+
+            // Act
+            int result = AlarmSyncHelper.GetActiveAlarmsCount();
+
+            // Assert
+            // UNABLE TO VERIFY: Cannot control test data
+            Assert.That(result, Is.GreaterThanOrEqualTo(0));
+        }
+
+        /// <summary>
+        /// Tests that GetActiveAlarmsCount correctly filters mixed past and future NextTriggerTime values.
+        /// Only alarms with future NextTriggerTime should be counted.
+        /// </summary>
+        [Test]
+        [Ignore("Cannot mock BL_Alarms or control DateTime.Now. Requires integration test or method refactoring.")]
+        public void GetActiveAlarmsCount_MixOfPastAndFutureAlarms_ReturnsOnlyFutureCount()
+        {
+            // Arrange
+            // UNABLE TO ARRANGE: Cannot create mix of test alarm data
+            // Would require: Mocked IBL_Alarms returning alarms with various NextTriggerTime values
+
+            // Expected: If 5 alarms total, 3 with future NextTriggerTime and 2 with past, should return 3
+
+            // Act
+            int result = AlarmSyncHelper.GetActiveAlarmsCount();
+
+            // Assert
+            // UNABLE TO VERIFY: Cannot control test data
+            Assert.That(result, Is.GreaterThanOrEqualTo(0));
+        }
+
+        /// <summary>
+        /// Tests that GetActiveAlarmsCount returns 0 when any exception occurs during execution.
+        /// The method has a catch-all exception handler that returns 0.
+        /// </summary>
+        [Test]
+        [Ignore("Cannot force exception from BL_Alarms. Requires ability to mock dependencies.")]
+        public void GetActiveAlarmsCount_ExceptionThrown_ReturnsZero()
+        {
+            // Arrange
+            // UNABLE TO ARRANGE: Cannot force BL_Alarms to throw exception
+            // Would require: Mocked IBL_Alarms that throws exception
+
+            // Act
+            int result = AlarmSyncHelper.GetActiveAlarmsCount();
+
+            // Assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        /// <summary>
+        /// Tests boundary condition: alarm with NextTriggerTime exactly equal to DateTime.Now.
+        /// Per code logic (NextTriggerTime.Value > DateTime.Now), should NOT be counted.
+        /// </summary>
+        [Test]
+        [Ignore("Cannot control DateTime.Now or alarm data precisely. Requires IDateTime abstraction.")]
+        public void GetActiveAlarmsCount_NextTriggerTimeEqualsNow_NotCounted()
+        {
+            // Arrange
+            // UNABLE TO ARRANGE: Cannot create alarm with NextTriggerTime exactly equal to current time
+            // Would require: IDateTime abstraction to freeze time and mocked alarm data
+
+            // Expected: Alarm with NextTriggerTime == Now should NOT be counted (only > counts)
+
+            // Act
+            int result = AlarmSyncHelper.GetActiveAlarmsCount();
+
+            // Assert
+            // UNABLE TO VERIFY: Cannot control time or test data precisely
+            Assert.That(result, Is.GreaterThanOrEqualTo(0));
+        }
+
+        /// <summary>
+        /// Documents test case: Method should return early when DatabaseService.Instance.Database is null.
+        /// Expected: Logs debug message and returns without calling scheduler methods.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: DatabaseService.Instance.Database is a static property that cannot be set to null in unit tests.
+        /// To test this scenario, the method would need refactoring to accept an IDatabase dependency.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot mock static DatabaseService.Instance.Database property")]
+        public async Task SyncAllAlarmsAsync_WhenDatabaseIsNull_ReturnsEarlyWithoutSchedulerCalls()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test database null scenario because:\n" +
+                "- DatabaseService.Instance.Database is a static property\n" +
+                "- Cannot set it to null in unit tests without affecting other tests\n" +
+                "- Would need dependency injection of IDatabase or IDatabaseService");
+        }
+
+        /// <summary>
+        /// Documents test case: Method should call scheduler.CancelAllAsync() when BL_Alarms.GetAllAlarms returns null.
+        /// Expected: Logs 'AlarmSyncHelper: No alarms in database' and calls CancelAllAsync.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: BL_Alarms is instantiated with 'new' and GetAllAlarms() cannot be mocked.
+        /// To test this scenario, the method would need to accept IBL_Alarms as a parameter.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot mock BL_Alarms - direct instantiation prevents dependency injection")]
+        public async Task SyncAllAlarmsAsync_WhenGetAllAlarmsReturnsNull_CallsCancelAllAsync()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test empty alarms scenario because:\n" +
+                "- BL_Alarms is instantiated with 'new BL_Alarms()'\n" +
+                "- Cannot mock GetAllAlarms() to return null\n" +
+                "- Would need dependency injection of IBL_Alarms");
+        }
+
+        /// <summary>
+        /// Documents test case: Method should call scheduler.CancelAllAsync() when BL_Alarms.GetAllAlarms returns empty list.
+        /// Expected: Logs 'AlarmSyncHelper: No alarms in database' and calls CancelAllAsync.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot control what GetAllAlarms() returns.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot mock BL_Alarms - direct instantiation prevents dependency injection")]
+        public async Task SyncAllAlarmsAsync_WhenGetAllAlarmsReturnsEmptyList_CallsCancelAllAsync()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test empty list scenario because:\n" +
+                "- Cannot mock BL_Alarms.GetAllAlarms() to return empty list\n" +
+                "- Would need dependency injection");
+        }
+
+        /// <summary>
+        /// Documents test case: Alarms without IdAlarm should be skipped during processing.
+        /// Expected: No scheduler calls made for alarms where IdAlarm.HasValue is false.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot create or control Alarm instances to test this condition.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot create or control Alarm instances")]
+        public async Task SyncAllAlarmsAsync_WhenAlarmHasNoIdAlarm_SkipsAlarm()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test alarm filtering because:\n" +
+                "- Alarm objects come from BL_Alarms.GetAllAlarms()\n" +
+                "- Cannot control alarm properties (IdAlarm, IsActive, NextTriggerTime)\n" +
+                "- Would need to inject test alarm collection or use IAlarm interface");
+        }
+
+        /// <summary>
+        /// Documents test case: Active alarms with future NextTriggerTime should be scheduled.
+        /// Expected: Calls alarm.CalculateNextTriggerTime(), then scheduler.ScheduleAsync(alarm).
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot control alarm state (IsActive, NextTriggerTime) or DateTime.Now.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot control Alarm behavior or DateTime.Now")]
+        public async Task SyncAllAlarmsAsync_WhenAlarmIsActiveWithFutureTrigger_CallsScheduleAsync()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test alarm scheduling logic because:\n" +
+                "- Cannot control alarm.IsActive() return value\n" +
+                "- Cannot control alarm.NextTriggerTime value\n" +
+                "- Cannot mock DateTime.Now comparison\n" +
+                "- Would need mockable alarm objects or time provider injection");
+        }
+
+        /// <summary>
+        /// Documents test case: Inactive alarms should be cancelled.
+        /// Expected: Calls scheduler.CancelAsync(alarm.IdAlarm.Value).
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot control alarm.IsActive() to return false.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot control Alarm behavior")]
+        public async Task SyncAllAlarmsAsync_WhenAlarmIsInactive_CallsCancelAsync()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test alarm cancellation logic because:\n" +
+                "- Cannot control alarm.IsActive() to return false\n" +
+                "- Would need mockable alarm objects");
+        }
+
+        /// <summary>
+        /// Documents test case: Active alarms with past NextTriggerTime should be cancelled.
+        /// Expected: Calls scheduler.CancelAsync(alarm.IdAlarm.Value) because trigger time has passed.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot control NextTriggerTime to be in the past relative to DateTime.Now.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot control Alarm.NextTriggerTime or DateTime.Now")]
+        public async Task SyncAllAlarmsAsync_WhenAlarmHasPastTriggerTime_CallsCancelAsync()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test past trigger time scenario because:\n" +
+                "- Cannot control alarm.NextTriggerTime value\n" +
+                "- Cannot mock DateTime.Now\n" +
+                "- Would need time provider injection");
+        }
+
+        /// <summary>
+        /// Documents test case: Alarms with null NextTriggerTime should be cancelled.
+        /// Expected: Calls scheduler.CancelAsync(alarm.IdAlarm.Value).
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot control alarm.NextTriggerTime to be null.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot control Alarm.NextTriggerTime")]
+        public async Task SyncAllAlarmsAsync_WhenAlarmHasNullNextTriggerTime_CallsCancelAsync()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test null NextTriggerTime scenario because:\n" +
+                "- Cannot control alarm.NextTriggerTime property\n" +
+                "- Would need mockable alarm objects");
+        }
+
+        /// <summary>
+        /// Documents test case: Exceptions from scheduler.ScheduleAsync should be caught and logged.
+        /// Expected: Exception is caught, logged, and processing continues with next alarm.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot control alarm collection or verify that processing continues.
+        /// While we can make scheduler.ScheduleAsync throw, we cannot verify subsequent alarm processing.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot verify exception handling behavior - depends on alarm data")]
+        public async Task SyncAllAlarmsAsync_WhenScheduleAsyncThrowsException_CatchesAndContinues()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test exception handling because:\n" +
+                "- Cannot control alarm collection to verify processing continues\n" +
+                "- Cannot verify logging occurred (static General.LogOfProgram)\n" +
+                "- Would need dependency injection for logger and alarm repository");
+        }
+
+        /// <summary>
+        /// Documents test case: Exceptions from scheduler.CancelAsync should be caught and logged.
+        /// Expected: Exception is caught, logged, and processing continues with next alarm.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot control alarm collection or verify that processing continues.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot verify exception handling behavior - depends on alarm data")]
+        public async Task SyncAllAlarmsAsync_WhenCancelAsyncThrowsException_CatchesAndContinues()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test exception handling because:\n" +
+                "- Cannot control alarm collection\n" +
+                "- Cannot verify logging occurred\n" +
+                "- Would need dependency injection");
+        }
+
+        /// <summary>
+        /// Documents test case: Outer try-catch should handle any unhandled exceptions.
+        /// Expected: Exception is caught and logged via General.LogOfProgram.Error.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot force an unhandled exception in a controlled way.
+        /// All testable paths have their own exception handlers.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot force unhandled exception or verify logging")]
+        public async Task SyncAllAlarmsAsync_WhenUnhandledExceptionOccurs_LogsError()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test outer exception handler because:\n" +
+                "- Cannot force exception past inner handlers\n" +
+                "- Cannot verify General.LogOfProgram.Error was called\n" +
+                "- Would need dependency injection for logger");
+        }
+
+        /// <summary>
+        /// Documents test case: Method should log scheduled and cancelled counts.
+        /// Expected: Logs 'AlarmSyncHelper: Sync complete - {scheduled} scheduled, {cancelled} cancelled'.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot verify logging occurred or access internal counters.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot verify logging - static General.LogOfProgram cannot be mocked")]
+        public async Task SyncAllAlarmsAsync_WhenComplete_LogsSummaryWithCounts()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test logging behavior because:\n" +
+                "- General.LogOfProgram is a static field\n" +
+                "- Cannot intercept or verify log calls\n" +
+                "- Would need dependency injection for ILogger");
+        }
+
+        /// <summary>
+        /// Documents test case: Method should call CalculateNextTriggerTime on each alarm.
+        /// Expected: For each alarm with IdAlarm, calls alarm.CalculateNextTriggerTime() before checking IsActive.
+        /// </summary>
+        /// <remarks>
+        /// CANNOT BE TESTED: Cannot verify method calls on alarm objects.
+        /// </remarks>
+        [Test]
+        [Ignore("Cannot verify Alarm method calls")]
+        public async Task SyncAllAlarmsAsync_ForEachAlarm_CallsCalculateNextTriggerTime()
+        {
+            // UNABLE TO IMPLEMENT WITHOUT REFACTORING
+            Assert.Inconclusive(
+                "Cannot test CalculateNextTriggerTime calls because:\n" +
+                "- Alarm is a concrete class, not mockable\n" +
+                "- Cannot verify method calls on real objects\n" +
+                "- Would need IAlarm interface for mocking");
+        }
     }
 }

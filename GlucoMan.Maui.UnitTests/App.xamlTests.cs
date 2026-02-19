@@ -162,5 +162,70 @@ namespace GlucoMan.Maui.UnitTests
             // within the constructor with no observable side effects we can test.
             // The LocalizationService constructor sets culture from Preferences.
         }
+
+        /// <summary>
+        /// Tests that CreateWindow returns a non-null Window when called with null activationState.
+        /// Verifies the default creation path where no activation state is provided.
+        /// </summary>
+        [Test]
+        public void CreateWindow_WithNullActivationState_ReturnsNonNullWindow()
+        {
+            // Arrange
+            TestableApp app = new TestableApp();
+
+            // Act
+            Window result = app.CreateWindowPublic(null);
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+        }
+
+        /// <summary>
+        /// Tests that CreateWindow returns a non-null Window when called with a non-null activationState.
+        /// Verifies the method executes successfully regardless of activation state value.
+        /// </summary>
+        [Test]
+        public void CreateWindow_WithNonNullActivationState_ReturnsNonNullWindow()
+        {
+            // Arrange
+            TestableApp app = new TestableApp();
+            Mock<IActivationState> mockActivationState = new Mock<IActivationState>();
+
+            // Act
+            Window result = app.CreateWindowPublic(mockActivationState.Object);
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+        }
+
+        /// <summary>
+        /// Tests that CreateWindow does not throw exceptions when creating the Window and AppShell.
+        /// Verifies the complete initialization path executes without errors.
+        /// </summary>
+        [Test]
+        public void CreateWindow_WhenCalled_DoesNotThrow()
+        {
+            // Arrange
+            TestableApp app = new TestableApp();
+
+            // Act & Assert
+            Assert.DoesNotThrow(() => app.CreateWindowPublic(null));
+        }
+
+        /// <summary>
+        /// Helper class to expose the protected CreateWindow method for testing.
+        /// </summary>
+        private class TestableApp : App
+        {
+            /// <summary>
+            /// Public wrapper for the protected CreateWindow method.
+            /// </summary>
+            /// <param name="activationState">The activation state passed to CreateWindow.</param>
+            /// <returns>The Window created by CreateWindow.</returns>
+            public Window CreateWindowPublic(IActivationState? activationState)
+            {
+                return CreateWindow(activationState);
+            }
+        }
     }
 }

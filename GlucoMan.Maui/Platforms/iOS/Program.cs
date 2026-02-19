@@ -1,4 +1,4 @@
-﻿using ObjCRuntime;
+using ObjCRuntime;
 using UIKit;
 
 namespace GlucoMan.Maui
@@ -14,3 +14,4 @@ namespace GlucoMan.Maui
         }
     }
 }
+

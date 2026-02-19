@@ -282,7 +282,7 @@ public partial class ChartPage : ContentPage
             // Load meals for the same day
             try
             {
-                var meals = Common.Database.GetMeals(startOfDay, endOfDay);
+                var meals = DatabaseService.Instance.Database.GetMeals(startOfDay, endOfDay);
                 if (meals != null)
                     _meals = meals;
                 System.Diagnostics.Debug.WriteLine($"Loaded {_meals.Count} meals from database");
@@ -896,4 +896,5 @@ public partial class ChartPage : ContentPage
         }
     }
 }
+
 

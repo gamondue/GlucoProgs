@@ -1,10 +1,11 @@
 ﻿using System;
+
 using GlucoMan;
 using GlucoMan.Maui;
 using NUnit.Framework;
 
-
 namespace GlucoMan.Maui.UnitTests;
+
 
 /// <summary>
 /// Tests for the <see cref="CorrectionParametersPage"/> class.

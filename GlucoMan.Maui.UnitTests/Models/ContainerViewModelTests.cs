@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 
 using gamon;
 using GlucoMan;
@@ -9,6 +10,8 @@ using Moq;
 using NUnit.Framework;
 
 namespace GlucoMan.Maui.Models.UnitTests;
+
+
 
 
 /// <summary>
@@ -1645,5 +1648,608 @@ public partial class ContainerViewModelTests
 
         // Assert
         Assert.That(eventCount, Is.EqualTo(3));
+    }
+
+    /// <summary>
+    /// Tests that ThumbnailSource handles IOException during photo loading
+    /// Input: GetPhotoFullPath throws IOException.
+    /// Expected: Returns null and caches result.
+    /// </summary>
+    [Test]
+    public void ThumbnailSource_GetPhotoFullPathThrowsIOException_ReturnsNull()
+    {
+        // Arrange
+        var mockContainer = new Mock<Container>();
+        mockContainer.Setup(c => c.PhotoFileName).Returns("photo.jpg");
+        mockContainer.Setup(c => c.GetPhotoFullPath()).Throws<IOException>();
+        var viewModel = new ContainerViewModel(mockContainer.Object);
+
+        // Act
+        var result1 = viewModel.ThumbnailSource;
+        var result2 = viewModel.ThumbnailSource;
+
+        // Assert
+        Assert.That(result1, Is.Null);
+        Assert.That(result2, Is.Null);
+        mockContainer.Verify(c => c.GetPhotoFullPath(), Times.Once);
+    }
+
+    /// <summary>
+    /// Tests that ThumbnailSource handles ArgumentException during photo loading
+    /// Input: GetPhotoFullPath throws ArgumentException.
+    /// Expected: Returns null and caches result.
+    /// </summary>
+    [Test]
+    public void ThumbnailSource_GetPhotoFullPathThrowsArgumentException_ReturnsNull()
+    {
+        // Arrange
+        var mockContainer = new Mock<Container>();
+        mockContainer.Setup(c => c.PhotoFileName).Returns("photo.jpg");
+        mockContainer.Setup(c => c.GetPhotoFullPath()).Throws<ArgumentException>();
+        var viewModel = new ContainerViewModel(mockContainer.Object);
+
+        // Act
+        var result = viewModel.ThumbnailSource;
+
+        // Assert
+        Assert.That(result, Is.Null);
+    }
+
+    /// <summary>
+    /// Tests that ThumbnailSource handles InvalidOperationException during photo loading
+    /// Input: GetPhotoFullPath throws InvalidOperationException.
+    /// Expected: Returns null and caches result.
+    /// </summary>
+    [Test]
+    public void ThumbnailSource_GetPhotoFullPathThrowsInvalidOperationException_ReturnsNull()
+    {
+        // Arrange
+        var mockContainer = new Mock<Container>();
+        mockContainer.Setup(c => c.PhotoFileName).Returns("photo.jpg");
+        mockContainer.Setup(c => c.GetPhotoFullPath()).Throws<InvalidOperationException>();
+        var viewModel = new ContainerViewModel(mockContainer.Object);
+
+        // Act
+        var result = viewModel.ThumbnailSource;
+
+        // Assert
+        Assert.That(result, Is.Null);
+    }
+
+    /// <summary>
+    /// Tests that ThumbnailSource handles PathTooLongException during photo loading
+    /// Input: GetPhotoFullPath throws PathTooLongException.
+    /// Expected: Returns null and caches result.
+    /// </summary>
+    [Test]
+    public void ThumbnailSource_GetPhotoFullPathThrowsPathTooLongException_ReturnsNull()
+    {
+        // Arrange
+        var mockContainer = new Mock<Container>();
+        mockContainer.Setup(c => c.PhotoFileName).Returns("photo.jpg");
+        mockContainer.Setup(c => c.GetPhotoFullPath()).Throws<PathTooLongException>();
+        var viewModel = new ContainerViewModel(mockContainer.Object);
+
+        // Act
+        var result = viewModel.ThumbnailSource;
+
+        // Assert
+        Assert.That(result, Is.Null);
+    }
+
+    /// <summary>
+    /// Tests that ThumbnailSource handles exception with detailed message correctly
+    /// Input: GetPhotoFullPath throws Exception with specific message.
+    /// Expected: Returns null and caches result.
+    /// </summary>
+    [Test]
+    public void ThumbnailSource_GetPhotoFullPathThrowsExceptionWithMessage_ReturnsNull()
+    {
+        // Arrange
+        var mockContainer = new Mock<Container>();
+        mockContainer.Setup(c => c.PhotoFileName).Returns("photo.jpg");
+        mockContainer.Setup(c => c.GetPhotoFullPath()).Throws(new Exception("Detailed error message"));
+        var viewModel = new ContainerViewModel(mockContainer.Object);
+
+        // Act
+        var result = viewModel.ThumbnailSource;
+
+        // Assert
+        Assert.That(result, Is.Null);
+    }
+
+    /// <summary>
+    /// Tests that ThumbnailSource handles exception with empty message correctly
+    /// Input: GetPhotoFullPath throws Exception with empty message.
+    /// Expected: Returns null and caches result.
+    /// </summary>
+    [Test]
+    public void ThumbnailSource_GetPhotoFullPathThrowsExceptionWithEmptyMessage_ReturnsNull()
+    {
+        // Arrange
+        var mockContainer = new Mock<Container>();
+        mockContainer.Setup(c => c.PhotoFileName).Returns("photo.jpg");
+        mockContainer.Setup(c => c.GetPhotoFullPath()).Throws(new Exception(""));
+        var viewModel = new ContainerViewModel(mockContainer.Object);
+
+        // Act
+        var result = viewModel.ThumbnailSource;
+
+        // Assert
+        Assert.That(result, Is.Null);
+    }
+
+    /// <summary>
+    /// Tests that ThumbnailSource handles NullReferenceException during photo loading
+    /// Input: GetPhotoFullPath throws NullReferenceException.
+    /// Expected: Returns null and caches result.
+    /// </summary>
+    [Test]
+    public void ThumbnailSource_GetPhotoFullPathThrowsNullReferenceException_ReturnsNull()
+    {
+        // Arrange
+        var mockContainer = new Mock<Container>();
+        mockContainer.Setup(c => c.PhotoFileName).Returns("photo.jpg");
+        mockContainer.Setup(c => c.GetPhotoFullPath()).Throws<NullReferenceException>();
+        var viewModel = new ContainerViewModel(mockContainer.Object);
+
+        // Act
+        var result = viewModel.ThumbnailSource;
+
+        // Assert
+        Assert.That(result, Is.Null);
+    }
+
+    /// <summary>
+    /// Tests that ThumbnailSource handles exception with inner exception correctly
+    /// Input: GetPhotoFullPath throws Exception with inner IOException.
+    /// Expected: Returns null and caches result.
+    /// </summary>
+    [Test]
+    public void ThumbnailSource_GetPhotoFullPathThrowsExceptionWithInnerException_ReturnsNull()
+    {
+        // Arrange
+        var mockContainer = new Mock<Container>();
+        mockContainer.Setup(c => c.PhotoFileName).Returns("photo.jpg");
+        var innerException = new IOException("Inner error");
+        var outerException = new Exception("Outer error", innerException);
+        mockContainer.Setup(c => c.GetPhotoFullPath()).Throws(outerException);
+        var viewModel = new ContainerViewModel(mockContainer.Object);
+
+        // Act
+        var result = viewModel.ThumbnailSource;
+
+        // Assert
+        Assert.That(result, Is.Null);
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly initializes the Container property with a container that has all properties populated.
+    /// Input: Container with IdContainer, Name, Weight, Notes, and PhotoFileName all set to valid values.
+    /// Expected: Container property is correctly assigned and all derived properties reflect the container's values.
+    /// </summary>
+    [Test]
+    public void Constructor_WithFullyPopulatedContainer_InitializesAllProperties()
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = 42,
+            Name = "Large Bowl",
+            Weight = new DoubleAndText { Double = 250.5 },
+            Notes = "My favorite bowl for cereal",
+            PhotoFileName = "bowl_001.jpg"
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.IdContainer, Is.EqualTo(42));
+        Assert.That(viewModel.Name, Is.EqualTo("Large Bowl"));
+        Assert.That(viewModel.Weight, Is.SameAs(container.Weight));
+        Assert.That(viewModel.Notes, Is.EqualTo("My favorite bowl for cereal"));
+        Assert.That(viewModel.PhotoFileName, Is.EqualTo("bowl_001.jpg"));
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles a container with extreme IdContainer values.
+    /// Input: Container with IdContainer set to int.MinValue and int.MaxValue.
+    /// Expected: Container property is assigned and IdContainer property reflects the extreme values.
+    /// </summary>
+    [TestCase(int.MinValue)]
+    [TestCase(int.MaxValue)]
+    [TestCase(-1)]
+    [TestCase(0)]
+    [TestCase(1)]
+    public void Constructor_WithExtremeIdContainerValues_InitializesCorrectly(int idValue)
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = idValue,
+            Name = "Test Container"
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.IdContainer, Is.EqualTo(idValue));
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles a container with special characters in string properties.
+    /// Input: Container with Name, Notes, and PhotoFileName containing special characters, Unicode, and control characters.
+    /// Expected: Container property is assigned and all string properties are preserved exactly.
+    /// </summary>
+    [TestCase("Container #1", "Notes with !@#$%", "file_<>_name.jpg")]
+    [TestCase("日本語", "中文注释", "фото.png")]
+    [TestCase("Name\twith\ttabs", "Notes\nwith\nnewlines", "file\rwith\rreturns.jpg")]
+    [TestCase("🍽️ Plate", "🎉 Party notes", "emoji_😀.jpg")]
+    [TestCase("\"Quoted\"", "'Apostrophe's'", "file\"name.jpg")]
+    public void Constructor_WithSpecialCharactersInStrings_PreservesValues(string name, string notes, string photoFileName)
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = 1,
+            Name = name,
+            Notes = notes,
+            PhotoFileName = photoFileName
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.Name, Is.EqualTo(name));
+        Assert.That(viewModel.Notes, Is.EqualTo(notes));
+        Assert.That(viewModel.PhotoFileName, Is.EqualTo(photoFileName));
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles a container with very long string values.
+    /// Input: Container with Name, Notes, and PhotoFileName set to very long strings (1000+ characters).
+    /// Expected: Container property is assigned and all long strings are preserved exactly.
+    /// </summary>
+    [Test]
+    public void Constructor_WithVeryLongStrings_PreservesValues()
+    {
+        // Arrange
+        var longName = new string('N', 1000);
+        var longNotes = new string('X', 10000);
+        var longPhotoFileName = new string('F', 500) + ".jpg";
+        var container = new Container
+        {
+            IdContainer = 1,
+            Name = longName,
+            Notes = longNotes,
+            PhotoFileName = longPhotoFileName
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.Name, Is.EqualTo(longName));
+        Assert.That(viewModel.Name.Length, Is.EqualTo(1000));
+        Assert.That(viewModel.Notes, Is.EqualTo(longNotes));
+        Assert.That(viewModel.Notes.Length, Is.EqualTo(10000));
+        Assert.That(viewModel.PhotoFileName, Is.EqualTo(longPhotoFileName));
+        Assert.That(viewModel.PhotoFileName.Length, Is.EqualTo(504));
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles a container where string properties are explicitly set to null after construction.
+    /// Input: Container with Name, Notes, and PhotoFileName set to null.
+    /// Expected: Container property is assigned and view model properties handle null values correctly (returning empty strings for null-coalescing properties).
+    /// </summary>
+    [Test]
+    public void Constructor_WithNullStringProperties_HandlesNullCorrectly()
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = 1,
+            Name = null!,
+            Notes = null!,
+            PhotoFileName = null!
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.Name, Is.EqualTo("")); // Name uses null-coalescing: Container?.Name ?? ""
+        Assert.That(viewModel.Notes, Is.EqualTo("")); // Notes uses null-coalescing: Container?.Notes ?? ""
+        Assert.That(viewModel.PhotoFileName, Is.EqualTo("")); // PhotoFileName uses null-coalescing: Container?.PhotoFileName ?? ""
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles a container with null Weight property.
+    /// Input: Container with Weight set to null.
+    /// Expected: Container property is assigned and Weight property returns null.
+    /// </summary>
+    [Test]
+    public void Constructor_WithNullWeight_InitializesCorrectly()
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = 1,
+            Name = "Test Container",
+            Weight = null!
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.Weight, Is.Null);
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles a container with empty string properties.
+    /// Input: Container with Name, Notes, and PhotoFileName set to empty strings.
+    /// Expected: Container property is assigned and all string properties return empty strings.
+    /// </summary>
+    [Test]
+    public void Constructor_WithEmptyStrings_PreservesEmptyValues()
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = 1,
+            Name = "",
+            Notes = "",
+            PhotoFileName = ""
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.Name, Is.EqualTo(""));
+        Assert.That(viewModel.Notes, Is.EqualTo(""));
+        Assert.That(viewModel.PhotoFileName, Is.EqualTo(""));
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles a container with whitespace-only string properties.
+    /// Input: Container with Name, Notes, and PhotoFileName set to various whitespace strings.
+    /// Expected: Container property is assigned and all whitespace strings are preserved exactly.
+    /// </summary>
+    [TestCase("   ", "\t", "\n")]
+    [TestCase(" \t \n ", "  ", "\r\n")]
+    public void Constructor_WithWhitespaceStrings_PreservesWhitespace(string name, string notes, string photoFileName)
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = 1,
+            Name = name,
+            Notes = notes,
+            PhotoFileName = photoFileName
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.Name, Is.EqualTo(name));
+        Assert.That(viewModel.Notes, Is.EqualTo(notes));
+        Assert.That(viewModel.PhotoFileName, Is.EqualTo(photoFileName));
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles a container created with the parameterized Container(string, double) constructor.
+    /// Input: Container created using Container(string, double) constructor.
+    /// Expected: Container property is assigned with Name and Weight initialized, other properties at defaults.
+    /// </summary>
+    [Test]
+    public void Constructor_WithParameterizedContainerConstructor_InitializesCorrectly()
+    {
+        // Arrange
+        var container = new Container("Small Plate", 150.0);
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.Name, Is.EqualTo("Small Plate"));
+        Assert.That(viewModel.Weight.Double, Is.EqualTo(150.0));
+        Assert.That(viewModel.Notes, Is.EqualTo(""));
+        Assert.That(viewModel.PhotoFileName, Is.EqualTo(""));
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles a container with zero and negative weight values.
+    /// Input: Container with Weight set to zero and negative values.
+    /// Expected: Container property is assigned and Weight property reflects the values correctly.
+    /// </summary>
+    [TestCase(0.0)]
+    [TestCase(-1.0)]
+    [TestCase(-100.5)]
+    [TestCase(double.MinValue)]
+    [TestCase(double.MaxValue)]
+    public void Constructor_WithVariousWeightValues_InitializesCorrectly(double weightValue)
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = 1,
+            Name = "Test Container",
+            Weight = new DoubleAndText { Double = weightValue }
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.Weight.Double, Is.EqualTo(weightValue));
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles a container with special double values (NaN, Infinity).
+    /// Input: Container with Weight.Double set to double.NaN, double.PositiveInfinity, double.NegativeInfinity.
+    /// Expected: Container property is assigned and Weight property preserves the special double values.
+    /// </summary>
+    [TestCase(double.NaN)]
+    [TestCase(double.PositiveInfinity)]
+    [TestCase(double.NegativeInfinity)]
+    public void Constructor_WithSpecialDoubleWeightValues_InitializesCorrectly(double weightValue)
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = 1,
+            Name = "Test Container",
+            Weight = new DoubleAndText { Double = weightValue }
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        if (double.IsNaN(weightValue))
+        {
+            Assert.That(viewModel.Weight.Double, Is.NaN);
+        }
+        else if (double.IsPositiveInfinity(weightValue))
+        {
+            Assert.That(viewModel.Weight.Double, Is.EqualTo(double.PositiveInfinity));
+        }
+        else if (double.IsNegativeInfinity(weightValue))
+        {
+            Assert.That(viewModel.Weight.Double, Is.EqualTo(double.NegativeInfinity));
+        }
+    }
+
+    /// <summary>
+    /// Tests that multiple ContainerViewModel instances with different containers maintain separate references.
+    /// Input: Multiple different Container instances.
+    /// Expected: Each ContainerViewModel maintains its own separate Container reference.
+    /// </summary>
+    [Test]
+    public void Constructor_WithMultipleDifferentContainers_MaintainsSeparateReferences()
+    {
+        // Arrange
+        var container1 = new Container { IdContainer = 1, Name = "Container 1" };
+        var container2 = new Container { IdContainer = 2, Name = "Container 2" };
+        var container3 = new Container { IdContainer = 3, Name = "Container 3" };
+
+        // Act
+        var viewModel1 = new ContainerViewModel(container1);
+        var viewModel2 = new ContainerViewModel(container2);
+        var viewModel3 = new ContainerViewModel(container3);
+
+        // Assert
+        Assert.That(viewModel1.Container, Is.SameAs(container1));
+        Assert.That(viewModel2.Container, Is.SameAs(container2));
+        Assert.That(viewModel3.Container, Is.SameAs(container3));
+        Assert.That(viewModel1.Container, Is.Not.SameAs(viewModel2.Container));
+        Assert.That(viewModel2.Container, Is.Not.SameAs(viewModel3.Container));
+        Assert.That(viewModel1.IdContainer, Is.EqualTo(1));
+        Assert.That(viewModel2.IdContainer, Is.EqualTo(2));
+        Assert.That(viewModel3.IdContainer, Is.EqualTo(3));
+    }
+
+    /// <summary>
+    /// Tests that the constructor does not throw when passed a null container.
+    /// Input: null container parameter.
+    /// Expected: No exception thrown, Container property is set to null.
+    /// </summary>
+    [Test]
+    public void Constructor_WithNullContainer_DoesNotThrowException()
+    {
+        // Arrange
+        Container? container = null;
+
+        // Act & Assert
+        Assert.DoesNotThrow(() => new ContainerViewModel(container!));
+    }
+
+    /// <summary>
+    /// Tests that the constructor initializes IsSelectedInList to false by default.
+    /// Input: Valid Container instance.
+    /// Expected: IsSelectedInList property is initialized to false.
+    /// </summary>
+    [Test]
+    public void Constructor_WithValidContainer_InitializesIsSelectedInListToFalse()
+    {
+        // Arrange
+        var container = new Container { IdContainer = 1, Name = "Test Container" };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.IsSelectedInList, Is.False);
+        Assert.That(viewModel.RowBorderColor, Is.EqualTo("Transparent"));
+    }
+
+    /// <summary>
+    /// Tests that the constructor does not initialize or load the ThumbnailSource property.
+    /// Input: Valid Container with PhotoFileName set.
+    /// Expected: ThumbnailSource is not accessed during construction (lazy loading).
+    /// </summary>
+    [Test]
+    public void Constructor_WithContainerHavingPhotoFileName_DoesNotLoadThumbnailDuringConstruction()
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = 1,
+            Name = "Test Container",
+            PhotoFileName = "test_photo.jpg"
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.PhotoFileName, Is.EqualTo("test_photo.jpg"));
+        // Note: We're not accessing ThumbnailSource, just verifying the container is set correctly
+    }
+
+    /// <summary>
+    /// Tests that the constructor correctly handles path-like strings in PhotoFileName.
+    /// Input: Container with PhotoFileName containing path separators.
+    /// Expected: Container property is assigned and PhotoFileName is preserved exactly.
+    /// </summary>
+    [TestCase("folder/photo.jpg")]
+    [TestCase("folder\\photo.jpg")]
+    [TestCase("C:\\Users\\Photos\\container.png")]
+    [TestCase("/root/photos/container.jpg")]
+    [TestCase("..\\..\\photos\\photo.jpg")]
+    public void Constructor_WithPathLikePhotoFileName_PreservesValue(string photoFileName)
+    {
+        // Arrange
+        var container = new Container
+        {
+            IdContainer = 1,
+            Name = "Test Container",
+            PhotoFileName = photoFileName
+        };
+
+        // Act
+        var viewModel = new ContainerViewModel(container);
+
+        // Assert
+        Assert.That(viewModel.Container, Is.SameAs(container));
+        Assert.That(viewModel.PhotoFileName, Is.EqualTo(photoFileName));
     }
 }

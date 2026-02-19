@@ -278,7 +278,7 @@ namespace GlucoMan.Maui.Platforms.Windows
         {
             try
             {
-                if (alarm.IdAlarm.HasValue && Common.Database != null)
+                if (alarm.IdAlarm.HasValue && DatabaseService.Instance.Database != null)
                 {
                     var blAlarms = new BL_Alarms();
                     var alarms = blAlarms.GetAllAlarms(all: true);
@@ -301,7 +301,7 @@ namespace GlucoMan.Maui.Platforms.Windows
         {
             try
             {
-                if (alarm.IdAlarm.HasValue && Common.Database != null)
+                if (alarm.IdAlarm.HasValue && DatabaseService.Instance.Database != null)
                 {
                     var blAlarms = new BL_Alarms();
                     var alarms = blAlarms.GetAllAlarms(all: true);
@@ -349,4 +349,5 @@ namespace GlucoMan.Maui.Platforms.Windows
     }
 }
 #endif
+
 

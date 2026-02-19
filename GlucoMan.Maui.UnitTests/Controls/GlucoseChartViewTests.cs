@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 using GlucoMan.Maui.Controls;
 using NUnit.Framework;
 using SkiaSharp;
 
 namespace GlucoMan.Maui.Controls.UnitTests;
+
 
 
 /// <summary>
@@ -162,4 +164,257 @@ public partial class GlucoseChartViewTests
     {
     }
 
+
+    /// <summary>
+    /// Tests that SetData with null parameter assigns a new empty list to the data points field.
+    /// </summary>
+    [Test]
+    public void SetData_WithNull_SetsEmptyList()
+    {
+        // Arrange
+        var chartView = new GlucoseChartView();
+
+        // Act
+        chartView.SetData(null!);
+
+        // Assert
+        var dataPointsField = typeof(GlucoseChartView).GetField("_dataPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+        var dataPoints = (List<(float Hour, float Value)>)dataPointsField!.GetValue(chartView)!;
+        Assert.That(dataPoints, Is.Not.Null);
+        Assert.That(dataPoints.Count, Is.EqualTo(0));
+    }
+
+    /// <summary>
+    /// Tests that SetData with an empty list assigns the empty list to the data points field.
+    /// </summary>
+    [Test]
+    public void SetData_WithEmptyList_SetsEmptyList()
+    {
+        // Arrange
+        var chartView = new GlucoseChartView();
+        var emptyList = new List<(float Hour, float Value)>();
+
+        // Act
+        chartView.SetData(emptyList);
+
+        // Assert
+        var dataPointsField = typeof(GlucoseChartView).GetField("_dataPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+        var dataPoints = (List<(float Hour, float Value)>)dataPointsField!.GetValue(chartView)!;
+        Assert.That(dataPoints, Is.Not.Null);
+        Assert.That(dataPoints.Count, Is.EqualTo(0));
+    }
+
+    /// <summary>
+    /// Tests that SetData with a single data point correctly assigns the list to the data points field.
+    /// </summary>
+    [Test]
+    public void SetData_WithSingleDataPoint_SetsSingleDataPoint()
+    {
+        // Arrange
+        var chartView = new GlucoseChartView();
+        var dataList = new List<(float Hour, float Value)> { (12.5f, 120.0f) };
+
+        // Act
+        chartView.SetData(dataList);
+
+        // Assert
+        var dataPointsField = typeof(GlucoseChartView).GetField("_dataPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+        var dataPoints = (List<(float Hour, float Value)>)dataPointsField!.GetValue(chartView)!;
+        Assert.That(dataPoints, Is.Not.Null);
+        Assert.That(dataPoints.Count, Is.EqualTo(1));
+        Assert.That(dataPoints[0].Hour, Is.EqualTo(12.5f));
+        Assert.That(dataPoints[0].Value, Is.EqualTo(120.0f));
+    }
+
+    /// <summary>
+    /// Tests that SetData with multiple data points correctly assigns all data points to the field.
+    /// </summary>
+    [Test]
+    public void SetData_WithMultipleDataPoints_SetsAllDataPoints()
+    {
+        // Arrange
+        var chartView = new GlucoseChartView();
+        var dataList = new List<(float Hour, float Value)>
+        {
+            (0.0f, 80.0f),
+            (6.0f, 100.0f),
+            (12.0f, 150.0f),
+            (18.0f, 120.0f),
+            (24.0f, 90.0f)
+        };
+
+        // Act
+        chartView.SetData(dataList);
+
+        // Assert
+        var dataPointsField = typeof(GlucoseChartView).GetField("_dataPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+        var dataPoints = (List<(float Hour, float Value)>)dataPointsField!.GetValue(chartView)!;
+        Assert.That(dataPoints, Is.Not.Null);
+        Assert.That(dataPoints.Count, Is.EqualTo(5));
+        Assert.That(dataPoints[0], Is.EqualTo((0.0f, 80.0f)));
+        Assert.That(dataPoints[2], Is.EqualTo((12.0f, 150.0f)));
+        Assert.That(dataPoints[4], Is.EqualTo((24.0f, 90.0f)));
+    }
+
+    /// <summary>
+    /// Tests that SetData accepts and stores data points with duplicate values.
+    /// </summary>
+    [Test]
+    public void SetData_WithDuplicateDataPoints_AcceptsDuplicates()
+    {
+        // Arrange
+        var chartView = new GlucoseChartView();
+        var dataList = new List<(float Hour, float Value)>
+        {
+            (12.0f, 100.0f),
+            (12.0f, 100.0f),
+            (12.0f, 100.0f)
+        };
+
+        // Act
+        chartView.SetData(dataList);
+
+        // Assert
+        var dataPointsField = typeof(GlucoseChartView).GetField("_dataPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+        var dataPoints = (List<(float Hour, float Value)>)dataPointsField!.GetValue(chartView)!;
+        Assert.That(dataPoints, Is.Not.Null);
+        Assert.That(dataPoints.Count, Is.EqualTo(3));
+        Assert.That(dataPoints[0], Is.EqualTo((12.0f, 100.0f)));
+        Assert.That(dataPoints[1], Is.EqualTo((12.0f, 100.0f)));
+        Assert.That(dataPoints[2], Is.EqualTo((12.0f, 100.0f)));
+    }
+
+    /// <summary>
+    /// Tests that SetData accepts data points with special float values (NaN, PositiveInfinity, NegativeInfinity).
+    /// </summary>
+    /// <param name="hour">The hour value to test.</param>
+    /// <param name="value">The glucose value to test.</param>
+    [TestCase(float.NaN, 100.0f)]
+    [TestCase(float.PositiveInfinity, 100.0f)]
+    [TestCase(float.NegativeInfinity, 100.0f)]
+    [TestCase(12.0f, float.NaN)]
+    [TestCase(12.0f, float.PositiveInfinity)]
+    [TestCase(12.0f, float.NegativeInfinity)]
+    [TestCase(float.NaN, float.NaN)]
+    [TestCase(float.PositiveInfinity, float.PositiveInfinity)]
+    public void SetData_WithSpecialFloatValues_AcceptsSpecialValues(float hour, float value)
+    {
+        // Arrange
+        var chartView = new GlucoseChartView();
+        var dataList = new List<(float Hour, float Value)> { (hour, value) };
+
+        // Act
+        chartView.SetData(dataList);
+
+        // Assert
+        var dataPointsField = typeof(GlucoseChartView).GetField("_dataPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+        var dataPoints = (List<(float Hour, float Value)>)dataPointsField!.GetValue(chartView)!;
+        Assert.That(dataPoints, Is.Not.Null);
+        Assert.That(dataPoints.Count, Is.EqualTo(1));
+        Assert.That(dataPoints[0].Hour, Is.EqualTo(hour));
+        Assert.That(dataPoints[0].Value, Is.EqualTo(value));
+    }
+
+    /// <summary>
+    /// Tests that SetData accepts data points with negative values for both Hour and Value.
+    /// </summary>
+    [Test]
+    public void SetData_WithNegativeValues_AcceptsNegativeValues()
+    {
+        // Arrange
+        var chartView = new GlucoseChartView();
+        var dataList = new List<(float Hour, float Value)>
+        {
+            (-5.0f, 100.0f),
+            (12.0f, -50.0f),
+            (-10.0f, -75.0f)
+        };
+
+        // Act
+        chartView.SetData(dataList);
+
+        // Assert
+        var dataPointsField = typeof(GlucoseChartView).GetField("_dataPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+        var dataPoints = (List<(float Hour, float Value)>)dataPointsField!.GetValue(chartView)!;
+        Assert.That(dataPoints, Is.Not.Null);
+        Assert.That(dataPoints.Count, Is.EqualTo(3));
+        Assert.That(dataPoints[0], Is.EqualTo((-5.0f, 100.0f)));
+        Assert.That(dataPoints[1], Is.EqualTo((12.0f, -50.0f)));
+        Assert.That(dataPoints[2], Is.EqualTo((-10.0f, -75.0f)));
+    }
+
+    /// <summary>
+    /// Tests that SetData accepts data points with boundary float values (MinValue, MaxValue, Zero).
+    /// </summary>
+    /// <param name="hour">The hour value to test.</param>
+    /// <param name="value">The glucose value to test.</param>
+    [TestCase(float.MinValue, 100.0f)]
+    [TestCase(float.MaxValue, 100.0f)]
+    [TestCase(0.0f, 0.0f)]
+    [TestCase(12.0f, float.MinValue)]
+    [TestCase(12.0f, float.MaxValue)]
+    [TestCase(float.MinValue, float.MinValue)]
+    [TestCase(float.MaxValue, float.MaxValue)]
+    public void SetData_WithBoundaryFloatValues_AcceptsBoundaryValues(float hour, float value)
+    {
+        // Arrange
+        var chartView = new GlucoseChartView();
+        var dataList = new List<(float Hour, float Value)> { (hour, value) };
+
+        // Act
+        chartView.SetData(dataList);
+
+        // Assert
+        var dataPointsField = typeof(GlucoseChartView).GetField("_dataPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+        var dataPoints = (List<(float Hour, float Value)>)dataPointsField!.GetValue(chartView)!;
+        Assert.That(dataPoints, Is.Not.Null);
+        Assert.That(dataPoints.Count, Is.EqualTo(1));
+        Assert.That(dataPoints[0].Hour, Is.EqualTo(hour));
+        Assert.That(dataPoints[0].Value, Is.EqualTo(value));
+    }
+
+    /// <summary>
+    /// Tests that SetData replaces existing data points when called multiple times.
+    /// </summary>
+    [Test]
+    public void SetData_CalledMultipleTimes_ReplacesExistingData()
+    {
+        // Arrange
+        var chartView = new GlucoseChartView();
+        var firstDataList = new List<(float Hour, float Value)> { (10.0f, 100.0f), (11.0f, 110.0f) };
+        var secondDataList = new List<(float Hour, float Value)> { (20.0f, 200.0f) };
+
+        // Act
+        chartView.SetData(firstDataList);
+        chartView.SetData(secondDataList);
+
+        // Assert
+        var dataPointsField = typeof(GlucoseChartView).GetField("_dataPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+        var dataPoints = (List<(float Hour, float Value)>)dataPointsField!.GetValue(chartView)!;
+        Assert.That(dataPoints, Is.Not.Null);
+        Assert.That(dataPoints.Count, Is.EqualTo(1));
+        Assert.That(dataPoints[0], Is.EqualTo((20.0f, 200.0f)));
+    }
+
+    /// <summary>
+    /// Tests that SetData with zero values for both Hour and Value is accepted.
+    /// </summary>
+    [Test]
+    public void SetData_WithZeroValues_AcceptsZeroValues()
+    {
+        // Arrange
+        var chartView = new GlucoseChartView();
+        var dataList = new List<(float Hour, float Value)> { (0.0f, 0.0f) };
+
+        // Act
+        chartView.SetData(dataList);
+
+        // Assert
+        var dataPointsField = typeof(GlucoseChartView).GetField("_dataPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+        var dataPoints = (List<(float Hour, float Value)>)dataPointsField!.GetValue(chartView)!;
+        Assert.That(dataPoints, Is.Not.Null);
+        Assert.That(dataPoints.Count, Is.EqualTo(1));
+        Assert.That(dataPoints[0].Hour, Is.EqualTo(0.0f));
+        Assert.That(dataPoints[0].Value, Is.EqualTo(0.0f));
+    }
 }

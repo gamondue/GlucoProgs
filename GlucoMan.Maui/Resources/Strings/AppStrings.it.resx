@@ -337,7 +337,7 @@
     <value>unità </value>
   </data>
   <data name="RequiredField" xml:space="preserve">
-    <value>Questo campo à¨ obbligatorio</value>
+    <value>Questo campo è obbligatorio</value>
   </data>
   <data name="InvalidValue" xml:space="preserve">
     <value>Valore non valido</value>
@@ -520,7 +520,7 @@
     <value>Adesso: imposta data e ora all'istante corrente</value>
   </data>
   <data name="TooltipPlusButton" xml:space="preserve">
-    <value>Pià¹: aggiunge una nuova misurazione con i dati dall'interfaccia</value>
+    <value>Più: aggiunge una nuova misurazione con i dati dall'interfaccia</value>
   </data>
   <data name="TooltipMinusButton" xml:space="preserve">
     <value>Meno: elimina la misurazione selezionata</value>
@@ -1135,7 +1135,7 @@
     <value>Sviluppatore</value>
   </data>
   <data name="TooltipRecipesDescription" xml:space="preserve">
-    <value>Descrizione della ricetta (pià¹ lunga)</value>
+    <value>Descrizione della ricetta (più lunga)</value>
   </data>
   <data name="Contact" xml:space="preserve">
     <value>Contatto</value>
@@ -1270,7 +1270,8 @@
     <value>Modifiche non salvate</value>
   </data>
   <data name="UnsavedChangesMessage" xml:space="preserve">
-    <value>Hai modifiche non salvate per l'iniezione corrente.\nCosa vuoi fare?</value>
+    <value>Hai modifiche non salvate per l'iniezione corrente.
+    Cosa vuoi fare?</value>
   </data>
   <data name="Discard" xml:space="preserve">
     <value>Scarta</value>
@@ -1285,10 +1286,12 @@
     <value>Errore durante il salvataggio</value>
   </data>
   <data name="MissingBolusValue" xml:space="preserve">
-    <value>Valore del bolo mancante.\nVuoi salvare senza?</value>
+    <value>Valore del bolo mancante.
+    Vuoi salvare senza?</value>
   </data>
   <data name="MissingInjectionLocation" xml:space="preserve">
-    <value>Posizione dell'iniezione mancante.\nVuoi salvare senza?</value>
+    <value>Posizione dell'iniezione mancante.
+    Vuoi salvare senza?</value>
   </data>
   <data name="SelectInsulinType" xml:space="preserve">
     <value>Seleziona il tipo di insulina di questa iniezione</value>
@@ -1297,7 +1300,8 @@
     <value>Posizione già  impostata</value>
   </data>
   <data name="PositionAlreadySetMessage" xml:space="preserve">
-    <value>Questa iniezione ha già  una posizione da una selezione precedente.\nVuoi mantenere questa posizione per la nuova iniezione?</value>
+    <value>Questa iniezione ha già  una posizione da una selezione precedente.
+    Vuoi mantenere questa posizione per la nuova iniezione?</value>
   </data>
   <data name="KeepPosition" xml:space="preserve">
     <value>Mantieni Posizione</value>
@@ -1309,10 +1313,14 @@
     <value>Errore di Configurazione</value>
   </data>
   <data name="NoShortInsulinConfigured" xml:space="preserve">
-    <value>Nessuna insulina rapida configurata.\nConfigura le impostazioni dell'insulina.\nIl farmaco insulinico sarà  impostato a null</value>
+    <value>Nessuna insulina rapida configurata.
+    Configura le impostazioni dell'insulina.
+    Il farmaco insulinico sarà  impostato a null</value>
   </data>
   <data name="NoLongInsulinConfigured" xml:space="preserve">
-    <value>Nessuna insulina lenta configurata.\nConfigura le impostazioni dell'insulina.\nIl tipo di farmaco insulinico sarà  impostato a null</value>
+    <value>Nessuna insulina lenta configurata.
+    Configura le impostazioni dell'insulina.
+    Il tipo di farmaco insulinico sarà  impostato a null</value>
   </data>
   <data name="DeleteInjectionConfirm" xml:space="preserve">
     <value>Devo eliminare l'iniezione di {1}, insulina {0}?</value>
@@ -1345,7 +1353,8 @@
     <value>Discrepanza valori</value>
   </data>
   <data name="ValueDiscrepancyMessage" xml:space="preserve">
-    <value>Il valore dei Carboidrati totali e/o dell'accuratezza à¨ diverso da quello calcolato con i singoli alimenti.\nSalviamo i valori visualizzati o quelli calcolati?</value>
+    <value>Il valore dei Carboidrati totali e/o dell'accuratezza è diverso da quello calcolato con i singoli alimenti.
+    Salviamo i valori visualizzati o quelli calcolati?</value>
   </data>
   <data name="UseCalculated" xml:space="preserve">
     <value>Usa Calcolati</value>
@@ -1411,13 +1420,16 @@
     <value>Scegli un alimento da salvare</value>
   </data>
   <data name="FoodNameCannotBeEmpty" xml:space="preserve">
-    <value>Il nome dell'alimento non puà² essere vuoto.\nInserisci un nome per l'alimento.</value>
+    <value>Il nome dell'alimento non può essere vuoto.
+    Inserisci un nome per l'alimento.</value>
   </data>
   <data name="FoodNameCannotBeEmptyBeforeChoosing" xml:space="preserve">
-    <value>Il nome dell'alimento non puà² essere vuoto.\nInserisci un nome prima di scegliere.</value>
+    <value>Il nome dell'alimento non può essere vuoto.
+    Inserisci un nome prima di scegliere.</value>
   </data>
   <data name="CarbohydratesMustBeSet" xml:space="preserve">
-    <value>I carboidrati di un nuovo alimento devono essere impostati e maggiori di zero.\nAlimento non salvato</value>
+    <value>I carboidrati di un nuovo alimento devono essere impostati e maggiori di zero.
+    Alimento non salvato</value>
   </data>
   <data name="DeleteFoodConfirm" xml:space="preserve">
     <value>Eliminare l'alimento {0}, CHO% {1}, Id {2}?</value>
@@ -1519,13 +1531,17 @@
     <value>Intervallo di date non valido</value>
   </data>
   <data name="InvalidDateRangeMessage" xml:space="preserve">
-    <value>La data 'Da' non puà² essere successiva alla data 'A'.\nLa data 'A' à¨ stata impostata a 1 giorno pià¹ della data 'Da'</value>
+    <value>La data 'Da' non può essere successiva alla data 'A'.
+    La data 'A' è stata impostata a 1 giorno più della data 'Da'</value>
   </data>
   <data name="ImportGlucoseConfirmTitle" xml:space="preserve">
     <value>Importa dati dal sensore</value>
   </data>
   <data name="ImportGlucoseConfirmMessage" xml:space="preserve">
-    <value>Seleziona il file scaricato dal tuo account LibreView Web.\n\nIl file CSV deve contenere le misurazioni del glucosio dal sensore Freestyle Libre.\n\nContinuare?</value>
+    <value>Seleziona il file scaricato dal tuo account LibreView Web.
+    
+    Il file CSV deve contenere le misurazioni del glucosio dal sensore Freestyle Libre.
+    Continuare?</value>
   </data>
   <data name="ImportFinishedTitle" xml:space="preserve">
     <value>Importazione completata</value>
@@ -1537,7 +1553,7 @@
     <value>Inserisci ora attuale: copia giorno e ora correnti nella data della misurazione glicemica corrente</value>
   </data>
   <data name="BtnNextTooltip" xml:space="preserve">
-    <value>Inserisci la prossima misurazione: sposta la misurazione corrente in precedente e copia l'ora corrente nella misurazione pià¹ recente</value>
+    <value>Inserisci la prossima misurazione: sposta la misurazione corrente in precedente e copia l'ora corrente nella misurazione più recente</value>
   </data>
   <data name="BtnReadTooltip" xml:space="preserve">
     <value>Leggi: legge le ultime due misurazioni di glicemia dal database</value>
@@ -1703,7 +1719,7 @@
     <value>Fatto</value>
   </data>
   <data name="AppShortScope" xml:space="preserve">
-    <value>GlucoMan (Glucose Manager) à¨ un programma per la gestione del glucosio per le persone diabetiche</value>
+    <value>GlucoMan (Glucose Manager) è un programma per la gestione del glucosio per le persone diabetiche</value>
   </data>
   <data name="AppAboutParagrah1" xml:space="preserve">
     <value>Aiuta nelle operazioni quotidiane che servono per gestire la conta dei carboidrati. Attualmente gestisce dati che riguardano il glucosio del sangue misurato, i carboidrati ingeriti ai pasti, i cibi e le iniezioni di insulina.</value>
@@ -1817,7 +1833,7 @@
     <value>Cancella campi: cancella tutti i dati nell'interfaccia</value>
   </data>
   <data name="TooltipPlus" xml:space="preserve">
-    <value>Pià¹: aggiunge un nuovo contenitore con i dati dall'interfaccia</value>
+    <value>Più: aggiunge un nuovo contenitore con i dati dall'interfaccia</value>
   </data>
   <data name="TooltipMinus" xml:space="preserve">
     <value>Meno: cancella i campi o rimuove il contenitore selezionato</value>
@@ -2553,7 +2569,9 @@ Durata: {2}</value>
     <value>Importa immagini</value>
   </data>
   <data name="ImportImages_Description" xml:space="preserve">
-    <value>L'importazione copierà anche tutte le immagini trovate nella sottocartella '{0}' situata accanto al file di database selezionato nella cartella interna '{0}' dell'app.\n\nVuoi continuare e importare queste immagini?</value>
+    <value>L'importazione copierà anche tutte le immagini trovate nella sottocartella '{0}' situata accanto al file di database selezionato nella cartella interna '{0}' dell'app.
+    
+    Vuoi continuare e importare queste immagini?</value>
   </data>
   <data name="Brand" xml:space="preserve">
     <value>Marca</value>
@@ -2569,5 +2587,164 @@ Durata: {2}</value>
   </data>
   <data name="SearchOfFoodsInMealsPageTitle" xml:space="preserve">
     <value>Cibi nei pasti che hanno un nome simile a quello passato</value>
+  </data>
+  <data name="CGMSensorDialogTitle" xml:space="preserve">
+    <value>Sensore Glicemia</value>
+    <comment>Title for the dialog asking about CGM sensor usage</comment>
+  </data>
+  <data name="CGMSensorDialogMessage" xml:space="preserve">
+    <value>Utilizzi un sensore di monitoraggio continuo della glicemia (CGM)?
+
+Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie con il monitoraggio in tempo reale e rischiano di compromettere il funzionamento degli allarmi del CGM.</value>
+    <comment>Message body for the CGM sensor dialog</comment>
+  </data>
+  <data name="CGMSensorDialogYesButton" xml:space="preserve">
+    <value>Sì, uso un sensore CGM</value>
+    <comment>Positive button text for CGM sensor dialog</comment>
+  </data>
+  <data name="CGMSensorDialogNoButton" xml:space="preserve">
+    <value>No, non uso un sensore</value>
+    <comment>Negative button text for CGM sensor dialog</comment>
+  </data>
+  <data name="FileNotExistingOrNotAccessible" xml:space="preserve">
+    <value>File non esistente o non accessibile</value>
+  </data>
+  <data name="AlarmWillAlertBeforePredictedHypoglycemia" xml:space="preserve">
+    <value>L'allarme ti avviserà prima dell'ipoglicemia prevista.</value>
+  </data>
+  <data name="AlarmSet" xml:space="preserve">
+    <value>Allarme Impostato</value>
+  </data>
+  <data name="AlarmSetForTime" xml:space="preserve">
+    <value>⏰ Allarme impostato per le {0}:{1:D2}</value>
+    <comment>{0} = ora, {1} = minuto</comment>
+  </data>
+  <data name="FailedToCreateAlarmNoId" xml:space="preserve">
+    <value>Impossibile creare l'allarme - nessun ID assegnato</value>
+  </data>
+  <data name="FailedToSetAlarm" xml:space="preserve">
+    <value>Impossibile impostare l'allarme:
+    {0}</value>
+    <comment>{0} = messaggio di errore</comment>
+  </data>
+  <data name="ErrorDeletingContainer" xml:space="preserve">
+    <value>Si è verificato un errore durante l'eliminazione. Riprova.</value>
+  </data>
+  <data name="ErrorDuringCrop" xml:space="preserve">
+    <value>Errore durante il ritaglio: {0}</value>
+    <comment>{0} = messaggio di errore</comment>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>Nessun dato</value>
+  </data>
+  <data name="ComingSoon" xml:space="preserve">
+    <value>Prossimamente</value>
+  </data>
+  <data name="DateRangeFromTo" xml:space="preserve">
+    <value>Da: {0} - A: {1}</value>
+    <comment>{0} = data inizio, {1} = data fine</comment>
+  </data>
+  <data name="FailedToIdentifyParameters" xml:space="preserve">
+    <value>Impossibile identificare i parametri: {0}</value>
+    <comment>{0} = messaggio di errore</comment>
+  </data>
+  <data name="DebugMode" xml:space="preserve">
+    <value>Modalità Debug</value>
+  </data>
+  <data name="ViewGraphForEachSegmentQuestion" xml:space="preserve">
+    <value>Vuoi visualizzare il grafico per ogni segmento identificato?
+    
+    Questo mostrerà la ChartPage per ogni segmento durante l'identificazione.</value>
+  </data>
+  <data name="SegmentInfo" xml:space="preserve">
+    <value>Info Segmento</value>
+  </data>
+  <data name="SegmentInfoMessage" xml:space="preserve">
+    <value>Segmento #{0}
+    Tipo: {1}
+    Inizio: {2}
+    
+    Rivedi il grafico, poi scegli:</value>
+    <comment>{0} = indice segmento, {1} = tipo di input, {2} = ora inizio</comment>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continua</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Ferma</value>
+  </data>
+  <data name="UserCancelledIdentification" xml:space="preserve">
+    <value>Utente ha annullato l'identificazione durante la revisione debug.</value>
+  </data>
+  <data name="IdentificationComplete" xml:space="preserve">
+    <value>Identificazione Completata</value>
+  </data>
+  <data name="IdentificationCompleteMessage" xml:space="preserve">
+    <value>Trovati {0} segmenti isolati:
+    - CHO: {1} segmenti
+    - Insulina: {2} segmenti
+    - Pasti Isolati: {3}
+    - Iniezioni Isolate: {4}
+    
+    LATO SINISTRO (prima evento):
+        Stabilità basale: {5:F1}h, pendenza max {6:F1} mg/dL/h
+        Isolamento opposto: {7:F1}h
+        
+        LATO DESTRO (dopo evento):
+        Isolamento opposto: {8:F1}h
+        Nessun controllo stabilità glicemia (dinamica libera)
+        
+        Campionamento: {9:F0} min ({10:F0}s)</value>
+    <comment>Messaggio risultato identificazione complesso con parametri multipli</comment>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Annullato</value>
+  </data>
+  <data name="IdentificationCancelled" xml:space="preserve">
+    <value>L'identificazione è stata annullata durante la revisione debug.</value>
+  </data>
+  <data name="InsufficientGlucoseData" xml:space="preserve">
+    <value>Dati glicemici insufficienti. Necessarie almeno 10 misurazioni.</value>
+  </data>
+  <data name="IdentificationFailedInsufficientData" xml:space="preserve">
+    <value>Identificazione fallita: dati insufficienti</value>
+  </data>
+  <data name="IdentificationFailedCheckData" xml:space="preserve">
+    <value>Identificazione fallita. Controlla la qualità dei dati.</value>
+  </data>
+  <data name="IdentificationFailed" xml:space="preserve">
+    <value>Identificazione fallita</value>
+  </data>
+  <data name="MIMOIdentificationComplete" xml:space="preserve">
+    <value>Identificazione MIMO Completata</value>
+  </data>
+  <data name="MIMOIdentificationCompleteMessage" xml:space="preserve">
+    <value>Costante di tempo τ = {0:F1} min
+    Guadagno CHO K₁ = {1:G3} mg/dL per g
+    Guadagno Insulina K₂ = {2:G3} mg/dL per U
+    Equilibrio Y₀ = {3:F0} mg/dL
+    
+    Ritardi: CHO = {4:F0} min, Insulina = {5:F0} min
+    
+    Adattamento: R² = {6:F3}, RMSE = {7:F1} mg/dL</value>
+    <comment>MIMO = Multiple Input Multiple Output risultati identificazione</comment>
+  </data>
+  <data name="IdentificationFailedWithMessage" xml:space="preserve">
+    <value>Identificazione fallita: {0}</value>
+    <comment>{0} = messaggio di errore</comment>
+  </data>
+  <data name="WindowsAlarmTestNotificationTitle" xml:space="preserve">
+    <value>Test GlucoMan</value>
+  </data>
+  <data name="WindowsAlarmTestNotificationMessage" xml:space="preserve">
+    <value>Le notifiche degli allarmi funzionano!
+    
+    Nota: Gli allarmi richiedono che l'app sia in esecuzione.</value>
+  </data>
+  <data name="GlucoManAlarm" xml:space="preserve">
+    <value>Allarme GlucoMan</value>
+  </data>
+  <data name="StopTracking" xml:space="preserve">
+    <value>Ferma Tracciamento</value>
   </data>
 </root>

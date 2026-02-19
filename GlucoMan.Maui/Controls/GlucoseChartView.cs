@@ -255,3 +255,4 @@ public class GlucoseChartView : SKCanvasView
         return chartRect.Bottom - ratio * chartRect.Height;
     }
 }
+

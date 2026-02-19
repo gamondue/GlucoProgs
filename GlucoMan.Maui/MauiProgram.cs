@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using gamon;
 using GlucoMan; // for ISystemAlarmScheduler
@@ -75,6 +75,9 @@ namespace GlucoMan.Maui
             Common.SetGlobalParameters();
             Common.GeneralInitializationsAsync();
 
+            // Initialize the DatabaseService singleton (moved from CommonFunctions.cs)
+            DatabaseService.Instance.Initialize(Common.PathAndFileDatabase);
+
             General.LogOfProgram = new Logger(Common.PathLogs, true,
                 @"GlucoMan_Log.txt",
                 @"GlucoMan_Errors.txt",
@@ -92,3 +95,4 @@ namespace GlucoMan.Maui
         public Task CancelAllAsync() => Task.CompletedTask;
     }
 }
+

@@ -5,6 +5,7 @@ using Android.Media;
 using Android.OS;
 using AndroidX.Core.App;
 using GlucoMan;
+using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui.Platforms.Android
 {
@@ -62,7 +63,7 @@ namespace GlucoMan.Maui.Platforms.Android
 
                 // Build notification
                 var builder = new NotificationCompat.Builder(context, "glucoman_alarms")
-                    .SetContentTitle("GlucoMan Alarm")
+                    .SetContentTitle(AppStrings.GlucoManAlarm)
                     .SetContentText(text)
                     .SetSmallIcon(global::Android.Resource.Drawable.IcDialogInfo)
                     .SetPriority((int)NotificationPriority.High)
@@ -112,7 +113,7 @@ namespace GlucoMan.Maui.Platforms.Android
         {
             try
             {
-                if (Common.Database != null)
+                if (DatabaseService.Instance.Database != null)
                 {
                     var blAlarms = new BL_Alarms();
                     var alarms = blAlarms.GetAllAlarms(all: true);
@@ -133,3 +134,4 @@ namespace GlucoMan.Maui.Platforms.Android
     }
 }
 #endif
+

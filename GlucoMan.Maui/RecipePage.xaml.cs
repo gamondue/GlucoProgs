@@ -706,3 +706,4 @@ public partial class RecipePage : ContentPage
         }
     }
 }
+

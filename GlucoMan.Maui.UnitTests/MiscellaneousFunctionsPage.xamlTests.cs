@@ -1,11 +1,12 @@
-﻿using GlucoMan.Maui;
+﻿using System;
+
+using GlucoMan.Maui;
 using GlucoMan.Maui.Services;
 using Microsoft.Maui.Controls;
 using NUnit.Framework;
-using System;
-
 
 namespace GlucoMan.Maui.UnitTests;
+
 
 /// <summary>
 /// Tests for the MiscellaneousFunctionsPage class.
@@ -111,5 +112,68 @@ public partial class MiscellaneousFunctionsPageTests
         Assert.Inconclusive(
             "Cannot test missing service registration scenario - GetService cannot be mocked. " +
             "Requires integration testing with MAUI DI container.");
+    }
+
+    /// <summary>
+    /// Documents expected behavior when MauiContext is null.
+    /// This scenario cannot be tested because the MauiContext property cannot be mocked.
+    /// 
+    /// Expected behavior: Constructor should throw NullReferenceException when MauiContext is null.
+    /// </summary>
+    [Test]
+    public void Constructor_WhenMauiContextIsNull_ShouldThrowNullReferenceException()
+    {
+        // Cannot test because:
+        // 1. MauiContext is a property that cannot be mocked (per symbol table)
+        // 2. Cannot control the Handler.MauiContext property chain
+        // 
+        // In a real scenario where MauiContext is null, this would throw:
+        // System.NullReferenceException at: Application.Current.Handler.MauiContext.Services access
+
+        Assert.Inconclusive(
+            "Cannot test null MauiContext scenario - property chain cannot be mocked. " +
+            "In production, this would throw NullReferenceException if MauiContext is not initialized.");
+    }
+
+    /// <summary>
+    /// Documents expected behavior when Services is null.
+    /// This scenario cannot be tested because the Services property cannot be mocked.
+    /// 
+    /// Expected behavior: Constructor should throw NullReferenceException when Services is null.
+    /// </summary>
+    [Test]
+    public void Constructor_WhenServicesIsNull_ShouldThrowNullReferenceException()
+    {
+        // Cannot test because:
+        // 1. Services is a property that cannot be mocked (per symbol table)
+        // 2. Cannot control the Handler.MauiContext.Services property chain
+        // 
+        // In a real scenario where Services is null, this would throw:
+        // System.NullReferenceException at: Services.GetService<LocalizationService>() access
+
+        Assert.Inconclusive(
+            "Cannot test null Services scenario - property chain cannot be mocked. " +
+            "In production, this would throw NullReferenceException if Services is not initialized.");
+    }
+
+    /// <summary>
+    /// Documents expected behavior when InitializeComponent throws an exception.
+    /// This scenario cannot be tested because InitializeComponent is XAML-generated and cannot be mocked.
+    /// 
+    /// Expected behavior: Constructor should propagate any exception thrown by InitializeComponent.
+    /// </summary>
+    [Test]
+    public void Constructor_WhenInitializeComponentThrows_ShouldPropagateException()
+    {
+        // Cannot test because:
+        // 1. InitializeComponent is XAML-generated and marked as "Cannot be mocked" in symbol table
+        // 2. Cannot simulate XAML parsing or loading errors without MAUI infrastructure
+        // 
+        // Expected behavior: Any exception from InitializeComponent (e.g., XamlParseException)
+        // should propagate to the caller without being caught.
+
+        Assert.Inconclusive(
+            "Cannot test InitializeComponent exception scenario - XAML infrastructure cannot be mocked. " +
+            "Requires integration testing with MAUI XAML parser.");
     }
 }

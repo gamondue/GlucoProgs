@@ -30,3 +30,4 @@ public class DoubleTextConverter : IValueConverter
    return value;
     }
 }
+

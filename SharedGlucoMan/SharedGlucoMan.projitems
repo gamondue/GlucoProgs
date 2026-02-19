@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -9,72 +9,11 @@
     <Import_RootNamespace>GlucoMan</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_Alarms.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_BolusesAndInjections.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_Containers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_FoodToHitTargetCarbs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_General.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_GpsTracking.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_MealAndFood.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_Recipes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Alarm.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Container.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Device.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\DevicesModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\GpsPosition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\ISystemAlarmScheduler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\PhysicalActivity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Point.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\StatisticsData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Track.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\WeighingData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\WeightsForWeighing.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_Containers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_Events.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_GpsTracking.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_PhysicalActivities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Event.cs" />
-    <Compile Include="..\SharedGlucoMan\BusinessObjects\CategoryOfFood.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodInMeal.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\InsulinDrug.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Manufacturer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Parameters.cs" />
-    <Compile Include="..\SharedGlucoMan\BusinessObjects\Injection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\PositionOfInjection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Recipe.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Ingredient.cs" />
-    <Compile Include="..\SharedGlucoMan\BusinessObjects\UnitOfFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommonEnums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonFunctions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_GlucoseMeasurements.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_GrossTareAndNetWeight.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_HypoPrediction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_WeighFood.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Bolus.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodToHitTargetCarbs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_AlarmManagement.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_Recipes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Devices\DiabetesM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Devices\FatSecret.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Devices\FreeStyleLibre.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\HypoPredictionData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Meal.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Food.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\GlucoseRecord.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\DataLayer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BusinessLayer\BL_ImportData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_BolusesAndInjections.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_DataLayerConstructorsAndGeneral.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_GlucoseMeasurements.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_GrossTareAndNetWeight.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_HypoPrediction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_MealAndFood.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\Sqlite_SqlToCreateDatabase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_WeighFood.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)BusinessObjects\Directory.Build.props" />
-    <None Include="$(MSBuildThisFileDirectory)BusinessObjects\Directory.Packages.props" />
-    <None Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\Directory.Packages.props" />
   </ItemGroup>
 </Project>

@@ -2,7 +2,6 @@
 using Microsoft.Maui.Controls;
 using NUnit.Framework;
 
-
 namespace GlucoMan.Maui.UnitTests
 {
     /// <summary>
@@ -62,6 +61,25 @@ namespace GlucoMan.Maui.UnitTests
         public void Constructor_WhenCalled_RegistersAllRoutes()
         {
             Assert.Inconclusive("Route registration verification requires integration testing or framework modification.");
+        }
+
+        /// <summary>
+        /// Tests that multiple AppShell instances can be created without throwing exceptions.
+        /// Verifies that there are no shared state issues or initialization conflicts.
+        /// </summary>
+        [Test]
+        public void Constructor_WhenCalledMultipleTimes_CreatesMultipleInstancesSuccessfully()
+        {
+            // Arrange & Act & Assert
+            Assert.DoesNotThrow(() =>
+            {
+                var appShell1 = new AppShell();
+                var appShell2 = new AppShell();
+
+                Assert.That(appShell1, Is.Not.Null);
+                Assert.That(appShell2, Is.Not.Null);
+                Assert.That(appShell1, Is.Not.SameAs(appShell2));
+            });
         }
     }
 }
