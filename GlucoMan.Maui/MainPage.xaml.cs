@@ -1,5 +1,6 @@
 ﻿using gamon;
 using GlucoMan.Maui.Services;
+using GlucoMan.Maui.Resources.Strings;
 using Microsoft.Maui.Controls;
 using System;
 
@@ -58,10 +59,10 @@ namespace GlucoMan.Maui
             {
                 // Request permissions asynchronously without blocking UI
                 await RequestPermissionsIfNotGiven();
-                
+
                 // Add a short delay if needed, but don't block the UI thread
                 await Task.Delay(100);
-                
+
                 // already called in MauiProgram.cs
                 //Common.SetGlobalParameters();
 
@@ -75,6 +76,23 @@ namespace GlucoMan.Maui
                     Common.lunchEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Lunch_EndTime_Hours"));
                     Common.dinnerStartHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Dinner_StartTime_Hours"));
                     Common.dinnerEndHour = Safe.Double(Common.BlGeneral.RestoreParameter("Meal_Dinner_EndTime_Hours"));
+
+                    // Load CantSetAlarms parameter
+                    string CantSetAlarmsValue = Common.BlGeneral.RestoreParameter("CantSetAlarms");
+                    if (CantSetAlarmsValue == null)
+                    {
+                        // First run - parameter doesn't exist in database yet
+                        // Ask user if they use a continuous glucose sensor
+                        await AskAboutContinuousGlucoseSensor();
+                    }
+                    else
+                    {
+                        // Load existing value from database
+                        Common.CantSetAlarms = CantSetAlarmsValue.ToLower() == "true" || CantSetAlarmsValue == "1";
+                    }
+
+                    // Disable alarm button if CantSetAlarms is true (user has sensor)
+                    btnAlarms.IsEnabled = !Common.CantSetAlarms;
                 }
                 catch (Exception ex)
                 {
@@ -86,6 +104,8 @@ namespace GlucoMan.Maui
                     Common.lunchEndHour = 15.0;
                     Common.dinnerStartHour = 18.0;
                     Common.dinnerEndHour = 22.0;
+                    Common.CantSetAlarms = false;
+                    btnAlarms.IsEnabled = true;
                 }
             }
             catch (Exception ex)
@@ -162,6 +182,41 @@ namespace GlucoMan.Maui
         {
             await Navigation.PushAsync(new AlarmPage());
         }
+
+        /// <summary>
+        /// Asks the user if they use a continuous glucose monitoring sensor.
+        /// If yes, sets CantSetAlarms to true and disables alarm buttons.
+        /// </summary>
+        private async Task AskAboutContinuousGlucoseSensor()
+        {
+            try
+            {
+                bool usesSensor = await DisplayAlert(
+                    AppStrings.CGMSensorDialogTitle,
+                    AppStrings.CGMSensorDialogMessage,
+                    AppStrings.CGMSensorDialogYesButton,
+                    AppStrings.CGMSensorDialogNoButton);
+
+                Common.CantSetAlarms = usesSensor;
+
+                // Save the setting to database
+                Common.BlGeneral.SaveParameter("CantSetAlarms", usesSensor ? "true" : "false");
+
+                General.LogOfProgram?.Event($"MainPage - User configured CantSetAlarms: {Common.CantSetAlarms}");
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram?.Error("MainPage - AskAboutContinuousGlucoseSensor", ex);
+                // Default to false if there's an error
+                Common.CantSetAlarms = false;
+                try
+                {
+                    Common.BlGeneral.SaveParameter("CantSetAlarms", "false");
+                }
+                catch { }
+            }
+        }
+
         private async void btnMiscellaneousFunctions_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new MiscellaneousFunctionsPage());

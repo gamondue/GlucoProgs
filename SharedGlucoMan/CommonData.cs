@@ -37,7 +37,14 @@ namespace GlucoMan
         public static double? lunchEndHour = 15;
         public static double? dinnerStartHour = 17;
         public static double? dinnerEndHour = 21;
-        
+
+        /// <summary>
+        /// Indicates whether alarms can be set. When true, alarm buttons are disabled.
+        /// This is automatically set to true when user declares to have a continuous 
+        /// glucose monitoring sensor.
+        /// </summary>
+        public static bool CantSetAlarms;
+
         #region enums
         public enum TypeOfGlucoseMeasurement
         {

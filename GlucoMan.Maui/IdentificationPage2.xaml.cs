@@ -1,4 +1,5 @@
 using GlucoMan;
+using GlucoMan.Maui.Resources.Strings;
 using Mathematics.Identification1;
 
 namespace GlucoMan.Maui;
@@ -13,7 +14,7 @@ public partial class IdentificationPage2 : ContentPage
         InitializeComponent();
         _dateTo = dateTo;
         _dateFrom = dateTo.AddDays(-7 * nWeeks);
-        lblDateRange.Text = $"From: {_dateFrom:dd/MM/yyyy} - To: {_dateTo:dd/MM/yyyy}";
+        lblDateRange.Text = string.Format(AppStrings.DateRangeFromTo, _dateFrom.ToString("dd/MM/yyyy"), _dateTo.ToString("dd/MM/yyyy"));
     }
 
     private async void btnIdentify3_Click(object sender, EventArgs e)
@@ -36,8 +37,8 @@ public partial class IdentificationPage2 : ContentPage
             // Validate Data availability
             if (glucose == null || glucose.Count < 10)
             {
-                await DisplayAlert("Error", "Insufficient glucose data. Need at least 10 measurements.", "OK");
-                lblStatus.Text = "Identification failed: insufficient data";
+                await DisplayAlert(AppStrings.Error, AppStrings.InsufficientGlucoseData, AppStrings.OK);
+                lblStatus.Text = AppStrings.IdentificationFailedInsufficientData;
                 return;
             }
 
@@ -57,8 +58,8 @@ public partial class IdentificationPage2 : ContentPage
 
             if (result == null)
             {
-                await DisplayAlert("Error", "Identification failed. Check data quality.", "OK");
-                lblStatus.Text = "Identification failed";
+                await DisplayAlert(AppStrings.Error, AppStrings.IdentificationFailedCheckData, AppStrings.OK);
+                lblStatus.Text = AppStrings.IdentificationFailed;
                 return;
             }
 
@@ -87,19 +88,22 @@ public partial class IdentificationPage2 : ContentPage
             lblStatus.Text = $"Identification complete. Data: {result.DataStart:dd/MM} - {result.DataEnd:dd/MM}";
 
             // Show summary alert
-            await DisplayAlert("MIMO Identification Complete",
-                $"Time constant ? = {result.Tau / 60:F1} min\n" +
-                $"CHO gain K? = {result.K1:G3} mg/dL per g\n" +
-                $"Insulin gain K? = {result.K2:G3} mg/dL per U\n" +
-                $"Equilibrium Y? = {result.Y0:F0} mg/dL\n\n" +
-                $"Delays: CHO = {result.Delay1Seconds / 60:F0} min, Insulin = {result.Delay2Seconds / 60:F0} min\n\n" +
-                $"Fit: R² = {result.RSquared:F3}, RMSE = {result.RMSE:F1} mg/dL",
-                "OK");
+            await DisplayAlert(AppStrings.MIMOIdentificationComplete,
+                string.Format(AppStrings.MIMOIdentificationCompleteMessage,
+                    result.Tau / 60,
+                    result.K1,
+                    result.K2,
+                    result.Y0,
+                    result.Delay1Seconds / 60,
+                    result.Delay2Seconds / 60,
+                    result.RSquared,
+                    result.RMSE),
+                AppStrings.OK);
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Identification failed: {ex.Message}", "OK");
-            lblStatus.Text = $"Error: {ex.Message}";
+            await DisplayAlert(AppStrings.Error, string.Format(AppStrings.IdentificationFailedWithMessage, ex.Message), AppStrings.OK);
+            lblStatus.Text = string.Format(AppStrings.IdentificationFailedWithMessage, ex.Message);
             System.Diagnostics.Debug.WriteLine($"MIMO Identification Error: {ex}");
         }
         finally

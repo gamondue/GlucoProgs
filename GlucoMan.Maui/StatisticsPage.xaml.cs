@@ -362,20 +362,20 @@ public partial class StatisticsPage : ContentPage
     #region Helper Methods
     private void SetErrorLabels(Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
-        meanLabel.Text = "Error";
-        stdDevLabel.Text = "Error";
+        meanLabel.Text = AppStrings.Error;
+        stdDevLabel.Text = AppStrings.Error;
         samplesLabel.Text = "0";
     }
     private void SetNoDataLabels(Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
-        meanLabel.Text = "No data";
-        stdDevLabel.Text = "No data";
+        meanLabel.Text = AppStrings.NoData;
+        stdDevLabel.Text = AppStrings.NoData;
         samplesLabel.Text = "0";
     }
     private void SetPlaceholderLabels(Label meanLabel, Label stdDevLabel, Label samplesLabel)
     {
-        meanLabel.Text = "Coming soon";
-        stdDevLabel.Text = "Coming soon";
+        meanLabel.Text = AppStrings.ComingSoon;
+        stdDevLabel.Text = AppStrings.ComingSoon;
         samplesLabel.Text = "--";
     }
     #endregion

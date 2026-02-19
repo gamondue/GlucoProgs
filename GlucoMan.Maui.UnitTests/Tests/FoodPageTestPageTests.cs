@@ -1,10 +1,15 @@
-﻿using GlucoMan;
+﻿using System;
+
+using gamon;
+using GlucoMan;
 using GlucoMan.Maui.Tests;
+using Microsoft.Maui;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 using NUnit.Framework;
 
-
 namespace GlucoMan.Maui.Tests.UnitTests;
+
 
 /// <summary>
 /// Unit tests for the FoodPageTestPage class.

@@ -268,6 +268,24 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Alarm Set.
+        /// </summary>
+        public static string AlarmSet {
+            get {
+                return ResourceManager.GetString("AlarmSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a ⏰ Alarm set for {0}:{1:D2}.
+        /// </summary>
+        public static string AlarmSetForTime {
+            get {
+                return ResourceManager.GetString("AlarmSetForTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Alarms List.
         /// </summary>
         public static string AlarmsList {
@@ -291,6 +309,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string AlarmTimeHeader {
             get {
                 return ResourceManager.GetString("AlarmTimeHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a The alarm will alert you before predicted hypoglycemia..
+        /// </summary>
+        public static string AlarmWillAlertBeforePredictedHypoglycemia {
+            get {
+                return ResourceManager.GetString("AlarmWillAlertBeforePredictedHypoglycemia", resourceCulture);
             }
         }
         
@@ -691,6 +718,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Cancelled.
+        /// </summary>
+        public static string Cancelled {
+            get {
+                return ResourceManager.GetString("Cancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Cannot close page: {0}.
         /// </summary>
         public static string CannotClosePage {
@@ -709,7 +745,8 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Carbohydrates of a new food must be set and greater than zero.\nFood not saved.
+        ///   Cerca una stringa localizzata simile a Carbohydrates of a new food must be set and greater than zero.
+        ///    Food not saved.
         /// </summary>
         public static string CarbohydratesMustBeSet {
             get {
@@ -759,6 +796,44 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Category {
             get {
                 return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Do you use a continuous glucose monitoring (CGM) sensor?
+        ///
+        ///If yes, alarm functions will be disabled as they are not needed with real-time monitoring and risk to interfere with the CGM&apos;s alarms..
+        /// </summary>
+        public static string CGMSensorDialogMessage {
+            get {
+                return ResourceManager.GetString("CGMSensorDialogMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a No, I don&apos;t use a sensor.
+        /// </summary>
+        public static string CGMSensorDialogNoButton {
+            get {
+                return ResourceManager.GetString("CGMSensorDialogNoButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Continuous Glucose Sensor.
+        /// </summary>
+        public static string CGMSensorDialogTitle {
+            get {
+                return ResourceManager.GetString("CGMSensorDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Yes, I use a CGM sensor.
+        /// </summary>
+        public static string CGMSensorDialogYesButton {
+            get {
+                return ResourceManager.GetString("CGMSensorDialogYesButton", resourceCulture);
             }
         }
         
@@ -1177,6 +1252,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Coming soon.
+        /// </summary>
+        public static string ComingSoon {
+            get {
+                return ResourceManager.GetString("ComingSoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Configuration.
         /// </summary>
         public static string Configuration {
@@ -1299,6 +1383,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string ContainersPageTitle {
             get {
                 return ResourceManager.GetString("ContainersPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Continue.
+        /// </summary>
+        public static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
             }
         }
         
@@ -1494,6 +1587,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         /// <summary>
         ///   Cerca una stringa localizzata simile a From: {0} - To: {1}.
         /// </summary>
+        public static string DateRangeFromTo {
+            get {
+                return ResourceManager.GetString("DateRangeFromTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a From: {0} - To: {1}.
+        /// </summary>
         public static string DateRangeLabel {
             get {
                 return ResourceManager.GetString("DateRangeLabel", resourceCulture);
@@ -1515,6 +1617,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Days {
             get {
                 return ResourceManager.GetString("Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Debug Mode.
+        /// </summary>
+        public static string DebugMode {
+            get {
+                return ResourceManager.GetString("DebugMode", resourceCulture);
             }
         }
         
@@ -1807,6 +1918,24 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a An error occurred while deleting. Please try again..
+        /// </summary>
+        public static string ErrorDeletingContainer {
+            get {
+                return ResourceManager.GetString("ErrorDeletingContainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Error during cropping: {0}.
+        /// </summary>
+        public static string ErrorDuringCrop {
+            get {
+                return ResourceManager.GetString("ErrorDuringCrop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Error during saving.
         /// </summary>
         public static string ErrorDuringSaving {
@@ -1888,6 +2017,24 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Failed to create alarm - no ID assigned.
+        /// </summary>
+        public static string FailedToCreateAlarmNoId {
+            get {
+                return ResourceManager.GetString("FailedToCreateAlarmNoId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Failed to identify parameters: {0}.
+        /// </summary>
+        public static string FailedToIdentifyParameters {
+            get {
+                return ResourceManager.GetString("FailedToIdentifyParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Failed to import recipe: {0}.
         /// </summary>
         public static string FailedToImportRecipe {
@@ -1924,6 +2071,16 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Failed to set alarm:
+        ///    {0}.
+        /// </summary>
+        public static string FailedToSetAlarm {
+            get {
+                return ResourceManager.GetString("FailedToSetAlarm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Fat.
         /// </summary>
         public static string Fat {
@@ -1938,6 +2095,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Fiber {
             get {
                 return ResourceManager.GetString("Fiber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a File not existing or not accessible.
+        /// </summary>
+        public static string FileNotExistingOrNotAccessible {
+            get {
+                return ResourceManager.GetString("FileNotExistingOrNotAccessible", resourceCulture);
             }
         }
         
@@ -2023,7 +2189,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Food name cannot be empty.\nPlease enter a name for the food..
+        ///   Cerca una stringa localizzata simile a Food name cannot be empty.Please enter a name for the food..
         /// </summary>
         public static string FoodNameCannotBeEmpty {
             get {
@@ -2032,7 +2198,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Food name cannot be empty.\nPlease enter a name for the food before choosing..
+        ///   Cerca una stringa localizzata simile a Food name cannot be empty.Please enter a name for the food before choosing..
         /// </summary>
         public static string FoodNameCannotBeEmptyBeforeChoosing {
             get {
@@ -2208,6 +2374,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string GlucColumn {
             get {
                 return ResourceManager.GetString("GlucColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GlucoMan Alarm.
+        /// </summary>
+        public static string GlucoManAlarm {
+            get {
+                return ResourceManager.GetString("GlucoManAlarm", resourceCulture);
             }
         }
         
@@ -2455,6 +2630,83 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Identification was cancelled during debug review..
+        /// </summary>
+        public static string IdentificationCancelled {
+            get {
+                return ResourceManager.GetString("IdentificationCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Identification Complete.
+        /// </summary>
+        public static string IdentificationComplete {
+            get {
+                return ResourceManager.GetString("IdentificationComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Found {0} isolated segments:
+        ///    - CHO: {1} segments
+        ///    - Insulin: {2} segments
+        ///    - Isolated Meals: {3}
+        ///    - Isolated Injections: {4}
+        ///    
+        ///    LEFT SIDE (before event):
+        ///      Basal stability: {5:F1}h, max slope {6:F1} mg/dL/h
+        ///      Opposite isolation: {7:F1}h
+        ///    
+        ///    RIGHT SIDE (after event):
+        ///      Opposite isolation: {8:F1}h
+        ///      No glucose stability check (free dynamics)
+        ///      
+        ///      Sampling: {9:F0} min ({10:F0}s).
+        /// </summary>
+        public static string IdentificationCompleteMessage {
+            get {
+                return ResourceManager.GetString("IdentificationCompleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Identification failed.
+        /// </summary>
+        public static string IdentificationFailed {
+            get {
+                return ResourceManager.GetString("IdentificationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Identification failed. Check data quality..
+        /// </summary>
+        public static string IdentificationFailedCheckData {
+            get {
+                return ResourceManager.GetString("IdentificationFailedCheckData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Identification failed: insufficient data.
+        /// </summary>
+        public static string IdentificationFailedInsufficientData {
+            get {
+                return ResourceManager.GetString("IdentificationFailedInsufficientData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Identification failed: {0}.
+        /// </summary>
+        public static string IdentificationFailedWithMessage {
+            get {
+                return ResourceManager.GetString("IdentificationFailedWithMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Parameters&apos; identification.
         /// </summary>
         public static string IdentificationPageTitle {
@@ -2509,7 +2761,11 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Select the file taken from your LibreView Web account.\n\nThe CSV file should contain glucose measurements from your Freestyle Libre sensor.\n\nContinue?.
+        ///   Cerca una stringa localizzata simile a Select the file taken from your LibreView Web account.
+        ///    
+        ///    The CSV file should contain glucose measurements from your Freestyle Libre sensor.
+        ///    
+        ///    Continue?.
         /// </summary>
         public static string ImportGlucoseConfirmMessage {
             get {
@@ -2536,7 +2792,9 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a The import will also copy all images found in the subfolder &apos;{0}&apos; located next to the selected database file into the app&apos;s internal &apos;{0}&apos; folder.\n\nDo you want to continue and import those images?.
+        ///   Cerca una stringa localizzata simile a The import will also copy all images found in the subfolder &apos;{0}&apos; located next to the selected database file into the app&apos;s internal &apos;{0}&apos; folder.
+        ///    
+        ///    Do you want to continue and import those images?.
         /// </summary>
         public static string ImportImages_Description {
             get {
@@ -2680,6 +2938,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Insufficient glucose data. Need at least 10 measurements..
+        /// </summary>
+        public static string InsufficientGlucoseData {
+            get {
+                return ResourceManager.GetString("InsufficientGlucoseData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Insulin.
         /// </summary>
         public static string Insulin {
@@ -2797,7 +3064,8 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a The &apos;From&apos; date cannot be later than the &apos;To&apos; date.\nTo date moved to 1 day more than from date.
+        ///   Cerca una stringa localizzata simile a The &apos;From&apos; date cannot be later than the &apos;To&apos; date.
+        ///    To date moved to 1 day more than from date.
         /// </summary>
         public static string InvalidDateRangeMessage {
             get {
@@ -3256,6 +3524,31 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a MIMO Identification Complete.
+        /// </summary>
+        public static string MIMOIdentificationComplete {
+            get {
+                return ResourceManager.GetString("MIMOIdentificationComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Time constant τ = {0:F1} min
+        ///    CHO gain K₁ = {1:G3} mg/dL per g
+        ///    Insulin gain K₂ = {2:G3} mg/dL per U
+        ///    Equilibrium Y₀ = {3:F0} mg/dL
+        ///    
+        ///    Delays: CHO = {4:F0} min, Insulin = {5:F0} min
+        ///    
+        ///    Fit: R² = {6:F3}, RMSE = {7:F1} mg/dL.
+        /// </summary>
+        public static string MIMOIdentificationCompleteMessage {
+            get {
+                return ResourceManager.GetString("MIMOIdentificationCompleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Min Glucose.
         /// </summary>
         public static string MinGlucose {
@@ -3337,7 +3630,8 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Missing bolus&apos; value.\nDo you want to save without it?.
+        ///   Cerca una stringa localizzata simile a Missing bolus&apos; value.
+        ///    Do you want to save without it?.
         /// </summary>
         public static string MissingBolusValue {
             get {
@@ -3346,7 +3640,8 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Missing Injection&apos;s Location\nDo you want to save without it?.
+        ///   Cerca una stringa localizzata simile a Missing Injection&apos;s Location
+        ///    Do you want to save without it?.
         /// </summary>
         public static string MissingInjectionLocation {
             get {
@@ -3490,6 +3785,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a No data.
+        /// </summary>
+        public static string NoData {
+            get {
+                return ResourceManager.GetString("NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a No data available.
         /// </summary>
         public static string NoDataAvailable {
@@ -3499,7 +3803,8 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a No long insulin configured.\nConfigure the insulin.\The insulin drug will be set to null..
+        ///   Cerca una stringa localizzata simile a No long insulin configured.
+        ///    Configure the insulin.\The insulin drug will be set to null..
         /// </summary>
         public static string NoLongInsulinConfigured {
             get {
@@ -3517,7 +3822,8 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a No short insulin configured.\Configure the insulin.\The insulin drug will be set to null..
+        ///   Cerca una stringa localizzata simile a No short insulin configured. Configure the insulin.
+        ///    The insulin drug will be set to null..
         /// </summary>
         public static string NoShortInsulinConfigured {
             get {
@@ -3679,7 +3985,8 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a This injection has a position already set\nDo you want to keep this position for new injection?.
+        ///   Cerca una stringa localizzata simile a This injection has a position already set
+        ///    Do you want to keep this position for new injection?.
         /// </summary>
         public static string PositionAlreadySetMessage {
             get {
@@ -4035,6 +4342,28 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string SearchOfFoodsInMealsPageTitle {
             get {
                 return ResourceManager.GetString("SearchOfFoodsInMealsPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Segment Info.
+        /// </summary>
+        public static string SegmentInfo {
+            get {
+                return ResourceManager.GetString("SegmentInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Segment #{0}
+        ///    Type: {1}
+        ///    Start: {2}
+        ///    
+        ///    Review the graph, then choose:.
+        /// </summary>
+        public static string SegmentInfoMessage {
+            get {
+                return ResourceManager.GetString("SegmentInfoMessage", resourceCulture);
             }
         }
         
@@ -4598,11 +4927,29 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Stop.
+        /// </summary>
+        public static string Stop {
+            get {
+                return ResourceManager.GetString("Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Stop application.
         /// </summary>
         public static string StopApplication {
             get {
                 return ResourceManager.GetString("StopApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Stop Tracking.
+        /// </summary>
+        public static string StopTracking {
+            get {
+                return ResourceManager.GetString("StopTracking", resourceCulture);
             }
         }
         
@@ -7113,7 +7460,8 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a You have non saved changes in current injection\nWhat do you want to do?.
+        ///   Cerca una stringa localizzata simile a You have non saved changes in current injection
+        ///        What do you want to do?.
         /// </summary>
         public static string UnsavedChangesMessage {
             get {
@@ -7140,6 +7488,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a User cancelled identification during debug review..
+        /// </summary>
+        public static string UserCancelledIdentification {
+            get {
+                return ResourceManager.GetString("UserCancelledIdentification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Value discrepancy.
         /// </summary>
         public static string ValueDiscrepancy {
@@ -7149,7 +7506,8 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a The value of total Carbohydrates and/or accuracy are different from those calculated with the single foods.\nShould we save the displayed values or those calculated?.
+        ///   Cerca una stringa localizzata simile a The value of total Carbohydrates and/or accuracy are different from those calculated with the single foods.
+        ///    Should we save the displayed values or those calculated?.
         /// </summary>
         public static string ValueDiscrepancyMessage {
             get {
@@ -7172,6 +7530,17 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Vibrate {
             get {
                 return ResourceManager.GetString("Vibrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Do you want to view the graph for each identified segment?
+        ///    
+        ///    This will show the ChartPage for each segment during identification..
+        /// </summary>
+        public static string ViewGraphForEachSegmentQuestion {
+            get {
+                return ResourceManager.GetString("ViewGraphForEachSegmentQuestion", resourceCulture);
             }
         }
         
@@ -7343,6 +7712,26 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string WeightPlaceholder {
             get {
                 return ResourceManager.GetString("WeightPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Alarm notifications are working!
+        ///    
+        ///    Note: Alarms require the app to be running..
+        /// </summary>
+        public static string WindowsAlarmTestNotificationMessage {
+            get {
+                return ResourceManager.GetString("WindowsAlarmTestNotificationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GlucoMan Test.
+        /// </summary>
+        public static string WindowsAlarmTestNotificationTitle {
+            get {
+                return ResourceManager.GetString("WindowsAlarmTestNotificationTitle", resourceCulture);
             }
         }
         

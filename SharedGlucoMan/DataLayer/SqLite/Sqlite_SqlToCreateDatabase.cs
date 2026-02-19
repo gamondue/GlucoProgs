@@ -10,11 +10,10 @@ namespace GlucoMan
         // creationScript must have DROP TABLE statements
         string creationScript = @"
 --
--- File generated with SQLiteStudio v3.4.17 on lun ott 27 21:12:53 2025
+-- File generated with SQLiteStudio v3.4.17 on gio feb 19 12:25:08 2026
 --
--- Text encoding used: System
+-- Text encoding used: UTF-8
 --
-PRAGMA foreign_keys = off;
 BEGIN TRANSACTION;
 
 -- Table: Alarms
@@ -25,57 +24,106 @@ CREATE TABLE Alarms (IdAlarm INT NOT NULL, ReminderText TEXT, TimeStart DATETIME
 DROP TABLE IF EXISTS BolusCalculations;
 CREATE TABLE 'BolusCalculations' (
 
+
+
 	'IdBolusCalculation'	INT NOT NULL,
+
+
 
 	'Timestamp'	DATETIME,
 
+
+
 	'TotalInsulinForMeal'	DOUBLE,
+
+
 
 	'CalculatedChoToEat'	DOUBLE,
 
+
+
 	'BolusInsulinDueToChoOfMeal'	DOUBLE,
+
+
 
 	'BolusInsulinDueToCorrectionOfGlucose'	DOUBLE,
 
+
+
 	'TargetGlucose'	DOUBLE,
+
+
 
 	'InsulinCorrectionSensitivity'	DOUBLE,
 
+
+
 	'TypicalBolusMorning'	DOUBLE,
+
+
 
 	'TypicalBolusMidday'	DOUBLE,
 
+
+
 	'TypicalBolusEvening'	DOUBLE,
+
+
 
 	'TypicalBolusNight'	DOUBLE,
 
+
+
 	'TotalDailyDoseOfInsulin'	DOUBLE,
+
+
 
 	'ChoInsulinRatioBreakfast'	DOUBLE,
 
+
+
 	'ChoInsulinRatioLunch'	DOUBLE,
+
+
 
 	'ChoInsulinRatioDinner'	DOUBLE,
 
+
+
 	'GlucoseBeforeMeal'	DOUBLE,
+
+
 
 	'GlucoseToBeCorrected'	DOUBLE,
 
+
+
 	'FactorOfInsulinCorrectionSensitivity'	DOUBLE,
 
+
+
 	PRIMARY KEY('IdBolusCalculation')
+
+
 
 );
 
 -- Table: Containers
 DROP TABLE IF EXISTS Containers;
 CREATE TABLE Containers (
+
     IdContainer   INTEGER PRIMARY KEY
+
                           NOT NULL,
+
     Name          TEXT    NOT NULL,
+
     Weight        REAL    DEFAULT 0,
+
     Notes         TEXT,
+
     PhotoFileName TEXT
+
 );
 
 -- Table: Devices
@@ -93,10 +141,15 @@ INSERT INTO DevicesModels (IdDeviceModel, Name, IdTypeOfDevice, Description) VAL
 -- Table: Events
 DROP TABLE IF EXISTS Events;
 CREATE TABLE Events (
+
     IdEvent            PRIMARY KEY
+
                        NOT NULL,
+
     EventTime DATETIME,
+
     Notes     TEXT
+
 );
 
 -- Table: Foods
@@ -115,45 +168,82 @@ CREATE TABLE GlucoseRecords (IdGlucoseRecord INT NOT NULL, GlucoseValue DOUBLE, 
 DROP TABLE IF EXISTS HypoPredictions;
 CREATE TABLE 'HypoPredictions' (
 
+
+
 	'IdHypoPrediction'	INT NOT NULL,
+
+
 
 	'PredictedTime'	DATETIME,
 
+
+
 	'AlarmTime'	DATETIME,
+
+
 
 	'GlucoseSlope'	DOUBLE,
 
+
+
 	'HypoGlucoseTarget'	INT,
+
+
 
 	'GlucoseLast'	DOUBLE,
 
+
+
 	'GlucosePrevious'	DOUBLE,
+
+
 
 	'Interval'	VARCHAR(10),
 
+
+
 	'DatetimeLast'	DATETIME,
+
+
 
 	'DatetimePrevious'	DATETIME,
 
+
+
 	PRIMARY KEY('IdHypoPrediction')
+
+
 
 );
 
 -- Table: Ingredients
 DROP TABLE IF EXISTS Ingredients;
 CREATE TABLE Ingredients (
+
     IdIngredient          INTEGER NOT NULL,
+
     IdRecipe              INTEGER NOT NULL,
+
     Name                  TEXT,
+
     Description           TEXT,
+
     QuantityGrams         REAL,
+
     QuantityPercent       REAL,
+
     CarbohydratesPercent  REAL,
+
     AccuracyOfChoEstimate DOUBLE,
+
     IdFood                INTEGER,
+
     PRIMARY KEY (
+
         IdIngredient
+
     )
+
 );
 
 -- Table: Injections
@@ -172,9 +262,13 @@ INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction
 -- Table: Manufacturers
 DROP TABLE IF EXISTS Manufacturers;
 CREATE TABLE Manufacturers (
+
     IdManufacturer INTEGER PRIMARY KEY,
+
     Name           TEXT,
+
     Description    TEXT
+
 );
 
 -- Table: Meals
@@ -184,75 +278,147 @@ CREATE TABLE Meals (IdMeal INT NOT NULL, IdTypeOfMeal INT, Carbohydrates DOUBLE,
 -- Table: Parameters
 DROP TABLE IF EXISTS Parameters;
 CREATE TABLE Parameters (
+
     IdParameters                                    INT      NOT NULL,
+
     Timestamp                                       DATETIME,
+
     Bolus_TargetGlucose                             INT,
+
     Bolus_GlucoseBeforeMeal                         INT,
+
     Bolus_ChoToEat                                  INT,
+
     Bolus_ChoInsulinRatioBreakfast                  DOUBLE,
+
     Bolus_ChoInsulinRatioLunch                      DOUBLE,
+
     Bolus_ChoInsulinRatioDinner                     DOUBLE,
+
     Bolus_TotalDailyDoseOfInsulin                   DOUBLE,
+
     Bolus_InsulinCorrectionSensitivity              DOUBLE,
+
     Correction_TypicalBolusMorning                  DOUBLE,
+
     Correction_TypicalBolusMidday                   DOUBLE,
+
     Correction_TypicalBolusEvening                  DOUBLE,
+
     Correction_TypicalBolusNight                    DOUBLE,
+
     Correction_FactorOfInsulinCorrectionSensitivity DOUBLE,
+
     Hypo_GlucoseTarget                              DOUBLE,
+
     Hypo_GlucoseLast                                DOUBLE,
+
     Hypo_GlucosePrevious                            DOUBLE,
+
     Hypo_HourLast                                   DOUBLE,
+
     Hypo_HourPrevious                               DOUBLE,
+
     Hypo_MinuteLast                                 DOUBLE,
+
     Hypo_MinutePrevious                             DOUBLE,
+
     Hypo_AlarmAdvanceTime                           DOUBLE,
+
     Hypo_FutureSpanMinutes                          DOUBLE,
+
     Hit_ChoAlreadyTaken                             DOUBLE,
+
     Hit_ChoOfFood                                   DOUBLE,
+
     Hit_TargetCho                                   DOUBLE,
+
     Hit_NameOfFood                                  TEXT,
+
     FoodInMeal_ChoGrams                             DOUBLE,
+
     FoodInMeal_QuantityGrams                        DOUBLE,
+
     FoodInMeal_CarbohydratesPercent                 DOUBLE,
+
     FoodInMeal_Name                                 TEXT,
+
     FoodInMeal_AccuracyOfChoEstimate                DOUBLE,
+
     Meal_ChoGrams                                   DOUBLE,
+
     Meal_Breakfast_StartTime_Hours                  DOUBLE,
+
     Meal_Breakfast_EndTime_Hours                    DOUBLE,
+
     Meal_Lunch_StartTime_Hours                      DOUBLE,
+
     Meal_Lunch_EndTime_Hours                        DOUBLE,
+
     Meal_Dinner_StartTime_Hours                     DOUBLE,
+
     Meal_Dinner_EndTime_Hours                       DOUBLE,
+
     Insulin_Short_Id                                INTEGER,
+
     Insulin_Long_Id                                 INTEGER,
+
     MonthsOfDataShownInTheGrids                     DOUBLE,
+
     Weigh_FoodId                                    TEXT,
+
     Weigh_FoodName                                  TEXT,
+
     Weigh_FoodCarbohydratesPercent                  DOUBLE,
+
     Weigh_TotalCarbohydratesPercent                 DOUBLE,
+
     Weigh_RawGross                                  DOUBLE,
+
     Weigh_RawTare                                   DOUBLE,
+
     Weigh_RawNet                                    DOUBLE,
+
     Weigh_CookedGross                               DOUBLE,
+
     Weigh_CookedTare                                DOUBLE,
+
     Weigh_CookedNet                                 DOUBLE,
+
     Weigh_SeasoningGross                            DOUBLE,
+
     Weigh_SeasoningTare                             DOUBLE,
+
     Weigh_SeasoningNet                              DOUBLE,
+
     Weigh_SeasoningCarbohydratesPercent             DOUBLE,
+
     Weigh_PortionGross                              DOUBLE,
+
     Weigh_PortionTare                               DOUBLE,
+
     Weigh_PortionNet                                DOUBLE,
+
     Weigh_NPortions                                 DOUBLE,
+
     Weigh_DoWeighCookedPortion                      TEXT,
+
     Weigh_IsChoOfRawFood                            TEXT,
+
     Weigh_RawCookedRatio                            DOUBLE,
+
     Weigh_WeightOfPortion                           DOUBLE,
+
     Weigh_CarbohydratesOfPortion                    DOUBLE,
+
+    CantSetAlarms                                    TEXT,
+
     PRIMARY KEY (
+
         IdParameters
+
     )
+
 );
 
 -- Table: PositionsOfReferences
@@ -458,7 +624,7 @@ INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, Posit
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (538, '2025-09-28 22:26:46', 3, 0.41004996796136, 0.128660935622, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (539, '2025-09-28 22:26:46', 3, 0.44003575081329, 0.10350135938656, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (540, '2025-09-28 22:26:46', 3, 0.44319533098383, 0.13162421051567, '');
-INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (541, '2025-09-28 22:26:46',  3, 0.46370256586406, 0.09466755883934, '');
+INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (541, '2025-09-28 22:26:46', 3, 0.46370256586406, 0.09466755883934, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (542, '2025-09-28 22:26:46', 3, 0.47318111383576, 0.12128082817123, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (543, '2025-09-28 22:26:46', 3, 0.56146952632098, 0.07839771699623, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (544, '2025-09-28 22:26:46', 3, 0.5315432383059, 0.09612125193579, '');
@@ -506,16 +672,27 @@ INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, Posit
 -- Table: Recipes
 DROP TABLE IF EXISTS Recipes;
 CREATE TABLE Recipes (
+
     IdRecipe              INTEGER NOT NULL,
+
     Name                  TEXT,
+
     Description           TEXT,
+
     CarbohydratesPercent  REAL,
+
     AccuracyOfChoEstimate REAL,
+
     IsCooked              BOOL,
+
     RawToCookedRatio      REAL,
+
     PRIMARY KEY (
+
         IdRecipe
+
     )
+
 );
 
 -- Table: SensorsRecords
@@ -528,20 +705,14 @@ CREATE TABLE UnitsOfFood (IdUnitOfFood INTEGER PRIMARY KEY, Symbol TEXT, Name TE
 INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, GramsInOneUnit, IdFood) VALUES (1, 'g', 'grams', 'Unit of mass in the SI', 1.0, NULL);
 
 COMMIT TRANSACTION;
-PRAGMA foreign_keys = on;
 ";
         internal override void CreateNewDatabase(string dbFile)
         {
-			//// making new, means erasing existent! 
-			//if (File.Exists(dbFile))
-			//	File.Delete(dbFile);
-
 			// create the database; when the file does not exist
 			// Microsoft.Data.Sqlite creates the file at first connection
 			DbConnection c = Connect();
 			c.Close();
 			c.Dispose();
-
 			try
 			{
                 using (DbConnection conn = Connect())

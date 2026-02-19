@@ -6,6 +6,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui.Platforms.Android
 {
@@ -74,7 +75,7 @@ namespace GlucoMan.Maui.Platforms.Android
             var btnSnooze = FindViewById<global::Android.Widget.Button>(btnSnoozeId);
 
             if (txtTitle != null)
-                txtTitle.Text = "GlucoMan Alarm";
+                txtTitle.Text = AppStrings.GlucoManAlarm;
             
             if (txtMessage != null)
                 txtMessage.Text = _reminderText;

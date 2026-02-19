@@ -879,7 +879,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         catch (Exception ex)
         {
             General.LogOfProgram.Error("btnShowErrorLog_ClickAsync", ex);
-            await DisplayAlert(AppStrings.Error, "File not existing or not accessible", AppStrings.OK);
+            await DisplayAlert(AppStrings.Error, AppStrings.FileNotExistingOrNotAccessible, AppStrings.OK);
         }
     }
     private async void btnDeleteErrorLog_ClickAsync(object sender, EventArgs e)

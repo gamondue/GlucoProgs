@@ -1,4 +1,5 @@
 using GlucoMan;
+using GlucoMan.Maui.Resources.Strings;
 using Mathematics.Identification1;
 
 namespace GlucoMan.Maui;
@@ -13,7 +14,7 @@ public partial class IdentificationPage : ContentPage
         InitializeComponent();
         _dateFrom = dateFrom;
         _dateTo = dateFrom.AddDays(7 * nWeeks);
-        lblDateRange.Text = $"From: {dateFrom:dd/MM/yyyy} - To: {_dateTo:dd/MM/yyyy}";
+        lblDateRange.Text = string.Format(AppStrings.DateRangeFromTo, dateFrom.ToString("dd/MM/yyyy"), _dateTo.ToString("dd/MM/yyyy"));
 
         ////////// !!!! 
         ////////_dateTo = DateTime.Now.AddMonths(-15);
@@ -69,7 +70,7 @@ public partial class IdentificationPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to identify parameters: {ex.Message}", "OK");
+            await DisplayAlert(AppStrings.Error, string.Format(AppStrings.FailedToIdentifyParameters, ex.Message), AppStrings.OK);
         }
     }
 
@@ -108,10 +109,9 @@ public partial class IdentificationPage : ContentPage
             // Ask if user wants debug mode (show graphs for each segment)
             bool debugMode = false;
 #if DEBUG
-            debugMode = await DisplayAlert("Debug Mode", 
-                "Do you want to view the graph for each identified segment?\n\n" +
-                "This will show the ChartPage for each segment during identification.",
-                "Yes", "No");
+            debugMode = await DisplayAlert(AppStrings.DebugMode, 
+                AppStrings.ViewGraphForEachSegmentQuestion,
+                AppStrings.Yes, AppStrings.No);
 #endif
 
             // Find isolated segments with extended basal stability check and opposite isolation
@@ -147,12 +147,12 @@ public partial class IdentificationPage : ContentPage
                         await Navigation.PushAsync(chartPage);
                         
                         // Show alert with segment info and wait for user to continue
-                        bool continueIdentification = await DisplayAlert("Segment Info", 
-                            $"Segment #{segmentIndex}\n" +
-                            $"Type: {inputType}\n" +
-                            $"Start: {segmentStart:yyyy-MM-dd HH:mm}\n\n" +
-                            $"Review the graph, then choose:",
-                            "Continue", "Stop");
+                        bool continueIdentification = await DisplayAlert(AppStrings.SegmentInfo, 
+                            string.Format(AppStrings.SegmentInfoMessage, 
+                                segmentIndex, 
+                                inputType, 
+                                segmentStart.ToString("yyyy-MM-dd HH:mm")),
+                            AppStrings.Continue, AppStrings.Stop);
                         
                         // Pop back to statistics page
                         await Navigation.PopAsync();
@@ -160,7 +160,7 @@ public partial class IdentificationPage : ContentPage
                         // If user wants to stop, throw an exception to break the identification
                         if (!continueIdentification)
                         {
-                            throw new OperationCanceledException("User cancelled identification during debug review.");
+                            throw new OperationCanceledException(AppStrings.UserCancelledIdentification);
                         }
                     }
                 });
@@ -211,7 +211,7 @@ public partial class IdentificationPage : ContentPage
             int isolatedInjectionsCount = isolatedInjections?.Where(i => i != null).Count() ?? 0;
             
             int totalSegments = (choResults?.NumSegments ?? 0) + (insulinResults?.NumSegments ?? 0);
-            await DisplayAlert("Identification Complete", 
+            await DisplayAlert(AppStrings.IdentificationComplete,
                 $"Found {totalSegments} isolated segments:\n" +
                 $"- CHO: {choResults?.NumSegments ?? 0} segments\n" +
                 $"- Insulin: {insulinResults?.NumSegments ?? 0} segments\n" +
@@ -228,11 +228,11 @@ public partial class IdentificationPage : ContentPage
         }
         catch (OperationCanceledException)
         {
-            await DisplayAlert("Cancelled", "Identification was cancelled during debug review.", "OK");
+            await DisplayAlert(AppStrings.Cancelled, AppStrings.IdentificationCancelled, AppStrings.OK);
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to identify parameters: {ex.Message}\n\n{ex.StackTrace}", "OK");
+            await DisplayAlert(AppStrings.Error, string.Format(AppStrings.FailedToIdentifyParameters, $"{ex.Message}\n\n{ex.StackTrace}"), AppStrings.OK);
         }
     }
 }

@@ -1,6 +1,7 @@
 #if WINDOWS
 using System;
 using System.Threading.Tasks;
+using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui.Platforms.Windows
 {
@@ -22,9 +23,9 @@ namespace GlucoMan.Maui.Platforms.Windows
             try
             {
                 await Application.Current.MainPage.DisplayAlert(
-                    "GlucoMan Test",
-                    "Alarm notifications are working!\n\nNote: Alarms require the app to be running.",
-                    "OK");
+                    AppStrings.WindowsAlarmTestNotificationTitle,
+                    AppStrings.WindowsAlarmTestNotificationMessage,
+                    AppStrings.OK);
                 
                 gamon.General.LogOfProgram?.Event("Windows NotificationHelper: Test notification shown successfully");
                 return true;
