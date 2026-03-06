@@ -11,9 +11,11 @@ using NUnit.Framework;
 namespace GlucoMan.Maui.Tests.UnitTests;
 
 
+<<<<<<< HEAD
 
 
-
+=======
+>>>>>>> ea624446f5e2a1b9b721332cbeed3d5f8face4e1
 /// <summary>
 /// Unit tests for the FoodPageTestPage class.
 /// </summary>
