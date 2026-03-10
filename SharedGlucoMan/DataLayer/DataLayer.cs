@@ -66,6 +66,7 @@ namespace GlucoMan
         internal abstract int? SaveOneFood(Food currentFood);
         internal abstract void DeleteOneFood(Food food);
         internal abstract Food GetOneFood(int? IdFood);
+        internal abstract Food SearchFoodByBarcode(string barcode);
         internal abstract List<Food> GetFoods();
         internal abstract int? AddUnit(UnitOfFood unit);
         internal abstract int? AddManufacturer(Manufacturer manufacturer, Food food);
@@ -122,6 +123,8 @@ namespace GlucoMan
         internal abstract bool CheckIfCategoryExists(CategoryOfFood categoryOfFood);
         internal abstract int? AddCategoryOfFood(CategoryOfFood categoryOfFood);
         internal abstract int? UpdateCategoryOfFood(CategoryOfFood categoryOfFood);
+        internal abstract void DeleteManufacturer(Manufacturer manufacturer);
+        internal abstract void DeleteCategoryOfFood(CategoryOfFood category);
         #region Containers
         internal abstract List<Container> GetAllContainers();
         internal abstract Container GetOneContainer(int idContainer);

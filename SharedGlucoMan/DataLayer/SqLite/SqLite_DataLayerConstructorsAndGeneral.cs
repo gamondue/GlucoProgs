@@ -1,4 +1,4 @@
-﻿using gamon;
+﻿ using gamon;
 using GlucoMan;
 using Microsoft.Data.Sqlite;
 using System.Data;
@@ -16,7 +16,7 @@ namespace GlucoMan
         internal string dbName;
 
         #region constructors
-        /// <summary>
+        /// <summary> 
         /// Constructor of DataLayer class that uses the default database of the program
         /// Assumes that the file exists.
         /// </summary>
@@ -29,6 +29,7 @@ namespace GlucoMan
                 // since the file doesn't exist yet, we create it:
                 CreateNewDatabase(dbName);
             }
+            MigrateDatabaseIfNeeded();
         }
         /// <summary>
         /// Constructor of DataLayer class that get from outside the databases to use
@@ -158,28 +159,182 @@ namespace GlucoMan
                 }
             }
         }
+        /// <summary>
+        /// Applies incremental schema changes to existing databases without data loss.
+        /// Safe to run on every startup: each ALTER TABLE is guarded by FieldExists.
+        /// </summary>
+        private void MigrateDatabaseIfNeeded()
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+
+                    // --- Foods table migrations ---
+                    try
+                    {
+                        if (!FieldExists("Foods", "Barcode"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Foods ADD COLUMN Barcode TEXT;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added Barcode column to Foods table");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Debug($"Migration: Barcode column may already exist or error: {ex.Message}");
+                    }
+
+                    try
+                    {
+                        if (!FieldExists("Foods", "IsRaw"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Foods ADD COLUMN IsRaw TINYINT;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added IsRaw column to Foods table");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Debug($"Migration: IsRaw column may already exist or error: {ex.Message}");
+                    }
+
+                    try
+                    {
+                        if (!FieldExists("Foods", "RawCookedRatio"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Foods ADD COLUMN RawCookedRatio DOUBLE;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added RawCookedRatio column to Foods table");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Debug($"Migration: RawCookedRatio column may already exist or error: {ex.Message}");
+                    }
+
+                    // --- CategoriesOfFood table (create if not exists) ---
+                    try
+                    {
+                        cmd.CommandText = "CREATE TABLE IF NOT EXISTS CategoriesOfFood " +
+                            "(IdCategoryOfFood INTEGER PRIMARY KEY, Name TEXT, Description TEXT);";
+                        cmd.ExecuteNonQuery();
+                        General.LogOfProgram?.Debug("Migration: CategoriesOfFood table exists or was created");
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error("Migration: Failed to create CategoriesOfFood table", ex);
+                    }
+
+                    // --- Manufacturers table (create if not exists) ---
+                    try
+                    {
+                        cmd.CommandText = "CREATE TABLE IF NOT EXISTS Manufacturers " +
+                            "(IdManufacturer INTEGER PRIMARY KEY, Name TEXT, Description TEXT);";
+                        cmd.ExecuteNonQuery();
+                        General.LogOfProgram?.Debug("Migration: Manufacturers table exists or was created");
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error("Migration: Failed to create Manufacturers table", ex);
+                    }
+
+                    // --- Parameters table migrations ---
+                    try
+                    {
+                        if (!FieldExists("Parameters", "FatSecret_ClientId"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN FatSecret_ClientId TEXT;";
+                            cmd.ExecuteNonQuery();
+                        }
+                        if (!FieldExists("Parameters", "FatSecret_ClientSecret"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN FatSecret_ClientSecret TEXT;";
+                            cmd.ExecuteNonQuery();
+                        }
+                        if (!FieldExists("Parameters", "FatSecret_Language"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN FatSecret_Language TEXT;";
+                            cmd.ExecuteNonQuery();
+                        }
+                        if (!FieldExists("Parameters", "FatSecret_Region"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN FatSecret_Region TEXT;";
+                            cmd.ExecuteNonQuery();
+                        }
+                        if (!FieldExists("Parameters", "FatSecret_ConsumerSecret"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN FatSecret_ConsumerSecret TEXT;";
+                            cmd.ExecuteNonQuery();
+                        }
+                        if (!FieldExists("Parameters", "FatSecret_OAuth1Token"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN FatSecret_OAuth1Token TEXT;";
+                            cmd.ExecuteNonQuery();
+                        }
+                        if (!FieldExists("Parameters", "FatSecret_OAuth1TokenSecret"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN FatSecret_OAuth1TokenSecret TEXT;";
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error("Migration: Error adding Parameters columns", ex);
+                    }
+
+                    // --- Clean up duplicate global "g" units ---
+                    // A bug created a new global "g" unit every time a new food was saved.
+                    // Keep only the one with the smallest IdUnitOfFood.
+                    try
+                    {
+                        cmd.CommandText = "DELETE FROM UnitsOfFood" +
+                            " WHERE Symbol='g' AND (IdFood IS NULL OR IdFood=0)" +
+                            " AND IdUnitOfFood NOT IN" +
+                            " (SELECT MIN(IdUnitOfFood) FROM UnitsOfFood" +
+                            "  WHERE Symbol='g' AND (IdFood IS NULL OR IdFood=0));";
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error("Migration: Error cleaning duplicate g units", ex);
+                    }
+
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram?.Error("DL_Sqlite | MigrateDatabaseIfNeeded", ex);
+            }
+        }
+
         internal bool FieldExists(string TableName, string FieldName)
         {
-            // watch if field isPopUp exist in the database
-            DataTable table = new DataTable();
-            bool fieldExists;
-            using (DbConnection conn = Connect())
+            // Use PRAGMA for SQLite-specific, reliable column detection
+            try
             {
-                table = conn.GetSchema("Columns", new string[] { null, null, TableName, null });
-                fieldExists = false;
-                foreach (DataRow row in table.Rows)
+                using (DbConnection conn = Connect())
                 {
-                    foreach (DataColumn col in table.Columns)
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = $"PRAGMA table_info({TableName});";
+                    using (DbDataReader reader = cmd.ExecuteReader())
                     {
-                        if (row["COLUMN_NAME"].ToString() == FieldName)
+                        while (reader.Read())
                         {
-                            fieldExists = true;
-                            break;
+                            // PRAGMA table_info returns: cid, name, type, notnull, dflt_value, pk
+                            if (reader["name"].ToString() == FieldName)
+                                return true;
                         }
                     }
                 }
+                return false;
             }
-            return fieldExists;
+            catch
+            {
+                return false;
+            }
         }
         internal void BackupAllDataToTsv()
         {

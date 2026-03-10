@@ -23,10 +23,13 @@ namespace GlucoMan
         public DoubleAndText GlycemicIndex { get; set; } // [n]
         public string UnitSymbol { get; set; }
         public DoubleAndText GramsInOneUnit { get; set; } // [g]
+        public DoubleAndText ContentWeight { get; set; } // Total net weight of package content
+        public string ContentUnit { get; set; } // Unit of measurement for content weight
         public string Manufacturer { get; set; }
         public string Category { get; set; }
         public bool IsRaw { get; set; }  // Indicates if the food is raw (true) or cooked (false)
         public DoubleAndText RawCookedRatio { get; set; }  // Ratio between raw and cooked weight
+        public string Barcode { get; set; }  // Barcode or QR Code of the food
         public List<UnitOfFood> Units { get; set; }
 
         private bool _isSelectedInList;
@@ -66,6 +69,9 @@ namespace GlucoMan
             PotassiumPercent = new DoubleAndText();     // [g]  
             GlycemicIndex = new DoubleAndText();  // [n]
             GramsInOneUnit = new DoubleAndText(); // [g]
+            GramsInOneUnit.Format = "0.00";  
+            ContentWeight = new DoubleAndText(); // Total net weight
+            ContentWeight.Format = "0.00";
             RawCookedRatio = new DoubleAndText();  // ratio
             IsRaw = true;  // Default value
         }

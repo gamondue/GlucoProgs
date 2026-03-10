@@ -214,7 +214,7 @@ namespace GlucoMan.Maui
                     Common.BlGeneral.SaveParameter("CantSetAlarms", "false");
                 }
                 catch { }
-            }
+             }
         }
 
         private async void btnMiscellaneousFunctions_Clicked(object sender, EventArgs e)

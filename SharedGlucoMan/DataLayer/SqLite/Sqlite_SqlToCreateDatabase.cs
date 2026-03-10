@@ -154,7 +154,7 @@ CREATE TABLE Events (
 
 -- Table: Foods
 DROP TABLE IF EXISTS Foods;
-CREATE TABLE Foods (IdFood INT NOT NULL, Name VARCHAR (15), Description VARCHAR (256), CarbohydratesPercent DOUBLE, Energy DOUBLE, TotalFatsPercent DOUBLE, SaturatedFatsPercent DOUBLE, MonounsaturatedFatsPercent DOUBLE, PolyunsaturatedFatsPercent DOUBLE, SugarPercent DOUBLE, FibersPercent DOUBLE, ProteinsPercent DOUBLE, SaltPercent DOUBLE, PotassiumPercent DOUBLE, Cholesterol DOUBLE, GlycemicIndex DOUBLE, UnitSymbol TEXT, GramsInOneUnit DOUBLE, Manufacturer TEXT, Category INTEGER, IsRaw TINYINT, RawCookedRatio DOUBLE, PRIMARY KEY (IdFood));
+CREATE TABLE Foods (IdFood INT NOT NULL, Name VARCHAR (15), Description VARCHAR (256), CarbohydratesPercent DOUBLE, Energy DOUBLE, TotalFatsPercent DOUBLE, SaturatedFatsPercent DOUBLE, MonounsaturatedFatsPercent DOUBLE, PolyunsaturatedFatsPercent DOUBLE, SugarPercent DOUBLE, FibersPercent DOUBLE, ProteinsPercent DOUBLE, SaltPercent DOUBLE, PotassiumPercent DOUBLE, Cholesterol DOUBLE, GlycemicIndex DOUBLE, UnitSymbol TEXT, GramsInOneUnit DOUBLE, ContentWeight DOUBLE, ContentUnit TEXT, Manufacturer TEXT, Category TEXT, IsRaw TINYINT, RawCookedRatio DOUBLE, Barcode TEXT, PRIMARY KEY (IdFood));
 
 -- Table: FoodsInMeals
 DROP TABLE IF EXISTS FoodsInMeals;
@@ -258,6 +258,10 @@ INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction
 INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours) VALUES (4, 'Fiasp', 'Novo Nordisk', 20, 3.0, 0.03, 1.5);
 INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours) VALUES (3, 'Lispro', 'Lilly', 20, 4.5, 0.3333333, 2.0);
 INSERT INTO InsulinDrugs (IdInsulinDrug, Name, Manufacturer, TypeOfInsulinAction, DurationInHours, OnsetTimeInHours, PeakTimeInHours) VALUES (5, 'Lantus', 'Sanofi', 40, 24.0, 4.0, 0.0);
+
+-- Table: CategoriesOfFood
+DROP TABLE IF EXISTS CategoriesOfFood;
+CREATE TABLE CategoriesOfFood (IdCategoryOfFood INTEGER PRIMARY KEY, Name TEXT, Description TEXT);
 
 -- Table: Manufacturers
 DROP TABLE IF EXISTS Manufacturers;
@@ -412,6 +416,13 @@ CREATE TABLE Parameters (
     Weigh_CarbohydratesOfPortion                    DOUBLE,
 
     CantSetAlarms                                    TEXT,
+    FatSecret_ClientId                               TEXT,
+    FatSecret_ClientSecret                           TEXT,
+    FatSecret_Language                               TEXT,
+    FatSecret_Region                                 TEXT,
+    FatSecret_ConsumerSecret                         TEXT,
+    FatSecret_OAuth1Token                            TEXT,
+    FatSecret_OAuth1TokenSecret                      TEXT,
 
     PRIMARY KEY (
 
@@ -703,6 +714,9 @@ CREATE TABLE SensorsRecords (IdGlucoseRecord INT NOT NULL, GlucoseValue DOUBLE, 
 DROP TABLE IF EXISTS UnitsOfFood;
 CREATE TABLE UnitsOfFood (IdUnitOfFood INTEGER PRIMARY KEY, Symbol TEXT, Name TEXT, Description TEXT, GramsInOneUnit DOUBLE, IdFood INTEGER);
 INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, GramsInOneUnit, IdFood) VALUES (1, 'g', 'grams', 'Unit of mass in the SI', 1.0, NULL);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, GramsInOneUnit, IdFood) VALUES (2, 'kg', 'kilogram', '1000 Units of mass in the SI', 1000.0, NULL);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, GramsInOneUnit, IdFood) VALUES (3, 'oz', 'ounce', 'ounce, one of the several units of mass in the american system', 28.349523125, NULL);
+INSERT INTO UnitsOfFood (IdUnitOfFood, Symbol, Name, Description, GramsInOneUnit, IdFood) VALUES (4, 'lb', 'pound', 'pound, one of the several units of mass in the american system', 453.59237, NULL);
 
 COMMIT TRANSACTION;
 ";

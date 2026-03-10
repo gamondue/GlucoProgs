@@ -92,6 +92,7 @@
 
             <Button Grid.Row="7" Grid.Column="0" x:Name="btnSaveRecipe"
                     ImageSource="floppy_disc.png"
+                    BackgroundColor="LightCoral"
                     ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipRecipeSaveButton}" Margin="1"
                     Clicked="btnSaveRecipe_Click"/>
             <Button Grid.Row="7" Grid.Column="1" x:Name="btnRecipeDetails" 

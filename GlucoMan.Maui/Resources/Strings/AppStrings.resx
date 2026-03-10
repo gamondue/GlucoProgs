@@ -1456,6 +1456,9 @@
   <data name="UnitSaveFailedMessage" xml:space="preserve">
     <value>The saving of the new unit failed. New unit not saved</value>
   </data>
+  <data name="InvalidNumberMessage" xml:space="preserve">
+    <value>Please enter a valid number for Grams/Unit</value>
+  </data>
   <data name="SelectManufacturerToRemove" xml:space="preserve">
     <value>Please select a manufacturer to remove</value>
   </data>
@@ -2585,7 +2588,7 @@ Duration: {2}</value>
     <value>Search the name in the foods in past meals</value>
   </data>
   <data name="SearchOfFoodsInMealsPageTitle" xml:space="preserve">
-    <value>Foods in Meals matching given name</value>
+    <value>Foods in past Meals matching given name</value>
   </data>
   <data name="CGMSensorDialogTitle" xml:space="preserve">
     <value>Continuous Glucose Sensor</value>
@@ -2745,5 +2748,11 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
   </data>
   <data name="StopTracking" xml:space="preserve">
     <value>Stop Tracking</value>
+  </data>
+  <data name="UnsavedBarcodeWarning" xml:space="preserve">
+    <value>A new barcode was scanned but not saved. Exit without saving?</value>
+  </data>
+  <data name="SearchFoodInFoodsInMeal" xml:space="preserve">
+    <value>Search Food in past foods used in meals</value>
   </data>
 </root>

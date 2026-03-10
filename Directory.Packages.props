@@ -72,6 +72,7 @@
     <!-- Altre dipendenze comuni -->
     <!-- ============================================ -->
     <!-- Aggiungi qui altri pacchetti usati nei progetti SharedGlucoMan, SharedGeneral, ecc. -->
+    <PackageVersion Include="ZXing.Net.Maui.Controls" Version="0.7.4" />
   </ItemGroup>
   <!-- 
     NOTE PER FUTURE AGGIUNTE:

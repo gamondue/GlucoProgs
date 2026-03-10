@@ -2586,7 +2586,7 @@ Durata: {2}</value>
     <value>Cerca il nome nei cibi dei pasti passati</value>
   </data>
   <data name="SearchOfFoodsInMealsPageTitle" xml:space="preserve">
-    <value>Cibi nei pasti che hanno un nome simile a quello passato</value>
+    <value>Cibi nei pasti passati che hanno un nome simile a quello passato</value>
   </data>
   <data name="CGMSensorDialogTitle" xml:space="preserve">
     <value>Sensore Glicemia</value>
@@ -2746,5 +2746,11 @@ Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie
   </data>
   <data name="StopTracking" xml:space="preserve">
     <value>Ferma Tracciamento</value>
+  </data>
+  <data name="UnsavedBarcodeWarning" xml:space="preserve">
+    <value>È stato acquisito un nuovo codice a barre ma non è stato salvato. Uscire senza salvare?</value>
+  </data>
+  <data name="SearchFoodInFoodsInMeal" xml:space="preserve">
+    <value>Cerca un cibo fra i cibi usati nel passato nei pasti</value>
   </data>
 </root>

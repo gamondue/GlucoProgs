@@ -65,6 +65,7 @@
                     FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
             <Button Grid.Row="3" Grid.Column="3" x:Name="btnSave"
                     ImageSource="floppy_disc.png"
+                    BackgroundColor="LightCoral"
                     ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipInjectionSaveButton}"
                     Clicked="btnSave_Click"></Button>
 
@@ -105,12 +106,14 @@
             <Grid Grid.Row="5" Grid.Column="3" ColumnDefinitions="*, *">
                 <Button Grid.Row="0" Grid.Column="0" x:Name="btnAddInjection" Margin="1"
                         ImageSource="plus.png"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPlusButton}"
-                    Clicked="btnAddInjection_Click"></Button>
+                        ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPlusButton}"
+                        Clicked="btnAddInjection_Click">
+                </Button>
                 <Button Grid.Row="0" Grid.Column="1"  x:Name="btnRemoveInjection" Margin="1"
                         ImageSource="minus.png"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMinusButton}"
-                    Clicked="btnRemoveInjection_Click"></Button>
+                        ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMinusButton}"
+                        Clicked="btnRemoveInjection_Click">
+                </Button>
             </Grid>
 
             <HorizontalStackLayout Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3">

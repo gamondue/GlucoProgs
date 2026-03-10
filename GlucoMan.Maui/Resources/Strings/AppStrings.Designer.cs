@@ -3083,6 +3083,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Please enter a valid number for Grams/Unit.
+        /// </summary>
+        public static string InvalidNumberMessage {
+            get {
+                return ResourceManager.GetString("InvalidNumberMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Invalid value.
         /// </summary>
         public static string InvalidValue {
@@ -4337,7 +4346,16 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Foods in Meals matching given name.
+        ///   Cerca una stringa localizzata simile a Search Food in past foods used in meals.
+        /// </summary>
+        public static string SearchFoodInFoodsInMeal {
+            get {
+                return ResourceManager.GetString("SearchFoodInFoodsInMeal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Foods in past Meals matching given name.
         /// </summary>
         public static string SearchOfFoodsInMealsPageTitle {
             get {
@@ -7447,6 +7465,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string UnitSymbolExistsMessage {
             get {
                 return ResourceManager.GetString("UnitSymbolExistsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a A new barcode was scanned but not saved. Exit without saving?.
+        /// </summary>
+        public static string UnsavedBarcodeWarning {
+            get {
+                return ResourceManager.GetString("UnsavedBarcodeWarning", resourceCulture);
             }
         }
         

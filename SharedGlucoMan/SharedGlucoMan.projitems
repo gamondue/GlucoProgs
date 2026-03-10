@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Container.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\Device.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\DevicesModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FatSecretFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\GpsPosition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\ISystemAlarmScheduler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\PhysicalActivity.cs" />
@@ -33,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_Events.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_GpsTracking.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\SqLite_PhysicalActivities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Devices\FatSecretService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Event.cs" />
     <Compile Include="..\SharedGlucoMan\BusinessObjects\CategoryOfFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjects\FoodInMeal.cs" />
@@ -75,6 +77,5 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)BusinessObjects\Directory.Build.props" />
     <None Include="$(MSBuildThisFileDirectory)BusinessObjects\Directory.Packages.props" />
-    <None Include="$(MSBuildThisFileDirectory)DataLayer\SqLite\Directory.Packages.props" />
   </ItemGroup>
 </Project>

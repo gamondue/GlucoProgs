@@ -40,7 +40,10 @@ public partial class FoodsInMealSearchResultsPage : ContentPage
 
         foodIsChosen = false;
 
-        allFoundFoodsInMeal = bl.GetAllMatchingFoodsInMeals(nameToMatch) ?? new List<FoodInMeal>();
+        if ((nameToMatch?.Length ?? 0) >= 3)
+            allFoundFoodsInMeal = bl.GetAllMatchingFoodsInMeals(nameToMatch) ?? new List<FoodInMeal>();
+        else
+            allFoundFoodsInMeal = new List<FoodInMeal>();
 
         // bind results to grid
         gridFoods.ItemsSource = allFoundFoodsInMeal;
@@ -328,6 +331,16 @@ public partial class FoodsInMealSearchResultsPage : ContentPage
         string searchName = !string.IsNullOrWhiteSpace(Food?.Name) ? Food.Name : nameToMatch;
         allFoundFoodsInMeal = bl.GetAllMatchingFoodsInMeals(searchName) ?? new List<FoodInMeal>();
         gridFoods.ItemsSource = allFoundFoodsInMeal;
+    }
+    private void txtName_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (loading)
+            return;
+        if ((txtName.Text?.Length ?? 0) >= 3)
+        {
+            allFoundFoodsInMeal = bl.GetAllMatchingFoodsInMeals(txtName.Text) ?? new List<FoodInMeal>();
+            gridFoods.ItemsSource = allFoundFoodsInMeal;
+        }
     }
     private async void btnChoose_Click(object sender, EventArgs e)
     {

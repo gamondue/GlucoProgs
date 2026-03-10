@@ -49,6 +49,7 @@
                    VerticalTextAlignment="Center" />
                 <Button Grid.Row="2" Grid.Column="4" 
                         ImageSource="floppy_disc.png"
+                        BackgroundColor="LightCoral"
                         x:Name="btnSaveMeal" LineBreakMode="WordWrap" 
                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealSaveButton}"
                    Margin="1" Clicked="btnSaveAllMeal_Click"/>

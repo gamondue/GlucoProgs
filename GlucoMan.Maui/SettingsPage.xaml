@@ -135,6 +135,7 @@
             <Button IsEnabled="True" 
                     HeightRequest="50"
                     ImageSource="floppy_disc.png"
+                    BackgroundColor="LightCoral"
                     Text="{x:Static strings:AppStrings.Save}"
                     ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipSaveSettings}"
                     Clicked="Button_Clicked"
