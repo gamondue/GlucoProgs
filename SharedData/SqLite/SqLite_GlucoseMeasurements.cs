@@ -1,7 +1,8 @@
 ﻿using gamon;
 using Microsoft.Data.Sqlite;
 using System.Data.Common;
-
+using System.Diagnostics.Metrics;
+using GlucoMan;
 // Use alias to resolve ambiguity between GlucoMan.Device and Microsoft.Maui.Controls.Device
 using Device = GlucoMan.Device;
 

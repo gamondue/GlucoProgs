@@ -30,7 +30,7 @@
 		<!-- FileVersion uses readable date/time format as string -->
 		<VersionMajor>0</VersionMajor>
 		<VersionMinor>9</VersionMinor>
-		<VersionPatch>11</VersionPatch>
+		<VersionPatch>12</VersionPatch>
 		<!-- Build number as days since 2025-01-01 (avoids overflow) -->
 		<VersionBuildNumber>$([MSBuild]::Subtract($([System.DateTime]::Now.Subtract($([System.DateTime]::Parse('2025-01-01'))).Days), 0))</VersionBuildNumber>
 		<VersionRevision>$([System.DateTime]::Now.ToString('HHmm'))</VersionRevision>
@@ -119,10 +119,12 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
+		<MauiImage Include="Resources\Images\bar_code.png" />
 		<MauiImage Include="Resources\Images\calc_extrapolation.png" />
 		<MauiImage Include="Resources\Images\calc_food.png" />
 		<MauiImage Include="Resources\Images\camera.png" />
 		<MauiImage Include="Resources\Images\escape.png" />
+		<MauiImage Include="Resources\Images\experimental.png" />
 		<MauiImage Include="Resources\Images\floppy_disc_in.png" />
 		<MauiImage Include="Resources\Images\floppy_disc_out.png" />
 		<MauiImage Include="Resources\Images\get_last_all.png" />
@@ -130,6 +132,7 @@
 		<MauiImage Include="Resources\Images\get_last_two_blood.png" />
 		<MauiImage Include="Resources\Images\get_next.png" />
 		<MauiImage Include="Resources\Images\pan.png" />
+		<MauiImage Include="Resources\Images\qr_code.png" />
 		<MauiImage Include="Resources\Images\ringing_clock.png" />
 		<MauiImage Include="Resources\Images\statistics_no_axis.png" />
 		<MauiImage Include="Resources\Images\target.png" />
@@ -165,12 +168,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="MainPage.xaml.cs.REMOTE" />
 	  <None Remove="Resources\AppIcon\appiconfg.svg" />
 	  <None Remove="Resources\AppIcon\appiconfg_gamon.svg" />
 	  <None Remove="Resources\AppIcon\appiconfg_net.svg" />
 	  <None Remove="Resources\Images\arms_back.png" />
 	  <None Remove="Resources\Images\back.png" />
 	  <None Remove="Resources\Images\balance.png" />
+	  <None Remove="Resources\Images\bar_code.png" />
 	  <None Remove="Resources\Images\calculate_insulin.png" />
 	  <None Remove="Resources\Images\calculate_insulin.svg" />
 	  <None Remove="Resources\Images\calculator.png" />
@@ -188,6 +193,7 @@
 	  <None Remove="Resources\Images\detail.png" />
 	  <None Remove="Resources\Images\details.png" />
 	  <None Remove="Resources\Images\escape.png" />
+	  <None Remove="Resources\Images\experimental.png" />
 	  <None Remove="Resources\Images\floppy_disc.png" />
 	  <None Remove="Resources\Images\floppy_disc_IN.png" />
 	  <None Remove="Resources\Images\floppy_disc_OUT.png" />
@@ -224,6 +230,7 @@
 	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\prediction.png" />
 	  <None Remove="Resources\Images\prediction.svg" />
+	  <None Remove="Resources\Images\qr_code.png" />
 	  <None Remove="Resources\Images\questionmark.png" />
 	  <None Remove="Resources\Images\recipe.png" />
 	  <None Remove="Resources\Images\recipe.svg" />
@@ -275,11 +282,13 @@
 	  <MauiImage Include="Resources\Images\chronograph_set.png" />
 	  <MauiImage Include="Resources\Images\chronograph_started.png" />
 	  <MauiImage Include="Resources\Images\clear_fields.png" />
-	  <MauiImage Include="Resources\Images\clock.png" />
-	  <MauiImage Include="Resources\Images\details.png" />
-	  <MauiImage Include="Resources\Images\floppy_disc.png" />
-	  <MauiImage Include="Resources\Images\food.png" />
-	  <MauiImage Include="Resources\Images\foods.png" />
+		<MauiImage Include="Resources\Images\clock.png" />
+		<MauiImage Include="Resources\Images\details.png" />
+		<MauiImage Include="Resources\Images\fatsecret_logo.png" />
+		<MauiImage Include="Resources\Images\fatsecret_powered.png" />
+		<MauiImage Include="Resources\Images\floppy_disc.png" />
+		<MauiImage Include="Resources\Images\food.png" />
+		<MauiImage Include="Resources\Images\foods.png" />
 	  <MauiImage Include="Resources\Images\food_to_sugar.png" />
 	  <MauiImage Include="Resources\Images\front.png" />
 	  <MauiImage Include="Resources\Images\gear.png" />
@@ -314,6 +323,7 @@
 		<PackageReference Include="NUnit" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Controls" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" />
+		<PackageReference Include="ZXing.Net.Maui.Controls" />
 	</ItemGroup>
 
 	<!-- Windows-specific packages -->
@@ -338,9 +348,12 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>AppStrings.resx</DependentUpon>
 	  </Compile>
-	  <Compile Update="IdentificationPage.xaml.cs">
-	    <DependentUpon>IdentificationPage.xaml</DependentUpon>
-	  </Compile>
+		<Compile Update="IdentificationPage.xaml.cs">
+			<DependentUpon>IdentificationPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="ExperimentalPage.xaml.cs">
+			<DependentUpon>ExperimentalPage.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -363,6 +376,9 @@
 	  <MauiXaml Update="AlarmDialogPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="BarcodeScannerPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="CalculatorPage.xaml">
 	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 	  </MauiXaml>
@@ -373,6 +389,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="CropPhotoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ExperimentalPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="FatSecretSearchPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="FoodsInMealSearchResultsPage.xaml">
@@ -402,9 +424,12 @@
 	  <MauiXaml Update="StatisticsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="WindowsAlarmPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="WindowsAlarmPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="BarcodeScannerPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -425,9 +450,9 @@
 
 	<Import Project="..\SharedModel\SharedModel.projitems" Label="Shared" />
 
-	<Import Project="..\SharedBusiness\SharedBusiness.projitems" Label="Shared" />
-
 	<Import Project="..\SharedData\SharedDataa.projitems" Label="Shared" />
+
+	<Import Project="..\SharedBusiness\SharedBusiness.projitems" Label="Shared" />
 
 	<ItemGroup>
 	  <InternalsVisibleTo Include="GlucoMan.Maui.UnitTests" />

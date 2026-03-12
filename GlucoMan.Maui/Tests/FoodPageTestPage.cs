@@ -9,8 +9,7 @@ namespace GlucoMan.Maui.Tests;
 /// </summary>
 public partial class FoodPageTestPage : ContentPage
 {
-    //private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
-    private BL_MealAndFood bl = new BL_MealAndFood();
+    private BL_MealAndFood bl = new();
     private Food testFood;
     
     public FoodPageTestPage()
@@ -267,4 +266,3 @@ public partial class FoodPageTestPage : ContentPage
         }
     }
 }
-

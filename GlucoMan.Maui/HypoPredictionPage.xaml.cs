@@ -175,7 +175,7 @@ public partial class HypoPredictionPage : ContentPage
 
             // Get glucose target for the reminder text
             string glucoseTarget = txtGlucoseTarget.Text;
-            string reminderText = $"?? Hypo Alert!\nPredicted glucose below {glucoseTarget} mg/dL";
+            string reminderText = $"Hypoglycemia Alert!\nPredicted glucose below {glucoseTarget} mg/dL";
 
             // Create the alarm
             var alarm = new Alarm
@@ -199,9 +199,9 @@ public partial class HypoPredictionPage : ContentPage
             {
                 await _alarmScheduler.ScheduleAsync(alarm);
 
-                string message = $"?? Hypoglycemia alert set!\n\n" +
-                                $"? Time: {alarmDateTime:dd/MM/yyyy HH:mm}\n" +
-                                $"?? Target: {glucoseTarget} mg/dL\n\n" +
+                string message = $"Hypoglycemia alert set!\n\n" +
+                                $"Time: {alarmDateTime:dd/MM/yyyy HH:mm}\n" +
+                                $"Target: {glucoseTarget} mg/dL\n\n" +
                                 $"{AppStrings.AlarmWillAlertBeforePredictedHypoglycemia}";
 
                 await DisplayAlert(AppStrings.AlarmSet, message, AppStrings.OK);
@@ -245,4 +245,3 @@ public partial class HypoPredictionPage : ContentPage
         FromClassToUi();
     }
 }
-

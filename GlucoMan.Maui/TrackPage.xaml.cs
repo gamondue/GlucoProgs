@@ -858,4 +858,3 @@ public partial class TrackPage : ContentPage
 
     #endregion
 }
-

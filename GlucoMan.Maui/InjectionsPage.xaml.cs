@@ -678,4 +678,3 @@ public partial class InjectionsPage : ContentPage
         SetTheColorsOfPictureButtons();
     }
 }
-

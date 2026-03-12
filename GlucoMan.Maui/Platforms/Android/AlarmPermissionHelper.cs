@@ -105,4 +105,3 @@ namespace GlucoMan.Maui.Platforms.Android
     }
 }
 #endif
-

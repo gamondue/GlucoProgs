@@ -1,4 +1,4 @@
-using gamon;
+﻿using gamon;
 using GlucoMan.Maui.Services;
 
 namespace GlucoMan.Maui

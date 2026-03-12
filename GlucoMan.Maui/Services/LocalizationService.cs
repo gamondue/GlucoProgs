@@ -172,4 +172,3 @@ public class LocalizationService : INotifyPropertyChanged
         return property?.GetValue(null)?.ToString() ?? key;
     }
 }
-

@@ -41,7 +41,6 @@ namespace GlucoMan
             string containersFolder = Common.GetContainerPhotosPath();
             return Path.Combine(containersFolder, PhotoFileName);
         }
-        
         public override string ToString()
         {
             return $"{Name} ({Weight.Text} g)";

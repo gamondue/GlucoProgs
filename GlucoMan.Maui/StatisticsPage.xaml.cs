@@ -1,6 +1,9 @@
 using gamon;
+using GlucoMan;
+using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
 using Mathematics;
+using MathNet.Numerics.Statistics;
 
 namespace GlucoMan.Maui;
 
@@ -118,7 +121,7 @@ public partial class StatisticsPage : ContentPage
         {
             _blInjections.GetInjectionsForStatistics(_dateFrom, _dateTo);
 
-            // Display TDD stats
+            // Display TDD stats (!!!!!!!!!!!! mettere le label giuste !!!!!!!!!)
             StatisticsData sd = _blInjections.CalculateTddInsulin();
             DisplayInsulinStats(sd, lblTddPerDayMean, lblTddMean, lblTddStdDev,
                 lblTddSamples);
@@ -376,4 +379,3 @@ public partial class StatisticsPage : ContentPage
     }
     #endregion
 }
-

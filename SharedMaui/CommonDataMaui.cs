@@ -1,4 +1,7 @@
 ﻿using gamon;
+#if !MATH_TESTS_ONLY
+using Microsoft.Maui.Controls.PlatformConfiguration;
+#endif
 
 namespace GlucoMan
 {

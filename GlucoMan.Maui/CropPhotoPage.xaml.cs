@@ -683,4 +683,3 @@ if (codec.FormatID == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
         }
     }
 }
-

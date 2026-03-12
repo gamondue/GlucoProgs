@@ -8,7 +8,6 @@ public partial class FoodToHitTargetCarbsPage : ContentPage
     BL_FoodToHitTargetCarbs blFoodToEat = new BL_FoodToHitTargetCarbs();
     Color initialButtonBackground;
     Color initialButtonTextColor;
-    //BL_General BlGeneral = new BL_General();
     BL_General BlGeneral = new BL_General();
 
     public FoodToHitTargetCarbsPage()
@@ -112,4 +111,3 @@ public partial class FoodToHitTargetCarbsPage : ContentPage
         Navigation.PushAsync(new InjectionsPage(null));
     }
 }
-

@@ -221,4 +221,3 @@ public partial class InsulinCalcPage : ContentPage
         return null;
     }
 }
-

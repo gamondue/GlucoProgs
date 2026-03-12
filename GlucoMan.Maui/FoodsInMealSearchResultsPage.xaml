@@ -33,7 +33,8 @@
                     Keyboard="Text"
                     HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                     Text="{Binding Name}"
-                    FontSize="Small" IsReadOnly="false"/>
+                    FontSize="Small" IsReadOnly="false"
+                    TextChanged="txtName_TextChanged"/>
             
             <Entry Grid.Row="2" Grid.Column="2"
                     HorizontalOptions="Fill" VerticalOptions="Fill" 
@@ -62,7 +63,7 @@
             <Button Grid.Row="3" Grid.Column="0"
                             x:Name="btnChoose" 
                             ImageSource="choose.png"
-                            BackgroundColor="LightGreen" 
+                            BackgroundColor="LightCoral" 
                             TextColor="Black"
                             FontAttributes="Bold"
                             Clicked="btnChoose_Click" />
@@ -70,7 +71,7 @@
             <Button Grid.Row="3" Grid.Column="1"
                             x:Name="btnBack" 
                             ImageSource="escape.png"
-                            BackgroundColor="LightCoral" 
+                            BackgroundColor="LightGreen" 
                             TextColor="White"
                             FontAttributes="Bold"
                             Clicked="btnBack_Click" />

@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace gamon
 {
     public static class SqliteSafe

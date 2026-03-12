@@ -49,6 +49,7 @@
                    VerticalTextAlignment="Center" />
                 <Button Grid.Row="2" Grid.Column="4" 
                         ImageSource="floppy_disc.png"
+                        BackgroundColor="LightCoral"
                         x:Name="btnSaveMeal" LineBreakMode="WordWrap" 
                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealSaveButton}"
                    Margin="1" Clicked="btnSaveAllMeal_Click"/>
@@ -152,9 +153,9 @@
                 </Grid>
 
                 <Label Grid.Row="3" Grid.Column="0" Text="{x:Static strings:AppStrings.CHOPercent}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-                <Label Grid.Row="3" Grid.Column="1" Text="{x:Static strings:AppStrings.Unit}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                <Label Grid.Row="3" Grid.Column="2" Text="{x:Static strings:AppStrings.Unit}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                        LineBreakMode="TailTruncation"/>
-                <Label Grid.Row="3" Grid.Column="2" Text="{x:Static strings:AppStrings.Quantity}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                <Label Grid.Row="3" Grid.Column="1" Text="{x:Static strings:AppStrings.Quantity}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                        LineBreakMode="TailTruncation"/>
                 <Label Grid.Row="3" Grid.Column="3" Text="{x:Static strings:AppStrings.CHOGrams}" HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                        LineBreakMode="TailTruncation"/>
@@ -179,12 +180,12 @@
                        Keyboard="Numeric" HorizontalTextAlignment="End"
                        />
                 <!--Text="{Binding CarbohydratesPercent.Text}"-->
-                <Button Grid.Row="4" Grid.Column="1" x:Name="btnUnit" Margin="1"
+                <Button Grid.Row="4" Grid.Column="2" x:Name="btnUnit" Margin="1"
                        Clicked="ResetUnitToGrams"
                        VerticalOptions="Center" HorizontalOptions="Fill"
                        ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipUnitReset}"/>
                         <!--Text="{Binding UnitSymbol}"-->
-                <Entry Grid.Row="4" Grid.Column="2" x:Name="txtFoodQuantityInUnits" 
+                <Entry Grid.Row="4" Grid.Column="1" x:Name="txtFoodQuantityInUnits" 
                        BackgroundColor="GreenYellow" TextColor="Black"
                        Margin="1" Keyboard="Numeric" 
                        TextChanged="txtFoodChoOrQuantity_TextChanged"

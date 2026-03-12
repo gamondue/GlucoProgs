@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
+             x:Class="GlucoMan.Maui.ExperimentalPage"
+             Title="Experimental Works">
+    <ScrollView Padding="10,5,10,5">
+        <VerticalStackLayout Spacing="12">
+            
+            <!-- Header -->
+            <Label Text="Experimental Works"
+                   BackgroundColor="Red"
+                   TextColor="Yellow"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   Margin="0,10,0,5"/>
+            
+            <Label Text="Advanced analysis and model identification"
+                   HorizontalOptions="Center"
+                   FontSize="13"
+                   TextColor="#666"
+                   Margin="0,0,0,10"/>
+          <Frame Padding="8"
+     CornerRadius="6"
+     BorderColor="#bdc3c7"
+     BackgroundColor="#ecf0f1"
+     HasShadow="False"
+     Margin="3,0,3,2">
+
+            <Grid RowDefinitions="Auto,Auto"
+                  ColumnDefinitions="40,*,40,*"
+                  RowSpacing="5"
+                  ColumnSpacing="6">
+
+              <!-- To column -->
+              <Label x:Name="lblTo"
+                     Text="{x:Static strings:AppStrings.DateLabel}"
+                     Grid.Row="0" Grid.Column="0"
+                     VerticalOptions="Center"
+                     HorizontalOptions="End"
+                     FontSize="13"
+                     FontAttributes="Bold"
+                     TextColor="#27ae60"
+                     Margin="0,0,2,0"/>
+
+              <DatePicker x:Name="datePicker"
+                          Grid.Row="0" Grid.Column="1"
+                          Format="dd/MM/yyyy"
+                          BackgroundColor="#d5f4e6"
+                          TextColor="Black"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Fill"
+                          ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipToDate}"
+                          HeightRequest="34"/>
+
+              <!-- Number of weeks label and entry placed below the date pickers, centered across columns -->
+              <HorizontalStackLayout Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
+                                     HorizontalOptions="Center" Spacing="8" Margin="0,8,0,0">
+                <Label x:Name="lblNoOfWeeks" Text="No of weeks"
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#27ae60"
+                       ToolTipProperties.Text="{x:Static strings:AppStrings.labelNoOfWeeks}"
+                               />
+                <Entry x:Name="txtNoOfWeeks"
+                       WidthRequest="40"
+                       HorizontalTextAlignment="Center"
+                       Keyboard="Numeric"
+                       Placeholder="No of weeks"
+                       Text="2"/>
+              </HorizontalStackLayout>
+            </Grid>
+          </Frame>
+          <BoxView HeightRequest="2"
+                   Color="#34495e"
+                   Margin="0,8,0,8"/>
+          <Label
+                 Text="Experimental works on identification of paramaters of models of system's dynamics"
+                 HorizontalOptions="Center"
+                 FontSize="16"
+                 FontAttributes="Bold"
+                 Margin="0,0,0,5"/>
+          <HorizontalStackLayout>
+            <Button x:Name="btnIdentify"
+                        Text="Identifications 1"
+                        Clicked="btnIdentification_Click"
+                        HorizontalOptions="Center"/>
+            <Button x:Name="btnIdentify3"
+                        Text="Identifications 2"
+                        Clicked="btnIdentification2_Click"
+                        HorizontalOptions="Center"/>
+          </HorizontalStackLayout>
+          <BoxView HeightRequest="2"
+                   Color="#34495e"
+                   Margin="0,8,0,8"/>
+          <Label
+                 Text="Experimental works on extrapolation with identified models"
+                 HorizontalOptions="Center"
+                 FontSize="16"
+                 FontAttributes="Bold"
+                 Margin="0,0,0,5"/>
+
+          <!-- Section 1: Model Identification -->
+            <BoxView HeightRequest="2" Color="#34495e" Margin="0,8,0,8"/>
+            
+            <Label Text="Model Identification"
+                   FontSize="16" 
+                   FontAttributes="Bold"
+                   TextColor="#1565C0"
+                   Margin="0,0,0,3"/>
+            
+            <Label Text="Identification of parameters of models of system's dynamics"
+                   FontSize="13"
+                   TextColor="#555"
+                   LineBreakMode="WordWrap"
+                   Margin="0,0,0,8"/>
+            
+            <!-- Image placeholder with experimental icon -->
+            <Frame Padding="10" 
+                   CornerRadius="8"
+                   BorderColor="#BDBDBD"
+                   BackgroundColor="#F5F5F5"
+                   Margin="0,0,0,10">
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Image x:Name="imgExperimental1" 
+                           Source="experimental.svg"
+                           HeightRequest="80"
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Center"
+                           Aspect="AspectFit"
+                           ToolTipProperties.Text="Model parameter identification experiment"/>
+                    <Label Text="Run identification algorithm"
+                           HorizontalOptions="Center"
+                           FontSize="12"
+                           TextColor="#666"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Buttons for Model Identification -->
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Button x:Name="btnIdentification1" 
+                        Text="Algorithm 1"
+                        Clicked="btnIdentification1_Clicked"
+                        Padding="15,8"
+                        CornerRadius="6"
+                        BackgroundColor="#1976D2"
+                        TextColor="White"
+                        FontSize="13"/>
+                <Button x:Name="btnIdentification2" 
+                        Text="Algorithm 2"
+                        Clicked="btnIdentification2_Clicked"
+                        Padding="15,8"
+                        CornerRadius="6"
+                        BackgroundColor="#1565C0"
+                        TextColor="White"
+                        FontSize="13"/>
+            </HorizontalStackLayout>
+            
+            <!-- Results Section (collapsible) -->
+            <Frame Padding="10" 
+                   CornerRadius="6"
+                   BorderColor="#E0E0E0"
+                   BackgroundColor="#FAFAFA"
+                   Margin="0,10,0,0">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Identification Results"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#333"/>
+                    <Label x:Name="lblIdentificationStatus" 
+                           Text="Ready to run identification"
+                           FontSize="11"
+                           TextColor="#999"
+                           LineBreakMode="WordWrap"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Section 2: Model Extrapolation -->
+            <BoxView HeightRequest="2" Color="#34495e" Margin="0,15,0,8"/>
+            
+            <Label Text="Model Extrapolation"
+                   FontSize="16" 
+                   FontAttributes="Bold"
+                   TextColor="#00796B"
+                   Margin="0,0,0,3"/>
+            
+            <Label Text="Extrapolation with identified models"
+                   FontSize="13"
+                   TextColor="#555"
+                   LineBreakMode="WordWrap"
+                   Margin="0,0,0,8"/>
+            
+            <!-- Parameters for Extrapolation -->
+            <Frame Padding="10" 
+                   CornerRadius="6"
+                   BorderColor="#BDBDBD"
+                   BackgroundColor="#F5F5F5"
+                   Margin="0,0,0,10">
+                <Grid RowDefinitions="Auto,Auto,Auto" 
+                      ColumnDefinitions="*,*"
+                      RowSpacing="8"
+                      ColumnSpacing="8">
+                    
+                    <!-- Forecast hours -->
+                    <Label Grid.Row="0" Grid.Column="0"
+                           Text="Forecast Hours"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"/>
+                    <Entry Grid.Row="0" Grid.Column="1"
+                           x:Name="txtForecastHours"
+                           Placeholder="24"
+                           Keyboard="Numeric"
+                           Text="24"
+                           BackgroundColor="White"
+                           TextColor="Black"/>
+                    
+                    <!-- Confidence Level -->
+                    <Label Grid.Row="1" Grid.Column="0"
+                           Text="Confidence (%)"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"/>
+                    <Slider Grid.Row="1" Grid.Column="1"
+                            x:Name="sldrConfidence"
+                            Minimum="50"
+                            Maximum="99"
+                            Value="90"
+                            BackgroundColor="#E0F2F1"/>
+                    
+                    <!-- Model Selection -->
+                    <Label Grid.Row="2" Grid.Column="0"
+                           Text="Model"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"/>
+                    <Picker Grid.Row="2" Grid.Column="1"
+                            x:Name="cmbModelSelection"
+                            Title="Select model"
+                            BackgroundColor="White"
+                            TitleColor="#999"/>
+                </Grid>
+            </Frame>
+            
+            <!-- Button for Extrapolation -->
+            <Button x:Name="btnExtrapolate" 
+                    Text="Run Extrapolation"
+                    Clicked="btnExtrapolate_Clicked"
+                    Padding="15,10"
+                    CornerRadius="6"
+                    BackgroundColor="#00897B"
+                    TextColor="White"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Fill"
+                    Margin="0,5,0,0"/>
+            
+            <!-- Extrapolation Results -->
+            <Frame Padding="10" 
+                   CornerRadius="6"
+                   BorderColor="#E0E0E0"
+                   BackgroundColor="#FAFAFA"
+                   Margin="0,10,0,10">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Extrapolation Results"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#333"/>
+                    <Label x:Name="lblExtrapolationStatus" 
+                           Text="Ready to run extrapolation"
+                           FontSize="11"
+                           TextColor="#999"
+                           LineBreakMode="WordWrap"/>
+                    <Label x:Name="lblPredictedValues"
+                           Text=""
+                           FontSize="11"
+                           TextColor="#666"
+                           LineBreakMode="WordWrap"
+                           IsVisible="False"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Export Results -->
+            <Button x:Name="btnExportResults" 
+                    Text="Export Results"
+                    Clicked="btnExportResults_Clicked"
+                    Padding="15,10"
+                    CornerRadius="6"
+                    BackgroundColor="#7B1FA2"
+                    TextColor="White"
+                    FontSize="13"
+                    HorizontalOptions="Fill"
+                    Margin="0,0,0,20"/>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

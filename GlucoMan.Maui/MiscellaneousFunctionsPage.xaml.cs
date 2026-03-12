@@ -773,6 +773,7 @@ public partial class MiscellaneousFunctionsPage : ContentPage
             General.LogOfProgram?.Error("CloseDatabaseConnection", ex);
         }
     }
+
     /// <summary>
     /// Re-opens the database connection after a file operation.
     /// </summary>
@@ -898,4 +899,3 @@ public partial class MiscellaneousFunctionsPage : ContentPage
         Navigation.PushAsync(new MainPage());
     }
 }
-

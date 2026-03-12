@@ -1,4 +1,4 @@
-using gamon;
+﻿using gamon;
 using GlucoMan.Maui.Services;
 using GlucoMan.Maui.Resources.Strings;
 using Microsoft.Maui.Controls;
@@ -9,7 +9,7 @@ namespace GlucoMan.Maui
     public partial class MainPage : ContentPage
     {
         private readonly LocalizationService _localizationService;
-        BL_General BlGeneral = new BL_General();  
+        BL_General BlGeneral = new BL_General();
 
         public MainPage()
         {
@@ -202,6 +202,7 @@ namespace GlucoMan.Maui
 
                 // Save the setting to database
                 BlGeneral.SaveParameter("CantSetAlarms", usesSensor ? "true" : "false");
+
                 General.LogOfProgram?.Event($"MainPage - User configured CantSetAlarms: {Common.CantSetAlarms}");
             }
             catch (Exception ex)
@@ -214,7 +215,7 @@ namespace GlucoMan.Maui
                     BlGeneral.SaveParameter("CantSetAlarms", "false");
                 }
                 catch { }
-            }
+             }
         }
 
         private async void btnMiscellaneousFunctions_Clicked(object sender, EventArgs e)
@@ -256,6 +257,10 @@ namespace GlucoMan.Maui
         {
             Navigation.PushAsync(new PhysicalActivityPage(_localizationService));
         }
+
+        private void btnExperimental_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new ExperimentalPage(_localizationService));
+        }
     }
 }
-

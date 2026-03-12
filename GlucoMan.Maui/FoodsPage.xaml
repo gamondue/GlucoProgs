@@ -13,7 +13,7 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid Grid.RowDefinitions="Auto
-              ,Auto,Auto,Auto,Auto,Auto
+              ,Auto,Auto,Auto,55,Auto
               ,55,55,*"
             Grid.ColumnDefinitions="*, *, *, *">
             <Label Grid.Row="0" Grid.Column="0" TextColor="Black" 
@@ -64,8 +64,8 @@
                     Text="{Binding Description}"/>
   
             <Button Grid.Row="4" Grid.Column="3" x:Name="btnBack" 
-                    Margin="1"
-                    HeightRequest="55"
+                    Margin="2"
+                    BackgroundColor="LightGreen"
                     VerticalOptions="Start"
                     ImageSource="escape.png"
                     ToolTipProperties.Text="{x:Static strings:AppStrings.Back}"
@@ -93,8 +93,9 @@
 
             <Button Grid.Row="7" Grid.Column="0" x:Name="btnSaveFood" Margin="1"
                     ImageSource="floppy_disc.png"
-                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFoodSaveButton}"
-                Clicked="btnSaveFood_Click"/>
+                    BackgroundColor="LightCoral"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFoodSaveButton}"
+                    Clicked="btnSaveFood_Click"/>
             <Button Grid.Row="7" Grid.Column="1" x:Name="btnFoodDetails" Margin="1"
                     ImageSource="details.png"
                     ToolTipProperties.Text="{x:Static strings:AppStrings.ShowDetails}"
@@ -108,7 +109,7 @@
             <Button Grid.Row="7" Grid.Column="3" 
                     ImageSource="magnifier.png"
                     x:Name="btnSearchFood" Margin="1"
-                ToolTipProperties.Text="{x:Static strings:AppStrings.SearchFood}"
+                ToolTipProperties.Text="{x:Static strings:AppStrings.SearchFoodInFoodsInMeal}"
                 Clicked="btnSearchFood_Click"/>
             <Grid Grid.Row="8" Grid.ColumnSpan="4">
                 <Grid RowDefinitions="Auto,*">

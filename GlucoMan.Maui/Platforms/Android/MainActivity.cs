@@ -1,4 +1,4 @@
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using GlucoMan;
@@ -48,7 +48,7 @@ namespace GlucoMan.Maui
                     // Notify user and log
                     try
                     {
-                        Toast.MakeText(this, "Permessi storage non concessi. Alcune funzionalit� potrebbero non funzionare.", ToastLength.Long).Show();
+                        Toast.MakeText(this, "Permessi storage non concessi. Alcune funzionalità potrebbero non funzionare.", ToastLength.Long).Show();
                     }
                     catch { }
 
@@ -78,4 +78,3 @@ namespace GlucoMan.Maui
         }
     }
 }
-

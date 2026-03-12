@@ -153,4 +153,3 @@ namespace GlucoMan.Maui
         }
     }
 }
-

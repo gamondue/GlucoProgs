@@ -1,5 +1,4 @@
-﻿
-namespace gamon
+﻿namespace gamon
 {
     public class DateTimeAndText
     {

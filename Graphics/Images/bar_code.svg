@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 100 100"
+   width="100"
+   height="100"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="bar_code.svg"
+   inkscape:export-filename="bar_code.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="8.07"
+     inkscape:cx="49.938042"
+     inkscape:cy="50"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="527"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg10" />
+  <!-- White background -->
+  <rect
+     width="100"
+     height="100"
+     fill="white"
+     rx="4"
+     id="rect1" />
+  <!--
+    Layout (x → end, gap → next):
+    Guard L : x=5,  w=6 → 11, gap=5
+    Thin    : x=16, w=4 → 20, gap=4
+    Thick   : x=24, w=8 → 32, gap=4
+    Thin    : x=36, w=4 → 40, gap=5
+    Guard C : x=45, w=6 → 51, gap=5
+    Thin    : x=56, w=4 → 60, gap=4
+    Thick   : x=64, w=8 → 72, gap=4
+    Thin    : x=76, w=4 → 80, gap=5
+    Guard R : x=85, w=6 → 91
+  -->
+  <!-- Left guard (tall) -->
+  <rect
+     x="5"
+     y="8"
+     width="6"
+     height="74"
+     fill="#000000"
+     id="rect2" />
+  <!-- Data bars left (shorter) -->
+  <rect
+     x="16"
+     y="8"
+     width="4"
+     height="65"
+     fill="#000000"
+     id="rect3" />
+  <rect
+     x="24"
+     y="8"
+     width="8"
+     height="65"
+     fill="#000000"
+     id="rect4" />
+  <rect
+     x="36"
+     y="8"
+     width="4"
+     height="65"
+     fill="#000000"
+     id="rect5" />
+  <!-- Center guard (tall) -->
+  <rect
+     x="45"
+     y="8"
+     width="6"
+     height="74"
+     fill="#000000"
+     id="rect6" />
+  <!-- Data bars right (shorter) -->
+  <rect
+     x="56"
+     y="8"
+     width="4"
+     height="65"
+     fill="#000000"
+     id="rect7" />
+  <rect
+     x="64"
+     y="8"
+     width="8"
+     height="65"
+     fill="#000000"
+     id="rect8" />
+  <rect
+     x="76"
+     y="8"
+     width="4"
+     height="65"
+     fill="#000000"
+     id="rect9" />
+  <!-- Right guard (tall) -->
+  <rect
+     x="85"
+     y="8"
+     width="6"
+     height="74"
+     fill="#000000"
+     id="rect10" />
+</svg>

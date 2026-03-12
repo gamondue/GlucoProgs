@@ -1,5 +1,6 @@
 ﻿using static GlucoMan.Common;
 
+#if !MATH_TESTS_ONLY
 namespace gamon
 {
     internal class UiAccuracy
@@ -240,4 +241,5 @@ namespace gamon
         }
     }
 }
+#endif
 

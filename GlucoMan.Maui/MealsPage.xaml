@@ -10,17 +10,21 @@
               65,20,Auto,*"
             ColumnDefinitions="*,*,*,*">
             <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" 
-                                   Margin="8" Spacing="6" BackgroundColor="Transparent">
+                                   Margin="8" Spacing="2" BackgroundColor="Transparent">
                 <RadioButton Content="{x:Static strings:AppStrings.Breakfast}" x:Name="rdbIsBreakfast" 
+                             Margin="0" Padding="0"
                              ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeBreakfast}" 
                              CheckedChanged="rdb_CheckedChanged"/>
                 <RadioButton Content="{x:Static strings:AppStrings.Lunch}" x:Name="rdbIsLunch" 
+                             Margin="0" Padding="0"
                              ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeLunch}" 
                              CheckedChanged="rdb_CheckedChanged"/>
                 <RadioButton Content="{x:Static strings:AppStrings.Dinner}" x:Name="rdbIsDinner"
+                             Margin="0" Padding="0"
                              ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeDinner}" 
                              CheckedChanged="rdb_CheckedChanged"/>
                 <RadioButton Content="{x:Static strings:AppStrings.Snack}" x:Name="rdbIsSnack"
+                             Margin="0" Padding="0"
                              ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealTypeSnack}" 
                              CheckedChanged="rdb_CheckedChanged"/>
             </HorizontalStackLayout>
@@ -86,6 +90,7 @@
 
             <Button Grid.Row="6" Grid.Column="0" 
                     ImageSource="floppy_disc.png" x:Name="btnSave" Margin="2" 
+                    BackgroundColor="LightCoral"
                     ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealSaveButton}" 
                     Clicked="btnSaveMeal_ClickAsync"/>
             <Button Grid.Row="6" Grid.Column="1" 

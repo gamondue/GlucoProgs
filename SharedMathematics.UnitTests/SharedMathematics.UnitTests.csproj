@@ -30,10 +30,6 @@
 
   <Import Project="..\SharedGlucoMan\SharedGlucoMan.projitems" Label="Shared" />
 
-  <ItemGroup>
-    <!-- Exclude files with dependencies on SharedMaui/SharedBusiness/SharedData -->
-    <Compile Remove="..\SharedModel\Container.cs" />
-    <Compile Remove="..\SharedGlucoMan\CommonFunctions.cs" />
-  </ItemGroup>
+  <Import Project="..\SharedMaui\SharedMaui.projitems" Label="Shared" />
 
 </Project>

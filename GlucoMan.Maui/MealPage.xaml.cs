@@ -10,9 +10,8 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
 {
     // since it is accessed by several pages, we use a common business
     // layer beetween different pages
-    //private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
     private BL_MealAndFood bl = new();
-    private BL_General BlGeneral = new BL_General();
+    private BL_General BlGeneral = new();
 
     private UiAccuracy accuracyMeal;
     private UiAccuracy accuracyFoodInMeal;

@@ -563,4 +563,3 @@ public partial class AlarmPage : ContentPage
         cvAlarms.SelectedItem = null;
     }
 }
-

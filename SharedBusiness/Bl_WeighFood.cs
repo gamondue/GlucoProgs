@@ -1,4 +1,6 @@
 ﻿using gamon;
+using System.ComponentModel.Design;
+using System.Net;
 
 namespace GlucoMan
 {

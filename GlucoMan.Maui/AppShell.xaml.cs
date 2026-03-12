@@ -1,4 +1,4 @@
-namespace GlucoMan.Maui
+﻿namespace GlucoMan.Maui
 {
     public partial class AppShell : Shell
     {
@@ -17,4 +17,3 @@ namespace GlucoMan.Maui
         }
     }
 }
-

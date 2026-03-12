@@ -701,4 +701,3 @@ public class GpsTrackingService : Service, ILocationListener
     
     #endregion
 }
-

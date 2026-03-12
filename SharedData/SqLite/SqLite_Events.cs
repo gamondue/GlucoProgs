@@ -1,6 +1,8 @@
 using gamon;
 using Microsoft.Data.Sqlite;
 using System.Data.Common;
+using GlucoMan;
+using System.Collections.Generic;
 using System.Data;
 
 namespace GlucoMan

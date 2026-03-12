@@ -131,42 +131,4 @@ public partial class StatisticsAndGraphPage : ContentPage
         Navigation.PushAsync(statisticsPage);
         processingLongCalculations = false;
     }
-    private void btnIdentification_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            ////// Validate date range
-            ////if (dateTime> dateTimeTo)
-            ////{
-            ////    DisplayAlert(AppStrings.InvalidDateRangeTitle, AppStrings.InvalidDateRangeMessage, AppStrings.OK);
-            ////    datePicker.Date = datePickerFrom.Date.AddDays(1);
-            ////    return;
-            ////}
-
-            //Log the action
-            //General.LogOfProgram?.Event($"Opening Statistics page - From: {dateTimeFrom}, To: {dateTimeTo}");
-
-            int nWeeks = 2;
-            int.TryParse(txtNoOfWeeks.Text, out nWeeks);
-
-            // Navigate to Identifications page (to be implemented)
-            var identificationPage = new IdentificationPage(datePicker.Date ?? DateTime.Now, nWeeks);
-            Navigation.PushAsync(identificationPage);
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("StatisticsAndGraphPage - btnStatistics_Clicked", ex);
-            DisplayAlert(AppStrings.ImportErrorTitle, string.Format("Failed to open statistics page: {0}", ex.Message), AppStrings.OK);
-        }
-    }
-    private void btnIdentification2_Click(object sender, EventArgs e)
-    {
-        int nWeeks = 2;
-        int.TryParse(txtNoOfWeeks.Text, out nWeeks);
-
-        // Navigate to Identifications page (to be implemented)
-        var identificationPage = new IdentificationPage2(datePicker.Date ?? DateTime.Now, nWeeks);
-        Navigation.PushAsync(identificationPage);
-    }
 }
-

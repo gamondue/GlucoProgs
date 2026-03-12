@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-using static GlucoMan.Common;
+using GlucoMan;
 
 namespace GlucoMan
 {

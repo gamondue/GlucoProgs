@@ -1,9 +1,10 @@
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using gamon;
 using GlucoMan; // for ISystemAlarmScheduler
 using CommunityToolkit.Maui;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using ZXing.Net.Maui.Controls;
 using GlucoMan.Maui.Services; // Add localization service
 #if WINDOWS
 using WinUIWindow = Microsoft.UI.Xaml.Window;
@@ -26,6 +27,7 @@ namespace GlucoMan.Maui
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
                 .UseSkiaSharp()
+                .UseBarcodeReader()
                 .ConfigureLifecycleEvents(events =>
                 {
 #if WINDOWS
@@ -74,7 +76,7 @@ namespace GlucoMan.Maui
 #endif
             Common.SetGlobalParameters();
             Common.GeneralInitializationsAsync();
-
+            
             // Initialize the DatabaseService singleton (moved from CommonFunctions.cs)
             DatabaseService.Instance.Initialize(Common.PathAndFileDatabase);
 
@@ -95,4 +97,3 @@ namespace GlucoMan.Maui
         public Task CancelAllAsync() => Task.CompletedTask;
     }
 }
-

@@ -1,4 +1,4 @@
-using Microsoft.Maui.Controls;
+ï»¿using Microsoft.Maui.Controls;
 using System;
 using System.Globalization;
 
@@ -138,11 +138,11 @@ namespace GlucoMan.Maui
                     case "-":
                         result = firstNumber - secondNumber;
                         break;
-                    case "×":
+                    case "Ã—":
                     case "*":
                         result = firstNumber * secondNumber;
                         break;
-                    case "÷":
+                    case "Ã·":
                     case "/":
                         result = secondNumber != 0 ? firstNumber / secondNumber : 0;
                         break;
@@ -277,4 +277,3 @@ namespace GlucoMan.Maui
         }
     }
 }
-

@@ -1,11 +1,14 @@
 ﻿using gamon;
 using Mathematics;
+using MathNet.Numerics.Distributions;
+using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 
 namespace GlucoMan
 {
     public class BL_BolusesAndInjections
     {
-        BL_General BlGeneral = new BL_General();
+        BL_General BlGeneral = new();
         DataLayer dl = DatabaseService.Instance.Database;
 
         // Get all injections in the time range
@@ -552,59 +555,59 @@ namespace GlucoMan
                 return true;
             }
         }
-        //internal void CalculateAndDisplayInsulinStats(List<Injection> injections,
-        //    Label meanLabel, Label stdDevLabel, Label samplesLabel)
-        //{
-        //    if (injections == null || injections.Count == 0)
-        //    {
-        //        meanLabel.Text = "No data";
-        //        stdDevLabel.Text = "No data";
-        //        samplesLabel.Text = "0";
-        //        return;
-        //    }
+        internal void CalculateAndDisplayInsulinStats(List<Injection> injections,
+            Label meanLabel, Label stdDevLabel, Label samplesLabel)
+        {
+            if (injections == null || injections.Count == 0)
+            {
+                meanLabel.Text = "No data";
+                stdDevLabel.Text = "No data";
+                samplesLabel.Text = "0";
+                return;
+            }
 
-        //    var values = injections
-        //        .Where(i => i.InsulinValue?.Double.HasValue == true)
-        //        .Select(i => i.InsulinValue.Double.Value)
-        //        .ToList();
+            var values = injections
+                .Where(i => i.InsulinValue?.Double.HasValue == true)
+                .Select(i => i.InsulinValue.Double.Value)
+                .ToList();
 
-        //    if (values.Count == 0)
-        //    {
-        //        meanLabel.Text = "No valid values";
-        //        stdDevLabel.Text = "No valid values";
-        //        samplesLabel.Text = "0";
-        //        return;
-        //    }
+            if (values.Count == 0)
+            {
+                meanLabel.Text = "No valid values";
+                stdDevLabel.Text = "No valid values";
+                samplesLabel.Text = "0";
+                return;
+            }
 
-        //    var (mean, stdDev, count) = GamonStatistics.MeanAndStdDev(values);
-        //    meanLabel.Text = $"{mean:F2} U";
-        //    stdDevLabel.Text = $"{stdDev:F2} U";
-        //    samplesLabel.Text = $"{values.Count}";
-        //}
-        //internal void CalculateAndDisplayInsulinPerDayStats(List<Injection> injections, Label perDayMeanLabel)
-        //{
-        //    if (injections == null || injections.Count == 0)
-        //    {
-        //        perDayMeanLabel.Text = "No data";
-        //        return;
-        //    }
+            var (mean, stdDev, count) = GamonStatistics.MeanAndStdDev(values);
+            meanLabel.Text = $"{mean:F2} U";
+            stdDevLabel.Text = $"{stdDev:F2} U";
+            samplesLabel.Text = $"{values.Count}";
+        }
+        internal void CalculateAndDisplayInsulinPerDayStats(List<Injection> injections, Label perDayMeanLabel)
+        {
+            if (injections == null || injections.Count == 0)
+            {
+                perDayMeanLabel.Text = "No data";
+                return;
+            }
 
-        //    // Group injections by day and sum insulin for each day
-        //    var dailyTotals = injections
-        //        .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
-        //        .GroupBy(i => i.EventTime.DateTime.Value.Date)
-        //        .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
-        //        .ToList();
+            // Group injections by day and sum insulin for each day
+            var dailyTotals = injections
+                .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
+                .GroupBy(i => i.EventTime.DateTime.Value.Date)
+                .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
+                .ToList();
 
-        //    if (dailyTotals.Count == 0)
-        //    {
-        //        perDayMeanLabel.Text = "No data";
-        //        return;
-        //    }
+            if (dailyTotals.Count == 0)
+            {
+                perDayMeanLabel.Text = "No data";
+                return;
+            }
 
-        //    double meanPerDay = dailyTotals.Average();
-        //    perDayMeanLabel.Text = $"{meanPerDay:F2} U/day";
-        //}
+            double meanPerDay = dailyTotals.Average();
+            perDayMeanLabel.Text = $"{meanPerDay:F2} U/day";
+        }
         internal void GetInjectionsForStatistics(DateTime dateFrom, DateTime dateTo)
         {
             // Get all injections in the time range
@@ -671,40 +674,27 @@ namespace GlucoMan
             }
 
             // Group injections by day and sum all kind of insulin for each day
-            ////////var dailyTotals = _allInjections
-            ////////    .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
-            ////////    .GroupBy(i => i.EventTime.DateTime.Value.Date)
-            ////////    .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
-            ////////    .ToList();
-
-            // transform the list of injections into a list of tuples (DateTime t, double value)
-            // suitable to pass to DailyTimeBandsMeans
-            var injectionTuples = _allInjections
+            var dailyTotals = _allInjections
                 .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
-                .Select(i => (t: i.EventTime.DateTime.Value, value: i.InsulinValue.Double.Value))
-                .Reverse() // invert the order of the resulting rows
+                .GroupBy(i => i.EventTime.DateTime.Value.Date)
+                .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
                 .ToList();
 
-            // Call DailyTimeBandsMeans. If you don't want any specific bands, pass an empty list
-            // so all values will be considered as residuals and returned as a single mean.
-            var timeBandsResult = GamonStatistics.DailyTimeBandsMeans(injectionTuples, new List<(DateTime Begin, DateTime End)>());
-
-            var dailyTotalsMeans = timeBandsResult.Means;
-            if (dailyTotalsMeans == null || dailyTotalsMeans.Count == 0)
+            if (dailyTotals.Count == 0)
             {
                 return null;
             }
 
-            //// Calculate mean and standard deviation across the daily totals (means)
-            //var (mean, stdDev, count) = GamonStatistics.MeanAndStdDev(dailyTotalsMeans.ToList());
+            // Calculate mean and standard deviation
+            var (mean, stdDev, count) = GamonStatistics.MeanAndStdDev(dailyTotals);
 
             // Create and return statistics data
             var data = new StatisticsData
             {
-                Mean = timeBandsResult.Means[0],
-                StandardDeviation = timeBandsResult.StDevs[0],
-                NSamples = timeBandsResult.Counts[0],
-                DailyMean = timeBandsResult.Means[0]  // For TDD, daily mean is the same as mean
+                Mean = mean,
+                StandardDeviation = stdDev,
+                NSamples = count,
+                DailyMean = mean  // For TDD, daily mean is the same as mean
             };
 
             return data;

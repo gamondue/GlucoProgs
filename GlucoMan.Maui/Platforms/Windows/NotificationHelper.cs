@@ -59,4 +59,3 @@ namespace GlucoMan.Maui.Platforms.Windows
     }
 }
 #endif
-

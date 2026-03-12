@@ -19,4 +19,3 @@ public partial class FullScreenImagePage : ContentPage
         await Navigation.PopModalAsync();
     }
 }
-

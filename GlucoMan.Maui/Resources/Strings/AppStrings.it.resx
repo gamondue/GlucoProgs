@@ -1054,7 +1054,7 @@
     <value>Impostazioni Generali</value>
   </data>
   <data name="UnitsOfMeasure" xml:space="preserve">
-    <value>Unità  di Misura</value>
+    <value>Unità di Misura</value>
   </data>
   <data name="TargetRange" xml:space="preserve">
     <value>Range Obiettivo</value>
@@ -1441,10 +1441,10 @@
     <value>Impossibile chiudere la pagina: {0}</value>
   </data>
   <data name="UnitApplicabilityTitle" xml:space="preserve">
-    <value>Applicabilità  della Unità </value>
+    <value>Applicabilità della Unità </value>
   </data>
   <data name="UnitApplicabilityMessage" xml:space="preserve">
-    <value>Questa nuova unità  deve essere applicabile a tutti i cibi o solo a questo?</value>
+    <value>Questa nuova unità deve essere applicabile a tutti i cibi o solo a questo?</value>
   </data>
   <data name="UnitApplicabilityAll" xml:space="preserve">
     <value>Tutte</value>
@@ -1453,10 +1453,13 @@
     <value>Questa</value>
   </data>
   <data name="UnitSymbolExistsMessage" xml:space="preserve">
-    <value>Il simbolo dell'Unità  esiste già . Dare un simbolo univoco a questa unità .</value>
+    <value>Il simbolo dell'Unità esiste già. Dare un simbolo univoco a questa unità .</value>
   </data>
   <data name="UnitSaveFailedMessage" xml:space="preserve">
     <value>Errore nel salvataggio della nuova Unità . Nuova unità  non salvata.</value>
+  </data>
+  <data name="InvalidNumberMessage" xml:space="preserve">
+    <value>Immettere un numero valido per Grammi/Unità</value>
   </data>
   <data name="SelectManufacturerToRemove" xml:space="preserve">
     <value>Scegliere il Produttore da cancellare</value>
@@ -1623,7 +1626,7 @@
   </data>
   <data name="SlopeUnitLabel" xml:space="preserve">
     <value>Pendenza
-[glic/ora]</value>
+[glicem/ora]</value>
   </data>
   <data name="ExpectedTimeHeader" xml:space="preserve">
     <value>Ora prevista per raggiungere la glicemia obiettivo</value>
@@ -1739,7 +1742,7 @@
     <comment>Cancella voce (tasto CE)</comment>
   </data>
   <data name="CalcBackspace" xml:space="preserve">
-    <value>âŒ«</value>
+    <value>⌫</value>
     <comment>Tasto Backspace</comment>
   </data>
   <data name="CalcEscape" xml:space="preserve">
@@ -1860,7 +1863,7 @@
     <value>Identificazione 2</value>
   </data>
   <data name="Method1SingleTau" xml:space="preserve">
-    <value>Metodo 1 (Singolo Ï„)</value>
+    <value>Metodo 1 (Singolo τ)</value>
   </data>
   <data name="Method2TwoTau" xml:space="preserve">
     <value>Metodo 2 (Due Ï„)</value>
@@ -1890,19 +1893,19 @@
     <value>SSE (errore adattamento):</value>
   </data>
   <data name="CHOTauMeanSd" xml:space="preserve">
-    <value>CHO - Ï„ [s] (Î¼ Â± Ïƒ):</value>
+    <value>CHO - Ï„ [s] (μ ± σ):</value>
   </data>
   <data name="CHOGainMeanSd" xml:space="preserve">
-    <value>CHO - k (Î¼ Â± Ïƒ):</value>
+    <value>CHO - k (μ ± σ):</value>
   </data>
   <data name="CHODelaySamplesMeanSd" xml:space="preserve">
-    <value>CHO - Ritardo [campioni] (Î¼ Â± Ïƒ):</value>
+    <value>CHO - Ritardo [campioni] (μ ± σ):</value>
   </data>
   <data name="CHOOffsetMeanSd" xml:space="preserve">
-    <value>CHO - Offset (Î¼ Â± Ïƒ):</value>
+    <value>CHO - Offset (μ ± σ):</value>
   </data>
   <data name="CHOR2Avg" xml:space="preserve">
-    <value>CHO - RÂ² medio:</value>
+    <value>CHO - R² medio:</value>
   </data>
   <data name="CHOSegmentsCount" xml:space="preserve">
     <value>CHO - # Segmenti:</value>
@@ -2238,7 +2241,7 @@
     <value>Sostituisce il database attuale con quello scelto dall'utente e importa le immagini della cartella</value>
   </data>
   <data name="TooltipExportFiles" xml:space="preserve">
-    <value>Esporta dati e file d'interesse nella cartella "GlucoMan"dentro "Download",  da dove possono essere letti</value>
+    <value>Esporta dati e file d'interesse nella cartella "GlucoMan"dentro "Download", da dove possono essere letti</value>
   </data>
   <data name="TooltipResetDatabase" xml:space="preserve">
     <value>Ricomincia daccapo, rigenerando il database senza dati</value>
@@ -2586,7 +2589,7 @@ Durata: {2}</value>
     <value>Cerca il nome nei cibi dei pasti passati</value>
   </data>
   <data name="SearchOfFoodsInMealsPageTitle" xml:space="preserve">
-    <value>Cibi nei pasti che hanno un nome simile a quello passato</value>
+    <value>Cibi nei pasti passati che hanno un nome simile a quello passato</value>
   </data>
   <data name="CGMSensorDialogTitle" xml:space="preserve">
     <value>Sensore Glicemia</value>
@@ -2746,5 +2749,14 @@ Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie
   </data>
   <data name="StopTracking" xml:space="preserve">
     <value>Ferma Tracciamento</value>
+  </data>
+  <data name="UnsavedBarcodeWarning" xml:space="preserve">
+    <value>È stato acquisito un nuovo codice a barre ma non è stato salvato. Uscire senza salvare?</value>
+  </data>
+  <data name="SearchFoodInFoodsInMeal" xml:space="preserve">
+    <value>Cerca un cibo fra i cibi usati nel passato nei pasti</value>
+  </data>
+  <data name="TooltipExperimental" xml:space="preserve">
+    <value>Sperimentale: prove di modellazione di sistema, identificazione ed estrapolazione</value>
   </data>
 </root>

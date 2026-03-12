@@ -139,8 +139,10 @@
             <!-- Command Buttons -->
             <FlexLayout Direction="Row" Wrap="NoWrap" AlignItems="Center" JustifyContent="Start">
                 <Button x:Name="btnAdd" Text="{x:Static strings:AppStrings.Add}" />
-                <Button x:Name="btnSave" Text="{x:Static strings:AppStrings.Save}" />
-                <Button x:Name="btnDelete" Text="{x:Static strings:AppStrings.Delete}" />
+                <Button x:Name="btnSave" Text="{x:Static strings:AppStrings.Save}" 
+                        BackgroundColor="LightCoral"/>
+                <Button x:Name="btnDelete" Text="{x:Static strings:AppStrings.Delete}"
+                        BackgroundColor="LightCoral"/>
                 <Button x:Name="btnDismiss" Text="Dismiss" />
                 <Button x:Name="btnActivate" Text="Activate" />
                 <Button x:Name="btnDeactivate" Text="Deactivate" />

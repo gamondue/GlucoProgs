@@ -9,8 +9,7 @@ public partial class MealsPage : ContentPage
 {
     // since it is accessed by several pages, to avoid "concurrent" problems 
     // we use a common business layer object, between different pages 
-    //private BL_MealAndFood bl = Common.MealAndFood_CommonBL;
-    private BL_MealAndFood bl = new BL_MealAndFood();
+    private BL_MealAndFood bl = new();
     UiAccuracy accuracyClass;
 
     private bool loadingUi = true;

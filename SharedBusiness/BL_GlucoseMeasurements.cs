@@ -1,5 +1,6 @@
 ﻿using gamon;
 using Mathematics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GlucoMan
 {
@@ -117,35 +118,35 @@ namespace GlucoMan
                 return null;
             }
         }
-        //private void CalculateGlucoseStats(List<GlucoseRecord> records, 
-        //    Label meanLabel, Label stdDevLabel, Label samplesLabel, string unit)
-        //{
-        //    if (records == null || records.Count == 0)
-        //    {
-        //        meanLabel.Text = "No data";
-        //        stdDevLabel.Text = "No data";
-        //        samplesLabel.Text = "0";
-        //        return;
-        //    }
+        private void CalculateGlucoseStats(List<GlucoseRecord> records, 
+            Label meanLabel, Label stdDevLabel, Label samplesLabel, string unit)
+        {
+            if (records == null || records.Count == 0)
+            {
+                meanLabel.Text = "No data";
+                stdDevLabel.Text = "No data";
+                samplesLabel.Text = "0";
+                return;
+            }
 
-        //    var values = records
-        //        .Where(r => r.GlucoseValue?.Double.HasValue == true)
-        //        .Select(r => r.GlucoseValue.Double.Value)
-        //        .ToList();
+            var values = records
+                .Where(r => r.GlucoseValue?.Double.HasValue == true)
+                .Select(r => r.GlucoseValue.Double.Value)
+                .ToList();
 
-        //    if (values.Count == 0)
-        //    {
-        //        meanLabel.Text = "No valid values";
-        //        stdDevLabel.Text = "No valid values";
-        //        samplesLabel.Text = "0";
-        //        return;
-        //    }
+            if (values.Count == 0)
+            {
+                meanLabel.Text = "No valid values";
+                stdDevLabel.Text = "No valid values";
+                samplesLabel.Text = "0";
+                return;
+            }
 
-        //    var (mean, stdDev, count) = GamonStatistics.MeanAndStdDev(values);
-        //    meanLabel.Text = $"{mean:F1} {unit}";
-        //    stdDevLabel.Text = $"{stdDev:F1} {unit}";
-        //    samplesLabel.Text = $"{values.Count}";
-        //}
+            var (mean, stdDev, count) = GamonStatistics.MeanAndStdDev(values);
+            meanLabel.Text = $"{mean:F1} {unit}";
+            stdDevLabel.Text = $"{stdDev:F1} {unit}";
+            samplesLabel.Text = $"{values.Count}";
+        }
         private List<GlucoseRecord> FilterRecordsByTimeOfDay(List<GlucoseRecord> records, double startHour, double endHour, bool isNightPeriod = false)
         {
             if (records == null) return new List<GlucoseRecord>();

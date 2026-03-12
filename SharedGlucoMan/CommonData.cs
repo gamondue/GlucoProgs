@@ -44,8 +44,5 @@ namespace GlucoMan
         /// glucose monitoring sensor.
         /// </summary>
         public static bool CantSetAlarms;
-
-        // NOTE: Enums moved to CommonEnums.cs to allow use in test projects 
-        // without DataLayer dependencies
     }
 }

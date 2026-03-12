@@ -1,4 +1,5 @@
 ﻿using gamon;
+using GlucoMan;
 
 namespace GlucoMan
 {

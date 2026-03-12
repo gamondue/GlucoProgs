@@ -14,15 +14,15 @@ namespace Mathematics
             double stdDev = Math.Sqrt(variance);
             return (mean, stdDev, Values.Count);
         }
-        public static (double Integral, double IntegralAverage, double IntegralStdDev, double TotalSeconds) 
+        public static (double Integral, double IntegralAverage, double IntegralStdDev, double TotalSeconds)
             IrregularTimeIntegration(IReadOnlyList<(DateTime t, double value)> Data)
         {
             // Calculates the definite integral on irregular temporal data, along with integral mean and standard deviation
             if (Data == null || Data.Count < 2)
                 throw new ArgumentException("You needat leat two points to perform the calculation.");
 
-                // order by time (just in case)
-                var ordered = Data.OrderBy(d => d.t).ToList();
+            // order by time (just in case)
+            var ordered = Data.OrderBy(d => d.t).ToList();
 
             double integral = 0.0;
 
@@ -73,9 +73,9 @@ namespace Mathematics
             var result = IrregularTimeIntegration(Data);
             return result.IntegralStdDev;
         }
-        public static (List<double> Means, List<double> StDevs, List<int> Counts) 
-            DailyTimeBandsMeans (IReadOnlyList<(DateTime t, double value)> Data, 
-            List<(DateTime Begin, DateTime End )> BandDurations)
+        public static (List<double> Means, List<double> StDevs, List<int> Counts)
+            DailyTimeBandsMeans(IReadOnlyList<(DateTime t, double value)> Data,
+            List<(DateTime Begin, DateTime End)> BandDurations)
         {
             // Aggregate values per day, then compute daily statistics per band.
             // Finally aggregate daily band statistics across days to produce overall
@@ -105,7 +105,7 @@ namespace Mathematics
                                     .ToList();
 
             // If data contains only a single day, delegate to TimeBandsMeans (per-value statistics)
-             if (days.Count == 1)
+            if (days.Count == 1)
             {
                 // Single-day: compute per-value statistics across the whole day (original behavior)
                 var singleMeans = new List<double>();

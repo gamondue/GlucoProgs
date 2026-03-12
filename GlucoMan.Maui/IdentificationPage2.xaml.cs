@@ -112,4 +112,3 @@ public partial class IdentificationPage2 : ContentPage
         }
     }
 }
-

@@ -7,7 +7,6 @@ namespace GlucoMan.Maui;
 
 public partial class FoodsPage : ContentPage
 {
-    //BL_MealAndFood bl = Common.MealAndFood_CommonBL;
     BL_MealAndFood bl = new();
     internal Food Food { get; set; }
     bool foodIsChosen = false;
@@ -278,7 +277,17 @@ public partial class FoodsPage : ContentPage
         // Set the result and close the page
         _taskCompletionSource?.SetResult(true);
 
-        await this.Navigation.PopModalAsync();
+        // Check if this was opened as modal or regular navigation
+        var navigation = Navigation;
+        if (navigation.ModalStack.Contains(this))
+        {
+            await navigation.PopModalAsync();
+        }
+        else if (navigation.NavigationStack.Count > 1)
+        {
+            await navigation.PopAsync();
+        }
+        // If neither modal nor in navigation stack, do nothing (page opened standalone)
     }
     private void btnClearFields_Click(object sender, EventArgs e)
     {
@@ -381,4 +390,3 @@ public partial class FoodsPage : ContentPage
         }
     }
 }
-

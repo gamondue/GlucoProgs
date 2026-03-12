@@ -101,4 +101,3 @@ _cachedThumbnail = ImageSource.FromFile(photoPath);
         _cachedThumbnail = null;
     }
 }
-

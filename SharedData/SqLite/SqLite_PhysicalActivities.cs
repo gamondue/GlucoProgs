@@ -1,4 +1,6 @@
 using gamon;
+using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
 using System.Data.Common;
 
 namespace GlucoMan
@@ -46,7 +48,7 @@ namespace GlucoMan
             }
             return list;
         }
-        
+
         internal override PhysicalActivity GetOnePhysicalActivity(int? IdActivity)
         {
             PhysicalActivity a = null;
@@ -131,7 +133,6 @@ namespace GlucoMan
                 return null;
             }
         }
-
         internal override int? DeleteOnePhysicalActivity(PhysicalActivity activity)
         {
             throw new NotImplementedException();

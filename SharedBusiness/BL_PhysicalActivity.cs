@@ -66,7 +66,7 @@ namespace GlucoMan.BusinessLayer
 
         /// <summary>
         /// Persists an activity, assigning defaults when needed.
-        /// </summary> 
+        /// </summary>
         public int? SaveOnePhysicalActivity(PhysicalActivity activity)
         {
             try

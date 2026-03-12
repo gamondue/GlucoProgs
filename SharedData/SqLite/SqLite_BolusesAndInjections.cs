@@ -1,7 +1,10 @@
 ﻿using gamon;
+using GlucoMan;
 using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Threading;
 
 namespace GlucoMan
 {

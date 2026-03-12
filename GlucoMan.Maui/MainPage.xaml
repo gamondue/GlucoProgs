@@ -105,6 +105,14 @@
                 Margin="6,3,3,3" 
                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMiscellaneous}"/>
 
+        <Button x:Name="btnExperimental" 
+                ImageSource="experimental.png"
+                LineBreakMode="WordWrap"
+                Grid.Row="6" Grid.Column="1" 
+                Clicked="btnExperimental_Clicked"
+                Margin="3,3,6,3" 
+                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipExperimental}"/>
+
         <Button x:Name="btnConfigurations" 
                 ImageSource="gear.png"
                 Grid.Row="7" Grid.Column="0" 

@@ -1,4 +1,6 @@
 ﻿using gamon;
+using System.Collections;
+using GlucoMan;
 using static GlucoMan.Common;
 
 namespace GlucoMan
@@ -118,6 +120,10 @@ namespace GlucoMan
         internal Food GetOneFood(int? idFood)
         {
             return dl.GetOneFood(idFood);
+        }
+        internal Food SearchFoodByBarcode(string barcode)
+        {
+            return dl.SearchFoodByBarcode(barcode);
         }
         internal List<Food> SearchFoods(string Name, string Description, int MinNoOfCharacters)
         {
@@ -374,6 +380,14 @@ namespace GlucoMan
         internal void RemoveCategoryFromFood(CategoryOfFood category, Food currentFood)
         {
             dl.RemoveCategoryFromFood(currentFood);
+        }
+        internal void DeleteManufacturer(Manufacturer manufacturer)
+        {
+            dl.DeleteManufacturer(manufacturer);
+        }
+        internal void DeleteCategoryOfFood(CategoryOfFood category)
+        {
+            dl.DeleteCategoryOfFood(category);
         }
         internal List<UnitOfFood> GetAllUnitsOfOneFood(Food Food)
         {

@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Device.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DevicesModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Event.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FatSecretFood.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Food.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FoodInMeal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FoodToHitTargetCarbs.cs" />

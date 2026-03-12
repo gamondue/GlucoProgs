@@ -478,11 +478,14 @@ namespace GlucoMan
                 f.GlycemicIndex.Double = Safe.Double(Row["GlycemicIndex"]);
                 f.GramsInOneUnit.Double = Safe.Double(Row["GramsInOneUnit"]);
                 f.UnitSymbol = Safe.String(Row["UnitSymbol"]);
+                f.ContentWeight.Double = Safe.Double(Row["ContentWeight"]);
+                f.ContentUnit = Safe.String(Row["ContentUnit"]);
                 f.Manufacturer = Safe.String(Row["Manufacturer"]);
                 f.Category = Safe.String(Row["Category"]);
                 // Add new fields
                 f.IsRaw = Safe.Int(Row["IsRaw"]) == 1;
                 f.RawCookedRatio.Double = Safe.Double(Row["RawCookedRatio"]);
+                f.Barcode = Safe.String(Row["Barcode"]);
             }
             catch (Exception ex)
             {
@@ -559,8 +562,10 @@ namespace GlucoMan
                     // INSERT new record in the table
                     InsertFood(Food);
                     // default unit is grams, add an entry in Units table
+                    // only if a global "g" unit doesn't already exist
                     UnitOfFood unit = new UnitOfFood("g", 1);
-                    AddUnit(unit);
+                    if (!CheckIfUnitSymbolExists(unit, null))
+                        AddUnit(unit);
                 }
                 else
                 {   // GlucoseMeasurement.IdGlucoseRecord exists
@@ -620,10 +625,13 @@ namespace GlucoMan
                     "GlycemicIndex=" + SqliteSafe.Double(food.GlycemicIndex.Double) + "," +
                     "UnitSymbol=" + SqliteSafe.String(food.UnitSymbol) + "," +
                     "GramsInOneUnit=" + SqliteSafe.Double(food.GramsInOneUnit.Double) + "," +
+                    "ContentWeight=" + SqliteSafe.Double(food.ContentWeight.Double) + "," +
+                    "ContentUnit=" + SqliteSafe.String(food.ContentUnit) + "," +
                     "Manufacturer=" + SqliteSafe.String(food.Manufacturer) + "," +
                     "Category=" + SqliteSafe.String(food.Category) + "," +
                     "IsRaw=" + SqliteSafe.Int(food.IsRaw ? 1 : 0) + "," +
-                    "RawCookedRatio=" + SqliteSafe.Double(food.RawCookedRatio.Double) + "" +
+                    "RawCookedRatio=" + SqliteSafe.Double(food.RawCookedRatio.Double) + "," +
+                    "Barcode=" + SqliteSafe.String(food.Barcode) + "" +
                     " WHERE IdFood=" + SqliteSafe.Int(food.IdFood) + "" +
                     ";";
                     cmd.CommandText = query;
@@ -651,7 +659,7 @@ namespace GlucoMan
                     "MonounsaturatedFatsPercent,PolyunsaturatedFatsPercent" +
                     ",CarbohydratesPercent,SugarPercent,FibersPercent,ProteinsPercent" +
                     ",SaltPercent,PotassiumPercent,Cholesterol,GlycemicIndex" +
-                    ",UnitSymbol,GramsInOneUnit,Manufacturer,Category,IsRaw,RawCookedRatio";
+                    ",UnitSymbol,GramsInOneUnit,ContentWeight,ContentUnit,Manufacturer,Category,IsRaw,RawCookedRatio,Barcode";
                     query += ")VALUES(" +
                     SqliteSafe.Int(food.IdFood) + "," +
                     SqliteSafe.String(food.Name) + "," +
@@ -669,12 +677,15 @@ namespace GlucoMan
                     SqliteSafe.Double(food.PotassiumPercent.Double) + "," +
                     SqliteSafe.Double(food.Cholesterol.Double) + "," +
                     SqliteSafe.Double(food.GlycemicIndex.Double) + "," +
-                    SqliteSafe.Double(food.UnitSymbol) + "," +
+                    SqliteSafe.String(food.UnitSymbol) + "," +
                     SqliteSafe.Double(food.GramsInOneUnit.Double) + "," +
-                    SqliteSafe.Double(food.Manufacturer) + "," +
-                    SqliteSafe.Double(food.Category) + "," +
+                    SqliteSafe.Double(food.ContentWeight.Double) + "," +
+                    SqliteSafe.String(food.ContentUnit) + "," +
+                    SqliteSafe.String(food.Manufacturer) + "," +
+                    SqliteSafe.String(food.Category) + "," +
                     SqliteSafe.Int(food.IsRaw ? 1 : 0) + "," +
-                    SqliteSafe.Double(food.RawCookedRatio.Double) + "" +
+                    SqliteSafe.Double(food.RawCookedRatio.Double) + "," +
+                    SqliteSafe.String(food.Barcode) + "" +
                     ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -711,6 +722,34 @@ namespace GlucoMan
             catch (Exception ex)
             {
                 General.LogOfProgram.Error("Sqlite_MealAndFood | ReadOneFood", ex);
+            }
+            return food;
+        }
+        internal override Food SearchFoodByBarcode(string barcode)
+        {
+            Food food = null;
+            try
+            {
+                DbDataReader dRead;
+                DbCommand cmd;
+                using (DbConnection conn = Connect())
+                {
+                    string query = "SELECT * FROM Foods WHERE Barcode=" +
+                        SqliteSafe.String(barcode) + ";";
+                    cmd = new SqliteCommand(query);
+                    cmd.Connection = conn;
+                    dRead = cmd.ExecuteReader();
+                    if (dRead.Read())
+                    {
+                        food = GetFoodFromRow(dRead);
+                    }
+                    dRead.Dispose();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | SearchFoodByBarcode", ex);
             }
             return food;
         }
@@ -841,79 +880,58 @@ namespace GlucoMan
         }
         internal override List<Manufacturer> GetAllManufacturersOfOneFood(Food food)
         {
-            if (food.IdFood != null)
+            List<Manufacturer> manufacturers = new();
+            try
             {
-                List<Manufacturer> manufacturers = new();
-                try
+                using (DbConnection conn = Connect())
                 {
-                    DbDataReader dRead;
-                    DbCommand cmd;
-                    using (DbConnection conn = Connect())
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = "SELECT IdManufacturer, Name, Description FROM Manufacturers ORDER BY Name;";
+                    DbDataReader dRead = cmd.ExecuteReader();
+                    while (dRead.Read())
                     {
-                        string query = "SELECT *" +
-                            " FROM Manufacturers" +
-                            " JOIN Foods ON Foods.IdManufacturer=Manufacturers.IdManufacturer" +
-                            " WHERE Manufacturers.IdFood=" + SqliteSafe.Int(food.IdFood) +
-                            " OR IdFood IS null OR IdFood=0" +
-                            ";";
-                        cmd = new SqliteCommand(query);
-                        cmd.Connection = conn;
-                        dRead = cmd.ExecuteReader();
-                        while (dRead.Read())
-                        {
-                            Manufacturer m = new Manufacturer();
-                            m.IdManufacturer = (int)Safe.Int(dRead["IdManufacturer"]);
-                            m.Name = Safe.String(dRead["Name"]);
-                            manufacturers.Add(m);
-                        }
-                        dRead.Dispose();
-                        cmd.Dispose();
+                        Manufacturer m = new Manufacturer();
+                        m.IdManufacturer = (int)Safe.Int(dRead["IdManufacturer"]);
+                        m.Name = Safe.String(dRead["Name"]);
+                        manufacturers.Add(m);
                     }
+                    dRead.Dispose();
+                    cmd.Dispose();
                 }
-                catch (Exception ex)
-                {
-                    General.LogOfProgram.Error("Sqlite_MealAndFood | GetAllManufacturersOfOneFood", ex);
-                }
-                return manufacturers;
             }
-            return null;
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | GetAllManufacturersOfOneFood", ex);
+            }
+            return manufacturers;
         }
         internal override List<CategoryOfFood> GetAllCategoriesOfOneFood(Food food)
         {
-            if (food.IdFood != null)
+            List<CategoryOfFood> categories = new();
+            try
             {
-                List<CategoryOfFood> categories = new();
-                try
+                using (DbConnection conn = Connect())
                 {
-                    DbDataReader dRead;
-                    DbCommand cmd;
-                    using (DbConnection conn = Connect())
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = "SELECT IdCategoryOfFood, Name, Description FROM CategoriesOfFood ORDER BY Name;";
+                    DbDataReader dRead = cmd.ExecuteReader();
+                    while (dRead.Read())
                     {
-                        string query = "SELECT *" +
-                            " FROM CategoriesOfFood" +
-                            ";";
-                        cmd = new SqliteCommand(query);
-                        cmd.Connection = conn;
-                        dRead = cmd.ExecuteReader();
-                        while (dRead.Read())
-                        {
-                            CategoryOfFood c = new CategoryOfFood();
-                            c.IdCategory = (int)Safe.Int(dRead["IdCategoryOfFood"]);
-                            c.Description = Safe.String(dRead["Description"]);
-                            c.Name = Safe.String(dRead["Name"]);
-                            categories.Add(c);
-                        }
-                        dRead.Dispose();
-                        cmd.Dispose();
+                        CategoryOfFood c = new CategoryOfFood();
+                        c.IdCategory = (int)Safe.Int(dRead["IdCategoryOfFood"]);
+                        c.Description = Safe.String(dRead["Description"]);
+                        c.Name = Safe.String(dRead["Name"]);
+                        categories.Add(c);
                     }
+                    dRead.Dispose();
+                    cmd.Dispose();
                 }
-                catch (Exception ex)
-                {
-                    General.LogOfProgram.Error("Sqlite_MealAndFood | GetAllCategoriesOfOneFood", ex);
-                }
-                return categories;
             }
-            return null;
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | GetAllCategoriesOfOneFood", ex);
+            }
+            return categories;
         }
         internal override bool CheckIfUnitSymbolExists(UnitOfFood unit, int? idFood)
         {
@@ -1004,9 +1022,9 @@ namespace GlucoMan
                 int? idCategory = null;
                 using (DbConnection conn = Connect())
                 {
-                    // Check if category already exists (by name)
+                    // Check if category already exists in CategoriesOfFood table
                     DbCommand checkCmd = conn.CreateCommand();
-                    checkCmd.CommandText = "SELECT IdCategory FROM Categories WHERE Name = @Name;";
+                    checkCmd.CommandText = "SELECT IdCategoryOfFood FROM CategoriesOfFood WHERE Name = @Name;";
                     checkCmd.Parameters.Add(new SqliteParameter("@Name", category.Name ?? (object)DBNull.Value));
                     var result = checkCmd.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
@@ -1015,19 +1033,19 @@ namespace GlucoMan
                     }
                     else
                     {
-                        // Insert new category
-                        idCategory = GetTableNextPrimaryKey("Categories", "IdCategory");
+                        // Insert new category into CategoriesOfFood
+                        idCategory = GetTableNextPrimaryKey("CategoriesOfFood", "IdCategoryOfFood");
                         DbCommand insertCmd = conn.CreateCommand();
-                        insertCmd.CommandText = "INSERT INTO Categories (IdCategory, Name) VALUES (@IdCategory, @Name);";
-                        insertCmd.Parameters.Add(new SqliteParameter("@IdCategory", idCategory));
+                        insertCmd.CommandText = "INSERT INTO CategoriesOfFood (IdCategoryOfFood, Name, Description) VALUES (@IdCategoryOfFood, @Name, @Description);";
+                        insertCmd.Parameters.Add(new SqliteParameter("@IdCategoryOfFood", idCategory));
                         insertCmd.Parameters.Add(new SqliteParameter("@Name", category.Name ?? (object)DBNull.Value));
+                        insertCmd.Parameters.Add(new SqliteParameter("@Description", category.Description ?? (object)DBNull.Value));
                         insertCmd.ExecuteNonQuery();
                         insertCmd.Dispose();
                     }
                     checkCmd.Dispose();
 
-                    // Optionally, associate the category with the food if needed (if there is a relation table)
-                    // If Foods table has Category, update it
+                    // Associate the category with the food
                     if (food != null && food.IdFood != null)
                     {
                         DbCommand updateCmd = conn.CreateCommand();
@@ -1065,6 +1083,42 @@ namespace GlucoMan
             catch (Exception ex)
             {
                 General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveCategoryFromFood", ex);
+            }
+        }
+        internal override void DeleteManufacturer(Manufacturer manufacturer)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = "DELETE FROM Manufacturers WHERE IdManufacturer = @IdManufacturer;";
+                    cmd.Parameters.Add(new SqliteParameter("@IdManufacturer", manufacturer.IdManufacturer));
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | DeleteManufacturer", ex);
+            }
+        }
+        internal override void DeleteCategoryOfFood(CategoryOfFood category)
+        {
+            try
+            {
+                using (DbConnection conn = Connect())
+                {
+                    DbCommand cmd = conn.CreateCommand();
+                    cmd.CommandText = "DELETE FROM CategoriesOfFood WHERE IdCategoryOfFood = @IdCategoryOfFood;";
+                    cmd.Parameters.Add(new SqliteParameter("@IdCategoryOfFood", category.IdCategory));
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_MealAndFood | DeleteCategoryOfFood", ex);
             }
         }
         internal override void RemoveUnitFromFood(UnitOfFood unit, Food food)

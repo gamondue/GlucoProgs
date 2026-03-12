@@ -1,4 +1,5 @@
-﻿using gamon; 
+﻿using System;
+using gamon; 
 
 namespace GlucoMan
 {

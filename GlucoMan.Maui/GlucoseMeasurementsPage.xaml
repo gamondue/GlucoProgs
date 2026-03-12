@@ -67,6 +67,7 @@
             <!--Text="Clear Data"-->
             <Button Grid.Row="3" Grid.Column="3" x:Name="btnSave" Margin="1"
                     ImageSource="floppy_disc.png"
+                    BackgroundColor="LightCoral"
                     ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipGlucoseSaveButton}" 
                     Clicked="btnSave_ClickAsync"/>
             <!--Text="Save"-->

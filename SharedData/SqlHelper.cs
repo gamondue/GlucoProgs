@@ -8,7 +8,7 @@ namespace gamon
     {
         // Sql Helper function that prepares values to be inserted in Sql queries  
 
-        // functions that prepare the value of a variable to be used in a SQL statement 
+        #region functions that prepare the value of a variable to be used in a SQL statement 
         public static string SqlString(string String)
         {
             if (String == null) return "null";
@@ -195,4 +195,5 @@ namespace gamon
             return Query;
         }
     }
+#endregion
 }

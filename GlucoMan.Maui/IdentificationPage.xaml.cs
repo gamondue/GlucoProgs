@@ -236,4 +236,3 @@ public partial class IdentificationPage : ContentPage
         }
     }
 }
-

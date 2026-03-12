@@ -9,6 +9,8 @@ namespace GlucoMan.Maui;
 
 public partial class SettingsPage : ContentPage, INotifyPropertyChanged
 {
+    BL_General BlGeneral = new();
+
     public event PropertyChangedEventHandler PropertyChanged;
     public Parameters Parameters { get; set; }
     public List<InsulinDrug> ShortActingInsulins { get; set; }
@@ -16,8 +18,7 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
     public InsulinDrug SelectedShortActingInsulin { get; set; }
     public InsulinDrug SelectedLongActingInsulin { get; set; }
     BL_BolusesAndInjections bl = new BL_BolusesAndInjections();
-    BL_General BlGeneral = new BL_General();
-
+    
     private readonly LocalizationService _localizationService;
 
     public SettingsPage(LocalizationService localizationService)

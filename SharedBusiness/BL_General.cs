@@ -1,4 +1,5 @@
 ﻿using gamon;
+using GlucoMan;
 
 namespace GlucoMan
 {
@@ -168,8 +169,8 @@ namespace GlucoMan
         {
             try
             {
-                // Use DatabaseService to reopen the connection
-                DatabaseService.Instance.ReopenConnection();
+                // Re-create the database connection
+                DatabaseService.Instance.Initialize(Common.PathAndFileDatabase);
                 dl = DatabaseService.Instance.Database;
 
                 General.LogOfProgram?.Debug("Database connection re-opened");
