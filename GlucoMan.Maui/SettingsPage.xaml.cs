@@ -127,6 +127,14 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
             out double longDuration) ? longDuration : 0;
         BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin,
             SelectedLongActingInsulin);
+
+        // Keep Common meal time properties in sync with the saved values
+        Common.breakfastStartHour = Parameters.Meal_Breakfast_StartTime_Hours;
+        Common.breakfastEndHour   = Parameters.Meal_Breakfast_EndTime_Hours;
+        Common.lunchStartHour     = Parameters.Meal_Lunch_StartTime_Hours;
+        Common.lunchEndHour       = Parameters.Meal_Lunch_EndTime_Hours;
+        Common.dinnerStartHour    = Parameters.Meal_Dinner_StartTime_Hours;
+        Common.dinnerEndHour      = Parameters.Meal_Dinner_EndTime_Hours;
     }
     
     protected override void OnDisappearing()

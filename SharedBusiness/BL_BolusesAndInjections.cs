@@ -75,6 +75,11 @@ namespace GlucoMan
         {
             return dl.GetOneInjection(IdInjection);
         }
+        internal List<Injection> GetInjectionsWithNullTime()
+        {
+            DateTime nullDate = new DateTime(1900, 1, 1);
+            return dl.GetInjections(nullDate, nullDate.AddDays(1));
+        }
         private DateTime finalDinnerPeriod;
         public BL_BolusesAndInjections()
         {
@@ -770,126 +775,6 @@ namespace GlucoMan
 
             // Also calculate daily average
             var dailyTotals = longActingInjections
-                .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
-                .GroupBy(i => i.EventTime.DateTime.Value.Date)
-                .Select(g => g.Sum(i => i.InsulinValue.Double.Value))
-                .ToList();
-
-            double dailyMean = dailyTotals.Count > 0 ? dailyTotals.Average() : 0;
-
-            return new StatisticsData
-            {
-                Mean = mean,
-                StandardDeviation = stdDev,
-                NSamples = count,
-                DailyMean = dailyMean
-            };
-        }
-
-        internal StatisticsData CalculateRapidActingBreakfast()
-        {
-            // Get quick acting injections (Rapid + Short)
-            var quickActingInjections = new List<Injection>();
-            if (_rapidInjections != null) quickActingInjections.AddRange(_rapidInjections);
-            if (_shortInjections != null) quickActingInjections.AddRange(_shortInjections);
-
-            if (quickActingInjections.Count == 0)
-            {
-                return null;
-            }
-
-            // Filter by breakfast time
-            var breakfastInjections = FilterInjectionsByMealTime(quickActingInjections, 
-                Common.breakfastStartHour ?? 6, Common.breakfastEndHour ?? 10);
-
-            return CalculateInsulinStatistics(breakfastInjections);
-        }
-
-        internal StatisticsData CalculateRapidActingDinner()
-        {
-            // Get quick acting injections (Rapid + Short)
-            var quickActingInjections = new List<Injection>();
-            if (_rapidInjections != null) quickActingInjections.AddRange(_rapidInjections);
-            if (_shortInjections != null) quickActingInjections.AddRange(_shortInjections);
-
-            if (quickActingInjections.Count == 0)
-            {
-                return null;
-            }
-
-            // Filter by dinner time
-            var dinnerInjections = FilterInjectionsByMealTime(quickActingInjections, 
-                Common.dinnerStartHour ?? 17, Common.dinnerEndHour ?? 21);
-
-            return CalculateInsulinStatistics(dinnerInjections);
-        }
-
-        internal StatisticsData CalculateRapidActingOtherTimes()
-        {
-            // Get quick acting injections (Rapid + Short)
-            var quickActingInjections = new List<Injection>();
-            if (_rapidInjections != null) quickActingInjections.AddRange(_rapidInjections);
-            if (_shortInjections != null) quickActingInjections.AddRange(_shortInjections);
-
-            if (quickActingInjections.Count == 0)
-            {
-                return null;
-            }
-
-            // Filter for other times (not breakfast, lunch, or dinner)
-            double breakfastStart = Common.breakfastStartHour ?? 6;
-            double breakfastEnd = Common.breakfastEndHour ?? 10;
-            double lunchStart = Common.lunchStartHour ?? 11;
-            double lunchEnd = Common.lunchEndHour ?? 15;
-            double dinnerStart = Common.dinnerStartHour ?? 17;
-            double dinnerEnd = Common.dinnerEndHour ?? 21;
-
-            var otherInsulin = quickActingInjections.Where(i =>
-            {
-                if (i.EventTime?.DateTime == null) return true;
-                double hour = i.EventTime.DateTime.Value.Hour + i.EventTime.DateTime.Value.Minute / 60.0;
-                bool isBreakfast = hour >= breakfastStart && hour < breakfastEnd;
-                bool isLunch = hour >= lunchStart && hour < lunchEnd;
-                bool isDinner = hour >= dinnerStart && hour < dinnerEnd;
-                return !isBreakfast && !isLunch && !isDinner;
-            }).ToList();
-
-            return CalculateInsulinStatistics(otherInsulin);
-        }
-        private List<Injection> FilterInjectionsByMealTime(List<Injection> injections, double startHour, double endHour)
-        {
-            if (injections == null) return new List<Injection>();
-
-            return injections.Where(i =>
-            {
-                if (i.EventTime?.DateTime == null) return false;
-                double hour = i.EventTime.DateTime.Value.Hour + i.EventTime.DateTime.Value.Minute / 60.0;
-                return hour >= startHour && hour < endHour;
-            }).ToList();
-        }
-
-        private StatisticsData CalculateInsulinStatistics(List<Injection> injections)
-        {
-            if (injections == null || injections.Count == 0)
-            {
-                return null;
-            }
-
-            // Calculate statistics on individual injections
-            var values = injections
-                .Where(i => i.InsulinValue?.Double.HasValue == true)
-                .Select(i => i.InsulinValue.Double.Value)
-                .ToList();
-
-            if (values.Count == 0)
-            {
-                return null;
-            }
-
-            var (mean, stdDev, count) = GamonStatistics.MeanAndStdDev(values);
-
-            // Also calculate daily average
-            var dailyTotals = injections
                 .Where(i => i.EventTime?.DateTime != null && i.InsulinValue?.Double.HasValue == true)
                 .GroupBy(i => i.EventTime.DateTime.Value.Date)
                 .Select(g => g.Sum(i => i.InsulinValue.Double.Value))

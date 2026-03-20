@@ -13,6 +13,11 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedMaui", "SharedMaui\Sh
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6C83A596-D32D-B35F-00DD-F0C99B673980}"
 	ProjectSection(SolutionItems) = preProject
+		Documentation\ContainerPhotoFeature_Implementation.md = Documentation\ContainerPhotoFeature_Implementation.md
+		Documentation\ContainersFeature.md = Documentation\ContainersFeature.md
+		Documentation\FatSecret_3Legged_OAuth1_Implementation.md = Documentation\FatSecret_3Legged_OAuth1_Implementation.md
+		Documentation\GlucoMan_Operation_Manual.md = Documentation\GlucoMan_Operation_Manual.md
+		Documentation\GlucoMan_Quick_Reference.md = Documentation\GlucoMan_Quick_Reference.md
 		README.md = README.md
 	EndProjectSection
 EndProject

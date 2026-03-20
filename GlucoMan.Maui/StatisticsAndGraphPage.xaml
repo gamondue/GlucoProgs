@@ -153,6 +153,42 @@
                     </VisualStateGroup>
                 </VisualStateManager.VisualStateGroups>
             </Image>
+            <BoxView HeightRequest="2" 
+                     Color="#34495e" 
+                     Margin="0,8,0,8"/>
+            <HorizontalStackLayout>
+                <Button x:Name="btnCureChoMismatchInMeals"
+                    Text="CHO Mismatchs in Meals"
+                    Clicked="btnCureChoMismatchInMeals_Clicked"
+                    HorizontalOptions="Center"
+                    Background="Red" TextColor="Yellow"
+                    Margin="5"/>
+
+                <Button x:Name="btnCureWrongLongTermInsulinStorage"
+                    Text="Wrong Long term insulin"
+                    Clicked="btnCureWrongLongTermInsulinStorage_Clicked"
+                    HorizontalOptions="Center"
+                    Background="Red" TextColor="Yellow"
+                    Margin="5"/>
+            </HorizontalStackLayout>
+            
+            <HorizontalStackLayout>
+                <Button x:Name="btnNoTimeInsulin"
+                    Text="No time injections"
+                    Clicked="btnNoTimeInsulin_Clicked"
+                    HorizontalOptions="Center"
+                    Background="Red" TextColor="Yellow"
+                    Margin="5"/>
+
+                <Button x:Name="btnDetectTooNearInsulinInjections"
+                    Text="Too near injections"
+                    Clicked="btnDetectTooNearInsulinInjections_Clicked"
+                    HorizontalOptions="Center"
+                    Background="Red" TextColor="Yellow"
+                    Margin="5"/>
+            </HorizontalStackLayout>
+            
+            
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

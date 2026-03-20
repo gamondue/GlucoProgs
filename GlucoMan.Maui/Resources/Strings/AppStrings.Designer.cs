@@ -3425,7 +3425,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Meal Time Settings (Not used yet).
+        ///   Cerca una stringa localizzata simile a Meal Time Settings.
         /// </summary>
         public static string MealTimeSettings {
             get {
@@ -4747,6 +4747,24 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a All days.
+        /// </summary>
+        public static string StatHeaderAllDays {
+            get {
+                return ResourceManager.GetString("StatHeaderAllDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Effective.
+        /// </summary>
+        public static string StatHeaderEffective {
+            get {
+                return ResourceManager.GetString("StatHeaderEffective", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a (Intermediate + Long).
         /// </summary>
         public static string StatIntermediatePlusLong {
@@ -4837,7 +4855,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Night Glucose.
+        ///   Cerca una stringa localizzata simile a Glucose away from meals.
         /// </summary>
         public static string StatNightGlucose {
             get {
@@ -4846,7 +4864,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Other CHO.
+        ///   Cerca una stringa localizzata simile a CHO away from meals.
         /// </summary>
         public static string StatOtherCHO {
             get {

@@ -47,7 +47,7 @@ namespace GlucoMan
             Common.TypeOfInsulinAction TypeOfInsulinAction = Common.TypeOfInsulinAction.NotSet,
             Common.ZoneOfPosition Zone = Common.ZoneOfPosition.NotSet,
             bool getFront = false, bool getBack = false, bool getHands = false, bool getSensors = false);
-        // get all the injections of type Short, Rapid or Intermediate between InitialInstant and FinalInstant
+        // get all the injections excluding Long, Intermediate and NotSet acting types
         internal abstract List<Injection> GetQuickInjections(DateTime InitialInstant,
             DateTime FinalInstant);
         #endregion

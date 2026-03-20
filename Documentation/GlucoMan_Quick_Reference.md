@@ -1,4 +1,4 @@
-# GlucoMan Quick Reference Guide
+  # GlucoMan Quick Reference Guide
 
 ## Quick Start
 

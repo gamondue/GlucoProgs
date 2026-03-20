@@ -9,6 +9,6 @@ namespace GlucoMan
         internal double? DailyMean { get; set; }
         internal double? Mean { get; set; }
         internal double? StandardDeviation { get; set; }
-        internal double? NSamples { get; set; }
+        internal int? NSamples { get; set; }
     }
 }

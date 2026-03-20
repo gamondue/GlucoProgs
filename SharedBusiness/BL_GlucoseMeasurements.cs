@@ -1,5 +1,6 @@
 ﻿using gamon;
 using Mathematics;
+using MathNet.Numerics.Distributions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GlucoMan
@@ -86,7 +87,7 @@ namespace GlucoMan
                 glucoseRecordsForStatistics = GetGlucoseRecords(dateFrom, dateTo);
             }
         }
-        internal StatisticsData CalculateGlucoseStatistics(double hourStart, double hourEnd)
+        internal StatisticsData  CalculateGlucoseStatistics(double hourStart, double hourEnd)
         {
             try
             {

@@ -155,7 +155,7 @@ namespace GlucoMan
             }
             return g;
         }
-        // get all the injections of type Short or Rapid between InitialInstant and FinalInstant
+        // get all the injections excluding Long and Intermediate acting types
         internal override List<Injection> GetQuickInjections(DateTime InitialInstant,
             DateTime FinalInstant)
         {
@@ -172,9 +172,9 @@ namespace GlucoMan
                     {   // add WHERE clause
                         query += " WHERE Timestamp BETWEEN '" + ((DateTime)InitialInstant).ToString("yyyy-MM-dd HH:mm:ss") +
                             "' AND '" + ((DateTime)FinalInstant).ToString("yyyy-MM-dd HH:mm:ss") + "'";
-                        query += " AND (IdTypeOfInsulinAction=" + (int)Common.TypeOfInsulinAction.Short;
-                        query += " OR IdTypeOfInsulinAction=" + (int)Common.TypeOfInsulinAction.Rapid;
-                        query += ")";
+                        query += " AND IdTypeOfInsulinAction NOT IN (" + (int)Common.TypeOfInsulinAction.Long;
+                        query += "," + (int)Common.TypeOfInsulinAction.Intermediate;
+                        query += "," + (int)Common.TypeOfInsulinAction.NotSet + ")";
                         query += " ORDER BY Timestamp DESC, IdInjection;";
                         cmd = new SqliteCommand(query);
                         cmd.Connection = conn;

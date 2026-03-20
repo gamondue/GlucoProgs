@@ -1,4 +1,6 @@
-﻿
+﻿ 
+
+//using Windows.ApplicationModel.Email;
 
 namespace Mathematics
 {
@@ -66,7 +68,6 @@ namespace Mathematics
             var result = IrregularTimeIntegration(Data);
             return result.IntegralAverage;
         }
-
         // Calculates the integral standard deviation on irregular temporal data
         public static double IntegralStdDev(IReadOnlyList<(DateTime t, double value)> Data)
         {
@@ -74,16 +75,156 @@ namespace Mathematics
             return result.IntegralStdDev;
         }
         public static (List<double> Means, List<double> StDevs, List<int> Counts)
-            DailyTimeBandsMeans(IReadOnlyList<(DateTime t, double value)> Data,
+            MeansOfAllValuesInTimeBands(IReadOnlyList<(DateTime t, double value)> Data,
             List<(DateTime Begin, DateTime End)> BandDurations)
         {
-            // Aggregate values per day, then compute daily statistics per band.
-            // Finally aggregate daily band statistics across days to produce overall
-            // means and standard deviations per band. The residuals (values not
-            // falling into any band) are handled per day and then aggregated.
-
+            // a value that is at the exact beginning of a band is included in the band
+            // a value that is at the exact end of a band is EXCLUDED from the band
+            // (to avoid double counting)
             if (Data == null || Data.Count == 0)
                 return (new List<double>(), new List<double>(), new List<int>());
+
+            var orderedValues = Data.OrderBy(d => d.t).ToList();
+            var orderedBands = (BandDurations ?? new List<(DateTime Begin, DateTime End)>())
+                                .OrderBy(b => b.Begin.TimeOfDay).ToList();
+
+            // Validate that bands do not overlap (based on TimeOfDay to allow daily recurrence)
+            for (int i = 0; i < orderedBands.Count - 1; i++)
+            {
+                if (orderedBands[i].End.TimeOfDay > orderedBands[i + 1].Begin.TimeOfDay)
+                    throw new ArgumentException("Time bands must not overlap.");
+            }
+
+            // define dimensions for intemediate results : one entry per band (plus one for residuals)
+            var dayMeans = new List<double>(new double[orderedBands.Count + 1]);
+            var dayStdDevs = new List<double>(new double[orderedBands.Count + 1]);
+            var dayCounts = new List<int>(new int[orderedBands.Count + 1]);
+
+            // If there are no bands, all values are residuals - return them as a single group
+            if (orderedBands.Count == 0)
+            {
+                var stats = MeanAndStdDev(orderedValues.Select(v => v.value).ToList());
+                return (new List<double> { stats.Mean }, new List<double> { stats.StdDev }, new List<int> { stats.Count });
+            }
+
+            int bandIndex = 0; // index for the current band (they are ordered and not overlapping)
+            // calculate the limits of the first band
+            DateTime bandBegin = orderedValues[0].t.Date + orderedBands[0].Begin.TimeOfDay;
+            DateTime bandEnd = orderedValues[0].t.Date + orderedBands[0].End.TimeOfDay;
+
+            // we will use dayMeans as the sum of the daily values for each band,
+            // and dayStdDevs as the sum of squared differences from the mean (to be finalized after counting)
+            // resetting the values to zero to prepare for accumulation
+            for (int i = 0; dayMeans.Count > i; i++)
+            {
+                dayMeans[i] += 0;
+                dayStdDevs[i] += 0;
+                dayCounts[i] += 0;
+            }
+            // calculations for the means
+            foreach (var value in orderedValues)
+            {
+                // For each value, find which band it belongs to
+                int assignedBand = -1;
+                for (int b = 0; b < orderedBands.Count; b++)
+                {
+                    DateTime bBegin = value.t.Date + orderedBands[b].Begin.TimeOfDay;
+                    DateTime bEnd = value.t.Date + orderedBands[b].End.TimeOfDay;
+                    if (value.t >= bBegin && value.t < bEnd)
+                    {
+                        assignedBand = b;
+                        break;
+                    }
+                }
+
+                if (assignedBand >= 0)
+                {
+                    // Value falls in a band
+                    dayMeans[assignedBand] += value.value;
+                    dayCounts[assignedBand]++;
+                }
+                else
+                {
+                    // Value is a residual (falls outside all bands)
+                    dayMeans[dayMeans.Count - 1] += value.value;
+                    dayCounts[dayMeans.Count - 1]++;
+                }
+            }
+            // calculate the day means 
+            for (int i = 0; i < dayMeans.Count; i++)
+            {
+                if (dayCounts[i] > 0)
+                {
+                    dayMeans[i] /= dayCounts[i]; // finalize mean f or the band
+                }
+                else
+                {
+                    dayMeans[i] = double.NaN;
+                }
+            }
+            bandIndex = 0; // index for the current band (they are ordered and not overlapping)
+            // calculate the limits of the first band
+            bandBegin = orderedValues[0].t.Date + orderedBands[0].Begin.TimeOfDay;
+            bandEnd = orderedValues[0].t.Date + orderedBands[0].End.TimeOfDay;
+            // calculations for the standard deviations (using the means calculated above)
+            foreach (var value in orderedValues)
+            {
+                // For each value, find which band it belongs to (same logic as means calculation)
+                int assignedBand = -1;
+                for (int b = 0; b < orderedBands.Count; b++)
+                {
+                    DateTime bBegin = value.t.Date + orderedBands[b].Begin.TimeOfDay;
+                    DateTime bEnd = value.t.Date + orderedBands[b].End.TimeOfDay;
+                    if (value.t >= bBegin && value.t < bEnd)
+                    {
+                        assignedBand = b;
+                        break;
+                    }
+                }
+
+                if (assignedBand >= 0)
+                {
+                    // Value falls in a band
+                    dayStdDevs[assignedBand] += Math.Pow(value.value - dayMeans[assignedBand], 2);
+                }
+                else
+                {
+                    // Value is a residual
+                    dayStdDevs[dayStdDevs.Count - 1] += Math.Pow(value.value - dayMeans[dayMeans.Count - 1], 2);
+                }
+            }
+            // calculate the std devs
+            for (int i = 0; i < dayMeans.Count; i++)
+            {
+                if (dayCounts[i] > 0)
+                {
+                    dayStdDevs[i] = Math.Sqrt(dayStdDevs[i] / dayCounts[i]);
+                }
+                else
+                {
+                    dayStdDevs[i] = double.NaN;
+                }
+            }
+            return (dayMeans, dayStdDevs, dayCounts);
+        }
+        public static (List<double> Means, List<double> StdDevs, List<int> Counts,
+            List<double> EffectiveMeans, List<double> EffectiveStdDevs, List<int> EffectiveCounts)
+            MeansOfSumsInTimeBands(IReadOnlyList<(DateTime t, double value)> Data,
+                List<(DateTime Begin, DateTime End)> BandDurations)
+        {
+            // Aggregate values per day, then sum the values in each of the bands of the day
+            // If data in one band or residue is missed, then:
+            // - its value is set to 0, to have influence in the value of the overall mean
+            // - a "CountOfMissing" of the band is increased 
+            // Finally calculate the mean and std value across days to produce overall statistics
+            // that are given back to the caller subdivided by band, like in MeansOfAllValuesInTimeBands()
+            // The statistics of Data not included in any band (residuals) will be in the last row
+            // of the result lists. Those corresponding to the bands will have the same index as the band
+            // (after ordering by time-of-day).
+            // The method also gives as an output the List "Counts" that, for each band,
+            // is the number of days found in the data (equal for every band) - CountOfMissing of the band.
+            // The "Effective" lists (EffectiveMeans, EffectiveStdDevs, EffectiveCounts) contain statistics
+            // computed only from days that have actual data in each band (excluding zero-padded missing days).
 
             var orderedValues = Data.OrderBy(d => d.t).ToList();
 
@@ -91,7 +232,7 @@ namespace Mathematics
             var orderedBands = (BandDurations ?? new List<(DateTime Begin, DateTime End)>())
                                 .OrderBy(b => b.Begin.TimeOfDay).ToList();
 
-            // validate overlap based on time-of-day (applied to each day)
+            // validate overlap based on TimeOfDay
             for (int i = 0; i < orderedBands.Count - 1; i++)
             {
                 // Compare using TimeOfDay to allow bands to be reused each day
@@ -104,196 +245,112 @@ namespace Mathematics
                                     .OrderBy(g => g.Key)
                                     .ToList();
 
-            // If data contains only a single day, delegate to TimeBandsMeans (per-value statistics)
-            if (days.Count == 1)
+            int nBands = orderedBands.Count;
+            int nDays = days.Count;
+
+            // dailySums[b] is a list of daily sums (one per day) for band b (includes 0 for missing days)
+            // effectiveDailySums[b] is a list of daily sums only for days that have data in band b
+            // last index (nBands) is for residuals
+            var dailySums = new List<List<double>>();
+            var effectiveDailySums = new List<List<double>>();
+            for (int b = 0; b <= nBands; b++)
             {
-                // Single-day: compute per-value statistics across the whole day (original behavior)
-                var singleMeans = new List<double>();
-                var singleStdDevs = new List<double>();
-                var singleCounts = new List<int>();
-
-                // Build per-day (single day) band allocations using sequential scan semantics
-                var day = days[0].Key;
-                var dayPoints = orderedValues.OrderBy(p => p.t).ToList();
-                var dayBandValues = new List<List<double>>();
-                for (int b = 0; b < orderedBands.Count; b++) dayBandValues.Add(new List<double>());
-
-                int currentBandIndex = 0;
-                var usedIndices = new HashSet<int>();
-                for (int i = 0; i < dayPoints.Count; i++)
-                {
-                    var p = dayPoints[i];
-                    while (currentBandIndex < orderedBands.Count && p.t > (day.Date + orderedBands[currentBandIndex].End.TimeOfDay))
-                    {
-                        currentBandIndex++;
-                    }
-
-                    if (currentBandIndex < orderedBands.Count)
-                    {
-                        var bandBegin = day.Date + orderedBands[currentBandIndex].Begin.TimeOfDay;
-                        var bandEnd = day.Date + orderedBands[currentBandIndex].End.TimeOfDay;
-                        if (bandEnd < bandBegin) bandEnd = bandEnd.AddDays(1);
-
-                        if (p.t >= bandBegin && p.t <= bandEnd)
-                        {
-                            dayBandValues[currentBandIndex].Add(p.value);
-                            usedIndices.Add(i);
-                        }
-                    }
-                }
-
-                // compile results for bands
-                for (int b = 0; b < orderedBands.Count; b++)
-                {
-                    if (dayBandValues[b].Count > 0)
-                    {
-                        var stats = MeanAndStdDev(dayBandValues[b]);
-                        singleMeans.Add(stats.Mean);
-                        singleStdDevs.Add(stats.StdDev);
-                        singleCounts.Add(stats.Count);
-                    }
-                }
-
-                // residuals
-                var residualPoints = new List<double>();
-                for (int i = 0; i < dayPoints.Count; i++) if (!usedIndices.Contains(i)) residualPoints.Add(dayPoints[i].value);
-                if (residualPoints.Count > 0)
-                {
-                    var res = MeanAndStdDev(residualPoints);
-                    singleMeans.Add(res.Mean);
-                    singleStdDevs.Add(res.StdDev);
-                    singleCounts.Add(res.Count);
-                }
-
-                return (singleMeans, singleStdDevs, singleCounts);
+                dailySums.Add(new List<double>());
+                effectiveDailySums.Add(new List<double>());
             }
 
-            // For each band index, collect daily means (one entry per day that has data for that band)
-            var dailyBandMeans = new List<List<double>>();
-            var dailyResidualMeans = new List<double>();
-            // Also collect all individual measurements across all days for each band (for stddev on single measures)
-            var aggregatedBandValues = new List<List<double>>();
-            var aggregatedResidualValues = new List<double>();
+            // CountOfMissing[b] tracks how many days have no data in band b
+            var countOfMissing = new int[nBands + 1];
 
-            // Initialize list for each band
-            for (int b = 0; b < orderedBands.Count; b++)
-            {
-                dailyBandMeans.Add(new List<double>());
-                aggregatedBandValues.Add(new List<double>());
-            }
-
-            // Process each day separately using sequential scan semantics (to avoid boundary double-counting)
             foreach (var dayGroup in days)
             {
-                var day = dayGroup.Key;
-                var dayPoints = dayGroup.OrderBy(p => p.t).ToList();
+                var dayDate = dayGroup.Key;
+                var dayValues = dayGroup.ToList();
 
-                // Prepare per-day lists of values per band
-                var dayBandValues = new List<List<double>>();
-                for (int b = 0; b < orderedBands.Count; b++) dayBandValues.Add(new List<double>());
+                var bandSums = new double[nBands + 1];
+                var bandHasData = new bool[nBands + 1];
 
-                int currentBandIndex = 0;
-                var usedIndices = new HashSet<int>();
-
-                for (int i = 0; i < dayPoints.Count; i++)
+                foreach (var val in dayValues)
                 {
-                    var p = dayPoints[i];
-                    // advance band index while point is after current band end
-                    while (currentBandIndex < orderedBands.Count && p.t > (day.Date + orderedBands[currentBandIndex].End.TimeOfDay))
+                    int assignedBand = -1;
+                    for (int b = 0; b < nBands; b++)
                     {
-                        currentBandIndex++;
-                    }
-
-                    if (currentBandIndex < orderedBands.Count)
-                    {
-                        var bandBegin = day.Date + orderedBands[currentBandIndex].Begin.TimeOfDay;
-                        var bandEnd = day.Date + orderedBands[currentBandIndex].End.TimeOfDay;
-                        if (bandEnd < bandBegin) bandEnd = bandEnd.AddDays(1);
-
-                        if (p.t >= bandBegin && p.t <= bandEnd)
+                        DateTime bBegin = dayDate + orderedBands[b].Begin.TimeOfDay;
+                        DateTime bEnd = dayDate + orderedBands[b].End.TimeOfDay;
+                        if (val.t >= bBegin && val.t < bEnd)
                         {
-                            dayBandValues[currentBandIndex].Add(p.value);
-                            usedIndices.Add(i);
+                            assignedBand = b;
+                            break;
                         }
                     }
-                }
 
-                // compute per-day means for each band and accumulate individual values
-                for (int b = 0; b < orderedBands.Count; b++)
-                {
-                    if (dayBandValues[b].Count > 0)
+                    if (assignedBand >= 0)
                     {
-                        var stats = MeanAndStdDev(dayBandValues[b]);
-                        dailyBandMeans[b].Add(stats.Mean);
-                        // accumulate individual measurements for overall stddev
-                        aggregatedBandValues[b].AddRange(dayBandValues[b]);
-                    }
-                }
-
-                // residuals: points not used in any band
-                var residualPoints = new List<double>();
-                for (int i = 0; i < dayPoints.Count; i++)
-                {
-                    if (!usedIndices.Contains(i)) residualPoints.Add(dayPoints[i].value);
-                }
-                if (residualPoints.Count > 0)
-                {
-                    var resStats = MeanAndStdDev(residualPoints);
-                    dailyResidualMeans.Add(resStats.Mean);
-                    aggregatedResidualValues.AddRange(residualPoints);
-                }
-            }
-
-            var means = new List<double>();
-            var stdDevs = new List<double>();
-            var counts = new List<int>();
-
-
-            // Aggregate across days: for each band, compute mean of daily means (to preserve day-aggregation semantics)
-            // but compute stddev on single measurements aggregated across days
-            for (int b = 0; b < orderedBands.Count; b++)
-            {
-                var dailyMeansForBand = dailyBandMeans[b];
-                if (dailyMeansForBand.Count > 0)
-                {
-                    var stats = MeanAndStdDev(dailyMeansForBand);
-                    means.Add(stats.Mean);
-                    // stddev computed on individual measurements across all days
-                    if (aggregatedBandValues[b].Count > 0)
-                    {
-                        var aggStats = MeanAndStdDev(aggregatedBandValues[b]);
-                        stdDevs.Add(aggStats.StdDev);
+                        bandSums[assignedBand] += val.value;
+                        bandHasData[assignedBand] = true;
                     }
                     else
                     {
-                        stdDevs.Add(0);
+                        bandSums[nBands] += val.value;
+                        bandHasData[nBands] = true;
                     }
-                    // counts represent number of days contributing to the band
-                    counts.Add(dailyMeansForBand.Count);
+                }
+
+                // Store each day's sum for every band (0 if no values fell in that band)
+                for (int b = 0; b <= nBands; b++)
+                {
+                    dailySums[b].Add(bandSums[b]);
+                    if (!bandHasData[b])
+                        countOfMissing[b]++;
+                    else
+                        effectiveDailySums[b].Add(bandSums[b]);
                 }
             }
 
-            // Aggregate residuals across days (as an additional "band" at the end)
-            if (dailyResidualMeans.Count > 0)
+            // Compute mean and sample standard deviation (N-1) of daily sums across days
+            var Means = new List<double>();
+            var StdDevs = new List<double>();
+            var Counts = new List<int>();
+            var EffectiveMeans = new List<double>();
+            var EffectiveStdDevs = new List<double>();
+            var EffectiveCounts = new List<int>();
+
+            for (int b = 0; b <= nBands; b++)
             {
-                var resStats = MeanAndStdDev(dailyResidualMeans);
-                means.Add(resStats.Mean);
-                // stddev on individual residual measurements across all days
-                if (aggregatedResidualValues.Count > 0)
+                // All-days statistics (zero-padded for missing days)
+                var values = dailySums[b];
+                double mean = values.Average();
+                double sumSqDiff = values.Sum(v => (v - mean) * (v - mean));
+                double stdDev = values.Count > 1
+                    ? Math.Sqrt(sumSqDiff / (values.Count - 1))
+                    : 0;
+                Means.Add(mean);
+                StdDevs.Add(stdDev);
+                Counts.Add(nDays - countOfMissing[b]);
+
+                // Effective statistics (only days with actual data in the band)
+                var effValues = effectiveDailySums[b];
+                if (effValues.Count == 0)
                 {
-                    var aggRes = MeanAndStdDev(aggregatedResidualValues);
-                    stdDevs.Add(aggRes.StdDev);
+                    EffectiveMeans.Add(double.NaN);
+                    EffectiveStdDevs.Add(double.NaN);
+                    EffectiveCounts.Add(0);
                 }
                 else
                 {
-                    stdDevs.Add(0);
+                    double effMean = effValues.Average();
+                    double effSumSqDiff = effValues.Sum(v => (v - effMean) * (v - effMean));
+                    double effStdDev = effValues.Count > 1
+                        ? Math.Sqrt(effSumSqDiff / (effValues.Count - 1))
+                        : 0;
+                    EffectiveMeans.Add(effMean);
+                    EffectiveStdDevs.Add(effStdDev);
+                    EffectiveCounts.Add(effValues.Count);
                 }
-                counts.Add(resStats.Count);
             }
 
-            return (means, stdDevs, counts);
+            return (Means, StdDevs, Counts, EffectiveMeans, EffectiveStdDevs, EffectiveCounts);
         }
-
         /// <summary>
         /// Calculates the integral average and integral standard deviation for values in the specified time bands
         /// using the trapezoidal rule for irregular temporal data (analogous to IrregularTimeIntegration).
@@ -303,7 +360,7 @@ namespace Mathematics
         /// <param name="BandDurations">List of non-overlapping time bands</param>
         /// <returns>Tuple containing lists of integral averages, integral standard deviations, and counts for each band (plus residuals)</returns>
         public static (List<double> IntegralAverages, List<double> IntegralStdDevs, List<int> Counts)
-            TimeBandsIrregularTimeIntegration(IReadOnlyList<(DateTime t, double value)> Data, List<(DateTime Begin, DateTime End)> BandDurations)
+            IrregularTimeIntegrationInTimeBands(IReadOnlyList<(DateTime t, double value)> Data, List<(DateTime Begin, DateTime End)> BandDurations)
         {
             if (Data == null || Data.Count == 0)
                 return (new List<double>(), new List<double>(), new List<int>());

@@ -381,10 +381,10 @@ public partial class FoodsInMealSearchResultsPage : ContentPage
         loading = true;
 
         txtName.Text = "";
-
+        txtFoodCarbohydrates.Text = "";
         Food.Name = "";
         Food.Description = "";
-
+        Food.CarbohydratesPercent.Double = 0;
         //txtCalories.Text = "";
         //txtTotalFats.Text = "";
         //txtSaturatedFats.Text = "";
