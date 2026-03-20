@@ -81,6 +81,11 @@
                     x:Name="btnSearchFood" Margin="1"
                 ToolTipProperties.Text="{x:Static strings:AppStrings.SearchFood}"
                 Clicked="btnSearchFood_Click"/>
+            <Button Grid.Row="3" Grid.Column="3"
+                    ImageSource="clear_fields.png"
+                    x:Name="btnClearFields" Margin="1"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipClearData}"
+                    Clicked="btnClearFields_Click"/>
 
             <!-- Fixed header for the results (does not scroll with CollectionView) -->
             <Grid Grid.Row="4" Grid.ColumnSpan="4" BackgroundColor="#e8f5e9" Margin="2" Padding="3">

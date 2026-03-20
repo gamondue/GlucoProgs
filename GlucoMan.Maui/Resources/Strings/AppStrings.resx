@@ -2174,7 +2174,7 @@
     <value>Months shown: month of data that will be shown in the grids of the program</value>
   </data>
   <data name="MealTimeSettings" xml:space="preserve">
-    <value>Meal Time Settings (Not used yet)</value>
+    <value>Meal Time Settings</value>
   </data>
   <data name="InitialTimeForBreakfast" xml:space="preserve">
     <value>Initial time for breakfast</value>
@@ -2288,7 +2288,7 @@
     <value>Evening Glucose</value>
   </data>
   <data name="StatNightGlucose" xml:space="preserve">
-    <value>Night Glucose</value>
+    <value>Glucose away from meals</value>
   </data>
   <data name="StatTotalQuickActingInsulin" xml:space="preserve">
     <value>Total Quick Acting Insulin</value>
@@ -2327,7 +2327,7 @@
     <value>Dinner CHO</value>
   </data>
   <data name="StatOtherCHO" xml:space="preserve">
-    <value>Other CHO</value>
+    <value>CHO away from meals</value>
   </data>
   <data name="StatUiPerDay" xml:space="preserve">
     <value>Mean Ui/Day</value>
@@ -2757,5 +2757,11 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
   </data>
   <data name="TooltipExperimental" xml:space="preserve">
     <value>Experimental: work in progress to try system modeling, identification and extrapolation</value>
+  </data>
+  <data name="StatHeaderAllDays" xml:space="preserve">
+    <value>All days</value>
+  </data>
+  <data name="StatHeaderEffective" xml:space="preserve">
+    <value>Effective</value>
   </data>
 </root>

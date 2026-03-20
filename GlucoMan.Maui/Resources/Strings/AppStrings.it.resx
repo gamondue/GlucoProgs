@@ -586,19 +586,19 @@
     <value>Imposta param.</value>
   </data>
   <data name="TooltipBreakfastCHOInsulinRatio" xml:space="preserve">
-    <value>CHO/insulina mattutino: carboidrati per unita di insulina - colazione [CHO/UI]</value>
+    <value>CHO/insulina mattutino: carboidrati per unita di insulina - colazione [CHO/Ui]</value>
   </data>
   <data name="TooltipLunchCHOInsulinRatio" xml:space="preserve">
-    <value>CHO/insulina mezzogiorno: carboidrati per unita di insulina - pranzo [CHO/UI]</value>
+    <value>CHO/insulina mezzogiorno: carboidrati per unita di insulina - pranzo [CHO/Ui]</value>
   </data>
   <data name="TooltipDinnerCHOInsulinRatio" xml:space="preserve">
-    <value>CHO/insulina serale: carboidrati per unita di insulina - cena [CHO/UI]</value>
+    <value>CHO/insulina serale: carboidrati per unita di insulina - cena [CHO/Ui]</value>
   </data>
   <data name="TooltipCalculateBolus" xml:space="preserve">
     <value>Calcola bolo: calcola il bolo insulinico per questo pasto</value>
   </data>
   <data name="TooltipInsulinCorrectionSensitivity" xml:space="preserve">
-    <value>Glicemia/insulina: glucosio elaborato da una unita di insulina [mg/(dl*UI)]</value>
+    <value>Glicemia/insulina: glucosio elaborato da una unita di insulina [mg/(dl*Ui)]</value>
   </data>
   <data name="TooltipParametersButton" xml:space="preserve">
     <value>Parametri: apre la pagina che calcola o imposta i parametri di sensibilita</value>
@@ -1911,19 +1911,19 @@
     <value>CHO - # Segmenti:</value>
   </data>
   <data name="InsulinTauMeanSd" xml:space="preserve">
-    <value>Insulina - Ï„ [s] (Î¼ Â± Ïƒ):</value>
+    <value>Insulina - τ [s] (μ ± σ):</value>
   </data>
   <data name="InsulinGainMeanSd" xml:space="preserve">
-    <value>Insulina - k (Î¼ Â± Ïƒ):</value>
+    <value>Insulina - k (μ ± σ):</value>
   </data>
   <data name="InsulinDelaySamplesMeanSd" xml:space="preserve">
-    <value>Insulina - Ritardo [campioni] (Î¼ Â± Ïƒ):</value>
+    <value>Insulina - Ritardo [campioni] (μ ± σ):</value>
   </data>
   <data name="InsulinOffsetMeanSd" xml:space="preserve">
-    <value>Insulina - Offset (Î¼ Â± Ïƒ):</value>
+    <value>Insulina - Offset (μ ± σ):</value>
   </data>
   <data name="InsulinR2Avg" xml:space="preserve">
-    <value>Insulina - RÂ² medio:</value>
+    <value>Insulina - R² medio:</value>
   </data>
   <data name="InsulinSegmentsCount" xml:space="preserve">
     <value>Insulina - # Segmenti:</value>
@@ -2175,7 +2175,7 @@
     <value>Mesi visualizzati: mese di dati che verranno mostrati nelle griglie del programma</value>
   </data>
   <data name="MealTimeSettings" xml:space="preserve">
-    <value>Impostazioni Orari Pasti (Non ancora usato)</value>
+    <value>Impostazioni Orari Pasti</value>
   </data>
   <data name="InitialTimeForBreakfast" xml:space="preserve">
     <value>Ora iniziale per colazione</value>
@@ -2289,7 +2289,7 @@
     <value>Glicemia Sera</value>
   </data>
   <data name="StatNightGlucose" xml:space="preserve">
-    <value>Glicemia Notte</value>
+    <value>Glicemia fuori dai pasti</value>
   </data>
   <data name="StatTotalQuickActingInsulin" xml:space="preserve">
     <value>Insulina Totale ad Azione Rapida</value>
@@ -2313,7 +2313,7 @@
     <value>Insulina rapida ad ora di cena</value>
   </data>
   <data name="StatOtherInsulin" xml:space="preserve">
-    <value>Insulina rapida ad in altre ore</value>
+    <value>Insulina rapida fuori dai pasti</value>
   </data>
   <data name="StatTotalDayCHO" xml:space="preserve">
     <value>CHO Totali Giornata</value>
@@ -2328,7 +2328,7 @@
     <value>CHO Cena</value>
   </data>
   <data name="StatOtherCHO" xml:space="preserve">
-    <value>Altri CHO</value>
+    <value>CHO lontano dai pasti</value>
   </data>
   <data name="StatUiPerDay" xml:space="preserve">
     <value>Ui/giorno medie</value>
@@ -2758,5 +2758,11 @@ Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie
   </data>
   <data name="TooltipExperimental" xml:space="preserve">
     <value>Sperimentale: prove di modellazione di sistema, identificazione ed estrapolazione</value>
+  </data>
+  <data name="StatHeaderAllDays" xml:space="preserve">
+    <value>Su giorni</value>
+  </data>
+  <data name="StatHeaderEffective" xml:space="preserve">
+    <value>Effettiva</value>
   </data>
 </root>

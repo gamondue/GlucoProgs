@@ -34,8 +34,8 @@ public partial class RecipesPage : ContentPage
         InitializeComponent();
         if (bl.Recipe == null)
             bl.Recipe = new Recipe();
-        bl.Recipe.Name = RecipeNameForSearch;
-        bl.Recipe.Description = RecipeDescriptionForSearch;
+        bl.Recipe.Name = RecipeNameForSearch ?? "";
+        bl.Recipe.Description = RecipeDescriptionForSearch ?? "";
         _taskCompletionSource = new TaskCompletionSource<bool>();
         RefreshGrid();
     }
@@ -190,15 +190,28 @@ public partial class RecipesPage : ContentPage
         allRecipes = bl.SearchRecipes(bl.Recipe.Name, bl.Recipe.Description, 0);
         gridRecipes.ItemsSource = allRecipes;
     }
-    private async void btnChoose_Click(object sender, EventArgs e)
+     private async void btnChoose_Click(object sender, EventArgs e)
     {
-        recipeIsChosen = true;
-        FromUiToCurrentRecipe();
-        bl.SaveOneRecipe(bl.Recipe);
-        
-        // Set the result and close the page
-     _taskCompletionSource?.SetResult(true);
-        await this.Navigation.PopAsync();
+        try
+        {
+            recipeIsChosen = true;
+            FromUiToCurrentRecipe();
+            bl.SaveOneRecipe(bl.Recipe);
+
+            // Set the result and close the page
+            // Safely set result if TaskCompletionSource was initialized
+            if (_taskCompletionSource != null && !_taskCompletionSource.Task.IsCompleted)
+            {
+                _taskCompletionSource.SetResult(true);
+            }
+
+            await this.Navigation.PopAsync();
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("RecipesPage - btnChoose_Click", ex);
+            await DisplayAlert("Error", $"Failed to choose recipe: {ex.Message}", "OK");
+        }
     }
     private void btnClearFields_Click(object sender, EventArgs e)
     {

@@ -1,8 +1,9 @@
- using gamon;
+using gamon;
 using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
-using System.ComponentModel.Design;
 using Microsoft.Maui.ApplicationModel;
+using System.ComponentModel.Design;
+using static GlucoMan.Common;
 
 namespace GlucoMan.Maui;
 public partial class InjectionsPage : ContentPage
@@ -151,15 +152,7 @@ public partial class InjectionsPage : ContentPage
             if (abort)
                 return false;
 
-            if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands ||
-                CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
-            {
-                // if it isn't a bolus, delete the bolus' info
-                CurrentInjection.IdInsulinDrug = null;
-                CurrentInjection.IdTypeOfInsulinAction = null;
-                CurrentInjection.InsulinValue.Text = "";
-            }
-
+            SetCurrentInjectionParametersBasedOnZone();
             bl.SaveOneInjection(CurrentInjection);
             RefreshGrid();
             picturePageHasBeenVisited = false;
@@ -594,14 +587,7 @@ public partial class InjectionsPage : ContentPage
                 CurrentInjection.IdInsulinDrug = null;
             }
         }
-        if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands ||
-            CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
-        {
-            // if it isn't a bolus, delete the bolus' info
-            CurrentInjection.IdInsulinDrug = null;
-            CurrentInjection.IdTypeOfInsulinAction = null;
-            CurrentInjection.InsulinValue.Text = "";
-        }
+        SetCurrentInjectionParametersBasedOnZone();
         bl.SaveOneInjection(CurrentInjection);
         RefreshGrid();
         picturePageHasBeenVisited = false;
@@ -610,6 +596,27 @@ public partial class InjectionsPage : ContentPage
         SaveOriginalInjection();
         HasUnsavedChanges = false;
         UpdateTitleWithUnsavedIndicator();
+    }
+    private void SetCurrentInjectionParametersBasedOnZone()
+    {
+        if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands ||
+            CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
+        {
+            // if it isn't a bolus, delete the bolus' info
+            CurrentInjection.IdInsulinDrug = null;
+            CurrentInjection.IdTypeOfInsulinAction = null;
+            CurrentInjection.InsulinValue.Text = "";
+            // set the type of the injection
+            if (CurrentInjection.Zone == Common.ZoneOfPosition.Hands)
+                CurrentInjection.IdTypeOfInjection = (int)TypeOfInjection.Blood;
+            else if (CurrentInjection.Zone == Common.ZoneOfPosition.Sensor)
+                CurrentInjection.IdTypeOfInjection = (int)TypeOfInjection.Sensor;
+        }
+        else
+        {
+            // set the type of the injection as bolus
+            CurrentInjection.IdTypeOfInjection = (int)TypeOfInjection.Bolus;
+        }
     }
     private async void btnRemoveInjection_Click(object sender, EventArgs e)
     {

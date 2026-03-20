@@ -177,8 +177,14 @@ public partial class FoodsPage : ContentPage
         if (foodWasChosen && foodPage.FoodIsChosen)
         {
             bl.FromFoodToFoodInMeal(foodPage.CurrentFood, bl.FoodInMeal);
+            Food = foodPage.CurrentFood;
             FromClassToUi();
         }
+
+        // Always refresh the units combo: units may have been added/removed in FoodPage
+        cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
+        if (cmbUnit.Items.Count > 0)
+            cmbUnit.SelectedIndex = 0;
     }
     private async void btnSaveFood_Click(object sender, EventArgs e)
     {
@@ -382,6 +388,7 @@ public partial class FoodsPage : ContentPage
             if (cmbUnit.SelectedItem != null && cmbUnit.SelectedItem is UnitOfFood unit)
             {
                 Food.UnitSymbol = unit.Symbol;
+                Food.GramsInOneUnit.Double = unit.GramsInOneUnit.Double;
             }
         }
         catch (Exception ex)
