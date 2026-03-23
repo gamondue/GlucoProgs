@@ -7797,5 +7797,50 @@ namespace GlucoMan.Maui.Resources.Strings {
                 return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a The total CHO value has changed...
+        /// </summary>
+        public static string ChoChangedOnExitMessage {
+            get {
+                return ResourceManager.GetString("ChoChangedOnExitMessage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Save new value.
+        /// </summary>
+        public static string SaveNewValue {
+            get {
+                return ResourceManager.GetString("SaveNewValue", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Keep stored.
+        /// </summary>
+        public static string KeepStoredValue {
+            get {
+                return ResourceManager.GetString("KeepStoredValue", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a No food found with this barcode in the database.
+        /// </summary>
+        public static string FoodNotFoundWithBarcode {
+            get {
+                return ResourceManager.GetString("FoodNotFoundWithBarcode", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Bar Code: scan a barcode or QR Code to find the food.
+        /// </summary>
+        public static string TooltipBarCode {
+            get {
+                return ResourceManager.GetString("TooltipBarCode", resourceCulture);
+            }
+        }
     }
 }

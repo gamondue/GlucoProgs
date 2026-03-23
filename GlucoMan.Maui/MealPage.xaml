@@ -26,6 +26,7 @@
                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipTotalCHOOfMeal}" HorizontalTextAlignment="End"
                    Margin="1" Keyboard="Numeric" FontSize="Medium"
                    Text="{Binding CarbohydratesGrams.Text}"
+                   TextChanged="txtMealCarbohydratesGrams_TextChanged"
                    />
                 <Entry Grid.Row="2" Grid.Column="1" x:Name="txtAccuracyOfChoMeal" 
                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMealAccuracyPercent}"
@@ -141,14 +142,14 @@
                     </Grid.ColumnDefinitions>
                     <Button Grid.Row="0" Grid.Column="0" x:Name="btnAddFoodInMeal"
                             ImageSource="plus.png"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPlusButton}"
-                    FontSize="Micro"
-                    Margin="1" Clicked="btnAddFoodInMeal_Click"></Button>
+                            ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPlusButton}"
+                            FontSize="Micro"
+                            Margin="1" Clicked="btnAddFoodInMeal_Click"></Button>
                     <!--Text="+"-->
                     <Button Grid.Row="0" Grid.Column="1" x:Name="btnRemoveFoodInMeal"
                             ImageSource="minus.png"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMinusButton}"
-                    Margin="1" Clicked="btnRemoveFoodInMeal_Click"></Button>
+                            ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMinusButton}"
+                            Margin="1" Clicked="btnRemoveFoodInMeal_Click"></Button>
                     <!--Text="-"-->
                 </Grid>
 

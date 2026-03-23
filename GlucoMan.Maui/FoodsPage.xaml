@@ -28,9 +28,10 @@
             <Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                     HorizontalOptions="Fill" VerticalOptions="Fill" 
                     x:Name="txtName" 
-                   BackgroundColor="LightGreen" TextColor="Black"
+                    BackgroundColor="LightGreen" TextColor="Black"
                     ToolTipProperties.Text="{x:Static strings:AppStrings.FoodName}"
                     Keyboard="Text" TextChanged="txtName_TextChanged"
+                    Unfocused="txtName_Unfocused"
                     HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                     Text="{Binding Name}"
                     FontSize="Small" IsReadOnly="false"/>
@@ -82,15 +83,20 @@
                     ImageSource="choose.png"
                 ToolTipProperties.Text="{x:Static strings:AppStrings.SelectFood}"
                 Clicked="btnChoose_Click"/>
-            <Button Grid.Row="6" Grid.Column="2" x:Name="btnAddFood" Margin="1"
-                    ImageSource="plus.png"
-                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPlusButton}"
-                Clicked="btnAddFood_Click"/>
-            <Button Grid.Row="6" Grid.Column="3" x:Name="btnRemoveFood" Margin="1"
-                    ImageSource="minus.png"
-                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMinusButton}"
-                Clicked="btnRemoveFood_Click"/>
-
+            <Button Grid.Row="6" Grid.Column="2" x:Name="btnBarCode" Margin="1"
+                    ImageSource="bar_code.png"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipBarCode}"
+                    Clicked="btnBarCode_Clicked"/>
+            <Grid Grid.Row="6" Grid.Column="3" ColumnDefinitions="*,*">
+                <Button Grid.Column="0" x:Name="btnAddFood" Margin="1"
+                        ImageSource="plus.png"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPlusButton}"
+                    Clicked="btnAddFood_Click"/>
+                <Button Grid.Column="1" x:Name="btnRemoveFood" Margin="1"
+                        ImageSource="minus.png"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipMinusButton}"
+                    Clicked="btnRemoveFood_Click"/>
+            </Grid>
             <Button Grid.Row="7" Grid.Column="0" x:Name="btnSaveFood" Margin="1"
                     ImageSource="floppy_disc.png"
                     BackgroundColor="LightCoral"

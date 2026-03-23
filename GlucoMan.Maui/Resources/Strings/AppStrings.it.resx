@@ -2765,4 +2765,22 @@ Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie
   <data name="StatHeaderEffective" xml:space="preserve">
     <value>Effettiva</value>
   </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Modifiche non salvate</value>
+  </data>
+  <data name="ChoChangedOnExitMessage" xml:space="preserve">
+    <value>Il valore totale dei carboidrati è cambiato (memorizzato: {0} g, corrente: {1} g). Salvare il nuovo valore o mantenere quello memorizzato?</value>
+  </data>
+  <data name="SaveNewValue" xml:space="preserve">
+    <value>Salva nuovo valore</value>
+  </data>
+  <data name="KeepStoredValue" xml:space="preserve">
+    <value>Mantieni memorizzato</value>
+  </data>
+  <data name="FoodNotFoundWithBarcode" xml:space="preserve">
+    <value>Nessun alimento trovato con questo codice a barre nel database.</value>
+  </data>
+  <data name="TooltipBarCode" xml:space="preserve">
+    <value>Codice a barre: scansiona un codice a barre o QR Code per trovare l'alimento</value>
+  </data>
 </root>

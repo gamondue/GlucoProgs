@@ -360,6 +360,10 @@ public partial class FoodsPage : ContentPage
             }
         }
     }
+    private void txtName_Unfocused(object sender, FocusEventArgs e)
+    {
+        txtName.CursorPosition = 0;
+    }
     private void txtDescription_TextChanged(object sender, EventArgs e)
     {
         if (!loading)
@@ -380,6 +384,42 @@ public partial class FoodsPage : ContentPage
         // Handle back button press - user cancelled
         _taskCompletionSource?.SetResult(false);
         return base.OnBackButtonPressed();
+    }
+    private async void btnBarCode_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            var scannerPage = new BarcodeScannerPage();
+            await Navigation.PushModalAsync(scannerPage);
+
+            bool barcodeScanned = await scannerPage.PageClosedTask;
+            if (!barcodeScanned || string.IsNullOrWhiteSpace(scannerPage.ScannedBarcode))
+                return;
+
+            string scannedCode = scannerPage.ScannedBarcode;
+
+            Food foundFood = bl.SearchFoodByBarcode(scannedCode);
+            if (foundFood != null)
+            {
+                Food = foundFood;
+                this.BindingContext = Food;
+                FromClassToUi();
+                cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
+                if (cmbUnit.Items.Count > 0)
+                    cmbUnit.SelectedIndex = 0;
+                allFoods = new List<Food> { foundFood };
+                gridFoods.ItemsSource = allFoods;
+            }
+            else
+            {
+                await DisplayAlert(AppStrings.Error, AppStrings.FoodNotFoundWithBarcode, AppStrings.OK);
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("FoodsPage | btnBarCode_Clicked", ex);
+            await DisplayAlert(AppStrings.Error, ex.Message, AppStrings.OK);
+        }
     }
     private void cmbUnit_SelectedIndexChanged(object sender, EventArgs e)
     {

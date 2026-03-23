@@ -17,7 +17,8 @@ public partial class WeighFoodPage : ContentPage
     // Properties to handle Data exchange with calling page
     internal DoubleAndText ResultCarbohydratesPercent { get; private set; } = new DoubleAndText();
     internal DoubleAndText ResultWeightOfPortion { get; private set; } = new();
-    internal string FoodName => txtFoodName?.Text ?? "";
+    private string _resultFoodName = "";
+    internal string FoodName => _resultFoodName;
     public bool FoodDataWasModified { get; private set; } = false;
     public bool UserCancelled { get; private set; } = false;
     
@@ -286,24 +287,18 @@ public partial class WeighFoodPage : ContentPage
     {
         try
         {
-            // Update Result CHO% from UI before calculation
+            // Capture all values from UI controls into backing fields BEFORE PopModalAsync,
+            // to avoid race conditions where controls may be detached during page dismissal animation.
+            _resultFoodName = txtFoodName?.Text ?? "";
+
+            // Update Result CHO% from the user-entered food CHO% field (not from the calculated total)
             if (txtFoodCarbohydratesPerUnit != null && !string.IsNullOrEmpty(txtFoodCarbohydratesPerUnit.Text))
             {
-                ResultCarbohydratesPercent.Double = Safe.Double(TxtCarboydratesPercentOfTotal.Text) ?? 0;
-                //if (.CarbohydratesPercent != null)
-                //{
-                //    selectedFood.CarbohydratesPercent.Double = choPercent;
-                //    General.LogOfProgram?.Event($"WeighFoodPage - Updated selectedFood.CarbohydratesPercent to {choPercent:F1}%");
-                //}
+                ResultCarbohydratesPercent.Double = Safe.Double(txtFoodCarbohydratesPerUnit.Text) ?? 0;
             }
             if (!string.IsNullOrEmpty(TxtWeightOfPortion.Text))
             {
                 ResultWeightOfPortion.Double = Safe.Double(TxtWeightOfPortion.Text) ?? 0;
-                //if (selectedFood?.CarbohydratesPercent != null)
-                //{
-                //    selectedFood. .Double = weightOfPortion;
-                //    General.LogOfProgram?.Event($"WeighFoodPage - Updated selectedFood.CarbohydratesPercent to {choPercent:F1}%");
-                //}
             }
             
             //// Centralize output selection here: prefer WeightOfPortion, fallback to RawNet (TxtRawNet)
@@ -468,6 +463,11 @@ public partial class WeighFoodPage : ContentPage
         if (TxtCookedPortionGross != null && TxtCookedPortionGross.IsFocused) return TxtCookedPortionGross;
         if (TxtCookedPortionTare != null && TxtCookedPortionTare.IsFocused) return TxtCookedPortionTare;
         if (TxtCookedPortionNet != null && TxtCookedPortionNet.IsFocused) return TxtCookedPortionNet;
+
+        // Seasoning section
+        if (TxtSeasoningGross != null && TxtSeasoningGross.IsFocused) return TxtSeasoningGross;
+        if (TxtSeasoningTare != null && TxtSeasoningTare.IsFocused) return TxtSeasoningTare;
+        if (TxtSeasoningNet != null && TxtSeasoningNet.IsFocused) return TxtSeasoningNet;
 
         // Number of portions
         if (TxtNPortions != null && TxtNPortions.IsFocused) return TxtNPortions;

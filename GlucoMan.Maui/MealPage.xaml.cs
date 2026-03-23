@@ -32,6 +32,10 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     private bool foodInMealPercentOrQuantityChanging = false;
     private bool foodInMealChoGramsChanging = false;
     private bool programmaticModification = true;
+    private bool _programmaticChoUpdate = false;
+    private bool _choManuallyModified = false;
+    private bool _backNavigationInProgress = false;
+    private double? _storedCho;
 
     public MealPage(Meal Meal)
     {
@@ -48,6 +52,8 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             btnDefaults_Click(null, null);
         }
         bl.Meal = Meal;
+
+        _storedCho = bl.Meal?.CarbohydratesGrams?.Double;
 
         if (bl.Meal.IdMeal == null || (bl.Meal.EventTime.DateTime + new TimeSpan(0, 15, 0) > DateTime.Now))
         {
@@ -137,6 +143,13 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         }
         foodInMealModifications = false;
     }
+    private void UpdateMealTotalChoInUI()
+    {
+        bl.RecalcTotalCho();
+        _programmaticChoUpdate = true;
+        txtMealCarbohydratesGrams.Text = bl.Meal.CarbohydratesGrams.Text;
+        _programmaticChoUpdate = false;
+    }
     private void FromBoxesFoodInMealToClass()
     {
         //blMeal.FoodInMeal.IdFoodInMeal = Safe.Int(txtIdFoodInMeal.Text);
@@ -149,58 +162,56 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     }
     #endregion
     #region controls' events    
+    private async Task CheckDiscrepancyAndSaveAsync()
+    {
+        if (bl.FoodInMeal != null)
+        {
+            bl.FoodInMeal.IdMeal = bl.Meal.IdMeal;
+            FromBoxesFoodInMealToClass();
+            bl.UpdateOldFoodInMealInList();
+        }
+        bl.SaveAllFoodsInMeal();
+
+        double? displayedCho = Safe.Double(txtMealCarbohydratesGrams.Text);
+        double? displayedAccuracy = Safe.Double(txtAccuracyOfChoMeal.Text);
+
+        bl.RecalcTotalCho();
+        bl.RecalcTotalAccuracy();
+
+        double? calculatedCho = bl.Meal.CarbohydratesGrams.Double;
+        double? calculatedAccuracy = bl.Meal.AccuracyOfChoEstimate.Double;
+
+        bool choChanged = Math.Abs((displayedCho ?? 0) - (calculatedCho ?? 0)) > 0.01;
+        bool accuracyChanged = Math.Abs((displayedAccuracy ?? 0) - (calculatedAccuracy ?? 0)) > 0.01;
+
+        if ((bl.FoodsInMeal != null && bl.FoodsInMeal.Count != 0) && (choChanged || accuracyChanged))
+        {
+            bool useCalculatedValues = await DisplayAlert(
+                AppStrings.ValueDiscrepancy,
+                AppStrings.ValueDiscrepancyMessage,
+                AppStrings.UseCalculated,
+                AppStrings.KeepDisplayed);
+
+            if (!useCalculatedValues)
+            {
+                bl.Meal.CarbohydratesGrams.Double = displayedCho;
+                bl.Meal.AccuracyOfChoEstimate.Double = displayedAccuracy;
+            }
+        }
+        else
+        {
+            bl.Meal.CarbohydratesGrams.Double = displayedCho;
+            bl.Meal.AccuracyOfChoEstimate.Double = displayedAccuracy;
+        }
+        SaveOrCreateMealData();
+    }
     private async void btnSaveAllMeal_Click(object sender, EventArgs e)
     {
         try
         {
-            // Ensure the food is associated with the current meal (not necessary)
-            bl.FoodInMeal.IdMeal = bl.Meal.IdMeal;
-            // update the Data from the FoodInMeal boxes
-            FromBoxesFoodInMealToClass();
-            // also update the list of the foods in the meal
-            bl.UpdateOldFoodInMealInList();
-            // Save all the foods in the meal
-            bl.SaveAllFoodsInMeal();
-
-            // check if the totals are updated and ask if the user wants to save the 
-            // original Data or the updated
-            double? originalCho = Safe.Double(txtMealCarbohydratesGrams.Text);
-            double? originalAccuracy = Safe.Double(txtAccuracyOfChoMeal.Text);
-
-            bl.RecalcTotalCho();
-            bl.RecalcTotalAccuracy();
-
-            double? calculatedCho = bl.Meal.CarbohydratesGrams.Double;
-            double? calculatedAccuracy = bl.Meal.AccuracyOfChoEstimate.Double;
-
-            bool choChanged = Math.Abs((originalCho ?? 0) - (calculatedCho ?? 0)) > 0.01;
-            bool accuracyChanged = Math.Abs((originalAccuracy ?? 0) - (calculatedAccuracy ?? 0)) > 0.01;
-
-            if ((bl.FoodsInMeal != null && bl.FoodsInMeal.Count != 0) &&
-                (choChanged || accuracyChanged))
-            {
-                // ask the user if he wants to save old or new Data
-                bool useCalculatedValues = await DisplayAlert(
-                    AppStrings.ValueDiscrepancy,
-                    AppStrings.ValueDiscrepancyMessage,
-                    AppStrings.UseCalculated,
-                    AppStrings.KeepDisplayed);
-
-                if (!useCalculatedValues)
-                {
-                    // Restore the original values from UI
-                    bl.Meal.CarbohydratesGrams.Double = originalCho;
-                    bl.Meal.AccuracyOfChoEstimate.Double = originalAccuracy;
-                }
-                // If useCalculatedValues is true, keep the calculated values already in blMeal.Meal
-            }
-            else
-            {
-                // Restore the original values from UI
-                bl.Meal.CarbohydratesGrams.Double = originalCho;
-                bl.Meal.AccuracyOfChoEstimate.Double = originalAccuracy;
-            }
-            SaveOrCreateMealData();
+            await CheckDiscrepancyAndSaveAsync();
+            _choManuallyModified = false;
+            _storedCho = bl.Meal.CarbohydratesGrams.Double;
             RefreshUi();
             General.LogOfProgram?.Event("Meal saved successfully");
         }
@@ -617,6 +628,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
                 // Update the current FoodInMeal 
                 bl.FoodInMeal = selectedFood;
                 FromClassToBoxesFoodInMeal();
+                UpdateMealTotalChoInUI();
             }
 
             // Deseleziona tutti gli altri elementi nella lista
@@ -665,6 +677,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
                     // Update the current FoodInMeal
                     bl.FoodInMeal = selectedFood;
                     FromClassToBoxesFoodInMeal();
+                    UpdateMealTotalChoInUI();
                 }
                 // Deselect all other items in the list
                 if (bl.FoodsInMeal != null)
@@ -693,8 +706,9 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             programmaticModification = false;
 
             bl.UpdateDataAfterChoGramsChange(txtFoodCarbohydratesGrams.Text);
-            txtFoodCarbohydratesPerUnit.Text = "";
-            txtFoodQuantityInUnits.Text = "";
+                    txtFoodCarbohydratesPerUnit.Text = "";
+                    txtFoodQuantityInUnits.Text = "";
+                    txtMealCarbohydratesGrams.Text = bl.Meal.CarbohydratesGrams.Text;
             //FromClassToBoxesFoodInMeal();
             programmaticModification = true;
         }
@@ -714,14 +728,72 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             bl.CalculateChoOfFoodGrams();
             // aggiorna solo la visualizzazione dei grammi di carboidrati
             txtFoodCarbohydratesGrams.Text = bl.FoodInMeal.CarbohydratesGrams.Text;
-
-            // Propaga la modifica al resto dell'app
-            // blMeal.RecalcAll() potrebbe essere pesante, quindi da valutare se necessario
-            //blMeal.RecalcAll();
+            // aggiorna istantaneamente il totale CHO del pasto
+            UpdateMealTotalChoInUI();
 
             programmaticModification = true;
         }
         foodInMealPercentOrQuantityChanging = false;
+    }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+    }
+    // In MAUI Shell, OnBackButtonPressed intercepts both the hardware back button (Android)
+    // and the Shell navigation bar back button on all platforms.
+    // DisplayAlert cannot be used from OnDisappearing because the page is no longer the active presenter.
+    protected override bool OnBackButtonPressed()
+    {
+        if (_backNavigationInProgress) return true;
+        // Avoid locale-sensitive text parsing when the user has not typed manually:
+        // use the business-object Double directly (no CultureInfo issues).
+        // Only fall back to text parsing when the user has manually edited the field.
+        double? currentCho = _choManuallyModified
+            ? (Safe.Double(txtMealCarbohydratesGrams.Text) ?? bl.Meal?.CarbohydratesGrams?.Double)
+            : bl.Meal?.CarbohydratesGrams?.Double;
+        bool choChanged = Math.Abs((currentCho ?? 0) - (_storedCho ?? 0)) > 0.01;
+        if (choChanged && bl.Meal?.IdMeal != null)
+        {
+            _backNavigationInProgress = true;
+            _ = HandleChoChangeOnBackAsync(currentCho);
+            return true;
+        }
+        return false;
+    }
+    private async Task HandleChoChangeOnBackAsync(double? currentCho)
+    {
+        try
+        {
+            string message = string.Format(AppStrings.ChoChangedOnExitMessage,
+                _storedCho?.ToString("0.0") ?? "—",
+                currentCho?.ToString("0.0") ?? "—");
+            bool saveNew = await DisplayAlert(
+                AppStrings.UnsavedChanges,
+                message,
+                AppStrings.SaveNewValue,
+                AppStrings.KeepStoredValue);
+            if (saveNew)
+            {
+                bl.Meal.CarbohydratesGrams.Double = currentCho;
+                SaveOrCreateMealData();
+            }
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("MealPage - HandleChoChangeOnBackAsync", ex);
+        }
+        finally
+        {
+            _backNavigationInProgress = false;
+            await Navigation.PopAsync();
+        }
+    }
+    private void txtMealCarbohydratesGrams_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (txtMealCarbohydratesGrams.IsLoaded && !_programmaticChoUpdate)
+        {
+            _choManuallyModified = true;
+        }
     }
     private void txtAccuracyOfChoMeal_TextChanged(object sender, TextChangedEventArgs e)
     {

@@ -2764,4 +2764,22 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
   <data name="StatHeaderEffective" xml:space="preserve">
     <value>Effective</value>
   </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Unsaved changes</value>
+  </data>
+  <data name="ChoChangedOnExitMessage" xml:space="preserve">
+    <value>The total CHO value has changed (stored: {0} g, current: {1} g). Save the new value or keep the stored one?</value>
+  </data>
+  <data name="SaveNewValue" xml:space="preserve">
+    <value>Save new value</value>
+  </data>
+  <data name="KeepStoredValue" xml:space="preserve">
+    <value>Keep stored</value>
+  </data>
+  <data name="FoodNotFoundWithBarcode" xml:space="preserve">
+    <value>No food found with this barcode in the database.</value>
+  </data>
+  <data name="TooltipBarCode" xml:space="preserve">
+    <value>Bar Code: scan a barcode or QR Code to find the food</value>
+  </data>
 </root>
