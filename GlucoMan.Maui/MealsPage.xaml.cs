@@ -74,6 +74,12 @@ public partial class MealsPage : ContentPage
             dtpMealDateBegin.Date = (DateTime)Safe.DateTime(bl.Meal.EventTime.DateTime);
             dtpMealTimeBegin.Time = ((DateTime)bl.Meal.EventTime.DateTime).TimeOfDay;  // - dtpMealDateBegin.Date;
         }
+        else
+        {
+            DateTime now = Common.LocalNow;
+            dtpMealDateBegin.Date = now;
+            dtpMealTimeBegin.Time = now.TimeOfDay;
+        }
         if (bl.Meal.AccuracyOfChoEstimate.Double != null)
             txtAccuracyOfChoMeal.Text = bl.Meal.AccuracyOfChoEstimate.Text;
         txtNotes.Text = bl.Meal.Notes;
@@ -182,7 +188,7 @@ public partial class MealsPage : ContentPage
         // add to the new meal the Data coming from this page
         if (chkNowInAdd.IsChecked)
         {
-            DateTime now = DateTime.Now;
+            DateTime now = Common.LocalNow;
             bl.Meal.EventTime.DateTime = now;
             bl.Meal.TimeEnd.DateTime = now;
         }
@@ -239,6 +245,7 @@ public partial class MealsPage : ContentPage
             await DisplayAlert(AppStrings.SelectOneMealFromList, AppStrings.ChooseMealToSave, AppStrings.OK);
             return;
         }
+        await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
         FromUiToClass();
         bl.SaveOneMeal(bl.Meal, false);
         await RefreshUi();
@@ -257,7 +264,7 @@ public partial class MealsPage : ContentPage
     }
     private void btnNowBegin_Click(object sender, EventArgs e)
     {
-        DateTime now = DateTime.Now;
+        DateTime now = Common.LocalNow;
         dtpMealDateBegin.Date = now;
         dtpMealTimeBegin.Time = now.TimeOfDay;
     }

@@ -108,7 +108,6 @@
             </Grid>
 
             <CollectionView x:Name="cvMeasurements" Grid.Row="6" Grid.ColumnSpan="4"
-                            ItemsSource="{Binding}"
                             ToolTipProperties.Text="{x:Static strings:AppStrings.ListOfPastGlucoseMeasurements}"
                             SelectionMode="Single"
                             SelectionChanged="OnGridSelection"
@@ -137,9 +136,12 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Label HorizontalTextAlignment="Center" Grid.Column="0" 
-                                       Text="{Binding EventTime}"
+                                <Label Grid.Column="0"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center"
+                                       Text="{Binding EventDateTimeText}"
                                        TextColor="Black" FontSize="14"
+                                       LineBreakMode="WordWrap"
                                        BackgroundColor="Transparent"/>
                                 <Label HorizontalTextAlignment="Center" Grid.Column="1" 
                                        Text="{Binding GlucoseValue.Text}"

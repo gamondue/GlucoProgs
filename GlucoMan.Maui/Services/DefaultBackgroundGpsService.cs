@@ -14,6 +14,14 @@ public class DefaultBackgroundGpsService : IBackgroundGpsService
     private DateTime? trackingStartTime = null;
     private System.Timers.Timer gpsTimer;
     private readonly ConcurrentQueue<GpsPositionRecord> positions = new();
+    private readonly IGeolocation geolocation;
+    private readonly IGeoTimeZoneService geoTimeZoneService;
+
+    public DefaultBackgroundGpsService(IGeoTimeZoneService geoTimeZoneService = null, IGeolocation geolocation = null)
+    {
+        this.geolocation = geolocation ?? Geolocation.Default;
+        this.geoTimeZoneService = geoTimeZoneService;
+    }
     
     public bool IsTracking => isTracking;
     public DateTime? TrackingStartTime => trackingStartTime;
@@ -93,10 +101,13 @@ public class DefaultBackgroundGpsService : IBackgroundGpsService
         try
         {
             var request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
-            var location = await Geolocation.Default.GetLocationAsync(request);
+            var location = await geolocation.GetLocationAsync(request);
             
             if (location != null)
             {
+                var tzResult = geoTimeZoneService?.Resolve(location.Latitude, location.Longitude,
+                    location.Timestamp);
+
                 var record = new GpsPositionRecord
                 {
                     Latitude = location.Latitude,
@@ -104,8 +115,15 @@ public class DefaultBackgroundGpsService : IBackgroundGpsService
                     Altitude = location.Altitude,
                     Accuracy = (float?)location.Accuracy,
                     Speed = (float?)location.Speed,
-                    Timestamp = DateTime.Now
+                    Timestamp = DateTime.Now,
+                    IanaTimeZoneId = tzResult?.IanaTimeZoneId,
+                    UtcOffsetHours = tzResult?.UtcOffsetHours,
+                    IsDaylightSavingTime = tzResult?.IsDaylightSavingTime,
                 };
+
+                if (tzResult != null)
+                    General.LogOfProgram?.Event(
+                        $"GPS timezone resolved: {tzResult}");
                 
                 positions.Enqueue(record);
                 

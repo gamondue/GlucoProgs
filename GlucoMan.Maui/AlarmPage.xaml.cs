@@ -16,10 +16,13 @@ public partial class AlarmPage : ContentPage
     {
         InitializeComponent();
         _blAlarms = new BL_Alarms();
-        
+
         // Show Windows warning only on Windows platform
 #if WINDOWS
         frmWindowsWarning.IsVisible = true;
+        lblWindowsWarningTitle.Text = AppStrings.WindowsAlarmNoticeTitle;
+        lblWindowsWarningMessage.Text = AppStrings.WindowsAlarmNoticeMessage;
+        lblWindowsWarningTip.Text = AppStrings.WindowsAlarmNoticeTip;
 #endif
         
         // Get the alarm scheduler from DI
@@ -35,21 +38,20 @@ public partial class AlarmPage : ContentPage
         dtpTo.Date = DateTime.Today.AddDays(30);
         dtpStartDate.Date = DateTime.Today;
         tpStartTime.Time = DateTime.Now.TimeOfDay;
-        
+
         // Wire up events
-        btnAdd.Clicked += BtnAdd_Clicked;
-        btnSave.Clicked += BtnSave_Clicked;
-        btnDelete.Clicked += BtnDelete_Clicked;
+        btnAddAlarm.Clicked += BtnAdd_Clicked;
+        btnSaveAlarm.Clicked += BtnSave_Clicked;
+        btnDeleteAlarm.Clicked += BtnDelete_Clicked;
         btnDismiss.Clicked += BtnDismiss_Clicked;
-        btnActivate.Clicked += BtnActivate_Clicked;
-        btnDeactivate.Clicked += BtnDeactivate_Clicked;
+        chkAlarmActive.CheckedChanged += ChkAlarmActive_CheckedChanged;
         btnTest.Clicked += BtnTest_Clicked;
-        btnClear.Clicked += BtnClear_Clicked;
+        btnClearAlarm.Clicked += BtnClear_Clicked;
         btnRefresh.Clicked += BtnRefresh_Clicked;
         btnNow.Clicked += BtnNow_Clicked;
         btnSetNext.Clicked += BtnSetNext_Clicked;
         cvAlarms.SelectionChanged += CvAlarms_SelectionChanged;
-        
+
         // Wire up checkbox events for mutual exclusivity
         chkShowAll.CheckedChanged += (s, e) => { if (e.Value) { chkActive.IsChecked = false; chkExpired.IsChecked = false; LoadAlarms(); } };
         chkActive.CheckedChanged += (s, e) => { if (e.Value) { chkShowAll.IsChecked = false; chkExpired.IsChecked = false; LoadAlarms(); } };
@@ -83,6 +85,7 @@ public partial class AlarmPage : ContentPage
         
         LoadAlarms();
     }
+
     private void LoadAlarms()
     {
         try
@@ -118,7 +121,8 @@ public partial class AlarmPage : ContentPage
                         $"IsActive={isActive}, IsDisabled={a.IsDisabled}, " +
                         $"NextTriggerTime={a.NextTriggerTime:yyyy-MM-dd HH:mm}, " +
                         $"TimeStart={a.TimeStart?.DateTime:yyyy-MM-dd HH:mm}, " +
-                        $"ValidTimeAfterStart={a.ValidTimeAfterStart?.TotalSeconds}s, " +
+                        $"StartupGraceWindow={a.StartupGraceWindow?.TotalSeconds}s, " +
+                        $"Interval={a.Interval?.TotalSeconds}s, " +
                         $"RepeatCount={a.RepeatCount}/{a.MaxRepeatCount}");
                 }
 
@@ -130,7 +134,7 @@ public partial class AlarmPage : ContentPage
                     // Inform user briefly on UI thread
                     MainThread.BeginInvokeOnMainThread(async () =>
                     {
-                        await DisplayAlert("Info", "Nessun allarme è risultato 'Active' secondo i filtri; verranno mostrati tutti gli allarmi presenti nel database.", "OK");
+                        await DisplayAlert("Info", "Nessun allarme Ã© risultato 'Active' secondo i filtri; verranno mostrati tutti gli allarmi presenti nel database.", "OK");
                     });
                 }
             }
@@ -170,36 +174,14 @@ public partial class AlarmPage : ContentPage
             {
                 _alarms.Add(alarm);
             }
-            
+
             // Update count label on UI thread
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 lblAlarmCount.Text = $"({_alarms.Count} alarm{(_alarms.Count != 1 ? "s" : "")})";
             });
-            
+
             General.LogOfProgram?.Debug($"AlarmPage.LoadAlarms - Displayed {_alarms.Count} alarms in UI");
-            
-            // Show visible feedback to user
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                string filterName = chkShowAll.IsChecked ? "All" : 
-                                   chkExpired.IsChecked ? "Expired" : 
-                                   chkActive.IsChecked ? "Active" : "Date Range";
-                                   
-                if (_alarms.Count == 0)
-                {
-                    await DisplayAlert("No Alarms Found", 
-                        $"Filter: {filterName}\n" +
-                        $"Found 0 alarms in database.\n\n" +
-                        $"Try selecting 'Show All' checkbox to see all alarms without filters.", 
-                        "OK");
-                }
-                else
-                {
-                    // Optional: show brief toast/message
-                    General.LogOfProgram?.Event($"Loaded {_alarms.Count} alarms with filter: {filterName}");
-                }
-            });
         }
         catch (Exception ex)
         {
@@ -259,12 +241,13 @@ public partial class AlarmPage : ContentPage
             tpStartTime.Time = alarm.TimeStart.DateTime.Value.TimeOfDay;
         }
         
-        txtTriggerInterval.Text = alarm.ValidTimeAfterStart?.TotalSeconds.ToString() ?? "";
-        txtInterval.Text = alarm.Interval?.TotalSeconds.ToString() ?? "";
-        txtDuration.Text = alarm.Duration?.TotalSeconds.ToString() ?? "";
-        txtRepetitionTime.Text = alarm.RepetitionTime?.TotalSeconds.ToString() ?? "";
-        txtRepeatCount.Text = alarm.RepeatCount?.ToString() ?? "0";
-        txtMaxRepeatCount.Text = alarm.MaxRepeatCount?.ToString() ?? "";
+        // UI labels: AlarmPeriod, TriggerAfter and RepetitionAfter are in minutes; Duration is in seconds.
+        txtInterval.Text = alarm.Interval.HasValue ? ((int)alarm.Interval.Value.TotalMinutes).ToString() : "";
+        txtStartupGrace.Text = alarm.StartupGraceWindow.HasValue ? ((int)alarm.StartupGraceWindow.Value.TotalMinutes).ToString() : "";
+        txtDuration.Text = alarm.Duration.HasValue ? ((int)alarm.Duration.Value.TotalSeconds).ToString() : "";
+        txtRepetitionTime.Text = alarm.RepetitionTime.HasValue ? ((int)alarm.RepetitionTime.Value.TotalMinutes).ToString() : "";
+        txtRestartsCount.Text = alarm.RepeatCount?.ToString() ?? "0";
+        txtMaxRestarts.Text = alarm.MaxRepeatCount?.ToString() ?? "";
         txtNextTriggerTime.Text = alarm.NextTriggerTime?.ToString("yyyy-MM-dd HH:mm:ss") ?? "";
         txtLastTriggerTime.Text = alarm.LastTriggerTime?.ToString("yyyy-MM-dd HH:mm:ss") ?? "";
         txtTriggeredCount.Text = alarm.TriggeredCount?.ToString() ?? "0";
@@ -274,6 +257,12 @@ public partial class AlarmPage : ContentPage
         txtSoundFilePath.Text = alarm.SoundFilePath ?? "";
         txtState.Text =   alarm.RingingState.ToString();
         txtReminderPreview.Text = $"{alarm.ReminderText} @ {alarm.NextTriggerTime?.ToString("HH:mm")}";
+
+        // Update active checkbox state without triggering the event
+        // Use IsActive() to be consistent with activation logic
+        chkAlarmActive.CheckedChanged -= ChkAlarmActive_CheckedChanged;
+        chkAlarmActive.IsChecked = alarm.IsActive();
+        chkAlarmActive.CheckedChanged += ChkAlarmActive_CheckedChanged;
     }
     private Alarm GetAlarmFromUI()
     {
@@ -289,20 +278,28 @@ public partial class AlarmPage : ContentPage
         var startDateTime = dtpStartDate.Date + tpStartTime.Time;
         alarm.TimeStart = new gamon.DateTimeAndText { DateTime = startDateTime };
         
-        if (double.TryParse(txtTriggerInterval.Text, out double triggerSec))
-            alarm.ValidTimeAfterStart = TimeSpan.FromSeconds(triggerSec);
-        
-        if (double.TryParse(txtInterval.Text, out double intervalSec))
-            alarm.Interval = TimeSpan.FromSeconds(intervalSec);
-        
+        // UI: AlarmPeriod, StartupGrace and RepetitionAfter are in minutes; Duration in seconds.
+        if (double.TryParse(txtInterval.Text, out double intervalMin))
+            alarm.Interval = intervalMin > 0 ? TimeSpan.FromMinutes(intervalMin) : (TimeSpan?)null;
+        else
+            alarm.Interval = null;
+
+        if (double.TryParse(txtStartupGrace.Text, out double graceMin))
+            alarm.StartupGraceWindow = TimeSpan.FromMinutes(graceMin);
+        else
+            alarm.StartupGraceWindow = null;
+
         if (double.TryParse(txtDuration.Text, out double durationSec))
             alarm.Duration = TimeSpan.FromSeconds(durationSec);
-        
-        if (double.TryParse(txtRepetitionTime.Text, out double repSec))
-            alarm.RepetitionTime = TimeSpan.FromSeconds(repSec);
-        
-        if (int.TryParse(txtMaxRepeatCount.Text, out int maxRep))
+        // Duration is a configuration, not a state counter: keep existing value if field is empty
+
+        if (double.TryParse(txtRepetitionTime.Text, out double repMin))
+            alarm.RepetitionTime = TimeSpan.FromMinutes(repMin);
+        // RepetitionTime is a configuration: keep existing value if field is empty
+
+        if (int.TryParse(txtMaxRestarts.Text, out int maxRep))
             alarm.MaxRepeatCount = maxRep;
+        // MaxRepeatCount is a configuration: keep existing value if field is empty
         
         alarm.EnablePlaySoundFile = chkPlaySound.IsChecked;
         alarm.DoVibrate = chkVibrate.IsChecked;
@@ -433,60 +430,106 @@ public partial class AlarmPage : ContentPage
             await DisplayAlert(AppStrings.Error, $"Failed to dismiss alarm: {ex.Message}", AppStrings.OK);
         }
     }
-    private async void BtnActivate_Clicked(object? sender, EventArgs e)
+    private async void ChkAlarmActive_CheckedChanged(object? sender, CheckedChangedEventArgs e)
     {
         try
         {
             if (_currentAlarm == null || !_currentAlarm.IdAlarm.HasValue)
             {
-                await DisplayAlert(AppStrings.Warning, "Please select an alarm to activate", AppStrings.OK);
+                // Reset checkbox if no alarm is selected
+                chkAlarmActive.CheckedChanged -= ChkAlarmActive_CheckedChanged;
+                chkAlarmActive.IsChecked = false;
+                chkAlarmActive.CheckedChanged += ChkAlarmActive_CheckedChanged;
                 return;
             }
-            
-            _currentAlarm.IsDisabled = false;
-            _currentAlarm.CalculateNextTriggerTime();
-            _blAlarms.AddAlarm(_currentAlarm);
-            
-            if (_currentAlarm.IsActive())
+
+            if (e.Value)
             {
-                await _alarmScheduler.ScheduleAsync(_currentAlarm);
+                // ACTIVATE the alarm: make it ready for the next trigger
+                var alarm = GetAlarmFromUI();
+
+                // Set alarm as active and reset all runtime state for a fresh start
+                alarm.IsDisabled = false;
+                alarm.LastTriggerTime = null;  // Reset so CalculateNextTriggerTime treats it as first firing
+                alarm.RepeatCount = 0;          // Reset restart counter
+                alarm.TriggeredCount = 0;       // Reset triggered count
+                alarm.RingingState = Alarm.AlarmRingingState.Waiting;  // Explicitly set to Waiting state
+
+                // Calculate the next trigger time based on current configuration
+                alarm.CalculateNextTriggerTime();
+
+                // Verify the alarm is truly active before scheduling
+                if (!alarm.IsActive())
+                {
+                    var errorMsg = $"Alarm {alarm.IdAlarm} is not active after activation setup. IsDisabled={alarm.IsDisabled}, RingingState={alarm.RingingState}";
+                    General.LogOfProgram?.Error("AlarmPage - ChkAlarmActive", new InvalidOperationException(errorMsg));
+                    await DisplayAlert(AppStrings.Error, "Failed to activate alarm: alarm state is invalid", AppStrings.OK);
+
+                    // Reset checkbox
+                    chkAlarmActive.CheckedChanged -= ChkAlarmActive_CheckedChanged;
+                    chkAlarmActive.IsChecked = false;
+                    chkAlarmActive.CheckedChanged += ChkAlarmActive_CheckedChanged;
+                    return;
+                }
+
+                // Save to database
+                _blAlarms.AddAlarm(alarm);
+                _currentAlarm = alarm;
+
+                // Schedule the alarm with the platform scheduler
+                await _alarmScheduler.ScheduleAsync(alarm);
+
+                General.LogOfProgram?.Debug($"Alarm {alarm.IdAlarm} activated. Next trigger: {alarm.NextTriggerTime}");
+
+                await DisplayAlert(AppStrings.Success, "Alarm activated", AppStrings.OK);
+                DisplayAlarm(alarm);
+                LoadAlarms();
             }
-            
-            await DisplayAlert(AppStrings.Success, "Alarm activated", AppStrings.OK);
-            DisplayAlarm(_currentAlarm);
-            LoadAlarms();
+            else
+            {
+                // DEACTIVATE the alarm: stop it completely and prevent any future triggers
+
+                // Cancel the scheduled alarm first to prevent race conditions
+                await _alarmScheduler.CancelAsync(_currentAlarm.IdAlarm.Value);
+
+                // Set alarm as disabled with explicit Disabled state
+                _currentAlarm.IsDisabled = true;
+                _currentAlarm.RingingState = Alarm.AlarmRingingState.Disabled;
+
+                // Verify the alarm is truly inactive
+                if (_currentAlarm.IsActive())
+                {
+                    var errorMsg = $"Alarm {_currentAlarm.IdAlarm} is still active after deactivation. IsDisabled={_currentAlarm.IsDisabled}, RingingState={_currentAlarm.RingingState}";
+                    General.LogOfProgram?.Error("AlarmPage - ChkAlarmActive", new InvalidOperationException(errorMsg));
+                    await DisplayAlert(AppStrings.Error, "Failed to deactivate alarm: alarm state is invalid", AppStrings.OK);
+                    return;
+                }
+
+                // Save the disabled state to database
+                _blAlarms.AddAlarm(_currentAlarm);
+
+                General.LogOfProgram?.Debug($"Alarm {_currentAlarm.IdAlarm} deactivated and removed from scheduler");
+
+                await DisplayAlert(AppStrings.Success, "Alarm deactivated", AppStrings.OK);
+                DisplayAlarm(_currentAlarm);
+                LoadAlarms();
+            }
         }
         catch (Exception ex)
         {
-            General.LogOfProgram?.Error("AlarmPage - BtnActivate_Clicked", ex);
-            await DisplayAlert(AppStrings.Error, $"Failed to activate alarm: {ex.Message}", AppStrings.OK);
-        }
-    }
-    private async void BtnDeactivate_Clicked(object? sender, EventArgs e)
-    {
-        try
-        {
-            if (_currentAlarm == null || !_currentAlarm.IdAlarm.HasValue)
+            General.LogOfProgram?.Error("AlarmPage - ChkAlarmActive_CheckedChanged", ex);
+            await DisplayAlert(AppStrings.Error, $"Failed to change alarm state: {ex.Message}", AppStrings.OK);
+
+            // Reset checkbox to reflect actual state
+            if (_currentAlarm != null)
             {
-                await DisplayAlert(AppStrings.Warning, "Please select an alarm to deactivate", AppStrings.OK);
-                return;
+                chkAlarmActive.CheckedChanged -= ChkAlarmActive_CheckedChanged;
+                chkAlarmActive.IsChecked = _currentAlarm.IsActive();
+                chkAlarmActive.CheckedChanged += ChkAlarmActive_CheckedChanged;
             }
-            
-            _currentAlarm.IsDisabled = true;
-            _currentAlarm.RingingState = Alarm.AlarmRingingState.Disabled;
-            _blAlarms.AddAlarm(_currentAlarm);
-            await _alarmScheduler.CancelAsync(_currentAlarm.IdAlarm.Value);
-            
-            await DisplayAlert(AppStrings.Success, "Alarm deactivated", AppStrings.OK);
-            DisplayAlarm(_currentAlarm);
-            LoadAlarms();
-        }
-        catch (Exception ex)
-        {
-            General.LogOfProgram?.Error("AlarmPage - BtnDeactivate_Clicked", ex);
-            await DisplayAlert(AppStrings.Error, $"Failed to deactivate alarm: {ex.Message}", AppStrings.OK);
         }
     }
+
     private async void BtnTest_Clicked(object? sender, EventArgs e)
     {
         try
@@ -529,6 +572,12 @@ public partial class AlarmPage : ContentPage
         dtpStartDate.Date = DateTime.Today;
         tpStartTime.Time = DateTime.Now.TimeOfDay;
     }
+    private void BtnNowStart_Click(object sender, EventArgs e)
+    {
+        DateTime now = Common.LocalNow;
+        dtpStartDate.Date = now;
+        tpStartTime.Time = now.TimeOfDay;
+    }
     private void BtnSetNext_Clicked(object? sender, EventArgs e)
     {
         if (_currentAlarm != null)
@@ -544,12 +593,12 @@ public partial class AlarmPage : ContentPage
         txtReminderText.Text = "";
         dtpStartDate.Date = DateTime.Today;
         tpStartTime.Time = DateTime.Now.TimeOfDay;
-        txtTriggerInterval.Text = "";
         txtInterval.Text = "";
+        txtStartupGrace.Text = "";
         txtDuration.Text = "";
         txtRepetitionTime.Text = "";
-        txtRepeatCount.Text = "0";
-        txtMaxRepeatCount.Text = "";
+        txtRestartsCount.Text = "0";
+        txtMaxRestarts.Text = "";
         txtNextTriggerTime.Text = "";
         txtLastTriggerTime.Text = "";
         txtTriggeredCount.Text = "0";
@@ -559,7 +608,12 @@ public partial class AlarmPage : ContentPage
         txtSoundFilePath.Text = "";
         txtState.Text = "";
         txtReminderPreview.Text = "";
-        
+
+        // Reset active checkbox
+        chkAlarmActive.CheckedChanged -= ChkAlarmActive_CheckedChanged;
+        chkAlarmActive.IsChecked = false;
+        chkAlarmActive.CheckedChanged += ChkAlarmActive_CheckedChanged;
+
         cvAlarms.SelectedItem = null;
     }
 }

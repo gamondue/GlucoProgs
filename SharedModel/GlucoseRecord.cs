@@ -19,6 +19,7 @@ namespace GlucoMan
         public int? IdOfDevice { get; set; }
         public string IdTypeOfDevice { get; set; }
         public int? IdDeviceModel { get; internal set; }
+        public double? UtcOffset { get; set; }
 
         private bool _isSelectedInList;
 
@@ -37,6 +38,23 @@ namespace GlucoMan
         }
 
         public string RowBorderColor => IsSelectedInList ? "Orange" : "Transparent";
+
+        private DateTime? SafeEventDateTime => 
+            EventTime?.DateTime is DateTime dt && dt.Year > 1 ? dt : null;
+
+        public string EventDateText => SafeEventDateTime?.ToString("dd/MM") ?? "";
+        public string EventTimeText => SafeEventDateTime?.ToString("HH:mm") ?? "";
+        public string EventDateTimeText
+        {
+            get
+            {
+                var dt = SafeEventDateTime;
+                if (dt == null) return "";
+                var tz = UtcOffset ?? 0;
+                var sign = tz >= 0 ? "+" : "";
+                return $"{dt:dd/MM/yyyy HH:mm:ss} ({sign}{tz})";
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.WindowsAlarmPage"
              BackgroundColor="#DC143C">
     
@@ -8,12 +9,12 @@
         
         <!-- Header -->
         <VerticalStackLayout Grid.Row="0" Spacing="10">
-            <Label Text="GLUCOMAN ALARM"
+            <Label Text="{x:Static strings:AppStrings.GlucoManAlarm}"
                    FontSize="48"
                    FontAttributes="Bold"
                    TextColor="White"
                    HorizontalTextAlignment="Center"/>
-            
+
             <BoxView HeightRequest="3" Color="White" Margin="0,10"/>
         </VerticalStackLayout>
         
@@ -28,30 +29,29 @@
                    FontSize="120"
                    TextColor="White"
                    HorizontalTextAlignment="Center"
-                   Margin="0,20,0,20"/>
+                   Margin="2"/>
             
             <!-- Current time -->
             <Label x:Name="lblAlarmTime"
-                   FontSize="96"
+                   FontSize="45"
                    FontAttributes="Bold"
                    TextColor="White"
                    HorizontalTextAlignment="Center"/>
             
             <!-- Message box -->
             <Frame BackgroundColor="#8B0000"
-                   Padding="30"
+                   Padding="15"
                    CornerRadius="15"
-                   HasShadow="True"
-                   MinimumWidthRequest="500">
+                   HasShadow="True">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="REMINDER:"
-                           FontSize="20"
+                    <Label Text="{x:Static strings:AppStrings.AlarmReminderLabel}"
+                           FontSize="15"
                            FontAttributes="Bold"
                            TextColor="#FFD700"
                            HorizontalTextAlignment="Center"/>
-                    
+
                     <Label x:Name="lblAlarmMessage"
-                           FontSize="32"
+                           FontSize="20"
                            FontAttributes="Bold"
                            TextColor="White"
                            LineBreakMode="WordWrap"
@@ -61,48 +61,73 @@
             </Frame>
             
         </VerticalStackLayout>
-        
-        <!-- Bottom buttons -->
+
+        <!-- Bottom area - Action buttons -->
         <VerticalStackLayout Grid.Row="2" Spacing="20">
-            
-            <Label Text="ACTION REQUIRED - CHOOSE AN OPTION"
+
+            <Label Text="{x:Static strings:AppStrings.AlarmActionRequired}"
                    FontSize="18"
                    FontAttributes="Bold"
                    TextColor="#FFD700"
                    HorizontalTextAlignment="Center"
-                   Margin="0,0,0,10"/>
-            
-            <HorizontalStackLayout Spacing="30"
-                                  HorizontalOptions="Center">
-                
-                <!-- Snooze button -->
-                <Button x:Name="btnSnooze"
-                        Text="SNOOZE&#x0a;5 MINUTES"
-                        FontSize="24"
-                        FontAttributes="Bold"
-                        TextColor="#DC143C"
-                        BackgroundColor="White"
-                        WidthRequest="250"
-                        HeightRequest="120"
-                        CornerRadius="15"
-                        Clicked="BtnSnooze_Clicked"/>
-                
-                <!-- Dismiss button -->
-                <Button x:Name="btnDismiss"
-                        Text="DISMISS"
-                        FontSize="28"
-                        FontAttributes="Bold"
-                        TextColor="White"
+                   Margin="0,30,0,10"/>
+
+            <!-- Buttons Container -->
+            <VerticalStackLayout Spacing="15">
+
+                <!-- Top row: Snooze and Stop buttons -->
+                <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+
+                    <!-- Snooze Button 5 -->
+                    <Button x:Name="btnSnooze"
+                            Text="{x:Static strings:AppStrings.AlarmSnoozeButtonShort}"
+                            BackgroundColor="White"
+                            TextColor="#DC143C"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            WidthRequest="150"
+                            HeightRequest="70"
+                            Clicked="BtnSnooze_Clicked"/>
+                    <!-- Snooze Button 15 -->
+                    <Button x:Name="btnSnooze15"
+                            Text="Snooze&#x0a;15 min"
+                            BackgroundColor="White"
+                            TextColor="#DC143C"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            WidthRequest="150"
+                            HeightRequest="70"
+                            Clicked="BtnSnooze15_Clicked"/>
+                </HorizontalStackLayout>
+
+                <!-- Bottom row: -->
+                <HorizontalStackLayout>
+                    <!-- Stop Button -->
+                    <Button x:Name="btnStop"
+                            Text="{x:Static strings:AppStrings.AlarmStopButtonShort}"
+                            BackgroundColor="#228B22"
+                            TextColor="White"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            WidthRequest="150"
+                            HeightRequest="70"
+                            Clicked="BtnStop_Clicked"/>
+                    <!-- Suspend Sequence button -->
+                    <Button x:Name="btnSuspend"
+                        Text="{x:Static strings:AppStrings.AlarmSuspendButtonShort}"
                         BackgroundColor="#8B0000"
-                        WidthRequest="250"
-                        HeightRequest="120"
-                        CornerRadius="15"
-                        BorderColor="White"
-                        BorderWidth="4"
-                        Clicked="BtnDismiss_Clicked"/>
-            </HorizontalStackLayout>
-            
-            <Label Text="Press ESC key or click a button to dismiss"
+                        TextColor="White"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        WidthRequest="150"
+                        HeightRequest="70"
+                        HorizontalOptions="Center"
+                        Clicked="BtnSuspend_Clicked"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Instructions -->
+            <Label Text="{x:Static strings:AppStrings.AlarmSwipeInstructions}"
                    FontSize="14"
                    TextColor="#FFCCCC"
                    HorizontalTextAlignment="Center"

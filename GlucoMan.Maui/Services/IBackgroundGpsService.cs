@@ -65,4 +65,14 @@ public class GpsPositionRecord
     public float? Accuracy { get; set; }
     public float? Speed { get; set; }
     public DateTime Timestamp { get; set; }
+
+    // ── Timezone info resolved from coordinates ──────────────────────────
+    /// <summary>IANA timezone id at this position, e.g. "Europe/Rome".</summary>
+    public string IanaTimeZoneId { get; set; }
+
+    /// <summary>UTC offset in hours at this position and time (includes DST). May be fractional.</summary>
+    public double? UtcOffsetHours { get; set; }
+
+    /// <summary>True when Daylight Saving Time was in effect at this position and time.</summary>
+    public bool? IsDaylightSavingTime { get; set; }
 }

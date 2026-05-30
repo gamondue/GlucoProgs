@@ -15,7 +15,8 @@ namespace GlucoMan.Maui.Platforms.Android
         Theme = "@style/Theme.AppCompat.NoActionBar",
         LaunchMode = global::Android.Content.PM.LaunchMode.SingleInstance,
         ExcludeFromRecents = true,
-        ShowForAllUsers = true)]
+        ShowForAllUsers = true,
+        Name = "GlucoMan.Maui.Platforms.Android.AlarmActivity")]
     public class AlarmActivity : AppCompatActivity
     {
         private MediaPlayer? _mediaPlayer;
@@ -66,25 +67,52 @@ namespace GlucoMan.Maui.Platforms.Android
             // Setup UI - Use reflection to get resource IDs
             int txtTitleId = GetResourceId("txtAlarmTitle", "id");
             int txtMessageId = GetResourceId("txtAlarmMessage", "id");
-            int btnDismissId = GetResourceId("btnDismiss", "id");
+            int txtInstructionsId = GetResourceId("txtInstructions", "id");
+            int btnStopId = GetResourceId("btnStop", "id");
+            int btnSuspendId = GetResourceId("btnSuspend", "id");
             int btnSnoozeId = GetResourceId("btnSnooze", "id");
+            int btnSnooze15Id = GetResourceId("btnSnooze15", "id");
 
             var txtTitle = FindViewById<TextView>(txtTitleId);
             var txtMessage = FindViewById<TextView>(txtMessageId);
-            var btnDismiss = FindViewById<global::Android.Widget.Button>(btnDismissId);
+            var txtInstructions = FindViewById<TextView>(txtInstructionsId);
+            var btnStop = FindViewById<global::Android.Widget.Button>(btnStopId);
+            var btnSuspend = FindViewById<global::Android.Widget.Button>(btnSuspendId);
             var btnSnooze = FindViewById<global::Android.Widget.Button>(btnSnoozeId);
+            var btnSnooze15 = FindViewById<global::Android.Widget.Button>(btnSnooze15Id);
 
             if (txtTitle != null)
                 txtTitle.Text = AppStrings.GlucoManAlarm;
-            
+
             if (txtMessage != null)
                 txtMessage.Text = _reminderText;
 
-            if (btnDismiss != null)
-                btnDismiss.Click += BtnDismiss_Click;
+            if (txtInstructions != null)
+                txtInstructions.Text = AppStrings.AlarmSwipeInstructions;
+
+            if (btnStop != null)
+            {
+                btnStop.Text = AppStrings.AlarmStopButtonShort;
+                btnStop.Click += BtnStop_Click;
+            }
+
+            if (btnSuspend != null)
+            {
+                btnSuspend.Text = AppStrings.AlarmSuspendButtonShort;
+                btnSuspend.Click += BtnSuspend_Click;
+            }
 
             if (btnSnooze != null)
+            {
+                btnSnooze.Text = AppStrings.AlarmSnoozeButtonShort;
                 btnSnooze.Click += BtnSnooze_Click;
+            }
+
+            if (btnSnooze15 != null)
+            {
+                btnSnooze15.Text = "Snooze\n15 min";
+                btnSnooze15.Click += BtnSnooze15_Click;
+            }
 
             // Start sound and vibration
             StartAlarmSound();
@@ -168,37 +196,97 @@ namespace GlucoMan.Maui.Platforms.Android
         {
             try
             {
-                _mediaPlayer?.Stop();
-                _mediaPlayer?.Release();
-                _mediaPlayer = null;
+                if (_mediaPlayer != null)
+                {
+                    if (_mediaPlayer.IsPlaying)
+                    {
+                        _mediaPlayer.Stop();
+                    }
+                    _mediaPlayer.Release();
+                    _mediaPlayer = null;
+                }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                global::System.Diagnostics.Debug.WriteLine($"Error stopping alarm sound: {ex.Message}");
+            }
         }
 
         private void StopVibration()
         {
             try
             {
-                _vibrator?.Cancel();
-                _vibrator = null;
+                if (_vibrator != null)
+                {
+                    _vibrator.Cancel();
+                    _vibrator = null;
+                }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                global::System.Diagnostics.Debug.WriteLine($"Error stopping vibration: {ex.Message}");
+            }
         }
 
-        private void BtnDismiss_Click(object? sender, EventArgs e)
+        private void BtnStop_Click(object? sender, EventArgs e)
         {
             try
             {
-                // Mark alarm as dismissed in database
-                UpdateAlarmStatus(dismissed: true);
-                
+                global::System.Diagnostics.Debug.WriteLine("BtnStop_Click: Stopping alarm sound...");
+
+                // Stop sound and vibration
                 StopAlarmSound();
                 StopVibration();
+
+                // Mark alarm as triggered (keeps it scheduled for next time)
+                UpdateAlarmStatus(dismissed: false);
+
+                // Finish the activity
+                global::System.Diagnostics.Debug.WriteLine("BtnStop_Click: Finishing activity...");
                 Finish();
             }
             catch (Exception ex)
             {
-                global::System.Diagnostics.Debug.WriteLine($"Error dismissing alarm: {ex.Message}");
+                global::System.Diagnostics.Debug.WriteLine($"Error stopping alarm: {ex.Message}");
+                // Force stop even if there's an error
+                try
+                {
+                    StopAlarmSound();
+                    StopVibration();
+                    Finish();
+                }
+                catch { }
+            }
+        }
+
+        private void BtnSuspend_Click(object? sender, EventArgs e)
+        {
+            try
+            {
+                global::System.Diagnostics.Debug.WriteLine("BtnSuspend_Click: Suspending alarm...");
+
+                // Stop sound and vibration FIRST
+                StopAlarmSound();
+                StopVibration();
+
+                // Then mark alarm as dismissed in database
+                UpdateAlarmStatus(dismissed: true);
+
+                // Finish the activity
+                global::System.Diagnostics.Debug.WriteLine("BtnSuspend_Click: Finishing activity...");
+                Finish();
+            }
+            catch (Exception ex)
+            {
+                global::System.Diagnostics.Debug.WriteLine($"Error suspending alarm: {ex.Message}");
+                // Force stop even if there's an error
+                try
+                {
+                    StopAlarmSound();
+                    StopVibration();
+                    Finish();
+                }
+                catch { }
             }
         }
 
@@ -208,7 +296,7 @@ namespace GlucoMan.Maui.Platforms.Android
             {
                 // Schedule alarm again in 5 minutes
                 ScheduleSnooze(5);
-                
+
                 StopAlarmSound();
                 StopVibration();
                 Finish();
@@ -216,6 +304,23 @@ namespace GlucoMan.Maui.Platforms.Android
             catch (Exception ex)
             {
                 global::System.Diagnostics.Debug.WriteLine($"Error snoozing alarm: {ex.Message}");
+            }
+        }
+
+        private void BtnSnooze15_Click(object? sender, EventArgs e)
+        {
+            try
+            {
+                // Schedule alarm again in 15 minutes
+                ScheduleSnooze(15);
+
+                StopAlarmSound();
+                StopVibration();
+                Finish();
+            }
+            catch (Exception ex)
+            {
+                global::System.Diagnostics.Debug.WriteLine($"Error snoozing alarm for 15 min: {ex.Message}");
             }
         }
 
@@ -263,7 +368,7 @@ namespace GlucoMan.Maui.Platforms.Android
                         EnablePlaySoundFile = _shouldPlaySound,
                         DoVibrate = _shouldVibrate,
                         SoundFilePath = _soundPath,
-                        ValidTimeAfterStart = TimeSpan.FromMinutes(10)
+                        StartupGraceWindow = TimeSpan.FromMinutes(10)
                     };
                     snoozeAlarm.CalculateNextTriggerTime();
 
@@ -285,13 +390,35 @@ namespace GlucoMan.Maui.Platforms.Android
 
         protected override void OnDestroy()
         {
+            global::System.Diagnostics.Debug.WriteLine("AlarmActivity OnDestroy: Cleaning up...");
+
             StopAlarmSound();
             StopVibration();
-            
-            _wakeLock?.Release();
-            _wakeLock = null;
+
+            try
+            {
+                _wakeLock?.Release();
+                _wakeLock = null;
+            }
+            catch (Exception ex)
+            {
+                global::System.Diagnostics.Debug.WriteLine($"Error releasing wake lock: {ex.Message}");
+            }
 
             base.OnDestroy();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            // If activity is finishing, stop sound
+            if (IsFinishing)
+            {
+                global::System.Diagnostics.Debug.WriteLine("AlarmActivity OnPause: Activity finishing, stopping sound...");
+                StopAlarmSound();
+                StopVibration();
+            }
         }
 
         public override void OnBackPressed()

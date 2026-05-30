@@ -184,7 +184,7 @@ public partial class HypoPredictionPage : ContentPage
                 TimeStart = new gamon.DateTimeAndText { DateTime = alarmDateTime },
                 EnablePlaySoundFile = true,  // Always play sound for hypo alerts
                 DoVibrate = true,            // Always vibrate for hypo alerts
-                ValidTimeAfterStart = TimeSpan.FromHours(2), // Valid for 2 hours
+                StartupGraceWindow = TimeSpan.FromHours(2), // Fire even at program startup up to 2h after due
                 Duration = TimeSpan.FromMinutes(10) // Ring up to 10 minutes
             };
 

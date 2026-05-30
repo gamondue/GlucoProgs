@@ -104,7 +104,7 @@ namespace GlucoMan
             TotalInsulinForMeal = new DoubleAndText();
 
             statusMessage = "";
-            DateTime now = DateTime.Now;
+            DateTime now = Common.LocalNow;
             int y = now.Year;
 
             initialBreakfastPeriod = new DateTime(y, now.Month, now.Day, 6, 0, 0);
@@ -136,7 +136,7 @@ namespace GlucoMan
                 GlucoseToBeCorrected.Double = GlucoseBeforeMeal.Double - TargetGlucose.Double;
                 BolusInsulinDueToCorrectionOfGlucose.Double = GlucoseToBeCorrected.Double / InsulinCorrectionSensitivity.Double;
                 // calculate embarked insulin for Rapid insulin  
-                CalculateTotalEmbarkedQuickInsulin(DateTime.Now);
+                CalculateTotalEmbarkedQuickInsulin(Common.LocalNow);
                 switch (MealOfBolus.IdTypeOfMeal)
                 {
                     case (Common.TypeOfMeal.Breakfast):
@@ -304,7 +304,7 @@ namespace GlucoMan
         }
         public double CalculateTotalEmbarkedQuickInsulin(DateTime EvaluationTime)
         {
-            DateTime FinalInstant = DateTime.Now;
+            DateTime FinalInstant = Common.LocalNow;
             //DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(0, (int)(InsulinDurationInHours(InsulinAction) * 60), 0)); ;
             DateTime InitialInstant = FinalInstant.Subtract(new TimeSpan(40, 0, 0)); ;
 

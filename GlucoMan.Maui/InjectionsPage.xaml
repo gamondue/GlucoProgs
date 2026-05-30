@@ -209,9 +209,9 @@
                                   ColumnDefinitions="140*, 
                                   28, 55, 55, 75*" 
                                   ColumnSpacing="0">
-                                <Label HorizontalTextAlignment="Center" Grid.Column="0" HorizontalOptions="FillAndExpand"
-                                       Text="{Binding EventTime.DateTime}"
-                                       TextColor="Black" FontSize="14" BackgroundColor="Transparent"/>
+                                <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Column="0" HorizontalOptions="FillAndExpand"
+                                       Text="{Binding EventDateTimeText}"
+                                       TextColor="Black" FontSize="13" BackgroundColor="Transparent" LineBreakMode="WordWrap"/>
                                 <Label HorizontalTextAlignment="Center" Grid.Column="1" HorizontalOptions="FillAndExpand"
                                        Text="{Binding InsulinValue.Text}"
                                        TextColor="Black" FontSize="14" BackgroundColor="Transparent"/>

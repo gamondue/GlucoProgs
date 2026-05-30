@@ -76,7 +76,7 @@ public partial class InjectionsPage : ContentPage
         catch (Exception ex)
         {
             // Log and show user-friendly alert on UI thread. In Release the app
-            // previously crashed without any visible alert — this ensures we log
+            // previously crashed without any visible alert ï¿½ this ensures we log
             // the root cause and notify the user while keeping the app alive.
             General.LogOfProgram?.Error("InjectionsPage | ctor", ex);
             try
@@ -89,7 +89,7 @@ public partial class InjectionsPage : ContentPage
             }
             catch
             {
-                // swallow — nothing else we can do safely here
+                // swallow ï¿½ nothing else we can do safely here
             }
         }
     }
@@ -151,6 +151,8 @@ public partial class InjectionsPage : ContentPage
             bool abort = await abortAfterChecksBeforeSavings();
             if (abort)
                 return false;
+
+            await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
 
             SetCurrentInjectionParametersBasedOnZone();
             bl.SaveOneInjection(CurrentInjection);
@@ -300,7 +302,7 @@ public partial class InjectionsPage : ContentPage
         txtInsulinCalculated.Text = CurrentInjection.InsulinCalculated.Text;
         if (CurrentInjection.EventTime.DateTime == null
             || CurrentInjection.EventTime.DateTime == new DateTime(1, 1, 1, 0, 0, 0))
-            CurrentInjection.EventTime.DateTime = DateTime.Now;
+            CurrentInjection.EventTime.DateTime = Common.LocalNow;
         dtpInjectionDate.Date = ((DateTime)CurrentInjection.EventTime.DateTime);
         dtpInjectionTime.Time = ((DateTime)CurrentInjection.EventTime.DateTime).TimeOfDay;
         txtNotes.Text = CurrentInjection.Notes;
@@ -335,10 +337,20 @@ public partial class InjectionsPage : ContentPage
         CurrentInjection.Notes = txtNotes.Text;
 
         //  short radio button maps to Short, long to Long
+        // Also update IdInsulinDrug to match the newly selected insulin type,
+        // so that the drug name is consistent with the type after a type change.
         if (rdbShortInsulin.IsChecked)
+        {
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.Short;
+            if (currentShortInsulin != null)
+                CurrentInjection.IdInsulinDrug = currentShortInsulin.IdInsulinDrug;
+        }
         else if (rdbLongInsulin.IsChecked)
+        {
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.Long;
+            if (currentLongInsulin != null)
+                CurrentInjection.IdInsulinDrug = currentLongInsulin.IdInsulinDrug;
+        }
         else
             CurrentInjection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.NotSet;
     }
@@ -367,7 +379,7 @@ public partial class InjectionsPage : ContentPage
     }
     private void btnNow_Click(object sender, EventArgs e)
     {
-        DateTime now = DateTime.Now;
+        DateTime now = Common.LocalNow;
         dtpInjectionDate.Date = now;
         dtpInjectionTime.Time = now.TimeOfDay;
     }

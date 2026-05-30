@@ -40,7 +40,7 @@ namespace GlucoMan
             {
                 using (DbConnection conn = Connect())
                 {
-                    int? secondsOfValidTimeAfterStart = (int?)alarm.ValidTimeAfterStart?.TotalSeconds;
+                    int? secondsOfStartupGrace = (int?)alarm.StartupGraceWindow?.TotalSeconds;
                     int? secondsOfInterval = (int?)alarm.Interval?.TotalSeconds;
                     int? secondsOfDuration = (int?)alarm.Duration?.TotalSeconds;
                     int? secondsOfRepetition = (int?)alarm.RepetitionTime?.TotalSeconds;
@@ -51,7 +51,8 @@ namespace GlucoMan
                         "TimeStart = " + SqliteSafe.Date(alarm.TimeStart.DateTime) + ", " +
                         "NextTriggerTime = " + SqliteSafe.Date(alarm.NextTriggerTime) + ", " +
                         "IsDisabled = " + SqliteSafe.Bool(alarm.IsDisabled) + ", " +
-                        "ValidTimeAfterStart = " + SqliteSafe.Int(secondsOfValidTimeAfterStart) + ", " +
+                        "StartupGraceWindow = " + SqliteSafe.Int(secondsOfStartupGrace) + ", " +
+                        "RingingState = " + SqliteSafe.Int((int)alarm.RingingState) + ", " +
                         "Duration = " + SqliteSafe.Int(secondsOfDuration) + ", " +
                         "RepetitionTime = " + SqliteSafe.Int(secondsOfRepetition) + ", " +
                         "Interval = " + SqliteSafe.Int(secondsOfInterval) + ", " +
@@ -74,14 +75,14 @@ namespace GlucoMan
                 General.LogOfProgram.Error("Sqlite_AlarmManagement | UpdateAlarm", ex);
             }
         }
-        
+
         private int? InsertAlarm(Alarm alarm)
         {
             try
             {
                 using (DbConnection conn = Connect())
                 {
-                    int? secondsOfValidTimeAfterStart = (int?)alarm.ValidTimeAfterStart?.TotalSeconds;
+                    int? secondsOfStartupGrace = (int?)alarm.StartupGraceWindow?.TotalSeconds;
                     int? secondsOfInterval = (int?)alarm.Interval?.TotalSeconds;
                     int? secondsOfDuration = (int?)alarm.Duration?.TotalSeconds;
                     int? secondsOfRepetition = (int?)alarm.RepetitionTime?.TotalSeconds;
@@ -90,7 +91,7 @@ namespace GlucoMan
                     string query = "INSERT INTO Alarms" +
                     "(" +
                     "IdAlarm, ReminderText, TimeStart, NextTriggerTime, IsDisabled, " +
-                    "ValidTimeAfterStart, Duration, RepetitionTime, Interval, " +
+                    "StartupGraceWindow, RingingState, Duration, RepetitionTime, Interval, " +
                     "IsPlaying, EnablePlaySoundFile, SoundFilePath, RepeatCount, MaxRepeatCount, " +
                     "LastTriggerTime, TriggeredCount, DoVibrate" +
                     ")VALUES(" +
@@ -99,7 +100,8 @@ namespace GlucoMan
                     SqliteSafe.Date(alarm.TimeStart.DateTime) + "," +
                     SqliteSafe.Date(alarm.NextTriggerTime) + "," +
                     SqliteSafe.Bool(alarm.IsDisabled) + "," +
-                    SqliteSafe.Int(secondsOfValidTimeAfterStart) + "," +
+                    SqliteSafe.Int(secondsOfStartupGrace) + "," +
+                    SqliteSafe.Int((int)alarm.RingingState) + "," +
                     SqliteSafe.Int(secondsOfDuration) + "," +
                     SqliteSafe.Int(secondsOfRepetition) + "," +
                     SqliteSafe.Int(secondsOfInterval) + "," +
@@ -140,24 +142,28 @@ namespace GlucoMan
                     // Build WHERE clause based on optional parameters
                     List<string> whereConditions = new List<string>();
 
-                    // Active / expired logic based on ValidTimeAfterStart and repetition counters
+                    // Active / expired logic based on RingingState, IsDisabled and NextTriggerTime.
+                    // RingingState values mirror Alarm.AlarmRingingState:
+                    //   0=Waiting, 1=Disabled, 2=Ringing, 3=Dismissed, 4=Delayed, 5=AutoSuspended, 6=Expired
                     if (!all)
                     {
                         if (active && !expired)
                         {
-                            // Active: not disabled AND (still inside trigger window OR scheduled by NextTriggerTime)
+                            // Active: not disabled, not expired/dismissed, and has a future NextTriggerTime
+                            // (or a periodic Interval that can still fire).
                             whereConditions.Add("(IsDisabled IS NULL OR IsDisabled = 0)");
-                            whereConditions.Add("( (ValidTimeAfterStart IS NULL OR datetime(TimeStart, '+' || COALESCE(ValidTimeAfterStart,0) || ' seconds') > " + SqliteSafe.Date(DateTime.Now) + ")" +
-                                                 " OR (NextTriggerTime IS NOT NULL AND NextTriggerTime > " + SqliteSafe.Date(DateTime.Now) + ") )");
-                            // Not exceeded max repeat count
-                            whereConditions.Add("(MaxRepeatCount IS NULL OR RepeatCount IS NULL OR RepeatCount < MaxRepeatCount)");
+                            whereConditions.Add("(RingingState IS NULL OR RingingState NOT IN (3, 6))");
+                            whereConditions.Add("( (NextTriggerTime IS NOT NULL AND NextTriggerTime > " + SqliteSafe.Date(DateTime.Now) + ")" +
+                                                 " OR (Interval IS NOT NULL AND Interval > 0) )");
+                            // Not exceeded max restart-when-not-dismissed cycles
+                            whereConditions.Add("(MaxRepeatCount IS NULL OR MaxRepeatCount <= 0 OR RepeatCount IS NULL OR RepeatCount < MaxRepeatCount)");
                         }
                         else if (expired && !active)
                         {
-                            // Expired: disabled OR outside trigger window OR max repeat count reached
+                            // Expired: disabled OR explicitly expired/dismissed OR max restarts reached
                             whereConditions.Add("( (IsDisabled IS NOT NULL AND IsDisabled = 1)" +
-                                                 " OR (ValidTimeAfterStart IS NOT NULL AND datetime(TimeStart, '+' || ValidTimeAfterStart || ' seconds') <= " + SqliteSafe.Date(DateTime.Now) + ")" +
-                                                 " OR (MaxRepeatCount IS NOT NULL AND RepeatCount IS NOT NULL AND RepeatCount >= MaxRepeatCount) )");
+                                                 " OR (RingingState IN (3, 6))" +
+                                                 " OR (MaxRepeatCount IS NOT NULL AND MaxRepeatCount > 0 AND RepeatCount IS NOT NULL AND RepeatCount >= MaxRepeatCount) )");
                         }
                     }
 
@@ -208,14 +214,12 @@ namespace GlucoMan
                 m.TimeStart.DateTime = Safe.DateTime(Row["TimeStart"]);
                 m.NextTriggerTime = Safe.DateTime(Row["NextTriggerTime"]);
                 m.IsDisabled = Safe.Bool(Row["IsDisabled"]);
-                m.ValidTimeAfterStart = Safe.TimeSpanFromSeconds(Row["ValidTimeAfterStart"]);
-                
-                // RingingState è un enum privato, quindi lo impostiamo con reflection o lo saltiamo
-                // Per ora lo saltiamo dato che è privato nella classe Alarm
-                // int? ringingStateValue = Safe.Int(Row["RingingState"]);
-                // if (ringingStateValue.HasValue)
-                //     m.RingingState = (AlarmRingingState)ringingStateValue.Value;
-                
+                m.StartupGraceWindow = Safe.TimeSpanFromSeconds(Row["StartupGraceWindow"]);
+
+                int? ringingStateValue = Safe.Int(Row["RingingState"]);
+                if (ringingStateValue.HasValue)
+                    m.RingingState = (Alarm.AlarmRingingState)ringingStateValue.Value;
+
                 m.Duration = Safe.TimeSpanFromSeconds(Row["Duration"]);
                 m.RepetitionTime = Safe.TimeSpanFromSeconds(Row["RepetitionTime"]);
                 m.Interval = Safe.TimeSpanFromSeconds(Row["Interval"]);

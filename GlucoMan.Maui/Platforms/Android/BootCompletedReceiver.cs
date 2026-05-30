@@ -9,7 +9,11 @@ namespace GlucoMan.Maui.Platforms.Android
     /// BroadcastReceiver that restores all active alarms when the device boots up.
     /// This is necessary because AlarmManager alarms are cleared on device reboot.
     /// </summary>
-    [BroadcastReceiver(Enabled = true, Exported = true, DirectBootAware = true)]
+    [BroadcastReceiver(
+        Enabled = true,
+        Exported = true,
+        DirectBootAware = true,
+        Name = "GlucoMan.Maui.Platforms.Android.BootCompletedReceiver")]
     [IntentFilter(new[] { Intent.ActionBootCompleted, Intent.ActionLockedBootCompleted })]
     public class BootCompletedReceiver : BroadcastReceiver
     {

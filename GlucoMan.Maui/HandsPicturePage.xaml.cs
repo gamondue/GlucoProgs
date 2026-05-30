@@ -136,7 +136,7 @@ public partial class HandsPicturePage : ContentPage
         if (currentInjection.Timestamp.DateTime == null
             || currentInjection.Timestamp.DateTime == new DateTime(1, 1, 1))
         {
-            currentInjection.Timestamp.DateTime = DateTime.Now;
+            currentInjection.Timestamp.DateTime = Common.LocalNow;
         }
         // we save the injection with the coordinates of the points
         bl.SaveOneInjection(currentInjection);

@@ -38,38 +38,69 @@ internal static class WindowsNativeMethods
 public partial class WindowsAlarmPage : ContentPage
 {
     private readonly Alarm _alarm;
-    private readonly Action<bool> _dismissCallback;
+    // callback(action)
+    // AlarmAction.Stop → user pressed Stop (keep alarm scheduled)
+    // AlarmAction.Suspend → user pressed Suspend Sequence (dismiss completely)
+    // AlarmAction.Snooze → user pressed Snooze (5 minutes)
+    // AlarmAction.AutoStop → Duration elapsed, no user action
+    private readonly Action<AlarmAction> _dismissCallback;
     private System.Timers.Timer? _clockTimer;
     private System.Timers.Timer? _beepTimer;
     private System.Timers.Timer? _flashTimer;
+    private System.Timers.Timer? _durationTimer;
     private bool _isFlashing;
+    private bool _stopped; // guard against double-stop
 
-    public WindowsAlarmPage(Alarm alarm, Action<bool> dismissCallback)
+    public enum AlarmAction
+    {
+        Stop,       // Stop sound but keep scheduled
+        Suspend,    // Dismiss completely
+        Snooze,     // Snooze 5 minutes
+        Snooze15,   // Snooze 15 minutes
+        AutoStop    // Auto-stopped by duration timer
+    }
+
+    public WindowsAlarmPage(Alarm alarm, Action<AlarmAction> dismissCallback)
     {
         InitializeComponent();
-        
+
         _alarm = alarm;
         _dismissCallback = dismissCallback;
-        
+
         // Set alarm message
         lblAlarmMessage.Text = alarm.ReminderText ?? "Alarm";
-        
+
         // Start clock update
         UpdateClock();
         _clockTimer = new System.Timers.Timer(1000); // Update every second
-        _clockTimer.Elapsed += (s, e) => 
+        _clockTimer.Elapsed += (s, e) =>
         {
             MainThread.BeginInvokeOnMainThread(() => UpdateClock());
         };
         _clockTimer.Start();
-        
+
         // Start visual flashing effect
         StartFlashing();
-        
+
         // Play beep sound if enabled
         if (alarm.EnablePlaySoundFile == true)
         {
             StartBeeping();
+        }
+
+        // Auto-stop after Duration seconds (if set and > 0)
+        double durationSeconds = alarm.Duration?.TotalSeconds ?? 0;
+        if (durationSeconds > 0)
+        {
+            _durationTimer = new System.Timers.Timer(durationSeconds * 1000) { AutoReset = false };
+            _durationTimer.Elapsed += (s, e) =>
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    AutoStopAfterDuration();
+                });
+            };
+            _durationTimer.Start();
         }
     }
 
@@ -141,32 +172,84 @@ public partial class WindowsAlarmPage : ContentPage
 
     private void StopAll()
     {
+        if (_stopped) return;
+        _stopped = true;
         _clockTimer?.Stop();
         _clockTimer?.Dispose();
         _beepTimer?.Stop();
         _beepTimer?.Dispose();
         _flashTimer?.Stop();
         _flashTimer?.Dispose();
+        _durationTimer?.Stop();
+        _durationTimer?.Dispose();
+        // Reset background color
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            this.BackgroundColor = Colors.White;
+        });
     }
 
-    private async void BtnDismiss_Clicked(object? sender, EventArgs e)
+    /// <summary>
+    /// Called when Duration has elapsed without user interaction.
+    /// Stops sound/flashing; signals AutoStop so the scheduler
+    /// can reschedule after RepetitionTime.
+    /// </summary>
+    private async void AutoStopAfterDuration()
+    {
+        if (_stopped) return;
+        StopAll();
+        _dismissCallback?.Invoke(AlarmAction.AutoStop);
+        await Navigation.PopModalAsync();
+    }
+
+    /// <summary>
+    /// Stop button: stops the alarm sound/flashing but keeps the alarm scheduled.
+    /// The alarm will trigger again at the next scheduled time.
+    /// </summary>
+    private async void BtnStop_Clicked(object? sender, EventArgs e)
     {
         StopAll();
-        _dismissCallback?.Invoke(true); // true = dismissed
+        _dismissCallback?.Invoke(AlarmAction.Stop);
+        await Navigation.PopModalAsync();
+    }
+
+    /// <summary>
+    /// Suspend Sequence button: completely dismisses the alarm.
+    /// The alarm will not trigger again unless manually reactivated.
+    /// </summary>
+    private async void BtnSuspend_Clicked(object? sender, EventArgs e)
+    {
+        StopAll();
+        _dismissCallback?.Invoke(AlarmAction.Suspend);
         await Navigation.PopModalAsync();
     }
 
     private async void BtnSnooze_Clicked(object? sender, EventArgs e)
     {
         StopAll();
-        _dismissCallback?.Invoke(false); // false = snoozed
+        _dismissCallback?.Invoke(AlarmAction.Snooze);
+        await Navigation.PopModalAsync();
+    }
+
+    private async void BtnSnooze15_Clicked(object? sender, EventArgs e)
+    {
+        StopAll();
+        _dismissCallback?.Invoke(AlarmAction.Snooze15);
         await Navigation.PopModalAsync();
     }
 
     protected override bool OnBackButtonPressed()
     {
-        // Prevent accidental dismissal via back button
-        // User must use the buttons
+        // Allow back button to stop the alarm (same behavior as Android)
+        Task.Run(async () =>
+        {
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                StopAll();
+                _dismissCallback?.Invoke(AlarmAction.Stop);
+                await Navigation.PopModalAsync();
+            });
+        });
         return true;
     }
 }

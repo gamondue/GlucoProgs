@@ -166,7 +166,7 @@
     <value>Indietro</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Avanti</value>
+    <value>Prossimo</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Impostazioni</value>
@@ -565,7 +565,7 @@
     <value>Glic. da correggere</value>
   </data>
   <data name="CHOToEat" xml:space="preserve">
-    <value>CHO da mangiare</value>
+    <value>CHO mangiati</value>
   </data>
   <data name="TypeOfMeal" xml:space="preserve">
     <value>Tipo di pasto</value>
@@ -1019,9 +1019,6 @@
   </data>
   <data name="AlarmTime" xml:space="preserve">
     <value>Ora Allarme</value>
-  </data>
-  <data name="Repeat" xml:space="preserve">
-    <value>Ripeti</value>
   </data>
   <data name="Sound" xml:space="preserve">
     <value>Suono</value>
@@ -2596,17 +2593,17 @@ Durata: {2}</value>
     <comment>Title for the dialog asking about CGM sensor usage</comment>
   </data>
   <data name="CGMSensorDialogMessage" xml:space="preserve">
-    <value>Utilizzi un sensore di monitoraggio continuo della glicemia (CGM)?
+    <value>Leggi un sensore di monitoraggio continuo della glicemia (CGM) con questo dispositivo?
 
 Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie con il monitoraggio in tempo reale e rischiano di compromettere il funzionamento degli allarmi del CGM.</value>
     <comment>Message body for the CGM sensor dialog</comment>
   </data>
   <data name="CGMSensorDialogYesButton" xml:space="preserve">
-    <value>Sì, uso un sensore CGM</value>
+    <value>Sì, leggo un sensore CGM con questo dispositivo</value>
     <comment>Positive button text for CGM sensor dialog</comment>
   </data>
   <data name="CGMSensorDialogNoButton" xml:space="preserve">
-    <value>No, non uso un sensore</value>
+    <value>No, non leggo un sensore con questo dispositivo</value>
     <comment>Negative button text for CGM sensor dialog</comment>
   </data>
   <data name="FileNotExistingOrNotAccessible" xml:space="preserve">
@@ -2747,6 +2744,36 @@ Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie
   <data name="GlucoManAlarm" xml:space="preserve">
     <value>Allarme GlucoMan</value>
   </data>
+  <data name="AlarmReminderLabel" xml:space="preserve">
+    <value>PROMEMORIA:</value>
+  </data>
+  <data name="AlarmActionRequired" xml:space="preserve">
+    <value>AZIONE RICHIESTA - SCEGLI UN'OPZIONE</value>
+  </data>
+  <data name="AlarmSnoozeButton" xml:space="preserve">
+    <value>POSTICIPA&#x0a;5 MINUTI</value>
+  </data>
+  <data name="AlarmDismissButton" xml:space="preserve">
+    <value>SPEGNI</value>
+  </data>
+  <data name="AlarmSuspendButton" xml:space="preserve">
+    <value>SOSPENDI&#x0a;SEQUENZA</value>
+  </data>
+  <data name="AlarmDismissInstructions" xml:space="preserve">
+    <value>Premi ESC o clicca un pulsante per chiudere</value>
+  </data>
+  <data name="AlarmSnoozeButtonShort" xml:space="preserve">
+    <value>Posticipa&#x0a;5 min</value>
+  </data>
+  <data name="AlarmSuspendButtonShort" xml:space="preserve">
+    <value>Sospendi&#x0a;sequenza</value>
+  </data>
+  <data name="AlarmStopButtonShort" xml:space="preserve">
+    <value>Spegni</value>
+  </data>
+  <data name="AlarmSwipeInstructions" xml:space="preserve">
+    <value>Scorri o premi un pulsante per chiudere</value>
+  </data>
   <data name="StopTracking" xml:space="preserve">
     <value>Ferma Tracciamento</value>
   </data>
@@ -2765,9 +2792,6 @@ Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie
   <data name="StatHeaderEffective" xml:space="preserve">
     <value>Effettiva</value>
   </data>
-  <data name="UnsavedChanges" xml:space="preserve">
-    <value>Modifiche non salvate</value>
-  </data>
   <data name="ChoChangedOnExitMessage" xml:space="preserve">
     <value>Il valore totale dei carboidrati è cambiato (memorizzato: {0} g, corrente: {1} g). Salvare il nuovo valore o mantenere quello memorizzato?</value>
   </data>
@@ -2780,7 +2804,255 @@ Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie
   <data name="FoodNotFoundWithBarcode" xml:space="preserve">
     <value>Nessun alimento trovato con questo codice a barre nel database.</value>
   </data>
+  <data name="SearchingFatSecretForBarcode" xml:space="preserve">
+    <value>Ricerca su FatSecret per codice a barre...</value>
+  </data>
+  <data name="BarcodeNotFoundAnywhere" xml:space="preserve">
+    <value>Codice a barre non trovato nel database locale o su FatSecret.</value>
+  </data>
+  <data name="FatSecretBarcodeError" xml:space="preserve">
+    <value>Errore nella ricerca su FatSecret: </value>
+  </data>
   <data name="TooltipBarCode" xml:space="preserve">
     <value>Codice a barre: scansiona un codice a barre o QR Code per trovare l'alimento</value>
+  </data>
+  <data name="TimeZone" xml:space="preserve">
+    <value>Fuso orario corrente</value>
+  </data>
+  <data name="SelectTimeZone" xml:space="preserve">
+    <value>Seleziona fuso orario</value>
+  </data>
+  <data name="DaylightSavingTime" xml:space="preserve">
+    <value>Ora legale</value>
+  </data>
+  <data name="DaylightSavingTimeActive" xml:space="preserve">
+    <value>Attiva</value>
+  </data>
+  <data name="TooltipDaylightSavingTime" xml:space="preserve">
+    <value>Indica se l'ora legale è attualmente in vigore nel paese selezionato</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Paese</value>
+  </data>
+  <data name="TooltipCountry" xml:space="preserve">
+    <value>Seleziona il paese per determinare automaticamente se l'ora legale è in vigore</value>
+  </data>
+  <data name="CHOEaten" xml:space="preserve">
+    <value>CHO mangiati</value>
+  </data>
+  <data name="TimeZoneChangedTitle" xml:space="preserve">
+    <value>Fuso orario cambiato</value>
+  </data>
+  <data name="TimeZoneChangedPrompt" xml:space="preserve">
+    <value>Il fuso orario corrente sembra essere cambiato.
+
+Precedente: {0}  ({1})
+Rilevato:   {2}  ({3})
+
+Vuoi aggiornare il fuso orario impostato?</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Data inizio</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Ora inizio</value>
+  </data>
+  <data name="AlarmPeriod" xml:space="preserve">
+    <value>Periodo [min]</value>
+  </data>
+  <data name="RepetitionAfter" xml:space="preserve">
+    <value>Ripartenza non concl. [min]</value>
+  </data>
+  <data name="RestartCount" xml:space="preserve">
+    <value>Conteggio ripartenze</value>
+  </data>
+  <data name="MaxRepeats" xml:space="preserve">
+    <value>Max ripartenze</value>
+  </data>
+  <data name="NextTrigger" xml:space="preserve">
+    <value>Prossima attivazione</value>
+  </data>
+  <data name="LastTrigger" xml:space="preserve">
+    <value>Ultima attivazione</value>
+  </data>
+  <data name="Triggered" xml:space="preserve">
+    <value>Attivato</value>
+  </data>
+  <data name="Playing" xml:space="preserve">
+    <value>In riproduzione</value>
+  </data>
+  <data name="PlaySound" xml:space="preserve">
+    <value>Riproduci suono</value>
+  </data>
+  <data name="SoundFilePath" xml:space="preserve">
+    <value>Percorso file audio</value>
+  </data>
+  <data name="ReminderPreview" xml:space="preserve">
+    <value>Anteprima promemoria</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Scarta</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Attiva</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Attivo</value>
+  </data>
+  <data name="Deactivate" xml:space="preserve">
+    <value>Disattiva</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="AllAlarms" xml:space="preserve">
+    <value>Tutti gli allarmi</value>
+  </data>
+  <data name="ActiveAlarms" xml:space="preserve">
+    <value>Allarmi attivi</value>
+  </data>
+  <data name="ExpiredAlarms" xml:space="preserve">
+    <value>Allarmi scaduti</value>
+  </data>
+  <data name="SetNext" xml:space="preserve">
+    <value>Imposta prossimo</value>
+  </data>
+  <data name="NoAlarmsCount" xml:space="preserve">
+    <value>Nessun allarme</value>
+  </data>
+  <data name="Reminder" xml:space="preserve">
+    <value>Promemoria</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Inizio</value>
+  </data>
+  <data name="ActivationCount" xml:space="preserve">
+    <value>C.</value>
+  </data>
+  <data name="NoAlarmsDisplay" xml:space="preserve">
+    <value>Nessun allarme da visualizzare</value>
+  </data>
+  <data name="PathOrFilename" xml:space="preserve">
+    <value>Percorso o nome file</value>
+  </data>
+  <data name="NoReminder" xml:space="preserve">
+    <value>Nessun promemoria</value>
+  </data>
+  <data name="TooltipAlarmId" xml:space="preserve">
+    <value>ID allarme: identificativo univoco di questo allarme (sola lettura, assegnato automaticamente)</value>
+  </data>
+  <data name="TooltipReminderText" xml:space="preserve">
+    <value>Testo promemoria: breve descrizione o messaggio per questo allarme</value>
+  </data>
+  <data name="TooltipStartDate" xml:space="preserve">
+    <value>Data inizio: la data in cui l'allarme dovrebbe iniziare ad attivarsi</value>
+  </data>
+  <data name="TooltipStartTime" xml:space="preserve">
+    <value>Ora inizio: l'ora del giorno in cui l'allarme dovrebbe attivarsi per la prima volta</value>
+  </data>
+  <data name="TooltipAlarmPeriod" xml:space="preserve">
+    <value>Periodo dell'allarme: periodo in minuti con cui questo allarme viene ripetuto daccapo regolarmente. Se &lt;= 0 l'allarme viene attivato una sola volta.</value>
+  </data>
+  <data name="TooltipTriggerAfter" xml:space="preserve">
+    <value>Attivazione dopo: tempo in minuti entro il quale quando il programma parte attiva un allarme GIA'PASSATO. Per es. se l'allarme è alle 12 e questo tempo è 30 min. se il programma parte alle 12:29 l'allarme viene attivato</value>
+  </data>
+  <data name="TooltipAlarmDuration" xml:space="preserve">
+    <value>Durata: per quanto tempo (in secondi) l'allarme deve suonare o essere attivo</value>
+  </data>
+  <data name="TooltipRepetitionTime" xml:space="preserve">
+    <value>Tempo ripartenza: intervallo in minuti dopo il quale l'allarme che non sia stato spento riparte</value>
+  </data>
+  <data name="TooltipRestartCount" xml:space="preserve">
+    <value>Conteggio ripartenze: numero di volte che questo allarme è stato fatto ripartire perché non concluso(sola lettura)</value>
+  </data>
+  <data name="TooltipMaxRepeats" xml:space="preserve">
+    <value>Massimo ripartenze: numero massimo di volte che questo allarme dovrebbe ripartire se non concluso (0 = illimitato)</value>
+  </data>
+  <data name="TooltipNextTrigger" xml:space="preserve">
+    <value>Prossima attivazione: data e ora calcolate in cui l'allarme periodico si attiverà per la volta successiva (sola lettura)</value>
+  </data>
+  <data name="TooltipLastTrigger" xml:space="preserve">
+    <value>Ultima attivazione: data e ora in cui l'allarme è stato attivato l'ultima volta (sola lettura)</value>
+  </data>
+  <data name="TooltipTriggeredCount" xml:space="preserve">
+    <value>Conteggio attivazioni: numero totale di volte che questo allarme è stato attivato (sola lettura)</value>
+  </data>
+  <data name="TooltipPlaying" xml:space="preserve">
+    <value>In riproduzione: indica se l'allarme è attualmente in riproduzione (sola lettura)</value>
+  </data>
+  <data name="TooltipPlaySound" xml:space="preserve">
+    <value>Riproduci suono: seleziona per abilitare la notifica audio quando l'allarme si attiva</value>
+  </data>
+  <data name="TooltipVibrate" xml:space="preserve">
+    <value>Vibrazione: seleziona per abilitare la vibrazione del dispositivo quando l'allarme si attiva (solo dispositivi mobili)</value>
+  </data>
+  <data name="TooltipSoundFilePath" xml:space="preserve">
+    <value>Percorso file audio: percorso o nome del file audio da riprodurre per questo allarme</value>
+  </data>
+  <data name="TooltipAlarmState" xml:space="preserve">
+    <value>Stato allarme: stato corrente dell'allarme (attivo, scaduto, scartato, ecc.)</value>
+  </data>
+  <data name="TooltipReminderPreview" xml:space="preserve">
+    <value>Anteprima promemoria: mostra un'anteprima del testo del promemoria che verrà visualizzato</value>
+  </data>
+  <data name="TooltipAddAlarm" xml:space="preserve">
+    <value>Aggiungi: crea un nuovo allarme con i valori dall'interfaccia</value>
+  </data>
+  <data name="TooltipSaveAlarm" xml:space="preserve">
+    <value>Salva: salva le modifiche all'allarme selezionato nel database</value>
+  </data>
+  <data name="TooltipDeleteAlarm" xml:space="preserve">
+    <value>Elimina: rimuove l'allarme selezionato dal database</value>
+  </data>
+  <data name="TooltipDismissAlarm" xml:space="preserve">
+    <value>Scarta: ferma l'allarme attualmente in riproduzione e lo contrassegna come scartato</value>
+  </data>
+  <data name="TooltipActivateAlarm" xml:space="preserve">
+    <value>Attiva: abilita l'allarme selezionato in modo che possa attivarsi all'ora programmata</value>
+  </data>
+  <data name="TooltipActiveAlarm" xml:space="preserve">
+    <value>Spunta per attivare o deseleziona per disattivare l'allarme selezionato</value>
+  </data>
+  <data name="TooltipDeactivateAlarm" xml:space="preserve">
+    <value>Disattiva: disabilita l'allarme selezionato senza eliminarlo</value>
+  </data>
+  <data name="TooltipTestAlarm" xml:space="preserve">
+    <value>Test: attiva l'allarme selezionato immediatamente a scopo di prova</value>
+  </data>
+  <data name="TooltipClearAlarmFields" xml:space="preserve">
+    <value>Pulisci: cancella tutti i campi nell'interfaccia dell'editor allarmi</value>
+  </data>
+  <data name="TooltipFilterFromDate" xml:space="preserve">
+    <value>Data Da: mostra gli allarmi a partire da questa data nell'elenco</value>
+  </data>
+  <data name="TooltipFilterToDate" xml:space="preserve">
+    <value>Data A: mostra gli allarmi fino a questa data nell'elenco</value>
+  </data>
+  <data name="TooltipShowAllAlarms" xml:space="preserve">
+    <value>Mostra tutti gli allarmi: visualizza tutti gli allarmi indipendentemente dal loro stato</value>
+  </data>
+  <data name="TooltipShowActiveAlarms" xml:space="preserve">
+    <value>Mostra allarmi attivi: visualizza solo gli allarmi attualmente attivi e programmati</value>
+  </data>
+  <data name="TooltipShowExpiredAlarms" xml:space="preserve">
+    <value>Mostra allarmi scaduti: visualizza solo gli allarmi già scaduti</value>
+  </data>
+  <data name="TooltipRefreshAlarms" xml:space="preserve">
+    <value>Aggiorna: ricarica l'elenco degli allarmi dal database con le impostazioni di filtro correnti</value>
+  </data>
+  <data name="TooltipNowAlarm" xml:space="preserve">
+    <value>Adesso: imposta le date del filtro a oggi per visualizzare rapidamente gli allarmi correnti</value>
+  </data>
+  <data name="TooltipSetNextTrigger" xml:space="preserve">
+    <value>Imposta prossimo: ricalcola e aggiorna l'ora della prossima attivazione per l'allarme selezionato</value>
+  </data>
+  <data name="TriggerAfterTime" xml:space="preserve">
+    <value>Attivazione dopo [min]</value>
+  </data>
+  <data name="AlarmDuration" xml:space="preserve">
+    <value>Durata [s]</value>
+  </data>
+  <data name="ReminderShort" xml:space="preserve">
+    <value>Tit.</value>
   </data>
 </root>

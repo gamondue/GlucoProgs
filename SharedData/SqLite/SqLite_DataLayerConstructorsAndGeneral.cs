@@ -284,6 +284,224 @@ namespace GlucoMan
                         General.LogOfProgram?.Error("Migration: Error adding Parameters columns", ex);
                     }
 
+                    // --- TimeZone columns migrations ---
+                    try
+                    {
+                        if (!FieldExists("Parameters", "Time_CurrentTimeZone"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN Time_CurrentTimeZone INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added Time_CurrentTimeZone column to Parameters table");
+                        }
+                        // Legacy: add old TimeZone column if absent (databases created before rename)
+                        if (!FieldExists("Parameters", "TimeZone") && !FieldExists("Parameters", "UtcOffset"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN TimeZone INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added TimeZone column to Parameters table");
+                        }
+                        if (!FieldExists("GlucoseRecords", "TimeZone") && !FieldExists("GlucoseRecords", "UtcOffset"))
+                        {
+                            cmd.CommandText = "ALTER TABLE GlucoseRecords ADD COLUMN TimeZone INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added TimeZone column to GlucoseRecords table");
+                        }
+                        if (!FieldExists("Injections", "TimeZone") && !FieldExists("Injections", "UtcOffset"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Injections ADD COLUMN TimeZone INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added TimeZone column to Injections table");
+                        }
+                        if (!FieldExists("Meals", "TimeZone") && !FieldExists("Meals", "UtcOffset"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Meals ADD COLUMN TimeZone INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added TimeZone column to Meals table");
+                        }
+                        // Rename TimeZone -> UtcOffset on all tables that still use the old name
+                        if (FieldExists("Parameters", "TimeZone"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters RENAME COLUMN TimeZone TO UtcOffset;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Renamed TimeZone -> UtcOffset in Parameters table");
+                        }
+                        if (FieldExists("GlucoseRecords", "TimeZone"))
+                        {
+                            cmd.CommandText = "ALTER TABLE GlucoseRecords RENAME COLUMN TimeZone TO UtcOffset;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Renamed TimeZone -> UtcOffset in GlucoseRecords table");
+                        }
+                        if (FieldExists("Injections", "TimeZone"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Injections RENAME COLUMN TimeZone TO UtcOffset;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Renamed TimeZone -> UtcOffset in Injections table");
+                        }
+                        if (FieldExists("Meals", "TimeZone"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Meals RENAME COLUMN TimeZone TO UtcOffset;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Renamed TimeZone -> UtcOffset in Meals table");
+                        }
+                        // Add Time_IsDaylightSavingTime and Time_CountryName if missing
+                        if (!FieldExists("Parameters", "Time_IsDaylightSavingTime"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN Time_IsDaylightSavingTime INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added Time_IsDaylightSavingTime column to Parameters table");
+                        }
+                        if (!FieldExists("Parameters", "Time_CountryName"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN Time_CountryName VARCHAR(64);";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added Time_CountryName column to Parameters table");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error("Migration: Error adding TimeZone columns", ex);
+                    }
+
+                    // --- InsulinDrugs table (create if not exists) ---
+                    try
+                    {
+                        cmd.CommandText = "CREATE TABLE IF NOT EXISTS InsulinDrugs " +
+                            "(IdInsulinDrug INT NOT NULL, Name VARCHAR(32), Manufacturer VARCHAR(32), " +
+                            "TypeOfInsulinAction INTEGER, DurationInHours DOUBLE, OnsetTimeInHours DOUBLE, " +
+                            "PeakTimeInHours DOUBLE, PRIMARY KEY(IdInsulinDrug));";
+                        cmd.ExecuteNonQuery();
+
+                        // Seed default insulin drugs if the table is empty
+                        cmd.CommandText = "SELECT COUNT(*) FROM InsulinDrugs;";
+                        long count = (long)(cmd.ExecuteScalar() ?? 0L);
+                        if (count == 0)
+                        {
+                            cmd.CommandText =
+                                "INSERT INTO InsulinDrugs VALUES (1,'Humalog','Lilly',20,4.0,0.25,2.0);" +
+                                "INSERT INTO InsulinDrugs VALUES (2,'Toujeo','Sanofi',40,36.0,3.5,0.0);" +
+                                "INSERT INTO InsulinDrugs VALUES (3,'Lispro','Lilly',20,4.5,0.3333333,2.0);" +
+                                "INSERT INTO InsulinDrugs VALUES (4,'Fiasp','Novo Nordisk',20,3.0,0.03,1.5);" +
+                                "INSERT INTO InsulinDrugs VALUES (5,'Lantus','Sanofi',40,24.0,4.0,0.0);";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Seeded default InsulinDrugs");
+                        }
+
+                        General.LogOfProgram?.Debug("Migration: InsulinDrugs table exists or was created");
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error("Migration: Failed to create InsulinDrugs table", ex);
+                    }
+
+                    // --- Alarms table migrations (schema refactor 2026-05) ---
+                    // Old schema: ValidTimeAfterStart INTEGER, no RepetitionTime, no RingingState
+                    // New schema: StartupGraceWindow INTEGER, RepetitionTime INTEGER, RingingState TINYINT
+                    try
+                    {
+                        // CREATE the Alarms table if it doesn't exist yet (fresh installs)
+                        cmd.CommandText = "CREATE TABLE IF NOT EXISTS Alarms " +
+                            "(IdAlarm INT NOT NULL, ReminderText TEXT, TimeStart DATETIME, " +
+                            "NextTriggerTime DATETIME, IsDisabled TINYINT, StartupGraceWindow INTEGER, " +
+                            "RingingState TINYINT, Duration INTEGER, RepetitionTime INTEGER, Interval INTEGER, " +
+                            "IsPlaying TINYINT, EnablePlaySoundFile TINYINT, SoundFilePath TEXT, " +
+                            "RepeatCount INTEGER, MaxRepeatCount INTEGER, LastTriggerTime DATETIME, " +
+                            "TriggeredCount INTEGER, DoVibrate TINYINT, PRIMARY KEY (IdAlarm));";
+                        cmd.ExecuteNonQuery();
+
+                        // Add new columns when upgrading from old schema
+                        if (!FieldExists("Alarms", "StartupGraceWindow"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN StartupGraceWindow INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added StartupGraceWindow column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "RepetitionTime"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN RepetitionTime INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added RepetitionTime column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "RingingState"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN RingingState TINYINT;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added RingingState column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "ReminderText"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN ReminderText TEXT;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added ReminderText column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "NextTriggerTime"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN NextTriggerTime DATETIME;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added NextTriggerTime column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "IsDisabled"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN IsDisabled TINYINT;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added IsDisabled column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "IsPlaying"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN IsPlaying TINYINT;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added IsPlaying column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "EnablePlaySoundFile"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN EnablePlaySoundFile TINYINT;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added EnablePlaySoundFile column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "SoundFilePath"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN SoundFilePath TEXT;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added SoundFilePath column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "RepeatCount"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN RepeatCount INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added RepeatCount column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "MaxRepeatCount"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN MaxRepeatCount INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added MaxRepeatCount column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "LastTriggerTime"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN LastTriggerTime DATETIME;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added LastTriggerTime column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "TriggeredCount"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN TriggeredCount INTEGER;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added TriggeredCount column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "DoVibrate"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN DoVibrate TINYINT;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added DoVibrate column to Alarms table");
+                        }
+                        // Note: SQLite does not support DROP COLUMN in older versions.
+                        // ValidTimeAfterStart (old column) is left in place on old databases
+                        // and simply ignored by the new code.
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error("Migration: Error migrating Alarms table", ex);
+                    }
+
                     // --- Clean up duplicate global "g" units ---
                     // A bug created a new global "g" unit every time a new food was saved.
                     // Keep only the one with the smallest IdUnitOfFood.
@@ -897,6 +1115,10 @@ namespace GlucoMan
                             parameters.Meal_Dinner_StartTime_Hours = Safe.Double(dr["Meal_Dinner_StartTime_Hours"]);
                             parameters.Meal_Dinner_EndTime_Hours = Safe.Double(dr["Meal_Dinner_EndTime_Hours"]);
                             parameters.MonthsOfDataShownInTheGrids = Safe.Double(dr["MonthsOfDataShownInTheGrids"]);
+                            parameters.Time_CurrentTimeZone = Safe.Double(dr["Time_CurrentTimeZone"]);
+                            try { parameters.Time_IsDaylightSavingTime = Safe.Int(dr["Time_IsDaylightSavingTime"]) == 1; } catch { parameters.Time_IsDaylightSavingTime = false; }
+                            try { parameters.Time_CountryName = Safe.String(dr["Time_CountryName"]); } catch { parameters.Time_CountryName = null; }
+                            parameters.UtcOffset = Safe.Double(dr["UtcOffset"]);
                         }
                     }
                     cmd.Dispose();
@@ -919,7 +1141,8 @@ namespace GlucoMan
                 {
                     parameters.IdParameters = GetTableNextPrimaryKey("Parameters", "IdParameters");
                     // INSERT new record in the table
-                    parameters.Timestamp = DateTime.Now;
+                    parameters.Timestamp = DateTime.UtcNow;
+                    parameters.UtcOffset = Common.CurrentTimeZone;
                     InsertAllParameters(parameters);
                 }
                 else
@@ -981,8 +1204,11 @@ namespace GlucoMan
                         "FoodInMeal_Name=@FoodInMeal_Name, " +
                         "FoodInMeal_AccuracyOfChoEstimate=@FoodInMeal_AccuracyOfChoEstimate, " +
                         "Meal_ChoGrams=@Meal_ChoGrams, " +
-                        "MonthsOfDataShownInTheGrids=@MonthsOfDataShownInTheGrids " +
-                        
+                        "MonthsOfDataShownInTheGrids=@MonthsOfDataShownInTheGrids, " +
+                        "Time_CurrentTimeZone=@Time_CurrentTimeZone, " +
+                        "Time_IsDaylightSavingTime=@Time_IsDaylightSavingTime, " +
+                        "Time_CountryName=@Time_CountryName, " +
+                        "UtcOffset=@UtcOffset " +
                         $"WHERE IdParameters={parameters.IdParameters};";
 
                     cmd.Parameters.Add(new SqliteParameter("@Timestamp", parameters.Timestamp ?? (object)DBNull.Value));
@@ -1027,6 +1253,10 @@ namespace GlucoMan
                     cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_AccuracyOfChoEstimate", parameters.FoodInMeal_AccuracyOfChoEstimate ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@Meal_ChoGrams", parameters.Meal_ChoGrams ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@MonthsOfDataShownInTheGrids", parameters.MonthsOfDataShownInTheGrids ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Time_CurrentTimeZone", parameters.Time_CurrentTimeZone ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Time_IsDaylightSavingTime", parameters.Time_IsDaylightSavingTime.HasValue ? (object)(parameters.Time_IsDaylightSavingTime.Value ? 1 : 0) : DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Time_CountryName", parameters.Time_CountryName ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@UtcOffset", parameters.UtcOffset ?? (object)DBNull.Value));
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
@@ -1058,7 +1288,8 @@ namespace GlucoMan
                         "Hypo_AlarmAdvanceTime, Hypo_FutureSpanMinutes, Hit_ChoAlreadyTaken, " +
                         "Hit_ChoOfFood, Hit_TargetCho, Hit_NameOfFood, FoodInMeal_ChoGrams, " +
                         "FoodInMeal_QuantityGrams, FoodInMeal_CarbohydratesPercent, FoodInMeal_Name, " +
-                        "FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams, MonthsOfDataShownInTheGrids) VALUES (" +
+                        "FoodInMeal_AccuracyOfChoEstimate, Meal_ChoGrams, MonthsOfDataShownInTheGrids, " +
+                        "Time_CurrentTimeZone, Time_IsDaylightSavingTime, Time_CountryName, UtcOffset) VALUES (" +
                         "@IdParameters, @Timestamp, @Insulin_Short_Id, @Insulin_Long_Id, " +
                         "@Meal_Breakfast_StartTime, @Meal_Breakfast_EndTime, @Meal_Lunch_StartTime, " +
                         "@Meal_Lunch_EndTime, @Meal_Dinner_StartTime, @Meal_Dinner_EndTime, " +
@@ -1072,7 +1303,8 @@ namespace GlucoMan
                         "@Hypo_AlarmAdvanceTime, @Hypo_FutureSpanMinutes, @Hit_ChoAlreadyTaken, " +
                         "@Hit_ChoOfFood, @Hit_TargetCho, @Hit_NameOfFood, @FoodInMeal_ChoGrams, " +
                         "@FoodInMeal_QuantityGrams, @FoodInMeal_CarbohydratesPercent, @FoodInMeal_Name, " +
-                        "@FoodInMeal_AccuracyOfChoEstimate, @Meal_ChoGrams, @MonthsOfDataShownInTheGrids);";                
+                        "@FoodInMeal_AccuracyOfChoEstimate, @Meal_ChoGrams, @MonthsOfDataShownInTheGrids, " +
+                        "@Time_CurrentTimeZone, @Time_IsDaylightSavingTime, @Time_CountryName, @UtcOffset);";
 
                     cmd.Parameters.Add(new SqliteParameter("@IdParameters", parameters.IdParameters ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@Timestamp", parameters.Timestamp ?? (object)DBNull.Value));
@@ -1117,6 +1349,10 @@ namespace GlucoMan
                     cmd.Parameters.Add(new SqliteParameter("@FoodInMeal_AccuracyOfChoEstimate", parameters.FoodInMeal_AccuracyOfChoEstimate ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@Meal_ChoGrams", parameters.Meal_ChoGrams ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@MonthsOfDataShownInTheGrids", parameters.MonthsOfDataShownInTheGrids ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Time_CurrentTimeZone", parameters.Time_CurrentTimeZone ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Time_IsDaylightSavingTime", parameters.Time_IsDaylightSavingTime.HasValue ? (object)(parameters.Time_IsDaylightSavingTime.Value ? 1 : 0) : DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@Time_CountryName", parameters.Time_CountryName ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@UtcOffset", parameters.UtcOffset ?? (object)DBNull.Value));
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }

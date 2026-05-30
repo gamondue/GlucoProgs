@@ -117,7 +117,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
     private void InitializeCurrentActivity()
     {
         CurrentActivity = new Injection();
-        CurrentActivity.EventTime.DateTime = DateTime.Now;
+        CurrentActivity.EventTime.DateTime = Common.LocalNow;
         CurrentActivity.InsulinValue.Double = 1; // Activity level 1-10
         CurrentActivity.InsulinCalculated.Double = 30; // Duration in minutes
         CurrentActivity.IdTypeOfInjection = (int)Common.TypeOfInjection.Other; // Use Other for activities
@@ -375,7 +375,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
     {
         try
         {
-            DateTime now = DateTime.Now;
+            DateTime now = Common.LocalNow;
             dtpActivityDate.Date = now;
             dtpActivityTime.Time = now.TimeOfDay;
         }
@@ -395,6 +395,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
                 return;
             }
 
+            await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
             FromUiToClass();
             bl.SaveOneInjection(CurrentActivity);
             RefreshUi();
@@ -412,7 +413,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
         {
             if (chkNowInAdd.IsChecked)
             {
-                DateTime now = DateTime.Now;
+                DateTime now = Common.LocalNow;
                 dtpActivityDate.Date = now;
                 dtpActivityTime.Time = now.TimeOfDay;
             }

@@ -114,7 +114,7 @@ public partial class BarcodeScannerPage : ContentPage
         _barcodeDetected = true;
         PlayBeep();
 
-        Dispatcher.Dispatch(() =>
+        Dispatcher.Dispatch(async () =>
         {
             ScannedBarcode = first.Value;
             lblScannedCode.Text = first.Value;
@@ -123,6 +123,15 @@ public partial class BarcodeScannerPage : ContentPage
 #if WINDOWS
             StopAutoFocusCycle();
 #endif
+            // Auto-close: return the scanned barcode to the caller without user interaction.
+            _taskCompletionSource?.TrySetResult(true);
+            if (this.Parent is NavigationPage navPage)
+                await navPage.Navigation.PopModalAsync();
+            else
+            {
+                try { await Navigation.PopModalAsync(); }
+                catch { await Navigation.PopAsync(); }
+            }
         });
     }
 

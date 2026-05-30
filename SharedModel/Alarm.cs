@@ -30,15 +30,19 @@ namespace GlucoMan
         public bool? IsDisabled { get; set; }
         // state of this alarm according to the enum AlarmRingingState
         public AlarmRingingState RingingState { get; set; }
-        // interval after TimeStart when the alarm will still be triggered [s]
-        // after TimeStart + ValidTimeAfterStart the alarm will not be triggered anymore
-        public TimeSpan? ValidTimeAfterStart { get; set; }
+        // StartupGraceWindow: when the program starts, an alarm whose scheduled time
+        // already passed is still fired if the elapsed time since that scheduled time
+        // is less than this value. E.g. if alarm time is 12:00 and grace = 30 min, starting
+        // the program at 12:29 will still fire the alarm.
+        public TimeSpan? StartupGraceWindow { get; set; }
         // Duration: time after which an alarm not dismissed will stop ringing [s]
         public TimeSpan? Duration { get; set; }
-        // Repetition time: time when the alarm will be repeated after
-        // vain ringing (not stopped nor delayed by the user)
+        // RepetitionTime: time after which an alarm that has rung in vain (was not dismissed
+        // by the user) will restart ringing. Together with MaxRepeatCount it defines the
+        // "restart when not dismissed" behavior.
         public TimeSpan? RepetitionTime { get; set; }
-        // Interval: time  after which an enabled periodic alarm will be re-triggered [s]
+        // Interval: period of the regular repetition of the alarm. If null or <= 0
+        // the alarm is fired only once.
         public TimeSpan? Interval { get; set; }
         // IsPlaying: if true the alarm is currently ringing
         public bool? IsPlaying { get; set; }
@@ -46,9 +50,11 @@ namespace GlucoMan
         public bool? EnablePlaySoundFile { get; set; }
         // SoundFilePath: path of the sound file to be played when the alarm is triggered
         public string? SoundFilePath { get; set; }
-        // RepeatCount: number of times the alarm has been repeated
+        // RepeatCount: number of times the alarm has been restarted because it was not
+        // dismissed (counter of "restart when not dismissed", not of periodic occurrences).
         public int? RepeatCount { get; set; }
-        // MaxRepeatCount: maximum number of times the alarm will be repeated
+        // MaxRepeatCount: maximum number of "restart when not dismissed" cycles allowed.
+        // 0 or null means unlimited.
         public int? MaxRepeatCount { get; set; }
         // LastTriggerTime: last time when the alarm was triggered
         public DateTime? LastTriggerTime { get; set; }
@@ -104,8 +110,8 @@ namespace GlucoMan
             Delayed,    // the alarm is delayed by the user and will ring after the delay time
             AutoSuspended, // the alarm has rung in vain for Duration time, hence has been suspended
                           // by the program and will ring again after RepetitionTime
-            Expired,    // the alarm has expired (TimeStart + ValidTimeAfterStart <= DateTime.Now)
-                        // and will not ring anymore
+            Expired,    // the alarm has reached MaxRepeatCount "restart when not dismissed"
+                        // cycles, or has no future periodic occurrences left, and will not ring anymore
         }
         
         public Alarm()
@@ -115,7 +121,12 @@ namespace GlucoMan
         }
         
         /// <summary>
-        /// Calculate and set the next trigger time for this alarm
+        /// Calculate and set the next trigger time for this alarm.
+        /// Semantics:
+        /// - Interval defines a regular repetition period; if null or <= 0 the alarm fires only once.
+        /// - StartupGraceWindow allows firing an alarm whose scheduled time is in the past,
+        ///   as long as the delay is within the grace window (handled at program startup).
+        /// - RepeatCount / MaxRepeatCount count "restart when not dismissed" cycles, not periodic occurrences.
         /// </summary>
         public void CalculateNextTriggerTime()
         {
@@ -125,81 +136,106 @@ namespace GlucoMan
                 NextTriggerTime = null;
                 return;
             }
-            
+
             var startTime = TimeStart?.DateTime ?? DateTime.Now;
-            
-            // Check if alarm is expired
-            if (ValidTimeAfterStart.HasValue && 
-                DateTime.Now > (startTime + ValidTimeAfterStart.Value))
+            bool hasPeriod = Interval.HasValue && Interval.Value.TotalSeconds > 0;
+
+            // First firing: at TimeStart (the actual firing decision honors StartupGraceWindow
+            // when the program runs). Until LastTriggerTime is set, the next trigger is startTime.
+            if (!LastTriggerTime.HasValue)
             {
-                RingingState = AlarmRingingState.Expired;
-                NextTriggerTime = null;
-                return;
-            }
-            
-            // Check if max repeats reached
-            if (MaxRepeatCount.HasValue && 
-                RepeatCount.GetValueOrDefault() >= MaxRepeatCount.Value)
-            {
-                RingingState = AlarmRingingState.Expired;
-                NextTriggerTime = null;
-                return;
-            }
-            
-            // For first trigger
-            if (!LastTriggerTime.HasValue || !Interval.HasValue)
-            {
-                NextTriggerTime = startTime;
+                // For periodic alarms, if TimeStart is in the past, calculate the next future occurrence
+                // as a multiple of Interval from TimeStart
+                if (hasPeriod && startTime < DateTime.Now)
+                {
+                    // Calculate how many intervals have passed since startTime
+                    var elapsed = DateTime.Now - startTime;
+                    var intervalsPassed = (long)Math.Floor(elapsed.TotalSeconds / Interval.Value.TotalSeconds);
+
+                    // Next trigger is startTime + (intervalsPassed + 1) * Interval
+                    NextTriggerTime = startTime.AddSeconds((intervalsPassed + 1) * Interval.Value.TotalSeconds);
+                }
+                else
+                {
+                    // One-shot alarm or startTime is in the future
+                    NextTriggerTime = startTime;
+                }
+
                 RingingState = AlarmRingingState.Waiting;
                 return;
             }
-            
-            // For repeating alarms
+
+            // One-shot alarm: once it has triggered, no more occurrences.
+            if (!hasPeriod)
+            {
+                NextTriggerTime = null;
+                RingingState = AlarmRingingState.Expired;
+                return;
+            }
+
+            // Periodic alarm: compute the next occurrence strictly in the future
             DateTime nextTime = LastTriggerTime.Value + Interval.Value;
-            
-            // Ensure next time is in the future
-            while (nextTime <= DateTime.Now && Interval.HasValue)
+            while (nextTime <= DateTime.Now)
             {
                 nextTime += Interval.Value;
             }
-            
+
             NextTriggerTime = nextTime;
             RingingState = AlarmRingingState.Waiting;
         }
-        
+
         /// <summary>
-        /// Check if this alarm is currently active (not expired, not disabled)
+        /// Check if this alarm is currently active (not expired, not disabled, not dismissed).
+        /// An alarm becomes expired only when its RingingState says so (set by
+        /// CalculateNextTriggerTime or by reaching MaxRepeatCount restarts).
         /// </summary>
         public bool IsActive()
         {
             if (IsDisabled == true) return false;
             if (RingingState == AlarmRingingState.Expired) return false;
             if (RingingState == AlarmRingingState.Dismissed) return false;
-            
-            var startTime = TimeStart?.DateTime ?? DateTime.Now;
-            if (ValidTimeAfterStart.HasValue && 
-                DateTime.Now > (startTime + ValidTimeAfterStart.Value))
-            {
-                return false;
-            }
-            
             return true;
         }
         
         /// <summary>
-        /// Mark alarm as triggered and increment counters
+        /// Mark alarm as triggered: records that the alarm fired (either at scheduled time or
+        /// at a periodic occurrence). RepeatCount is NOT incremented here, since it counts
+        /// "restart when not dismissed" cycles only.
         /// </summary>
         public void MarkAsTriggered()
         {
             LastTriggerTime = DateTime.Now;
             TriggeredCount = (TriggeredCount ?? 0) + 1;
-            RepeatCount = (RepeatCount ?? 0) + 1;
+            RepeatCount = 0; // reset the "restart when not dismissed" counter for this firing
             RingingState = AlarmRingingState.Ringing;
-            
-            // Calculate next trigger if it's a repeating alarm
-            if (Interval.HasValue)
+
+            if (Interval.HasValue && Interval.Value.TotalSeconds > 0)
             {
                 CalculateNextTriggerTime();
+            }
+        }
+
+        /// <summary>
+        /// Called when the alarm has rung in vain (was not dismissed and Duration elapsed):
+        /// increments the restart counter and either suspends the alarm to restart after
+        /// RepetitionTime, or marks it expired if MaxRepeatCount restarts have been reached.
+        /// </summary>
+        public void MarkAsRestartedWhenNotDismissed()
+        {
+            RepeatCount = (RepeatCount ?? 0) + 1;
+
+            if (MaxRepeatCount.HasValue && MaxRepeatCount.Value > 0 &&
+                RepeatCount.Value >= MaxRepeatCount.Value)
+            {
+                RingingState = AlarmRingingState.Expired;
+                NextTriggerTime = null;
+                return;
+            }
+
+            RingingState = AlarmRingingState.AutoSuspended;
+            if (RepetitionTime.HasValue && RepetitionTime.Value.TotalSeconds > 0)
+            {
+                NextTriggerTime = DateTime.Now + RepetitionTime.Value;
             }
         }
         

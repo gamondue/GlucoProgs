@@ -18,7 +18,7 @@ BEGIN TRANSACTION;
 
 -- Table: Alarms
 DROP TABLE IF EXISTS Alarms;
-CREATE TABLE Alarms (IdAlarm INT NOT NULL, ReminderText TEXT, TimeStart DATETIME, NextTriggerTime DATETIME, IsDisabled TINYINT, ValidTimeAfterStart INTEGER, RingingState TINYINT, Duration INTEGER, RepetitionTime INTEGER, Interval INTEGER, IsPlaying TINYINT, EnablePlaySoundFile TINYINT, SoundFilePath TEXT, RepeatCount INTEGER, MaxRepeatCount INTEGER, LastTriggerTime DATETIME, TriggeredCount INTEGER, DoVibrate TINYINT, PRIMARY KEY (IdAlarm));
+CREATE TABLE Alarms (IdAlarm INT NOT NULL, ReminderText TEXT, TimeStart DATETIME, NextTriggerTime DATETIME, IsDisabled TINYINT, StartupGraceWindow INTEGER, RingingState TINYINT, Duration INTEGER, RepetitionTime INTEGER, Interval INTEGER, IsPlaying TINYINT, EnablePlaySoundFile TINYINT, SoundFilePath TEXT, RepeatCount INTEGER, MaxRepeatCount INTEGER, LastTriggerTime DATETIME, TriggeredCount INTEGER, DoVibrate TINYINT, PRIMARY KEY (IdAlarm));
 
 -- Table: BolusCalculations
 DROP TABLE IF EXISTS BolusCalculations;
@@ -162,7 +162,7 @@ CREATE TABLE FoodsInMeals (IdFoodInMeal INT NOT NULL, IdMeal INT, IdFood INT, Na
 
 -- Table: GlucoseRecords
 DROP TABLE IF EXISTS GlucoseRecords;
-CREATE TABLE GlucoseRecords (IdGlucoseRecord INT NOT NULL, GlucoseValue DOUBLE, TimeOfMeasurement DATETIME, GlucoseString VARCHAR (45), IdTypeOfGlucoseMeasurement INT, IdOfDevice INT, IdTypeOfDevice INT, IdDeviceModel INT, Notes VARCHAR (255), PRIMARY KEY (IdGlucoseRecord));
+CREATE TABLE GlucoseRecords (IdGlucoseRecord INT NOT NULL, GlucoseValue DOUBLE, TimeOfMeasurement DATETIME, GlucoseString VARCHAR (45), IdTypeOfGlucoseMeasurement INT, IdOfDevice INT, IdTypeOfDevice INT, IdDeviceModel INT, Notes VARCHAR (255), UtcOffset INTEGER, PRIMARY KEY (IdGlucoseRecord));
 
 -- Table: HypoPredictions
 DROP TABLE IF EXISTS HypoPredictions;
@@ -248,7 +248,7 @@ CREATE TABLE Ingredients (
 
 -- Table: Injections
 DROP TABLE IF EXISTS Injections;
-CREATE TABLE Injections (IdInjection INT NOT NULL, Timestamp DATETIME, InsulinValue DOUBLE, InsulinCalculated DOUBLE, InjectionPositionX DOUBLE, InjectionPositionY DOUBLE, Notes VARCHAR (255), IdTypeOfInjection INT, IdTypeOfInsulinAction INT, IdInsulinDrug INT, InsulinString VARCHAR (45), Zone INTEGER, PRIMARY KEY (IdInjection));
+CREATE TABLE Injections (IdInjection INT NOT NULL, Timestamp DATETIME, InsulinValue DOUBLE, InsulinCalculated DOUBLE, InjectionPositionX DOUBLE, InjectionPositionY DOUBLE, Notes VARCHAR (255), IdTypeOfInjection INT, IdTypeOfInsulinAction INT, IdInsulinDrug INT, InsulinString VARCHAR (45), Zone INTEGER, UtcOffset INTEGER, PRIMARY KEY (IdInjection));
 
 -- Table: InsulinDrugs
 DROP TABLE IF EXISTS InsulinDrugs;
@@ -277,7 +277,7 @@ CREATE TABLE Manufacturers (
 
 -- Table: Meals
 DROP TABLE IF EXISTS Meals;
-CREATE TABLE Meals (IdMeal INT NOT NULL, IdTypeOfMeal INT, Carbohydrates DOUBLE, TimeBegin DATETIME, Notes VARCHAR (255), AccuracyOfChoEstimate DOUBLE, IdBolusCalculation INT, IdGlucoseRecord INT, IdInjection INT, TimeEnd DATETIME, PRIMARY KEY (IdMeal));
+CREATE TABLE Meals (IdMeal INT NOT NULL, IdTypeOfMeal INT, Carbohydrates DOUBLE, TimeBegin DATETIME, Notes VARCHAR (255), AccuracyOfChoEstimate DOUBLE, IdBolusCalculation INT, IdGlucoseRecord INT, IdInjection INT, TimeEnd DATETIME, UtcOffset INTEGER, PRIMARY KEY (IdMeal));
 
 -- Table: Parameters
 DROP TABLE IF EXISTS Parameters;
@@ -423,6 +423,12 @@ CREATE TABLE Parameters (
     FatSecret_ConsumerSecret                         TEXT,
     FatSecret_OAuth1Token                            TEXT,
     FatSecret_OAuth1TokenSecret                      TEXT,
+
+    Time_CurrentTimeZone                             DOUBLE,
+    Time_IsDaylightSavingTime                        INTEGER,
+    Time_CountryName                                 VARCHAR(64),
+
+    UtcOffset                                        INTEGER,
 
     PRIMARY KEY (
 

@@ -15,6 +15,7 @@ namespace GlucoMan
         public int? IdTypeOfInsulinAction { get; set; }
         public int? IdInsulinDrug { get; set; }
         public string InsulinString { get; set; }
+        public double? UtcOffset { get; set; }
 
         // Proprietà enum per binding diretto (come in MealsPage)
         public Common.TypeOfInjection TypeOfInjection
@@ -69,6 +70,21 @@ namespace GlucoMan
         }
 
         public string RowBorderColor => IsSelectedInList ? "Orange" : "Transparent";
+
+        private DateTime? SafeEventDateTime =>
+            EventTime?.DateTime is DateTime dt && dt.Year > 1 ? dt : null;
+
+        public string EventDateTimeText
+        {
+            get
+            {
+                var dt = SafeEventDateTime;
+                if (dt == null) return "";
+                var tz = UtcOffset ?? 0;
+                var sign = tz >= 0 ? "+" : "";
+                return $"{dt:dd/MM/yyyy HH:mm:ss} ({sign}{tz})";
+            }
+        }
 
         public new event PropertyChangedEventHandler? PropertyChanged;
 

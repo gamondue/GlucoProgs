@@ -105,7 +105,7 @@ namespace GlucoMan.Maui.UnitTests
                 ReminderText = null,
                 NextTriggerTime = null,
                 IsDisabled = null,
-                ValidTimeAfterStart = null,
+                StartupGraceWindow = null,
                 Duration = null,
                 RepetitionTime = null,
                 Interval = null,

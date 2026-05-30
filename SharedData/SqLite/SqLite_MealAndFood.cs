@@ -139,13 +139,16 @@ namespace GlucoMan
                 else
                     m.IdTypeOfMeal = (TypeOfMeal)Safe.Int(Row["IdTypeOfMeal"]);
                 m.CarbohydratesGrams.Double = Safe.Double(Row["Carbohydrates"]);
-                m.EventTime.DateTime = Safe.DateTime(Row["TimeBegin"]);
+                m.UtcOffset = Safe.Double(Row["UtcOffset"]);
+                var utcBegin = Safe.DateTime(Row["TimeBegin"]);
+                m.EventTime.DateTime = utcBegin?.AddHours(m.UtcOffset ?? 0);
                 m.Notes = Safe.String(Row["Notes"]);
                 m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
                 m.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
                 m.IdInjection = Safe.Int(Row["IdInjection"]);
-                m.TimeEnd.DateTime = Safe.DateTime(Row["TimeEnd"]);
+                var utcEnd = Safe.DateTime(Row["TimeEnd"]);
+                m.TimeEnd.DateTime = utcEnd?.AddHours(m.UtcOffset ?? 0);
             }
             catch (Exception ex)
             {
@@ -160,16 +163,19 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
+                    var utcBegin = Meal.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
+                    var utcEnd = Meal.TimeEnd.DateTime?.AddHours(-Common.CurrentTimeZone);
                     string query = "UPDATE Meals SET " +
                     "IdTypeOfMeal=" + SqliteSafe.Int((int)Meal.IdTypeOfMeal) + "," +
                     "Carbohydrates=" + SqliteSafe.Double(Meal.CarbohydratesGrams.Double) + "," +
-                    "TimeBegin=" + SqliteSafe.Date(Meal.EventTime.DateTime) + "," +
+                    "TimeBegin=" + SqliteSafe.Date(utcBegin) + "," +
                     "Notes=" + SqliteSafe.String(Meal.Notes) + "," +
                     "AccuracyOfChoEstimate=" + SqliteSafe.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
                     "IdBolusCalculation=" + SqliteSafe.Int(Meal.IdBolusCalculation) + "," +
                     "IdGlucoseRecord=" + SqliteSafe.Int(Meal.IdGlucoseRecord) + "," +
                     "IdInjection=" + SqliteSafe.Int(Meal.IdInjection) + "," +
-                    "TimeEnd=" + SqliteSafe.Date(Meal.TimeEnd.DateTime) + "" +
+                    "TimeEnd=" + SqliteSafe.Date(utcEnd) + "," +
+                    "UtcOffset=" + SqliteSafe.Double(Common.CurrentTimeZone) + "" +
                     " WHERE IdMeal=" + SqliteSafe.Int(Meal.IdMeal) +
                     ";";
                     cmd.CommandText = query;
@@ -191,21 +197,24 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
+                    var utcBegin = Meal.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
+                    var utcEnd = Meal.TimeEnd.DateTime?.AddHours(-Common.CurrentTimeZone);
                     string query = "INSERT INTO Meals" +
                     "(" +
                     "IdMeal,IdTypeOfMeal,Carbohydrates,TimeBegin,Notes,AccuracyOfChoEstimate," +
-                    "IdBolusCalculation,IdGlucoseRecord,IdInjection,TimeEnd";
+                    "IdBolusCalculation,IdGlucoseRecord,IdInjection,TimeEnd,UtcOffset";
                     query += ")VALUES(" +
                     SqliteSafe.Int(Meal.IdMeal) + "," +
                     SqliteSafe.Int((int)Meal.IdTypeOfMeal) + "," +
                     SqliteSafe.Double(Meal.CarbohydratesGrams.Double) + "," +
-                    SqliteSafe.Date(Meal.EventTime.DateTime) + "," +
+                    SqliteSafe.Date(utcBegin) + "," +
                     SqliteSafe.String(Meal.Notes) + "," +
                     SqliteSafe.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
                     SqliteSafe.Int(Meal.IdBolusCalculation) + "," +
                     SqliteSafe.Int(Meal.IdGlucoseRecord) + "," +
                     SqliteSafe.Int(Meal.IdInjection) + "," +
-                    SqliteSafe.Date(Meal.TimeEnd.DateTime) + "";
+                    SqliteSafe.Date(utcEnd) + "," +
+                    SqliteSafe.Double(Common.CurrentTimeZone) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();

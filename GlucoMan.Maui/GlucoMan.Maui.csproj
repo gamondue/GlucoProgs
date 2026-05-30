@@ -316,6 +316,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" />
+		<PackageReference Include="GeoTimeZone" />
 		<PackageReference Include="MathNet.Numerics" />
 		<PackageReference Include="Microsoft.Data.Sqlite.Core" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" />
@@ -323,6 +324,7 @@
 		<PackageReference Include="NUnit" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Controls" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" />
+		<PackageReference Include="TimeZoneConverter" />
 		<PackageReference Include="ZXing.Net.Maui.Controls" />
 	</ItemGroup>
 

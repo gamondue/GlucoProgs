@@ -77,19 +77,22 @@ namespace gamon
         internal static Nullable<DateTime> DateTime(object Field)
         {
             if (Field == null || Field is DBNull)
-                return General.DateNull;
-            
+                return null;
+
             if (Field is DateTime dt)
                 return dt;
-            
+
             string strValue = Field.ToString()?.Trim();
             if (string.IsNullOrWhiteSpace(strValue))
-                return General.DateNull;
-            
-            if (System.DateTime.TryParse(strValue, out DateTime result))
+                return null;
+
+            if (System.DateTime.TryParse(strValue,
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.None,
+                out DateTime result))
                 return result;
-            
-            return General.DateNull;
+
+            return null;
         }
         
         internal static Nullable<DateTime> DateTime(string Date)

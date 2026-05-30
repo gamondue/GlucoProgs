@@ -79,8 +79,8 @@ public partial class GlucoseMeasurementsPage : ContentPage
         }
         else
         {
-            dtpEventDate.Date = DateTime.Now;
-            dtpEventTime.Time = DateTime.Now.TimeOfDay;
+            dtpEventDate.Date = Common.LocalNow;
+            dtpEventTime.Time = Common.LocalNow.TimeOfDay;
         }
         txtNotes.Text = currentGlucose.Notes;
         txtIdGlucoseRecord.Text = currentGlucose.IdGlucoseRecord.ToString();
@@ -105,7 +105,7 @@ public partial class GlucoseMeasurementsPage : ContentPage
     public void btnClearData_Click(object sender, EventArgs e)
     {
         txtGlucose.Text = "";
-        dtpEventDate.Date = DateTime.Now;
+        dtpEventDate.Date = Common.LocalNow;
         dtpEventTime.Time = ((DateTime)currentGlucose.EventTime.DateTime).TimeOfDay;
         txtIdGlucoseRecord.Text = "";
         txtNotes.Text = "";
@@ -114,8 +114,8 @@ public partial class GlucoseMeasurementsPage : ContentPage
     {
         if (chkNowInAdd.IsChecked)
         {
-            dtpEventDate.Date = DateTime.Now;
-            dtpEventTime.Time = DateTime.Now.TimeOfDay;
+            dtpEventDate.Date = Common.LocalNow;
+            dtpEventTime.Time = Common.LocalNow.TimeOfDay;
         }
         FromUiToClass();
         //glucoseReadings.Add(currentGlucose);
@@ -147,7 +147,6 @@ public partial class GlucoseMeasurementsPage : ContentPage
             await DisplayAlert(AppStrings.SavingNotPossible, AppStrings.ChooseGlucoseMeasurementToDelete, AppStrings.OK);
             return;
         }
-        RefreshGrid();
     }
     private async void btnSave_ClickAsync(object sender, EventArgs e)
     {
@@ -156,14 +155,15 @@ public partial class GlucoseMeasurementsPage : ContentPage
             await DisplayAlert(AppStrings.SelectOneGlucoseMeasurement, AppStrings.ChooseGlucoseMeasurementToSave, AppStrings.OK);
             return;
         }
+        await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
         FromUiToClass();
         bl.SaveOneGlucoseMeasurement(currentGlucose);
         RefreshGrid();
     }
     private void btnNow_Click(object sender, EventArgs e)
     {
-        dtpEventDate.Date = DateTime.Now;
-        dtpEventTime.Time = DateTime.Now.TimeOfDay;
+        dtpEventDate.Date = Common.LocalNow;
+        dtpEventTime.Time = Common.LocalNow.TimeOfDay;
     }
     void OnGridSelection(object sender, SelectionChangedEventArgs e)
     {

@@ -44,5 +44,14 @@ namespace GlucoMan
         /// glucose monitoring sensor.
         /// </summary>
         public static bool CantSetAlarms;
+
+        public static double CurrentTimeZone { get; set; } = 0;
+
+        /// <summary>
+        /// Returns the current local date and time, compensating for the Android runtime
+        /// limitation where DateTime.Now returns UTC. Uses the DST-aware UtcOffset stored
+        /// in <see cref="CurrentTimeZone"/>.
+        /// </summary>
+        public static DateTime LocalNow => DateTime.UtcNow.AddHours(CurrentTimeZone);
     }
 }

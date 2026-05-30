@@ -398,6 +398,7 @@ public partial class FoodsPage : ContentPage
 
             string scannedCode = scannerPage.ScannedBarcode;
 
+            // 1. Search in the local database first.
             Food foundFood = bl.SearchFoodByBarcode(scannedCode);
             if (foundFood != null)
             {
@@ -409,11 +410,69 @@ public partial class FoodsPage : ContentPage
                     cmbUnit.SelectedIndex = 0;
                 allFoods = new List<Food> { foundFood };
                 gridFoods.ItemsSource = allFoods;
+                return;
             }
-            else
+
+            // 2. Not in local DB: try FatSecret.
+            await DisplayAlert("", AppStrings.SearchingFatSecretForBarcode, AppStrings.OK);
+
+            FatSecretFood fatSecretFood = null;
+            try
             {
-                await DisplayAlert(AppStrings.Error, AppStrings.FoodNotFoundWithBarcode, AppStrings.OK);
+                var fatSecretService = new FatSecretService();
+                fatSecretFood = await fatSecretService.FindFoodByBarcodeAsync(scannedCode);
             }
+            catch (Exception fatEx)
+            {
+                General.LogOfProgram?.Error("FoodsPage | btnBarCode_Clicked | FatSecret", fatEx);
+                await DisplayAlert(AppStrings.Error,
+                    AppStrings.FatSecretBarcodeError + fatEx.Message, AppStrings.OK);
+                return;
+            }
+
+            if (fatSecretFood == null)
+            {
+                // 3. Not found anywhere.
+                await DisplayAlert(AppStrings.Error, AppStrings.BarcodeNotFoundAnywhere, AppStrings.OK);
+                return;
+            }
+
+            // 4. Found in FatSecret: populate a new Food and open FoodPage for editing/saving.
+            var newFood = new Food(new UnitOfFood("g", 1));
+            newFood.Barcode = scannedCode;
+            if (!string.IsNullOrEmpty(fatSecretFood.Name))
+                newFood.Name = fatSecretFood.Name;
+            if (!string.IsNullOrEmpty(fatSecretFood.Description))
+                newFood.Description = fatSecretFood.Description;
+            if (!string.IsNullOrEmpty(fatSecretFood.BrandName))
+                newFood.Manufacturer = fatSecretFood.BrandName;
+            if (!string.IsNullOrEmpty(fatSecretFood.Category))
+                newFood.Category = fatSecretFood.Category;
+            if (fatSecretFood.Calories.HasValue)
+                newFood.Energy.Double = fatSecretFood.Calories;
+            if (fatSecretFood.CarbohydratesPercent.HasValue)
+                newFood.CarbohydratesPercent.Double = fatSecretFood.CarbohydratesPercent;
+            if (fatSecretFood.ProteinsPercent.HasValue)
+                newFood.ProteinsPercent.Double = fatSecretFood.ProteinsPercent;
+            if (fatSecretFood.TotalFatsPercent.HasValue)
+                newFood.TotalFatsPercent.Double = fatSecretFood.TotalFatsPercent;
+            if (fatSecretFood.SaturatedFatsPercent.HasValue)
+                newFood.SaturatedFatsPercent.Double = fatSecretFood.SaturatedFatsPercent;
+            if (fatSecretFood.FibersPercent.HasValue)
+                newFood.FibersPercent.Double = fatSecretFood.FibersPercent;
+            if (fatSecretFood.SugarPercent.HasValue)
+                newFood.SugarPercent.Double = fatSecretFood.SugarPercent;
+            if (fatSecretFood.SodiumPercent.HasValue)
+                newFood.SaltPercent.Double = fatSecretFood.SodiumPercent;
+
+            Food = newFood;
+            this.BindingContext = Food;
+            FromClassToUi();
+            cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
+            if (cmbUnit.Items.Count > 0)
+                cmbUnit.SelectedIndex = 0;
+            allFoods = new List<Food> { newFood };
+            gridFoods.ItemsSource = allFoods;
         }
         catch (Exception ex)
         {

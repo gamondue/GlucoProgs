@@ -105,16 +105,12 @@ namespace GlucoMan.Maui
                 int deleted = 0;
                 foreach (var alarm in expiredAlarms)
                 {
-                    // Only delete if expired more than 7 days ago
-                    if (alarm.TimeStart?.DateTime != null && 
-                        alarm.ValidTimeAfterStart.HasValue)
+                    // Only delete if the alarm last fired (or was scheduled to start) more than 7 days ago.
+                    DateTime? reference = alarm.LastTriggerTime ?? alarm.TimeStart?.DateTime;
+                    if (reference.HasValue && reference.Value.AddDays(7) < DateTime.Now)
                     {
-                        var expiryDate = alarm.TimeStart.DateTime.Value + alarm.ValidTimeAfterStart.Value;
-                        if (expiryDate.AddDays(7) < DateTime.Now)
-                        {
-                            blAlarms.DeleteAlarm(alarm);
-                            deleted++;
-                        }
+                        blAlarms.DeleteAlarm(alarm);
+                        deleted++;
                     }
                 }
 

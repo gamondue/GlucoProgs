@@ -39,8 +39,9 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
+                    var utcToStore = Injection.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
                     string query = "UPDATE Injections SET " +
-                    "Timestamp=" + SqliteSafe.Date(Injection.EventTime.DateTime) + "," +
+                    "Timestamp=" + SqliteSafe.Date(utcToStore) + "," +
                     "InsulinValue=" + SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
                     "InsulinCalculated=" + SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
                     "Zone=" + (int)Injection.Zone + "," +
@@ -50,7 +51,8 @@ namespace GlucoMan
                     "IdTypeOfInjection=" + SqliteSafe.Int(Injection.IdTypeOfInjection) + "," +
                     "IdTypeOfInsulinAction=" + SqliteSafe.Int(Injection.IdTypeOfInsulinAction) + "," +
                     "IdInsulinDrug=" + SqliteSafe.Int(Injection.IdInsulinDrug) + "," +
-                    "InsulinString=" + SqliteSafe.String(Injection.InsulinString) + "" +
+                    "InsulinString=" + SqliteSafe.String(Injection.InsulinString) + "," +
+                    "UtcOffset=" + SqliteSafe.Double(Common.CurrentTimeZone) + "" +
                     " WHERE IdInjection=" + SqliteSafe.Int(Injection.IdInjection) +
                     ";";
                     cmd.CommandText = query;
@@ -72,14 +74,15 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
+                    var utcToStore = Injection.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
                     string query = "INSERT INTO Injections" +
                     "(" +
                     "IdInjection,Timestamp,InsulinValue,InsulinCalculated," +
                     "Zone,InjectionPositionX,InjectionPositionY,Notes," +
-                    "IdTypeOfInjection,IdTypeOfInsulinAction,IdInsulinDrug,InsulinString";
+                    "IdTypeOfInjection,IdTypeOfInsulinAction,IdInsulinDrug,InsulinString,UtcOffset";
                     query += ")VALUES(" +
                     SqliteSafe.Int(Injection.IdInjection) + "," +
-                    SqliteSafe.Date(Injection.EventTime.DateTime) + "," +
+                    SqliteSafe.Date(utcToStore) + "," +
                     SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
                     SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
                     (int)Injection.Zone + "," +
@@ -89,7 +92,8 @@ namespace GlucoMan
                     SqliteSafe.Int(Injection.IdTypeOfInjection) + "," +
                     SqliteSafe.Int(Injection.IdTypeOfInsulinAction) + "," +
                     SqliteSafe.Int(Injection.IdInsulinDrug) + "," +
-                    SqliteSafe.String(Injection.InsulinString) + "";
+                    SqliteSafe.String(Injection.InsulinString) + "," +
+                    SqliteSafe.Double(Common.CurrentTimeZone) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -275,7 +279,9 @@ namespace GlucoMan
             try
             {
                 ii.IdInjection = Safe.Int(Row["IdInjection"]);
-                ii.EventTime.DateTime = Safe.DateTime(Row["Timestamp"]);
+                ii.UtcOffset = Safe.Double(Row["UtcOffset"]);
+                var utcTime = Safe.DateTime(Row["Timestamp"]);
+                ii.EventTime.DateTime = utcTime?.AddHours(ii.UtcOffset ?? 0);
                 ii.InsulinValue.Double = Safe.Double(Row["InsulinValue"]);
                 ii.InsulinCalculated.Double = Safe.Double(Row["InsulinCalculated"]);
                 ii.PositionX = Safe.Double(Row["InjectionPositionX"]);
@@ -444,6 +450,8 @@ namespace GlucoMan
         }
         internal override int? SaveInsulinDrug(InsulinDrug insulinDrug)
         {
+            if (insulinDrug == null)
+                return null;
             try
             {
                 if (insulinDrug.IdInsulinDrug == null || insulinDrug.IdInsulinDrug == 0)
@@ -462,7 +470,6 @@ namespace GlucoMan
                 General.LogOfProgram.Error("Sqlite_DataLayerConstructorsAndGeneral | SaveInsulinDrug", ex);
                 return null;
             }
-            return null;
         }
         private void InsertInsulinDrug(InsulinDrug insulinDrug)
         {

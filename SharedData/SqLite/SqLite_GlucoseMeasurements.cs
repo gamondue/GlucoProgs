@@ -40,41 +40,6 @@ namespace GlucoMan
                         GlucoseRecord g = GetGlucoseRecordFromRow(dRead);
                         list.Add(g);
                     }
-                    // If we have at least one record, try to fetch the immediate previous record
-                    // (last record of the previous day) and insert it at the beginning of the list
-                    if (list.Count > 0)
-                    {
-                        try
-                        {
-                            GlucoseRecord firstOfNextDay = GetOneGlucoseRecord(list[0].IdGlucoseRecord + 1);
-                            GlucoseRecord secondOfNextDay = GetOneGlucoseRecord(list[0].IdGlucoseRecord + 2);
-                            if (firstOfNextDay != null && firstOfNextDay.IdGlucoseRecord != null)
-                            {
-                                list.Insert(0, firstOfNextDay);
-                                list.Insert(0, secondOfNextDay);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            // General.LogOfProgram.Error("Sqlite_GlucoseMeasurement - fetching lastOfPreviousDay", ex);
-                        }
-                    }
-                    // insert at the end of the list the previous of the next day
-                    if (list.Count > 0)
-                    {
-                        try
-                        {
-                            // add at the bottom of the list the first record of the next day (order is descending!)
-                            GlucoseRecord lastOfPreviousDay = GetOneGlucoseRecord(list[list.Count - 1].IdGlucoseRecord - 1);
-                            GlucoseRecord penultimateOfPreviousDay = GetOneGlucoseRecord(list[list.Count - 1].IdGlucoseRecord - 2);
-                            if (lastOfPreviousDay != null && lastOfPreviousDay.IdGlucoseRecord != null)
-                            {
-                                list.Add(lastOfPreviousDay);
-                                list.Add(penultimateOfPreviousDay);
-                            }
-                        }
-                        catch { }
-                    }
                     dRead.Dispose();
                     cmd.Dispose();
                 }
@@ -152,7 +117,6 @@ namespace GlucoMan
             {
                 int? value = Safe.Int(Row["IdGlucoseRecord"]);
                 gr.IdGlucoseRecord = value;
-                gr.EventTime.DateTime = Safe.DateTime(Row["TimeOfMeasurement"]);
                 gr.GlucoseValue.Double = Safe.Double(Row["GlucoseValue"]);
                 gr.GlucoseString = Safe.String(Row["GlucoseString"]);
                 value = Safe.Int(Row["IdTypeOfGlucoseMeasurement"]);
@@ -162,6 +126,11 @@ namespace GlucoMan
                 gr.IdTypeOfDevice = Safe.String(Row["IdTypeOfDevice"]);
                 gr.IdDeviceModel = Safe.Int(Row["IdDeviceModel"]);
                 gr.Notes = Safe.String(Row["Notes"]);
+                // UtcOffset column may not exist in older database schemas
+                try { gr.UtcOffset = Safe.Double(Row["UtcOffset"]); } catch { gr.UtcOffset = 0; }
+                var utcTime = Safe.DateTime(Row["TimeOfMeasurement"]);
+                if (utcTime != null)
+                    gr.EventTime.DateTime = utcTime.Value.AddHours(gr.UtcOffset ?? 0);
             }
             catch (Exception ex)
             {
@@ -212,15 +181,17 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
+                    var utcToStore = Measurement.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
                     string query = "UPDATE GlucoseRecords SET " +
                     "GlucoseValue=" + SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
-                    "TimeOfMeasurement=" + SqliteSafe.Date(Measurement.EventTime.DateTime) + "," +
+                    "TimeOfMeasurement=" + SqliteSafe.Date(utcToStore) + "," +
                     "GlucoseString=" + SqliteSafe.String(Measurement.GlucoseString) + "," +
                     "IdTypeOfGlucoseMeasurement=" + SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurement) + "," +
                     "IdOfDevice=" + SqliteSafe.Int(Measurement.IdOfDevice) + "," +
                     "IdTypeOfDevice=" + SqliteSafe.String(Measurement.IdTypeOfDevice) + "," +
                     "IdDeviceModel=" + SqliteSafe.Int(Measurement.IdDeviceModel) + "," +
-                    "Notes=" + SqliteSafe.String(Measurement.Notes) + "";
+                    "Notes=" + SqliteSafe.String(Measurement.Notes) + "," +
+                    "UtcOffset=" + SqliteSafe.Double(Common.CurrentTimeZone) + "";
                     query += " WHERE IdGlucoseRecord=" + SqliteSafe.Int(Measurement.IdGlucoseRecord);
                     query += ";";
                     cmd.CommandText = query;
@@ -242,20 +213,22 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
+                    var utcToStore = Measurement.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
                     string query = "INSERT INTO GlucoseRecords" +
                     "(" +
                     "IdGlucoseRecord,GlucoseValue,TimeOfMeasurement,GlucoseString," +
-                    "IdTypeOfGlucoseMeasurement,IdOfDevice,IdTypeOfDevice,IdDeviceModel,Notes";
+                    "IdTypeOfGlucoseMeasurement,IdOfDevice,IdTypeOfDevice,IdDeviceModel,Notes,UtcOffset";
                     query += ")VALUES (" +
                     SqliteSafe.Int(Measurement.IdGlucoseRecord) + "," +
                     SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
-                    SqliteSafe.Date(Measurement.EventTime.DateTime) + "," +
+                    SqliteSafe.Date(utcToStore) + "," +
                     SqliteSafe.String(Measurement.GlucoseString) + "," +
                     SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurement) + "," +
                     SqliteSafe.Int(Measurement.IdOfDevice) + "," +
                     SqliteSafe.String(Measurement.IdTypeOfDevice) + "," +
                     SqliteSafe.Int(Measurement.IdDeviceModel) + "," +
-                    SqliteSafe.String(Measurement.Notes) + ")";
+                    SqliteSafe.String(Measurement.Notes) + "," +
+                    SqliteSafe.Double(Common.CurrentTimeZone) + ")";
                     query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();

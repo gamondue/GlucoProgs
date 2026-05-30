@@ -55,10 +55,20 @@ namespace GlucoMan.Maui
             builder.Services.AddSingleton<LocalizationService>();
 
             // Register GPS tracking service based on platform
+            builder.Services.AddSingleton<IGeoTimeZoneService, GeoTimeZoneService>();
 #if ANDROID
             builder.Services.AddSingleton<IBackgroundGpsService, BackgroundGpsServiceAndroid>();
             builder.Services.AddSingleton<ISystemAlarmScheduler, GlucoMan.Maui.Platforms.Android.SystemAlarmScheduler>();
 #elif WINDOWS
+#if DEBUG
+            // Inject mock GPS to simulate geographic movement during Windows debug sessions.
+            // Change waypoints in MockGeolocation.cs to match the route you want to simulate.
+            // To use real GPS, comment out the next line (MockGeolocation) and uncomment the one after.
+            builder.Services.AddSingleton<IGeolocation, MockGeolocation>();
+            //builder.Services.AddSingleton<IGeolocation>(_ => Geolocation.Default);
+#else
+            builder.Services.AddSingleton<IGeolocation>(_ => Geolocation.Default);
+#endif
             builder.Services.AddSingleton<IBackgroundGpsService, DefaultBackgroundGpsService>();
             builder.Services.AddSingleton<ISystemAlarmScheduler, GlucoMan.Maui.Platforms.Windows.SystemAlarmScheduler>();
 #else
@@ -79,6 +89,29 @@ namespace GlucoMan.Maui
             
             // Initialize the DatabaseService singleton (moved from CommonFunctions.cs)
             DatabaseService.Instance.Initialize(Common.PathAndFileDatabase);
+
+            // Initialize CurrentTimeZone from the OS local timezone (includes DST on all platforms).
+            // This is always the authoritative source. The value stored in Parameters is updated
+            // later by TimeZoneCheckService (GPS-based) but must never override the OS value at
+            // startup, because the stored value may be stale (e.g., saved before DST change).
+            // On Android, TimeZoneInfo.Local may return UTC+0 depending on the runtime, so we use
+            // the native Java TimeZone API which is always reliable and includes DST.
+            try
+            {
+#if ANDROID
+                var javaDefaultTz = Java.Util.TimeZone.Default;
+                // getOffset returns milliseconds including DST for the current instant
+                long nowMs = Java.Lang.JavaSystem.CurrentTimeMillis();
+                int offsetMs = javaDefaultTz.GetOffset(nowMs);
+                Common.CurrentTimeZone = Math.Round(offsetMs / 3600000.0, 2);
+#else
+                Common.CurrentTimeZone = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalHours;
+#endif
+            }
+            catch
+            {
+                Common.CurrentTimeZone = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalHours;
+            }
 
             General.LogOfProgram = new Logger(Common.PathLogs, true,
                 @"GlucoMan_Log.txt",

@@ -55,45 +55,82 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center"
         android:layout_marginTop="24dp">
 
-        <!-- Snooze Button -->
-        <Button
-            android:id="@+id/btnSnooze"
-            android:layout_width="0dp"
+        <!-- Top row: Two Snooze buttons and Stop button -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Snooze\n5 min"
-            android:textSize="18sp"
-            android:textColor="#FF1744"
-            android:background="@android:color/white"
-            android:padding="16dp"
-            android:layout_marginEnd="8dp"
-            android:textAllCaps="false"/>
+            android:orientation="horizontal"
+            android:gravity="center">
 
-        <!-- Dismiss Button -->
+            <!-- Snooze 5 min Button -->
+            <Button
+                android:id="@+id/btnSnooze"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Snooze\n5 min"
+                android:textSize="16sp"
+                android:textColor="#FF1744"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:layout_marginEnd="4dp"
+                android:textAllCaps="false"/>
+
+            <!-- Snooze 15 min Button -->
+            <Button
+                android:id="@+id/btnSnooze15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Snooze\n15 min"
+                android:textSize="16sp"
+                android:textColor="#FF1744"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:textAllCaps="false"/>
+
+            <!-- Stop Button -->
+            <Button
+                android:id="@+id/btnStop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Stop"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:background="#228B22"
+                android:padding="12dp"
+                android:layout_marginStart="4dp"
+                android:textAllCaps="false"/>
+        </LinearLayout>
+
+        <!-- Bottom row: Suspend Sequence button -->
         <Button
-            android:id="@+id/btnDismiss"
-            android:layout_width="0dp"
+            android:id="@+id/btnSuspend"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Dismiss"
+            android:text="Suspend\nsequence"
             android:textSize="18sp"
             android:textColor="#FFFFFF"
-            android:background="#C62828"
+            android:background="#8B0000"
             android:padding="16dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:textAllCaps="false"/>
     </LinearLayout>
 
     <!-- Instructions -->
     <TextView
+        android:id="@+id/txtInstructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Swipe or press button to dismiss"
         android:textSize="14sp"
         android:textColor="#FFCDD2"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="16dp"/>
 </LinearLayout>

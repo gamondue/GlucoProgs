@@ -55,7 +55,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
 
         _storedCho = bl.Meal?.CarbohydratesGrams?.Double;
 
-        if (bl.Meal.IdMeal == null || (bl.Meal.EventTime.DateTime + new TimeSpan(0, 15, 0) > DateTime.Now))
+        if (bl.Meal.IdMeal == null || (bl.Meal.EventTime.DateTime + new TimeSpan(0, 15, 0) > Common.LocalNow))
         {
             btnStartMeal.BackgroundColor = Colors.Red;
             btnStartMeal.TextColor = Colors.Yellow;
@@ -209,6 +209,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     {
         try
         {
+            await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
             await CheckDiscrepancyAndSaveAsync();
             _choManuallyModified = false;
             _storedCho = bl.Meal.CarbohydratesGrams.Double;

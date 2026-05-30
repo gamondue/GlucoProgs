@@ -101,14 +101,14 @@ namespace GlucoMan.Maui.UnitTests
         }
 
         /// <summary>
-        /// Documents test case: Method should handle null ValidTimeAfterStart gracefully.
+        /// Documents test case: Method should handle null StartupGraceWindow gracefully.
         /// </summary>
         /// <remarks>
         /// CANNOT BE IMPLEMENTED: Cannot control what GetExpiredAlarms() returns.
         /// </remarks>
         [Test]
         [Ignore("Cannot mock BL_Alarms - direct instantiation prevents dependency injection")]
-        public void CleanupExpiredAlarms_AlarmWithNullValidTimeAfterStart_ShouldBeSkipped()
+        public void CleanupExpiredAlarms_AlarmWithNullStartupGraceWindow_ShouldBeSkipped()
         {
             // UNABLE TO IMPLEMENT WITHOUT REFACTORING
             Assert.Inconclusive("Method design prevents proper unit testing. Requires refactoring to accept injectable dependencies.");

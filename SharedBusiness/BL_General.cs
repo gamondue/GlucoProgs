@@ -388,7 +388,8 @@ namespace GlucoMan
 #endif
         internal Parameters GetSettingsPageParameters()
         {
-            return dl.GetParameters();
+            Parameters p = dl.GetParameters();
+            return p;
         }
         internal void SaveAllParameters(Parameters p,
             InsulinDrug ShortActingInsulin, InsulinDrug LongActingInsulin)
@@ -412,6 +413,15 @@ namespace GlucoMan
                     SaveInANewRowWithTimestamp = true;
                 }
             }
+            // if Time_CurrentTimeZone changed, force a new row to track history
+            Parameters current = dl.GetParameters();
+            if (current != null && current.Time_CurrentTimeZone != p.Time_CurrentTimeZone)
+                SaveInANewRowWithTimestamp = true;
+            // Compute the DST-aware offset for storage in UtcOffset (used per-record).
+            // Do NOT assign Common.CurrentTimeZone here: the runtime offset is authoritative
+            // from the OS (set in MauiProgram) and must not be overridden by stale DB values.
+            double dstAwareOffset = (p.Time_CurrentTimeZone ?? 0) + (p.Time_IsDaylightSavingTime == true ? 1 : 0);
+            p.UtcOffset = dstAwareOffset;
             dl.SaveAllParameters(p, SaveInANewRowWithTimestamp);
             dl.SaveInsulinDrug(ShortActingInsulin);
             dl.SaveInsulinDrug(LongActingInsulin);

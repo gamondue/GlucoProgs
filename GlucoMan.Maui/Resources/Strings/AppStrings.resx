@@ -1,7 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Modified to force Designer.cs regeneration -->
   <!-- 
-    Microsoft ResX Schema 
+    Microsoft ResX Schema
     
     Version 2.0
     
@@ -393,7 +394,7 @@
   </data>
   <data name="Author" xml:space="preserve">
     <value>Author</value>
-    <comment>Ing. Gabriele Monti - Forlì -Italy</comment>
+    <comment>Ing. Gabriele Monti - ForlÃ¬ -Italy</comment>
   </data>
   <data name="Copyright" xml:space="preserve">
     <value>Copyright</value>
@@ -852,10 +853,10 @@
     <value>CHO%: percentuale di carboidrati di questo alimento [%]</value>
   </data>
   <data name="TooltipUnitReset" xml:space="preserve">
-    <value>Unit: unit of measurement chosen for this food. Click to return to grams.</value>
+    <value>Unit: unitÂ of measurement chosen for this food. Click to return to grams.</value>
   </data>
   <data name="TooltipQuantityUnits" xml:space="preserve">
-    <value>Quantity : number of Units of this food in the meal [Unit]</value>
+    <value>QuantityÂ : number of Units of this food in the meal [Unit]</value>
   </data>
   <data name="TooltipCHOGrams" xml:space="preserve">
     <value>CHO: total quantity in grams of carbohydrate in this food of the meal [g]</value>
@@ -1021,9 +1022,6 @@
   </data>
   <data name="AlarmTime" xml:space="preserve">
     <value>Alarm Time</value>
-  </data>
-  <data name="Repeat" xml:space="preserve">
-    <value>Repeat</value>
   </data>
   <data name="Sound" xml:space="preserve">
     <value>Sound</value>
@@ -1269,7 +1267,7 @@
     <value>Print</value>
   </data>
   <data name="UnsavedChanges" xml:space="preserve">
-    <value>Unsaved Changes</value>
+    <value>Unsaved changes</value>
   </data>
   <data name="UnsavedChangesMessage" xml:space="preserve">
     <value>You have non saved changes in current injection
@@ -1741,7 +1739,7 @@
     <comment>Clear entry (CE button)</comment>
   </data>
   <data name="CalcBackspace" xml:space="preserve">
-    <value>⌫</value>
+    <value>âŒ«</value>
     <comment>Backspace button</comment>
   </data>
   <data name="CalcEscape" xml:space="preserve">
@@ -1749,11 +1747,11 @@
     <comment>Escape button to cancel calculation</comment>
   </data>
   <data name="ChartPagePreviousDay" xml:space="preserve">
-    <value>◀</value>
+    <value>â—€</value>
     <comment>Previous day navigation button</comment>
   </data>
   <data name="ChartPageNextDay" xml:space="preserve">
-    <value>▶</value>
+    <value>â–¶</value>
     <comment>Next day navigation button</comment>
   </data>
   <data name="ClickableImagePageTitle" xml:space="preserve">
@@ -1862,10 +1860,10 @@
     <value>Identification 2</value>
   </data>
   <data name="Method1SingleTau" xml:space="preserve">
-    <value>Method 1 (Single τ)</value>
+    <value>Method 1 (Single Ï„)</value>
   </data>
   <data name="Method2TwoTau" xml:space="preserve">
-    <value>Method 2 (Two τ)</value>
+    <value>Method 2 (Two Ï„)</value>
   </data>
   <data name="AutoregressiveA" xml:space="preserve">
     <value>a (autoregressive):</value>
@@ -1892,37 +1890,37 @@
     <value>SSE (fit error):</value>
   </data>
   <data name="CHOTauMeanSd" xml:space="preserve">
-    <value>CHO - τ [s] (μ ± σ):</value>
+    <value>CHO - Ï„ [s] (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="CHOGainMeanSd" xml:space="preserve">
-    <value>CHO - k (μ ± σ):</value>
+    <value>CHO - k (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="CHODelaySamplesMeanSd" xml:space="preserve">
-    <value>CHO - Delay [samples] (μ ± σ):</value>
+    <value>CHO - Delay [samples] (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="CHOOffsetMeanSd" xml:space="preserve">
-    <value>CHO - Offset (μ ± σ):</value>
+    <value>CHO - Offset (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="CHOR2Avg" xml:space="preserve">
-    <value>CHO - R² avg:</value>
+    <value>CHO - RÂ² avg:</value>
   </data>
   <data name="CHOSegmentsCount" xml:space="preserve">
     <value>CHO - # Segments:</value>
   </data>
   <data name="InsulinTauMeanSd" xml:space="preserve">
-    <value>Insulin - τ [s] (μ ± σ):</value>
+    <value>Insulin - Ï„ [s] (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="InsulinGainMeanSd" xml:space="preserve">
-    <value>Insulin - k (μ ± σ):</value>
+    <value>Insulin - k (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="InsulinDelaySamplesMeanSd" xml:space="preserve">
-    <value>Insulin - Delay [samples] (μ ± σ):</value>
+    <value>Insulin - Delay [samples] (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="InsulinOffsetMeanSd" xml:space="preserve">
-    <value>Insulin - Offset (μ ± σ):</value>
+    <value>Insulin - Offset (Î¼ Â± Ïƒ):</value>
   </data>
   <data name="InsulinR2Avg" xml:space="preserve">
-    <value>Insulin - R² avg:</value>
+    <value>Insulin - RÂ² avg:</value>
   </data>
   <data name="InsulinSegmentsCount" xml:space="preserve">
     <value>Insulin - # Segments:</value>
@@ -2009,25 +2007,25 @@
     <value>Crop Photo</value>
   </data>
   <data name="CropSizeIndicator" xml:space="preserve">
-    <value>📏 300x300 px</value>
+    <value>ðŸ“ 300x300 px</value>
   </data>
   <data name="CropZoomHint" xml:space="preserve">
-    <value>To zoom: 🤏 Pinch | 🖱️ Drag green corners</value>
+    <value>To zoom: ðŸ¤ Pinch | ðŸ–±ï¸ Drag green corners</value>
   </data>
   <data name="CropDragInstruction" xml:space="preserve">
-    <value>⬆️⬇️⬅️➡️ Drag the image to position</value>
+    <value>â¬†ï¸â¬‡ï¸â¬…ï¸âž¡ï¸ Drag the image to position</value>
   </data>
   <data name="CropResizeInstruction" xml:space="preserve">
-    <value>To resize: 🤏 Pinch | 🖱️ Drag green corners</value>
+    <value>To resize: ðŸ¤ Pinch | ðŸ–±ï¸ Drag green corners</value>
   </data>
   <data name="CropResetButton" xml:space="preserve">
-    <value>↻ Reset</value>
+    <value>â†» Reset</value>
   </data>
   <data name="CropCancelButton" xml:space="preserve">
-    <value>✖ Cancel</value>
+    <value>âœ– Cancel</value>
   </data>
   <data name="CropConfirmButton" xml:space="preserve">
-    <value>✂️ Crop</value>
+    <value>âœ‚ï¸ Crop</value>
   </data>
   <data name="CalculationsOfRatioCHOInsulin" xml:space="preserve">
     <value>Calculations of Ratio CHO/insulin</value>
@@ -2595,17 +2593,17 @@ Duration: {2}</value>
     <comment>Title for the dialog asking about CGM sensor usage</comment>
   </data>
   <data name="CGMSensorDialogMessage" xml:space="preserve">
-    <value>Do you use a continuous glucose monitoring (CGM) sensor?
+    <value>Do you read a continuous glucose monitoring (CGM) sensor with this device?
 
 If yes, alarm functions will be disabled as they are not needed with real-time monitoring and risk to interfere with the CGM's alarms.</value>
     <comment>Message body for the CGM sensor dialog</comment>
   </data>
   <data name="CGMSensorDialogYesButton" xml:space="preserve">
-    <value>Yes, I use a CGM sensor</value>
+    <value>Yes, I read a CGM sensor with this device</value>
     <comment>Positive button text for CGM sensor dialog</comment>
   </data>
   <data name="CGMSensorDialogNoButton" xml:space="preserve">
-    <value>No, I don't use a sensor</value>
+    <value>No, I don't read a sensor with this device</value>
     <comment>Negative button text for CGM sensor dialog</comment>
   </data>
   <data name="FileNotExistingOrNotAccessible" xml:space="preserve">
@@ -2618,7 +2616,7 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
     <value>Alarm Set</value>
   </data>
   <data name="AlarmSetForTime" xml:space="preserve">
-    <value>⏰ Alarm set for {0}:{1:D2}</value>
+    <value>â° Alarm set for {0}:{1:D2}</value>
     <comment>{0} = hour, {1} = minute</comment>
   </data>
   <data name="FailedToCreateAlarmNoId" xml:space="preserve">
@@ -2721,14 +2719,14 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
     <value>MIMO Identification Complete</value>
   </data>
   <data name="MIMOIdentificationCompleteMessage" xml:space="preserve">
-    <value>Time constant τ = {0:F1} min
-    CHO gain K₁ = {1:G3} mg/dL per g
-    Insulin gain K₂ = {2:G3} mg/dL per U
-    Equilibrium Y₀ = {3:F0} mg/dL
+    <value>Time constant Ï„ = {0:F1} min
+    CHO gain Kâ‚ = {1:G3} mg/dL per g
+    Insulin gain Kâ‚‚ = {2:G3} mg/dL per U
+    Equilibrium Yâ‚€ = {3:F0} mg/dL
     
     Delays: CHO = {4:F0} min, Insulin = {5:F0} min
     
-    Fit: R² = {6:F3}, RMSE = {7:F1} mg/dL</value>
+    Fit: RÂ² = {6:F3}, RMSE = {7:F1} mg/dL</value>
     <comment>MIMO = Multiple Input Multiple Output identification results</comment>
   </data>
   <data name="IdentificationFailedWithMessage" xml:space="preserve">
@@ -2738,6 +2736,15 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
   <data name="WindowsAlarmTestNotificationTitle" xml:space="preserve">
     <value>GlucoMan Test</value>
   </data>
+  <data name="WindowsAlarmNoticeTitle" xml:space="preserve">
+    <value>âš ï¸ WINDOWS ALARM NOTICE</value>
+  </data>
+  <data name="WindowsAlarmNoticeMessage" xml:space="preserve">
+    <value>Alarms on Windows require the app to be running. Do NOT close the app if you have active alarms. You can minimize it instead.</value>
+  </data>
+  <data name="WindowsAlarmNoticeTip" xml:space="preserve">
+    <value>Tip: Keep GlucoMan minimized in the taskbar for reliable alarms.</value>
+  </data>
   <data name="WindowsAlarmTestNotificationMessage" xml:space="preserve">
     <value>Alarm notifications are working!
     
@@ -2745,6 +2752,36 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
   </data>
   <data name="GlucoManAlarm" xml:space="preserve">
     <value>GlucoMan Alarm</value>
+  </data>
+  <data name="AlarmReminderLabel" xml:space="preserve">
+    <value>REMINDER:</value>
+  </data>
+  <data name="AlarmActionRequired" xml:space="preserve">
+    <value>ACTION REQUIRED - CHOOSE AN OPTION</value>
+  </data>
+  <data name="AlarmSnoozeButton" xml:space="preserve">
+    <value>SNOOZE&#x0a;5 MINUTES</value>
+  </data>
+  <data name="AlarmDismissButton" xml:space="preserve">
+    <value>STOP</value>
+  </data>
+  <data name="AlarmSuspendButton" xml:space="preserve">
+    <value>SUSPEND&#x0a;SEQUENCE</value>
+  </data>
+  <data name="AlarmDismissInstructions" xml:space="preserve">
+    <value>Press ESC key or click a button to dismiss</value>
+  </data>
+  <data name="AlarmSnoozeButtonShort" xml:space="preserve">
+    <value>Snooze&#x0a;5 min</value>
+  </data>
+  <data name="AlarmSuspendButtonShort" xml:space="preserve">
+    <value>Suspend&#x0a;sequence</value>
+  </data>
+  <data name="AlarmStopButtonShort" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="AlarmSwipeInstructions" xml:space="preserve">
+    <value>Swipe or press button to dismiss</value>
   </data>
   <data name="StopTracking" xml:space="preserve">
     <value>Stop Tracking</value>
@@ -2764,9 +2801,6 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
   <data name="StatHeaderEffective" xml:space="preserve">
     <value>Effective</value>
   </data>
-  <data name="UnsavedChanges" xml:space="preserve">
-    <value>Unsaved changes</value>
-  </data>
   <data name="ChoChangedOnExitMessage" xml:space="preserve">
     <value>The total CHO value has changed (stored: {0} g, current: {1} g). Save the new value or keep the stored one?</value>
   </data>
@@ -2779,7 +2813,255 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
   <data name="FoodNotFoundWithBarcode" xml:space="preserve">
     <value>No food found with this barcode in the database.</value>
   </data>
+  <data name="SearchingFatSecretForBarcode" xml:space="preserve">
+    <value>Searching FatSecret for barcode...</value>
+  </data>
+  <data name="BarcodeNotFoundAnywhere" xml:space="preserve">
+    <value>Barcode not found in local database or FatSecret.</value>
+  </data>
+  <data name="FatSecretBarcodeError" xml:space="preserve">
+    <value>Error searching FatSecret: </value>
+  </data>
   <data name="TooltipBarCode" xml:space="preserve">
     <value>Bar Code: scan a barcode or QR Code to find the food</value>
+  </data>
+  <data name="TimeZone" xml:space="preserve">
+    <value>Current Time Zone</value>
+  </data>
+  <data name="SelectTimeZone" xml:space="preserve">
+    <value>Select Time Zone</value>
+  </data>
+  <data name="DaylightSavingTime" xml:space="preserve">
+    <value>Daylight Saving Time</value>
+  </data>
+  <data name="DaylightSavingTimeActive" xml:space="preserve">
+    <value>Daylight Saving Time Active</value>
+  </data>
+  <data name="TooltipDaylightSavingTime" xml:space="preserve">
+    <value>Indicates whether Daylight Saving Time (summer time) is currently in effect at the country</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="TooltipCountry" xml:space="preserve">
+    <value>Select the country to automatically determine whether Daylight Saving Time is in effect</value>
+  </data>
+  <data name="CHOEaten" xml:space="preserve">
+    <value>Eaten CHO</value>
+  </data>
+  <data name="TimeZoneChangedTitle" xml:space="preserve">
+    <value>Time Zone Changed</value>
+  </data>
+  <data name="TimeZoneChangedPrompt" xml:space="preserve">
+    <value>The current time zone appears to have changed.
+
+Previous: {0}  ({1})
+Detected: {2}  ({3})
+
+Do you want to update the time zone setting?</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="AlarmPeriod" xml:space="preserve">
+    <value>Period [min]</value>
+  </data>
+  <data name="RepetitionAfter" xml:space="preserve">
+    <value>Restart non dism. [min]</value>
+  </data>
+  <data name="RestartCount" xml:space="preserve">
+    <value>Restart Count</value>
+  </data>
+  <data name="MaxRepeats" xml:space="preserve">
+    <value>Max Restarts</value>
+  </data>
+  <data name="NextTrigger" xml:space="preserve">
+    <value>Next Trigger</value>
+  </data>
+  <data name="LastTrigger" xml:space="preserve">
+    <value>Last Trigger</value>
+  </data>
+  <data name="Triggered" xml:space="preserve">
+    <value>Triggered</value>
+  </data>
+  <data name="Playing" xml:space="preserve">
+    <value>Playing</value>
+  </data>
+  <data name="PlaySound" xml:space="preserve">
+    <value>Play Sound</value>
+  </data>
+  <data name="SoundFilePath" xml:space="preserve">
+    <value>Sound file path</value>
+  </data>
+  <data name="ReminderPreview" xml:space="preserve">
+    <value>Reminder Preview</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="AllAlarms" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="ActiveAlarms" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="ExpiredAlarms" xml:space="preserve">
+    <value>Expired</value>
+  </data>
+  <data name="SetNext" xml:space="preserve">
+    <value>Set Next</value>
+  </data>
+  <data name="NoAlarmsCount" xml:space="preserve">
+    <value>(0 alarms)</value>
+  </data>
+  <data name="Reminder" xml:space="preserve">
+    <value>Reminder</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="ActivationCount" xml:space="preserve">
+    <value>C.</value>
+  </data>
+  <data name="NoAlarmsDisplay" xml:space="preserve">
+    <value>No alarms to display</value>
+  </data>
+  <data name="PathOrFilename" xml:space="preserve">
+    <value>Path or filename</value>
+  </data>
+  <data name="NoReminder" xml:space="preserve">
+    <value>(no reminder)</value>
+  </data>
+  <data name="TooltipAlarmId" xml:space="preserve">
+    <value>Alarm ID: unique identifier for this alarm (read-only, assigned automatically)</value>
+  </data>
+  <data name="TooltipReminderText" xml:space="preserve">
+    <value>Reminder text: short description or message for this alarm</value>
+  </data>
+  <data name="TooltipStartDate" xml:space="preserve">
+    <value>Start date: the date when the alarm should start triggering</value>
+  </data>
+  <data name="TooltipStartTime" xml:space="preserve">
+    <value>Start time: the time of day when the alarm should first trigger</value>
+  </data>
+  <data name="TooltipAlarmPeriod" xml:space="preserve">
+    <value>Alarm period: period in minutes at which this alarm is regularly retriggered. If &lt;= 0 the alarm is triggered only once.</value>
+  </data>
+  <data name="TooltipTriggerAfter" xml:space="preserve">
+    <value>Trigger after: time in minutes within which, at program startup, a past-due alarm is still triggered. E.g. if the alarm is set at 12:00 and this value is 30 min, starting the program at 12:29 will still fire the alarm.</value>
+  </data>
+  <data name="TooltipAlarmDuration" xml:space="preserve">
+    <value>Duration: how long (in seconds) the alarm must sound or be active</value>
+  </data>
+  <data name="TooltipRepetitionTime" xml:space="preserve">
+    <value>Restart time: interval in minutes after which an alarm that was not dismissed restarts ringing</value>
+  </data>
+  <data name="TooltipRestartCount" xml:space="preserve">
+    <value>Restart count: number of times this alarm has been retriggered when not dismissed (read-only)</value>
+  </data>
+  <data name="TooltipMaxRepeats" xml:space="preserve">
+    <value>Max Restarts Count: maximum number of times this alarm should restart if not dismissed (0 = unlimited)</value>
+  </data>
+  <data name="TooltipNextTrigger" xml:space="preserve">
+    <value>Next trigger: calculated date and time when the alarm will trigger next (read-only)</value>
+  </data>
+  <data name="TooltipLastTrigger" xml:space="preserve">
+    <value>Last trigger: date and time when the alarm was last triggered (read-only)</value>
+  </data>
+  <data name="TooltipTriggeredCount" xml:space="preserve">
+    <value>Triggered count: total number of times this alarm has been activated (read-only)</value>
+  </data>
+  <data name="TooltipPlaying" xml:space="preserve">
+    <value>Playing: indicates whether the alarm is currently playing (read-only)</value>
+  </data>
+  <data name="TooltipPlaySound" xml:space="preserve">
+    <value>Play sound: check to enable audio notification when the alarm triggers</value>
+  </data>
+  <data name="TooltipVibrate" xml:space="preserve">
+    <value>Vibrate: check to enable device vibration when the alarm triggers (mobile devices only)</value>
+  </data>
+  <data name="TooltipSoundFilePath" xml:space="preserve">
+    <value>Sound file path: path or filename of the audio file to play for this alarm</value>
+  </data>
+  <data name="TooltipAlarmState" xml:space="preserve">
+    <value>Alarm state: current status of the alarm (active, expired, dismissed, etc.)</value>
+  </data>
+  <data name="TooltipReminderPreview" xml:space="preserve">
+    <value>Reminder preview: shows a preview of the reminder text that will be displayed</value>
+  </data>
+  <data name="TooltipAddAlarm" xml:space="preserve">
+    <value>Add: creates a new alarm with the values from the interface</value>
+  </data>
+  <data name="TooltipSaveAlarm" xml:space="preserve">
+    <value>Save: saves changes to the selected alarm in the database</value>
+  </data>
+  <data name="TooltipDeleteAlarm" xml:space="preserve">
+    <value>Delete: removes the selected alarm from the database</value>
+  </data>
+  <data name="TooltipDismissAlarm" xml:space="preserve">
+    <value>Dismiss: stops the currently playing alarm and marks it as dismissed</value>
+  </data>
+  <data name="TooltipActivateAlarm" xml:space="preserve">
+    <value>Activate: enables the selected alarm so it can trigger at the scheduled time</value>
+  </data>
+  <data name="TooltipActiveAlarm" xml:space="preserve">
+    <value>Check to activate or uncheck to deactivate the selected alarm</value>
+  </data>
+  <data name="TooltipDeactivateAlarm" xml:space="preserve">
+    <value>Deactivate: disables the selected alarm without deleting it</value>
+  </data>
+  <data name="TooltipTestAlarm" xml:space="preserve">
+    <value>Test: triggers the selected alarm immediately for testing purposes</value>
+  </data>
+  <data name="TooltipClearAlarmFields" xml:space="preserve">
+    <value>Clear: clears all fields in the alarm editor interface</value>
+  </data>
+  <data name="TooltipFilterFromDate" xml:space="preserve">
+    <value>From date: shows alarms starting from this date in the list</value>
+  </data>
+  <data name="TooltipFilterToDate" xml:space="preserve">
+    <value>To date: shows alarms up to this date in the list</value>
+  </data>
+  <data name="TooltipShowAllAlarms" xml:space="preserve">
+    <value>Show all alarms: displays all alarms regardless of their status</value>
+  </data>
+  <data name="TooltipShowActiveAlarms" xml:space="preserve">
+    <value>Show active alarms: displays only alarms that are currently active and scheduled</value>
+  </data>
+  <data name="TooltipShowExpiredAlarms" xml:space="preserve">
+    <value>Show expired alarms: displays only alarms that have already expired</value>
+  </data>
+  <data name="TooltipRefreshAlarms" xml:space="preserve">
+    <value>Refresh: reloads the alarm list from the database with current filter settings</value>
+  </data>
+  <data name="TooltipNowAlarm" xml:space="preserve">
+    <value>Now: sets the filter dates to today for quickly viewing current alarms</value>
+  </data>
+  <data name="TooltipSetNextTrigger" xml:space="preserve">
+    <value>Set next trigger: recalculates and updates the next trigger time for the selected alarm</value>
+  </data>
+  <data name="TriggerAfterTime" xml:space="preserve">
+    <value>Trigger After [min]</value>
+  </data>
+  <data name="Repeat" xml:space="preserve">
+    <value>Repeat period (min)</value>
+  </data>
+  <data name="AlarmDuration" xml:space="preserve">
+    <value>Duration [s]</value>
   </data>
 </root>

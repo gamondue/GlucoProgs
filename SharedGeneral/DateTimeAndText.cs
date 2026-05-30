@@ -60,5 +60,22 @@
         {
             return text;
         }
+
+        public static string FormatWithTimeZone(DateTime? utcDateTime, int? tzOffset)
+        {
+            if (utcDateTime == null || utcDateTime == General.DateNull) return "";
+            var offset = tzOffset ?? 0;
+            var localTime = utcDateTime.Value.AddHours(offset);
+            var sign = offset >= 0 ? "+" : "";
+            return $"{localTime:yyyy-MM-dd HH:mm} ({sign}{offset})";
+        }
+
+        public static string TimeZoneText(int? tzOffset)
+        {
+            if (tzOffset == null) return "(+0)";
+            var offset = tzOffset.Value;
+            var sign = offset >= 0 ? "+" : "";
+            return $"({sign}{offset})";
+        }
     }
 }

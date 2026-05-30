@@ -12,7 +12,7 @@ namespace GlucoMan.Maui.Platforms.Android
         private readonly Context _context;
         public SystemAlarmScheduler()
         {
-            // Utilizzare l'alias per evitare ambiguità
+            // Utilizzare l'alias per evitare ambiguitï¿½
             _context = AndroidApp.Context;
             CreateNotificationChannel();
         }
@@ -38,7 +38,7 @@ namespace GlucoMan.Maui.Platforms.Android
                 throw new ArgumentException("Alarm must have IdAlarm before scheduling");
 
             var baseStart = alarm.TimeStart?.DateTime ?? DateTime.Now;
-            DateTime when = alarm.NextTriggerTime ?? (baseStart + (alarm.ValidTimeAfterStart ?? TimeSpan.Zero));
+            DateTime when = alarm.NextTriggerTime ?? baseStart;
 
             long triggerAtMillis = (long)(when.ToUniversalTime() - DateTime.UnixEpoch).TotalMilliseconds;
 
@@ -56,7 +56,8 @@ namespace GlucoMan.Maui.Platforms.Android
                 PendingIntentFlags.Immutable | PendingIntentFlags.UpdateCurrent);
 
             var alarmManager = (AlarmManager)_context.GetSystemService(Context.AlarmService);
-            bool exact = alarm.Interval == null && alarm.ValidTimeAfterStart != null;
+            // One-shot alarms (no periodic Interval) are scheduled as exact alarms.
+            bool exact = alarm.Interval == null;
 
             if (exact && Build.VERSION.SdkInt >= BuildVersionCodes.M)
                 alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, triggerAtMillis, pending);

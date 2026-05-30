@@ -37,7 +37,7 @@ namespace GlucoMan
         {
             if (SaveWithNowAsTime)
             {
-                DateTime now = DateTime.Now;
+                DateTime now = Common.LocalNow;
                 Meal.EventTime.DateTime = now;
                 Meal.TimeEnd.DateTime = now;
             }
@@ -275,7 +275,7 @@ namespace GlucoMan
         internal TypeOfMeal SetTypeOfMealBasedOnTimeNow()
         {
             TypeOfMeal type = TypeOfMeal.NotSet;
-            DateTime now = DateTime.Now;
+            DateTime now = Common.LocalNow;
             if (now.Hour > 6 && now.Hour < 9)
                 Meal.IdTypeOfMeal = TypeOfMeal.Breakfast;
             else if (now.Hour > 12 && now.Hour < 14)
@@ -295,7 +295,7 @@ namespace GlucoMan
         internal void NewDefaults()
         {
             Meal = new Meal();
-            DateTime now = DateTime.Now;
+            DateTime now = Common.LocalNow;
             Meal.EventTime.DateTime = now;
             Meal.TimeEnd.DateTime = now;
             Meal.AccuracyOfChoEstimate.Double = 0;
@@ -408,7 +408,7 @@ namespace GlucoMan
         internal static TypeOfMeal SelectTypeOfMealBasedOnTimeNow()
         {
             TypeOfMeal type;
-            int hour = DateTime.Now.Hour;
+            int hour = Common.LocalNow.Hour;
             if (hour > breakfastStartHour && hour < breakfastEndHour)
                 type = TypeOfMeal.Breakfast;
             else if (hour > lunchStartHour && hour < lunchEndHour)

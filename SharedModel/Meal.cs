@@ -31,6 +31,7 @@ namespace GlucoMan
         public int? IdBolusCalculation { get; set; }
         public int? IdGlucoseRecord { get; set; }
         public int? IdInjection { get; set; }
+        public double? UtcOffset { get; set; }
         [DisplayName("End time")]
         public DateTimeAndText TimeEnd { get; set; }
         public List<Food> FoodsEaten { get; set; }
@@ -63,6 +64,21 @@ namespace GlucoMan
         }
 
         public string RowBorderColor => IsSelectedInList ? "Orange" : "Transparent";
+
+        private DateTime? SafeEventDateTime =>
+            EventTime?.DateTime is DateTime dt && dt.Year > 1 ? dt : null;
+
+        public string EventDateTimeText
+        {
+            get
+            {
+                var dt = SafeEventDateTime;
+                if (dt == null) return "";
+                var tz = UtcOffset ?? 0;
+                var sign = tz >= 0 ? "+" : "";
+                return $"{dt:dd/MM/yyyy HH:mm:ss} ({sign}{tz})";
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -52,5 +52,9 @@ namespace GlucoMan
         public double? Meal_Dinner_StartTime_Hours { get; set; }
         public double? Meal_Dinner_EndTime_Hours { get; set; }
         public double? MonthsOfDataShownInTheGrids { get; set; }
+        public double? Time_CurrentTimeZone { get; set; }
+        public bool? Time_IsDaylightSavingTime { get; set; }
+        public string Time_CountryName { get; set; }
+        public double? UtcOffset { get; set; }
     }
 }

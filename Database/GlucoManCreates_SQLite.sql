@@ -355,15 +355,7 @@ CREATE TABLE 'GlucoseRecords' (
 
 
 
-	'Notes'	VARCHAR(255),
-
-
-
-
-
-
-
-	PRIMARY KEY('IdGlucoseRecord')
+	'Notes'	VARCHAR(255),	'UtcOffset'	INTEGER,	PRIMARY KEY('IdGlucoseRecord')
 
 
 
@@ -486,7 +478,7 @@ INSERT INTO Ingredients (IdIngredient, IdRecipe, Name, Description, QuantityGram
 
 -- Table: Injections
 DROP TABLE IF EXISTS Injections;
-CREATE TABLE Injections (IdInjection INT NOT NULL, Timestamp DATETIME, InsulinValue DOUBLE, InsulinCalculated DOUBLE, InjectionPositionX INT, InjectionPositionY INT, Notes VARCHAR (255), IdTypeOfInjection INT, IdTypeOfInsulinAction INT, IdInsulinDrug INT, InsulinString VARCHAR (45), Zone INTEGER, PRIMARY KEY (IdInjection));
+CREATE TABLE Injections (IdInjection INT NOT NULL, Timestamp DATETIME, InsulinValue DOUBLE, InsulinCalculated DOUBLE, InjectionPositionX INT, InjectionPositionY INT, Notes VARCHAR (255), IdTypeOfInjection INT, IdTypeOfInsulinAction INT, IdInsulinDrug INT, InsulinString VARCHAR (45), Zone INTEGER, UtcOffset INTEGER, PRIMARY KEY (IdInjection));
 INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (1, '2025-05-21 22:05:00', 10.0, NULL, 0.4703010103195, 0.39919410296242, '', 10, 10, NULL, '', 1);
 INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (3, '2025-05-30 16:30:00', 8.0, NULL, 0.60854472179121, 0.21462023124877, 'boh', 10, 10, 1, '', 1);
 INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (4, '2025-06-02 16:49:00', 8.0, NULL, 0.26701570048919, 0.54271089147897, 'nota', 10, 10, 3, '', 1);
@@ -523,7 +515,7 @@ CREATE TABLE Manufacturers (IdManufacturer INTEGER PRIMARY KEY, Name TEXT, Descr
 
 -- Table: Meals
 DROP TABLE IF EXISTS Meals;
-CREATE TABLE Meals (IdMeal INT NOT NULL, IdTypeOfMeal INT, Carbohydrates DOUBLE, TimeBegin DATETIME, Notes VARCHAR (255), AccuracyOfChoEstimate DOUBLE, IdBolusCalculation INT, IdGlucoseRecord INT, IdInjection INT, TimeEnd DATETIME, PRIMARY KEY (IdMeal));
+CREATE TABLE Meals (IdMeal INT NOT NULL, IdTypeOfMeal INT, Carbohydrates DOUBLE, TimeBegin DATETIME, Notes VARCHAR (255), AccuracyOfChoEstimate DOUBLE, IdBolusCalculation INT, IdGlucoseRecord INT, IdInjection INT, TimeEnd DATETIME, UtcOffset INTEGER, PRIMARY KEY (IdMeal));
 INSERT INTO Meals (IdMeal, IdTypeOfMeal, Carbohydrates, TimeBegin, Notes, AccuracyOfChoEstimate, IdBolusCalculation, IdGlucoseRecord, IdInjection, TimeEnd) VALUES (1, 20, 19.1, '2025-06-23 12:13:17', 'Prova', 78.2, NULL, NULL, NULL, '2025-06-23 12:13:17');
 INSERT INTO Meals (IdMeal, IdTypeOfMeal, Carbohydrates, TimeBegin, Notes, AccuracyOfChoEstimate, IdBolusCalculation, IdGlucoseRecord, IdInjection, TimeEnd) VALUES (2, 40, 15.0, '2025-06-23 11:14:01', 'Prova', 100.0, NULL, NULL, NULL, '2025-06-23 11:14:01');
 

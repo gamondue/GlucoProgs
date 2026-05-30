@@ -9,7 +9,10 @@ using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui.Platforms.Android
 {
-    [BroadcastReceiver(Enabled = true, Exported = true)]
+    [BroadcastReceiver(
+        Enabled = true,
+        Exported = true,
+        Name = "GlucoMan.Maui.Platforms.Android.AlarmFireReceiver")]
     public class AlarmFireReceiver : BroadcastReceiver
     {
         public override void OnReceive(Context context, Intent intent)
