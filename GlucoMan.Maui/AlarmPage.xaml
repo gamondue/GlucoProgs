@@ -113,24 +113,24 @@
                         <Grid Grid.Column="0" ColumnDefinitions="35,*">
                             <CheckBox x:Name="chkPlaySound" Grid.Row="0" Grid.Column="0" Margin="0"
                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPlaySound}" />
-                            <Label Grid.Row="0" Grid.Column="1" 
+                            <Label Grid.Row="0" Grid.Column="1"
                                 VerticalOptions="Center"
                                 Text="{x:Static strings:AppStrings.PlaySound}" />
                         </Grid>
                         <Grid Grid.Column="1" ColumnDefinitions="35,*">
                             <CheckBox x:Name="chkVibrate" Grid.Row="0" Grid.Column="0" Margin="0"
                                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipVibrate}" />
-                            <Label Grid.Row="0" Grid.Column="1" 
+                            <Label Grid.Row="0" Grid.Column="1"
                                 VerticalOptions="Center"
                                 Text="{x:Static strings:AppStrings.Vibrate}" />
                         </Grid>
                         <Grid Grid.Column="2" ColumnDefinitions="35,*">
-                             <CheckBox x:Name="chkAlarmActive" 
-                                  ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipActiveAlarm}" 
+                             <CheckBox x:Name="chkAlarmActive"
+                                  ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipActiveAlarm}"
                                   Margin="4,0" />
-                             <Label Grid.Column="1" 
-                                    Text="{x:Static strings:AppStrings.Active}" 
-                                    VerticalOptions="Center" 
+                             <Label Grid.Column="1"
+                                    Text="{x:Static strings:AppStrings.Active}"
+                                    VerticalOptions="Center"
                            Margin="0,0,12,0" />
                         </Grid>
                     </Grid>
@@ -179,7 +179,7 @@
                         <Grid ColumnDefinitions="35,*">
                             <CheckBox x:Name="chkPlaying" Grid.Row="0" Grid.Column="0" Margin="0"
                                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipPlaying}" />
-                            <Label Grid.Row="0" Grid.Column="1" 
+                            <Label Grid.Row="0" Grid.Column="1"
                             VerticalOptions="Center"
                             Text="{x:Static strings:AppStrings.Playing}" />
                         </Grid>
@@ -191,17 +191,13 @@
                            Placeholder="{x:Static strings:AppStrings.PathOrFilename}" 
                            ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipSoundFilePath}" />
 
-                    <!-- Row 9: Spacer or future state -->
-                    <HorizontalStackLayout Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2">
+                    <!-- Row 9: State -->
+                    <HorizontalStackLayout Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4">
                         <Label WidthRequest="40"
                             Text="{x:Static strings:AppStrings.Status}" />
-                        <Entry x:Name="txtState" Style="{StaticResource ResultEntryStyle}" 
+                        <Entry x:Name="txtState" Style="{StaticResource ResultEntryStyle}"
                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipAlarmState}" />
                     </HorizontalStackLayout>
-
-                    <Label Grid.Row="9" Grid.Column="2" Text="{x:Static strings:AppStrings.ReminderPreview}" />
-                        <Entry x:Name="txtReminderPreview" Grid.Row="9" Grid.Column="3" Style="{StaticResource ResultEntryStyle}" 
-                           ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipReminderPreview}" />
                 </Grid>
             </Frame>
 
@@ -264,32 +260,39 @@
                     <DatePicker x:Name="dtpTo" BackgroundColor="{StaticResource EditBackColor}" 
                                 Margin="0,0,12,0"
                                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipFilterToDate}" />
-                    <HorizontalStackLayout Spacing="0" Margin="0,0,12,0">
-                        <RadioButton x:Name="chkShowAll" Margin="0" 
-                                  VerticalOptions="Center"
-                                  ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowAllAlarms}" />
-                        <Label Text="{x:Static strings:AppStrings.AllAlarms}"
-                               Margin="-16,0,0,0"
-                               VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout Spacing="0" Margin="0,0,12,0">
-                        <RadioButton x:Name="chkActive" IsChecked="True" Margin="0"
-                                  VerticalOptions="Center"
-                                  ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowActiveAlarms}" />
-                        <Label Text="{x:Static strings:AppStrings.ActiveAlarms}"
-                               Margin="-16,0,0,0"
-                               VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout Spacing="0" Margin="0,0,12,0">
-                        <RadioButton x:Name="chkExpired" Margin="0"
-                                  VerticalOptions="Center"
-                                  ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowExpiredAlarms}" />
-                        <Label Text="{x:Static strings:AppStrings.ExpiredAlarms}"
-                               Margin="-16,0,0,0"
-                               VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                    <Button x:Name="btnRefresh" Text="{x:Static strings:AppStrings.Refresh}" 
+                    <RadioButton x:Name="chkShowAll"
+                                 Content="{x:Static strings:AppStrings.AllAlarms}"
+                                 Margin="0,0,8,0"
+                                 VerticalOptions="Center"
+                                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowAllAlarms}" />
+                    <RadioButton x:Name="chkActive" IsChecked="True"
+                                 Content="{x:Static strings:AppStrings.ActiveAlarms}"
+                                 Margin="0,0,8,0"
+                                 VerticalOptions="Center"
+                                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowActiveAlarms}" />
+                    <RadioButton x:Name="chkExpired"
+                                 Content="{x:Static strings:AppStrings.ExpiredAlarms}"
+                                 Margin="0,0,12,0"
+                                 VerticalOptions="Center"
+                                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowExpiredAlarms}" />
+                    <RadioButton x:Name="chkWaiting"
+                                 Content="{x:Static strings:AppStrings.WaitingAlarms}"
+                                 Margin="0,0,8,0"
+                                 VerticalOptions="Center"
+                                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowWaitingAlarms}" />
+                    <RadioButton x:Name="chkDelayed"
+                                 Content="{x:Static strings:AppStrings.DelayedAlarms}"
+                                 Margin="0,0,8,0"
+                                 VerticalOptions="Center"
+                                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowDelayedAlarms}" />
+                    <RadioButton x:Name="chkAutoSuspended"
+                                 Content="{x:Static strings:AppStrings.AutoSuspendedAlarms}"
+                                 Margin="0,0,12,0"
+                                 VerticalOptions="Center"
+                                 ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowAutoSuspendedAlarms}" />
+                    <Button x:Name="btnRefresh"
                             Margin="4" BackgroundColor="{StaticResource Primary}"
+                            Text="{x:Static strings:AppStrings.Refresh}"
                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipRefreshAlarms}" />
                     <Button x:Name="btnNow" Text="{x:Static strings:AppStrings.Now}" 
                             Margin="4" BackgroundColor="{StaticResource Primary}"

@@ -358,29 +358,20 @@ namespace GlucoMan.Maui.Platforms.Android
         {
             try
             {
-                if (DatabaseService.Instance.Database != null && _alarmId > 0)
+                var snoozeAlarm = new Alarm
                 {
-                    // Create a new temporary alarm for snooze
-                    var snoozeAlarm = new Alarm
-                    {
-                        ReminderText = $"Snooze: {_reminderText}",
-                        TimeStart = new gamon.DateTimeAndText { DateTime = DateTime.Now.AddMinutes(minutes) },
-                        EnablePlaySoundFile = _shouldPlaySound,
-                        DoVibrate = _shouldVibrate,
-                        SoundFilePath = _soundPath,
-                        StartupGraceWindow = TimeSpan.FromMinutes(10)
-                    };
-                    snoozeAlarm.CalculateNextTriggerTime();
+                    IdAlarm = -1, // in-memory only, no DB
+                    ReminderText = _reminderText,
+                    TimeStart = new gamon.DateTimeAndText { DateTime = DateTime.Now.AddMinutes(minutes) },
+                    EnablePlaySoundFile = _shouldPlaySound,
+                    DoVibrate = _shouldVibrate,
+                    SoundFilePath = _soundPath,
+                    StartupGraceWindow = TimeSpan.FromMinutes(10)
+                };
+                snoozeAlarm.CalculateNextTriggerTime();
 
-                    var blAlarms = new BL_Alarms();
-                    blAlarms.AddAlarm(snoozeAlarm);
-
-                    if (snoozeAlarm.IdAlarm.HasValue)
-                    {
-                        var scheduler = new SystemAlarmScheduler();
-                        scheduler.ScheduleAsync(snoozeAlarm);
-                    }
-                }
+                var scheduler = new SystemAlarmScheduler();
+                scheduler.ScheduleAsync(snoozeAlarm);
             }
             catch (Exception ex)
             {

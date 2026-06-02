@@ -366,27 +366,18 @@ namespace GlucoMan.Maui.Platforms.Windows
         {
             try
             {
-                if (alarm.IdAlarm.HasValue)
+                var snoozeAlarm = new Alarm
                 {
-                    var blAlarms = new BL_Alarms();
-                    var snoozeAlarm = new Alarm
-                    {
-                        ReminderText = $"Snooze: {alarm.ReminderText}",
-                        TimeStart = new gamon.DateTimeAndText { DateTime = DateTime.Now.AddMinutes(minutes) },
-                        EnablePlaySoundFile = alarm.EnablePlaySoundFile,
-                        DoVibrate = alarm.DoVibrate,
-                        SoundFilePath = alarm.SoundFilePath,
-                        StartupGraceWindow = TimeSpan.FromMinutes(10)
-                    };
-                    
-                    snoozeAlarm.CalculateNextTriggerTime();
-                    blAlarms.AddAlarm(snoozeAlarm);
-
-                    if (snoozeAlarm.IdAlarm.HasValue)
-                    {
-                        ScheduleAsync(snoozeAlarm).Wait();
-                    }
-                }
+                    IdAlarm = -1, // in-memory only, no DB
+                    ReminderText = alarm.ReminderText,
+                    TimeStart = new gamon.DateTimeAndText { DateTime = DateTime.Now.AddMinutes(minutes) },
+                    EnablePlaySoundFile = alarm.EnablePlaySoundFile,
+                    DoVibrate = alarm.DoVibrate,
+                    SoundFilePath = alarm.SoundFilePath,
+                    StartupGraceWindow = TimeSpan.FromMinutes(10)
+                };
+                snoozeAlarm.CalculateNextTriggerTime();
+                ScheduleAsync(snoozeAlarm).Wait();
             }
             catch (Exception ex)
             {

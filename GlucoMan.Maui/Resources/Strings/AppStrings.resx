@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- Modified to force Designer.cs regeneration -->
   <!-- 
-    Microsoft ResX Schema
+    Microsoft ResX Schema 
     
     Version 2.0
     
@@ -2737,7 +2736,7 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
     <value>GlucoMan Test</value>
   </data>
   <data name="WindowsAlarmNoticeTitle" xml:space="preserve">
-    <value>âš ï¸ WINDOWS ALARM NOTICE</value>
+    <value>⚠️ WINDOWS ALARM NOTICE</value>
   </data>
   <data name="WindowsAlarmNoticeMessage" xml:space="preserve">
     <value>Alarms on Windows require the app to be running. Do NOT close the app if you have active alarms. You can minimize it instead.</value>
@@ -2760,22 +2759,26 @@ If yes, alarm functions will be disabled as they are not needed with real-time m
     <value>ACTION REQUIRED - CHOOSE AN OPTION</value>
   </data>
   <data name="AlarmSnoozeButton" xml:space="preserve">
-    <value>SNOOZE&#x0a;5 MINUTES</value>
+    <value>SNOOZE
+5 MINUTES</value>
   </data>
   <data name="AlarmDismissButton" xml:space="preserve">
     <value>STOP</value>
   </data>
   <data name="AlarmSuspendButton" xml:space="preserve">
-    <value>SUSPEND&#x0a;SEQUENCE</value>
+    <value>SUSPEND
+SEQUENCE</value>
   </data>
   <data name="AlarmDismissInstructions" xml:space="preserve">
     <value>Press ESC key or click a button to dismiss</value>
   </data>
   <data name="AlarmSnoozeButtonShort" xml:space="preserve">
-    <value>Snooze&#x0a;5 min</value>
+    <value>Snooze
+5 min</value>
   </data>
   <data name="AlarmSuspendButtonShort" xml:space="preserve">
-    <value>Suspend&#x0a;sequence</value>
+    <value>Suspend
+sequence</value>
   </data>
   <data name="AlarmStopButtonShort" xml:space="preserve">
     <value>Stop</value>
@@ -2896,9 +2899,6 @@ Do you want to update the time zone setting?</value>
   <data name="SoundFilePath" xml:space="preserve">
     <value>Sound file path</value>
   </data>
-  <data name="ReminderPreview" xml:space="preserve">
-    <value>Reminder Preview</value>
-  </data>
   <data name="Dismiss" xml:space="preserve">
     <value>Dismiss</value>
   </data>
@@ -2922,6 +2922,15 @@ Do you want to update the time zone setting?</value>
   </data>
   <data name="ExpiredAlarms" xml:space="preserve">
     <value>Expired</value>
+  </data>
+  <data name="WaitingAlarms" xml:space="preserve">
+    <value>Waiting</value>
+  </data>
+  <data name="DelayedAlarms" xml:space="preserve">
+    <value>Snoozed</value>
+  </data>
+  <data name="AutoSuspendedAlarms" xml:space="preserve">
+    <value>Auto Suspended</value>
   </data>
   <data name="SetNext" xml:space="preserve">
     <value>Set Next</value>
@@ -3001,9 +3010,6 @@ Do you want to update the time zone setting?</value>
   <data name="TooltipAlarmState" xml:space="preserve">
     <value>Alarm state: current status of the alarm (active, expired, dismissed, etc.)</value>
   </data>
-  <data name="TooltipReminderPreview" xml:space="preserve">
-    <value>Reminder preview: shows a preview of the reminder text that will be displayed</value>
-  </data>
   <data name="TooltipAddAlarm" xml:space="preserve">
     <value>Add: creates a new alarm with the values from the interface</value>
   </data>
@@ -3045,6 +3051,15 @@ Do you want to update the time zone setting?</value>
   </data>
   <data name="TooltipShowExpiredAlarms" xml:space="preserve">
     <value>Show expired alarms: displays only alarms that have already expired</value>
+  </data>
+  <data name="TooltipShowWaitingAlarms" xml:space="preserve">
+    <value>Waiting: shows alarms scheduled and waiting to fire for the first time or after a restart</value>
+  </data>
+  <data name="TooltipShowDelayedAlarms" xml:space="preserve">
+    <value>Snoozed: shows alarms that have been temporarily delayed (snoozed) by the user</value>
+  </data>
+  <data name="TooltipShowAutoSuspendedAlarms" xml:space="preserve">
+    <value>Auto Suspended: shows alarms that were automatically suspended by the system after reaching the maximum repeat count</value>
   </data>
   <data name="TooltipRefreshAlarms" xml:space="preserve">
     <value>Refresh: reloads the alarm list from the database with current filter settings</value>

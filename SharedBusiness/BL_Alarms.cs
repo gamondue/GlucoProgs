@@ -80,6 +80,33 @@
         {
             return dl.GetAllAlarms(all: false, expired: false, active: active);
         }
+        /// <summary>
+        /// Retrieves only alarms in Waiting state (scheduled, waiting to fire for the first time or after a restart)
+        /// </summary>
+        public List<Alarm> GetWaitingAlarms()
+        {
+            return dl.GetAllAlarms(all: true)
+                     .Where(a => a.RingingState == Alarm.AlarmRingingState.Waiting)
+                     .ToList();
+        }
+        /// <summary>
+        /// Retrieves only alarms in Delayed state (snoozed by the user)
+        /// </summary>
+        public List<Alarm> GetDelayedAlarms()
+        {
+            return dl.GetAllAlarms(all: true)
+                     .Where(a => a.RingingState == Alarm.AlarmRingingState.Delayed)
+                     .ToList();
+        }
+        /// <summary>
+        /// Retrieves only alarms in AutoSuspended state (automatically suspended by the system)
+        /// </summary>
+        public List<Alarm> GetAutoSuspendedAlarms()
+        {
+            return dl.GetAllAlarms(all: true)
+                     .Where(a => a.RingingState == Alarm.AlarmRingingState.AutoSuspended)
+                     .ToList();
+        }
         public void DeleteAlarm(Alarm alarm)
         {
             dl.DeleteOneAlarm(alarm);

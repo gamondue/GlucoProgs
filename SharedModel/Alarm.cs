@@ -26,10 +26,21 @@ namespace GlucoMan
         public DateTimeAndText TimeStart { get; set; }
         // NextTriggerTime: next time when the alarm will be triggered
         public DateTime? NextTriggerTime { get; set; }
-        // IsDisabled: if true the alarm is temporary disabled and will be triggered
-        public bool? IsDisabled { get; set; }
         // state of this alarm according to the enum AlarmRingingState
         public AlarmRingingState RingingState { get; set; }
+        // IsDisabled: true when the alarm has been disabled by the user (RingingState == Disabled).
+        // Stored separately in the DB for query convenience; always kept in sync with RingingState.
+        public bool? IsDisabled
+        {
+            get => RingingState == AlarmRingingState.Disabled;
+            set
+            {
+                if (value == true)
+                    RingingState = AlarmRingingState.Disabled;
+                else if (RingingState == AlarmRingingState.Disabled)
+                    RingingState = AlarmRingingState.Waiting;
+            }
+        }
         // StartupGraceWindow: when the program starts, an alarm whose scheduled time
         // already passed is still fired if the elapsed time since that scheduled time
         // is less than this value. E.g. if alarm time is 12:00 and grace = 30 min, starting
@@ -100,18 +111,13 @@ namespace GlucoMan
         
         public enum AlarmRingingState
         {
-            Waiting,    // the alarm is active and waiting to be triggered
-            Disabled,   // the alarm is temporarily disabled and will not ring
-            Ringing,    // the alarm is currently ringing and waiting to be:
-                        // automatically stopped by the program after Duration time
-                        // or delayed by the user to ring again after Delay time
-                        // or dismissed 
-            Dismissed,  // the alarm has been dismissed by the user and will not ring again
-            Delayed,    // the alarm is delayed by the user and will ring after the delay time
-            AutoSuspended, // the alarm has rung in vain for Duration time, hence has been suspended
-                          // by the program and will ring again after RepetitionTime
-            Expired,    // the alarm has reached MaxRepeatCount "restart when not dismissed"
-                        // cycles, or has no future periodic occurrences left, and will not ring anymore
+            Waiting       = 0, // the alarm is active and waiting to be triggered
+            Disabled      = 1, // the alarm is disabled by the user and will not ring
+            Ringing       = 2, // the alarm is currently ringing
+            Dismissed     = 3, // the alarm has been dismissed and will not ring again
+            Delayed       = 4, // the alarm is delayed by the user
+            AutoSuspended = 5, // the alarm rang in vain and will restart after RepetitionTime
+            Expired       = 6, // max restarts reached or no future occurrences: will not ring anymore
         }
         
         public Alarm()
@@ -130,9 +136,10 @@ namespace GlucoMan
         /// </summary>
         public void CalculateNextTriggerTime()
         {
-            if (IsDisabled == true)
+            if (RingingState == AlarmRingingState.Disabled ||
+                RingingState == AlarmRingingState.Expired ||
+                RingingState == AlarmRingingState.Dismissed)
             {
-                RingingState = AlarmRingingState.Disabled;
                 NextTriggerTime = null;
                 return;
             }
@@ -191,10 +198,35 @@ namespace GlucoMan
         /// </summary>
         public bool IsActive()
         {
-            if (IsDisabled == true) return false;
-            if (RingingState == AlarmRingingState.Expired) return false;
-            if (RingingState == AlarmRingingState.Dismissed) return false;
-            return true;
+            return RingingState != AlarmRingingState.Disabled
+                && RingingState != AlarmRingingState.Expired
+                && RingingState != AlarmRingingState.Dismissed;
+        }
+
+        /// <summary>
+        /// Disables the alarm. It will not ring until re-enabled.
+        /// </summary>
+        public void Disable()
+        {
+            RingingState = AlarmRingingState.Disabled;
+            NextTriggerTime = null;
+        }
+
+        /// <summary>
+        /// Re-enables an inactive alarm (Disabled / Expired / Dismissed) and resets
+        /// runtime state for a fresh start.
+        /// Call CalculateNextTriggerTime() after this to set NextTriggerTime.
+        /// </summary>
+        public void Enable()
+        {
+            if (RingingState != AlarmRingingState.Disabled &&
+                RingingState != AlarmRingingState.Expired &&
+                RingingState != AlarmRingingState.Dismissed)
+                return;
+            RingingState = AlarmRingingState.Waiting;
+            LastTriggerTime = null;
+            RepeatCount = 0;
+            TriggeredCount = 0;
         }
         
         /// <summary>

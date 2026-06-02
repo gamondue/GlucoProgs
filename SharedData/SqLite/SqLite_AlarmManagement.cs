@@ -142,27 +142,20 @@ namespace GlucoMan
                     // Build WHERE clause based on optional parameters
                     List<string> whereConditions = new List<string>();
 
-                    // Active / expired logic based on RingingState, IsDisabled and NextTriggerTime.
                     // RingingState values mirror Alarm.AlarmRingingState:
                     //   0=Waiting, 1=Disabled, 2=Ringing, 3=Dismissed, 4=Delayed, 5=AutoSuspended, 6=Expired
+                    // IsDisabled in DB is always in sync with RingingState=1 (Disabled).
                     if (!all)
                     {
                         if (active && !expired)
                         {
-                            // Active: not disabled, not expired/dismissed, and has a future NextTriggerTime
-                            // (or a periodic Interval that can still fire).
-                            whereConditions.Add("(IsDisabled IS NULL OR IsDisabled = 0)");
-                            whereConditions.Add("(RingingState IS NULL OR RingingState NOT IN (3, 6))");
-                            whereConditions.Add("( (NextTriggerTime IS NOT NULL AND NextTriggerTime > " + SqliteSafe.Date(DateTime.Now) + ")" +
-                                                 " OR (Interval IS NOT NULL AND Interval > 0) )");
-                            // Not exceeded max restart-when-not-dismissed cycles
-                            whereConditions.Add("(MaxRepeatCount IS NULL OR MaxRepeatCount <= 0 OR RepeatCount IS NULL OR RepeatCount < MaxRepeatCount)");
+                            // Active: RingingState is not Disabled(1), Dismissed(3) or Expired(6).
+                            whereConditions.Add("(RingingState IS NULL OR RingingState NOT IN (1, 3, 6))");
                         }
                         else if (expired && !active)
                         {
-                            // Expired: disabled OR explicitly expired/dismissed OR max restarts reached
-                            whereConditions.Add("( (IsDisabled IS NOT NULL AND IsDisabled = 1)" +
-                                                 " OR (RingingState IN (3, 6))" +
+                            // Inactive: Disabled(1), Dismissed(3), Expired(6), or max restarts reached
+                            whereConditions.Add("( RingingState IN (1, 3, 6)" +
                                                  " OR (MaxRepeatCount IS NOT NULL AND MaxRepeatCount > 0 AND RepeatCount IS NOT NULL AND RepeatCount >= MaxRepeatCount) )");
                         }
                     }
@@ -213,12 +206,17 @@ namespace GlucoMan
                 m.ReminderText = Safe.String(Row["ReminderText"]);
                 m.TimeStart.DateTime = Safe.DateTime(Row["TimeStart"]);
                 m.NextTriggerTime = Safe.DateTime(Row["NextTriggerTime"]);
-                m.IsDisabled = Safe.Bool(Row["IsDisabled"]);
                 m.StartupGraceWindow = Safe.TimeSpanFromSeconds(Row["StartupGraceWindow"]);
 
                 int? ringingStateValue = Safe.Int(Row["RingingState"]);
                 if (ringingStateValue.HasValue)
                     m.RingingState = (Alarm.AlarmRingingState)ringingStateValue.Value;
+
+                // Migration: if the legacy IsDisabled column is true but RingingState is not yet
+                // Disabled, promote RingingState so the two are in sync.
+                bool? dbIsDisabled = Safe.Bool(Row["IsDisabled"]);
+                if (dbIsDisabled == true && m.RingingState != Alarm.AlarmRingingState.Disabled)
+                    m.RingingState = Alarm.AlarmRingingState.Disabled;
 
                 m.Duration = Safe.TimeSpanFromSeconds(Row["Duration"]);
                 m.RepetitionTime = Safe.TimeSpanFromSeconds(Row["RepetitionTime"]);

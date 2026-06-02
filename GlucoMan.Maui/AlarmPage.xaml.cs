@@ -53,9 +53,12 @@ public partial class AlarmPage : ContentPage
         cvAlarms.SelectionChanged += CvAlarms_SelectionChanged;
 
         // Wire up checkbox events for mutual exclusivity
-        chkShowAll.CheckedChanged += (s, e) => { if (e.Value) { chkActive.IsChecked = false; chkExpired.IsChecked = false; LoadAlarms(); } };
-        chkActive.CheckedChanged += (s, e) => { if (e.Value) { chkShowAll.IsChecked = false; chkExpired.IsChecked = false; LoadAlarms(); } };
-        chkExpired.CheckedChanged += (s, e) => { if (e.Value) { chkShowAll.IsChecked = false; chkActive.IsChecked = false; LoadAlarms(); } };
+        chkShowAll.CheckedChanged += (s, e) => { if (e.Value) { chkActive.IsChecked = false; chkExpired.IsChecked = false; chkWaiting.IsChecked = false; chkDelayed.IsChecked = false; chkAutoSuspended.IsChecked = false; LoadAlarms(); } };
+        chkActive.CheckedChanged += (s, e) => { if (e.Value) { chkShowAll.IsChecked = false; chkExpired.IsChecked = false; chkWaiting.IsChecked = false; chkDelayed.IsChecked = false; chkAutoSuspended.IsChecked = false; LoadAlarms(); } };
+        chkExpired.CheckedChanged += (s, e) => { if (e.Value) { chkShowAll.IsChecked = false; chkActive.IsChecked = false; chkWaiting.IsChecked = false; chkDelayed.IsChecked = false; chkAutoSuspended.IsChecked = false; LoadAlarms(); } };
+        chkWaiting.CheckedChanged += (s, e) => { if (e.Value) { chkShowAll.IsChecked = false; chkActive.IsChecked = false; chkExpired.IsChecked = false; chkDelayed.IsChecked = false; chkAutoSuspended.IsChecked = false; LoadAlarms(); } };
+        chkDelayed.CheckedChanged += (s, e) => { if (e.Value) { chkShowAll.IsChecked = false; chkActive.IsChecked = false; chkExpired.IsChecked = false; chkWaiting.IsChecked = false; chkAutoSuspended.IsChecked = false; LoadAlarms(); } };
+        chkAutoSuspended.CheckedChanged += (s, e) => { if (e.Value) { chkShowAll.IsChecked = false; chkActive.IsChecked = false; chkExpired.IsChecked = false; chkWaiting.IsChecked = false; chkDelayed.IsChecked = false; LoadAlarms(); } };
         
         
         // Sync alarms on page load
@@ -90,60 +93,26 @@ public partial class AlarmPage : ContentPage
     {
         try
         {
-            List<Alarm> alarms;
-            
-            // Debug logging for Windows
-            General.LogOfProgram?.Debug($"AlarmPage.LoadAlarms - ShowAll:{chkShowAll.IsChecked}, Expired:{chkExpired.IsChecked}, Active:{chkActive.IsChecked}");
-            
-            if (chkShowAll.IsChecked)
-            {
-                alarms = _blAlarms.GetAllAlarms(dtpFrom.Date, dtpTo.Date, all: true);
-                General.LogOfProgram?.Debug($"AlarmPage.LoadAlarms - GetAllAlarms (all=true) returned {alarms.Count} alarms");
-            }
-            else if (chkExpired.IsChecked)
-            {
-                alarms = _blAlarms.GetExpiredAlarms();
-                General.LogOfProgram?.Debug($"AlarmPage.LoadAlarms - GetExpiredAlarms returned {alarms.Count} alarms");
-            }
-            else if (chkActive.IsChecked)
-            {
-                alarms = _blAlarms.GetActiveAlarms();
-                General.LogOfProgram?.Debug($"AlarmPage.LoadAlarms - GetActiveAlarms returned {alarms.Count} alarms");
-                
-                // Also log why each alarm might not be considered active
-                var allAlarms = _blAlarms.GetAllAlarms(all: true);
-                General.LogOfProgram?.Debug($"AlarmPage.LoadAlarms - Total alarms in DB: {allAlarms.Count}");
-                foreach (var a in allAlarms)
-                {
-                    var isActive = a.IsActive();
-                    General.LogOfProgram?.Debug(
-                        $"Alarm {a.IdAlarm}: '{a.ReminderText}' - " +
-                        $"IsActive={isActive}, IsDisabled={a.IsDisabled}, " +
-                        $"NextTriggerTime={a.NextTriggerTime:yyyy-MM-dd HH:mm}, " +
-                        $"TimeStart={a.TimeStart?.DateTime:yyyy-MM-dd HH:mm}, " +
-                        $"StartupGraceWindow={a.StartupGraceWindow?.TotalSeconds}s, " +
-                        $"Interval={a.Interval?.TotalSeconds}s, " +
-                        $"RepeatCount={a.RepeatCount}/{a.MaxRepeatCount}");
-                }
+            // Remember which alarm was selected so we can restore it after reload
+            int? previousId = _currentAlarm?.IdAlarm;
 
-                // If no active alarms found but DB contains alarms, fall back to showing all to help the user
-                if ((alarms == null || alarms.Count == 0) && allAlarms.Count > 0)
-                {
-                    General.LogOfProgram?.Debug("AlarmPage.LoadAlarms - No active alarms found, falling back to show all alarms for user visibility");
-                    alarms = allAlarms;
-                    // Inform user briefly on UI thread
-                    MainThread.BeginInvokeOnMainThread(async () =>
-                    {
-                        await DisplayAlert("Info", "Nessun allarme é risultato 'Active' secondo i filtri; verranno mostrati tutti gli allarmi presenti nel database.", "OK");
-                    });
-                }
-            }
+            List<Alarm> alarms;
+
+            if (chkShowAll.IsChecked)
+                alarms = _blAlarms.GetAllAlarms(dtpFrom.Date, dtpTo.Date, all: true);
+            else if (chkExpired.IsChecked)
+                alarms = _blAlarms.GetExpiredAlarms();
+            else if (chkActive.IsChecked)
+                alarms = _blAlarms.GetActiveAlarms();
+            else if (chkWaiting.IsChecked)
+                alarms = _blAlarms.GetWaitingAlarms();
+            else if (chkDelayed.IsChecked)
+                alarms = _blAlarms.GetDelayedAlarms();
+            else if (chkAutoSuspended.IsChecked)
+                alarms = _blAlarms.GetAutoSuspendedAlarms();
             else
-            {
                 alarms = _blAlarms.GetAllAlarms(dtpFrom.Date, dtpTo.Date);
-                General.LogOfProgram?.Debug($"AlarmPage.LoadAlarms - GetAllAlarms (date range) returned {alarms.Count} alarms");
-            }
-            
+
             _alarms.Clear();
             // Normalize data for display: trim reminders and calculate missing next trigger times
             foreach (var alarm in alarms)
@@ -180,6 +149,26 @@ public partial class AlarmPage : ContentPage
             {
                 lblAlarmCount.Text = $"({_alarms.Count} alarm{(_alarms.Count != 1 ? "s" : "")})";
             });
+
+            // Restore selection: if the previously selected alarm is still in the list,
+            // re-select it and refresh the editing panel so state changes are visible.
+            if (previousId.HasValue)
+            {
+                var stillPresent = _alarms.FirstOrDefault(a => a.IdAlarm == previousId.Value);
+                if (stillPresent != null)
+                {
+                    stillPresent.IsSelectedInList = true;
+                    stillPresent.IsSelected = true;
+                    _currentAlarm = stillPresent;
+                    cvAlarms.SelectedItem = stillPresent;
+                    DisplayAlarm(stillPresent);
+                }
+                else
+                {
+                    // Alarm was deleted or is no longer visible in the current filter: clear the form
+                    _currentAlarm = null;
+                }
+            }
 
             General.LogOfProgram?.Debug($"AlarmPage.LoadAlarms - Displayed {_alarms.Count} alarms in UI");
         }
@@ -256,12 +245,13 @@ public partial class AlarmPage : ContentPage
         chkVibrate.IsChecked = alarm.DoVibrate ?? false;
         txtSoundFilePath.Text = alarm.SoundFilePath ?? "";
         txtState.Text =   alarm.RingingState.ToString();
-        txtReminderPreview.Text = $"{alarm.ReminderText} @ {alarm.NextTriggerTime?.ToString("HH:mm")}";
 
-        // Update active checkbox state without triggering the event
-        // Use IsActive() to be consistent with activation logic
+        // "Active" checkbox = true only for states where the alarm is actually running/waiting
         chkAlarmActive.CheckedChanged -= ChkAlarmActive_CheckedChanged;
-        chkAlarmActive.IsChecked = alarm.IsActive();
+        chkAlarmActive.IsChecked = alarm.RingingState == Alarm.AlarmRingingState.Waiting
+                                || alarm.RingingState == Alarm.AlarmRingingState.Ringing
+                                || alarm.RingingState == Alarm.AlarmRingingState.Delayed
+                                || alarm.RingingState == Alarm.AlarmRingingState.AutoSuspended;
         chkAlarmActive.CheckedChanged += ChkAlarmActive_CheckedChanged;
     }
     private Alarm GetAlarmFromUI()
@@ -445,73 +435,31 @@ public partial class AlarmPage : ContentPage
 
             if (e.Value)
             {
-                // ACTIVATE the alarm: make it ready for the next trigger
+                // ACTIVATE: enable and reset runtime state for a fresh start
                 var alarm = GetAlarmFromUI();
-
-                // Set alarm as active and reset all runtime state for a fresh start
-                alarm.IsDisabled = false;
-                alarm.LastTriggerTime = null;  // Reset so CalculateNextTriggerTime treats it as first firing
-                alarm.RepeatCount = 0;          // Reset restart counter
-                alarm.TriggeredCount = 0;       // Reset triggered count
-                alarm.RingingState = Alarm.AlarmRingingState.Waiting;  // Explicitly set to Waiting state
-
-                // Calculate the next trigger time based on current configuration
+                alarm.Enable();
                 alarm.CalculateNextTriggerTime();
 
-                // Verify the alarm is truly active before scheduling
-                if (!alarm.IsActive())
-                {
-                    var errorMsg = $"Alarm {alarm.IdAlarm} is not active after activation setup. IsDisabled={alarm.IsDisabled}, RingingState={alarm.RingingState}";
-                    General.LogOfProgram?.Error("AlarmPage - ChkAlarmActive", new InvalidOperationException(errorMsg));
-                    await DisplayAlert(AppStrings.Error, "Failed to activate alarm: alarm state is invalid", AppStrings.OK);
-
-                    // Reset checkbox
-                    chkAlarmActive.CheckedChanged -= ChkAlarmActive_CheckedChanged;
-                    chkAlarmActive.IsChecked = false;
-                    chkAlarmActive.CheckedChanged += ChkAlarmActive_CheckedChanged;
-                    return;
-                }
-
-                // Save to database
                 _blAlarms.AddAlarm(alarm);
                 _currentAlarm = alarm;
 
-                // Schedule the alarm with the platform scheduler
                 await _alarmScheduler.ScheduleAsync(alarm);
 
                 General.LogOfProgram?.Debug($"Alarm {alarm.IdAlarm} activated. Next trigger: {alarm.NextTriggerTime}");
 
                 await DisplayAlert(AppStrings.Success, "Alarm activated", AppStrings.OK);
-                DisplayAlarm(alarm);
                 LoadAlarms();
             }
             else
             {
-                // DEACTIVATE the alarm: stop it completely and prevent any future triggers
-
-                // Cancel the scheduled alarm first to prevent race conditions
+                // DEACTIVATE: cancel scheduler, disable alarm
                 await _alarmScheduler.CancelAsync(_currentAlarm.IdAlarm.Value);
-
-                // Set alarm as disabled with explicit Disabled state
-                _currentAlarm.IsDisabled = true;
-                _currentAlarm.RingingState = Alarm.AlarmRingingState.Disabled;
-
-                // Verify the alarm is truly inactive
-                if (_currentAlarm.IsActive())
-                {
-                    var errorMsg = $"Alarm {_currentAlarm.IdAlarm} is still active after deactivation. IsDisabled={_currentAlarm.IsDisabled}, RingingState={_currentAlarm.RingingState}";
-                    General.LogOfProgram?.Error("AlarmPage - ChkAlarmActive", new InvalidOperationException(errorMsg));
-                    await DisplayAlert(AppStrings.Error, "Failed to deactivate alarm: alarm state is invalid", AppStrings.OK);
-                    return;
-                }
-
-                // Save the disabled state to database
+                _currentAlarm.Disable();
                 _blAlarms.AddAlarm(_currentAlarm);
 
-                General.LogOfProgram?.Debug($"Alarm {_currentAlarm.IdAlarm} deactivated and removed from scheduler");
+                General.LogOfProgram?.Debug($"Alarm {_currentAlarm.IdAlarm} deactivated");
 
                 await DisplayAlert(AppStrings.Success, "Alarm deactivated", AppStrings.OK);
-                DisplayAlarm(_currentAlarm);
                 LoadAlarms();
             }
         }
@@ -534,9 +482,10 @@ public partial class AlarmPage : ContentPage
     {
         try
         {
-            // Create a test alarm for 5 seconds from now
+            // In-memory only test alarm — not saved to DB
             var testAlarm = new Alarm
             {
+                IdAlarm = -1,
                 ReminderText = "Test Alarm",
                 TimeStart = new gamon.DateTimeAndText { DateTime = DateTime.Now.AddSeconds(5) },
                 EnablePlaySoundFile = chkPlaySound.IsChecked,
@@ -544,14 +493,8 @@ public partial class AlarmPage : ContentPage
                 SoundFilePath = txtSoundFilePath.Text
             };
             testAlarm.CalculateNextTriggerTime();
-            
-            _blAlarms.AddAlarm(testAlarm);
-            
-            if (testAlarm.IdAlarm.HasValue)
-            {
-                await _alarmScheduler.ScheduleAsync(testAlarm);
-                await DisplayAlert(AppStrings.Info, "Test alarm scheduled for 5 seconds from now", AppStrings.OK);
-            }
+            await _alarmScheduler.ScheduleAsync(testAlarm);
+            await DisplayAlert(AppStrings.Info, "Test alarm scheduled for 5 seconds from now", AppStrings.OK);
         }
         catch (Exception ex)
         {
@@ -607,7 +550,6 @@ public partial class AlarmPage : ContentPage
         chkVibrate.IsChecked = false;
         txtSoundFilePath.Text = "";
         txtState.Text = "";
-        txtReminderPreview.Text = "";
 
         // Reset active checkbox
         chkAlarmActive.CheckedChanged -= ChkAlarmActive_CheckedChanged;

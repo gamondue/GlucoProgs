@@ -2736,6 +2736,15 @@ Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie
   <data name="WindowsAlarmTestNotificationTitle" xml:space="preserve">
     <value>Test GlucoMan</value>
   </data>
+  <data name="WindowsAlarmNoticeTitle" xml:space="preserve">
+    <value>⚠️ AVVERTIMENTO PER WINDOWS</value>
+  </data>
+  <data name="WindowsAlarmNoticeMessage" xml:space="preserve">
+    <value>Su Windows, gli allarmi richiedono che l'app sia in esecuzione. NON chiudere l'app se hai allarmi attivi. Puoi semplicemente ridurla a icona.</value>
+  </data>
+  <data name="WindowsAlarmNoticeTip" xml:space="preserve">
+    <value>Suggerimento: tieni GlucoMan ridotto a icona nella barra delle applicazioni per ricevere avvisi affidabili.</value>
+  </data>
   <data name="WindowsAlarmTestNotificationMessage" xml:space="preserve">
     <value>Le notifiche degli allarmi funzionano!
     
@@ -2751,22 +2760,26 @@ Se sì, le funzioni di allarme verranno disabilitate poiché non sono necessarie
     <value>AZIONE RICHIESTA - SCEGLI UN'OPZIONE</value>
   </data>
   <data name="AlarmSnoozeButton" xml:space="preserve">
-    <value>POSTICIPA&#x0a;5 MINUTI</value>
+    <value>POSTICIPA
+5 MINUTI</value>
   </data>
   <data name="AlarmDismissButton" xml:space="preserve">
     <value>SPEGNI</value>
   </data>
   <data name="AlarmSuspendButton" xml:space="preserve">
-    <value>SOSPENDI&#x0a;SEQUENZA</value>
+    <value>SOSPENDI
+SEQUENZA</value>
   </data>
   <data name="AlarmDismissInstructions" xml:space="preserve">
     <value>Premi ESC o clicca un pulsante per chiudere</value>
   </data>
   <data name="AlarmSnoozeButtonShort" xml:space="preserve">
-    <value>Posticipa&#x0a;5 min</value>
+    <value>Posticipa
+5 min</value>
   </data>
   <data name="AlarmSuspendButtonShort" xml:space="preserve">
-    <value>Sospendi&#x0a;sequenza</value>
+    <value>Sospendi
+sequenza</value>
   </data>
   <data name="AlarmStopButtonShort" xml:space="preserve">
     <value>Spegni</value>
@@ -2887,9 +2900,6 @@ Vuoi aggiornare il fuso orario impostato?</value>
   <data name="SoundFilePath" xml:space="preserve">
     <value>Percorso file audio</value>
   </data>
-  <data name="ReminderPreview" xml:space="preserve">
-    <value>Anteprima promemoria</value>
-  </data>
   <data name="Dismiss" xml:space="preserve">
     <value>Scarta</value>
   </data>
@@ -2913,6 +2923,15 @@ Vuoi aggiornare il fuso orario impostato?</value>
   </data>
   <data name="ExpiredAlarms" xml:space="preserve">
     <value>Allarmi scaduti</value>
+  </data>
+  <data name="WaitingAlarms" xml:space="preserve">
+    <value>In attesa</value>
+  </data>
+  <data name="DelayedAlarms" xml:space="preserve">
+    <value>Posticipati</value>
+  </data>
+  <data name="AutoSuspendedAlarms" xml:space="preserve">
+    <value>Sospesi automaticamente</value>
   </data>
   <data name="SetNext" xml:space="preserve">
     <value>Imposta prossimo</value>
@@ -2992,9 +3011,6 @@ Vuoi aggiornare il fuso orario impostato?</value>
   <data name="TooltipAlarmState" xml:space="preserve">
     <value>Stato allarme: stato corrente dell'allarme (attivo, scaduto, scartato, ecc.)</value>
   </data>
-  <data name="TooltipReminderPreview" xml:space="preserve">
-    <value>Anteprima promemoria: mostra un'anteprima del testo del promemoria che verrà visualizzato</value>
-  </data>
   <data name="TooltipAddAlarm" xml:space="preserve">
     <value>Aggiungi: crea un nuovo allarme con i valori dall'interfaccia</value>
   </data>
@@ -3036,6 +3052,15 @@ Vuoi aggiornare il fuso orario impostato?</value>
   </data>
   <data name="TooltipShowExpiredAlarms" xml:space="preserve">
     <value>Mostra allarmi scaduti: visualizza solo gli allarmi già scaduti</value>
+  </data>
+  <data name="TooltipShowWaitingAlarms" xml:space="preserve">
+    <value>In attesa: mostra gli allarmi pianificati in attesa di scattare per la prima volta o dopo un riavvio</value>
+  </data>
+  <data name="TooltipShowDelayedAlarms" xml:space="preserve">
+    <value>Posticipati: mostra gli allarmi temporaneamente rimandati (snooze) dall'utente</value>
+  </data>
+  <data name="TooltipShowAutoSuspendedAlarms" xml:space="preserve">
+    <value>Sospesi automaticamente: mostra gli allarmi sospesi dal sistema dopo aver raggiunto il numero massimo di ripetizioni</value>
   </data>
   <data name="TooltipRefreshAlarms" xml:space="preserve">
     <value>Aggiorna: ricarica l'elenco degli allarmi dal database con le impostazioni di filtro correnti</value>
