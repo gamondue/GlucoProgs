@@ -2835,6 +2835,9 @@ sequenza</value>
   <data name="SelectTimeZone" xml:space="preserve">
     <value>Seleziona fuso orario</value>
   </data>
+  <data name="UtcOffset" xml:space="preserve">
+    <value>Differenza con UTC (Greenwich):</value>
+  </data>
   <data name="DaylightSavingTime" xml:space="preserve">
     <value>Ora legale</value>
   </data>
@@ -2850,6 +2853,9 @@ sequenza</value>
   <data name="TooltipCountry" xml:space="preserve">
     <value>Seleziona il paese per determinare automaticamente se l'ora legale è in vigore</value>
   </data>
+  <data name="TooltipCountryNameLanguage" xml:space="preserve">
+    <value>Nomi dei paesi in inglese o nella lingua del paese</value>
+  </data>
   <data name="CHOEaten" xml:space="preserve">
     <value>CHO mangiati</value>
   </data>
@@ -2863,6 +2869,11 @@ Precedente: {0}  ({1})
 Rilevato:   {2}  ({3})
 
 Vuoi aggiornare il fuso orario impostato?</value>
+  </data>
+  <data name="StartupCountryChangedPrompt" xml:space="preserve">
+    <value>Il paese del dispositivo ({1}) è diverso da quello configurato ({0}).
+
+Vuoi passare a {1}?</value>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>Data inizio</value>

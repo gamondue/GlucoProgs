@@ -94,6 +94,9 @@ namespace GlucoMan.Maui
 
                     // Disable alarm button if CantSetAlarms is true (user has sensor)
                     btnAlarms.IsEnabled = !Common.CantSetAlarms;
+
+                    // Check if the OS country differs from the configured one and prompt the user
+                    await TimeZoneCheckService.Instance.CheckStartupCountryAsync(this);
                 }
                 catch (Exception ex)
                 {

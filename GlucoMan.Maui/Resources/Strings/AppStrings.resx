@@ -2834,6 +2834,9 @@ sequence</value>
   <data name="SelectTimeZone" xml:space="preserve">
     <value>Select Time Zone</value>
   </data>
+  <data name="UtcOffset" xml:space="preserve">
+    <value>Offset with UTC (Greenwich):</value>
+  </data>
   <data name="DaylightSavingTime" xml:space="preserve">
     <value>Daylight Saving Time</value>
   </data>
@@ -2849,6 +2852,9 @@ sequence</value>
   <data name="TooltipCountry" xml:space="preserve">
     <value>Select the country to automatically determine whether Daylight Saving Time is in effect</value>
   </data>
+  <data name="TooltipCountryNameLanguage" xml:space="preserve">
+    <value>Country names in English or in the country's own language</value>
+  </data>
   <data name="CHOEaten" xml:space="preserve">
     <value>Eaten CHO</value>
   </data>
@@ -2862,6 +2868,11 @@ Previous: {0}  ({1})
 Detected: {2}  ({3})
 
 Do you want to update the time zone setting?</value>
+  </data>
+  <data name="StartupCountryChangedPrompt" xml:space="preserve">
+    <value>The device country ({1}) differs from the configured country ({0}).
+
+Do you want to switch to {1}?</value>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>Start Date</value>

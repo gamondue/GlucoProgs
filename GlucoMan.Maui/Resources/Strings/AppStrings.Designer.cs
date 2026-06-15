@@ -5654,6 +5654,15 @@ namespace GlucoMan.Maui.Resources.Strings {
                 return ResourceManager.GetString("TimeZoneChangedTitle", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a The device country ({1}) differs from the configured country ({0}).
+        /// </summary>
+        public static string StartupCountryChangedPrompt {
+            get {
+                return ResourceManager.GetString("StartupCountryChangedPrompt", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Cerca una stringa localizzata simile a To.
@@ -6149,7 +6158,16 @@ namespace GlucoMan.Maui.Resources.Strings {
                 return ResourceManager.GetString("TooltipCountry", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Country names in English or in the country's own language.
+        /// </summary>
+        public static string TooltipCountryNameLanguage {
+            get {
+                return ResourceManager.GetString("TooltipCountryNameLanguage", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Cerca una stringa localizzata simile a Current glucose: glucose measured before the meal.
         /// </summary>
@@ -8438,6 +8456,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string UserCancelledIdentification {
             get {
                 return ResourceManager.GetString("UserCancelledIdentification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Offset with UTC (Greenwich):.
+        /// </summary>
+        public static string UtcOffset {
+            get {
+                return ResourceManager.GetString("UtcOffset", resourceCulture);
             }
         }
         

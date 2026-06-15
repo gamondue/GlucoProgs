@@ -39,6 +39,57 @@ public class TimeZoneCheckService
     // ── public API ────────────────────────────────────────────────────────────
 
     /// <summary>
+    /// At startup, compares the OS system timezone (already in Common.CurrentTimeZone)
+    /// with the country stored in Parameters. If they differ and the OS country is
+    /// identifiable, asks the user whether to update the configured country.
+    /// Call once from MainPage after the DB parameters have been loaded.
+    /// </summary>
+    public async Task CheckStartupCountryAsync(Page page)
+    {
+        try
+        {
+            // Country detected from the OS timezone
+            var osCountry = CountryTimeZoneCatalogue.FindBySystemTimeZone();
+            if (osCountry == null) return;
+
+            // Country stored in the DB
+            var p = DatabaseService.Instance.Database.GetParameters();
+            string? storedCountryName = p?.Time_CountryName;
+
+            // No stored country yet → nothing to compare, OS value is already in Common.CurrentTimeZone
+            if (string.IsNullOrEmpty(storedCountryName)) return;
+
+            // Same country → nothing to do
+            if (storedCountryName == osCountry.Name) return;
+
+            // Countries differ: ask the user
+            bool isDstNow = osCountry.IsDstActiveAt(DateTime.UtcNow);
+            double newOffset = osCountry.StandardOffsetHours + (isDstNow ? 1 : 0);
+
+            string message = string.Format(
+                AppStrings.StartupCountryChangedPrompt,
+                storedCountryName,
+                osCountry.Name);
+
+            bool accepted = await page.DisplayAlert(
+                AppStrings.TimeZoneChangedTitle,
+                message,
+                AppStrings.Yes,
+                AppStrings.No);
+
+            if (!accepted) return;
+
+            // User accepted the OS country: update runtime state and persist
+            Common.CurrentTimeZone = newOffset;
+            UpdateParameters(osCountry.StandardOffsetHours, isDstNow, osCountry.Name);
+        }
+        catch (Exception ex)
+        {
+            General.LogOfProgram?.Error("TimeZoneCheckService.CheckStartupCountryAsync", ex);
+        }
+    }
+
+    /// <summary>
     /// Resolves the current timezone from GPS and, if it differs from the stored one,
     /// asks the user whether to update.  Must be awaited before the caller saves the record.
     /// </summary>

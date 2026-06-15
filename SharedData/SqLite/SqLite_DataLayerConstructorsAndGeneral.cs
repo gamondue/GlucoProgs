@@ -289,7 +289,7 @@ namespace GlucoMan
                     {
                         if (!FieldExists("Parameters", "Time_CurrentTimeZone"))
                         {
-                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN Time_CurrentTimeZone INTEGER;";
+                            cmd.CommandText = "ALTER TABLE Parameters ADD COLUMN Time_CurrentTimeZone REAL;";
                             cmd.ExecuteNonQuery();
                             General.LogOfProgram?.Debug("Migration: Added Time_CurrentTimeZone column to Parameters table");
                         }
@@ -342,6 +342,24 @@ namespace GlucoMan
                             cmd.CommandText = "ALTER TABLE Meals RENAME COLUMN TimeZone TO UtcOffset;";
                             cmd.ExecuteNonQuery();
                             General.LogOfProgram?.Debug("Migration: Renamed TimeZone -> UtcOffset in Meals table");
+                        }
+                        // Convert UtcOffset from INTEGER to REAL on all tables to support fractional
+                        // offsets (e.g. India +5.5, Nepal +5.75). SQLite has no ALTER COLUMN, so we
+                        // add a REAL column, copy the data, drop the old INTEGER column, then rename.
+                        foreach (var tbl in new[] { "GlucoseRecords", "Injections", "Meals", "Parameters" })
+                        {
+                            if (FieldExists(tbl, "UtcOffset") && !FieldExists(tbl, "UtcOffset_real"))
+                            {
+                                cmd.CommandText = $"ALTER TABLE {tbl} ADD COLUMN UtcOffset_real REAL;";
+                                cmd.ExecuteNonQuery();
+                                cmd.CommandText = $"UPDATE {tbl} SET UtcOffset_real = CAST(UtcOffset AS REAL);";
+                                cmd.ExecuteNonQuery();
+                                cmd.CommandText = $"ALTER TABLE {tbl} DROP COLUMN UtcOffset;";
+                                cmd.ExecuteNonQuery();
+                                cmd.CommandText = $"ALTER TABLE {tbl} RENAME COLUMN UtcOffset_real TO UtcOffset;";
+                                cmd.ExecuteNonQuery();
+                                General.LogOfProgram?.Debug($"Migration: Converted UtcOffset INTEGER -> REAL in {tbl}");
+                            }
                         }
                         // Add Time_IsDaylightSavingTime and Time_CountryName if missing
                         if (!FieldExists("Parameters", "Time_IsDaylightSavingTime"))

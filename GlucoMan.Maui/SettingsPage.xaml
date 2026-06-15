@@ -45,17 +45,7 @@
                            FontAttributes="Bold"
                            Margin="0,0,0,10"/>
 
-                    <HorizontalStackLayout>
-                        <Label Text="{x:Static strings:AppStrings.SelectTimeZone}"
-                               VerticalTextAlignment="Center"
-                               Margin="0,0,10,0"/>
-                        <Picker x:Name="pickerTimeZone"
-                                VerticalOptions="Center"
-                                HorizontalOptions="FillAndExpand"
-                                SelectedIndexChanged="OnTimeZoneChanged"/>
-                    </HorizontalStackLayout>
-
-                    <HorizontalStackLayout Margin="0,8,0,0"
+                    <HorizontalStackLayout Margin="0,0,0,0"
                                            ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipCountry}">
                         <Label Text="{x:Static strings:AppStrings.Country}"
                                VerticalTextAlignment="Center"
@@ -64,17 +54,28 @@
                                 VerticalOptions="Center"
                                 HorizontalOptions="FillAndExpand"
                                 SelectedIndexChanged="OnCountryChanged"/>
+                        <CheckBox x:Name="chkEnglishCountryNames"
+                                  VerticalOptions="Center"
+                                  Margin="4,0,0,0"
+                                  ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipCountryNameLanguage}"
+                                  CheckedChanged="OnEnglishCountryNamesChanged"/>
                         <Label Text="{x:Static strings:AppStrings.DaylightSavingTime}"
                                VerticalTextAlignment="Center"
-                               Margin="0,0,10,0"/>
+                               Margin="10,0,10,0"/>
                         <Picker x:Name="pickerDst"
                                 VerticalOptions="Center"
                                 HorizontalOptions="FillAndExpand"
                                 SelectedIndexChanged="OnDstChanged"/>
                     </HorizontalStackLayout>
 
-                    <HorizontalStackLayout Margin="0,8,0,0"
-                                           ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipDaylightSavingTime}">
+                    <HorizontalStackLayout Margin="0,8,0,0">
+                        <Label Text="{x:Static strings:AppStrings.UtcOffset}"
+                               VerticalTextAlignment="Center"
+                               Margin="0,0,10,0"/>
+                        <Picker x:Name="pickerUtcOffset"
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                SelectedIndexChanged="OnUtcOffsetChanged"/>
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Frame>

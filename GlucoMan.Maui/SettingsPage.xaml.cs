@@ -26,6 +26,10 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
     private List<DstOption> _dstOptions;
     // Country picker options: repopulated at every timezone change
     private List<CountryTimeZoneEntry> _countryOptions;
+    // UTC offset picker options
+    private List<TimeZoneOption> _utcOffsetOptions;
+    // Prevents cascading events when we programmatically change a picker
+    private bool _suppressPickerEvents = false;
 
     public SettingsPage(LocalizationService localizationService, IGeoTimeZoneService geoTimeZoneService = null)
     {
@@ -69,8 +73,8 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         
         // Setup language picker
         SetupLanguagePicker();
-        SetupTimeZonePicker();
         SetupDstPicker();
+        SetupUtcOffsetPicker();
         SetupCountryPicker(Parameters?.Time_CurrentTimeZone
             ?? CountryTimeZoneCatalogue.FindBySystemTimeZone()?.StandardOffsetHours
             ?? TimeZoneInfo.Local.BaseUtcOffset.TotalHours);
@@ -79,33 +83,6 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         _localizationService.CultureChanged += OnCultureChanged;
     }
     
-    private void SetupTimeZonePicker()
-    {
-        // All unique offsets present in the catalogue, sorted
-        var allOffsets = CountryTimeZoneCatalogue.All
-            .Select(c => c.StandardOffsetHours)
-            .Distinct()
-            .OrderBy(o => o)
-            .ToList();
-
-        var timeZones = new List<TimeZoneOption>();
-        foreach (var offset in allOffsets)
-        {
-            timeZones.Add(new TimeZoneOption { Offset = offset, DisplayName = FormatUtcOffset(offset) });
-        }
-        pickerTimeZone.ItemsSource = timeZones;
-        pickerTimeZone.ItemDisplayBinding = new Binding("DisplayName");
-
-        // Default to the device's current standard UTC offset when no saved parameters exist yet.
-        var current = Parameters?.Time_CurrentTimeZone
-            ?? CountryTimeZoneCatalogue.FindBySystemTimeZone()?.StandardOffsetHours
-            ?? TimeZoneInfo.Local.BaseUtcOffset.TotalHours;
-        var selected = timeZones.FirstOrDefault(tz => tz.Offset == current);
-        if (selected != null)
-            pickerTimeZone.SelectedItem = selected;
-    }
-
-    /// <summary>Formats a (possibly fractional) UTC offset as "UTC+5:30", "UTC-3:30", etc.</summary>
     private static string FormatUtcOffset(double hours)
     {
         string sign = hours >= 0 ? "+" : "-";
@@ -115,43 +92,67 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         return m == 0 ? $"UTC{sign}{h}" : $"UTC{sign}{h}:{m:D2}";
     }
 
-    private void OnTimeZoneChanged(object sender, EventArgs e)
+    private void SetupUtcOffsetPicker()
     {
-        if (pickerTimeZone.SelectedItem is TimeZoneOption selectedTz && Parameters != null)
-        {
-            Parameters.Time_CurrentTimeZone = selectedTz.Offset;
-            // Do NOT assign Common.CurrentTimeZone here: it will be computed DST-aware
-            // inside BlGeneral.SaveAllParameters (base offset + DST flag).
+        // Include both standard offsets and their +1 DST variants so all effective
+        // offsets are selectable, then deduplicate and sort.
+        _utcOffsetOptions = CountryTimeZoneCatalogue.All
+            .SelectMany(c => c.DstRule == DstRule.None
+                ? new[] { c.StandardOffsetHours }
+                : new[] { c.StandardOffsetHours, c.StandardOffsetHours + 1 })
+            .Distinct()
+            .OrderBy(o => o)
+            .Select(o => new TimeZoneOption { Offset = o, DisplayName = FormatUtcOffset(o) })
+            .ToList();
 
-            // Repopulate Country picker with only countries in this offset;
-            // OnCountryChanged will then drive the DST update automatically.
-            SetupCountryPicker(selectedTz.Offset);
+        pickerUtcOffset.ItemsSource = _utcOffsetOptions;
+        pickerUtcOffset.ItemDisplayBinding = new Binding("DisplayName");
+    }
 
-            BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin, SelectedLongActingInsulin);
-        }
+    private void UpdateUtcOffsetPicker(double offset)
+    {
+        if (_utcOffsetOptions == null) return;
+        var match = _utcOffsetOptions.FirstOrDefault(tz => Math.Abs(tz.Offset - offset) < 0.001);
+        _suppressPickerEvents = true;
+        pickerUtcOffset.SelectedItem = match; // null clears the picker if no match
+        _suppressPickerEvents = false;
+    }
+
+    private bool UseEnglishCountryNames
+    {
+        get => Preferences.Default.Get("CountryNamesInEnglish", false);
+        set => Preferences.Default.Set("CountryNamesInEnglish", value);
+    }
+
+    private void OnEnglishCountryNamesChanged(object sender, CheckedChangedEventArgs e)
+    {
+        UseEnglishCountryNames = e.Value;
+        pickerCountry.ItemDisplayBinding = new Binding(e.Value ? "Name" : "NativeName");
     }
 
     private void SetupCountryPicker(double utcOffsetHours)
     {
-        _countryOptions = CountryTimeZoneCatalogue.ForOffset(utcOffsetHours).ToList();
+        _countryOptions = CountryTimeZoneCatalogue.All.ToList();
         pickerCountry.ItemsSource = null;
         pickerCountry.ItemsSource = _countryOptions;
-        pickerCountry.ItemDisplayBinding = new Binding("Name");
 
-        // Keep the previously saved country if it belongs to the new offset.
-        // When no saved country exists, default to Italy if available, otherwise the first entry.
+        bool useEnglish = UseEnglishCountryNames;
+        _suppressPickerEvents = true;
+        chkEnglishCountryNames.IsChecked = useEnglish;
+        _suppressPickerEvents = false;
+        pickerCountry.ItemDisplayBinding = new Binding(useEnglish ? "Name" : "NativeName");
+
         var savedName = Parameters?.Time_CountryName;
-        // When no saved country exists, detect from the device's system timezone.
         var deviceCountry = string.IsNullOrEmpty(savedName)
             ? CountryTimeZoneCatalogue.FindBySystemTimeZone()
             : null;
         var toSelect = (!string.IsNullOrEmpty(savedName)
             ? _countryOptions.FirstOrDefault(c => c.Name == savedName)
             : null)
-            ?? (deviceCountry != null && _countryOptions.Any(c => c.Name == deviceCountry.Name)
-                ? _countryOptions.First(c => c.Name == deviceCountry.Name)
+            ?? (deviceCountry != null
+                ? _countryOptions.FirstOrDefault(c => c.Name == deviceCountry.Name)
                 : null)
-            ?? _countryOptions.FirstOrDefault();
+            ?? _countryOptions.FirstOrDefault(c => c.StandardOffsetHours == utcOffsetHours);
 
         // Assigning SelectedItem fires OnCountryChanged which resolves and sets DST.
         pickerCountry.SelectedItem = toSelect;
@@ -159,18 +160,23 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
 
     private void OnCountryChanged(object sender, EventArgs e)
     {
+        if (_suppressPickerEvents) return;
         if (pickerCountry.SelectedItem is not CountryTimeZoneEntry country) return;
         if (Parameters == null) return;
 
         Parameters.Time_CountryName = country.Name;
+        Parameters.Time_CurrentTimeZone = country.StandardOffsetHours;
 
-        // Compute whether DST is actually active right now for this country's rule.
         bool isDstNow = country.IsDstActiveAt(DateTime.UtcNow);
         Parameters.Time_IsDaylightSavingTime = isDstNow;
-        SelectDstInPicker(isDstNow);
 
-        // Update the runtime offset immediately.
+        // Suppress OnDstChanged while we set the DST picker programmatically.
+        _suppressPickerEvents = true;
+        SelectDstInPicker(isDstNow);
+        _suppressPickerEvents = false;
+
         Common.CurrentTimeZone = country.StandardOffsetHours + (isDstNow ? 1 : 0);
+        UpdateUtcOffsetPicker(Common.CurrentTimeZone);
 
         BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin, SelectedLongActingInsulin);
     }
@@ -199,13 +205,34 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
 
     private void OnDstChanged(object sender, EventArgs e)
     {
+        if (_suppressPickerEvents) return;
         if (pickerDst.SelectedItem is DstOption selected && Parameters != null)
         {
             Parameters.Time_IsDaylightSavingTime = selected.Value;
-            // Update the runtime offset immediately so all UI time entries reflect the change.
             Common.CurrentTimeZone = (Parameters.Time_CurrentTimeZone ?? 0) + (selected.Value ? 1 : 0);
+            UpdateUtcOffsetPicker(Common.CurrentTimeZone);
             BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin, SelectedLongActingInsulin);
         }
+    }
+
+    private void OnUtcOffsetChanged(object sender, EventArgs e)
+    {
+        if (_suppressPickerEvents) return;
+        if (pickerUtcOffset.SelectedItem is not TimeZoneOption selectedTz) return;
+        if (Parameters == null) return;
+
+        // Clear country and DST — the user is overriding manually.
+        _suppressPickerEvents = true;
+        pickerCountry.SelectedItem = null;
+        pickerDst.SelectedItem = null;
+        _suppressPickerEvents = false;
+
+        Parameters.Time_CountryName = null;
+        Parameters.Time_CurrentTimeZone = selectedTz.Offset;
+        Parameters.Time_IsDaylightSavingTime = null;
+        Common.CurrentTimeZone = selectedTz.Offset;
+
+        BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin, SelectedLongActingInsulin);
     }
 
     private void SetupLanguagePicker()
@@ -295,7 +322,7 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         public string DisplayName { get; set; }
     }
 
-    // Helper class for time zone picker
+    // Helper class for UTC offset picker
     public class TimeZoneOption
     {
         public double Offset { get; set; }
