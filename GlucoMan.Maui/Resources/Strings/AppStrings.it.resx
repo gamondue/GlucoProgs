@@ -1444,7 +1444,7 @@
     <value>Questa nuova unità deve essere applicabile a tutti i cibi o solo a questo?</value>
   </data>
   <data name="UnitApplicabilityAll" xml:space="preserve">
-    <value>Tutte</value>
+    <value>Tutti</value>
   </data>
   <data name="UnitApplicabilityThis" xml:space="preserve">
     <value>Questa</value>
