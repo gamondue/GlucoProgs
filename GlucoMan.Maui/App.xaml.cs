@@ -19,6 +19,15 @@ namespace GlucoMan.Maui
                 // Culture is already set in LocalizationService constructor from Preferences
             }
 
+            // Apply saved theme
+            var savedTheme = Preferences.Default.Get("AppTheme", "System");
+            UserAppTheme = savedTheme switch
+            {
+                "Light" => AppTheme.Light,
+                "Dark" => AppTheme.Dark,
+                _ => AppTheme.Unspecified
+            };
+
             // logging of non managed exceptions
             AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
             {

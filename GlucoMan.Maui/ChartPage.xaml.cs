@@ -451,23 +451,28 @@ public partial class ChartPage : ContentPage
             }
 
             // Draw Y labels
-            using (var paint = new SKPaint { Color = SKColors.Black, TextSize = 24, IsAntialias = true })
+            using (var paint = new SKPaint { Color = SKColors.Black, IsAntialias = true })
+            using (var font = new SKFont { Size = 24 })
             {
                 for (float y = initialY; y <= finalY; y += stepY)
                 {
                     float yPos = MapYToCanvas(y, chartRect, 0, finalY);
-                    paint.TextAlign = SKTextAlign.Right;
-                    canvas.DrawText($"{y:F0}", chartRect.Left - 15, yPos + 8, paint);
+                    var text = $"{y:F0}";
+                    var textWidth = font.MeasureText(text);
+                    canvas.DrawText(text, chartRect.Left - 15 - textWidth, yPos + 8, font, paint);
                 }
             }
 
             // Draw X labels (every 4 hours, without 'h')
-            using (var paint = new SKPaint { Color = SKColors.Black, TextSize = 24, IsAntialias = true, TextAlign = SKTextAlign.Center })
+            using (var paint = new SKPaint { Color = SKColors.Black, IsAntialias = true })
+            using (var font = new SKFont { Size = 24 })
             {
                 for (float x = initialX; x <= finalX; x += stepX)
                 {
                     float xPos = MapXToCanvas(x, chartRect, initialX, finalX);
-                    canvas.DrawText($"{x:F0}", xPos, chartRect.Bottom + 35, paint);
+                    var text = $"{x:F0}";
+                    var textWidth = font.MeasureText(text);
+                    canvas.DrawText(text, xPos - textWidth / 2, chartRect.Bottom + 35, font, paint);
                 }
             }
 

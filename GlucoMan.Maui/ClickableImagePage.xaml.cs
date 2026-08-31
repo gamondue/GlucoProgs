@@ -16,6 +16,11 @@ public partial class ClickableImagePage : ContentPage
     private bool firstPass = true;
     private double circlesVisibilityMaxTimeInDays;
 
+    // Long-press tooltip support
+    private IDispatcherTimer? _longPressTimer;
+    private Microsoft.Maui.Graphics.Point _pressPoint;
+    private const int LongPressDurationMs = 600;
+
     public ClickableImagePage(ref Injection currentInjection)
 	{
 		InitializeComponent();
@@ -199,14 +204,64 @@ public partial class ClickableImagePage : ContentPage
             allCircles.IsCallerEditing = false;
         }
         editing = false;
-        
+
         // if the user exits with another path the current position is forgotten
         this.Navigation.PopAsync();
+    }
+
+    private void OnLongPressPointerPressed(object sender, PointerEventArgs e)
+    {
+        if (allCircles == null) return;
+        var pos = e.GetPosition((View)sender);
+        if (!pos.HasValue) return;
+        _pressPoint = new Microsoft.Maui.Graphics.Point(pos.Value.X, pos.Value.Y);
+        _longPressTimer?.Stop();
+        _longPressTimer = Dispatcher.CreateTimer();
+        _longPressTimer.Interval = TimeSpan.FromMilliseconds(LongPressDurationMs);
+        _longPressTimer.IsRepeating = false;
+        _longPressTimer.Tick += (_, _) => ShowTooltipAt(_pressPoint);
+        _longPressTimer.Start();
+    }
+    private void OnLongPressPointerReleased(object sender, PointerEventArgs e)
+    {
+        _longPressTimer?.Stop();
+        HideTooltip();
+    }
+    private void OnLongPressPointerMoved(object sender, PointerEventArgs e)
+    {
+        if (_longPressTimer == null || !_longPressTimer.IsRunning) return;
+        var pos = e.GetPosition((View)sender);
+        if (!pos.HasValue) return;
+        var moved = new Microsoft.Maui.Graphics.Point(pos.Value.X, pos.Value.Y);
+        double dx = moved.X - _pressPoint.X;
+        double dy = moved.Y - _pressPoint.Y;
+        if (Math.Sqrt(dx * dx + dy * dy) > 8)
+        {
+            _longPressTimer.Stop();
+            HideTooltip();
+        }
+    }
+    private void ShowTooltipAt(Microsoft.Maui.Graphics.Point point)
+    {
+        string? text = allCircles?.FindTooltipAtPoint(point);
+        if (string.IsNullOrEmpty(text)) return;
+        tooltipLabel.Text = text;
+        double x = point.X + 12;
+        double y = point.Y - 65;
+        if (y < 0) y = point.Y + 16;
+        tooltipFrame.Margin = new Thickness(x, y, 0, 0);
+        tooltipFrame.IsVisible = true;
+    }
+    private void HideTooltip()
+    {
+        tooltipFrame.IsVisible = false;
     }
 
     // Aggiungi override per gestire il back button
     protected override void OnDisappearing()
     {
+        _longPressTimer?.Stop();
+        HideTooltip();
         // SOLUZIONE: Reset del flag quando la pagina viene chiusa
         if (allCircles != null)
         {

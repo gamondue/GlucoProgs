@@ -24,7 +24,7 @@
                            FontSize="18" 
                            FontAttributes="Bold" 
                            Margin="0,0,0,10"/>
-                    
+
                     <HorizontalStackLayout>
                         <Label Text="{x:Static strings:AppStrings.SelectLanguage}" 
                                VerticalTextAlignment="Center" 
@@ -33,6 +33,26 @@
                                 VerticalOptions="Center"
                                 HorizontalOptions="FillAndExpand"
                                 SelectedIndexChanged="OnLanguageChanged"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Theme Selection Section -->
+            <Frame BorderColor="Gray" Padding="10" Margin="0,0,0,15" CornerRadius="5">
+                <VerticalStackLayout>
+                    <Label Text="{x:Static strings:AppStrings.Theme}" 
+                           FontSize="18" 
+                           FontAttributes="Bold" 
+                           Margin="0,0,0,10"/>
+
+                    <HorizontalStackLayout>
+                        <Label Text="{x:Static strings:AppStrings.SelectTheme}" 
+                               VerticalTextAlignment="Center" 
+                               Margin="0,0,10,0"/>
+                        <Picker x:Name="pickerTheme" 
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                SelectedIndexChanged="OnThemeChanged"/>
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Frame>

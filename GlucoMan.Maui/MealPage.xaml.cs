@@ -175,15 +175,21 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         double? displayedCho = Safe.Double(txtMealCarbohydratesGrams.Text);
         double? displayedAccuracy = Safe.Double(txtAccuracyOfChoMeal.Text);
 
+        // Store values BEFORE recalculation to detect actual changes
+        double? oldCho = bl.Meal.CarbohydratesGrams.Double;
+        double? oldAccuracy = bl.Meal.AccuracyOfChoEstimate.Double;
+
         bl.RecalcTotalCho();
         bl.RecalcTotalAccuracy();
 
         double? calculatedCho = bl.Meal.CarbohydratesGrams.Double;
         double? calculatedAccuracy = bl.Meal.AccuracyOfChoEstimate.Double;
 
+        // Check if displayed values differ from calculated values (NOT from stored values)
         bool choChanged = Math.Abs((displayedCho ?? 0) - (calculatedCho ?? 0)) > 0.01;
         bool accuracyChanged = Math.Abs((displayedAccuracy ?? 0) - (calculatedAccuracy ?? 0)) > 0.01;
 
+        // Only prompt if there are foods AND the displayed values genuinely differ from calculated
         if ((bl.FoodsInMeal != null && bl.FoodsInMeal.Count != 0) && (choChanged || accuracyChanged))
         {
             bool useCalculatedValues = await DisplayAlert(

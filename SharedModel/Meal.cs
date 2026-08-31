@@ -16,7 +16,8 @@ namespace GlucoMan
         [DisplayName("CHO of meal")]
         public DoubleAndText CarbohydratesGrams { get; set; }
 
-        // the following property is for string representation of carbohydrates, e.g. "2 slices of bread"
+        // the following property is for string representation of carbohydrates,
+        // e.g. "2 slices of bread"
         // currently it is NOT STORED in the database, nor used in the code logic
         public DoubleAndText CarbohydratesString { get; set; }
 

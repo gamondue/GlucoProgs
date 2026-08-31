@@ -5622,13 +5622,58 @@ namespace GlucoMan.Maui.Resources.Strings {
                 return ResourceManager.GetString("TimeToHypo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Cerca una stringa localizzata simile a Current Time Zone.
         /// </summary>
         public static string TimeZone {
             get {
                 return ResourceManager.GetString("TimeZone", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Theme.
+        /// </summary>
+        public static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Light.
+        /// </summary>
+        public static string ThemeLight {
+            get {
+                return ResourceManager.GetString("ThemeLight", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Dark.
+        /// </summary>
+        public static string ThemeDark {
+            get {
+                return ResourceManager.GetString("ThemeDark", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a System.
+        /// </summary>
+        public static string ThemeSystem {
+            get {
+                return ResourceManager.GetString("ThemeSystem", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Select Theme.
+        /// </summary>
+        public static string SelectTheme {
+            get {
+                return ResourceManager.GetString("SelectTheme", resourceCulture);
             }
         }
         

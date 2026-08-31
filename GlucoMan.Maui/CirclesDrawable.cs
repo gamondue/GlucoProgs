@@ -343,10 +343,16 @@ namespace GlucoMan.Maui
                     // multiply by image height and width to bring the coordinates from 
                     // normalized (from 0 to 1) to real.
                     // N.B.: they are the normalized coordinates that are stored in the database
+                    string tooltipText = injection.EventTime.DateTime.HasValue
+                        ? injection.EventTime.DateTime.Value.ToString("dd/MM/yyyy HH:mm")
+                        : "?";
+                    if (injection.InsulinValue?.Double != null)
+                        tooltipText += $"\n{injection.InsulinValue.Double} U";
                     CircleData circlePoint = new CircleData(new Microsoft.Maui.Graphics.Point(
                         (float)(injection.PositionX * imageWidth),
                         (float)(injection.PositionY * imageHeight)),
-                        circleColor);
+                        circleColor,
+                        tooltipText);
                     InjectionPointsCoordinates.Add(circlePoint);
                 }
             }
@@ -369,6 +375,28 @@ namespace GlucoMan.Maui
         internal double? NormalizeYPosition(double y)
         {
             return y / imageHeight;
+        }
+        /// <summary>
+        /// Returns the tooltip text of the injection circle nearest to tapPoint,
+        /// or null if no circle is within the hit radius.
+        /// </summary>
+        internal string? FindTooltipAtPoint(Microsoft.Maui.Graphics.Point tapPoint)
+        {
+            float hitRadius = CurrentInjectionRadius * 1.8f;
+            CircleData? nearest = null;
+            double minDist = double.MaxValue;
+            foreach (CircleData circle in InjectionPointsCoordinates)
+            {
+                double dx = circle.Position.X - tapPoint.X;
+                double dy = circle.Position.Y - tapPoint.Y;
+                double dist = Math.Sqrt(dx * dx + dy * dy);
+                if (dist <= hitRadius && dist < minDist)
+                {
+                    minDist = dist;
+                    nearest = circle;
+                }
+            }
+            return nearest?.TooltipText;
         }
         // helper to convert with no quantization to byte
         private static Color HsvToColor(int hue, double saturation01, double value01, float alpha)
@@ -408,10 +436,12 @@ namespace GlucoMan.Maui
     {
         internal Microsoft.Maui.Graphics.Point Position { get; private set; }
         internal Color Color { get; private set; }
-        internal CircleData(Microsoft.Maui.Graphics.Point Position, Color Color)
+        internal string TooltipText { get; private set; }
+        internal CircleData(Microsoft.Maui.Graphics.Point Position, Color Color, string TooltipText = "")
         {
             this.Position = Position;
             this.Color = Color;
+            this.TooltipText = TooltipText;
         }
     }
 }

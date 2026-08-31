@@ -33,18 +33,17 @@ namespace GlucoMan
         }
         /// <summary>
         /// Constructor of DataLayer class that get from outside the databases to use
-        /// Assumes that the file exists.
         /// </summary>
         internal DL_Sqlite(string PathAndFile)
         {
-            // ???? is next if useful ????
-            //if (!System.IO.File.Exists(PathAndFile))
-            //{
-            //    string err = @"[" + PathAndFile + " not in the current nor in the dev directory]";
-            //    General.LogOfProgram.Error(err, null);
-            //    throw new System.IO.FileNotFoundException(err);
-            //}
             dbName = PathAndFile;
+            SQLitePCL.Batteries.Init();
+            if (!System.IO.File.Exists(PathAndFile))
+            {
+                // since the file doesn't exist yet, we create it:
+                CreateNewDatabase(dbName);
+            }
+            MigrateDatabaseIfNeeded();
         }
         #endregion
         #region properties

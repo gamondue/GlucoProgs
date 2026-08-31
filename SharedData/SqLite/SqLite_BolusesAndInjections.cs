@@ -39,9 +39,8 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    var utcToStore = Injection.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
                     string query = "UPDATE Injections SET " +
-                    "Timestamp=" + SqliteSafe.Date(utcToStore) + "," +
+                    "Timestamp=" + SqliteSafe.Date(Injection.EventTime.DateTime) + "," +
                     "InsulinValue=" + SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
                     "InsulinCalculated=" + SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
                     "Zone=" + (int)Injection.Zone + "," +
@@ -74,7 +73,6 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    var utcToStore = Injection.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
                     string query = "INSERT INTO Injections" +
                     "(" +
                     "IdInjection,Timestamp,InsulinValue,InsulinCalculated," +
@@ -82,7 +80,7 @@ namespace GlucoMan
                     "IdTypeOfInjection,IdTypeOfInsulinAction,IdInsulinDrug,InsulinString,UtcOffset";
                     query += ")VALUES(" +
                     SqliteSafe.Int(Injection.IdInjection) + "," +
-                    SqliteSafe.Date(utcToStore) + "," +
+                    SqliteSafe.Date(Injection.EventTime.DateTime) + "," +
                     SqliteSafe.Double(Injection.InsulinValue.Double) + "," +
                     SqliteSafe.Double(Injection.InsulinCalculated.Double) + "," +
                     (int)Injection.Zone + "," +
@@ -280,8 +278,7 @@ namespace GlucoMan
             {
                 ii.IdInjection = Safe.Int(Row["IdInjection"]);
                 ii.UtcOffset = Safe.Double(Row["UtcOffset"]);
-                var utcTime = Safe.DateTime(Row["Timestamp"]);
-                ii.EventTime.DateTime = utcTime?.AddHours(ii.UtcOffset ?? 0);
+                ii.EventTime.DateTime = Safe.DateTime(Row["Timestamp"]);
                 ii.InsulinValue.Double = Safe.Double(Row["InsulinValue"]);
                 ii.InsulinCalculated.Double = Safe.Double(Row["InsulinCalculated"]);
                 ii.PositionX = Safe.Double(Row["InjectionPositionX"]);
@@ -534,7 +531,10 @@ namespace GlucoMan
                     using (DbCommand cmd = conn.CreateCommand())
                     {
                         cmd.Transaction = tran;
-                        cmd.CommandText = "INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, InsulinString, Zone) VALUES (@id,@ts,@insval,@inscalc,@posx,@posy,@notes,@type,@action,@drug,@istr,@zone);";
+                        cmd.CommandText = "INSERT INTO Injections (IdInjection, Timestamp, InsulinValue, InsulinCalculated, " +
+                            "InjectionPositionX, InjectionPositionY, Notes, IdTypeOfInjection, IdTypeOfInsulinAction, IdInsulinDrug, " +
+                            "InsulinString, Zone, UtcOffset) " +
+                            "VALUES (@id,@ts,@insval,@inscalc,@posx,@posy,@notes,@type,@action,@drug,@istr,@zone,@UtcOffset);";
 
                         var pId = cmd.CreateParameter(); pId.ParameterName = "@id"; pId.DbType = DbType.Int32; cmd.Parameters.Add(pId);
                         var pTs = cmd.CreateParameter(); pTs.ParameterName = "@ts"; pTs.DbType = DbType.DateTime; cmd.Parameters.Add(pTs);
@@ -548,6 +548,7 @@ namespace GlucoMan
                         var pDrug = cmd.CreateParameter(); pDrug.ParameterName = "@drug"; pDrug.DbType = DbType.Int32; cmd.Parameters.Add(pDrug);
                         var pIstr = cmd.CreateParameter(); pIstr.ParameterName = "@istr"; pIstr.DbType = DbType.String; cmd.Parameters.Add(pIstr);
                         var pZone = cmd.CreateParameter(); pZone.ParameterName = "@zone"; pZone.DbType = DbType.Int32; cmd.Parameters.Add(pZone);
+                        var pUtcOffset = cmd.CreateParameter(); pZone.ParameterName = "@UtcOffset"; pUtcOffset.DbType = DbType.Double; cmd.Parameters.Add(pUtcOffset);
 
                         try { cmd.Prepare(); } catch { /* ignore */ }
 
@@ -570,7 +571,6 @@ namespace GlucoMan
                             inj.IdInjection = currentKey; // set generated id back
                             currentKey++;
                         }
-
                         tran.Commit();
                     }
                 }

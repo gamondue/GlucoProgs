@@ -68,8 +68,27 @@
             <GraphicsView x:Name="cerchiGraphicsView">
                 <GraphicsView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    <PointerGestureRecognizer
+                        PointerPressed="OnLongPressPointerPressed"
+                        PointerReleased="OnLongPressPointerReleased"
+                        PointerMoved="OnLongPressPointerMoved" />
                 </GraphicsView.GestureRecognizers>
             </GraphicsView>
+
+            <!-- Tooltip overlay: terzo figlio del Grid, si sovrappone per ordine Z -->
+            <Frame x:Name="tooltipFrame"
+                   IsVisible="False"
+                   BackgroundColor="#CC000000"
+                   CornerRadius="8"
+                   Padding="10,6"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Start"
+                   WidthRequest="210">
+                <Label x:Name="tooltipLabel"
+                       TextColor="White"
+                       FontSize="13"
+                       LineBreakMode="WordWrap" />
+            </Frame>
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

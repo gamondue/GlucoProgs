@@ -129,8 +129,9 @@ namespace GlucoMan
         }
         internal Meal GetMealFromRow(DbDataReader Row)
         {
+            // TimeBegin (EventTime) is stored in local computer time; UtcOffset stores the
+            // current DST-aware offset so it can be converted to UTC when needed.
             Meal m = new Meal();
-            GlucoseRecord gr = new GlucoseRecord();
             try
             {
                 m.IdMeal = Safe.Int(Row["IdMeal"]);
@@ -140,15 +141,15 @@ namespace GlucoMan
                     m.IdTypeOfMeal = (TypeOfMeal)Safe.Int(Row["IdTypeOfMeal"]);
                 m.CarbohydratesGrams.Double = Safe.Double(Row["Carbohydrates"]);
                 m.UtcOffset = Safe.Double(Row["UtcOffset"]);
-                var utcBegin = Safe.DateTime(Row["TimeBegin"]);
-                m.EventTime.DateTime = utcBegin?.AddHours(m.UtcOffset ?? 0);
+                m.EventTime.DateTime = Safe.DateTime(Row["TimeBegin"]);
                 m.Notes = Safe.String(Row["Notes"]);
                 m.AccuracyOfChoEstimate.Double = Safe.Double(Row["AccuracyOfChoEstimate"]);
                 m.IdBolusCalculation = Safe.Int(Row["IdBolusCalculation"]);
                 m.IdGlucoseRecord = Safe.Int(Row["IdGlucoseRecord"]);
                 m.IdInjection = Safe.Int(Row["IdInjection"]);
-                var utcEnd = Safe.DateTime(Row["TimeEnd"]);
-                m.TimeEnd.DateTime = utcEnd?.AddHours(m.UtcOffset ?? 0);
+                m.TimeEnd.DateTime = Safe.DateTime(Row["TimeEnd"]);
+                // UtcOffset column may not exist in older database schemas
+                try { m.UtcOffset = Safe.Double(Row["UtcOffset"]); } catch { m.UtcOffset = 0; }
             }
             catch (Exception ex)
             {
@@ -163,18 +164,16 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    var utcBegin = Meal.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
-                    var utcEnd = Meal.TimeEnd.DateTime?.AddHours(-Common.CurrentTimeZone);
                     string query = "UPDATE Meals SET " +
                     "IdTypeOfMeal=" + SqliteSafe.Int((int)Meal.IdTypeOfMeal) + "," +
                     "Carbohydrates=" + SqliteSafe.Double(Meal.CarbohydratesGrams.Double) + "," +
-                    "TimeBegin=" + SqliteSafe.Date(utcBegin) + "," +
+                    "TimeBegin=" + SqliteSafe.Date(Meal.EventTime.DateTime) + "," +
                     "Notes=" + SqliteSafe.String(Meal.Notes) + "," +
                     "AccuracyOfChoEstimate=" + SqliteSafe.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
                     "IdBolusCalculation=" + SqliteSafe.Int(Meal.IdBolusCalculation) + "," +
                     "IdGlucoseRecord=" + SqliteSafe.Int(Meal.IdGlucoseRecord) + "," +
                     "IdInjection=" + SqliteSafe.Int(Meal.IdInjection) + "," +
-                    "TimeEnd=" + SqliteSafe.Date(utcEnd) + "," +
+                    "TimeEnd=" + SqliteSafe.Date(Meal.TimeEnd.DateTime) + "," +
                     "UtcOffset=" + SqliteSafe.Double(Common.CurrentTimeZone) + "" +
                     " WHERE IdMeal=" + SqliteSafe.Int(Meal.IdMeal) +
                     ";";
@@ -197,8 +196,6 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    var utcBegin = Meal.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
-                    var utcEnd = Meal.TimeEnd.DateTime?.AddHours(-Common.CurrentTimeZone);
                     string query = "INSERT INTO Meals" +
                     "(" +
                     "IdMeal,IdTypeOfMeal,Carbohydrates,TimeBegin,Notes,AccuracyOfChoEstimate," +
@@ -207,13 +204,13 @@ namespace GlucoMan
                     SqliteSafe.Int(Meal.IdMeal) + "," +
                     SqliteSafe.Int((int)Meal.IdTypeOfMeal) + "," +
                     SqliteSafe.Double(Meal.CarbohydratesGrams.Double) + "," +
-                    SqliteSafe.Date(utcBegin) + "," +
+                    SqliteSafe.Date(Meal.EventTime.DateTime) + "," +
                     SqliteSafe.String(Meal.Notes) + "," +
                     SqliteSafe.Double(Meal.AccuracyOfChoEstimate.Double) + "," +
                     SqliteSafe.Int(Meal.IdBolusCalculation) + "," +
                     SqliteSafe.Int(Meal.IdGlucoseRecord) + "," +
                     SqliteSafe.Int(Meal.IdInjection) + "," +
-                    SqliteSafe.Date(utcEnd) + "," +
+                    SqliteSafe.Date(Meal.TimeEnd.DateTime) + "," +
                     SqliteSafe.Double(Common.CurrentTimeZone) + "";
                     query += ");";
                     cmd.CommandText = query;
@@ -1375,7 +1372,9 @@ namespace GlucoMan
                     using (DbCommand cmd = conn.CreateCommand())
                     {
                         cmd.Transaction = tran;
-                        cmd.CommandText = "INSERT INTO Meals (IdMeal, IdTypeOfMeal, Carbohydrates, TimeBegin, Notes, AccuracyOfChoEstimate, IdBolusCalculation, IdGlucoseRecord, IdInjection, TimeEnd) VALUES (@id,@type,@carb,@tbegin,@notes,@accuracy,@idbolus,@idgluc,@idinj,@tend);";
+                        cmd.CommandText = "INSERT INTO Meals (IdMeal, IdTypeOfMeal, Carbohydrates, TimeBegin, Notes, AccuracyOfChoEstimate, " +
+                            "IdBolusCalculation, IdGlucoseRecord, IdInjection, TimeEnd, UtcOffset) " +
+                            "VALUES (@id,@type,@carb,@tbegin,@notes,@accuracy,@idbolus,@idgluc,@idinj,@tend,@utcOffset);";
 
                         var pId = cmd.CreateParameter(); pId.ParameterName = "@id"; pId.DbType = DbType.Int32; cmd.Parameters.Add(pId);
                         var pType = cmd.CreateParameter(); pType.ParameterName = "@type"; pType.DbType = DbType.Int32; cmd.Parameters.Add(pType);
@@ -1387,6 +1386,7 @@ namespace GlucoMan
                         var pIdGluc = cmd.CreateParameter(); pIdGluc.ParameterName = "@idgluc"; pIdGluc.DbType = DbType.Int32; cmd.Parameters.Add(pIdGluc);
                         var pIdInj = cmd.CreateParameter(); pIdInj.ParameterName = "@idinj"; pIdInj.DbType = DbType.Int32; cmd.Parameters.Add(pIdInj);
                         var pTEnd = cmd.CreateParameter(); pTEnd.ParameterName = "@tend"; pTEnd.DbType = DbType.DateTime; cmd.Parameters.Add(pTEnd);
+                        var pUtcOffset = cmd.CreateParameter(); pTEnd.ParameterName = "@utcOffset"; pUtcOffset.DbType = DbType.Double; cmd.Parameters.Add(pUtcOffset);
 
                         try { cmd.Prepare(); } catch { /* ignore */ }
 
@@ -1405,12 +1405,12 @@ namespace GlucoMan
                             pIdGluc.Value = meal?.IdGlucoseRecord ?? (object)DBNull.Value;
                             pIdInj.Value = meal?.IdInjection ?? (object)DBNull.Value;
                             pTEnd.Value = meal?.TimeEnd?.DateTime ?? (object)DBNull.Value;
+                            pUtcOffset.Value = meal?.UtcOffset ?? (object)DBNull.Value;
 
                             cmd.ExecuteNonQuery();
                             meal.IdMeal = currentKey;
                             currentKey++;
                         }
-
                         tran.Commit();
                     }
                 }

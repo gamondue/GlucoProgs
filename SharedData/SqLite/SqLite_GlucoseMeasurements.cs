@@ -126,11 +126,12 @@ namespace GlucoMan
                 gr.IdTypeOfDevice = Safe.String(Row["IdTypeOfDevice"]);
                 gr.IdDeviceModel = Safe.Int(Row["IdDeviceModel"]);
                 gr.Notes = Safe.String(Row["Notes"]);
-                // UtcOffset column may not exist in older database schemas
+                // TimeOfMeasurement is stored in local computer time; UtcOffset stores the
+                // current DST-aware offset so it can be converted to UTC when needed.
+                gr.EventTime.DateTime = Safe.DateTime(Row["TimeOfMeasurement"]);
+
+                // UtcOffset column may not exist in older database schemas.
                 try { gr.UtcOffset = Safe.Double(Row["UtcOffset"]); } catch { gr.UtcOffset = 0; }
-                var utcTime = Safe.DateTime(Row["TimeOfMeasurement"]);
-                if (utcTime != null)
-                    gr.EventTime.DateTime = utcTime.Value.AddHours(gr.UtcOffset ?? 0);
             }
             catch (Exception ex)
             {
@@ -181,17 +182,20 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    var utcToStore = Measurement.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
+                    // Store the local computer time in TimeOfMeasurement. The DST-aware offset is
+                    // stored separately in UtcOffset so the value can be converted to UTC later.
+                    var localTimeToStore = Measurement.EventTime.DateTime;
+                    var offsetToStore = Common.CurrentTimeZone;
                     string query = "UPDATE GlucoseRecords SET " +
                     "GlucoseValue=" + SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
-                    "TimeOfMeasurement=" + SqliteSafe.Date(utcToStore) + "," +
+                    "TimeOfMeasurement=" + SqliteSafe.Date(localTimeToStore) + "," +
                     "GlucoseString=" + SqliteSafe.String(Measurement.GlucoseString) + "," +
                     "IdTypeOfGlucoseMeasurement=" + SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurement) + "," +
                     "IdOfDevice=" + SqliteSafe.Int(Measurement.IdOfDevice) + "," +
                     "IdTypeOfDevice=" + SqliteSafe.String(Measurement.IdTypeOfDevice) + "," +
                     "IdDeviceModel=" + SqliteSafe.Int(Measurement.IdDeviceModel) + "," +
                     "Notes=" + SqliteSafe.String(Measurement.Notes) + "," +
-                    "UtcOffset=" + SqliteSafe.Double(Common.CurrentTimeZone) + "";
+                    "UtcOffset=" + SqliteSafe.Double(offsetToStore) + "";
                     query += " WHERE IdGlucoseRecord=" + SqliteSafe.Int(Measurement.IdGlucoseRecord);
                     query += ";";
                     cmd.CommandText = query;
@@ -213,7 +217,8 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    var utcToStore = Measurement.EventTime.DateTime?.AddHours(-Common.CurrentTimeZone);
+                    var localTimeToStore = Measurement.EventTime.DateTime;
+                    var offsetToStore = Common.CurrentTimeZone;
                     string query = "INSERT INTO GlucoseRecords" +
                     "(" +
                     "IdGlucoseRecord,GlucoseValue,TimeOfMeasurement,GlucoseString," +
@@ -221,14 +226,14 @@ namespace GlucoMan
                     query += ")VALUES (" +
                     SqliteSafe.Int(Measurement.IdGlucoseRecord) + "," +
                     SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
-                    SqliteSafe.Date(utcToStore) + "," +
+                    SqliteSafe.Date(localTimeToStore) + "," +
                     SqliteSafe.String(Measurement.GlucoseString) + "," +
                     SqliteSafe.Int((int?)Measurement.TypeOfGlucoseMeasurement) + "," +
                     SqliteSafe.Int(Measurement.IdOfDevice) + "," +
                     SqliteSafe.String(Measurement.IdTypeOfDevice) + "," +
                     SqliteSafe.Int(Measurement.IdDeviceModel) + "," +
                     SqliteSafe.String(Measurement.Notes) + "," +
-                    SqliteSafe.Double(Common.CurrentTimeZone) + ")";
+                    SqliteSafe.Double(offsetToStore) + ")";
                     query += ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -313,7 +318,9 @@ namespace GlucoMan
                     using (DbCommand cmd = conn.CreateCommand())
                     {
                         cmd.Transaction = tran;
-                        cmd.CommandText = "INSERT INTO SensorsRecords (IdGlucoseRecord,GlucoseValue,TimeOfMeasurement,GlucoseString,IdTypeOfGlucoseMeasurement,IdOfDevice,IdTypeOfDevice,IdDeviceModel,Notes) VALUES (@id,@glucose,@ts,@gstr,@type,@idofdevice,@idtypeofdevice,@iddevicemodel,@notes);";
+                        cmd.CommandText = "INSERT INTO SensorsRecords (IdGlucoseRecord,GlucoseValue,TimeOfMeasurement," +
+                            "GlucoseString,IdTypeOfGlucoseMeasurement,IdOfDevice,IdTypeOfDevice,IdDeviceModel,Notes,UtcOffset) " +
+                            "VALUES (@id,@glucose,@ts,@gstr,@type,@idofdevice,@idtypeofdevice,@iddevicemodel,@notes,@UtcOffset);";
 
                         // create parameters once
                         var pId = cmd.CreateParameter(); pId.ParameterName = "@id"; pId.DbType = System.Data.DbType.Int32; cmd.Parameters.Add(pId);
@@ -325,6 +332,7 @@ namespace GlucoMan
                         var pIdTypeOfDevice = cmd.CreateParameter(); pIdTypeOfDevice.ParameterName = "@idtypeofdevice"; pIdTypeOfDevice.DbType = System.Data.DbType.String; cmd.Parameters.Add(pIdTypeOfDevice);
                         var pIdDeviceModel = cmd.CreateParameter(); pIdDeviceModel.ParameterName = "@iddevicemodel"; pIdDeviceModel.DbType = System.Data.DbType.Int32; cmd.Parameters.Add(pIdDeviceModel);
                         var pNotes = cmd.CreateParameter(); pNotes.ParameterName = "@notes"; pNotes.DbType = System.Data.DbType.String; cmd.Parameters.Add(pNotes);
+                        var pUtcOffset = cmd.CreateParameter(); pUtcOffset.ParameterName = "@UtcOffset"; pUtcOffset.DbType = System.Data.DbType.Double; cmd.Parameters.Add(pUtcOffset);
 
                         // Prepare the statement for repeated execution
                         try { cmd.Prepare(); } catch { /* Prepare may not be supported by all providers; ignore if fails */ }
@@ -341,6 +349,7 @@ namespace GlucoMan
                             pIdTypeOfDevice.Value = string.IsNullOrEmpty(Measurement?.IdTypeOfDevice) ? (object)DBNull.Value : Measurement.IdTypeOfDevice;
                             pIdDeviceModel.Value = Measurement?.IdDeviceModel ?? (object)DBNull.Value;
                             pNotes.Value = string.IsNullOrEmpty(Measurement?.Notes) ? (object)DBNull.Value : Measurement.Notes;
+                            pUtcOffset.Value = Measurement?.UtcOffset ?? (object)DBNull.Value;
 
                             cmd.ExecuteNonQuery();
                             currentKey++;

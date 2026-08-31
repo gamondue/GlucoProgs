@@ -140,31 +140,32 @@ public class GlucoseChartView : SKCanvasView
         using var textPaint = new SKPaint
         {
             Color = AxisColor,
-            TextSize = 24,
-            IsAntialias = true,
-            TextAlign = SKTextAlign.Center
+            IsAntialias = true
         };
-        
+
+        using var font = new SKFont { Size = 24 };
+
         using var tickPaint = new SKPaint
         {
             Color = AxisColor,
             Style = SKPaintStyle.Stroke,
             StrokeWidth = 2
         };
-        
+
         // Label asse Y con tick
         for (float y = MinY; y <= MaxY; y += YStep)
         {
             float yPos = MapYToCanvas(y, chartRect);
-            
+
             // Tick lungo
             canvas.DrawLine(chartRect.Left - 10, yPos, chartRect.Left, yPos, tickPaint);
-            
-            // Label
-            textPaint.TextAlign = SKTextAlign.Right;
-            canvas.DrawText($"{y:F0}", chartRect.Left - 15, yPos + 8, textPaint);
+
+            // Label (right-aligned)
+            var text = $"{y:F0}";
+            var textWidth = font.MeasureText(text);
+            canvas.DrawText(text, chartRect.Left - 15 - textWidth, yPos + 8, font, textPaint);
         }
-        
+
         // Tick corti intermedi asse Y (ogni 25)
         using var shortTickPaint = new SKPaint
         {
@@ -172,7 +173,7 @@ public class GlucoseChartView : SKCanvasView
             Style = SKPaintStyle.Stroke,
             StrokeWidth = 1
         };
-        
+
         for (float y = MinY; y <= MaxY; y += YStep / 2)
         {
             if (y % YStep != 0) // Solo tick intermedi
@@ -181,20 +182,21 @@ public class GlucoseChartView : SKCanvasView
                 canvas.DrawLine(chartRect.Left - 5, yPos, chartRect.Left, yPos, shortTickPaint);
             }
         }
-        
+
         // Label asse X con tick
         for (float x = MinX; x <= MaxX; x += XStep)
         {
             float xPos = MapXToCanvas(x, chartRect);
-            
+
             // Tick lungo
             canvas.DrawLine(xPos, chartRect.Bottom, xPos, chartRect.Bottom + 10, tickPaint);
-            
-            // Label
-            textPaint.TextAlign = SKTextAlign.Center;
-            canvas.DrawText($"{x:F0}h", xPos, chartRect.Bottom + 35, textPaint);
+
+            // Label (center-aligned)
+            var text = $"{x:F0}h";
+            var textWidth = font.MeasureText(text);
+            canvas.DrawText(text, xPos - textWidth / 2, chartRect.Bottom + 35, font, textPaint);
         }
-        
+
         // Tick corti intermedi asse X (ogni ora)
         for (float x = MinX; x <= MaxX; x += 1)
         {
@@ -204,12 +206,16 @@ public class GlucoseChartView : SKCanvasView
                 canvas.DrawLine(xPos, chartRect.Bottom, xPos, chartRect.Bottom + 5, shortTickPaint);
             }
         }
-        
+
         // Label unità di misura
-        textPaint.TextSize = 28;
-        textPaint.TextAlign = SKTextAlign.Center;
-        canvas.DrawText("mg/dL", chartRect.Left - 30, chartRect.Top - 10, textPaint);
-        canvas.DrawText("Hours", chartRect.Left + chartRect.Width / 2, chartRect.Bottom + 55, textPaint);
+        using var fontLabel = new SKFont { Size = 28 };
+        var mgdlText = "mg/dL";
+        var mgdlWidth = fontLabel.MeasureText(mgdlText);
+        canvas.DrawText(mgdlText, chartRect.Left - 30 - mgdlWidth / 2, chartRect.Top - 10, fontLabel, textPaint);
+
+        var hoursText = "Hours";
+        var hoursWidth = fontLabel.MeasureText(hoursText);
+        canvas.DrawText(hoursText, chartRect.Left + chartRect.Width / 2 - hoursWidth / 2, chartRect.Bottom + 55, fontLabel, textPaint);
     }
     private void DrawCurve(SKCanvas canvas, SKRect chartRect)
     {

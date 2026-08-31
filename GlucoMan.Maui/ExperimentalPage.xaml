@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
              x:Class="GlucoMan.Maui.ExperimentalPage"
-             Title="Experimental Works">
+             Title="Experimental, do not trust">
     <ScrollView Padding="10,5,10,5">
         <VerticalStackLayout Spacing="12">
             
             <!-- Header -->
-            <Label Text="Experimental Works"
+            <Label Text="Experimental, do not trust"
                    BackgroundColor="Red"
                    TextColor="Yellow"
                    HorizontalOptions="Fill"
@@ -79,7 +79,7 @@
                    Color="#34495e"
                    Margin="0,8,0,8"/>
           <Label
-                 Text="Experimental works on identification of paramaters of models of system's dynamics"
+                 Text="Experimental, do not trust on identification of paramaters of models of system's dynamics"
                  HorizontalOptions="Center"
                  FontSize="16"
                  FontAttributes="Bold"
@@ -98,7 +98,7 @@
                    Color="#34495e"
                    Margin="0,8,0,8"/>
           <Label
-                 Text="Experimental works on extrapolation with identified models"
+                 Text="Experimental, do not trust on extrapolation with identified models"
                  HorizontalOptions="Center"
                  FontSize="16"
                  FontAttributes="Bold"

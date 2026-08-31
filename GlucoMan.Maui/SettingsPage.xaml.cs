@@ -28,6 +28,8 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
     private List<CountryTimeZoneEntry> _countryOptions;
     // UTC offset picker options
     private List<TimeZoneOption> _utcOffsetOptions;
+    // Theme picker options
+    private List<ThemeOption> _themeOptions;
     // Prevents cascading events when we programmatically change a picker
     private bool _suppressPickerEvents = false;
 
@@ -70,9 +72,10 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
             txtInsulinShortDuration.Text = string.Empty;
             txtInsulinLongDuration.Text = string.Empty;
         }
-        
+
         // Setup language picker
         SetupLanguagePicker();
+        SetupThemePicker();
         SetupDstPicker();
         SetupUtcOffsetPicker();
         SetupCountryPicker(Parameters?.Time_CurrentTimeZone
@@ -203,6 +206,35 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         SelectDstInPicker(currentDst);
     }
 
+    private void SetupThemePicker()
+    {
+        _themeOptions =
+        [
+            new ThemeOption { Value = AppTheme.Unspecified, DisplayName = AppStrings.ThemeSystem },
+            new ThemeOption { Value = AppTheme.Light, DisplayName = AppStrings.ThemeLight },
+            new ThemeOption { Value = AppTheme.Dark, DisplayName = AppStrings.ThemeDark }
+        ];
+        pickerTheme.ItemsSource = _themeOptions;
+        pickerTheme.ItemDisplayBinding = new Binding("DisplayName");
+
+        // Restore saved theme preference
+        var savedTheme = Preferences.Default.Get("AppTheme", "System");
+        var themeToSelect = savedTheme switch
+        {
+            "Light" => AppTheme.Light,
+            "Dark" => AppTheme.Dark,
+            _ => AppTheme.Unspecified
+        };
+
+        var option = _themeOptions.FirstOrDefault(o => o.Value == themeToSelect);
+        if (option != null)
+        {
+            _suppressPickerEvents = true;
+            pickerTheme.SelectedItem = option;
+            _suppressPickerEvents = false;
+        }
+    }
+
     private void OnDstChanged(object sender, EventArgs e)
     {
         if (_suppressPickerEvents) return;
@@ -212,6 +244,27 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
             Common.CurrentTimeZone = (Parameters.Time_CurrentTimeZone ?? 0) + (selected.Value ? 1 : 0);
             UpdateUtcOffsetPicker(Common.CurrentTimeZone);
             BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin, SelectedLongActingInsulin);
+        }
+    }
+
+    private void OnThemeChanged(object sender, EventArgs e)
+    {
+        if (_suppressPickerEvents) return;
+        if (pickerTheme.SelectedItem is not ThemeOption selected) return;
+
+        // Save preference
+        var themeString = selected.Value switch
+        {
+            AppTheme.Light => "Light",
+            AppTheme.Dark => "Dark",
+            _ => "System"
+        };
+        Preferences.Default.Set("AppTheme", themeString);
+
+        // Apply theme immediately
+        if (Application.Current != null)
+        {
+            Application.Current.UserAppTheme = selected.Value;
         }
     }
 
@@ -333,6 +386,13 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
     public class DstOption
     {
         public bool Value { get; set; }
+        public string DisplayName { get; set; }
+    }
+
+    // Helper class for Theme picker
+    public class ThemeOption
+    {
+        public AppTheme Value { get; set; }
         public string DisplayName { get; set; }
     }
 }

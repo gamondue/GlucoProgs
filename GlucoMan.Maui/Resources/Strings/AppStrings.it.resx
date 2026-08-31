@@ -2832,6 +2832,21 @@ sequenza</value>
   <data name="TimeZone" xml:space="preserve">
     <value>Fuso orario corrente</value>
   </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="ThemeLight" xml:space="preserve">
+    <value>Chiaro</value>
+  </data>
+  <data name="ThemeDark" xml:space="preserve">
+    <value>Scuro</value>
+  </data>
+  <data name="ThemeSystem" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="SelectTheme" xml:space="preserve">
+    <value>Seleziona tema</value>
+  </data>
   <data name="SelectTimeZone" xml:space="preserve">
     <value>Seleziona fuso orario</value>
   </data>
