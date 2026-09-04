@@ -32,7 +32,7 @@
     <!-- .NET MAUI Core Packages -->
     <!-- ============================================ -->
     <PackageVersion Include="GeoTimeZone" Version="6.1.0" />
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.100" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.50" />
     <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.110" />
     <!-- ============================================ -->
     <!-- Microsoft Extensions & Logging -->
@@ -41,7 +41,7 @@
     <!-- ============================================ -->
     <!-- Community Toolkits -->
     <!-- ============================================ -->
-    <PackageVersion Include="CommunityToolkit.Maui" Version="15.0.1" />
+    <PackageVersion Include="CommunityToolkit.Maui" Version="14.0.1" />
     <!-- ============================================ -->
     <!-- Database (SQLite) -->
     <!-- ============================================ -->
@@ -75,7 +75,7 @@
     <!-- ============================================ -->
     <!-- Aggiungi qui altri pacchetti usati nei progetti SharedGlucoMan, SharedGeneral, ecc. -->
     <PackageVersion Include="TimeZoneConverter" Version="7.2.0" />
-    <PackageVersion Include="ZXing.Net.Maui.Controls" Version="0.10.4" />
+    <PackageVersion Include="ZXing.Net.Maui.Controls" Version="0.7.4" />
   </ItemGroup>
   <!-- 
     NOTE PER FUTURE AGGIUNTE:
