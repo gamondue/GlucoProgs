@@ -49,6 +49,7 @@
     <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="10.0.11" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
+    <PackageVersion Include="SQLitePCLRaw.lib.e_sqlite3.android" Version="2.1.12-pre20260709125052" />
     <!-- Nota: System.Data.SQLite.Core usato solo in SharedGlucoMan? -->
     <!-- <PackageVersion Include="System.Data.SQLite.Core" Version="1.0.119" /> -->
     <!-- ============================================ -->
