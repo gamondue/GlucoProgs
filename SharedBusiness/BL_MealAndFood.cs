@@ -393,9 +393,10 @@ namespace GlucoMan
         {
             return dl.GetAllUnitsOfOneFood(Food);
         }
-        internal void RemoveUnitFromFoodsUnits(Food currentFood)
+        // deletes the unit from the table: if unit.IdFood is null the unit is removed for all the foods
+        internal void RemoveUnitFromFoodsUnits(UnitOfFood unit)
         {
-            dl.RemoveUnitFromFoodsUnits(currentFood);
+            dl.RemoveUnitFromFoodsUnits(unit);
         }
         internal List<Manufacturer> GetAllManufacturersOfOneFood(Food food)
         {

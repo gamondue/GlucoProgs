@@ -198,7 +198,7 @@
                             ToolTipProperties.Text="Plus: creates a new manufacturer"
                             Clicked="btnAddFoodManufacturer_Clicked"/>
                     <Button Grid.Column="2"
-                            ImageSource="minus.png"
+                            
                             WidthRequest="40" HeightRequest="40" Padding="8"
                             ToolTipProperties.Text="Minus: deletes the selected manufacturer"
                             Clicked="btnRemoveFoodManufacturer_Clicked"/>

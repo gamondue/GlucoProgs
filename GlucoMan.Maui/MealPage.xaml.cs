@@ -60,11 +60,7 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             btnStartMeal.BackgroundColor = Colors.Red;
             btnStartMeal.TextColor = Colors.Yellow;
         }
-        // fill the combos
-        cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
-        cmbAccuracyFoodInMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
-
-        // create the objects that manage the accuracies 
+        // create the objects that manage the accuracies and localized combo items
         accuracyMeal = new UiAccuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
         accuracyFoodInMeal = new UiAccuracy(txtAccuracyOfChoFoodInMeal, cmbAccuracyFoodInMeal);
 
@@ -814,8 +810,11 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
         {
             if (!cmbAccuracyMeal.IsLoaded && bl.Meal != null && cmbAccuracyMeal.SelectedItem != null)
             {
-                var selectedAccuracy = (QualitativeAccuracy)cmbAccuracyMeal.SelectedItem;
-                double numericValue = (double)selectedAccuracy;
+                var selectedAccuracy = accuracyMeal.GetSelectedAccuracyValue();
+                if (!selectedAccuracy.HasValue)
+                    return;
+
+                double numericValue = (double)selectedAccuracy.Value;
 
                 // Update the meal's accuracy in the Data model
                 bl.Meal.AccuracyOfChoEstimate.Double = numericValue;

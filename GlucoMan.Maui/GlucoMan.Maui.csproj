@@ -460,4 +460,9 @@
 	  <InternalsVisibleTo Include="GlucoMan.Maui.UnitTests" />
 	</ItemGroup>
 
+	<!-- Promote transitive SQLite native library to an explicit reference for Android TFM -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android36.0'">
+		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.android" />
+	</ItemGroup>
+
 </Project>

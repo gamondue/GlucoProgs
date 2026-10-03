@@ -38,7 +38,7 @@ public partial class StatisticsAndGraphPageTests
     {
         // Arrange & Act
         StatisticsAndGraphPage? page = null;
-        TestDelegate act = () => page = new StatisticsAndGraphPage();
+        Action act = () => page = new StatisticsAndGraphPage();
 
         // Assert
         Assert.DoesNotThrow(act, "Constructor should not throw any exceptions during initialization.");
@@ -81,8 +81,8 @@ public partial class StatisticsAndGraphPageTests
         // Arrange & Act
         StatisticsAndGraphPage? page1 = null;
         StatisticsAndGraphPage? page2 = null;
-        TestDelegate act1 = () => page1 = new StatisticsAndGraphPage();
-        TestDelegate act2 = () => page2 = new StatisticsAndGraphPage();
+        Action act1 = () => page1 = new StatisticsAndGraphPage();
+        Action act2 = () => page2 = new StatisticsAndGraphPage();
 
         // Assert
         Assert.DoesNotThrow(act1, "First constructor call should not throw any exceptions.");

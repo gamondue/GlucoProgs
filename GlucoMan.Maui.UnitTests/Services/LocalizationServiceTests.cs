@@ -1690,7 +1690,7 @@ public partial class LocalizationServiceTests
     {
         // Act
         LocalizationService? service = null;
-        TestDelegate act = () => service = new LocalizationService();
+        Action act = () => service = new LocalizationService();
 
         // Assert
         Assert.DoesNotThrow(act);

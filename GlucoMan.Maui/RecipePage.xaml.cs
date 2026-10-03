@@ -1,4 +1,4 @@
- using gamon;
+using gamon;
 using GlucoMan;
 using static GlucoMan.Common;
 using Microsoft.Maui.Graphics;
@@ -33,11 +33,7 @@ public partial class RecipePage : ContentPage
         bl.Recipe ??= new Recipe();
         bl.Ingredient ??= new Ingredient();
 
-        // Pickers for qualitative accuracy
-        cmbAccuracyRecipe.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
-        cmbAccuracyIngredient.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
-
-        // Helper for tinting entries based on accuracy and keeping combo/text in sync visually
+        // Helper for tinting entries based on accuracy, localized combo items, and keeping combo/text in sync visually
         accuracyRecipe = new UiAccuracy(txtAccuracyOfChoRecipe, cmbAccuracyRecipe);
         accuracyIngredient = new UiAccuracy(txtAccuracyOfChoIngredient, cmbAccuracyIngredient);
 
@@ -532,7 +528,7 @@ public partial class RecipePage : ContentPage
                 if (double.TryParse(txtAccuracyOfChoRecipe.Text, out double recipeAccuracy))
                 {
                     var qualitativeAccuracy = accuracyRecipe.GetQualitativeAccuracyGivenQuantitavive(recipeAccuracy);
-                    cmbAccuracyRecipe.SelectedItem = qualitativeAccuracy;
+                    cmbAccuracyRecipe.SelectedItem = accuracyRecipe.GetPickerItemForAccuracy(qualitativeAccuracy);
                     txtAccuracyOfChoRecipe.BackgroundColor = accuracyRecipe.AccuracyBackColor(recipeAccuracy);
                     txtAccuracyOfChoRecipe.TextColor = accuracyRecipe.AccuracyForeColor(recipeAccuracy);
                 }
@@ -559,7 +555,7 @@ public partial class RecipePage : ContentPage
                 if (double.TryParse(txtAccuracyOfChoIngredient.Text, out double ingredientAccuracy))
                 {
                     var qualitativeAccuracy = accuracyIngredient.GetQualitativeAccuracyGivenQuantitavive(ingredientAccuracy);
-                    cmbAccuracyIngredient.SelectedItem = qualitativeAccuracy;
+                    cmbAccuracyIngredient.SelectedItem = accuracyIngredient.GetPickerItemForAccuracy(qualitativeAccuracy);
                     txtAccuracyOfChoIngredient.BackgroundColor = accuracyIngredient.AccuracyBackColor(ingredientAccuracy);
                     txtAccuracyOfChoIngredient.TextColor = accuracyIngredient.AccuracyForeColor(ingredientAccuracy);
                 }

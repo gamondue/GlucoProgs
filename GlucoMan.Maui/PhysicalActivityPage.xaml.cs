@@ -65,8 +65,6 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
             {
                 if (cmbAccuracyActivity != null)
                 {
-                    cmbAccuracyActivity.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
-
                     if (txtAccuracyOfActivity != null)
                     {
                         accuracyActivity = new UiAccuracy(txtAccuracyOfActivity, cmbAccuracyActivity);
@@ -684,7 +682,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
                 if (double.TryParse(txtAccuracyOfActivity.Text, out double activityAccuracy))
                 {
                     var qualitativeAccuracy = accuracyActivity.GetQualitativeAccuracyGivenQuantitavive(activityAccuracy);
-                    cmbAccuracyActivity.SelectedItem = qualitativeAccuracy;
+                    cmbAccuracyActivity.SelectedItem = accuracyActivity.GetPickerItemForAccuracy(qualitativeAccuracy);
                 }
             }
         }
@@ -708,7 +706,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
                 {
                     // Update combo box selection
                     var qualitativeAccuracy = accuracyActivity.GetQualitativeAccuracyGivenQuantitavive(activityAccuracy);
-                    cmbAccuracyActivity.SelectedItem = qualitativeAccuracy;
+                    cmbAccuracyActivity.SelectedItem = accuracyActivity.GetPickerItemForAccuracy(qualitativeAccuracy);
 
                     // Update text box colors using UiAccuracy logic
                     txtAccuracyOfActivity.BackgroundColor = accuracyActivity.AccuracyBackColor(activityAccuracy);
@@ -763,8 +761,11 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
         {
             if (!loadingUi && CurrentActivity != null && cmbAccuracyActivity.SelectedItem != null)
             {
-                var selectedAccuracy = (QualitativeAccuracy)cmbAccuracyActivity.SelectedItem;
-                double numericValue = (double)selectedAccuracy;
+                var selectedAccuracy = accuracyActivity?.GetSelectedAccuracyValue();
+                if (!selectedAccuracy.HasValue)
+                    return;
+
+                double numericValue = (double)selectedAccuracy.Value;
 
                 // Update the activity's accuracy in the Data model via Notes field
                 CurrentActivity.Notes = SetAccuracyInNotes(txtNotes.Text, numericValue);

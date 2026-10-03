@@ -1197,18 +1197,19 @@ namespace GlucoMan
                 return null;
             }
         }
-        internal override void RemoveUnitFromFoodsUnits(Food currentFood)
+        internal override void RemoveUnitFromFoodsUnits(UnitOfFood unit)
         {
             try
             {
                 using (DbConnection conn = Connect())
                 {
-                    if (currentFood != null && currentFood.IdFood != null)
+                    if (unit != null && unit.IdUnitOfFood != null)
                     {
-// ???????????????????????????? control here
+                        // delete only the selected unit, identified by its primary key,
+                        // both if it is specific of a food and if it is valid for all foods (IdFood null)
                         DbCommand cmd = conn.CreateCommand();
-                        cmd.CommandText = "DELETE FROM UnitsOfFood WHERE IdFood = @IdFood;";
-                        cmd.Parameters.Add(new SqliteParameter("@IdFood", currentFood.IdFood));
+                        cmd.CommandText = "DELETE FROM UnitsOfFood WHERE IdUnitOfFood = @IdUnitOfFood;";
+                        cmd.Parameters.Add(new SqliteParameter("@IdUnitOfFood", unit.IdUnitOfFood));
                         cmd.ExecuteNonQuery();
                         cmd.Dispose();
                     }
@@ -1386,7 +1387,7 @@ namespace GlucoMan
                         var pIdGluc = cmd.CreateParameter(); pIdGluc.ParameterName = "@idgluc"; pIdGluc.DbType = DbType.Int32; cmd.Parameters.Add(pIdGluc);
                         var pIdInj = cmd.CreateParameter(); pIdInj.ParameterName = "@idinj"; pIdInj.DbType = DbType.Int32; cmd.Parameters.Add(pIdInj);
                         var pTEnd = cmd.CreateParameter(); pTEnd.ParameterName = "@tend"; pTEnd.DbType = DbType.DateTime; cmd.Parameters.Add(pTEnd);
-                        var pUtcOffset = cmd.CreateParameter(); pTEnd.ParameterName = "@utcOffset"; pUtcOffset.DbType = DbType.Double; cmd.Parameters.Add(pUtcOffset);
+                        var pUtcOffset = cmd.CreateParameter(); pUtcOffset.ParameterName = "@utcOffset"; pUtcOffset.DbType = DbType.Double; cmd.Parameters.Add(pUtcOffset);
 
                         try { cmd.Prepare(); } catch { /* ignore */ }
 

@@ -4593,6 +4593,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a The unit &quot;{0}&quot; is shown for all the foods, not only for this one. Delete it for all the foods?.
+        /// </summary>
+        public static string RemoveUnitForAllFoodsMessage {
+            get {
+                return ResourceManager.GetString("RemoveUnitForAllFoodsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Repeat period (min).
         /// </summary>
         public static string Repeat {
@@ -4885,6 +4894,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Select Theme.
+        /// </summary>
+        public static string SelectTheme {
+            get {
+                return ResourceManager.GetString("SelectTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Select time range:.
         /// </summary>
         public static string SelectTimeRange {
@@ -5143,6 +5161,17 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string StartTime {
             get {
                 return ResourceManager.GetString("StartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a The device country ({1}) differs from the configured country ({0}).
+        ///
+        ///Do you want to switch to {1}?.
+        /// </summary>
+        public static string StartupCountryChangedPrompt {
+            get {
+                return ResourceManager.GetString("StartupCountryChangedPrompt", resourceCulture);
             }
         }
         
@@ -5579,6 +5608,42 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Theme.
+        /// </summary>
+        public static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Dark.
+        /// </summary>
+        public static string ThemeDark {
+            get {
+                return ResourceManager.GetString("ThemeDark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Light.
+        /// </summary>
+        public static string ThemeLight {
+            get {
+                return ResourceManager.GetString("ThemeLight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a System.
+        /// </summary>
+        public static string ThemeSystem {
+            get {
+                return ResourceManager.GetString("ThemeSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Time.
         /// </summary>
         public static string Time {
@@ -5622,58 +5687,13 @@ namespace GlucoMan.Maui.Resources.Strings {
                 return ResourceManager.GetString("TimeToHypo", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Cerca una stringa localizzata simile a Current Time Zone.
         /// </summary>
         public static string TimeZone {
             get {
                 return ResourceManager.GetString("TimeZone", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Theme.
-        /// </summary>
-        public static string Theme {
-            get {
-                return ResourceManager.GetString("Theme", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Light.
-        /// </summary>
-        public static string ThemeLight {
-            get {
-                return ResourceManager.GetString("ThemeLight", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Dark.
-        /// </summary>
-        public static string ThemeDark {
-            get {
-                return ResourceManager.GetString("ThemeDark", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a System.
-        /// </summary>
-        public static string ThemeSystem {
-            get {
-                return ResourceManager.GetString("ThemeSystem", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Select Theme.
-        /// </summary>
-        public static string SelectTheme {
-            get {
-                return ResourceManager.GetString("SelectTheme", resourceCulture);
             }
         }
         
@@ -5697,15 +5717,6 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string TimeZoneChangedTitle {
             get {
                 return ResourceManager.GetString("TimeZoneChangedTitle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a The device country ({1}) differs from the configured country ({0}).
-        /// </summary>
-        public static string StartupCountryChangedPrompt {
-            get {
-                return ResourceManager.GetString("StartupCountryChangedPrompt", resourceCulture);
             }
         }
         
@@ -6203,16 +6214,16 @@ namespace GlucoMan.Maui.Resources.Strings {
                 return ResourceManager.GetString("TooltipCountry", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Country names in English or in the country's own language.
+        ///   Cerca una stringa localizzata simile a Country names in English or in the country&apos;s own language.
         /// </summary>
         public static string TooltipCountryNameLanguage {
             get {
                 return ResourceManager.GetString("TooltipCountryNameLanguage", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Cerca una stringa localizzata simile a Current glucose: glucose measured before the meal.
         /// </summary>

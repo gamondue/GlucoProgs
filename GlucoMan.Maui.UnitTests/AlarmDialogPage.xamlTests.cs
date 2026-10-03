@@ -28,7 +28,7 @@ public partial class AlarmDialogPageTests
     {
         // Arrange & Act
         AlarmDialogPage? page = null;
-        TestDelegate constructorCall = () => page = new AlarmDialogPage();
+        Action constructorCall = () => page = new AlarmDialogPage();
 
         // Assert
         Assert.DoesNotThrow(constructorCall, "Constructor should not throw exceptions");

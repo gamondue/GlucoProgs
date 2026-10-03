@@ -548,7 +548,7 @@ namespace GlucoMan
                         var pDrug = cmd.CreateParameter(); pDrug.ParameterName = "@drug"; pDrug.DbType = DbType.Int32; cmd.Parameters.Add(pDrug);
                         var pIstr = cmd.CreateParameter(); pIstr.ParameterName = "@istr"; pIstr.DbType = DbType.String; cmd.Parameters.Add(pIstr);
                         var pZone = cmd.CreateParameter(); pZone.ParameterName = "@zone"; pZone.DbType = DbType.Int32; cmd.Parameters.Add(pZone);
-                        var pUtcOffset = cmd.CreateParameter(); pZone.ParameterName = "@UtcOffset"; pUtcOffset.DbType = DbType.Double; cmd.Parameters.Add(pUtcOffset);
+                        var pUtcOffset = cmd.CreateParameter(); pUtcOffset.ParameterName = "@UtcOffset"; pUtcOffset.DbType = DbType.Double; cmd.Parameters.Add(pUtcOffset);
 
                         try { cmd.Prepare(); } catch { /* ignore */ }
 

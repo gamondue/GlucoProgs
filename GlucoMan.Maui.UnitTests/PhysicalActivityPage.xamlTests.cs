@@ -419,7 +419,7 @@ public partial class PhysicalActivityPageTests
         // This test demonstrates the intended approach but may need to be marked as inconclusive
         // or skipped in environments where XAML cannot be loaded.
         PhysicalActivityPage page = null;
-        TestDelegate act = () => page = new PhysicalActivityPage(mockLocalizationService.Object);
+        Action act = () => page = new PhysicalActivityPage(mockLocalizationService.Object);
 
         // Assert
         // Due to XAML dependencies, this test may throw. We document this limitation.
@@ -451,7 +451,7 @@ public partial class PhysicalActivityPageTests
         // The constructor doesn't use the localizationService parameter,
         // so null should not cause issues from that perspective.
         // However, InitializeComponent() may still fail due to XAML dependencies.
-        TestDelegate act = () => new PhysicalActivityPage(nullService!);
+        Action act = () => new PhysicalActivityPage(nullService!);
 
         // We expect this to either complete successfully or throw due to XAML,
         // not due to null parameter (since it's unused)

@@ -247,9 +247,20 @@ public partial class FoodPage : ContentPage
         cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood((Food)this.BindingContext);
         LoadContentUnitPicker();
     }
-    private void btnRemoveUnit_Clicked(object sender, EventArgs e)
+    private async void btnRemoveUnit_Clicked(object sender, EventArgs e)
     {
-        bl.RemoveUnitFromFoodsUnits(CurrentFood);
+        if (cmbUnit.SelectedItem is not UnitOfFood selected)
+            return;
+        // a unit with null (or 0) IdFood is shown for all the foods: ask confirmation before deleting it
+        if (selected.IdFood == null || selected.IdFood == 0)
+        {
+            bool remove = await DisplayAlert(AppStrings.ConfirmDelete,
+                string.Format(AppStrings.RemoveUnitForAllFoodsMessage, selected.Symbol),
+                AppStrings.Yes, AppStrings.No);
+            if (!remove)
+                return;
+        }
+        bl.RemoveUnitFromFoodsUnits(selected);
         // Refresh both pickers
         cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(CurrentFood);
         LoadContentUnitPicker();

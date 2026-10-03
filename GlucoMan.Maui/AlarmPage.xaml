@@ -61,7 +61,16 @@
                            TextColor="#856404" />
                 </VerticalStackLayout>
             </Frame>
-            
+
+            <Label Text="Experimental, do not trust"
+                BackgroundColor="Red"
+                TextColor="Yellow"
+                HorizontalOptions="Fill"
+                HorizontalTextAlignment="Center"
+                FontSize="20"
+                FontAttributes="Bold"
+                Margin="0,10,0,5"/>
+                
             <!-- Current Alarm Editing Panel -->
             <Frame BorderColor="#888" CornerRadius="6" Padding="8" Margin="0,0,0,6">
                 <Grid ColumnDefinitions="*,70,*,70" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">

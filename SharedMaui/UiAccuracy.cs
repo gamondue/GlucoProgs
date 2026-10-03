@@ -1,10 +1,18 @@
-﻿using static GlucoMan.Common;
+﻿using System.Globalization;
+using static GlucoMan.Common;
 
 #if !MATH_TESTS_ONLY
 namespace gamon
 {
     internal class UiAccuracy
     {
+        private sealed class AccuracyOption
+        {
+            public QualitativeAccuracy Value { get; init; }
+            public string Display { get; init; } = string.Empty;
+            public override string ToString() => Display;
+        }
+
         private Entry txtQuantitative;
         private Picker cmbQualitative;
         private int halfInterval = ((int)QualitativeAccuracy.Perfect - (int)QualitativeAccuracy.Null) / 20;
@@ -71,9 +79,67 @@ namespace gamon
             txtQuantitative = TextBox;
             cmbQualitative = Combo;
 
+            ConfigureLocalizedAccuracyItems();
+
             // hookup useful events 
             Combo.SelectedIndexChanged += Combo_SelectedIndexChanged;
             TextBox.TextChanged += TextBox_TextChanged;
+        }
+
+        private void ConfigureLocalizedAccuracyItems()
+        {
+            bool isItalian = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.Equals("it", StringComparison.OrdinalIgnoreCase);
+
+            var options = Enum.GetValues(typeof(QualitativeAccuracy))
+                .Cast<QualitativeAccuracy>()
+                .Select(v => new AccuracyOption
+                {
+                    Value = v,
+                    Display = isItalian ? GetItalianLabel(v) : v.ToString()
+                })
+                .ToList();
+
+            cmbQualitative.ItemsSource = options;
+            cmbQualitative.ItemDisplayBinding = new Binding(nameof(AccuracyOption.Display));
+        }
+
+        private static string GetItalianLabel(QualitativeAccuracy value)
+        {
+            return value switch
+            {
+                QualitativeAccuracy.NotSet => "Non impostata",
+                QualitativeAccuracy.Null => "Nulla",
+                QualitativeAccuracy.AlmostNull => "Quasi nulla",
+                QualitativeAccuracy.VeryBad => "Molto scarsa",
+                QualitativeAccuracy.Bad => "Scarsa",
+                QualitativeAccuracy.Poor => "Mediocre",
+                QualitativeAccuracy.AlmostSufficient => "Quasi sufficiente",
+                QualitativeAccuracy.Sufficient => "Sufficiente",
+                QualitativeAccuracy.Satisfactory => "Soddisfacente",
+                QualitativeAccuracy.Good => "Buona",
+                QualitativeAccuracy.Outstanding => "Eccellente",
+                QualitativeAccuracy.Perfect => "Perfetta",
+                _ => value.ToString()
+            };
+        }
+
+        internal object? GetPickerItemForAccuracy(QualitativeAccuracy value)
+        {
+            if (cmbQualitative.ItemsSource is IEnumerable<AccuracyOption> options)
+                return options.FirstOrDefault(o => o.Value == value);
+
+            return value;
+        }
+
+        internal QualitativeAccuracy? GetSelectedAccuracyValue()
+        {
+            if (cmbQualitative.SelectedItem is AccuracyOption selected)
+                return selected.Value;
+
+            if (cmbQualitative.SelectedItem is QualitativeAccuracy qa)
+                return qa;
+
+            return null;
         }
         private void TextBox_TextChanged(object? sender, TextChangedEventArgs e)
         {
@@ -95,8 +161,8 @@ namespace gamon
             {
                 if (Double.IsFinite(acc) && acc >= 0 && acc <= 100)
                 {
-                    cmbQualitative.SelectedItem =
-                        GetQualitativeAccuracyGivenQuantitavive(acc);
+                    var option = GetPickerItemForAccuracy(GetQualitativeAccuracyGivenQuantitavive(acc));
+                    cmbQualitative.SelectedItem = option;
                     txtQuantitative.BackgroundColor = AccuracyBackColor(acc);
                     txtQuantitative.TextColor = AccuracyForeColor(acc);
                     cmbQualitative.BackgroundColor = AccuracyBackColor(acc);
@@ -119,17 +185,17 @@ namespace gamon
             if (!cmbQualitative.IsLoaded || editingNumericAccuracy)
                 return;
             userChoseQualitative = true;
-            if (cmbQualitative.SelectedItem != null)
+            var selectedValue = GetSelectedAccuracyValue();
+            if (selectedValue.HasValue)
             {
-                QualitativeAccuracy qa = (QualitativeAccuracy)(cmbQualitative.SelectedItem);
-                int acc = (int)qa;
+                int acc = (int)selectedValue.Value;
                 txtQuantitative.Text = (acc).ToString();
                 txtQuantitative.BackgroundColor = AccuracyBackColor(acc);
                 txtQuantitative.TextColor = AccuracyForeColor(acc);
                 cmbQualitative.BackgroundColor = AccuracyBackColor(acc);
                 cmbQualitative.TextColor = AccuracyForeColor(acc);
                 // the value (int) associated with the QualitativeAccuracy is given to the numerical accuracy
-                int accuracyNumber = (int)qa;
+                int accuracyNumber = (int)selectedValue.Value;
             }
             userChoseQualitative = false;
         }

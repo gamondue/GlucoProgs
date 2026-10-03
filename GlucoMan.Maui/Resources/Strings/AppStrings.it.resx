@@ -1434,6 +1434,9 @@
   <data name="ConfirmDelete" xml:space="preserve">
     <value>Conferma eliminazione</value>
   </data>
+  <data name="RemoveUnitForAllFoodsMessage" xml:space="preserve">
+    <value>L'unità "{0}" viene mostrata per tutti i cibi, non solo per questo. Eliminarla per tutti i cibi?</value>
+  </data>
   <data name="CannotClosePage" xml:space="preserve">
     <value>Impossibile chiudere la pagina: {0}</value>
   </data>

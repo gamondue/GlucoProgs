@@ -5,6 +5,8 @@ namespace GlucoMan.Maui;
 
 public partial class ExperimentalPage : ContentPage
 {
+	private static DateTime CurrentConfiguredLocalNow => DateTime.UtcNow.AddHours(Common.CurrentTimeZone);
+
 	public ExperimentalPage(object localizationService = null)
 	{
 		InitializeComponent();
@@ -46,7 +48,7 @@ public partial class ExperimentalPage : ContentPage
             int.TryParse(txtNoOfWeeks.Text, out nWeeks);
 
             // Navigate to Identifications page (to be implemented)
-            var identificationPage = new IdentificationPage(datePicker.Date ?? DateTime.Now, nWeeks);
+            var identificationPage = new IdentificationPage(datePicker.Date ?? CurrentConfiguredLocalNow, nWeeks);
             Navigation.PushAsync(identificationPage);
         }
         catch (Exception ex)
@@ -61,7 +63,7 @@ public partial class ExperimentalPage : ContentPage
         int.TryParse(txtNoOfWeeks.Text, out nWeeks);
 
         // Navigate to Identifications page (to be implemented)
-        var identificationPage = new IdentificationPage2(datePicker.Date ?? DateTime.Now, nWeeks);
+        var identificationPage = new IdentificationPage2(datePicker.Date ?? CurrentConfiguredLocalNow, nWeeks);
         Navigation.PushAsync(identificationPage);
     }
 

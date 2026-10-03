@@ -11,6 +11,12 @@ public partial class ChartPage : ContentPage
     private BL_BolusesAndInjections blInj = new();
     private DateTime _dateOfGraph;
     private List<(float Hour, float Value)> _dataPoints = new();
+    // Nearest points of the adjacent days (Hour < 0 for the previous day, > 24 for the next),
+    // used only to shape the Bezier curve at the day boundaries
+    private (float Hour, float Value)? _previousDayPoint;
+    private (float Hour, float Value)? _nextDayPoint;
+    // max distance from midnight of a record of the adjacent day to be used as a boundary point
+    private const double MaxHoursFromDayChange = 7;
     private List<GlucoseRecord> list;
     private List<Injection> _injections = new();
     private SKBitmap? _injectionBitmap;
@@ -37,6 +43,38 @@ public partial class ChartPage : ContentPage
 
     private float alarmHigh = 240;
     private float alarmLow = 60;
+
+    private static double CurrentUtcOffsetHours => Common.CurrentTimeZone;
+
+    private static DateTime ToConfiguredLocalTime(DateTime? dateTime)
+    {
+        if (!dateTime.HasValue)
+            return DateTime.MinValue;
+
+        var dt = dateTime.Value;
+        var recordOffset = 0.0;
+        var utcOffset = dt.Kind == DateTimeKind.Utc
+            ? TimeSpan.Zero
+            : TimeSpan.FromHours(recordOffset);
+
+        // If the data is already stored in local time, the offset is applied as a visual shift.
+        // When the value is UTC, convert it to the currently configured timezone.
+        return dt.Kind == DateTimeKind.Utc
+            ? dt.AddHours(CurrentUtcOffsetHours)
+            : dt.AddHours(CurrentUtcOffsetHours - recordOffset);
+    }
+
+    private static float GetHourInConfiguredTimezone(DateTime? dateTime, double? recordUtcOffset = null)
+    {
+        if (!dateTime.HasValue)
+            return 0;
+
+        var dt = dateTime.Value;
+        var sourceOffset = recordUtcOffset ?? 0;
+        var targetOffset = CurrentUtcOffsetHours;
+        var adjusted = dt.AddHours(targetOffset - sourceOffset);
+        return adjusted.Hour + adjusted.Minute / 60f + adjusted.Second / 3600f;
+    }
 
     public ChartPage(DateTime dateOfGraph)
     {
@@ -207,6 +245,8 @@ public partial class ChartPage : ContentPage
             _dataPoints.Clear();
             _injections.Clear();
             _meals.Clear();
+            _previousDayPoint = null;
+            _nextDayPoint = null;
 
             // Load glucose records from database for the selected day
             DateTime startOfDay = _dateOfGraph.Date; // Midnight of selected day
@@ -223,6 +263,7 @@ public partial class ChartPage : ContentPage
                 {
                     list = bl.GetGlucoseRecords(startOfDay, endOfDay);
                     System.Diagnostics.Debug.WriteLine($"Loaded { (list?.Count ??0) } glucose records from fallback GetGlucoseRecords().");
+                    LoadAdjacentDaysPoints(startOfDay, endOfDay);
                 }
                 catch (Exception ex)
                 {
@@ -238,9 +279,7 @@ public partial class ChartPage : ContentPage
                     if (record.EventTime != null && record.EventTime.DateTime.HasValue &&
                      record.GlucoseValue != null && record.GlucoseValue.Double.HasValue)
                     {
-                        // Extract hour from timestamp (including fractional part for minutes)
-                        float hour = (float)record.EventTime.DateTime.Value.Hour +
-                       (float)record.EventTime.DateTime.Value.Minute / 60f;
+                        float hour = GetHourInConfiguredTimezone(record.EventTime.DateTime, record.UtcOffset);
                         float glucoseValue = (float)record.GlucoseValue.Double.Value;
 
                         _dataPoints.Add((hour, glucoseValue));
@@ -481,7 +520,7 @@ public partial class ChartPage : ContentPage
             {
                 using (var path = new SKPath())
                 {
-                    var orderedPoints = _dataPoints.OrderBy(p => p.Hour).ToList();
+                    var orderedPoints = BuildBezierAnchorPoints(_dataPoints);
 
                     // First point
                     float x0 = MapXToCanvas(orderedPoints[0].Hour, chartRect, initialX, finalX);
@@ -528,7 +567,11 @@ public partial class ChartPage : ContentPage
                         StrokeJoin = SKStrokeJoin.Round
                     })
                     {
+                        // clip to the chart area: the curve may start/end with points of the adjacent days
+                        canvas.Save();
+                        canvas.ClipRect(chartRect);
                         canvas.DrawPath(path, paint);
+                        canvas.Restore();
                     }
                 }
             }
@@ -563,7 +606,7 @@ public partial class ChartPage : ContentPage
                         continue;
 
                     var dt = meal.EventTime.DateTime.Value;
-                    float hour = dt.Hour + dt.Minute /60f;
+                    float hour = GetHourInConfiguredTimezone(meal.EventTime.DateTime, meal.UtcOffset);
                     float x = MapXToCanvas(hour, chartRect, initialX, finalX);
 
                     // Determine Y on curve by interpolation or nearest
@@ -656,8 +699,7 @@ public partial class ChartPage : ContentPage
                         continue;
 
                     var dt = inj.EventTime.DateTime.Value;
-                    // compute hour with minutes fraction
-                    float hour = dt.Hour + dt.Minute /60f;
+                    float hour = GetHourInConfiguredTimezone(inj.EventTime.DateTime, inj.UtcOffset);
                     float x = MapXToCanvas(hour, chartRect, initialX, finalX);
 
                     // Find the glucose value at this time by interpolating or using nearest point
@@ -714,6 +756,72 @@ public partial class ChartPage : ContentPage
             System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
         }
     }
+    // Loads the last glucose record of the previous day and the first of the next day,
+    // if they are not farther than MaxHoursFromDayChange from the day change
+    private void LoadAdjacentDaysPoints(DateTime startOfDay, DateTime endOfDay)
+    {
+        try
+        {
+            var before = bl.GetGlucoseRecords(startOfDay.AddHours(-MaxHoursFromDayChange), startOfDay.AddSeconds(-1));
+            var prev = before?
+                .Where(r => r.EventTime?.DateTime.HasValue == true && r.GlucoseValue?.Double.HasValue == true)
+                .OrderByDescending(r => r.EventTime.DateTime.Value)
+                .FirstOrDefault();
+            if (prev != null)
+            {
+                float hour = GetHourInConfiguredTimezone(prev.EventTime.DateTime, prev.UtcOffset);
+                // hour of the previous day: shift it before the origin of the chart
+                _previousDayPoint = (hour - 24f, (float)prev.GlucoseValue.Double.Value);
+            }
+
+            var after = bl.GetGlucoseRecords(endOfDay.AddSeconds(1), endOfDay.AddHours(MaxHoursFromDayChange));
+            var next = after?
+                .Where(r => r.EventTime?.DateTime.HasValue == true && r.GlucoseValue?.Double.HasValue == true)
+                .OrderBy(r => r.EventTime.DateTime.Value)
+                .FirstOrDefault();
+            if (next != null)
+            {
+                float hour = GetHourInConfiguredTimezone(next.EventTime.DateTime, next.UtcOffset);
+                // hour of the next day: shift it after the end of the chart
+                _nextDayPoint = (hour + 24f, (float)next.GlucoseValue.Double.Value);
+            }
+            System.Diagnostics.Debug.WriteLine($"Adjacent days points: previous={_previousDayPoint}, next={_nextDayPoint}");
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to load adjacent days glucose records: {ex.Message}");
+        }
+    }
+    private List<(float Hour, float Value)> BuildBezierAnchorPoints(List<(float Hour, float Value)> points)
+    {
+        var ordered = points.OrderBy(p => p.Hour).ToList();
+        if (ordered.Count < 2)
+            return ordered;
+
+        var anchored = new List<(float Hour, float Value)>(ordered.Count + 2);
+        var first = ordered[0];
+        var last = ordered[^1];
+
+        float leftAnchorHour = initialX;
+        float rightAnchorHour = finalX;
+
+        // if a point of the previous day is available, the curve starts from it
+        // (outside the chart, it will be clipped), otherwise it's flat up to the first point
+        if (_previousDayPoint.HasValue && _previousDayPoint.Value.Hour < first.Hour)
+            anchored.Add(_previousDayPoint.Value);
+        else if (first.Hour > leftAnchorHour)
+            anchored.Add((leftAnchorHour, first.Value));
+
+        anchored.AddRange(ordered);
+
+        if (_nextDayPoint.HasValue && _nextDayPoint.Value.Hour > last.Hour)
+            anchored.Add(_nextDayPoint.Value);
+        else if (last.Hour < rightAnchorHour)
+            anchored.Add((rightAnchorHour, last.Value));
+
+        return anchored;
+    }
+
     private float MapXToCanvas(float x, SKRect chartRect, float minX, float maxX)
     {
         float ratio = (x - minX) / (maxX - minX);
@@ -790,7 +898,7 @@ public partial class ChartPage : ContentPage
                     if (injection?.EventTime?.DateTime.HasValue == true)
                     {
                         var dt = injection.EventTime.DateTime.Value;
-                        double hour = dt.Hour + dt.Minute /60.0;
+                        double hour = GetHourInConfiguredTimezone(injection.EventTime.DateTime, injection.UtcOffset);
                         var glucose = GetInterpolatedGlucoseValue(hour);
 
                         // get IU value from Injection.InsulinValue or InsulinCalculated
@@ -804,7 +912,7 @@ public partial class ChartPage : ContentPage
                         string glucoseText = glucose.HasValue ? $"{glucose.Value:F0} mg/dL" : "No glucose";
                         string iuText = iu.HasValue ? $"{iu.Value:G}" : "No IU";
 
-                        try { lblDateRange.Text = $"{dt:HH:mm} - {glucoseText} - {iuText} IU"; } catch { }
+                        try { lblDateRange.Text = $"{TimeSpan.FromHours(GetHourInConfiguredTimezone(injection.EventTime.DateTime, injection.UtcOffset)).ToString(@"hh\:mm")} - {glucoseText} - {iuText} IU"; } catch { }
                         e.Handled = true;
                         return;
                     }
@@ -820,7 +928,7 @@ public partial class ChartPage : ContentPage
                     if (meal?.EventTime?.DateTime.HasValue == true)
                     {
                         var dt = meal.EventTime.DateTime.Value;
-                        double hour = dt.Hour + dt.Minute /60.0;
+                        double hour = GetHourInConfiguredTimezone(meal.EventTime.DateTime, meal.UtcOffset);
                         var glucose = GetInterpolatedGlucoseValue(hour);
 
                         double? cho = null;
@@ -829,7 +937,7 @@ public partial class ChartPage : ContentPage
                         string glucoseText = glucose.HasValue ? $"{glucose.Value:F0} mg/dL" : "No glucose";
                         string choText = cho.HasValue ? $"{cho.Value:G}" : "No CHO";
 
-                        try { lblDateRange.Text = $"{dt:HH:mm} - {glucoseText} - {choText} CHO"; } catch { }
+                        try { lblDateRange.Text = $"{TimeSpan.FromHours(GetHourInConfiguredTimezone(meal.EventTime.DateTime, meal.UtcOffset)).ToString(@"hh\:mm")} - {glucoseText} - {choText} CHO"; } catch { }
                         e.Handled = true;
                         return;
                     }

@@ -116,7 +116,7 @@ namespace GlucoMan
         internal abstract List<InsulinDrug>? GetAllInsulinDrugs(Common.TypeOfInsulinAction shortActing);
         internal abstract int? AddManufacturerToFood(Manufacturer m, Food currentFood);
         internal abstract int? AddCategoryToFood(CategoryOfFood c, Food currentFood);
-        internal abstract void RemoveUnitFromFoodsUnits(Food currentFood);
+        internal abstract void RemoveUnitFromFoodsUnits(UnitOfFood unit);
         internal abstract bool CheckIfManufacturerExists(Manufacturer m);
         internal abstract int? UpdateManufacturer(Manufacturer m);
         internal abstract int? AddManufacturer(Manufacturer m);

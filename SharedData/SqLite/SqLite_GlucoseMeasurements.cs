@@ -337,6 +337,10 @@ namespace GlucoMan
                         // Prepare the statement for repeated execution
                         try { cmd.Prepare(); } catch { /* Prepare may not be supported by all providers; ignore if fails */ }
 
+                        // FreeStyle Libre data don't have the UtcOffset: we take it from the nearest in time
+                        // record of Meals, GlucoseRecords and Injections that has it
+                        List<(DateTime Time, double Offset)> knownOffsets = GetKnownUtcOffsets(conn, tran);
+
                         foreach (GlucoseRecord Measurement in List)
                         {
                             // assign parameter values (use DBNull for nulls)
@@ -349,7 +353,9 @@ namespace GlucoMan
                             pIdTypeOfDevice.Value = string.IsNullOrEmpty(Measurement?.IdTypeOfDevice) ? (object)DBNull.Value : Measurement.IdTypeOfDevice;
                             pIdDeviceModel.Value = Measurement?.IdDeviceModel ?? (object)DBNull.Value;
                             pNotes.Value = string.IsNullOrEmpty(Measurement?.Notes) ? (object)DBNull.Value : Measurement.Notes;
-                            pUtcOffset.Value = Measurement?.UtcOffset ?? (object)DBNull.Value;
+                            pUtcOffset.Value = Measurement?.UtcOffset
+                                ?? NearestUtcOffset(knownOffsets, Measurement?.EventTime?.DateTime)
+                                ?? (object)DBNull.Value;
 
                             cmd.ExecuteNonQuery();
                             currentKey++;
@@ -364,6 +370,60 @@ namespace GlucoMan
             {
                 General.LogOfProgram.Error("Sqlite_GlucoseMeasurement | InsertSensorMeasurements", ex);
             }
+        }
+        // Reads instants and UtcOffset of all the records of Meals, GlucoseRecords and Injections
+        // that have a UtcOffset, ordered by time
+        private List<(DateTime Time, double Offset)> GetKnownUtcOffsets(DbConnection conn, DbTransaction tran)
+        {
+            var offsets = new List<(DateTime Time, double Offset)>();
+            try
+            {
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    cmd.Transaction = tran;
+                    cmd.CommandText =
+                        "SELECT TimeBegin AS EventTime, UtcOffset FROM Meals WHERE TimeBegin IS NOT NULL AND UtcOffset IS NOT NULL" +
+                        " UNION ALL SELECT TimeOfMeasurement, UtcOffset FROM GlucoseRecords WHERE TimeOfMeasurement IS NOT NULL AND UtcOffset IS NOT NULL" +
+                        " UNION ALL SELECT Timestamp, UtcOffset FROM Injections WHERE Timestamp IS NOT NULL AND UtcOffset IS NOT NULL;";
+                    using (DbDataReader dRead = cmd.ExecuteReader())
+                    {
+                        while (dRead.Read())
+                        {
+                            DateTime? time = Safe.DateTime(dRead["EventTime"]);
+                            double? offset = Safe.Double(dRead["UtcOffset"]);
+                            if (time.HasValue && offset.HasValue)
+                                offsets.Add((time.Value, offset.Value));
+                        }
+                    }
+                }
+                offsets.Sort((a, b) => a.Time.CompareTo(b.Time));
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram.Error("Sqlite_GlucoseMeasurement | GetKnownUtcOffsets", ex);
+            }
+            return offsets;
+        }
+        // Returns the UtcOffset of the record nearest in time to Instant (binary search in the ordered list)
+        private static double? NearestUtcOffset(List<(DateTime Time, double Offset)> OrderedOffsets, DateTime? Instant)
+        {
+            if (Instant == null || OrderedOffsets == null || OrderedOffsets.Count == 0)
+                return null;
+            DateTime t = Instant.Value;
+            int lo = 0, hi = OrderedOffsets.Count - 1;
+            while (lo < hi)
+            {   // find the first element with Time >= t
+                int mid = (lo + hi) / 2;
+                if (OrderedOffsets[mid].Time < t)
+                    lo = mid + 1;
+                else
+                    hi = mid;
+            }
+            // lo is the first element >= t (or the last element if all are < t);
+            // the nearest is lo or the one before it
+            if (lo > 0 && (t - OrderedOffsets[lo - 1].Time).Duration() <= (OrderedOffsets[lo].Time - t).Duration())
+                return OrderedOffsets[lo - 1].Offset;
+            return OrderedOffsets[lo].Offset;
         }
         // ModelsOfDevices CRUD
         internal override List<DeviceModel> GetSomeDeviceModels(string whereClause)

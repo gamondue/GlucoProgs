@@ -28,12 +28,11 @@ public partial class MealsPage : ContentPage
         if (parameters != null && parameters.MonthsOfDataShownInTheGrids > 0)
             MonthsOfDataShownInTheGrids = parameters.MonthsOfDataShownInTheGrids;
 
-        cmbAccuracyMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
         ////cmbTypeOfMeal.ItemsSource = Enum.GetValues(typeof(QualitativeAccuracy));
         bl.Meal = new Meal();
         bl.FoodInMeal = new FoodInMeal();
-        
-        // Create UiAccuracy which will handle UI synchronization automatically
+
+        // Create UiAccuracy which will handle UI synchronization and localized combo items automatically
         accuracyClass = new UiAccuracy(txtAccuracyOfChoMeal, cmbAccuracyMeal);
         
         bl.SetTypeOfMealBasedOnTimeNow();
@@ -185,10 +184,16 @@ public partial class MealsPage : ContentPage
     {
         // reset the meal because we want a new one
         bl.Meal = new Meal();
+
         // add to the new meal the Data coming from this page
         if (chkNowInAdd.IsChecked)
         {
             DateTime now = Common.LocalNow;
+
+            // Keep UI and model aligned when user asks "add with now"
+            dtpMealDateBegin.Date = now;
+            dtpMealTimeBegin.Time = now.TimeOfDay;
+
             bl.Meal.EventTime.DateTime = now;
             bl.Meal.TimeEnd.DateTime = now;
         }
@@ -199,6 +204,8 @@ public partial class MealsPage : ContentPage
             bl.Meal.EventTime.DateTime = instant;
             bl.Meal.TimeEnd.DateTime = instant;
         }
+
+        bl.Meal.UtcOffset = Common.CurrentTimeZone;
         bl.Meal.CarbohydratesGrams.Text = txtChoOfMeal.Text;
         bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
         bl.Meal.IdTypeOfMeal = SetTypeOfMealBasedOnRadioButtons();
@@ -314,7 +321,7 @@ public partial class MealsPage : ContentPage
                 {
                     // Update combo box selection
                     var qualitativeAccuracy = accuracyClass.GetQualitativeAccuracyGivenQuantitavive(accuracy);
-                    cmbAccuracyMeal.SelectedItem = qualitativeAccuracy;
+                    cmbAccuracyMeal.SelectedItem = accuracyClass.GetPickerItemForAccuracy(qualitativeAccuracy);
                     
                     // Update text box colors using UiAccuracy logic
                     txtAccuracyOfChoMeal.BackgroundColor = accuracyClass.AccuracyBackColor(accuracy);

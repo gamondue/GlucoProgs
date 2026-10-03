@@ -22,7 +22,7 @@ public partial class ConfigurationPageTests
     {
         // Arrange & Act
         ConfigurationPage? page = null;
-        TestDelegate act = () => page = new ConfigurationPage();
+        Action act = () => page = new ConfigurationPage();
 
         // Assert
         Assert.DoesNotThrow(act, "Constructor should not throw an exception");
