@@ -15,6 +15,15 @@
 internal override void InsertSensorMeasurements(List<GlucoseRecord> List)
 Desumeremo l'UTC da quello del più vicino record presente fra le tabelle: Meals, GlucoseRecords e Injections.
 
+## MealPage
+In Android gli entry txtFoodCarbohydratesPerUnit, txtFoodQuantityInUnits e txtFoodCarbohydratesGrams non ammette la virgola quando non è "attaccato" ad una riga della CollectionView sottostante (quando nelle entry si sta immettendo un nuovo cibo). Dopo che il cibo è stato fatto passare fra le righe della CollectionView (con tasto +), si possono mettere cifre dopo la virgola. In Windows questo non succede.
+
+
+## FoodPage
+Quando si aggiunge una unità di misura, con il bottone btnAddUnit, aggiungiamo alla "MessageBox" "Applicabilità della unità" l'opzione "Annulla" che non deve creare nessuna unità di misura.  
+Se se l'utente scegli l'applicabilità per tutti bisogna chiedere conferma con un prompt "Attenzione se si conferma questa unità diverrà applicabile ad ogni cibo", opzioni: "Conferma" e "Non conferma".
+Se l'utente sceglie "Non conferma" si deve riproporre la "MessageBox" "Applicabilità della unità".
+
 ## Grafici
 - Fatto, DA VERIFICARE. Per i grafici e le identificazioni il tempo preso deve essere riportato all'UTC del primo campionamento. Quando cambia l'ora legale che deve essere un salto nei grafici o due grafici nello stesso periodo. Il tempo dei grafici deve essere riportato all'UTC del primo campionamento (cambiato idea, fatto che si riporta all'ora attulmente configurata).
 

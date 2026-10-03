@@ -1,0 +1,7 @@
+SDK nella cartella dove lo installa Visual Studio:
+C:\Program Files (x86)\Android\android-sdk\platform-tools
+Programma da lanciare: adb.exe
+
+Comandi PowerShell:
+C:> cd  C:\Program Files (x86)\Android\android-sdk\platform-tools
+C:\Program Files (x86)\Android\android-sdk\platform-tools> .\adb push C:/Users/gabri/Documents/GlucoMan/Data/NEW_GlucoManData.Sqlite /sdcard/Download/
