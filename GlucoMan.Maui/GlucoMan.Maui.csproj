@@ -22,7 +22,7 @@
 		<ApplicationTitle>GlucoMan.Maui</ApplicationTitle>
 
 		<!-- App Identifier -->
-    <ApplicationId>it.ingmonti.glucoman.maui</ApplicationId>
+    <ApplicationId>it.ingmonti.glucoman</ApplicationId>
     <ApplicationIdGuid>30939246-cae7-40ff-92ce-a308f5c8b0e8</ApplicationIdGuid>
 
 		<!-- Deterministic Versioning System -->
@@ -30,7 +30,7 @@
 	 	<!-- FileVersion uses readable date/time format as string -->
 		<VersionMajor>0</VersionMajor>
 		<VersionMinor>9</VersionMinor>
-		<VersionPatch>15</VersionPatch>
+		<VersionPatch>16</VersionPatch>
 		<!-- Build number as days since 2025-01-01 (avoids overflow) -->
 		<VersionBuildNumber>$([MSBuild]::Subtract($([System.DateTime]::Now.Subtract($([System.DateTime]::Parse('2025-01-01'))).Days), 0))</VersionBuildNumber>
 		<VersionRevision>$([System.DateTime]::Now.ToString('HHmm'))</VersionRevision>
@@ -46,7 +46,9 @@
 		
 		<!-- MAUI Platform Versions -->
 		<ApplicationDisplayVersion>$(VersionPrefix)</ApplicationDisplayVersion>
-		<ApplicationVersion>$([System.DateTime]::Now.ToString('yyMMdd'))</ApplicationVersion>
+		<!-- ApplicationVersion = minuti trascorsi dal 2025-01-01: sempre crescente, nessuna regressione su Android -->
+		<VersionMinutesOfDay>$([MSBuild]::Add($([MSBuild]::Multiply($([System.DateTime]::Now.Hour), 60)), $([System.DateTime]::Now.Minute)))</VersionMinutesOfDay>
+		<ApplicationVersion>$([MSBuild]::Add($([MSBuild]::Multiply($(VersionBuildNumber), 1440)), $(VersionMinutesOfDay)))</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
@@ -460,7 +462,10 @@
 	  <InternalsVisibleTo Include="GlucoMan.Maui.UnitTests" />
 	</ItemGroup>
 
-	<!-- Promote transitive SQLite native library to an explicit reference for Android TFM -->
+	<!-- Promote transitive SQLite native libraries to explicit references to fix vulnerability -->
+	<ItemGroup>
+		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" />
+	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android36.0'">
 		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.android" />
 	</ItemGroup>

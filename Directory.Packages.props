@@ -8,7 +8,7 @@
     - Versione unica per tutti i progetti
     - Aggiornamenti centralizzati (cambi in un solo posto)
     - Garantita consistenza tra progetti
-    - Pi� facile gestire dipendenze complesse
+    - Più facile gestire dipendenze complesse
     
     COME USARLO:
     1. Nei file .csproj, rimuovi l'attributo Version dai PackageReference
@@ -32,12 +32,12 @@
     <!-- .NET MAUI Core Packages -->
     <!-- ============================================ -->
     <PackageVersion Include="GeoTimeZone" Version="6.1.0" />
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.100" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.110" />
     <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.110" />
     <!-- ============================================ -->
     <!-- Microsoft Extensions & Logging -->
     <!-- ============================================ -->
-    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="10.0.12" />
     <!-- ============================================ -->
     <!-- Community Toolkits -->
     <!-- ============================================ -->
@@ -45,20 +45,21 @@
     <!-- ============================================ -->
     <!-- Database (SQLite) -->
     <!-- ============================================ -->
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="10.0.11" />
-    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="10.0.12" />
+    <PackageVersion Include="Moq" Version="4.21.0" />
     <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
-    <PackageVersion Include="SQLitePCLRaw.lib.e_sqlite3.android" Version="2.1.12-pre20260709125052" />
+    <PackageVersion Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.13" />
+    <PackageVersion Include="SQLitePCLRaw.lib.e_sqlite3.android" Version="2.1.13" />
     <!-- Nota: System.Data.SQLite.Core usato solo in SharedGlucoMan? -->
     <!-- <PackageVersion Include="System.Data.SQLite.Core" Version="1.0.119" /> -->
     <!-- ============================================ -->
     <!-- Graphics & Drawing -->
     <!-- ============================================ -->
-    <PackageVersion Include="SkiaSharp.Views.Maui.Controls" Version="4.151.1" />
+    <PackageVersion Include="SkiaSharp.Views.Maui.Controls" Version="4.153.1" />
     <!-- Windows-specific: System.Drawing (solo per Windows) -->
     <!-- Nota: Questo va condizionato nel .csproj con Condition="$(TargetFramework.Contains('windows'))" -->
-    <PackageVersion Include="System.Drawing.Common" Version="10.0.11" />
+    <PackageVersion Include="System.Drawing.Common" Version="10.0.12" />
     <!-- ============================================ -->
     <!-- Mathematics & Numerics -->
     <!-- ============================================ -->
@@ -66,11 +67,11 @@
     <!-- ============================================ -->
     <!-- Testing (NUnit) -->
     <!-- ============================================ -->
-    <PackageVersion Include="NUnit" Version="4.6.1" />
-    <PackageVersion Include="NUnit.Analyzers" Version="4.14.0" />
+    <PackageVersion Include="NUnit" Version="5.0.0" />
+    <PackageVersion Include="NUnit.Analyzers" Version="4.15.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.3.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
-    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+    <PackageVersion Include="coverlet.collector" Version="10.1.0" />
     <!-- ============================================ -->
     <!-- Altre dipendenze comuni -->
     <!-- ============================================ -->
