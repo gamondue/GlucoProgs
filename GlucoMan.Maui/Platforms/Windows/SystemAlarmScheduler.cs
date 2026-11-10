@@ -1,4 +1,4 @@
-#if WINDOWS
+﻿#if WINDOWS
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -284,12 +284,13 @@ namespace GlucoMan.Maui.Platforms.Windows
                 await BringWindowToFront();
 
                 // Create fullscreen alarm page with action callback
-                var alarmPage = new WindowsAlarmPage(alarm, (action) =>
+                WindowsAlarmPage alarmPage = null!;
+                alarmPage = new WindowsAlarmPage(alarm, (action) =>
                 {
                     switch (action)
                     {
                         case WindowsAlarmPage.AlarmAction.Stop:
-                            // Stop button: alarm stops ringing but remains scheduled
+                            // Stop button: a transient alarm ends, any other goes on
                             StopAlarm(alarm);
                             break;
 
@@ -299,13 +300,8 @@ namespace GlucoMan.Maui.Platforms.Windows
                             break;
 
                         case WindowsAlarmPage.AlarmAction.Snooze:
-                            // Snooze: create temporary alarm for 5 minutes
-                            SnoozeAlarm(alarm, 5);
-                            break;
-
-                        case WindowsAlarmPage.AlarmAction.Snooze15:
-                            // Snooze 15: create temporary alarm for 15 minutes
-                            SnoozeAlarm(alarm, 15);
+                            // Snooze: the same alarm rings again after the minutes chosen by the user
+                            SnoozeAlarm(alarm, alarmPage.SnoozeMinutes);
                             break;
 
                         case WindowsAlarmPage.AlarmAction.AutoStop:
@@ -366,17 +362,19 @@ namespace GlucoMan.Maui.Platforms.Windows
         {
             try
             {
-                var snoozeAlarm = new Alarm
+                Alarm? saved = DatabaseService.Instance.Database != null
+                    ? new BL_Alarms().SnoozeAlarm(alarm.IdAlarm, minutes)
+                    : null;
+                // The test alarm isn't saved in the database, so it stays in memory
+                var snoozeAlarm = saved ?? new Alarm
                 {
-                    IdAlarm = -1, // in-memory only, no DB
+                    IdAlarm = alarm.IdAlarm,
                     ReminderText = alarm.ReminderText,
-                    TimeStart = new gamon.DateTimeAndText { DateTime = DateTime.Now.AddMinutes(minutes) },
+                    NextTriggerTime = DateTime.Now.AddMinutes(minutes),
                     EnablePlaySoundFile = alarm.EnablePlaySoundFile,
                     DoVibrate = alarm.DoVibrate,
-                    SoundFilePath = alarm.SoundFilePath,
-                    StartupGraceWindow = TimeSpan.FromMinutes(10)
+                    SoundFilePath = alarm.SoundFilePath
                 };
-                snoozeAlarm.CalculateNextTriggerTime();
                 ScheduleAsync(snoozeAlarm).Wait();
             }
             catch (Exception ex)
@@ -386,48 +384,17 @@ namespace GlucoMan.Maui.Platforms.Windows
         }
 
         /// <summary>
-        /// Stop button handler: alarm stops ringing but remains active and scheduled.
-        /// Just marks as triggered and reschedules for the next occurrence.
+        /// Stop button handler: a transient alarm ends here, any other alarm stops
+        /// ringing and is rescheduled for its next occurrence, if it has one.
         /// </summary>
         private void StopAlarm(Alarm alarm)
         {
             try
             {
-                if (alarm.IdAlarm.HasValue && DatabaseService.Instance.Database != null)
-                {
-                    var blAlarms = new BL_Alarms();
-                    var alarms = blAlarms.GetAllAlarms(all: true);
-                    var dbAlarm = alarms.FirstOrDefault(a => a.IdAlarm == alarm.IdAlarm);
-
-                    if (dbAlarm != null)
-                    {
-                        // Mark as triggered to update counter
-                        dbAlarm.MarkAsTriggered();
-
-                        // Calculate next trigger time based on interval
-                        if (dbAlarm.Interval.HasValue && dbAlarm.Interval.Value.TotalMilliseconds > 0)
-                        {
-                            // Periodic alarm: schedule next occurrence
-                            dbAlarm.CalculateNextTriggerTime();
-                            blAlarms.AddAlarm(dbAlarm);
-
-                            // Reschedule the alarm
-                            ScheduleAsync(dbAlarm).ContinueWith(t =>
-                            {
-                                if (t.IsFaulted)
-                                    gamon.General.LogOfProgram?.Error($"StopAlarm: reschedule failed for alarm {alarm.IdAlarm}", t.Exception);
-                                else
-                                    gamon.General.LogOfProgram?.Event($"Windows SystemAlarmScheduler: Alarm {alarm.IdAlarm} stopped by user, rescheduled for {dbAlarm.NextTriggerTime:yyyy-MM-dd HH:mm:ss}");
-                            });
-                        }
-                        else
-                        {
-                            // Non-periodic alarm: just save state
-                            blAlarms.AddAlarm(dbAlarm);
-                            gamon.General.LogOfProgram?.Event($"Windows SystemAlarmScheduler: Non-periodic alarm {alarm.IdAlarm} stopped by user");
-                        }
-                    }
-                }
+                if (DatabaseService.Instance.Database == null)
+                    return;
+                Reschedule(new BL_Alarms().StopAlarm(alarm.IdAlarm), "StopAlarm");
+                gamon.General.LogOfProgram?.Event($"Windows SystemAlarmScheduler: Alarm {alarm.IdAlarm} stopped by user");
             }
             catch (Exception ex)
             {
@@ -439,19 +406,10 @@ namespace GlucoMan.Maui.Platforms.Windows
         {
             try
             {
-                if (alarm.IdAlarm.HasValue && DatabaseService.Instance.Database != null)
-                {
-                    var blAlarms = new BL_Alarms();
-                    var alarms = blAlarms.GetAllAlarms(all: true);
-                    var dbAlarm = alarms.FirstOrDefault(a => a.IdAlarm == alarm.IdAlarm);
-
-                    if (dbAlarm != null)
-                    {
-                        dbAlarm.Dismiss();
-                        blAlarms.AddAlarm(dbAlarm);
-                        gamon.General.LogOfProgram?.Event($"Windows SystemAlarmScheduler: Alarm {alarm.IdAlarm} suspended by user");
-                    }
-                }
+                if (DatabaseService.Instance.Database == null)
+                    return;
+                new BL_Alarms().DismissAlarm(alarm.IdAlarm);
+                gamon.General.LogOfProgram?.Event($"Windows SystemAlarmScheduler: Alarm {alarm.IdAlarm} suspended by user");
             }
             catch (Exception ex)
             {
@@ -460,54 +418,16 @@ namespace GlucoMan.Maui.Platforms.Windows
         }
 
         /// <summary>
-        /// Called when Duration elapsed and the user did NOT dismiss the alarm.
-        /// Increments the restart counter; if MaxRepeatCount not yet reached, schedules
-        /// the same alarm again after RepetitionTime. If RepetitionTime is not set, uses
-        /// a default of 5 minutes so the alarm always comes back.
+        /// Called when Duration elapsed and the user did NOT dismiss the alarm: unless
+        /// MaxRepeatCount has been reached, the same alarm rings again after RepetitionTime.
         /// </summary>
         private void RestartAlarmAfterRepetitionTime(Alarm alarm)
         {
             try
             {
-                if (!alarm.IdAlarm.HasValue || DatabaseService.Instance.Database == null)
+                if (DatabaseService.Instance.Database == null)
                     return;
-
-                var blAlarms = new BL_Alarms();
-                var allAlarms = blAlarms.GetAllAlarms(all: true);
-                var dbAlarm = allAlarms.FirstOrDefault(a => a.IdAlarm == alarm.IdAlarm);
-
-                if (dbAlarm == null)
-                {
-                    gamon.General.LogOfProgram?.Debug($"RestartAlarmAfterRepetitionTime: alarm {alarm.IdAlarm} not found in DB");
-                    return;
-                }
-
-                dbAlarm.MarkAsRestartedWhenNotDismissed();
-
-                if (dbAlarm.RingingState == Alarm.AlarmRingingState.Expired)
-                {
-                    // Max restarts reached → just save final state, do not reschedule
-                    blAlarms.AddAlarm(dbAlarm);
-                    gamon.General.LogOfProgram?.Event($"RestartAlarmAfterRepetitionTime: alarm {alarm.IdAlarm} expired after max restarts");
-                    return;
-                }
-
-                // NextTriggerTime was set by MarkAsRestartedWhenNotDismissed.
-                // If RepetitionTime was null/0, fall back to 5 minutes.
-                if (!dbAlarm.NextTriggerTime.HasValue || dbAlarm.NextTriggerTime.Value <= DateTime.Now)
-                {
-                    dbAlarm.NextTriggerTime = DateTime.Now.AddMinutes(5);
-                    gamon.General.LogOfProgram?.Debug($"RestartAlarmAfterRepetitionTime: no RepetitionTime set, defaulting to 5 min");
-                }
-
-                blAlarms.AddAlarm(dbAlarm);
-                ScheduleAsync(dbAlarm).ContinueWith(t =>
-                {
-                    if (t.IsFaulted)
-                        gamon.General.LogOfProgram?.Error($"RestartAlarmAfterRepetitionTime: reschedule failed for alarm {alarm.IdAlarm}", t.Exception);
-                    else
-                        gamon.General.LogOfProgram?.Event($"RestartAlarmAfterRepetitionTime: alarm {alarm.IdAlarm} rescheduled at {dbAlarm.NextTriggerTime:HH:mm:ss} (restart #{dbAlarm.RepeatCount})");
-                });
+                Reschedule(new BL_Alarms().RestartAlarmNotDismissed(alarm.IdAlarm), "RestartAlarmAfterRepetitionTime");
             }
             catch (Exception ex)
             {
@@ -515,22 +435,25 @@ namespace GlucoMan.Maui.Platforms.Windows
             }
         }
 
+        private void Reschedule(Alarm? alarm, string caller)
+        {
+            if (alarm == null)
+                return;
+            ScheduleAsync(alarm).ContinueWith(t =>
+            {
+                if (t.IsFaulted)
+                    gamon.General.LogOfProgram?.Error($"{caller}: reschedule failed for alarm {alarm.IdAlarm}", t.Exception);
+                else
+                    gamon.General.LogOfProgram?.Event($"{caller}: alarm {alarm.IdAlarm} rescheduled at {alarm.NextTriggerTime:yyyy-MM-dd HH:mm:ss}");
+            });
+        }
+
         private void UpdateAlarmStatus(Alarm alarm)
         {
             try
             {
-                if (alarm.IdAlarm.HasValue && DatabaseService.Instance.Database != null)
-                {
-                    var blAlarms = new BL_Alarms();
-                    var alarms = blAlarms.GetAllAlarms(all: true);
-                    var dbAlarm = alarms.FirstOrDefault(a => a.IdAlarm == alarm.IdAlarm);
-
-                    if (dbAlarm != null)
-                    {
-                        dbAlarm.MarkAsTriggered();
-                        blAlarms.AddAlarm(dbAlarm);
-                    }
-                }
+                if (DatabaseService.Instance.Database != null)
+                    new BL_Alarms().MarkAlarmAsTriggered(alarm.IdAlarm);
             }
             catch (Exception ex)
             {

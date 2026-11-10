@@ -74,7 +74,11 @@ namespace GlucoMan.Maui.Platforms.Android
                         {
                             // Recalculate next trigger time in case it changed
                             alarm.CalculateNextTriggerTime();
-                            
+
+                            // An alarm missed by a short time rings as soon as possible
+                            if (alarm.IsMissedWithinGraceWindow())
+                                alarm.NextTriggerTime = DateTime.Now.AddSeconds(5);
+
                             // Only reschedule if next trigger is in the future
                             if (alarm.NextTriggerTime.HasValue && alarm.NextTriggerTime.Value > DateTime.Now)
                             {

@@ -24,7 +24,7 @@ namespace GlucoMan
         public static TypeOfMeal SelectTypeOfMealBasedOnTimeNow()
         {
             TypeOfMeal type;
-            int hour = DateTime.Now.Hour;
+            int hour = LocalNow.Hour;
             if (hour > breakfastStartHour && hour < breakfastEndHour)
                 type = TypeOfMeal.Breakfast;
             else if (hour > lunchStartHour && hour < lunchEndHour)

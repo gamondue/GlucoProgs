@@ -106,8 +106,8 @@ public partial class ClickableImagePage : ContentPage
         SetButtonsVisibility();
         // read the last days of sensors' positions
         allRecentInjections = bl.GetInjections(
-           DateTime.Now.Subtract(new TimeSpan((int)circlesVisibilityMaxTimeInDays + 1, 0, 0, 0, 0, 0)),
-           DateTime.Now, Zone: currentInjection.Zone);
+           Common.LocalNow.Subtract(new TimeSpan((int)circlesVisibilityMaxTimeInDays + 1, 0, 0, 0, 0, 0)),
+           Common.LocalNow, Zone: currentInjection.Zone);
 
         // copy the coordinates of the sensors' positions into the Drawable object
         allCircles.LoadInjectionsCoordinates(allRecentInjections);

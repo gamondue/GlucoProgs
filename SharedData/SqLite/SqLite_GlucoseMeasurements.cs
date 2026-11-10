@@ -185,7 +185,7 @@ namespace GlucoMan
                     // Store the local computer time in TimeOfMeasurement. The DST-aware offset is
                     // stored separately in UtcOffset so the value can be converted to UTC later.
                     var localTimeToStore = Measurement.EventTime.DateTime;
-                    var offsetToStore = Common.CurrentTimeZone;
+                    var offsetToStore = Common.GetActualUtcOffsetForLocalTime(localTimeToStore);
                     string query = "UPDATE GlucoseRecords SET " +
                     "GlucoseValue=" + SqliteSafe.Double(Measurement.GlucoseValue.Double) + "," +
                     "TimeOfMeasurement=" + SqliteSafe.Date(localTimeToStore) + "," +
@@ -218,7 +218,7 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     var localTimeToStore = Measurement.EventTime.DateTime;
-                    var offsetToStore = Common.CurrentTimeZone;
+                    var offsetToStore = Common.GetActualUtcOffsetForLocalTime(localTimeToStore);
                     string query = "INSERT INTO GlucoseRecords" +
                     "(" +
                     "IdGlucoseRecord,GlucoseValue,TimeOfMeasurement,GlucoseString," +
@@ -657,12 +657,13 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    cmd.CommandText = "INSERT INTO Devices (IdDevice, PhysicalCode, IdDeviceModel, StartTime, FinishTime) VALUES (@id,@code,@model,@start,@finish);";
+                    cmd.CommandText = "INSERT INTO Devices (IdDevice, PhysicalCode, IdDeviceModel, StartTime, FinishTime, UtcOffset) VALUES (@id,@code,@model,@start,@finish,@UtcOffset);";
                     cmd.Parameters.Add(new SqliteParameter("@id", newId));
                     cmd.Parameters.Add(new SqliteParameter("@code", device.PhysicalCode ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@model", device.IdDeviceModel ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@start", device.StartTime ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@finish", device.FinishTime ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@UtcOffset", Common.GetActualUtcOffsetForLocalTime(device.StartTime)));
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
@@ -697,12 +698,13 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    cmd.CommandText = "UPDATE Devices SET PhysicalCode=@code, IdDeviceModel=@model, StartTime=@start, FinishTime=@finish WHERE IdDevice=@id;";
+                    cmd.CommandText = "UPDATE Devices SET PhysicalCode=@code, IdDeviceModel=@model, StartTime=@start, FinishTime=@finish, UtcOffset=@UtcOffset WHERE IdDevice=@id;";
                     cmd.Parameters.Add(new SqliteParameter("@id", device.IdDevice ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@code", device.PhysicalCode ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@model", device.IdDeviceModel ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@start", device.StartTime ?? (object)DBNull.Value));
                     cmd.Parameters.Add(new SqliteParameter("@finish", device.FinishTime ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@UtcOffset", Common.GetActualUtcOffsetForLocalTime(device.StartTime)));
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }

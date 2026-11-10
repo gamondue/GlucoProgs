@@ -211,6 +211,48 @@
                 <Label Text="{x:Static strings:AppStrings.Months}" 
                        VerticalTextAlignment="Center" Margin="3,0,5,0"/>
             </HorizontalStackLayout>
+
+            <!-- FatSecret API keys -->
+            <Frame x:Name="frameFatSecretKeys"
+                   IsVisible="False"
+                   BorderColor="Gray" Padding="10" Margin="0,15,0,15" CornerRadius="5">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="{x:Static strings:AppStrings.FatSecretKeysTitle}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,10"/>
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="5">
+                        <Entry Grid.Column="0" x:Name="txtFatSecretClientId"
+                               Placeholder="{x:Static strings:AppStrings.FatSecretClientId}"
+                               IsPassword="True"/>
+                        <Button Grid.Column="1" x:Name="btnToggleFatSecretClientId"
+                                Text="👁" WidthRequest="50"
+                                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowOrHideKey}"
+                                Clicked="btnToggleFatSecretKey_Clicked"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="5">
+                        <Entry Grid.Column="0" x:Name="txtFatSecretClientSecret"
+                               Placeholder="{x:Static strings:AppStrings.FatSecretClientSecret}"
+                               IsPassword="True"/>
+                        <Button Grid.Column="1" x:Name="btnToggleFatSecretClientSecret"
+                                Text="👁" WidthRequest="50"
+                                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowOrHideKey}"
+                                Clicked="btnToggleFatSecretKey_Clicked"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="5">
+                        <Entry Grid.Column="0" x:Name="txtFatSecretConsumerSecret"
+                               Placeholder="{x:Static strings:AppStrings.FatSecretConsumerSecret}"
+                               IsPassword="True"/>
+                        <Button Grid.Column="1" x:Name="btnToggleFatSecretConsumerSecret"
+                                Text="👁" WidthRequest="50"
+                                ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipShowOrHideKey}"
+                                Clicked="btnToggleFatSecretKey_Clicked"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -74,7 +74,7 @@ namespace GlucoMan.BusinessLayer
                 if (activity == null)
                     return null;
 
-                activity.EventTime ??= DateTime.Now;
+                activity.EventTime ??= Common.LocalNow;
                 activity.ActivityLevel ??= 1;
                 activity.DurationMinutes ??= 0;
 

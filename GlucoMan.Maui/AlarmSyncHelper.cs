@@ -44,6 +44,10 @@ namespace GlucoMan.Maui
                     // Recalculate next trigger time
                     alarm.CalculateNextTriggerTime();
 
+                    // An alarm missed by a short time rings as soon as possible
+                    if (alarm.RingingState != Alarm.AlarmRingingState.Ringing && alarm.IsMissedWithinGraceWindow())
+                        alarm.NextTriggerTime = DateTime.Now.AddSeconds(5);
+
                     if (alarm.IsActive() && alarm.NextTriggerTime.HasValue && alarm.NextTriggerTime.Value > DateTime.Now)
                     {
                         // Schedule/reschedule active alarm

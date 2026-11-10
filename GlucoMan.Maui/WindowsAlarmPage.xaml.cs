@@ -1,4 +1,5 @@
-using GlucoMan;
+﻿using GlucoMan;
+using GlucoMan.Maui.Resources.Strings;
 #if WINDOWS
 using System.Runtime.InteropServices;
 #endif
@@ -41,7 +42,7 @@ public partial class WindowsAlarmPage : ContentPage
     // callback(action)
     // AlarmAction.Stop → user pressed Stop (keep alarm scheduled)
     // AlarmAction.Suspend → user pressed Suspend Sequence (dismiss completely)
-    // AlarmAction.Snooze → user pressed Snooze (5 minutes)
+    // AlarmAction.Snooze → user pressed Snooze (see SnoozeMinutes)
     // AlarmAction.AutoStop → Duration elapsed, no user action
     private readonly Action<AlarmAction> _dismissCallback;
     private System.Timers.Timer? _clockTimer;
@@ -51,12 +52,14 @@ public partial class WindowsAlarmPage : ContentPage
     private bool _isFlashing;
     private bool _stopped; // guard against double-stop
 
+    // minutes of delay chosen by the user
+    public int SnoozeMinutes { get; private set; }
+
     public enum AlarmAction
     {
         Stop,       // Stop sound but keep scheduled
         Suspend,    // Dismiss completely
-        Snooze,     // Snooze 5 minutes
-        Snooze15,   // Snooze 15 minutes
+        Snooze,     // Snooze for SnoozeMinutes minutes
         AutoStop    // Auto-stopped by duration timer
     }
 
@@ -69,6 +72,12 @@ public partial class WindowsAlarmPage : ContentPage
 
         // Set alarm message
         lblAlarmMessage.Text = alarm.ReminderText ?? "Alarm";
+
+        SnoozeMinutes = alarm.GetSnoozeMinutes();
+        ShowSnoozeMinutes();
+
+        // A transient alarm has no sequence to suspend: Stop already ends it
+        btnSuspend.IsVisible = alarm.IsTransient != true;
 
         // Start clock update
         UpdateClock();
@@ -231,11 +240,21 @@ public partial class WindowsAlarmPage : ContentPage
         await Navigation.PopModalAsync();
     }
 
-    private async void BtnSnooze15_Clicked(object? sender, EventArgs e)
+    private void BtnSnoozeUp_Clicked(object? sender, EventArgs e)
     {
-        StopAll();
-        _dismissCallback?.Invoke(AlarmAction.Snooze15);
-        await Navigation.PopModalAsync();
+        SnoozeMinutes = Alarm.StepSnoozeMinutes(SnoozeMinutes, up: true);
+        ShowSnoozeMinutes();
+    }
+
+    private void BtnSnoozeDown_Clicked(object? sender, EventArgs e)
+    {
+        SnoozeMinutes = Alarm.StepSnoozeMinutes(SnoozeMinutes, up: false);
+        ShowSnoozeMinutes();
+    }
+
+    private void ShowSnoozeMinutes()
+    {
+        lblSnoozeMinutes.Text = string.Format(AppStrings.AlarmSnoozeMinutesFormat, SnoozeMinutes);
     }
 
     protected override bool OnBackButtonPressed()

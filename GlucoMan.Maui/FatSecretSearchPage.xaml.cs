@@ -11,6 +11,8 @@ public partial class FatSecretSearchPage : ContentPage
     private ObservableCollection<FatSecretFood> _searchResults;
     private TaskCompletionSource<bool> _taskCompletionSource;
     private FatSecretFood _selectedFood;
+    private string _currentQuery;
+    private FatSecretSearchResults _lastPage;
 
     public Task<bool> PageClosedTask => _taskCompletionSource?.Task ?? Task.FromResult(false);
     public FatSecretFood SelectedFood { get; private set; }
@@ -36,20 +38,7 @@ public partial class FatSecretSearchPage : ContentPage
 
     private void CheckCredentials()
     {
-        // Pre-fill all fields with current saved values from DB
-        PreFillCredentialFields();
         UpdateAuthStatus();
-    }
-
-    private void PreFillCredentialFields()
-    {
-        txtLanguage.Text = _fatSecretService.Language;
-        txtRegion.Text = _fatSecretService.Region;
-        // Load current credential values (masked by IsPassword=true)
-        var bl = new BL_General();
-        txtClientId.Text = bl.RestoreParameter("FatSecret_ClientId") ?? "";
-        txtClientSecret.Text = bl.RestoreParameter("FatSecret_ClientSecret") ?? "";
-        txtConsumerSecret.Text = bl.RestoreParameter("FatSecret_ConsumerSecret") ?? "";
     }
 
     private void UpdateAuthStatus()
@@ -73,29 +62,6 @@ public partial class FatSecretSearchPage : ContentPage
         }
     }
 
-    private void btnShowCredentials_Clicked(object sender, EventArgs e)
-    {
-        frameCredentials.IsVisible = !frameCredentials.IsVisible;
-    }
-
-    private void btnToggleSecret_Clicked(object sender, EventArgs e)
-    {
-        if (sender is Button btn)
-        {
-            Entry target = null;
-            if (btn == btnToggleClientSecret)
-                target = txtClientSecret;
-            else if (btn == btnToggleConsumerSecret)
-                target = txtConsumerSecret;
-
-            if (target != null)
-            {
-                target.IsPassword = !target.IsPassword;
-                btn.Text = target.IsPassword ? "Show" : "Hide";
-            }
-        }
-    }
-
     private async void btnLogin_Clicked(object sender, EventArgs e)
     {
         if (_fatSecretService.HasUserToken)
@@ -114,8 +80,7 @@ public partial class FatSecretSearchPage : ContentPage
 
         if (!_fatSecretService.HasCredentials || !_fatSecretService.HasConsumerSecret)
         {
-            lblStatus.Text = "Please configure API credentials first (Client ID, Secret, and Shared Secret)";
-            frameCredentials.IsVisible = true;
+            lblStatus.Text = AppStrings.FatSecretConfigureInSettings;
             return;
         }
 
@@ -159,31 +124,48 @@ public partial class FatSecretSearchPage : ContentPage
 
         if (!_fatSecretService.HasCredentials)
         {
-            lblStatus.Text = "Please configure FatSecret API credentials first";
-            frameCredentials.IsVisible = true;
+            lblStatus.Text = AppStrings.FatSecretConfigureInSettings;
             return;
         }
 
+        _currentQuery = query;
+        _lastPage = null;
+        _searchResults.Clear();
+        await LoadNextPageAsync();
+    }
+
+    private async void btnLoadMore_Clicked(object sender, EventArgs e)
+    {
+        await LoadNextPageAsync();
+    }
+
+    private async Task LoadNextPageAsync()
+    {
         try
         {
             lblStatus.Text = "Searching...";
             btnSearch.IsEnabled = false;
-            _searchResults.Clear();
+            btnLoadMore.IsVisible = false;
 
-            var results = await _fatSecretService.SearchFoodsAsync(query);
+            int pageNumber = _lastPage == null ? 0 : _lastPage.PageNumber + 1;
+            _lastPage = await _fatSecretService.SearchFoodsAsync(_currentQuery, pageNumber);
 
-            foreach (var food in results)
+            foreach (var food in _lastPage.Foods)
             {
                 _searchResults.Add(food);
             }
 
-            lblStatus.Text = $"Found {results.Count} results";
+            lblStatus.Text = string.Format(AppStrings.FatSecretResultsCount,
+                _searchResults.Count, _lastPage.TotalResults);
+            btnLoadMore.IsVisible = _lastPage.HasMorePages;
         }
         catch (Exception ex)
         {
             lblStatus.Text = $"Error: {ex.Message}";
-            General.LogOfProgram.Error("FatSecretSearchPage | PerformSearchAsync", ex);
+            General.LogOfProgram.Error("FatSecretSearchPage | LoadNextPageAsync", ex);
             await DisplayAlert(AppStrings.Error, ex.Message, AppStrings.OK);
+            // The same page can be asked again
+            btnLoadMore.IsVisible = _lastPage?.HasMorePages == true;
         }
         finally
         {
@@ -231,35 +213,6 @@ public partial class FatSecretSearchPage : ContentPage
         await ClosePageAsync();
     }
 
-    private void btnSaveCredentials_Clicked(object sender, EventArgs e)
-    {
-        var clientId = txtClientId.Text?.Trim();
-        var clientSecret = txtClientSecret.Text?.Trim();
-
-        if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
-        {
-            DisplayAlert("", "Please enter both Client ID and Client Secret", AppStrings.OK);
-            return;
-        }
-
-        _fatSecretService.SetCredentials(clientId, clientSecret);
-
-        // Save OAuth 1.0 Shared Secret if provided
-        var consumerSecret = txtConsumerSecret?.Text?.Trim();
-        if (!string.IsNullOrEmpty(consumerSecret))
-            _fatSecretService.SetConsumerSecret(consumerSecret);
-
-        // Save locale if the fields are present in the UI
-        var language = txtLanguage?.Text?.Trim();
-        var region = txtRegion?.Text?.Trim();
-        if (!string.IsNullOrEmpty(language) && !string.IsNullOrEmpty(region))
-            _fatSecretService.SetLocale(language, region);
-
-        frameCredentials.IsVisible = false;
-        UpdateAuthStatus();
-        lblStatus.Text = $"Credentials saved. Locale: {_fatSecretService.Language}/{_fatSecretService.Region}";
-    }
-
     private async void txtBarcode_Completed(object sender, EventArgs e)
     {
         await PerformBarcodeSearchAsync();
@@ -303,8 +256,7 @@ public partial class FatSecretSearchPage : ContentPage
 
         if (!_fatSecretService.HasCredentials)
         {
-            lblStatus.Text = "Please configure FatSecret API credentials first";
-            frameCredentials.IsVisible = true;
+            lblStatus.Text = AppStrings.FatSecretConfigureInSettings;
             return;
         }
 
@@ -313,6 +265,7 @@ public partial class FatSecretSearchPage : ContentPage
             lblStatus.Text = "Searching by barcode...";
             btnSearchBarcode.IsEnabled = false;
             btnScanBarcode.IsEnabled = false;
+            btnLoadMore.IsVisible = false;
             _searchResults.Clear();
 
             var food = await _fatSecretService.FindFoodByBarcodeAsync(barcode);

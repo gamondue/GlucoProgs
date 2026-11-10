@@ -236,13 +236,14 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
             bl.SaveOneMeal(bl.Meal, false);
         }
     }
-    private void btnAddFoodInMeal_Click(object sender, EventArgs e)
+    private async void btnAddFoodInMeal_Click(object sender, EventArgs e)
     {
         try
         {
             // Ensure we have a valid meal to add food to
             if (bl.Meal.IdMeal == null)
             {
+                await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
                 // Save the meal first if it doesn't exist
                 bl.Meal.IdMeal = bl.SaveOneMeal(bl.Meal, true);
             }
@@ -587,7 +588,10 @@ public partial class MealPage : ContentPage, INotifyPropertyChanged
     {
         //FromUiToClasses();
         if (bl.Meal.IdMeal != null)
-            bl.SaveOneMeal(bl.Meal, true); // saves with time now 
+        {
+            await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
+            bl.SaveOneMeal(bl.Meal, true); // saves with time now
+        }
         btnStartMeal.BackgroundColor = initialButtonBackground;
         btnStartMeal.TextColor = initialButtonTextColor;
         btnStartMeal.ImageSource = "chronograph_started.png";

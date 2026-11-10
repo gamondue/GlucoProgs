@@ -70,7 +70,57 @@
                 FontSize="20"
                 FontAttributes="Bold"
                 Margin="0,10,0,5"/>
-                
+
+            <!-- Command Buttons -->
+            <FlexLayout Direction="Row" Wrap="Wrap" AlignItems="Center" 
+                        JustifyContent="Start">
+            <Button x:Name="btnSaveAlarm" 
+                    ImageSource="floppy_disc.png"
+                    Margin="2"
+                    HeightRequest="50"
+                    BackgroundColor="LightCoral"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipSaveAlarm}" />
+
+            <Button x:Name="btnAddAlarm" 
+                    ImageSource="plus.png"
+                    Margin="2"
+                    HeightRequest="50"
+                    BackgroundColor="{StaticResource Primary}"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipAddAlarm}" />
+            <Button x:Name="btnDeleteAlarm" 
+                    ImageSource="minus.png"
+                    Margin="2"
+                    HeightRequest="50"
+                    BackgroundColor="LightCoral"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipDeleteAlarm}" />
+            <Button x:Name="btnClearAlarm" 
+                    ImageSource="details.png"
+                    Margin="2"
+                    HeightRequest="50"
+                    BackgroundColor="{StaticResource Primary}"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipClearAlarmFields}" />
+            <Button x:Name="btnDismiss" 
+                    Text="{x:Static strings:AppStrings.Dismiss}"
+                    Margin="2"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    BackgroundColor="{StaticResource Primary}"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipDismissAlarm}" />
+            <Button x:Name="btnTest" 
+                    Text="{x:Static strings:AppStrings.Test}"
+                    Margin="2"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    BackgroundColor="{StaticResource Primary}"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipTestAlarm}" />
+            <Button x:Name="btnSetNext" 
+                    Text="{x:Static strings:AppStrings.SetNext}" 
+                    Margin="2"
+                    HeightRequest="50"
+                    BackgroundColor="{StaticResource Primary}"
+                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipSetNextTrigger}" />
+            </FlexLayout>
+
             <!-- Current Alarm Editing Panel -->
             <Frame BorderColor="#888" CornerRadius="6" Padding="8" Margin="0,0,0,6">
                 <Grid ColumnDefinitions="*,70,*,70" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
@@ -206,57 +256,13 @@
                             Text="{x:Static strings:AppStrings.Status}" />
                         <Entry x:Name="txtState" Style="{StaticResource ResultEntryStyle}"
                             ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipAlarmState}" />
+                        <CheckBox x:Name="chkTransient" Margin="8,0,0,0"
+                            ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipAlarmTransient}" />
+                        <Label VerticalOptions="Center"
+                            Text="{x:Static strings:AppStrings.AlarmTransient}" />
                     </HorizontalStackLayout>
                 </Grid>
             </Frame>
-
-            <!-- Command Buttons -->
-            <FlexLayout Direction="Row" Wrap="Wrap" AlignItems="Center" 
-                        JustifyContent="Start">
-            <Button x:Name="btnSaveAlarm" 
-                    ImageSource="floppy_disc.png"
-                    Margin="2"
-                    HeightRequest="50"
-                    BackgroundColor="LightCoral"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipSaveAlarm}" />
-
-            <Button x:Name="btnAddAlarm" 
-                    ImageSource="plus.png"
-                    Margin="2"
-                    HeightRequest="50"
-                    BackgroundColor="{StaticResource Primary}"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipAddAlarm}" />
-            <Button x:Name="btnDeleteAlarm" 
-                    ImageSource="minus.png"
-                    Margin="2"
-                    HeightRequest="50"
-                    BackgroundColor="LightCoral"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipDeleteAlarm}" />
-            <Button x:Name="btnClearAlarm" 
-                    ImageSource="details.png"
-                    Margin="2"
-                    HeightRequest="50"
-                    BackgroundColor="{StaticResource Primary}"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipClearAlarmFields}" />
-            <Button x:Name="btnDismiss" 
-                    Text="{x:Static strings:AppStrings.Dismiss}"
-                    Margin="2"
-                    HeightRequest="50"
-                    BackgroundColor="{StaticResource Primary}"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipDismissAlarm}" />
-            <Button x:Name="btnTest" 
-                    Text="{x:Static strings:AppStrings.Test}"
-                    Margin="2"
-                    HeightRequest="50"
-                    BackgroundColor="{StaticResource Primary}"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipTestAlarm}" />
-            <Button x:Name="btnSetNext" 
-                    Text="{x:Static strings:AppStrings.SetNext}" 
-                    Margin="2"
-                    HeightRequest="50"
-                    BackgroundColor="{StaticResource Primary}"
-                    ToolTipProperties.Text="{x:Static strings:AppStrings.TooltipSetNextTrigger}" />
-            </FlexLayout>
 
             <!-- Filters Panel -->
             <Frame BorderColor="#888" CornerRadius="6" Padding="6" Margin="0,3,0,2">

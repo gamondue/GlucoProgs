@@ -9,11 +9,11 @@
 
     <!-- Alarm Icon -->
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:src="@android:drawable/ic_lock_idle_alarm"
         android:tint="#FFFFFF"
-        android:layout_marginBottom="32dp"/>
+        android:layout_marginBottom="16dp"/>
 
     <!-- Title -->
     <TextView
@@ -47,8 +47,8 @@
         android:textColor="#FFFFFF"
         android:textAlignment="center"
         android:gravity="center"
-        android:layout_marginBottom="48dp"
-        android:maxLines="3"
+        android:layout_marginBottom="24dp"
+        android:maxLines="4"
         android:ellipsize="end"/>
 
     <!-- Buttons Container -->
@@ -57,41 +57,64 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginTop="24dp">
+        android:layout_marginTop="8dp">
 
-        <!-- Top row: Two Snooze buttons and Stop button -->
+        <!-- Delay chooser: minutes of the next Snooze -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btnSnoozeDown"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:text="&#x25BC;"
+                android:textSize="24sp"
+                android:textColor="#FF1744"
+                android:background="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/txtSnoozeMinutes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="5 min"
+                android:textSize="32sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/btnSnoozeUp"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:text="&#x25B2;"
+                android:textSize="24sp"
+                android:textColor="#FF1744"
+                android:background="@android:color/white"/>
+        </LinearLayout>
+
+        <!-- Top row: Snooze button and Stop button -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
 
-            <!-- Snooze 5 min Button -->
+            <!-- Snooze Button -->
             <Button
                 android:id="@+id/btnSnooze"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Snooze\n5 min"
-                android:textSize="16sp"
+                android:text="Snooze"
+                android:textSize="18sp"
                 android:textColor="#FF1744"
                 android:background="@android:color/white"
-                android:padding="12dp"
-                android:layout_marginEnd="4dp"
-                android:textAllCaps="false"/>
-
-            <!-- Snooze 15 min Button -->
-            <Button
-                android:id="@+id/btnSnooze15"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Snooze\n15 min"
-                android:textSize="16sp"
-                android:textColor="#FF1744"
-                android:background="@android:color/white"
-                android:padding="12dp"
-                android:layout_marginStart="4dp"
+                android:padding="16dp"
                 android:layout_marginEnd="4dp"
                 android:textAllCaps="false"/>
 
@@ -102,10 +125,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Stop"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:background="#228B22"
-                android:padding="12dp"
+                android:padding="16dp"
                 android:layout_marginStart="4dp"
                 android:textAllCaps="false"/>
         </LinearLayout>

@@ -107,6 +107,95 @@
                      .Where(a => a.RingingState == Alarm.AlarmRingingState.AutoSuspended)
                      .ToList();
         }
+        /// <summary>
+        /// Retrieves one alarm by its id
+        /// </summary>
+        /// <returns>The alarm, or null if it isn't in the database</returns>
+        public Alarm? GetAlarmById(int? alarmId)
+        {
+            return dl.GetAllAlarms(all: true).FirstOrDefault(a => a.IdAlarm == alarmId);
+        }
+        /// <summary>
+        /// Retrieves the transient alarms, that are the ones that exist only until dismissed
+        /// </summary>
+        public List<Alarm> GetTransientAlarms()
+        {
+            return dl.GetAllAlarms(all: true).Where(a => a.IsTransient == true).ToList();
+        }
+        /// <summary>
+        /// Records that an alarm started ringing
+        /// </summary>
+        public void MarkAlarmAsTriggered(int? alarmId)
+        {
+            Alarm? alarm = GetAlarmById(alarmId);
+            if (alarm == null)
+                return;
+            alarm.MarkAsTriggered();
+            dl.SaveOneAlarm(alarm);
+        }
+        /// <summary>
+        /// The user delays a ringing alarm
+        /// </summary>
+        /// <returns>The alarm to schedule again, or null if it isn't in the database</returns>
+        public Alarm? SnoozeAlarm(int? alarmId, int minutes)
+        {
+            Alarm? alarm = GetAlarmById(alarmId);
+            if (alarm == null)
+                return null;
+            alarm.Snooze(minutes);
+            dl.SaveOneAlarm(alarm);
+            return alarm;
+        }
+        /// <summary>
+        /// The user stops a ringing alarm: a transient alarm ends here and is deleted,
+        /// any other alarm goes on with its next occurrence, if it has one.
+        /// </summary>
+        /// <returns>The alarm to schedule again, or null if it has no more occurrences</returns>
+        public Alarm? StopAlarm(int? alarmId)
+        {
+            Alarm? alarm = GetAlarmById(alarmId);
+            if (alarm == null)
+                return null;
+            if (alarm.IsTransient == true)
+            {
+                dl.DeleteOneAlarm(alarm);
+                return null;
+            }
+            alarm.IsPlaying = false;
+            alarm.CalculateNextTriggerTime();
+            dl.SaveOneAlarm(alarm);
+            return alarm.NextTriggerTime.HasValue ? alarm : null;
+        }
+        /// <summary>
+        /// The user cancels the whole sequence of an alarm: a transient alarm is deleted,
+        /// any other alarm is kept in the database as Dismissed.
+        /// </summary>
+        public void DismissAlarm(int? alarmId)
+        {
+            Alarm? alarm = GetAlarmById(alarmId);
+            if (alarm == null)
+                return;
+            if (alarm.IsTransient == true)
+            {
+                dl.DeleteOneAlarm(alarm);
+                return;
+            }
+            alarm.Dismiss();
+            dl.SaveOneAlarm(alarm);
+        }
+        /// <summary>
+        /// An alarm has rung for its whole Duration without any answer from the user
+        /// </summary>
+        /// <returns>The alarm to schedule again, or null if it will not ring anymore</returns>
+        public Alarm? RestartAlarmNotDismissed(int? alarmId)
+        {
+            Alarm? alarm = GetAlarmById(alarmId);
+            if (alarm == null)
+                return null;
+            alarm.MarkAsRestartedWhenNotDismissed();
+            dl.SaveOneAlarm(alarm);
+            return alarm.RingingState == Alarm.AlarmRingingState.Expired ? null : alarm;
+        }
         public void DeleteAlarm(Alarm alarm)
         {
             dl.DeleteOneAlarm(alarm);

@@ -57,8 +57,8 @@ public partial class BackPicturePage : ContentPage
 
         // read the last days of sensors' positions
         allRecentInjections = bl.GetInjections(
-           DateTime.Now.Subtract(new TimeSpan(12 * 7, 0, 0, 0, 0, 0)),
-           DateTime.Now, Zone: Common.ZoneOfPosition.Back);
+           Common.LocalNow.Subtract(new TimeSpan(12 * 7, 0, 0, 0, 0, 0)),
+           Common.LocalNow, Zone: Common.ZoneOfPosition.Back);
 
         // copy the coordinates of the sensors' positions into the Drawable object
         allCircles.LoadInjectionsCoordinates(allRecentInjections);
@@ -126,8 +126,9 @@ public partial class BackPicturePage : ContentPage
         allCircles.IsCallerEditing = e.Value;
         this.cerchiGraphicsView.Invalidate();
     }
-    private void BtnSaveInjection_Clicked(object sender, EventArgs e)
+    private async void BtnSaveInjection_Clicked(object sender, EventArgs e)
     {
+        await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
         // we put the coordinate of the point in the injection object
         currentInjection.PositionX = currentNearestReferencePosition.X;
         currentInjection.PositionY = currentNearestReferencePosition.Y;

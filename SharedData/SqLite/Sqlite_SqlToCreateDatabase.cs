@@ -18,117 +18,47 @@ BEGIN TRANSACTION;
 
 -- Table: Alarms
 DROP TABLE IF EXISTS Alarms;
-CREATE TABLE Alarms (IdAlarm INT NOT NULL, ReminderText TEXT, TimeStart DATETIME, NextTriggerTime DATETIME, IsDisabled TINYINT, StartupGraceWindow INTEGER, RingingState TINYINT, Duration INTEGER, RepetitionTime INTEGER, Interval INTEGER, IsPlaying TINYINT, EnablePlaySoundFile TINYINT, SoundFilePath TEXT, RepeatCount INTEGER, MaxRepeatCount INTEGER, LastTriggerTime DATETIME, TriggeredCount INTEGER, DoVibrate TINYINT, PRIMARY KEY (IdAlarm));
+CREATE TABLE Alarms (IdAlarm INT NOT NULL, ReminderText TEXT, TimeStart DATETIME, UtcOffset REAL, NextTriggerTime DATETIME, IsDisabled TINYINT, StartupGraceWindow INTEGER, RingingState TINYINT, Duration INTEGER, RepetitionTime INTEGER, Interval INTEGER, IsPlaying TINYINT, EnablePlaySoundFile TINYINT, SoundFilePath TEXT, RepeatCount INTEGER, MaxRepeatCount INTEGER, LastTriggerTime DATETIME, TriggeredCount INTEGER, DoVibrate TINYINT, IsTransient TINYINT, PRIMARY KEY (IdAlarm));
 
 -- Table: BolusCalculations
 DROP TABLE IF EXISTS BolusCalculations;
 CREATE TABLE 'BolusCalculations' (
-
-
-
 	'IdBolusCalculation'	INT NOT NULL,
-
-
-
 	'Timestamp'	DATETIME,
-
-
-
 	'TotalInsulinForMeal'	DOUBLE,
-
-
-
 	'CalculatedChoToEat'	DOUBLE,
-
-
-
 	'BolusInsulinDueToChoOfMeal'	DOUBLE,
-
-
-
 	'BolusInsulinDueToCorrectionOfGlucose'	DOUBLE,
-
-
-
 	'TargetGlucose'	DOUBLE,
-
-
-
 	'InsulinCorrectionSensitivity'	DOUBLE,
-
-
-
 	'TypicalBolusMorning'	DOUBLE,
-
-
-
 	'TypicalBolusMidday'	DOUBLE,
-
-
-
 	'TypicalBolusEvening'	DOUBLE,
-
-
-
 	'TypicalBolusNight'	DOUBLE,
-
-
-
 	'TotalDailyDoseOfInsulin'	DOUBLE,
-
-
-
 	'ChoInsulinRatioBreakfast'	DOUBLE,
-
-
-
 	'ChoInsulinRatioLunch'	DOUBLE,
-
-
-
 	'ChoInsulinRatioDinner'	DOUBLE,
-
-
-
 	'GlucoseBeforeMeal'	DOUBLE,
-
-
-
 	'GlucoseToBeCorrected'	DOUBLE,
-
-
-
 	'FactorOfInsulinCorrectionSensitivity'	DOUBLE,
-
-
-
 	PRIMARY KEY('IdBolusCalculation')
-
-
-
 );
 
 -- Table: Containers
 DROP TABLE IF EXISTS Containers;
 CREATE TABLE Containers (
-
     IdContainer   INTEGER PRIMARY KEY
-
                           NOT NULL,
-
     Name          TEXT    NOT NULL,
-
     Weight        REAL    DEFAULT 0,
-
     Notes         TEXT,
-
     PhotoFileName TEXT
-
 );
 
 -- Table: Devices
 DROP TABLE IF EXISTS Devices;
-CREATE TABLE Devices (IdDevice INTEGER PRIMARY KEY NOT NULL, PhysicalCode TEXT, IdDeviceModel INTEGER, StartTime DATETIME, FinishTime DATETIME);
+CREATE TABLE Devices (IdDevice INTEGER PRIMARY KEY NOT NULL, PhysicalCode TEXT, IdDeviceModel INTEGER, StartTime DATETIME, FinishTime DATETIME, UtcOffset REAL);
 
 -- Table: DevicesModels
 DROP TABLE IF EXISTS DevicesModels;
@@ -141,15 +71,10 @@ INSERT INTO DevicesModels (IdDeviceModel, Name, IdTypeOfDevice, Description) VAL
 -- Table: Events
 DROP TABLE IF EXISTS Events;
 CREATE TABLE Events (
-
-    IdEvent            PRIMARY KEY
-
-                       NOT NULL,
-
+    IdEvent PRIMARY KEY NOT NULL,
     EventTime DATETIME,
-
+    UtcOffset REAL,
     Notes     TEXT
-
 );
 
 -- Table: Foods
@@ -162,93 +87,52 @@ CREATE TABLE FoodsInMeals (IdFoodInMeal INT NOT NULL, IdMeal INT, IdFood INT, Na
 
 -- Table: GlucoseRecords
 DROP TABLE IF EXISTS GlucoseRecords;
-CREATE TABLE GlucoseRecords (IdGlucoseRecord INT NOT NULL, GlucoseValue DOUBLE, TimeOfMeasurement DATETIME, GlucoseString VARCHAR (45), IdTypeOfGlucoseMeasurement INT, IdOfDevice INT, IdTypeOfDevice INT, IdDeviceModel INT, Notes VARCHAR (255), UtcOffset REAL, PRIMARY KEY (IdGlucoseRecord));
+CREATE TABLE GlucoseRecords (IdGlucoseRecord INT NOT NULL, GlucoseValue DOUBLE, TimeOfMeasurement DATETIME, UtcOffset REAL, GlucoseString VARCHAR (45), IdTypeOfGlucoseMeasurement INT, IdOfDevice INT, IdTypeOfDevice INT, IdDeviceModel INT, Notes VARCHAR (255), PRIMARY KEY (IdGlucoseRecord));
+
+-- Table: GpsPositions (dropped before GpsTracks because of the foreign key)
+DROP TABLE IF EXISTS GpsPositions;
+
+-- Table: GpsTracks
+DROP TABLE IF EXISTS GpsTracks;
+CREATE TABLE GpsTracks (IdTrack INTEGER PRIMARY KEY NOT NULL, Name TEXT, StartTime DATETIME, EndTime DATETIME, TotalDistanceMeters DOUBLE, DurationSeconds DOUBLE, AverageSpeedMps DOUBLE, IdActivity INTEGER, Notes TEXT);
+CREATE TABLE GpsPositions (IdPosition INTEGER PRIMARY KEY NOT NULL, IdTrack INTEGER, Timestamp DATETIME, Latitude DOUBLE, Longitude DOUBLE, Altitude DOUBLE, Accuracy DOUBLE, Speed DOUBLE, Notes TEXT, FOREIGN KEY (IdTrack) REFERENCES GpsTracks(IdTrack) ON DELETE CASCADE);
 
 -- Table: HypoPredictions
 DROP TABLE IF EXISTS HypoPredictions;
 CREATE TABLE 'HypoPredictions' (
-
-
-
 	'IdHypoPrediction'	INT NOT NULL,
-
-
-
 	'PredictedTime'	DATETIME,
-
-
-
 	'AlarmTime'	DATETIME,
-
-
-
 	'GlucoseSlope'	DOUBLE,
-
-
-
 	'HypoGlucoseTarget'	INT,
-
-
-
 	'GlucoseLast'	DOUBLE,
-
-
-
 	'GlucosePrevious'	DOUBLE,
-
-
-
 	'Interval'	VARCHAR(10),
-
-
-
 	'DatetimeLast'	DATETIME,
-
-
-
 	'DatetimePrevious'	DATETIME,
-
-
-
 	PRIMARY KEY('IdHypoPrediction')
-
-
-
 );
 
 -- Table: Ingredients
 DROP TABLE IF EXISTS Ingredients;
 CREATE TABLE Ingredients (
-
     IdIngredient          INTEGER NOT NULL,
-
     IdRecipe              INTEGER NOT NULL,
-
     Name                  TEXT,
-
     Description           TEXT,
-
     QuantityGrams         REAL,
-
     QuantityPercent       REAL,
-
     CarbohydratesPercent  REAL,
-
     AccuracyOfChoEstimate DOUBLE,
-
     IdFood                INTEGER,
-
     PRIMARY KEY (
-
         IdIngredient
-
     )
-
 );
 
 -- Table: Injections
 DROP TABLE IF EXISTS Injections;
-CREATE TABLE Injections (IdInjection INT NOT NULL, Timestamp DATETIME, InsulinValue DOUBLE, InsulinCalculated DOUBLE, InjectionPositionX DOUBLE, InjectionPositionY DOUBLE, Notes VARCHAR (255), IdTypeOfInjection INT, IdTypeOfInsulinAction INT, IdInsulinDrug INT, InsulinString VARCHAR (45), Zone INTEGER, UtcOffset REAL, PRIMARY KEY (IdInjection));
+CREATE TABLE Injections (IdInjection INT NOT NULL, Timestamp DATETIME, UtcOffset REAL, InsulinValue DOUBLE, InsulinCalculated DOUBLE, InjectionPositionX DOUBLE, InjectionPositionY DOUBLE, Notes VARCHAR (255), IdTypeOfInjection INT, IdTypeOfInsulinAction INT, IdInsulinDrug INT, InsulinString VARCHAR (45), Zone INTEGER, PRIMARY KEY (IdInjection));
 
 -- Table: InsulinDrugs
 DROP TABLE IF EXISTS InsulinDrugs;
@@ -266,155 +150,84 @@ CREATE TABLE CategoriesOfFood (IdCategoryOfFood INTEGER PRIMARY KEY, Name TEXT, 
 -- Table: Manufacturers
 DROP TABLE IF EXISTS Manufacturers;
 CREATE TABLE Manufacturers (
-
     IdManufacturer INTEGER PRIMARY KEY,
-
     Name           TEXT,
-
     Description    TEXT
-
 );
 
 -- Table: Meals
 DROP TABLE IF EXISTS Meals;
-CREATE TABLE Meals (IdMeal INT NOT NULL, IdTypeOfMeal INT, Carbohydrates DOUBLE, TimeBegin DATETIME, Notes VARCHAR (255), AccuracyOfChoEstimate DOUBLE, IdBolusCalculation INT, IdGlucoseRecord INT, IdInjection INT, TimeEnd DATETIME, UtcOffset REAL, PRIMARY KEY (IdMeal));
+CREATE TABLE Meals (IdMeal INT NOT NULL, IdTypeOfMeal INT, Carbohydrates DOUBLE, TimeBegin DATETIME, TimeEnd DATETIME, UtcOffset REAL, Notes VARCHAR (255), AccuracyOfChoEstimate DOUBLE, IdBolusCalculation INT, IdGlucoseRecord INT, IdInjection INT, PRIMARY KEY (IdMeal));
 
 -- Table: Parameters
 DROP TABLE IF EXISTS Parameters;
-CREATE TABLE Parameters (
-
-    IdParameters                                    INT      NOT NULL,
-
+CREATE TABLE Parameters (IdParameters INT      NOT NULL,
     Timestamp                                       DATETIME,
-
+    UtcOffset                                       REAL,    
     Bolus_TargetGlucose                             INT,
-
     Bolus_GlucoseBeforeMeal                         INT,
-
     Bolus_ChoToEat                                  INT,
-
     Bolus_ChoInsulinRatioBreakfast                  DOUBLE,
-
     Bolus_ChoInsulinRatioLunch                      DOUBLE,
-
     Bolus_ChoInsulinRatioDinner                     DOUBLE,
-
     Bolus_TotalDailyDoseOfInsulin                   DOUBLE,
-
     Bolus_InsulinCorrectionSensitivity              DOUBLE,
-
     Correction_TypicalBolusMorning                  DOUBLE,
-
     Correction_TypicalBolusMidday                   DOUBLE,
-
     Correction_TypicalBolusEvening                  DOUBLE,
-
     Correction_TypicalBolusNight                    DOUBLE,
-
     Correction_FactorOfInsulinCorrectionSensitivity DOUBLE,
-
     Hypo_GlucoseTarget                              DOUBLE,
-
     Hypo_GlucoseLast                                DOUBLE,
-
     Hypo_GlucosePrevious                            DOUBLE,
-
     Hypo_HourLast                                   DOUBLE,
-
     Hypo_HourPrevious                               DOUBLE,
-
     Hypo_MinuteLast                                 DOUBLE,
-
     Hypo_MinutePrevious                             DOUBLE,
-
     Hypo_AlarmAdvanceTime                           DOUBLE,
-
     Hypo_FutureSpanMinutes                          DOUBLE,
-
     Hit_ChoAlreadyTaken                             DOUBLE,
-
     Hit_ChoOfFood                                   DOUBLE,
-
     Hit_TargetCho                                   DOUBLE,
-
     Hit_NameOfFood                                  TEXT,
-
     FoodInMeal_ChoGrams                             DOUBLE,
-
     FoodInMeal_QuantityGrams                        DOUBLE,
-
     FoodInMeal_CarbohydratesPercent                 DOUBLE,
-
     FoodInMeal_Name                                 TEXT,
-
     FoodInMeal_AccuracyOfChoEstimate                DOUBLE,
-
     Meal_ChoGrams                                   DOUBLE,
-
     Meal_Breakfast_StartTime_Hours                  DOUBLE,
-
     Meal_Breakfast_EndTime_Hours                    DOUBLE,
-
     Meal_Lunch_StartTime_Hours                      DOUBLE,
-
     Meal_Lunch_EndTime_Hours                        DOUBLE,
-
     Meal_Dinner_StartTime_Hours                     DOUBLE,
-
     Meal_Dinner_EndTime_Hours                       DOUBLE,
-
     Insulin_Short_Id                                INTEGER,
-
     Insulin_Long_Id                                 INTEGER,
-
     MonthsOfDataShownInTheGrids                     DOUBLE,
-
     Weigh_FoodId                                    TEXT,
-
     Weigh_FoodName                                  TEXT,
-
     Weigh_FoodCarbohydratesPercent                  DOUBLE,
-
     Weigh_TotalCarbohydratesPercent                 DOUBLE,
-
     Weigh_RawGross                                  DOUBLE,
-
     Weigh_RawTare                                   DOUBLE,
-
     Weigh_RawNet                                    DOUBLE,
-
     Weigh_CookedGross                               DOUBLE,
-
     Weigh_CookedTare                                DOUBLE,
-
     Weigh_CookedNet                                 DOUBLE,
-
     Weigh_SeasoningGross                            DOUBLE,
-
     Weigh_SeasoningTare                             DOUBLE,
-
     Weigh_SeasoningNet                              DOUBLE,
-
     Weigh_SeasoningCarbohydratesPercent             DOUBLE,
-
     Weigh_PortionGross                              DOUBLE,
-
     Weigh_PortionTare                               DOUBLE,
-
     Weigh_PortionNet                                DOUBLE,
-
     Weigh_NPortions                                 DOUBLE,
-
     Weigh_DoWeighCookedPortion                      TEXT,
-
     Weigh_IsChoOfRawFood                            TEXT,
-
     Weigh_RawCookedRatio                            DOUBLE,
-
     Weigh_WeightOfPortion                           DOUBLE,
-
     Weigh_CarbohydratesOfPortion                    DOUBLE,
-
     CantSetAlarms                                    TEXT,
     FatSecret_ClientId                               TEXT,
     FatSecret_ClientSecret                           TEXT,
@@ -423,19 +236,19 @@ CREATE TABLE Parameters (
     FatSecret_ConsumerSecret                         TEXT,
     FatSecret_OAuth1Token                            TEXT,
     FatSecret_OAuth1TokenSecret                      TEXT,
-
     Time_CurrentTimeZone                             DOUBLE,
     Time_IsDaylightSavingTime                        INTEGER,
     Time_CountryName                                 VARCHAR(64),
-
-    UtcOffset                                        REAL,
-
     PRIMARY KEY (IdParameters)
 );
 
+-- Table: PhysicalActivities
+DROP TABLE IF EXISTS PhysicalActivities;
+CREATE TABLE PhysicalActivities (IdActivity INTEGER PRIMARY KEY NOT NULL, EventTime DATETIME, ActivityLevel INTEGER, DurationMinutes INTEGER, Intensity TEXT, Accuracy DOUBLE, Notes TEXT, IdTrack INTEGER);
+
 -- Table: PositionsOfReferences
 DROP TABLE IF EXISTS PositionsOfReferences;
-CREATE TABLE PositionsOfReferences (IdPosition INTEGER PRIMARY KEY, Timestamp DATETIME, Zone INTEGER, PositionX REAL, PositionY REAL, Notes TEXT);
+CREATE TABLE PositionsOfReferences (IdPosition INTEGER PRIMARY KEY, Timestamp DATETIME, Zone INTEGER, PositionX REAL, PositionY REAL, Notes TEXT, UtcOffset REAL);
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (341, '2025-08-31 11:42:29', 2, 0.4119228746332, 0.76030700409893, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (342, '2025-08-31 11:42:29', 2, 0.09791531174947, 0.04635614557651, '');
 INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) VALUES (343, '2025-08-31 11:42:29', 2, 0.13228607177734, 0.04879105999865, '');
@@ -698,34 +511,23 @@ INSERT INTO PositionsOfReferences (IdPosition, Timestamp, Zone, PositionX, Posit
 -- Table: Recipes
 DROP TABLE IF EXISTS Recipes;
 CREATE TABLE Recipes (
-
     IdRecipe              INTEGER NOT NULL,
-
     Name                  TEXT,
-
     Description           TEXT,
-
     CarbohydratesPercent  REAL,
-
     AccuracyOfChoEstimate REAL,
-
     IsCooked              BOOL,
-
     RawToCookedRatio      REAL,
-
     PRIMARY KEY (
-
         IdRecipe
-
     )
-
 );
 
 -- Table: SensorsRecords
 DROP TABLE IF EXISTS SensorsRecords;
-CREATE TABLE SensorsRecords (IdGlucoseRecord INT NOT NULL, GlucoseValue DOUBLE, TimeOfMeasurement DATETIME, 
+CREATE TABLE SensorsRecords (IdGlucoseRecord INT NOT NULL, GlucoseValue DOUBLE, TimeOfMeasurement DATETIME, UtcOffset REAL, 
 GlucoseString VARCHAR (45), IdTypeOfGlucoseMeasurement INT, IdOfDevice INT, IdTypeOfDevice INT, 
-IdDeviceModel INT, Notes VARCHAR (255), UtcOffset REAL, PRIMARY KEY (IdGlucoseRecord));
+IdDeviceModel INT, Notes VARCHAR (255), PRIMARY KEY (IdGlucoseRecord));
 
 -- Table: UnitsOfFood
 DROP TABLE IF EXISTS UnitsOfFood;

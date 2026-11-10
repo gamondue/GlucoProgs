@@ -110,8 +110,9 @@ public partial class GlucoseMeasurementsPage : ContentPage
         txtIdGlucoseRecord.Text = "";
         txtNotes.Text = "";
     }
-    public void btnAddMeasurement_Click(object sender, EventArgs e)
+    public async void btnAddMeasurement_Click(object sender, EventArgs e)
     {
+        await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
         if (chkNowInAdd.IsChecked)
         {
             dtpEventDate.Date = Common.LocalNow;

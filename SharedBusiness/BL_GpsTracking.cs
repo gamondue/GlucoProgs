@@ -37,13 +37,14 @@ namespace GlucoMan
         {
             try
             {
+                DateTime now = Common.LocalNow;
                 CurrentTrack = new Track
                 {
-                    Name = name ?? $"Track {DateTime.Now:yyyy-MM-dd HH:mm}",
+                    Name = name ?? $"Track {now:yyyy-MM-dd HH:mm}",
                     IsRecording = true
                 };
-                CurrentTrack.StartTime.DateTime = DateTime.Now;
-                CurrentTrack.EventTime.DateTime = DateTime.Now;
+                CurrentTrack.StartTime.DateTime = now;
+                CurrentTrack.EventTime.DateTime = now;
 
                 // Save to get an ID
                 CurrentTrack.IdTrack = dl.SaveTrack(CurrentTrack);
@@ -70,7 +71,7 @@ namespace GlucoMan
                     return CurrentTrack;
 
                 CurrentTrack.IsRecording = false;
-                CurrentTrack.EndTime.DateTime = DateTime.Now;
+                CurrentTrack.EndTime.DateTime = Common.LocalNow;
                 CurrentTrack.UpdateStatistics();
 
                 // Save final track Data
@@ -190,9 +191,12 @@ namespace GlucoMan
         /// <param name="altitude">Altitude in meters (optional)</param>
         /// <param name="accuracy">Horizontal accuracy in meters (optional)</param>
         /// <param name="speed">Speed in m/s (optional)</param>
+        /// <param name="eventTime">Local time (accepted time zone) when the position was
+        /// recorded; now if null</param>
         /// <returns>The created position</returns>
-        public GpsPosition AddPosition(double latitude, double longitude, 
-            double? altitude = null, double? accuracy = null, double? speed = null)
+        public GpsPosition AddPosition(double latitude, double longitude,
+            double? altitude = null, double? accuracy = null, double? speed = null,
+            DateTime? eventTime = null)
         {
             try
             {
@@ -218,7 +222,7 @@ namespace GlucoMan
                     Accuracy = accuracy,
                     Speed = speed
                 };
-                position.EventTime.DateTime = DateTime.Now;
+                position.EventTime.DateTime = eventTime ?? Common.LocalNow;
 
                 // Save position to database
                 position.IdPosition = dl.SaveGpsPosition(position);

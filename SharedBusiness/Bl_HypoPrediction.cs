@@ -69,6 +69,9 @@ namespace GlucoMan
             {
                 calcAlarm = false; 
             }
+            // no alarm time until this calculation will have produced a valid one
+            AlarmHour.Text = "----";
+            AlarmMinute.Text = "----";
             try
             {
                 statusMessage = "";

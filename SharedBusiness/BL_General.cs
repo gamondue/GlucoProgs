@@ -417,11 +417,9 @@ namespace GlucoMan
             Parameters current = dl.GetParameters();
             if (current != null && current.Time_CurrentTimeZone != p.Time_CurrentTimeZone)
                 SaveInANewRowWithTimestamp = true;
-            // Compute the DST-aware offset for storage in UtcOffset (used per-record).
-            // Do NOT assign Common.CurrentTimeZone here: the runtime offset is authoritative
-            // from the OS (set in MauiProgram) and must not be overridden by stale DB values.
-            double dstAwareOffset = (p.Time_CurrentTimeZone ?? 0) + (p.Time_IsDaylightSavingTime == true ? 1 : 0);
-            p.UtcOffset = dstAwareOffset;
+            // Store the DST-aware offset valid at the moment of saving. It is taken from the
+            // runtime offset, not from the stored DST flag, which becomes stale at DST switches.
+            p.UtcOffset = Common.CurrentTimeZone;
             dl.SaveAllParameters(p, SaveInANewRowWithTimestamp);
             dl.SaveInsulinDrug(ShortActingInsulin);
             dl.SaveInsulinDrug(LongActingInsulin);

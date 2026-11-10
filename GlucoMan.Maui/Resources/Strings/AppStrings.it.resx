@@ -535,7 +535,7 @@
     <value>Salva: salva i dati della ricetta attuale</value>
   </data>
   <data name="TooltipFoodSaveButton" xml:space="preserve">
-    <value>Salva: salva i dati della iniezione</value>
+    <value>Salva: salva i dati dell'alimento</value>
   </data>
   <data name="TooltipMealSaveButton" xml:space="preserve">
     <value>Salva: salva i dati del pasto</value>
@@ -1446,6 +1446,12 @@
   <data name="UnitApplicabilityMessage" xml:space="preserve">
     <value>Questa nuova unità deve essere applicabile a tutti i cibi o solo a questo?</value>
   </data>
+  <data name="UnitApplicableToAllWarning" xml:space="preserve">
+    <value>Attenzione se si conferma questa unità diverrà applicabile ad ogni cibo</value>
+  </data>
+  <data name="DoNotConfirm" xml:space="preserve">
+    <value>Non conferma</value>
+  </data>
   <data name="UnitApplicabilityAll" xml:space="preserve">
     <value>Tutti</value>
   </data>
@@ -1732,6 +1738,9 @@
   </data>
   <data name="AppAboutParagrah3" xml:space="preserve">
     <value>Il programma ha la possibilità  di gestire ricette per cibo ed aiutare nella pesatura dei cibi. Sono anche presenti funzioni a stato prototipale che non sono ancora state implementate.</value>
+  </data>
+  <data name="AppTooltipHint" xml:space="preserve">
+    <value>La funzione di ogni pulsante o campo di inserimento è spiegata da un testo di aiuto (tooltip). Tenere premuto a lungo il pulsante o il campo per vedere apparire il testo.</value>
   </data>
   <data name="CalcClear" xml:space="preserve">
     <value>C</value>
@@ -2777,8 +2786,7 @@ SEQUENZA</value>
     <value>Premi ESC o clicca un pulsante per chiudere</value>
   </data>
   <data name="AlarmSnoozeButtonShort" xml:space="preserve">
-    <value>Posticipa
-5 min</value>
+    <value>Posticipa</value>
   </data>
   <data name="AlarmSuspendButtonShort" xml:space="preserve">
     <value>Sospendi
@@ -2886,7 +2894,8 @@ sequenza</value>
 Precedente: {0}  ({1})
 Rilevato:   {2}  ({3})
 
-Vuoi aggiornare il fuso orario impostato?</value>
+Vuoi aggiornare il paese e il fuso orario impostati?
+(I dati vengono comunque salvati con l'ora effettiva del dispositivo.)</value>
   </data>
   <data name="StartupCountryChangedPrompt" xml:space="preserve">
     <value>Il paese del dispositivo ({1}) è diverso da quello configurato ({0}).
@@ -3108,5 +3117,213 @@ Vuoi passare a {1}?</value>
   </data>
   <data name="ReminderShort" xml:space="preserve">
     <value>Tit.</value>
+  </data>
+  <data name="FoodDetailsPageTitle" xml:space="preserve">
+    <value>Dettagli alimento</value>
+  </data>
+  <data name="FoodNutritionData" xml:space="preserve">
+    <value>Dati nutrizionali alimento</value>
+  </data>
+  <data name="CaloriesKCal" xml:space="preserve">
+    <value>Calorie [kCal]</value>
+  </data>
+  <data name="TotalFats" xml:space="preserve">
+    <value>Grassi totali</value>
+  </data>
+  <data name="SaturatedFatsShort" xml:space="preserve">
+    <value>Grassi sat.</value>
+  </data>
+  <data name="MonounsaturatedFatsShort" xml:space="preserve">
+    <value>Grassi monoins.</value>
+  </data>
+  <data name="PolyunsaturatedFatsShort" xml:space="preserve">
+    <value>Grassi polins.</value>
+  </data>
+  <data name="CHO" xml:space="preserve">
+    <value>CHO</value>
+  </data>
+  <data name="Fibers" xml:space="preserve">
+    <value>Fibre</value>
+  </data>
+  <data name="Proteins" xml:space="preserve">
+    <value>Proteine</value>
+  </data>
+  <data name="Salt" xml:space="preserve">
+    <value>Sale</value>
+  </data>
+  <data name="CholesterolShort" xml:space="preserve">
+    <value>Colest.</value>
+  </data>
+  <data name="PotassiumShort" xml:space="preserve">
+    <value>Potass.</value>
+  </data>
+  <data name="GlycemicIndexShort" xml:space="preserve">
+    <value>Ind.glic.</value>
+  </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>Codice a barre</value>
+  </data>
+  <data name="IdFood" xml:space="preserve">
+    <value>Id alimento</value>
+  </data>
+  <data name="GramsPerUnit" xml:space="preserve">
+    <value>Grammi/Unità</value>
+  </data>
+  <data name="StoredUnits" xml:space="preserve">
+    <value>Unità memorizzate</value>
+  </data>
+  <data name="FoodInfo" xml:space="preserve">
+    <value>Info alimento</value>
+  </data>
+  <data name="WeightOfContent" xml:space="preserve">
+    <value>Peso contenuto</value>
+  </data>
+  <data name="FoodDescription" xml:space="preserve">
+    <value>Descrizione alimento</value>
+  </data>
+  <data name="TooltipAddUnitToFood" xml:space="preserve">
+    <value>Più: aggiunge un'unità per questo alimento</value>
+  </data>
+  <data name="TooltipRemoveUnitFromFood" xml:space="preserve">
+    <value>Meno: elimina l'unità selezionata da questo alimento</value>
+  </data>
+  <data name="TooltipAddManufacturer" xml:space="preserve">
+    <value>Più: crea un nuovo produttore</value>
+  </data>
+  <data name="TooltipRemoveManufacturer" xml:space="preserve">
+    <value>Meno: elimina il produttore selezionato</value>
+  </data>
+  <data name="TooltipAddCategory" xml:space="preserve">
+    <value>Più: crea una nuova categoria</value>
+  </data>
+  <data name="TooltipRemoveCategory" xml:space="preserve">
+    <value>Meno: elimina la categoria selezionata</value>
+  </data>
+  <data name="TooltipSearchFoodInFatSecret" xml:space="preserve">
+    <value>Cerca dati alimento nel database FatSecret</value>
+  </data>
+  <data name="FoodTipCalories" xml:space="preserve">
+    <value>Calorie dell'alimento [kCal]</value>
+  </data>
+  <data name="FoodTipTotalFats" xml:space="preserve">
+    <value>Grassi totali dell'alimento [%]</value>
+  </data>
+  <data name="FoodTipSaturatedFats" xml:space="preserve">
+    <value>Grassi saturi dell'alimento [%]</value>
+  </data>
+  <data name="FoodTipMonounsaturatedFats" xml:space="preserve">
+    <value>Grassi monoinsaturi dell'alimento [%]</value>
+  </data>
+  <data name="FoodTipPolyunsaturatedFats" xml:space="preserve">
+    <value>Grassi polinsaturi dell'alimento [%]</value>
+  </data>
+  <data name="FoodTipCarbohydrates" xml:space="preserve">
+    <value>Carboidrati dell'alimento [%]</value>
+  </data>
+  <data name="FoodTipSugar" xml:space="preserve">
+    <value>Zuccheri nell'alimento [%]</value>
+  </data>
+  <data name="FoodTipFibers" xml:space="preserve">
+    <value>Fibre nell'alimento [%]</value>
+  </data>
+  <data name="FoodTipProteins" xml:space="preserve">
+    <value>Proteine nell'alimento [%]</value>
+  </data>
+  <data name="FoodTipSalt" xml:space="preserve">
+    <value>Sale nell'alimento [%]</value>
+  </data>
+  <data name="FoodTipCholesterol" xml:space="preserve">
+    <value>Colesterolo nell'alimento [%]</value>
+  </data>
+  <data name="FoodTipPotassium" xml:space="preserve">
+    <value>Potassio nell'alimento [%]</value>
+  </data>
+  <data name="FoodTipGlycemicIndex" xml:space="preserve">
+    <value>Indice glicemico dell'alimento</value>
+  </data>
+  <data name="FoodTipBarcodeValue" xml:space="preserve">
+    <value>Codice a barre o QR code dell'alimento</value>
+  </data>
+  <data name="FoodTipFoodCode" xml:space="preserve">
+    <value>Codice dell'alimento</value>
+  </data>
+  <data name="FoodTipSampleUnit" xml:space="preserve">
+    <value>Unità di misura del campione di alimento</value>
+  </data>
+  <data name="FoodTipGramsInOneUnit" xml:space="preserve">
+    <value>Grammi contenuti in una unità di alimento</value>
+  </data>
+  <data name="FoodTipUnitsList" xml:space="preserve">
+    <value>Elenco delle unità usate per questo alimento</value>
+  </data>
+  <data name="FoodTipName" xml:space="preserve">
+    <value>Nome dell'alimento</value>
+  </data>
+  <data name="FoodTipPackageNetWeight" xml:space="preserve">
+    <value>Peso netto totale del contenuto della confezione</value>
+  </data>
+  <data name="FoodTipPackageUnit" xml:space="preserve">
+    <value>Unità di misura del contenuto della confezione</value>
+  </data>
+  <data name="FoodTipDescription" xml:space="preserve">
+    <value>Descrizione dell'alimento</value>
+  </data>
+  <data name="FoodTipManufacturer" xml:space="preserve">
+    <value>Produttore dell'alimento</value>
+  </data>
+  <data name="FoodTipManufacturersList" xml:space="preserve">
+    <value>Elenco dei produttori filtrati</value>
+  </data>
+  <data name="FoodTipCategory" xml:space="preserve">
+    <value>Categoria dell'alimento</value>
+  </data>
+  <data name="FoodTipCategoriesList" xml:space="preserve">
+    <value>Elenco delle categorie di alimenti</value>
+  </data>
+  <data name="AlarmSnoozeMinutesFormat" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="AlarmTransient" xml:space="preserve">
+    <value>Temporaneo</value>
+  </data>
+  <data name="TooltipAlarmTransient" xml:space="preserve">
+    <value>L'allarme viene cancellato dalla lista appena lo spegni</value>
+  </data>
+  <data name="HypoAlarmReminderFormat" xml:space="preserve">
+    <value>Allarme ipoglicemia!
+Glicemia prevista sotto {0} mg/dL</value>
+  </data>
+  <data name="HypoAlarmTimeNotAvailable" xml:space="preserve">
+    <value>Calcola prima la previsione: non c'è ancora un'ora di allarme</value>
+  </data>
+  <data name="HypoAlarmTimeAlreadyPassed" xml:space="preserve">
+    <value>L'ora dell'allarme ({0:D2}:{1:D2}) è già passata: controlla subito la glicemia</value>
+  </data>
+  <data name="FatSecretKeysTitle" xml:space="preserve">
+    <value>Chiavi API FatSecret</value>
+  </data>
+  <data name="FatSecretClientId" xml:space="preserve">
+    <value>Consumer Key (Client ID)</value>
+  </data>
+  <data name="FatSecretClientSecret" xml:space="preserve">
+    <value>Client Secret (OAuth 2.0)</value>
+  </data>
+  <data name="FatSecretConsumerSecret" xml:space="preserve">
+    <value>Consumer Secret (OAuth 1.0, per il Login)</value>
+  </data>
+  <data name="TooltipShowOrHideKey" xml:space="preserve">
+    <value>Mostra o nascondi la chiave</value>
+  </data>
+  <data name="FatSecretConfigureInSettings" xml:space="preserve">
+    <value>Inserisci le chiavi FatSecret in fondo alla pagina Impostazioni</value>
+  </data>
+  <data name="FatSecretLoadMore" xml:space="preserve">
+    <value>Mostra altri risultati</value>
+  </data>
+  <data name="FatSecretResultsCount" xml:space="preserve">
+    <value>{0} di {1} risultati</value>
+  </data>
+  <data name="BarcodeNotFoundInLocalDatabase" xml:space="preserve">
+    <value>Codice a barre non trovato nel database locale.</value>
   </data>
 </root>

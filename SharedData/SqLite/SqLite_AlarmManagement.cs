@@ -18,7 +18,7 @@ namespace GlucoMan
                     if (Alarm.TimeStart == null)
                         Alarm.TimeStart = new DateTimeAndText();
                     if (Alarm.TimeStart.DateTime == null || Alarm.TimeStart.DateTime == default)
-                        Alarm.TimeStart.DateTime = DateTime.Now;
+                        Alarm.TimeStart.DateTime = Common.LocalNow;
                     InsertAlarm(Alarm);
                 }
                 else
@@ -63,7 +63,9 @@ namespace GlucoMan
                         "MaxRepeatCount = " + SqliteSafe.Int(alarm.MaxRepeatCount) + ", " +
                         "LastTriggerTime = " + SqliteSafe.Date(alarm.LastTriggerTime) + ", " +
                         "TriggeredCount = " + SqliteSafe.Int(alarm.TriggeredCount) + ", " +
-                        "DoVibrate = " + SqliteSafe.Bool(alarm.DoVibrate) + " " +
+                        "DoVibrate = " + SqliteSafe.Bool(alarm.DoVibrate) + ", " +
+                        "IsTransient = " + SqliteSafe.Bool(alarm.IsTransient) + ", " +
+                        "UtcOffset = " + SqliteSafe.Double(Common.GetActualUtcOffsetForLocalTime(alarm.TimeStart.DateTime)) + " " +
                         "WHERE IdAlarm = " + SqliteSafe.Int(alarm.IdAlarm) + ";";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -93,7 +95,7 @@ namespace GlucoMan
                     "IdAlarm, ReminderText, TimeStart, NextTriggerTime, IsDisabled, " +
                     "StartupGraceWindow, RingingState, Duration, RepetitionTime, Interval, " +
                     "IsPlaying, EnablePlaySoundFile, SoundFilePath, RepeatCount, MaxRepeatCount, " +
-                    "LastTriggerTime, TriggeredCount, DoVibrate" +
+                    "LastTriggerTime, TriggeredCount, DoVibrate, IsTransient, UtcOffset" +
                     ")VALUES(" +
                     SqliteSafe.Int(alarm.IdAlarm) + "," +
                     SqliteSafe.String(alarm.ReminderText) + "," +
@@ -112,7 +114,9 @@ namespace GlucoMan
                     SqliteSafe.Int(alarm.MaxRepeatCount) + "," +
                     SqliteSafe.Date(alarm.LastTriggerTime) + "," +
                     SqliteSafe.Int(alarm.TriggeredCount) + "," +
-                    SqliteSafe.Bool(alarm.DoVibrate) + "";
+                    SqliteSafe.Bool(alarm.DoVibrate) + "," +
+                    SqliteSafe.Bool(alarm.IsTransient) + "," +
+                    SqliteSafe.Double(Common.GetActualUtcOffsetForLocalTime(alarm.TimeStart.DateTime)) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -229,6 +233,7 @@ namespace GlucoMan
                 m.LastTriggerTime = Safe.DateTime(Row["LastTriggerTime"]);
                 m.TriggeredCount = Safe.Int(Row["TriggeredCount"]);
                 m.DoVibrate = Safe.Bool(Row["DoVibrate"]);
+                m.IsTransient = Safe.Bool(Row["IsTransient"]);
             }
             catch (Exception ex)
             {

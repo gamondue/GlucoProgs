@@ -55,16 +55,17 @@ namespace GlucoMan.Maui.Platforms.Android
                 intent,
                 PendingIntentFlags.Immutable | PendingIntentFlags.UpdateCurrent);
 
-            var alarmManager = (AlarmManager)_context.GetSystemService(Context.AlarmService);
-            // One-shot alarms (no periodic Interval) are scheduled as exact alarms.
-            bool exact = alarm.Interval == null;
+            // What the system opens if the user touches the next alarm that it shows
+            var showIntent = PendingIntent.GetActivity(
+                _context,
+                alarm.IdAlarm.Value,
+                _context.PackageManager!.GetLaunchIntentForPackage(_context.PackageName!),
+                PendingIntentFlags.Immutable | PendingIntentFlags.UpdateCurrent);
 
-            if (exact && Build.VERSION.SdkInt >= BuildVersionCodes.M)
-                alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, triggerAtMillis, pending);
-            else if (exact)
-                alarmManager.SetExact(AlarmType.RtcWakeup, triggerAtMillis, pending);
-            else
-                alarmManager.Set(AlarmType.RtcWakeup, triggerAtMillis, pending);
+            var alarmManager = (AlarmManager)_context.GetSystemService(Context.AlarmService);
+            // Alarm clock: exact also when the device sleeps, and its receiver is allowed
+            // to start the foreground service that makes the device ring.
+            alarmManager.SetAlarmClock(new AlarmManager.AlarmClockInfo(triggerAtMillis, showIntent), pending);
 
             return Task.CompletedTask;
         }

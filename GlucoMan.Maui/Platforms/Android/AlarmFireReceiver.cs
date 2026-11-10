@@ -23,40 +23,41 @@ namespace GlucoMan.Maui.Platforms.Android
             bool playSound = intent.GetBooleanExtra("PlaySound", false);
             string? soundPath = intent.GetStringExtra("SoundPath");
 
-            // Launch fullscreen alarm activity
-            var alarmIntent = new Intent(context, typeof(AlarmActivity));
-            alarmIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
-            alarmIntent.PutExtra("AlarmId", id);
-            alarmIntent.PutExtra("ReminderText", text);
-            alarmIntent.PutExtra("Vibrate", vibrate);
-            alarmIntent.PutExtra("PlaySound", playSound);
-            alarmIntent.PutExtra("SoundPath", soundPath ?? "");
+            // Update alarm in database to mark as triggered; an alarm that has been
+            // deleted in the meantime must not ring
+            if (!UpdateAlarmStatus(id))
+                return;
 
-            context.StartActivity(alarmIntent);
-
-            // Also show a notification as backup (in case activity doesn't start)
-            ShowNotification(context, id, text, vibrate, playSound, soundPath);
-
-            // Update alarm in database to mark as triggered
+            // The service makes the device ring and shows the alarm to the user
             try
             {
-                UpdateAlarmStatus(id);
+                context.StartForegroundService(AlarmRingService.CreateIntent(context,
+                    AlarmRingService.ActionRing, id, text, vibrate, playSound, soundPath));
             }
             catch (Exception ex)
             {
-                global::System.Diagnostics.Debug.WriteLine($"Error updating alarm status: {ex.Message}");
+                gamon.General.LogOfProgram?.Error("AlarmFireReceiver - starting the ringing", ex);
+                ShowNotification(context, id, text, vibrate, playSound, soundPath);
+            }
+
+            // Android starts this page only if the app is in use: otherwise the notification
+            // of the service opens it, by itself on a locked device, or when touched
+            try
+            {
+                context.StartActivity(AlarmActivity.CreateIntent(context, id, text, vibrate, playSound, soundPath));
+            }
+            catch (Exception ex)
+            {
+                gamon.General.LogOfProgram?.Error("AlarmFireReceiver - opening the page of the alarm", ex);
             }
         }
 
-        private void ShowNotification(Context context, int id, string text, bool vibrate, bool playSound, string? soundPath)
+        public static void ShowNotification(Context context, int id, string text, bool vibrate, bool playSound, string? soundPath)
         {
             try
             {
                 // Create notification intent
-                var notificationIntent = new Intent(context, typeof(AlarmActivity));
-                notificationIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
-                notificationIntent.PutExtra("AlarmId", id);
-                notificationIntent.PutExtra("ReminderText", text);
+                var notificationIntent = AlarmActivity.CreateIntent(context, id, text, vibrate, playSound, soundPath);
 
                 var pendingIntent = PendingIntent.GetActivity(
                     context,
@@ -112,27 +113,28 @@ namespace GlucoMan.Maui.Platforms.Android
             }
         }
 
-        private void UpdateAlarmStatus(int alarmId)
+        /// <summary>
+        /// Marks the alarm as triggered in the database.
+        /// </summary>
+        /// <returns>False only if a saved alarm doesn't exist anymore; the test alarm
+        /// (negative id) isn't in the database, and in doubt the alarm must ring</returns>
+        private bool UpdateAlarmStatus(int alarmId)
         {
             try
             {
-                if (DatabaseService.Instance.Database != null)
+                if (alarmId > 0 && DatabaseService.Instance.Database != null)
                 {
                     var blAlarms = new BL_Alarms();
-                    var alarms = blAlarms.GetAllAlarms(all: true);
-                    var alarm = alarms.FirstOrDefault(a => a.IdAlarm == alarmId);
-                    
-                    if (alarm != null)
-                    {
-                        alarm.MarkAsTriggered();
-                        blAlarms.AddAlarm(alarm);
-                    }
+                    if (blAlarms.GetAlarmById(alarmId) == null)
+                        return false;
+                    blAlarms.MarkAlarmAsTriggered(alarmId);
                 }
             }
             catch (Exception ex)
             {
                 global::System.Diagnostics.Debug.WriteLine($"UpdateAlarmStatus error: {ex.Message}");
             }
+            return true;
         }
     }
 }

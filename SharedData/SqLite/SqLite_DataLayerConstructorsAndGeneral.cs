@@ -23,7 +23,7 @@ namespace GlucoMan
         internal DL_Sqlite()
         {
             dbName = Common.PathAndFileDatabase;
-            SQLitePCL.Batteries.Init();
+            SQLitePCL.Batteries_V2.Init();
             if (!System.IO.File.Exists(Common.PathAndFileDatabase))
             {
                 // since the file doesn't exist yet, we create it:
@@ -37,7 +37,7 @@ namespace GlucoMan
         internal DL_Sqlite(string PathAndFile)
         {
             dbName = PathAndFile;
-            SQLitePCL.Batteries.Init();
+            SQLitePCL.Batteries_V2.Init();
             if (!System.IO.File.Exists(PathAndFile))
             {
                 // since the file doesn't exist yet, we create it:
@@ -373,6 +373,19 @@ namespace GlucoMan
                             cmd.ExecuteNonQuery();
                             General.LogOfProgram?.Debug("Migration: Added Time_CountryName column to Parameters table");
                         }
+                        // Add UtcOffset to the other tables that store times, so that every saved
+                        // time carries its DST-aware offset from UTC
+                        foreach (var tbl in new[] { "Alarms", "Events", "Devices", "PositionsOfReferences" })
+                        {
+                            cmd.CommandText = $"SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='{tbl}';";
+                            bool tableExists = Convert.ToInt64(cmd.ExecuteScalar()) > 0;
+                            if (tableExists && !FieldExists(tbl, "UtcOffset"))
+                            {
+                                cmd.CommandText = $"ALTER TABLE {tbl} ADD COLUMN UtcOffset REAL;";
+                                cmd.ExecuteNonQuery();
+                                General.LogOfProgram?.Debug($"Migration: Added UtcOffset column to {tbl} table");
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -408,6 +421,44 @@ namespace GlucoMan
                     catch (Exception ex)
                     {
                         General.LogOfProgram?.Error("Migration: Failed to create InsulinDrugs table", ex);
+                    }
+
+                    // --- GPS tracks tables (create if not exists) ---
+                    // They were lost from the creation script when the data layer was moved
+                    try
+                    {
+                        cmd.CommandText = "CREATE TABLE IF NOT EXISTS GpsTracks " +
+                            "(IdTrack INTEGER PRIMARY KEY NOT NULL, Name TEXT, StartTime DATETIME, " +
+                            "EndTime DATETIME, TotalDistanceMeters DOUBLE, DurationSeconds DOUBLE, " +
+                            "AverageSpeedMps DOUBLE, IdActivity INTEGER, Notes TEXT);";
+                        cmd.ExecuteNonQuery();
+                        cmd.CommandText = "CREATE TABLE IF NOT EXISTS GpsPositions " +
+                            "(IdPosition INTEGER PRIMARY KEY NOT NULL, IdTrack INTEGER, Timestamp DATETIME, " +
+                            "Latitude DOUBLE, Longitude DOUBLE, Altitude DOUBLE, Accuracy DOUBLE, " +
+                            "Speed DOUBLE, Notes TEXT, " +
+                            "FOREIGN KEY (IdTrack) REFERENCES GpsTracks(IdTrack) ON DELETE CASCADE);";
+                        cmd.ExecuteNonQuery();
+                        General.LogOfProgram?.Debug("Migration: GpsTracks and GpsPositions tables exist or were created");
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error("Migration: Failed to create GPS tracks tables", ex);
+                    }
+
+                    // --- PhysicalActivities table (create if not exists) ---
+                    // It was never in the creation script, so databases created from scratch lacked it
+                    try
+                    {
+                        cmd.CommandText = "CREATE TABLE IF NOT EXISTS PhysicalActivities " +
+                            "(IdActivity INTEGER PRIMARY KEY NOT NULL, EventTime DATETIME, " +
+                            "ActivityLevel INTEGER, DurationMinutes INTEGER, Intensity TEXT, " +
+                            "Accuracy DOUBLE, Notes TEXT, IdTrack INTEGER);";
+                        cmd.ExecuteNonQuery();
+                        General.LogOfProgram?.Debug("Migration: PhysicalActivities table exists or was created");
+                    }
+                    catch (Exception ex)
+                    {
+                        General.LogOfProgram?.Error("Migration: Failed to create PhysicalActivities table", ex);
                     }
 
                     // --- Alarms table migrations (schema refactor 2026-05) ---
@@ -509,6 +560,12 @@ namespace GlucoMan
                             cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN DoVibrate TINYINT;";
                             cmd.ExecuteNonQuery();
                             General.LogOfProgram?.Debug("Migration: Added DoVibrate column to Alarms table");
+                        }
+                        if (!FieldExists("Alarms", "IsTransient"))
+                        {
+                            cmd.CommandText = "ALTER TABLE Alarms ADD COLUMN IsTransient TINYINT;";
+                            cmd.ExecuteNonQuery();
+                            General.LogOfProgram?.Debug("Migration: Added IsTransient column to Alarms table");
                         }
                         // Note: SQLite does not support DROP COLUMN in older versions.
                         // ValidTimeAfterStart (old column) is left in place on old databases

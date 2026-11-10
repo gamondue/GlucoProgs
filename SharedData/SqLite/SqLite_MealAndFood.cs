@@ -1,4 +1,4 @@
-using gamon;
+﻿using gamon;
 using Microsoft.Data.Sqlite;
 using System.Data;
 using System.Data.Common;
@@ -174,7 +174,7 @@ namespace GlucoMan
                     "IdGlucoseRecord=" + SqliteSafe.Int(Meal.IdGlucoseRecord) + "," +
                     "IdInjection=" + SqliteSafe.Int(Meal.IdInjection) + "," +
                     "TimeEnd=" + SqliteSafe.Date(Meal.TimeEnd.DateTime) + "," +
-                    "UtcOffset=" + SqliteSafe.Double(Common.CurrentTimeZone) + "" +
+                    "UtcOffset=" + SqliteSafe.Double(Common.GetActualUtcOffsetForLocalTime(Meal.EventTime.DateTime)) + "" +
                     " WHERE IdMeal=" + SqliteSafe.Int(Meal.IdMeal) +
                     ";";
                     cmd.CommandText = query;
@@ -211,7 +211,7 @@ namespace GlucoMan
                     SqliteSafe.Int(Meal.IdGlucoseRecord) + "," +
                     SqliteSafe.Int(Meal.IdInjection) + "," +
                     SqliteSafe.Date(Meal.TimeEnd.DateTime) + "," +
-                    SqliteSafe.Double(Common.CurrentTimeZone) + "";
+                    SqliteSafe.Double(Common.GetActualUtcOffsetForLocalTime(Meal.EventTime.DateTime)) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -828,18 +828,16 @@ namespace GlucoMan
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    string query = "DELETE FROM UnitsOfFood" +
-                                " WHERE IdUnitOfFood=" + SqliteSafe.Int(Food.UnitSymbol) +
-                                " AND IdFood=" + SqliteSafe.Int(Food.IdFood) +
-                    ";";
-                    cmd.CommandText = query;
+                    // clears only the manufacturer of this food (it used to delete rows of UnitsOfFood by mistake)
+                    cmd.CommandText = "UPDATE Foods SET Manufacturer = NULL WHERE IdFood = @IdFood;";
+                    cmd.Parameters.Add(new SqliteParameter("@IdFood", Food.IdFood ?? (object)DBNull.Value));
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveUnitFromFoodsUnits", ex);
+                General.LogOfProgram.Error("Sqlite_MealAndFood | RemoveManufacturerFromFood", ex);
             }
         }
         internal override List<UnitOfFood> GetAllUnitsOfOneFood(Food Food)
@@ -857,7 +855,7 @@ namespace GlucoMan
                             " FROM UnitsOfFood" +
                             " WHERE IdFood=" + SqliteSafe.Int(Food.IdFood) +
                             " OR IdFood IS null OR IdFood=0" +
-                            ";"; 
+                            " ORDER BY IdUnitOfFood;";
                         cmd = new SqliteCommand(query);
                         cmd.Connection = conn;
                           dRead = cmd.ExecuteReader();
@@ -979,9 +977,10 @@ namespace GlucoMan
                 int? idManufacturer = null;
                 using (DbConnection conn = Connect())
                 {
-                    // Check if manufacturer already exists (by name)
+                    // Check if manufacturer already exists (by name, ignoring the case,
+                    // as the check done by the user interface)
                     DbCommand checkCmd = conn.CreateCommand();
-                    checkCmd.CommandText = "SELECT IdManufacturer FROM Manufacturers WHERE Name = @Name;";
+                    checkCmd.CommandText = "SELECT IdManufacturer FROM Manufacturers WHERE Name = @Name COLLATE NOCASE;";
                     checkCmd.Parameters.Add(new SqliteParameter("@Name", manufacturer.Name ?? (object)DBNull.Value));
                     var result = checkCmd.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
@@ -1030,7 +1029,7 @@ namespace GlucoMan
                 {
                     // Check if category already exists in CategoriesOfFood table
                     DbCommand checkCmd = conn.CreateCommand();
-                    checkCmd.CommandText = "SELECT IdCategoryOfFood FROM CategoriesOfFood WHERE Name = @Name;";
+                    checkCmd.CommandText = "SELECT IdCategoryOfFood FROM CategoriesOfFood WHERE Name = @Name COLLATE NOCASE;";
                     checkCmd.Parameters.Add(new SqliteParameter("@Name", category.Name ?? (object)DBNull.Value));
                     var result = checkCmd.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
@@ -1095,11 +1094,24 @@ namespace GlucoMan
         {
             try
             {
+                if (manufacturer == null)
+                    return;
+
+                // deletes only the row of the list of the manufacturers:
+                // the foods that use this manufacturer must remain untouched
                 using (DbConnection conn = Connect())
                 {
                     DbCommand cmd = conn.CreateCommand();
-                    cmd.CommandText = "DELETE FROM Manufacturers WHERE IdManufacturer = @IdManufacturer;";
-                    cmd.Parameters.Add(new SqliteParameter("@IdManufacturer", manufacturer.IdManufacturer));
+                    if (manufacturer.IdManufacturer > 0)
+                    {
+                        cmd.CommandText = "DELETE FROM Manufacturers WHERE IdManufacturer = @IdManufacturer;";
+                        cmd.Parameters.Add(new SqliteParameter("@IdManufacturer", manufacturer.IdManufacturer));
+                    }
+                    else
+                    {
+                        cmd.CommandText = "DELETE FROM Manufacturers WHERE Name = @ManufacturerName;";
+                        cmd.Parameters.Add(new SqliteParameter("@ManufacturerName", manufacturer.Name ?? (object)DBNull.Value));
+                    }
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
@@ -1232,7 +1244,7 @@ namespace GlucoMan
                         SET Name = @Name
                         WHERE IdManufacturer = @IdManufacturer;";
                     cmd.Parameters.Add(new SqliteParameter("@Name", m.Name ?? (object)DBNull.Value));
-                    //////////cmd.Parameters.Add(new SqliteParameter("@IdManufacturer", m.IdManufacturer ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqliteParameter("@IdManufacturer", m.IdManufacturer));
                     int rows = cmd.ExecuteNonQuery();
                     cmd.Dispose();
                     return rows > 0 ? m.IdManufacturer : null;

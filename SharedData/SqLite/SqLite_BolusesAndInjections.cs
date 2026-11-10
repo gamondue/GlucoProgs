@@ -51,7 +51,7 @@ namespace GlucoMan
                     "IdTypeOfInsulinAction=" + SqliteSafe.Int(Injection.IdTypeOfInsulinAction) + "," +
                     "IdInsulinDrug=" + SqliteSafe.Int(Injection.IdInsulinDrug) + "," +
                     "InsulinString=" + SqliteSafe.String(Injection.InsulinString) + "," +
-                    "UtcOffset=" + SqliteSafe.Double(Common.CurrentTimeZone) + "" +
+                    "UtcOffset=" + SqliteSafe.Double(Common.GetActualUtcOffsetForLocalTime(Injection.EventTime.DateTime)) + "" +
                     " WHERE IdInjection=" + SqliteSafe.Int(Injection.IdInjection) +
                     ";";
                     cmd.CommandText = query;
@@ -91,7 +91,7 @@ namespace GlucoMan
                     SqliteSafe.Int(Injection.IdTypeOfInsulinAction) + "," +
                     SqliteSafe.Int(Injection.IdInsulinDrug) + "," +
                     SqliteSafe.String(Injection.InsulinString) + "," +
-                    SqliteSafe.Double(Common.CurrentTimeZone) + "";
+                    SqliteSafe.Double(Common.GetActualUtcOffsetForLocalTime(Injection.EventTime.DateTime)) + "";
                     query += ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -307,14 +307,15 @@ namespace GlucoMan
                     DbCommand cmd = conn.CreateCommand();
                     int newId = GetTableNextPrimaryKey("PositionsOfReferences", "IdPosition");
                     string query = "INSERT INTO PositionsOfReferences " +
-                                   "(IdPosition, Timestamp, Zone, PositionX, PositionY, Notes) " +
+                                   "(IdPosition, Timestamp, Zone, PositionX, PositionY, Notes, UtcOffset) " +
                                    "VALUES (" +
                                    newId + "," +
-                                   SqliteSafe.Date(DateTime.Now) + "," +
+                                   SqliteSafe.Date(Common.LocalNow) + "," +
                                    SqliteSafe.Int((int)position.Zone) + "," +
                                    SqliteSafe.Double(position.PositionX) + ", " +
                                    SqliteSafe.Double(position.PositionY) + "," +
-                                   SqliteSafe.String(position.Notes) + ");";
+                                   SqliteSafe.String(position.Notes) + "," +
+                                   SqliteSafe.Double(Common.GetActualUtcOffsetForLocalTime(null)) + ");";
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();

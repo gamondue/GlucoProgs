@@ -1,4 +1,4 @@
-using GlucoMan;
+﻿using GlucoMan;
 using GlucoMan.Maui.Services;
 using GlucoMan.Maui.Resources.Strings;
 using System.ComponentModel;
@@ -81,6 +81,13 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         SetupCountryPicker(Parameters?.Time_CurrentTimeZone
             ?? CountryTimeZoneCatalogue.FindBySystemTimeZone()?.StandardOffsetHours
             ?? TimeZoneInfo.Local.BaseUtcOffset.TotalHours);
+
+#if FATSECRET
+        frameFatSecretKeys.IsVisible = true;
+        txtFatSecretClientId.Text = BlGeneral.RestoreParameter("FatSecret_ClientId") ?? "";
+        txtFatSecretClientSecret.Text = BlGeneral.RestoreParameter("FatSecret_ClientSecret") ?? "";
+        txtFatSecretConsumerSecret.Text = BlGeneral.RestoreParameter("FatSecret_ConsumerSecret") ?? "";
+#endif
 
         // Subscribe to culture changes to update UI labels
         _localizationService.CultureChanged += OnCultureChanged;
@@ -178,7 +185,8 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         SelectDstInPicker(isDstNow);
         _suppressPickerEvents = false;
 
-        Common.CurrentTimeZone = country.StandardOffsetHours + (isDstNow ? 1 : 0);
+        TimeZoneCheckService.ApplyAcceptedTimeZone(
+            country.StandardOffsetHours + (isDstNow ? 1 : 0), country.Name);
         UpdateUtcOffsetPicker(Common.CurrentTimeZone);
 
         BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin, SelectedLongActingInsulin);
@@ -241,7 +249,8 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         if (pickerDst.SelectedItem is DstOption selected && Parameters != null)
         {
             Parameters.Time_IsDaylightSavingTime = selected.Value;
-            Common.CurrentTimeZone = (Parameters.Time_CurrentTimeZone ?? 0) + (selected.Value ? 1 : 0);
+            TimeZoneCheckService.ApplyAcceptedTimeZone(
+                (Parameters.Time_CurrentTimeZone ?? 0) + (selected.Value ? 1 : 0), Parameters.Time_CountryName);
             UpdateUtcOffsetPicker(Common.CurrentTimeZone);
             BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin, SelectedLongActingInsulin);
         }
@@ -283,7 +292,7 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         Parameters.Time_CountryName = null;
         Parameters.Time_CurrentTimeZone = selectedTz.Offset;
         Parameters.Time_IsDaylightSavingTime = null;
-        Common.CurrentTimeZone = selectedTz.Offset;
+        TimeZoneCheckService.ApplyAcceptedTimeZone(selectedTz.Offset, null);
 
         BlGeneral.SaveAllParameters(Parameters, SelectedShortActingInsulin, SelectedLongActingInsulin);
     }
@@ -360,11 +369,46 @@ public partial class SettingsPage : ContentPage, INotifyPropertyChanged
         Common.lunchEndHour       = Parameters.Meal_Lunch_EndTime_Hours;
         Common.dinnerStartHour    = Parameters.Meal_Dinner_StartTime_Hours;
         Common.dinnerEndHour      = Parameters.Meal_Dinner_EndTime_Hours;
+
+#if FATSECRET
+        SaveFatSecretKeys();
+#endif
     }
+
+    private void btnToggleFatSecretKey_Clicked(object sender, EventArgs e)
+    {
+        if (sender is not Button button) return;
+        Entry target = button == btnToggleFatSecretClientId ? txtFatSecretClientId
+            : button == btnToggleFatSecretClientSecret ? txtFatSecretClientSecret
+            : txtFatSecretConsumerSecret;
+        target.IsPassword = !target.IsPassword;
+        button.Text = target.IsPassword ? "\U0001F441" : "\U0001F648"; // eye, hidden eyes
+    }
+
+#if FATSECRET
+    private void SaveFatSecretKeys()
+    {
+        string clientId = txtFatSecretClientId.Text?.Trim() ?? "";
+        string clientSecret = txtFatSecretClientSecret.Text?.Trim() ?? "";
+        string consumerSecret = txtFatSecretConsumerSecret.Text?.Trim() ?? "";
+
+        // Saving the credentials discards the tokens: done only if they really changed
+        var fatSecret = new FatSecretService();
+        if (clientId != (BlGeneral.RestoreParameter("FatSecret_ClientId") ?? "")
+            || clientSecret != (BlGeneral.RestoreParameter("FatSecret_ClientSecret") ?? ""))
+            fatSecret.SetCredentials(clientId, clientSecret);
+        if (consumerSecret != (BlGeneral.RestoreParameter("FatSecret_ConsumerSecret") ?? ""))
+            fatSecret.SetConsumerSecret(consumerSecret);
+    }
+#endif
     
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+#if FATSECRET
+        // The Save button is at the other end of the page: the keys must not get lost
+        SaveFatSecretKeys();
+#endif
         _localizationService.CultureChanged -= OnCultureChanged;
     }
     

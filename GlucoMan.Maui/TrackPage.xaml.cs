@@ -17,6 +17,16 @@ public partial class TrackPage : ContentPage
     private bool mapIsReady = false; // Flag to track when map is ready
     private bool hasShownRecoveryDialog = false; // Prevent showing dialog multiple times
 
+    // Origin given to the map page: tile.openstreetmap.org blocks the tiles requested
+    // without a Referer, as happens when the HTML is loaded from a string
+    private const string MAP_BASE_URL = "https://it.ingmonti.glucoman/";
+
+    /// <summary>
+    /// Called with the id of the track after it has been saved, e.g. to associate it
+    /// with the physical activity that opened this page
+    /// </summary>
+    public Action<int> TrackSavedCallback { get; set; }
+
     // Google Maps API Key - should be configured in app settings
     private const string GOOGLE_MAPS_API_KEY = "YOUR_API_KEY_HERE";
 
@@ -163,6 +173,16 @@ public partial class TrackPage : ContentPage
                 }
             }
         }
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        // A page no longer shown must not add positions to its track: the service is a
+        // singleton, so its event would keep this page alive and recording. OnAppearing
+        // subscribes again and syncs the positions recorded in the meantime.
+        if (backgroundGpsService != null)
+            backgroundGpsService.OnPositionRecorded -= OnBackgroundPositionRecorded;
     }
 
     /// <summary>
@@ -328,6 +348,8 @@ public partial class TrackPage : ContentPage
     /// </summary>
     private async void OnBackgroundPositionRecorded(object sender, GpsPositionRecord e)
     {
+        // a saved track shown for viewing must not receive the positions being recorded
+        if (isViewOnlyMode) return;
         try
         {
             General.LogOfProgram?.Event($"TrackPage - OnBackgroundPositionRecorded RECEIVED: Lat={e.Latitude:F6}, Lon={e.Longitude:F6}");
@@ -347,7 +369,8 @@ public partial class TrackPage : ContentPage
             }
 
             // Add position to business layer
-            var addedPosition = bl.AddPosition(e.Latitude, e.Longitude, e.Altitude, e.Accuracy, e.Speed);
+            var addedPosition = bl.AddPosition(e.Latitude, e.Longitude, e.Altitude, e.Accuracy, e.Speed,
+                ToAcceptedLocalTime(e.Timestamp));
 
             if (addedPosition == null)
             {
@@ -409,36 +432,32 @@ public partial class TrackPage : ContentPage
                 General.LogOfProgram?.Event("TrackPage - SyncAndDisplay: Started new track");
             }
 
-            // Clear map first to avoid duplicates
-            try
-            {
-                await mapWebView.EvaluateJavaScriptAsync("clearTrack()");
-            }
-            catch (Exception ex)
-            {
-                General.LogOfProgram?.Error("TrackPage - Error clearing map", ex);
-            }
-
-            // IMPORTANT: Clear existing positions in bl.CurrentTrack to avoid duplicates
-            // since we're going to add all positions from the background service
-            int existingCount = bl.CurrentTrack.Positions?.Count ?? 0;
-            if (existingCount > 0)
-            {
-                General.LogOfProgram?.Event($"TrackPage - SyncAndDisplay: Clearing {existingCount} existing positions from bl.CurrentTrack");
-                bl.CurrentTrack.Positions.Clear();
-            }
-
-            // Add ALL positions from background service to business layer and display on map
+            // Add only the positions not already in the track: AddPosition saves them in
+            // the database, so adding again the ones already there would duplicate them
+            DateTime? lastTime = bl.CurrentTrack.Positions?.LastOrDefault()?.EventTime?.DateTime;
             int addedCount = 0;
             foreach (var pos in positions.OrderBy(p => p.Timestamp))
             {
-                // Add to business layer
-                bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed);
+                DateTime positionTime = ToAcceptedLocalTime(pos.Timestamp);
+                if (lastTime.HasValue && positionTime <= lastTime.Value)
+                    continue;
+                bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed, positionTime);
                 addedCount++;
+            }
 
-                // Display on map
-                string script = $"updatePosition({pos.Latitude.ToString(CultureInfo.InvariantCulture)}, {pos.Longitude.ToString(CultureInfo.InvariantCulture)})";
-                await mapWebView.EvaluateJavaScriptAsync(script);
+            // Redraw the whole track on the map
+            try
+            {
+                await mapWebView.EvaluateJavaScriptAsync("clearTrack()");
+                foreach (var p in bl.CurrentTrack.Positions.Where(p => p.Latitude.HasValue && p.Longitude.HasValue))
+                {
+                    string script = $"updatePosition({p.Latitude.Value.ToString(CultureInfo.InvariantCulture)}, {p.Longitude.Value.ToString(CultureInfo.InvariantCulture)})";
+                    await mapWebView.EvaluateJavaScriptAsync(script);
+                }
+            }
+            catch (Exception ex)
+            {
+                General.LogOfProgram?.Error("TrackPage - Error drawing the track on the map", ex);
             }
 
             // Update last position label
@@ -612,7 +631,7 @@ public partial class TrackPage : ContentPage
     private void InitializeMap()
     {
         mapIsReady = false;
-        mapWebView.Source = new HtmlWebViewSource { Html = GetMapHtml() };
+        mapWebView.Source = new HtmlWebViewSource { Html = GetMapHtml(), BaseUrl = MAP_BASE_URL };
     }
 
     private string GetMapHtml()
@@ -683,7 +702,7 @@ public partial class TrackPage : ContentPage
             if (bl.CurrentTrack != null)
             {
                 bl.CurrentTrack.IsRecording = false;
-                bl.CurrentTrack.EndTime.DateTime = DateTime.Now;
+                bl.CurrentTrack.EndTime.DateTime = Common.LocalNow;
                 bl.CurrentTrack.UpdateStatistics();
             }
 
@@ -705,6 +724,18 @@ public partial class TrackPage : ContentPage
     #endregion
 
     #region UI Updates
+
+    /// <summary>
+    /// Converts a time of the device clock, as recorded by the GPS services, to the local
+    /// time of the accepted time zone, which is used for all the times of the program
+    /// </summary>
+    private static DateTime ToAcceptedLocalTime(DateTime deviceLocalTime)
+    {
+        // offset of the device clock rounded to the minute, so that converting the same time
+        // twice gives the same result (it is compared to avoid adding a position twice)
+        double deviceOffsetMinutes = Math.Round((DateTime.Now - DateTime.UtcNow).TotalMinutes);
+        return deviceLocalTime.AddMinutes(-deviceOffsetMinutes).AddHours(Common.CurrentTimeZone);
+    }
 
     private void UpdateStatus(string message, Color color)
     {
@@ -761,7 +792,8 @@ public partial class TrackPage : ContentPage
                 bl.CurrentTrack.IsRecording = true;
                 
                 foreach (var pos in allPositions.OrderBy(p => p.Timestamp))
-                    bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed);
+                    bl.AddPosition(pos.Latitude, pos.Longitude, pos.Altitude, pos.Accuracy, pos.Speed,
+                        ToAcceptedLocalTime(pos.Timestamp));
                 
                 // Restore recording state
                 bl.CurrentTrack.IsRecording = wasRecording;
@@ -786,6 +818,9 @@ public partial class TrackPage : ContentPage
             General.LogOfProgram?.Event($"BtnSaveTrack_Clicked - Track saved with ID: {savedId}, Positions: {finalPositionCount}");
 
             await DisplayAlert(AppStrings.TrackSavedTitle, string.Format(AppStrings.TrackSavedMessage, finalPositionCount, bl.GetFormattedDistance(bl.CurrentTrack), bl.GetFormattedDuration(bl.CurrentTrack)), AppStrings.OK);
+
+            if (savedId.HasValue)
+                TrackSavedCallback?.Invoke(savedId.Value);
 
             // Clear background service positions after successful save
             backgroundGpsService?.ClearPositions();

@@ -5,7 +5,7 @@
              Title="Physical Activity">
     <ContentPage.Content>
         <Grid RowDefinitions="Auto, 
-              40,65,30,65,35,
+              40,45,30,30,45,
               50,30,40,60,30,
               *"
               ColumnDefinitions="*,*,*,*">
@@ -22,7 +22,10 @@
             <Label Grid.Row="1" Grid.Column="0" Text="Activity Level" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="1" Text="Duration [min]" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             <Label Grid.Row="1" Grid.Column="2" Text="Id" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-            <Label Grid.Row="1" Grid.Column="3" Text="Track" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            <Grid Grid.Row="1" Grid.Column="3" ColumnDefinitions="*, *">
+                <Label Grid.Column="0" Text="Track" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                <Label Grid.Column="1" Text="Save" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+            </Grid>
 
             <Entry Grid.Row="2" Grid.Column="0" x:Name="txtActivityLevel" 
                    ToolTipProperties.Text="Level of physical activity (1-10 scale)"
@@ -36,35 +39,36 @@
                    ToolTipProperties.Text="Code of this activity"
                    FontSize="Medium" HorizontalTextAlignment="Center" IsReadOnly="true"/>
             
-            <ImageButton Grid.Row="3" Grid.Column="3" 
-                         Source="tracking.png"
-                         x:Name="btnGpsTrack"
-                         BackgroundColor="LightBlue"
-                         BorderColor="DeepSkyBlue"
-                         BorderWidth="2"
-                         CornerRadius="5"
-                         Padding="5"
-                         Aspect="AspectFit"
-                         ToolTipProperties.Text="GPS Track: record or view GPS track for this activity"
-                         Clicked="btnGpsTrack_Click" />
+            <Grid Grid.Row="2" Grid.Column="3" ColumnDefinitions="*, *">
+                <ImageButton Grid.Column="0"
+                             Source="tracking.png"
+                             x:Name="btnGpsTrack"
+                             BackgroundColor="LightBlue"
+                             BorderColor="DeepSkyBlue"
+                             BorderWidth="2"
+                             CornerRadius="5"
+                             Padding="5"
+                             Aspect="AspectFit"
+                             ToolTipProperties.Text="GPS Track: record or view GPS track for this activity"
+                             Clicked="btnGpsTrack_Click" />
+                <Button Grid.Column="1"
+                        ImageSource="floppy_disc.png"
+                        x:Name="btnSave"
+                        BackgroundColor="LightCoral"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        ToolTipProperties.Text="Save: save this activity to the database"
+                        Clicked="btnSave_Click"></Button>
+            </Grid>
 
-            <Button Grid.Row="3" Grid.Column="3" 
-                    ImageSource="floppy_disc.png"
-                    x:Name="btnSave"
-                    BackgroundColor="LightCoral"
-                    TextColor="Black"
-                    FontAttributes="Bold"
-                    ToolTipProperties.Text="Save: save this activity to the database"
-                    Clicked="btnSave_Click"></Button>
-
-            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Activity date and time"  
+            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Activity date and time"  
                    HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
             
             <!-- Intensity RadioButtons -->
-            <Label Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Text="Intensity level"
-                   HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+            <Label Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Text="Intensity level"
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"
                    FontSize="Small" Margin="0,0,0,5"/>
-            <HorizontalStackLayout Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"
+            <HorizontalStackLayout Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
                                    HorizontalOptions="Center" VerticalOptions="End" Spacing="10">
                 <RadioButton x:Name="rdbLowIntensity" Content="Low" 
                              GroupName="groupIntensity" FontSize="Small" />
@@ -184,7 +188,7 @@
                             </Frame.GestureRecognizers>
                             <Grid ColumnDefinitions="*,60,60,60" Padding="2">
                                 <Label Grid.Column="0" HorizontalTextAlignment="Center" VerticalOptions="Center"
-                                       Text="{Binding Timestamp.DateTime}" />
+                                       Text="{Binding EventDateTimeText}" />
                                 <Label Grid.Column="1" HorizontalTextAlignment="Center" VerticalOptions="Center"
                                        Text="{Binding InsulinValue.Text}" />
                                 <Label Grid.Column="2" HorizontalTextAlignment="Center" VerticalOptions="Center"

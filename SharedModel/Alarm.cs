@@ -7,6 +7,11 @@ namespace GlucoMan
 {
     public partial class Alarm : System.ComponentModel.INotifyPropertyChanged
     {
+        // limits and default of the delay that the user can choose when the alarm rings [min]
+        public const int MinSnoozeMinutes = 1;
+        public const int MaxSnoozeMinutes = 120;
+        public const int DefaultSnoozeMinutes = 5;
+
         // platform independent part of class Alarm
         public int? IdAlarm { get; set; }
         // ReminderText: text to be shown when the alarm is triggered
@@ -50,8 +55,12 @@ namespace GlucoMan
         public TimeSpan? Duration { get; set; }
         // RepetitionTime: time after which an alarm that has rung in vain (was not dismissed
         // by the user) will restart ringing. Together with MaxRepeatCount it defines the
-        // "restart when not dismissed" behavior.
+        // "restart when not dismissed" behavior. It is also the delay proposed to the user
+        // when the alarm rings, and it remembers the last delay that the user has chosen.
         public TimeSpan? RepetitionTime { get; set; }
+        // IsTransient: true for an alarm that exists only until the user dismisses it:
+        // when dismissed it is deleted from the database, instead of being kept as Dismissed.
+        public bool? IsTransient { get; set; }
         // Interval: period of the regular repetition of the alarm. If null or <= 0
         // the alarm is fired only once.
         public TimeSpan? Interval { get; set; }
@@ -144,6 +153,16 @@ namespace GlucoMan
                 return;
             }
 
+            // A delayed or suspended alarm keeps the instant at which it must ring again,
+            // and a transient alarm stays alive until someone has answered it
+            if ((RingingState == AlarmRingingState.Delayed ||
+                 RingingState == AlarmRingingState.AutoSuspended ||
+                 (RingingState == AlarmRingingState.Ringing && IsTransient == true)) &&
+                NextTriggerTime.HasValue)
+            {
+                return;
+            }
+
             var startTime = TimeStart?.DateTime ?? DateTime.Now;
             bool hasPeriod = Interval.HasValue && Interval.Value.TotalSeconds > 0;
 
@@ -232,13 +251,15 @@ namespace GlucoMan
         /// <summary>
         /// Mark alarm as triggered: records that the alarm fired (either at scheduled time or
         /// at a periodic occurrence). RepeatCount is NOT incremented here, since it counts
-        /// "restart when not dismissed" cycles only.
+        /// "restart when not dismissed" cycles only, and it is kept when this firing is one
+        /// of those restarts, otherwise MaxRepeatCount could never be reached.
         /// </summary>
         public void MarkAsTriggered()
         {
             LastTriggerTime = DateTime.Now;
             TriggeredCount = (TriggeredCount ?? 0) + 1;
-            RepeatCount = 0; // reset the "restart when not dismissed" counter for this firing
+            if (RingingState != AlarmRingingState.AutoSuspended)
+                RepeatCount = 0; // reset the "restart when not dismissed" counter for this firing
             RingingState = AlarmRingingState.Ringing;
 
             if (Interval.HasValue && Interval.Value.TotalSeconds > 0)
@@ -265,12 +286,64 @@ namespace GlucoMan
             }
 
             RingingState = AlarmRingingState.AutoSuspended;
-            if (RepetitionTime.HasValue && RepetitionTime.Value.TotalSeconds > 0)
-            {
-                NextTriggerTime = DateTime.Now + RepetitionTime.Value;
-            }
+            NextTriggerTime = DateTime.Now.AddMinutes(GetSnoozeMinutes());
         }
         
+        /// <summary>
+        /// Delay, in minutes, to propose to the user when the alarm rings.
+        /// </summary>
+        public int GetSnoozeMinutes()
+        {
+            if (!RepetitionTime.HasValue || RepetitionTime.Value.TotalMinutes < 1)
+                return DefaultSnoozeMinutes;
+            return ClampSnoozeMinutes((int)RepetitionTime.Value.TotalMinutes);
+        }
+
+        /// <summary>
+        /// Brings a delay chosen by the user inside the allowed limits.
+        /// </summary>
+        public static int ClampSnoozeMinutes(int minutes)
+        {
+            return Math.Clamp(minutes, MinSnoozeMinutes, MaxSnoozeMinutes);
+        }
+
+        /// <summary>
+        /// Value that the up and down arrows of the delay bring to: 1 minute at a time up
+        /// to 10 minutes, then 5 minutes at a time, to reach long delays with few presses.
+        /// </summary>
+        public static int StepSnoozeMinutes(int minutes, bool up)
+        {
+            const int FineStepLimit = 10;
+            const int CoarseStep = 5;
+            int step = (up ? minutes >= FineStepLimit : minutes > FineStepLimit) ? CoarseStep : 1;
+            return ClampSnoozeMinutes(up ? minutes + step : minutes - step);
+        }
+
+        /// <summary>
+        /// Called when the user delays a ringing alarm: it will ring again after the given
+        /// minutes, that are remembered as the delay to propose the next time.
+        /// </summary>
+        public void Snooze(int minutes)
+        {
+            int delayMinutes = ClampSnoozeMinutes(minutes);
+            RepetitionTime = TimeSpan.FromMinutes(delayMinutes);
+            NextTriggerTime = DateTime.Now.AddMinutes(delayMinutes);
+            RingingState = AlarmRingingState.Delayed;
+            IsPlaying = false;
+        }
+
+        /// <summary>
+        /// True if the alarm has been missed (e.g. the device was off) by a time short
+        /// enough to be still worth firing, according to StartupGraceWindow.
+        /// </summary>
+        public bool IsMissedWithinGraceWindow()
+        {
+            if (!IsActive() || !NextTriggerTime.HasValue || !StartupGraceWindow.HasValue)
+                return false;
+            TimeSpan late = DateTime.Now - NextTriggerTime.Value;
+            return late > TimeSpan.Zero && late <= StartupGraceWindow.Value;
+        }
+
         /// <summary>
         /// Dismiss this alarm (no more triggers)
         /// </summary>

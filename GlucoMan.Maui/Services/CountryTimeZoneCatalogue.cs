@@ -151,6 +151,13 @@ public class CountryTimeZoneEntry
     /// </summary>
     public bool IsDstActiveAt(DateTime utcNow)
         => DstHelper.IsDstActive(DstRule, utcNow, StandardOffsetHours);
+
+    /// <summary>
+    /// Returns the DST-aware UTC offset (hours) of this country at the given UTC instant
+    /// (e.g. Italy: +2 when DST is active, +1 otherwise).
+    /// </summary>
+    public double GetUtcOffsetAt(DateTime utcInstant)
+        => StandardOffsetHours + (IsDstActiveAt(utcInstant) ? 1 : 0);
 }
 
 /// <summary>

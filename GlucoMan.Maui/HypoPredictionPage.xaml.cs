@@ -1,4 +1,4 @@
-using GlucoMan;
+﻿using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui;
@@ -50,9 +50,8 @@ public partial class HypoPredictionPage : ContentPage
 
         txtAlarmAdvanceTime.Text = hypo.AlarmAdvanceTime.Text;
         txtGlucoseSlope.Text = hypo.GlucoseSlope.Text;
-        DateTime dummy = (DateTime)hypo.AlarmTime.DateTime;
-        txtAlarmHour.Text = dummy.Hour.ToString();
-        txtAlarmMinute.Text = dummy.Minute.ToString();
+        txtAlarmHour.Text = hypo.AlarmHour.Text;
+        txtAlarmMinute.Text = hypo.AlarmMinute.Text;
 
         if (hypo.FutureTime.DateTime != null && hypo.FutureTime.DateTime !=
                 new DateTime(0001, 01, 01))
@@ -124,74 +123,55 @@ public partial class HypoPredictionPage : ContentPage
                 return;
             }
 
-            // Get hour and minute from labels
-            if (string.IsNullOrWhiteSpace(txtAlarmHour.Text) || txtAlarmHour.Text == "----" ||
-                string.IsNullOrWhiteSpace(txtAlarmMinute.Text) || txtAlarmMinute.Text == "----")
+            // The alarm time exists only if the last prediction has produced one
+            if (!int.TryParse(txtAlarmHour.Text, out int hour) ||
+                !int.TryParse(txtAlarmMinute.Text, out int minute) ||
+                hypo.AlarmTime.DateTime is not DateTime alarmDateTime)
             {
-                await DisplayAlert(AppStrings.Warning, 
-                    "Please calculate prediction first to get alarm time", 
-                    AppStrings.OK);
+                await DisplayAlert(AppStrings.Warning, AppStrings.HypoAlarmTimeNotAvailable, AppStrings.OK);
                 return;
             }
 
-            if (!int.TryParse(txtAlarmHour.Text, out int hour) || 
-                !int.TryParse(txtAlarmMinute.Text, out int minute))
-            {
-                await DisplayAlert(AppStrings.Error, "Invalid alarm time format", AppStrings.OK);
-                return;
-            }
-
-            // Validate hour and minute
-            if (hour < 0 || hour > 23 || minute < 0 || minute > 59)
-            {
-                await DisplayAlert(AppStrings.Error, 
-                    $"Invalid time: {hour:D2}:{minute:D2}", 
-                    AppStrings.OK);
-                return;
-            }
-
-            // Create alarm datetime for today at the specified time
-            var today = DateTime.Today;
-            var alarmDateTime = new DateTime(today.Year, today.Month, today.Day, hour, minute, 0);
-
-            // If the time is in the past, schedule for tomorrow
+            // A prediction speaks of the next few hours: if its time has passed there is
+            // nothing to wait for, and moving it to tomorrow would make no sense
             if (alarmDateTime <= DateTime.Now)
             {
-                bool setForTomorrow = await DisplayAlert(
-                    AppStrings.Warning,
-                    $"The alarm time ({hour:D2}:{minute:D2}) is in the past.\n\nSchedule for tomorrow?",
-                    AppStrings.Yes,
-                    AppStrings.No);
+                await DisplayAlert(AppStrings.Warning,
+                    string.Format(AppStrings.HypoAlarmTimeAlreadyPassed, hour, minute),
+                    AppStrings.OK);
+                return;
+            }
 
-                if (setForTomorrow)
-                {
-                    alarmDateTime = alarmDateTime.AddDays(1);
-                }
-                else
-                {
-                    return;
-                }
+            var blAlarms = new BL_Alarms();
+
+            // A new prediction replaces the previous one, whose alarm has no more meaning
+            foreach (Alarm previousAlarm in blAlarms.GetTransientAlarms())
+            {
+                await _alarmScheduler.CancelAsync(previousAlarm.IdAlarm!.Value);
+                blAlarms.DeleteAlarm(previousAlarm);
             }
 
             // Get glucose target for the reminder text
             string glucoseTarget = txtGlucoseTarget.Text;
-            string reminderText = $"Hypoglycemia Alert!\nPredicted glucose below {glucoseTarget} mg/dL";
+            string reminderText = string.Format(AppStrings.HypoAlarmReminderFormat, glucoseTarget);
 
-            // Create the alarm
+            // Create the alarm: it lives until the user dismisses it, so it has no
+            // MaxRepeatCount and comes back until someone answers
             var alarm = new Alarm
             {
                 ReminderText = reminderText,
                 TimeStart = new gamon.DateTimeAndText { DateTime = alarmDateTime },
+                IsTransient = true,
                 EnablePlaySoundFile = true,  // Always play sound for hypo alerts
                 DoVibrate = true,            // Always vibrate for hypo alerts
                 StartupGraceWindow = TimeSpan.FromHours(2), // Fire even at program startup up to 2h after due
-                Duration = TimeSpan.FromMinutes(10) // Ring up to 10 minutes
+                Duration = TimeSpan.FromMinutes(10), // Ring up to 10 minutes
+                RepetitionTime = TimeSpan.FromMinutes(Alarm.DefaultSnoozeMinutes)
             };
 
             alarm.CalculateNextTriggerTime();
 
             // Save to database
-            var blAlarms = new BL_Alarms();
             blAlarms.AddAlarm(alarm);
 
             // Schedule with system
@@ -199,10 +179,8 @@ public partial class HypoPredictionPage : ContentPage
             {
                 await _alarmScheduler.ScheduleAsync(alarm);
 
-                string message = $"Hypoglycemia alert set!\n\n" +
-                                $"Time: {alarmDateTime:dd/MM/yyyy HH:mm}\n" +
-                                $"Target: {glucoseTarget} mg/dL\n\n" +
-                                $"{AppStrings.AlarmWillAlertBeforePredictedHypoglycemia}";
+                string message = string.Format(AppStrings.AlarmSetForTime, hour, minute) + "\n\n" +
+                                 AppStrings.AlarmWillAlertBeforePredictedHypoglycemia;
 
                 await DisplayAlert(AppStrings.AlarmSet, message, AppStrings.OK);
 

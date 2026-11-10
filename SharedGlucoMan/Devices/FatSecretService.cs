@@ -12,6 +12,14 @@ using System.Threading.Tasks;
 namespace GlucoMan
 {
     /// <summary>
+    /// An error reported by FatSecret in the body of a response with HTTP status 200.
+    /// </summary>
+    public class FatSecretApiException : InvalidOperationException
+    {
+        public FatSecretApiException(string message) : base(message) { }
+    }
+
+    /// <summary>
     /// Service for interacting with the FatSecret API.
     /// Supports both OAuth 2.0 Client Credentials (2-legged) and
     /// OAuth 1.0a 3-Legged Authentication flows.
@@ -23,6 +31,19 @@ namespace GlucoMan
         private static DateTime _tokenExpiry = DateTime.MinValue;
         private static string _barcodeAccessToken;
         private static DateTime _barcodeTokenExpiry = DateTime.MinValue;
+        // Scopes granted to the current token: a key without "premier" uses the legacy search
+        private static bool _tokenHasPremierScope;
+        // Set after foods.search.v5 has been refused, to avoid asking again at every search
+        private static bool _searchV5Refused;
+
+        public const int MaxResultsPerPage = 50;
+
+        // Tried in order: the application gets the first set enabled for its FatSecret plan
+        private static readonly string[] SearchScopes =
+        {
+            "basic premier localization", "basic premier", "basic localization", "basic"
+        };
+        private static readonly string[] BarcodeScopes = { "basic barcode localization", "basic barcode" };
 
         // FatSecret API endpoints
         private const string TokenEndpoint = "https://oauth.fatsecret.com/connect/token";
@@ -53,12 +74,8 @@ namespace GlucoMan
         private string _oauth1RequestToken;
         private string _oauth1RequestTokenSecret;
 
-        // Locale settings — default to Italian
-        private string _language;
-        private string _region;
-
-        public string Language => _language;
-        public string Region => _region;
+        // Locale of the phone, sent with every request. No region means FatSecret's default (US)
+        private readonly (string Language, string Region) _locale = ParseLocale(GetDeviceCultureName());
 
         /// <summary>True when a user has completed 3-Legged OAuth 1.0 authorization.</summary>
         public bool HasUserToken => !string.IsNullOrEmpty(_oauth1AccessToken)
@@ -74,8 +91,6 @@ namespace GlucoMan
             _clientId = "";
             _clientSecret = "";
             _consumerSecret = "";
-            _language = "it";
-            _region = "IT";
             _oauth1AccessToken = "";
             _oauth1AccessTokenSecret = "";
 #if !MATH_TESTS_ONLY
@@ -85,8 +100,6 @@ namespace GlucoMan
                 _clientId = bl.RestoreParameter("FatSecret_ClientId") ?? "";
                 _clientSecret = bl.RestoreParameter("FatSecret_ClientSecret") ?? "";
                 _consumerSecret = bl.RestoreParameter("FatSecret_ConsumerSecret") ?? "";
-                _language = bl.RestoreParameter("FatSecret_Language") ?? "it";
-                _region = bl.RestoreParameter("FatSecret_Region") ?? "IT";
                 // Load persisted OAuth 1.0 user tokens
                 _oauth1AccessToken = bl.RestoreParameter("FatSecret_OAuth1Token") ?? "";
                 _oauth1AccessTokenSecret = bl.RestoreParameter("FatSecret_OAuth1TokenSecret") ?? "";
@@ -109,6 +122,11 @@ namespace GlucoMan
             bl.SaveParameter("FatSecret_ClientId", clientId);
             bl.SaveParameter("FatSecret_ClientSecret", clientSecret);
 #endif
+            // Tokens and the refused search belong to the previous key
+            _accessToken = null;
+            _barcodeAccessToken = null;
+            _tokenHasPremierScope = false;
+            _searchV5Refused = false;
         }
 
         public void SetConsumerSecret(string consumerSecret)
@@ -120,19 +138,38 @@ namespace GlucoMan
 #endif
         }
 
-        /// <summary>Sets and saves the locale used for all FatSecret API requests.</summary>
-        public void SetLocale(string language, string region)
+        /// <summary>
+        /// Name of the culture of the phone. CultureInfo.CurrentCulture can't be used, because
+        /// LocalizationService replaces it with the language of the application.
+        /// </summary>
+        private static string GetDeviceCultureName()
         {
-            _language = language;
-            _region = region;
-#if !MATH_TESTS_ONLY
-            var bl = new BL_General();
-            bl.SaveParameter("FatSecret_Language", language);
-            bl.SaveParameter("FatSecret_Region", region);
+#if ANDROID
+            return Java.Util.Locale.Default.ToLanguageTag();
+#else
+            return System.Globalization.CultureInfo.InstalledUICulture.Name;
 #endif
-            // Invalidate cached tokens so next call re-authenticates cleanly
-            _accessToken = null;
-            _barcodeAccessToken = null;
+        }
+
+        /// <summary>
+        /// Splits a culture name like "it-IT", "en_US" or "zh-Hant-TW" in language and region.
+        /// </summary>
+        internal static (string Language, string Region) ParseLocale(string cultureName)
+        {
+            var parts = (cultureName ?? "").Split('-', '_');
+            var region = parts.Skip(1).FirstOrDefault(p => p.Length == 2);
+            return (parts[0].ToLowerInvariant(), region?.ToUpperInvariant());
+        }
+
+        /// <summary>
+        /// Adds language and region. FatSecret ignores the language when there is no region.
+        /// </summary>
+        private void AddLocale(Dictionary<string, string> apiParams)
+        {
+            if (string.IsNullOrEmpty(_locale.Region))
+                return;
+            apiParams["language"] = _locale.Language;
+            apiParams["region"] = _locale.Region;
         }
 
         /// <summary>Removes the stored OAuth 1.0 user tokens (logout).</summary>
@@ -355,46 +392,18 @@ namespace GlucoMan
                 return _accessToken;
             }
 
-            if (!HasCredentials)
-            {
-                throw new InvalidOperationException("FatSecret API credentials not configured. Please set Client ID and Client Secret in settings.");
-            }
+            var (token, expiry, scope) = await RequestTokenAsync(SearchScopes)
+                ?? throw new InvalidOperationException("FatSecret refused the 'basic' scope for this application.");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, TokenEndpoint);
-
-            // Add Basic Authentication header
-            var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_clientId}:{_clientSecret}"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
-
-            // Request body
-            var content = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("grant_type", "client_credentials"),
-                new KeyValuePair<string, string>("scope", "basic")
-            });
-            request.Content = content;
-
-            var response = await _httpClient.SendAsync(request);
-            
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException($"Failed to get access token: {response.StatusCode} - {errorContent}");
-            }
-
-            var responseJson = await response.Content.ReadAsStringAsync();
-            using var doc = JsonDocument.Parse(responseJson);
-            var root = doc.RootElement;
-
-            _accessToken = root.GetProperty("access_token").GetString();
-            var expiresIn = root.GetProperty("expires_in").GetInt32();
-            _tokenExpiry = DateTime.UtcNow.AddSeconds(expiresIn - 60); // Refresh 1 minute early
+            _accessToken = token;
+            _tokenExpiry = expiry;
+            _tokenHasPremierScope = scope.Contains("premier");
 
             return _accessToken;
         }
 
         /// <summary>
-        /// Get OAuth 2.0 access token with 'basic barcode' scope.
+        /// Get OAuth 2.0 access token with the 'barcode' scope.
         /// Requires the barcode scope to be enabled on the FatSecret application
         /// at platform.fatsecret.com → My App → Barcode.
         /// </summary>
@@ -403,37 +412,56 @@ namespace GlucoMan
             if (!string.IsNullOrEmpty(_barcodeAccessToken) && DateTime.UtcNow < _barcodeTokenExpiry)
                 return _barcodeAccessToken;
 
+            var (token, expiry, _) = await RequestTokenAsync(BarcodeScopes)
+                ?? throw new InvalidOperationException(
+                    "The 'barcode' scope is not enabled for your FatSecret application. " +
+                    "Enable it at platform.fatsecret.com → My App → Edit → Barcode.");
+
+            _barcodeAccessToken = token;
+            _barcodeTokenExpiry = expiry;
+
+            return _barcodeAccessToken;
+        }
+
+        /// <summary>
+        /// Requests a token with the first of the scope sets that FatSecret accepts.
+        /// Returns null when all of them are refused.
+        /// </summary>
+        private async Task<(string Token, DateTime Expiry, string Scope)?> RequestTokenAsync(string[] scopeSets)
+        {
             if (!HasCredentials)
                 throw new InvalidOperationException("FatSecret API credentials not configured. Please set Client ID and Client Secret in settings.");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, TokenEndpoint);
             var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_clientId}:{_clientSecret}"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
-            request.Content = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("grant_type", "client_credentials"),
-                new KeyValuePair<string, string>("scope", "basic barcode")
-            });
 
-            var response = await _httpClient.SendAsync(request);
-            var responseJson = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
+            foreach (var scope in scopeSets)
             {
-                if (responseJson.Contains("invalid_scope"))
-                    throw new InvalidOperationException(
-                        "The 'barcode' scope is not enabled for your FatSecret application. " +
-                        "Enable it at platform.fatsecret.com → My App → Edit → Barcode.");
-                throw new HttpRequestException($"Failed to get barcode access token: {response.StatusCode} - {responseJson}");
+                var request = new HttpRequestMessage(HttpMethod.Post, TokenEndpoint);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+                request.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("grant_type", "client_credentials"),
+                    new KeyValuePair<string, string>("scope", scope)
+                });
+
+                var response = await _httpClient.SendAsync(request);
+                var responseJson = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (responseJson.Contains("invalid_scope"))
+                        continue;
+                    throw new HttpRequestException($"Failed to get access token: {response.StatusCode} - {responseJson}");
+                }
+
+                using var doc = JsonDocument.Parse(responseJson);
+                var root = doc.RootElement;
+                var expiresIn = root.GetProperty("expires_in").GetInt32();
+                // Refresh 1 minute early
+                return (root.GetProperty("access_token").GetString(), DateTime.UtcNow.AddSeconds(expiresIn - 60), scope);
             }
 
-            using var doc = JsonDocument.Parse(responseJson);
-            var root = doc.RootElement;
-            _barcodeAccessToken = root.GetProperty("access_token").GetString();
-            var expiresIn = root.GetProperty("expires_in").GetInt32();
-            _barcodeTokenExpiry = DateTime.UtcNow.AddSeconds(expiresIn - 60);
-
-            return _barcodeAccessToken;
+            return null;
         }
 
         /// <summary>
@@ -447,10 +475,9 @@ namespace GlucoMan
             {
                 { "method", "food.find_id_for_barcode" },
                 { "barcode", barcode },
-                { "format", "json" },
-                { "language", _language },
-                { "region", _region }
+                { "format", "json" }
             };
+            AddLocale(apiParams);
 
             string responseJson;
             if (HasUserToken)
@@ -489,20 +516,48 @@ namespace GlucoMan
         }
 
         /// <summary>
-        /// Search for foods in the FatSecret database
+        /// Search for foods in the FatSecret database. Returns one page of results:
+        /// the first page has number 0.
+        /// Uses foods.search.v5 where the plan of the key allows it, otherwise foods.search.
         /// </summary>
-        public async Task<List<FatSecretFood>> SearchFoodsAsync(string searchExpression, int maxResults = 20)
+        public async Task<FatSecretSearchResults> SearchFoodsAsync(string searchExpression,
+            int pageNumber = 0, int pageSize = MaxResultsPerPage)
         {
             var apiParams = new Dictionary<string, string>
             {
-                { "method", "foods.search" },
                 { "search_expression", searchExpression },
                 { "format", "json" },
-                { "max_results", maxResults.ToString() },
-                { "page_number", "0" },
-                { "language", _language },
-                { "region", _region }
+                { "max_results", pageSize.ToString() },
+                { "page_number", pageNumber.ToString() }
             };
+            AddLocale(apiParams);
+
+            // The token must be read first: it tells if the key has the "premier" scope
+            var token = HasUserToken ? null : await GetAccessTokenAsync();
+
+            string responseJson = null;
+            if (!_searchV5Refused && (HasUserToken || _tokenHasPremierScope))
+            {
+                try
+                {
+                    responseJson = await CallSearchAsync("foods.search.v5", apiParams, token);
+                }
+                catch (Exception ex) when (ex is FatSecretApiException or HttpRequestException)
+                {
+                    // FatSecret doesn't document the error for a method outside of the plan.
+                    // A real failure will come out again from the legacy search.
+                    General.LogOfProgram?.Debug($"FatSecret foods.search.v5 refused: {ex.Message}");
+                    _searchV5Refused = true;
+                }
+            }
+            responseJson ??= await CallSearchAsync("foods.search", apiParams, token);
+
+            return ParseSearchPage(responseJson, pageNumber, pageSize);
+        }
+
+        private async Task<string> CallSearchAsync(string method, Dictionary<string, string> searchParams, string token)
+        {
+            var apiParams = new Dictionary<string, string>(searchParams) { ["method"] = method };
 
             string responseJson;
             if (HasUserToken)
@@ -511,7 +566,6 @@ namespace GlucoMan
             }
             else
             {
-                var token = await GetAccessTokenAsync();
                 var request = new HttpRequestMessage(HttpMethod.Post, ApiBaseUrl);
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 request.Content = new FormUrlEncodedContent(apiParams);
@@ -521,12 +575,12 @@ namespace GlucoMan
                     throw new HttpRequestException($"Food search failed: {response.StatusCode} - {responseJson}");
             }
 
-            General.LogOfProgram?.Debug($"FatSecret SearchFoods: {responseJson}");
+            General.LogOfProgram?.Debug($"FatSecret {method}: {responseJson}");
 
             // FatSecret returns HTTP 200 even for API-level errors; check the JSON body
             CheckForApiError(responseJson);
 
-            return ParseSearchResults(responseJson);
+            return responseJson;
         }
 
         /// <summary>
@@ -538,10 +592,9 @@ namespace GlucoMan
             {
                 { "method", "food.get.v4" },
                 { "food_id", foodId.ToString() },
-                { "format", "json" },
-                { "language", _language },
-                { "region", _region }
+                { "format", "json" }
             };
+            AddLocale(apiParams);
 
             string responseJson;
             if (HasUserToken)
@@ -563,53 +616,57 @@ namespace GlucoMan
             return ParseFoodDetails(responseJson);
         }
 
-        private List<FatSecretFood> ParseSearchResults(string json)
+        /// <summary>
+        /// Reads a page of results of foods.search ("foods") or foods.search.v5 ("foods_search").
+        /// </summary>
+        internal FatSecretSearchResults ParseSearchPage(string json, int pageNumber, int pageSize)
         {
-            var foods = new List<FatSecretFood>();
+            var page = new FatSecretSearchResults { PageNumber = pageNumber, PageSize = pageSize };
 
             try
             {
                 using var doc = JsonDocument.Parse(json);
                 var root = doc.RootElement;
 
-                if (!root.TryGetProperty("foods", out var foodsElement))
+                JsonElement container;
+                JsonElement foodsHolder;
+                if (root.TryGetProperty("foods_search", out container))
                 {
-                    General.LogOfProgram?.Debug("FatSecret ParseSearchResults: 'foods' property not found in response");
-                    return foods;
+                    if (!container.TryGetProperty("results", out foodsHolder))
+                        foodsHolder = container;
+                }
+                else if (root.TryGetProperty("foods", out container))
+                {
+                    foodsHolder = container;
+                }
+                else
+                {
+                    General.LogOfProgram?.Debug("FatSecret ParseSearchPage: no results in response");
+                    return page;
                 }
 
-                if (foodsElement.TryGetProperty("total_results", out var totalProp))
-                    General.LogOfProgram?.Debug($"FatSecret total_results: {totalProp.GetString()}");
+                if (container.TryGetProperty("total_results", out var totalProp)
+                    && int.TryParse(totalProp.ToString(), out var total))
+                    page.TotalResults = total;
 
-                if (!foodsElement.TryGetProperty("food", out var foodArray))
+                if (!foodsHolder.TryGetProperty("food", out var foodArray))
                 {
-                    General.LogOfProgram?.Debug("FatSecret ParseSearchResults: 'food' property absent — API returned 0 results");
-                    return foods;
+                    General.LogOfProgram?.Debug("FatSecret ParseSearchPage: 'food' property absent — API returned 0 results");
+                    return page;
                 }
 
                 // Handle both single food object and array
-                if (foodArray.ValueKind == JsonValueKind.Array)
-                {
-                    foreach (var foodElement in foodArray.EnumerateArray())
-                    {
-                        var food = ParseFoodFromElement(foodElement);
-                        if (food != null)
-                            foods.Add(food);
-                    }
-                }
-                else if (foodArray.ValueKind == JsonValueKind.Object)
-                {
-                    var food = ParseFoodFromElement(foodArray);
-                    if (food != null)
-                        foods.Add(food);
-                }
+                var elements = foodArray.ValueKind == JsonValueKind.Array
+                    ? foodArray.EnumerateArray().ToList()
+                    : new List<JsonElement> { foodArray };
+                page.Foods.AddRange(elements.Select(ParseFoodFromElement).Where(food => food != null));
             }
             catch (Exception ex)
             {
-                General.LogOfProgram.Error("FatSecretService | ParseSearchResults", ex);
+                General.LogOfProgram?.Error("FatSecretService | ParseSearchPage", ex);
             }
 
-            return foods;
+            return page;
         }
 
         /// <summary>
@@ -628,13 +685,13 @@ namespace GlucoMan
 
                     var hint = code switch
                     {
-                        21 => "\nFix: log in to platform.fatsecret.com → your app → Edit → 'Allowed IP Addresses': add your IP or use '*' to allow all.",
+                        21 => "\nFix: add this IP address at platform.fatsecret.com/my-account/ip-restrictions (it can take up to 24 hours).",
                         10 => "\nFix: check your Client ID and Client Secret in Settings.",
                         8  => "\nFix: the foods.search method is not available on your API plan.",
                         _  => string.Empty
                     };
 
-                    throw new InvalidOperationException($"FatSecret API error {code}: {message}{hint}");
+                    throw new FatSecretApiException($"FatSecret API error {code}: {message}{hint}");
                 }
             }
             catch (JsonException)
@@ -667,6 +724,15 @@ namespace GlucoMan
                 // FatSecret search results include a description like:
                 // "Per 100g - Calories: 89kcal | Fat: 0.33g | Carbs: 22.84g | Protein: 1.09g"
                 ParseNutritionFromDescription(food, food.Description);
+
+                // foods.search.v5 has no description, but the list of servings
+                if (string.IsNullOrEmpty(food.Description)
+                    && TryGetReferenceServing(element, out var serving))
+                {
+                    ParseServingNutrition(food, serving);
+                    food.Description = FormattableString.Invariant(
+                        $"Per {food.ServingDescription} - Calories: {food.Calories}kcal | Fat: {food.TotalFatsPercent}g | Carbs: {food.CarbohydratesPercent}g | Protein: {food.ProteinsPercent}g");
+                }
 
                 return food;
             }
@@ -813,31 +879,8 @@ namespace GlucoMan
                 };
 
                 // Parse servings for nutritional data
-                if (foodElement.TryGetProperty("servings", out var servingsElement) &&
-                    servingsElement.TryGetProperty("serving", out var servingArray))
-                {
-                    JsonElement serving;
-                    if (servingArray.ValueKind == JsonValueKind.Array)
-                    {
-                        // Find 100g serving or use first
-                        serving = servingArray[0];
-                        foreach (var s in servingArray.EnumerateArray())
-                        {
-                            if (s.TryGetProperty("serving_description", out var descProp) &&
-                                descProp.GetString()?.Contains("100") == true)
-                            {
-                                serving = s;
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        serving = servingArray;
-                    }
-
+                if (TryGetReferenceServing(foodElement, out var serving))
                     ParseServingNutrition(food, serving);
-                }
 
                 return food;
             }
@@ -846,6 +889,37 @@ namespace GlucoMan
                 General.LogOfProgram.Error("FatSecretService | ParseFoodDetails", ex);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Finds the 100g serving of a food, or the first one if it has no such serving.
+        /// </summary>
+        private static bool TryGetReferenceServing(JsonElement foodElement, out JsonElement serving)
+        {
+            serving = default;
+            if (!foodElement.TryGetProperty("servings", out var servingsElement) ||
+                !servingsElement.TryGetProperty("serving", out var servingArray))
+                return false;
+
+            if (servingArray.ValueKind != JsonValueKind.Array)
+            {
+                serving = servingArray;
+                return true;
+            }
+            if (servingArray.GetArrayLength() == 0)
+                return false;
+
+            serving = servingArray[0];
+            foreach (var s in servingArray.EnumerateArray())
+            {
+                if (s.TryGetProperty("serving_description", out var descProp) &&
+                    descProp.GetString()?.Contains("100") == true)
+                {
+                    serving = s;
+                    break;
+                }
+            }
+            return true;
         }
 
         /// <summary>

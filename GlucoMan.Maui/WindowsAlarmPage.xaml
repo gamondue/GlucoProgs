@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:strings="clr-namespace:GlucoMan.Maui.Resources.Strings"
@@ -75,10 +75,35 @@
             <!-- Buttons Container -->
             <VerticalStackLayout Spacing="15">
 
-                <!-- Top row: Snooze and Stop buttons -->
+                <!-- Delay chooser: minutes of the next Snooze -->
                 <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                    <Button x:Name="btnSnoozeDown"
+                            Text="&#x25BC;"
+                            BackgroundColor="White"
+                            TextColor="#DC143C"
+                            FontSize="18"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Clicked="BtnSnoozeDown_Clicked"/>
+                    <Label x:Name="lblSnoozeMinutes"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           WidthRequest="120"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Center"/>
+                    <Button x:Name="btnSnoozeUp"
+                            Text="&#x25B2;"
+                            BackgroundColor="White"
+                            TextColor="#DC143C"
+                            FontSize="18"
+                            WidthRequest="70"
+                            HeightRequest="70"
+                            Clicked="BtnSnoozeUp_Clicked"/>
+                </HorizontalStackLayout>
 
-                    <!-- Snooze Button 5 -->
+                <!-- Top row: Snooze button -->
+                <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
                     <Button x:Name="btnSnooze"
                             Text="{x:Static strings:AppStrings.AlarmSnoozeButtonShort}"
                             BackgroundColor="White"
@@ -88,16 +113,6 @@
                             WidthRequest="150"
                             HeightRequest="70"
                             Clicked="BtnSnooze_Clicked"/>
-                    <!-- Snooze Button 15 -->
-                    <Button x:Name="btnSnooze15"
-                            Text="Snooze&#x0a;15 min"
-                            BackgroundColor="White"
-                            TextColor="#DC143C"
-                            FontSize="18"
-                            FontAttributes="Bold"
-                            WidthRequest="150"
-                            HeightRequest="70"
-                            Clicked="BtnSnooze15_Clicked"/>
                 </HorizontalStackLayout>
 
                 <!-- Bottom row: -->

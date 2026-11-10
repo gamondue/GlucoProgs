@@ -33,7 +33,7 @@ namespace GlucoMan
         public DoubleAndText GlucoseToBeCorrected { get; set; }
         internal void SetTypeOfInsulinActionBasedOnTimeNow(Injection Injection)
         {
-            TimeSpan timeOfDay = DateTime.Now.TimeOfDay;
+            TimeSpan timeOfDay = Common.LocalNow.TimeOfDay;
             if (timeOfDay > new TimeSpan(2, 0, 0) && timeOfDay < new TimeSpan(22, 0, 0))
             {
                 Injection.IdTypeOfInsulinAction = (int)Common.TypeOfInsulinAction.Short;
@@ -352,7 +352,7 @@ namespace GlucoMan
                     //if (partialEmbarkedInsulin > 0)
                     //    EmbarkedInsulin.Double += partialEmbarkedInsulin;
                     double? partialPercentResidualInsulin = (double)CalcPercentEmbarkedInsulinForGivenInsulinAndInjectionTime(
-                        id , (DateTime)ii.EventTime.DateTime, DateTime.Now);
+                        id , (DateTime)ii.EventTime.DateTime, Common.LocalNow);
                     partialEmbarkedInsulin = ii.InsulinValue.Double * partialPercentResidualInsulin / 100.0;
                 }
                 EmbarkedInsulin.Double += partialEmbarkedInsulin;

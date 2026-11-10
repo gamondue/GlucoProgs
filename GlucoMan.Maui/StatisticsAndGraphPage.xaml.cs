@@ -264,7 +264,7 @@ public partial class StatisticsAndGraphPage : ContentPage
         try
         {
             var blInj = new BL_BolusesAndInjections();
-            var allInjections = blInj.GetInjections(new DateTime(2000, 1, 1), DateTime.Now);
+            var allInjections = blInj.GetInjections(new DateTime(2000, 1, 1), Common.LocalNow);
 
             if (allInjections == null || allInjections.Count == 0)
             {

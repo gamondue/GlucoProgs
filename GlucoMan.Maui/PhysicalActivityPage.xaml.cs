@@ -409,6 +409,7 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
     {
         try
         {
+            await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
             if (chkNowInAdd.IsChecked)
             {
                 DateTime now = Common.LocalNow;
@@ -507,25 +508,18 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
 
                     if (confirm)
                     {
-                        // Delete old track (will be done after new one is created)
-                        // For now, just open new tracking page
-                        var trackPage = new TrackPage();
+                        // the old track is deleted by OnTrackSaved, only after the new one has been saved
+                        var trackPage = new TrackPage { TrackSavedCallback = OnTrackSaved };
                         await Navigation.PushAsync(trackPage);
-                        
-                        // TODO: After track is saved, update CurrentActivity.Notes with new IdTrack
-                        // and delete the old track
                         General.LogOfProgram?.Event($"PhysicalActivityPage - Recording new GPS Track to replace {idTrack.Value}");
                     }
                 }
             }
             else
             {
-                // No track yet - create new one
-                var trackPage = new TrackPage();
+                // No track yet - create new one, associated to the activity by OnTrackSaved
+                var trackPage = new TrackPage { TrackSavedCallback = OnTrackSaved };
                 await Navigation.PushAsync(trackPage);
-                
-                // TODO: After track is saved, store IdTrack in CurrentActivity.Notes
-                // Format: "IdTrack:123 OtherNotes..."
                 General.LogOfProgram?.Event("PhysicalActivityPage - Recording new GPS Track");
             }
         }
@@ -635,24 +629,23 @@ public partial class PhysicalActivityPage : ContentPage, INotifyPropertyChanged
                 return;
             }
 
+            int? oldIdTrack = ExtractIdTrackFromNotes(CurrentActivity.Notes);
+
             // Update Notes field with new IdTrack
             CurrentActivity.Notes = SetIdTrackInNotes(CurrentActivity.Notes, idTrack);
 
             // Save the updated activity
             bl.SaveOneInjection(CurrentActivity);
 
+            // The new track replaces the old one, as confirmed by the user
+            if (oldIdTrack.HasValue && oldIdTrack.Value != idTrack)
+                new BL_GpsTracking().DeleteTrack(oldIdTrack.Value);
+
             // Update button state
             UpdateGpsTrackButtonState();
 
+            // TrackPage has already confirmed the saving to the user
             General.LogOfProgram?.Event($"PhysicalActivityPage - Associated Track {idTrack} with Activity {CurrentActivity.IdInjection}");
-
-            // Show confirmation
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                await DisplayAlert("Track Saved", 
-                    $"GPS Track {idTrack} has been associated with this activity.", 
-                    "OK");
-            });
         }
         catch (Exception ex)
         {

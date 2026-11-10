@@ -17,9 +17,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)DevicesModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Event.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FatSecretFood.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FatSecretSearchResults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Food.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FoodInMeal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FoodToHitTargetCarbs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlucoseChartCurves.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlucoseRecord.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GpsPosition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HypoPredictionData.cs" />

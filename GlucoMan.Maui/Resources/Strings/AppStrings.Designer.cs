@@ -395,12 +395,20 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Snooze
-        ///5 min.
+        ///   Cerca una stringa localizzata simile a Snooze.
         /// </summary>
         public static string AlarmSnoozeButtonShort {
             get {
                 return ResourceManager.GetString("AlarmSnoozeButtonShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a {0} min.
+        /// </summary>
+        public static string AlarmSnoozeMinutesFormat {
+            get {
+                return ResourceManager.GetString("AlarmSnoozeMinutesFormat", resourceCulture);
             }
         }
         
@@ -461,6 +469,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Transient.
+        /// </summary>
+        public static string AlarmTransient {
+            get {
+                return ResourceManager.GetString("AlarmTransient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a The alarm will alert you before predicted hypoglycemia..
         /// </summary>
         public static string AlarmWillAlertBeforePredictedHypoglycemia {
@@ -504,7 +521,16 @@ namespace GlucoMan.Maui.Resources.Strings {
                 return ResourceManager.GetString("AppAboutParagrah3", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a The function of every button or entry box is explained by a 'tooltip' text. Keep the button or entry box pressed for a sufficient time to see the text popping out.
+        /// </summary>
+        public static string AppTooltipHint {
+            get {
+                return ResourceManager.GetString("AppTooltipHint", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Cerca una stringa localizzata simile a Apply.
         /// </summary>
@@ -614,11 +640,29 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Barcode.
+        /// </summary>
+        public static string Barcode {
+            get {
+                return ResourceManager.GetString("Barcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Barcode not found in local database or FatSecret..
         /// </summary>
         public static string BarcodeNotFoundAnywhere {
             get {
                 return ResourceManager.GetString("BarcodeNotFoundAnywhere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Barcode not found in the local database..
+        /// </summary>
+        public static string BarcodeNotFoundInLocalDatabase {
+            get {
+                return ResourceManager.GetString("BarcodeNotFoundInLocalDatabase", resourceCulture);
             }
         }
         
@@ -884,6 +928,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Calories [kCal].
+        /// </summary>
+        public static string CaloriesKCal {
+            get {
+                return ResourceManager.GetString("CaloriesKCal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Cancel.
         /// </summary>
         public static string Cancel {
@@ -1067,6 +1120,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a CHO.
+        /// </summary>
+        public static string CHO {
+            get {
+                return ResourceManager.GetString("CHO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Already ingested carbohydrates [g].
         /// </summary>
         public static string CHOAlreadyTaken {
@@ -1153,6 +1215,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string CHOLeftToTake {
             get {
                 return ResourceManager.GetString("CHOLeftToTake", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Cholest..
+        /// </summary>
+        public static string CholesterolShort {
+            get {
+                return ResourceManager.GetString("CholesterolShort", resourceCulture);
             }
         }
         
@@ -2066,6 +2137,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Do not confirm.
+        /// </summary>
+        public static string DoNotConfirm {
+            get {
+                return ResourceManager.GetString("DoNotConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Dose.
         /// </summary>
         public static string Dose {
@@ -2355,11 +2435,83 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Consumer Key (Client ID).
+        /// </summary>
+        public static string FatSecretClientId {
+            get {
+                return ResourceManager.GetString("FatSecretClientId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Client Secret (OAuth 2.0).
+        /// </summary>
+        public static string FatSecretClientSecret {
+            get {
+                return ResourceManager.GetString("FatSecretClientSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Enter the FatSecret keys at the bottom of the Settings page.
+        /// </summary>
+        public static string FatSecretConfigureInSettings {
+            get {
+                return ResourceManager.GetString("FatSecretConfigureInSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Consumer Secret (OAuth 1.0, for Login).
+        /// </summary>
+        public static string FatSecretConsumerSecret {
+            get {
+                return ResourceManager.GetString("FatSecretConsumerSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a FatSecret API keys.
+        /// </summary>
+        public static string FatSecretKeysTitle {
+            get {
+                return ResourceManager.GetString("FatSecretKeysTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Show more results.
+        /// </summary>
+        public static string FatSecretLoadMore {
+            get {
+                return ResourceManager.GetString("FatSecretLoadMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a {0} of {1} results.
+        /// </summary>
+        public static string FatSecretResultsCount {
+            get {
+                return ResourceManager.GetString("FatSecretResultsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Fiber.
         /// </summary>
         public static string Fiber {
             get {
                 return ResourceManager.GetString("Fiber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Fibers.
+        /// </summary>
+        public static string Fibers {
+            get {
+                return ResourceManager.GetString("Fibers", resourceCulture);
             }
         }
         
@@ -2436,6 +2588,33 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Food Description.
+        /// </summary>
+        public static string FoodDescription {
+            get {
+                return ResourceManager.GetString("FoodDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Food details.
+        /// </summary>
+        public static string FoodDetailsPageTitle {
+            get {
+                return ResourceManager.GetString("FoodDetailsPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Food info.
+        /// </summary>
+        public static string FoodInfo {
+            get {
+                return ResourceManager.GetString("FoodInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Food List.
         /// </summary>
         public static string FoodList {
@@ -2481,6 +2660,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Food&apos;s nutrition data.
+        /// </summary>
+        public static string FoodNutritionData {
+            get {
+                return ResourceManager.GetString("FoodNutritionData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Food.
         /// </summary>
         public static string FoodPageTitle {
@@ -2513,6 +2701,240 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string FoodsPageTitle {
             get {
                 return ResourceManager.GetString("FoodsPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Barcode or QR Code of the food.
+        /// </summary>
+        public static string FoodTipBarcodeValue {
+            get {
+                return ResourceManager.GetString("FoodTipBarcodeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Calories of food [kCal].
+        /// </summary>
+        public static string FoodTipCalories {
+            get {
+                return ResourceManager.GetString("FoodTipCalories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Carbohydrates of food [%].
+        /// </summary>
+        public static string FoodTipCarbohydrates {
+            get {
+                return ResourceManager.GetString("FoodTipCarbohydrates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a List of categories of food.
+        /// </summary>
+        public static string FoodTipCategoriesList {
+            get {
+                return ResourceManager.GetString("FoodTipCategoriesList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Food&apos;s Category.
+        /// </summary>
+        public static string FoodTipCategory {
+            get {
+                return ResourceManager.GetString("FoodTipCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Cholesterol in food [%].
+        /// </summary>
+        public static string FoodTipCholesterol {
+            get {
+                return ResourceManager.GetString("FoodTipCholesterol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Food&apos;s description.
+        /// </summary>
+        public static string FoodTipDescription {
+            get {
+                return ResourceManager.GetString("FoodTipDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Fibers in food [%].
+        /// </summary>
+        public static string FoodTipFibers {
+            get {
+                return ResourceManager.GetString("FoodTipFibers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Code of food.
+        /// </summary>
+        public static string FoodTipFoodCode {
+            get {
+                return ResourceManager.GetString("FoodTipFoodCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GlycemicIndex of food.
+        /// </summary>
+        public static string FoodTipGlycemicIndex {
+            get {
+                return ResourceManager.GetString("FoodTipGlycemicIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Grams cointained in one Unit of food.
+        /// </summary>
+        public static string FoodTipGramsInOneUnit {
+            get {
+                return ResourceManager.GetString("FoodTipGramsInOneUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Food&apos;s Manufacturer.
+        /// </summary>
+        public static string FoodTipManufacturer {
+            get {
+                return ResourceManager.GetString("FoodTipManufacturer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a List of filtered manufacturers.
+        /// </summary>
+        public static string FoodTipManufacturersList {
+            get {
+                return ResourceManager.GetString("FoodTipManufacturersList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Monounsaterated fats of food [%].
+        /// </summary>
+        public static string FoodTipMonounsaturatedFats {
+            get {
+                return ResourceManager.GetString("FoodTipMonounsaturatedFats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Food&apos;s name.
+        /// </summary>
+        public static string FoodTipName {
+            get {
+                return ResourceManager.GetString("FoodTipName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Total Net Weight of the Package content.
+        /// </summary>
+        public static string FoodTipPackageNetWeight {
+            get {
+                return ResourceManager.GetString("FoodTipPackageNetWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Unit of measurement of the content of the package.
+        /// </summary>
+        public static string FoodTipPackageUnit {
+            get {
+                return ResourceManager.GetString("FoodTipPackageUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Polyunsaturated fats of food [%].
+        /// </summary>
+        public static string FoodTipPolyunsaturatedFats {
+            get {
+                return ResourceManager.GetString("FoodTipPolyunsaturatedFats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Potassium in food [%].
+        /// </summary>
+        public static string FoodTipPotassium {
+            get {
+                return ResourceManager.GetString("FoodTipPotassium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Proteins in food [%].
+        /// </summary>
+        public static string FoodTipProteins {
+            get {
+                return ResourceManager.GetString("FoodTipProteins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Salt in food [%].
+        /// </summary>
+        public static string FoodTipSalt {
+            get {
+                return ResourceManager.GetString("FoodTipSalt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Measurement Unit of the sample of food.
+        /// </summary>
+        public static string FoodTipSampleUnit {
+            get {
+                return ResourceManager.GetString("FoodTipSampleUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Saturated fats of food [%].
+        /// </summary>
+        public static string FoodTipSaturatedFats {
+            get {
+                return ResourceManager.GetString("FoodTipSaturatedFats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Sugar in food [%].
+        /// </summary>
+        public static string FoodTipSugar {
+            get {
+                return ResourceManager.GetString("FoodTipSugar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Total fats of food [%].
+        /// </summary>
+        public static string FoodTipTotalFats {
+            get {
+                return ResourceManager.GetString("FoodTipTotalFats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a List of units used for this food.
+        /// </summary>
+        public static string FoodTipUnitsList {
+            get {
+                return ResourceManager.GetString("FoodTipUnitsList", resourceCulture);
             }
         }
         
@@ -2751,11 +3173,29 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Glyc.index.
+        /// </summary>
+        public static string GlycemicIndexShort {
+            get {
+                return ResourceManager.GetString("GlycemicIndexShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a grams.
         /// </summary>
         public static string Grams {
             get {
                 return ResourceManager.GetString("Grams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Grams/Unit.
+        /// </summary>
+        public static string GramsPerUnit {
+            get {
+                return ResourceManager.GetString("GramsPerUnit", resourceCulture);
             }
         }
         
@@ -2846,6 +3286,34 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Hours {
             get {
                 return ResourceManager.GetString("Hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Hypoglycemia alert!
+        ///Predicted glucose below {0} mg/dL.
+        /// </summary>
+        public static string HypoAlarmReminderFormat {
+            get {
+                return ResourceManager.GetString("HypoAlarmReminderFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a The alarm time ({0:D2}:{1:D2}) has already passed: check your glucose now.
+        /// </summary>
+        public static string HypoAlarmTimeAlreadyPassed {
+            get {
+                return ResourceManager.GetString("HypoAlarmTimeAlreadyPassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Calculate the prediction first: there is no alarm time yet.
+        /// </summary>
+        public static string HypoAlarmTimeNotAvailable {
+            get {
+                return ResourceManager.GetString("HypoAlarmTimeNotAvailable", resourceCulture);
             }
         }
         
@@ -2986,6 +3454,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string IdentificationPageTitle {
             get {
                 return ResourceManager.GetString("IdentificationPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Id food.
+        /// </summary>
+        public static string IdFood {
+            get {
+                return ResourceManager.GetString("IdFood", resourceCulture);
             }
         }
         
@@ -3960,6 +4437,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Mono u.fats.
+        /// </summary>
+        public static string MonounsaturatedFatsShort {
+            get {
+                return ResourceManager.GetString("MonounsaturatedFatsShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Monthly.
         /// </summary>
         public static string Monthly {
@@ -4349,6 +4835,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Poly fats.
+        /// </summary>
+        public static string PolyunsaturatedFatsShort {
+            get {
+                return ResourceManager.GetString("PolyunsaturatedFatsShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Position Already Set.
         /// </summary>
         public static string PositionAlreadySet {
@@ -4364,6 +4859,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string PositionAlreadySetMessage {
             get {
                 return ResourceManager.GetString("PositionAlreadySetMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Potass..
+        /// </summary>
+        public static string PotassiumShort {
+            get {
+                return ResourceManager.GetString("PotassiumShort", resourceCulture);
             }
         }
         
@@ -4436,6 +4940,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Protein {
             get {
                 return ResourceManager.GetString("Protein", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Proteins.
+        /// </summary>
+        public static string Proteins {
+            get {
+                return ResourceManager.GetString("Proteins", resourceCulture);
             }
         }
         
@@ -4670,6 +5183,24 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string Retry {
             get {
                 return ResourceManager.GetString("Retry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Salt.
+        /// </summary>
+        public static string Salt {
+            get {
+                return ResourceManager.GetString("Salt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Satur. fats.
+        /// </summary>
+        public static string SaturatedFatsShort {
+            get {
+                return ResourceManager.GetString("SaturatedFatsShort", resourceCulture);
             }
         }
         
@@ -5482,6 +6013,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Stored units.
+        /// </summary>
+        public static string StoredUnits {
+            get {
+                return ResourceManager.GetString("StoredUnits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Success.
         /// </summary>
         public static string Success {
@@ -5703,7 +6243,8 @@ namespace GlucoMan.Maui.Resources.Strings {
         ///Previous: {0}  ({1})
         ///Detected: {2}  ({3})
         ///
-        ///Do you want to update the time zone setting?.
+        ///Do you want to update the configured country and time zone?
+        ///(Data are always saved with the actual time of the device.).
         /// </summary>
         public static string TimeZoneChangedPrompt {
             get {
@@ -5793,6 +6334,33 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Plus: create a new category.
+        /// </summary>
+        public static string TooltipAddCategory {
+            get {
+                return ResourceManager.GetString("TooltipAddCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Plus: creates a new manufacturer.
+        /// </summary>
+        public static string TooltipAddManufacturer {
+            get {
+                return ResourceManager.GetString("TooltipAddManufacturer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Plus: adds a unit for this food.
+        /// </summary>
+        public static string TooltipAddUnitToFood {
+            get {
+                return ResourceManager.GetString("TooltipAddUnitToFood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Time advance: time of anticipated alarm, with respect to the alarm value time [min].
         /// </summary>
         public static string TooltipAlarmAdvanceTime {
@@ -5861,6 +6429,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string TooltipAlarmState {
             get {
                 return ResourceManager.GetString("TooltipAlarmState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a The alarm is deleted from the list as soon as it is dismissed.
+        /// </summary>
+        public static string TooltipAlarmTransient {
+            get {
+                return ResourceManager.GetString("TooltipAlarmTransient", resourceCulture);
             }
         }
         
@@ -6477,7 +7054,7 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Save: saves the data of the current injection.
+        ///   Cerca una stringa localizzata simile a Save: saves the data of the current food.
         /// </summary>
         public static string TooltipFoodSaveButton {
             get {
@@ -7224,6 +7801,33 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Minus: deletes the selected category.
+        /// </summary>
+        public static string TooltipRemoveCategory {
+            get {
+                return ResourceManager.GetString("TooltipRemoveCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Minus: deletes the selected manufacturer.
+        /// </summary>
+        public static string TooltipRemoveManufacturer {
+            get {
+                return ResourceManager.GetString("TooltipRemoveManufacturer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Minus: deletes the selected unit from this food.
+        /// </summary>
+        public static string TooltipRemoveUnitFromFood {
+            get {
+                return ResourceManager.GetString("TooltipRemoveUnitFromFood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Restart time: interval in minutes after which an alarm that was not dismissed restarts ringing.
         /// </summary>
         public static string TooltipRepetitionTime {
@@ -7319,6 +7923,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string TooltipSaveSettings {
             get {
                 return ResourceManager.GetString("TooltipSaveSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Search food data in FatSecret database.
+        /// </summary>
+        public static string TooltipSearchFoodInFatSecret {
+            get {
+                return ResourceManager.GetString("TooltipSearchFoodInFatSecret", resourceCulture);
             }
         }
         
@@ -7427,6 +8040,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string TooltipShowExpiredAlarms {
             get {
                 return ResourceManager.GetString("TooltipShowExpiredAlarms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Show or hide the key.
+        /// </summary>
+        public static string TooltipShowOrHideKey {
+            get {
+                return ResourceManager.GetString("TooltipShowOrHideKey", resourceCulture);
             }
         }
         
@@ -7715,6 +8337,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string TotalExclEmbarked {
             get {
                 return ResourceManager.GetString("TotalExclEmbarked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Total fats.
+        /// </summary>
+        public static string TotalFats {
+            get {
+                return ResourceManager.GetString("TotalFats", resourceCulture);
             }
         }
         
@@ -8425,6 +9056,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Warning: if you confirm, this unit will become applicable to every food.
+        /// </summary>
+        public static string UnitApplicableToAllWarning {
+            get {
+                return ResourceManager.GetString("UnitApplicableToAllWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a units.
         /// </summary>
         public static string Units {
@@ -8731,6 +9371,15 @@ namespace GlucoMan.Maui.Resources.Strings {
         public static string WeighThePortion {
             get {
                 return ResourceManager.GetString("WeighThePortion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Weight of Content.
+        /// </summary>
+        public static string WeightOfContent {
+            get {
+                return ResourceManager.GetString("WeightOfContent", resourceCulture);
             }
         }
         

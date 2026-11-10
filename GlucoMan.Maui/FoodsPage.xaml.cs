@@ -413,6 +413,7 @@ public partial class FoodsPage : ContentPage
                 return;
             }
 
+#if FATSECRET
             // 2. Not in local DB: try FatSecret.
             await DisplayAlert("", AppStrings.SearchingFatSecretForBarcode, AppStrings.OK);
 
@@ -473,6 +474,9 @@ public partial class FoodsPage : ContentPage
                 cmbUnit.SelectedIndex = 0;
             allFoods = new List<Food> { newFood };
             gridFoods.ItemsSource = allFoods;
+#else
+            await DisplayAlert(AppStrings.Error, AppStrings.BarcodeNotFoundInLocalDatabase, AppStrings.OK);
+#endif
         }
         catch (Exception ex)
         {

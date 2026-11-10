@@ -1,3 +1,4 @@
+using System.Globalization;
 using gamon;
 using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
@@ -13,10 +14,19 @@ public partial class FoodPage : ContentPage
     public Task<bool> PageClosedTask => _taskCompletionSource?.Task ?? Task.FromResult(false);
     public bool FoodIsChosen { get; private set; }
     private bool _hasUnsavedBarcode;
+    private Entry _lastFocusedNumericEntry;
+    // true while the pickers are being (re)loaded by the code: in this phase the
+    // SelectedIndexChanged handlers must not copy the picker's selection into the food
+    private bool _loadingPickers;
 
     internal FoodPage(Food Food)
     {
         InitializeComponent();
+#if FATSECRET
+        btnFatSecret.IsVisible = true;
+        btnFatSecret.IsEnabled = true;
+#endif
+        RegisterNumericEntryFocusTracking();
         FoodIsChosen = false;
         CurrentFood = Food;
         _taskCompletionSource = new TaskCompletionSource<bool>();
@@ -28,33 +38,63 @@ public partial class FoodPage : ContentPage
         //    blMeal.UpdateNutrientsDataWithNewUnit();
         //}
 
-        // bind to cmbUnit the units of this food, retrieved from the business layer
-        cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(Food);
-        cmbUnit.ItemDisplayBinding = new Binding("Symbol");
-        if (cmbUnit.Items.Count > 0)
-            cmbUnit.SelectedIndex = 0;
-
+        LoadUnitPicker();
         LoadManufacturerPicker();
         LoadCategoryPicker();
         LoadContentUnitPicker();
     }
 
+    // The pickers of unit, manufacturer and category are lists of suggestions for the entries
+    // beside them: the field of the food is a free string, that can only be copied from the
+    // picker when the user chooses an item. For this reason (re)loading a picker never
+    // selects the value of the food and never changes the food.
+
+    // Binds to cmbUnit the units of this food, retrieved from the business layer, with no selection
+    private void LoadUnitPicker()
+    {
+        _loadingPickers = true;
+        try
+        {
+            cmbUnit.ItemDisplayBinding = new Binding("Symbol");
+            cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(CurrentFood);
+            cmbUnit.SelectedIndex = -1;
+        }
+        finally
+        {
+            _loadingPickers = false;
+        }
+    }
+
     private void LoadManufacturerPicker()
     {
-        var manufacturers = bl.GetAllManufacturersOfOneFood(CurrentFood);
-        manufacturers.Insert(0, new Manufacturer());
-        cmbManufacturer.ItemDisplayBinding = new Binding("Name");
-        cmbManufacturer.ItemsSource = manufacturers;
-        cmbManufacturer.SelectedIndex = 0;
+        _loadingPickers = true;
+        try
+        {
+            cmbManufacturer.ItemDisplayBinding = new Binding("Name");
+            cmbManufacturer.ItemsSource = bl.GetManufacturersForPicker();
+            // the first item is blank
+            cmbManufacturer.SelectedIndex = 0;
+        }
+        finally
+        {
+            _loadingPickers = false;
+        }
     }
 
     private void LoadCategoryPicker()
     {
-        var categories = bl.GetAllCategoriesOfOneFood(CurrentFood);
-        categories.Insert(0, new CategoryOfFood());
-        cmbCategory.ItemDisplayBinding = new Binding("Name");
-        cmbCategory.ItemsSource = categories;
-        cmbCategory.SelectedIndex = 0;
+        _loadingPickers = true;
+        try
+        {
+            cmbCategory.ItemDisplayBinding = new Binding("Name");
+            cmbCategory.ItemsSource = bl.GetCategoriesForPicker();
+            // the first item is blank
+            cmbCategory.SelectedIndex = 0;
+        }
+        finally
+        {
+            _loadingPickers = false;
+        }
     }
 
     private void LoadContentUnitPicker()
@@ -95,6 +135,7 @@ public partial class FoodPage : ContentPage
   return;
    }
 
+        // saving the food never adds its manufacturer or category to their lists
         FoodIsChosen = true;
         bl.SaveOneFood(food);
         _hasUnsavedBarcode = false;
@@ -176,33 +217,19 @@ public partial class FoodPage : ContentPage
     }
     private void btnAddFoodManufacturer_Clicked(object sender, EventArgs e)
     {
-        string manufacturerName = txtFoodManufacturer.Text?.Trim();
-        if (string.IsNullOrEmpty(manufacturerName))
-            return;
-
-        // Case-insensitive duplicate check against the currently loaded list
-        if (cmbManufacturer.ItemsSource is IEnumerable<Manufacturer> existing &&
-            existing.Any(m => string.Equals(m.Name, manufacturerName, StringComparison.OrdinalIgnoreCase)))
-            return;
-
-        bl.AddManufacturerToCurrentFood(new Manufacturer(manufacturerName), CurrentFood);
-        LoadManufacturerPicker();
+        // adds the text of the entry to the list of the manufacturers (if it is not already there);
+        // the food is not changed: it is written in the database only with the Save button
+        if (bl.AddManufacturerToList(txtFoodManufacturer.Text))
+            LoadManufacturerPicker();
     }
     private void btnCategory_Clicked(object sender, EventArgs e)
     {
         try
         {
-            string newCategoryName = txtCategory.Text?.Trim();
-            if (string.IsNullOrEmpty(newCategoryName))
-                return;
-
-            // Case-insensitive duplicate check against the currently loaded list
-            if (cmbCategory.ItemsSource is IEnumerable<CategoryOfFood> existing &&
-                existing.Any(c => string.Equals(c.Name, newCategoryName, StringComparison.OrdinalIgnoreCase)))
-                return;
-
-            bl.AddCategoryToCurrentFood(new CategoryOfFood(newCategoryName), CurrentFood);
-            LoadCategoryPicker();
+            // adds the text of the entry to the list of the categories (if it is not already there);
+            // the food is not changed: it is written in the database only with the Save button
+            if (bl.AddCategoryToList(txtCategory.Text))
+                LoadCategoryPicker();
         }
         catch (Exception ex)
         {
@@ -220,9 +247,10 @@ public partial class FoodPage : ContentPage
         double gramsPerUnit = gramsPerUnitNullable.Value;
         UnitOfFood unit = new UnitOfFood(txtUnit.Text, gramsPerUnit);
         // ask the user if the unit is applicable to the current food or to all foods
-        bool isApplicableToAllFoods = await DisplayAlert(AppStrings.UnitApplicabilityTitle,
-            AppStrings.UnitApplicabilityMessage, AppStrings.UnitApplicabilityAll, AppStrings.UnitApplicabilityThis);
-        if (!isApplicableToAllFoods)
+        bool? isApplicableToAllFoods = await AskUnitApplicability();
+        if (isApplicableToAllFoods == null)
+            return;
+        if (isApplicableToAllFoods == false)
         {
             unit.IdFood = CurrentFood.IdFood;
         }
@@ -244,8 +272,28 @@ public partial class FoodPage : ContentPage
             await DisplayAlert("", AppStrings.UnitSaveFailedMessage, AppStrings.OK);
             return;
         }
-        cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood((Food)this.BindingContext);
+        LoadUnitPicker();
         LoadContentUnitPicker();
+    }
+    // Returns true if the unit is for all the foods, false if it is only for this one,
+    // null if the user cancels. The choice of all the foods has to be confirmed:
+    // without confirmation the question is asked again
+    private async Task<bool?> AskUnitApplicability()
+    {
+        while (true)
+        {
+            string choice = await DisplayActionSheet(
+                AppStrings.UnitApplicabilityTitle + "\n" + AppStrings.UnitApplicabilityMessage,
+                AppStrings.Cancel, null,
+                AppStrings.UnitApplicabilityAll, AppStrings.UnitApplicabilityThis);
+            if (choice == AppStrings.UnitApplicabilityThis)
+                return false;
+            if (choice != AppStrings.UnitApplicabilityAll)
+                return null;
+            if (await DisplayAlert(AppStrings.UnitApplicabilityTitle, AppStrings.UnitApplicableToAllWarning,
+                AppStrings.Confirm, AppStrings.DoNotConfirm))
+                return true;
+        }
     }
     private async void btnRemoveUnit_Clicked(object sender, EventArgs e)
     {
@@ -262,35 +310,39 @@ public partial class FoodPage : ContentPage
         }
         bl.RemoveUnitFromFoodsUnits(selected);
         // Refresh both pickers
-        cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(CurrentFood);
+        LoadUnitPicker();
         LoadContentUnitPicker();
     }
+    // deletes the selected item from the list of the manufacturers;
+    // all the foods, including the one in the page, remain untouched
     private void btnRemoveFoodManufacturer_Clicked(object sender, EventArgs e)
     {
         if (cmbManufacturer.SelectedItem is not Manufacturer selected || string.IsNullOrEmpty(selected.Name))
             return;
-        bl.DeleteManufacturer(selected);
-        if (string.Equals(CurrentFood.Manufacturer, selected.Name, StringComparison.OrdinalIgnoreCase))
-            txtFoodManufacturer.Text = "";
+        bl.DeleteManufacturerFromList(selected);
         LoadManufacturerPicker();
     }
+    // deletes the selected item from the list of the categories;
+    // all the foods, including the one in the page, remain untouched
     private void btnRemoveFoodCategory_Clicked(object sender, EventArgs e)
     {
         if (cmbCategory.SelectedItem is not CategoryOfFood selected || string.IsNullOrEmpty(selected.Name))
             return;
-        bl.DeleteCategoryOfFood(selected);
-        if (string.Equals(CurrentFood.Category, selected.Name, StringComparison.OrdinalIgnoreCase))
-            txtCategory.Text = "";
+        bl.DeleteCategoryFromList(selected);
         LoadCategoryPicker();
     }
     private void cmbManufacturer_SelectedIndexChanged(object sender, EventArgs e)
     {
+        if (_loadingPickers)
+            return;
         if (cmbManufacturer.SelectedItem is Manufacturer m && !string.IsNullOrEmpty(m.Name))
             txtFoodManufacturer.Text = m.Name;
     }
 
     private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
     {
+        if (_loadingPickers)
+            return;
         if (cmbCategory.SelectedItem is CategoryOfFood cat && !string.IsNullOrEmpty(cat.Name))
             txtCategory.Text = cat.Name;
     }
@@ -321,6 +373,8 @@ public partial class FoodPage : ContentPage
     }
     private void cmbUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
+        if (_loadingPickers)
+            return;
         if (cmbUnit.SelectedItem is UnitOfFood unit && !string.IsNullOrEmpty(unit.Symbol))
         {
             CurrentFood.UnitSymbol = unit.Symbol;
@@ -331,6 +385,81 @@ public partial class FoodPage : ContentPage
     private void txtGramsPerUnit_TextChanged(object sender, TextChangedEventArgs e)
     {
 
+    }
+
+    private async void btnCalculator_Clicked(object sender, EventArgs e)
+    {
+        var focusedEntry = GetFocusedNumericEntry() ?? txtFoodCarbohydrates;
+        if (focusedEntry == null)
+            return;
+
+        double initialValue = 0;
+        if (!TryParseNumericValue(focusedEntry.Text, out initialValue))
+            initialValue = 0;
+
+        var calculator = new CalculatorPage(initialValue);
+        await Navigation.PushModalAsync(calculator);
+        var result = await calculator.ResultSource.Task;
+
+        if (result.HasValue)
+        {
+            focusedEntry.Text = result.Value.ToString(CultureInfo.CurrentCulture);
+            _lastFocusedNumericEntry = focusedEntry;
+        }
+    }
+
+    private void RegisterNumericEntryFocusTracking()
+    {
+        foreach (var entry in GetNumericEntries())
+        {
+            if (entry != null)
+                entry.Focused += NumericEntry_Focused;
+        }
+    }
+
+    private void NumericEntry_Focused(object sender, FocusEventArgs e)
+    {
+        if (sender is Entry entry)
+            _lastFocusedNumericEntry = entry;
+    }
+
+    private Entry[] GetNumericEntries()
+    {
+        return new Entry[]
+        {
+            txtCalories,
+            txtTotalFats,
+            txtSaturatedFats,
+            txtMonounsaturatedFats,
+            txtPolyunsaturatedFats,
+            txtFoodCarbohydrates,
+            txtSugar,
+            txtFibers,
+            txtProteins,
+            txtSalt,
+            txtCholesterol,
+            txtPotassium,
+            txtGlycemicIndex,
+            txtGramsPerUnit,
+            txtContentWeight
+        };
+    }
+
+    private Entry GetFocusedNumericEntry()
+    {
+        foreach (var entry in GetNumericEntries())
+        {
+            if (entry != null && entry.IsFocused)
+                return entry;
+        }
+
+        return _lastFocusedNumericEntry;
+    }
+
+    private static bool TryParseNumericValue(string text, out double value)
+    {
+        return double.TryParse(text, NumberStyles.Float, CultureInfo.CurrentCulture, out value)
+            || double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
     }
 
     private async void btnFatSecret_Clicked(object sender, EventArgs e)
@@ -378,9 +507,7 @@ public partial class FoodPage : ContentPage
                 this.BindingContext = null;
                 this.BindingContext = CurrentFood;
                 _hasUnsavedBarcode = false;
-                cmbUnit.ItemsSource = bl.GetAllUnitsOfOneFood(CurrentFood);
-                if (cmbUnit.Items.Count > 0)
-                    cmbUnit.SelectedIndex = 0;
+                LoadUnitPicker();
                 LoadManufacturerPicker();
                 LoadCategoryPicker();
             }
@@ -408,22 +535,14 @@ public partial class FoodPage : ContentPage
         if (!string.IsNullOrEmpty(fatSecretFood.Description))
             CurrentFood.Description = fatSecretFood.Description;
 
-        // Brand / Manufacturer
+        // Brand / Manufacturer and food category (food_sub_categories from FatSecret,
+        // e.g. "Dairy Products"): they are copied only into the fields of the food, as if the
+        // user had typed them; they get into the lists of the pickers only with the "+" buttons
         if (!string.IsNullOrEmpty(fatSecretFood.BrandName))
-        {
             CurrentFood.Manufacturer = fatSecretFood.BrandName;
-            // Register the manufacturer in the DB so it appears in the picker
-            bl.AddManufacturerToCurrentFood(new Manufacturer(fatSecretFood.BrandName), CurrentFood);
-            LoadManufacturerPicker();
-        }
 
-        // Food category (food_sub_categories from FatSecret, e.g. "Dairy Products")
         if (!string.IsNullOrEmpty(fatSecretFood.Category))
-        {
             CurrentFood.Category = fatSecretFood.Category;
-            bl.AddCategoryToCurrentFood(new CategoryOfFood(fatSecretFood.Category), CurrentFood);
-            LoadCategoryPicker();
-        }
 
         if (fatSecretFood.Calories.HasValue)
             CurrentFood.Energy.Double = fatSecretFood.Calories;

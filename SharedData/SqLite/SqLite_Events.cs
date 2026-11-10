@@ -1,4 +1,4 @@
-using gamon;
+﻿using gamon;
 using Microsoft.Data.Sqlite;
 using System.Data.Common;
 using GlucoMan;
@@ -56,11 +56,12 @@ namespace GlucoMan
                     {
                         insertCmd.Transaction = tran;
 
-                        insertCmd.CommandText = "INSERT INTO Events (IdEvent, EventTime, Notes) VALUES (@id,@ts,@notes);";
+                        insertCmd.CommandText = "INSERT INTO Events (IdEvent, EventTime, Notes, UtcOffset) VALUES (@id,@ts,@notes,@UtcOffset);";
 
                         var pIdIns = insertCmd.CreateParameter(); pIdIns.ParameterName = "@id"; pIdIns.DbType = DbType.Int32; insertCmd.Parameters.Add(pIdIns);
                         var pTsIns = insertCmd.CreateParameter(); pTsIns.ParameterName = "@ts"; pTsIns.DbType = DbType.DateTime; insertCmd.Parameters.Add(pTsIns);
                         var pNotesIns = insertCmd.CreateParameter(); pNotesIns.ParameterName = "@notes"; pNotesIns.DbType = DbType.String; insertCmd.Parameters.Add(pNotesIns);
+                        var pUtcOffsetIns = insertCmd.CreateParameter(); pUtcOffsetIns.ParameterName = "@UtcOffset"; pUtcOffsetIns.DbType = DbType.Double; insertCmd.Parameters.Add(pUtcOffsetIns);
 
                         try { insertCmd.Prepare(); } catch { }
 
@@ -75,6 +76,7 @@ namespace GlucoMan
                                 pIdIns.Value = currentKey;
                                 pTsIns.Value = evt?.EventTime?.DateTime ?? (object)DBNull.Value;
                                 pNotesIns.Value = string.IsNullOrEmpty(evt?.Notes) ? (object)DBNull.Value : evt.Notes;
+                                pUtcOffsetIns.Value = Common.GetActualUtcOffsetForLocalTime(evt?.EventTime?.DateTime);
                                 insertCmd.ExecuteNonQuery();
                                 evt.IdEvent = currentKey;
                                 currentKey++;
@@ -134,11 +136,12 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "INSERT INTO Events " +
-                "(IdEvent, EventTime, Notes) " +
+                "(IdEvent, EventTime, Notes, UtcOffset) " +
                     "VALUES (" +
                      SqliteSafe.Int(evt.IdEvent) + "," +
                    SqliteSafe.Date(evt.EventTime?.DateTime) + "," +
-                     SqliteSafe.String(evt.Notes) + ");";
+                     SqliteSafe.String(evt.Notes) + "," +
+                     SqliteSafe.Double(Common.GetActualUtcOffsetForLocalTime(evt.EventTime?.DateTime)) + ");";
 
                     cmd.CommandText = query;
                     cmd.ExecuteNonQuery();
@@ -165,7 +168,8 @@ namespace GlucoMan
                 {
                     DbCommand cmd = conn.CreateCommand();
                     string query = "UPDATE Events SET " +
-                            "EventTime=" + SqliteSafe.Date(evt.EventTime?.DateTime) + "," +   
+                            "EventTime=" + SqliteSafe.Date(evt.EventTime?.DateTime) + "," +
+                            "UtcOffset=" + SqliteSafe.Double(Common.GetActualUtcOffsetForLocalTime(evt.EventTime?.DateTime)) + "," +
                             "Notes=" + SqliteSafe.String(evt.Notes) +
                             " WHERE IdEvent=" + SqliteSafe.Int(evt.IdEvent) + ";";
 

@@ -1,4 +1,4 @@
-using gamon;
+﻿using gamon;
 using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
 using static GlucoMan.Common;
@@ -205,7 +205,7 @@ public partial class MealsPage : ContentPage
             bl.Meal.TimeEnd.DateTime = instant;
         }
 
-        bl.Meal.UtcOffset = Common.CurrentTimeZone;
+        bl.Meal.UtcOffset = Common.GetActualUtcOffsetForLocalTime(bl.Meal.EventTime?.DateTime);
         bl.Meal.CarbohydratesGrams.Text = txtChoOfMeal.Text;
         bl.Meal.AccuracyOfChoEstimate.Text = txtAccuracyOfChoMeal.Text;
         bl.Meal.IdTypeOfMeal = SetTypeOfMealBasedOnRadioButtons();

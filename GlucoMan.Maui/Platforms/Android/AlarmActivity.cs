@@ -1,15 +1,20 @@
-#if ANDROID
+﻿#if ANDROID
 using Android.App;
 using Android.Content;
-using Android.Media;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Activity;
 using AndroidX.AppCompat.App;
+using AndroidX.Core.App;
 using GlucoMan.Maui.Resources.Strings;
 
 namespace GlucoMan.Maui.Platforms.Android
 {
+    /// <summary>
+    /// Full screen page of a ringing alarm. The ringing belongs to AlarmRingService:
+    /// this page shows the alarm, lets the user choose the delay and passes on the answer.
+    /// </summary>
     [Activity(
         Label = "GlucoMan Alarm",
         Theme = "@style/Theme.AppCompat.NoActionBar",
@@ -19,18 +24,39 @@ namespace GlucoMan.Maui.Platforms.Android
         Name = "GlucoMan.Maui.Platforms.Android.AlarmActivity")]
     public class AlarmActivity : AppCompatActivity
     {
-        private MediaPlayer? _mediaPlayer;
-        private Vibrator? _vibrator;
         private int _alarmId;
         private string _reminderText = "";
         private bool _shouldVibrate;
         private bool _shouldPlaySound;
         private string? _soundPath;
-        private PowerManager.WakeLock? _wakeLock;
+        private int _snoozeMinutes = Alarm.DefaultSnoozeMinutes;
+        private TextView? _txtSnoozeMinutes;
+        private TextView? _txtMessage;
+        private global::Android.Widget.Button? _btnSuspend;
+
+        /// <summary>
+        /// Creates the intent that shows this page. The same intent is used by all the
+        /// ways of reaching the page, so it always has what it needs to answer correctly.
+        /// </summary>
+        public static Intent CreateIntent(Context context, int alarmId, string reminderText,
+            bool vibrate, bool playSound, string? soundPath)
+        {
+            var intent = new Intent(context, typeof(AlarmActivity));
+            intent.SetFlags(ActivityFlags.NewTask);
+            intent.PutExtra("AlarmId", alarmId);
+            intent.PutExtra("ReminderText", reminderText);
+            intent.PutExtra("Vibrate", vibrate);
+            intent.PutExtra("PlaySound", playSound);
+            intent.PutExtra("SoundPath", soundPath ?? "");
+            return intent;
+        }
 
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            // The back gesture must not hide the alarm: the user has to choose a button
+            OnBackPressedDispatcher.AddCallback(this, new IgnoreBackCallback());
 
             // Make this activity show over lock screen and turn on screen
             if (Build.VERSION.SdkInt >= BuildVersionCodes.OMr1)
@@ -50,18 +76,6 @@ namespace GlucoMan.Maui.Platforms.Android
 #pragma warning restore CS0618
             }
 
-            // Acquire wake lock to keep CPU running
-            PowerManager? powerManager = (PowerManager?)GetSystemService(PowerService);
-            _wakeLock = powerManager?.NewWakeLock(WakeLockFlags.Partial | WakeLockFlags.AcquireCausesWakeup, "GlucoMan::AlarmWakeLock");
-            _wakeLock?.Acquire(10 * 60 * 1000L); // 10 minutes max
-
-            // Get alarm data from intent
-            _alarmId = Intent?.GetIntExtra("AlarmId", 0) ?? 0;
-            _reminderText = Intent?.GetStringExtra("ReminderText") ?? "Alarm";
-            _shouldVibrate = Intent?.GetBooleanExtra("Vibrate", false) ?? false;
-            _shouldPlaySound = Intent?.GetBooleanExtra("PlaySound", true) ?? true;
-            _soundPath = Intent?.GetStringExtra("SoundPath");
-
             SetContentView(GlucoMan.Maui.Resource.Layout.alarm_activity);
 
             // Setup UI - Use reflection to get resource IDs
@@ -71,21 +85,22 @@ namespace GlucoMan.Maui.Platforms.Android
             int btnStopId = GetResourceId("btnStop", "id");
             int btnSuspendId = GetResourceId("btnSuspend", "id");
             int btnSnoozeId = GetResourceId("btnSnooze", "id");
-            int btnSnooze15Id = GetResourceId("btnSnooze15", "id");
+            int btnSnoozeUpId = GetResourceId("btnSnoozeUp", "id");
+            int btnSnoozeDownId = GetResourceId("btnSnoozeDown", "id");
+            int txtSnoozeMinutesId = GetResourceId("txtSnoozeMinutes", "id");
 
             var txtTitle = FindViewById<TextView>(txtTitleId);
-            var txtMessage = FindViewById<TextView>(txtMessageId);
+            _txtMessage = FindViewById<TextView>(txtMessageId);
             var txtInstructions = FindViewById<TextView>(txtInstructionsId);
             var btnStop = FindViewById<global::Android.Widget.Button>(btnStopId);
-            var btnSuspend = FindViewById<global::Android.Widget.Button>(btnSuspendId);
+            _btnSuspend = FindViewById<global::Android.Widget.Button>(btnSuspendId);
             var btnSnooze = FindViewById<global::Android.Widget.Button>(btnSnoozeId);
-            var btnSnooze15 = FindViewById<global::Android.Widget.Button>(btnSnooze15Id);
+            var btnSnoozeUp = FindViewById<global::Android.Widget.Button>(btnSnoozeUpId);
+            var btnSnoozeDown = FindViewById<global::Android.Widget.Button>(btnSnoozeDownId);
+            _txtSnoozeMinutes = FindViewById<TextView>(txtSnoozeMinutesId);
 
             if (txtTitle != null)
                 txtTitle.Text = AppStrings.GlucoManAlarm;
-
-            if (txtMessage != null)
-                txtMessage.Text = _reminderText;
 
             if (txtInstructions != null)
                 txtInstructions.Text = AppStrings.AlarmSwipeInstructions;
@@ -93,329 +108,121 @@ namespace GlucoMan.Maui.Platforms.Android
             if (btnStop != null)
             {
                 btnStop.Text = AppStrings.AlarmStopButtonShort;
-                btnStop.Click += BtnStop_Click;
+                btnStop.Click += (s, e) => AnswerAlarm(AlarmRingService.ActionStop);
             }
 
-            if (btnSuspend != null)
+            if (_btnSuspend != null)
             {
-                btnSuspend.Text = AppStrings.AlarmSuspendButtonShort;
-                btnSuspend.Click += BtnSuspend_Click;
+                _btnSuspend.Text = AppStrings.AlarmSuspendButtonShort;
+                _btnSuspend.Click += (s, e) => AnswerAlarm(AlarmRingService.ActionDismiss);
             }
 
             if (btnSnooze != null)
             {
                 btnSnooze.Text = AppStrings.AlarmSnoozeButtonShort;
-                btnSnooze.Click += BtnSnooze_Click;
+                btnSnooze.Click += (s, e) => AnswerAlarm(AlarmRingService.ActionSnooze);
             }
 
-            if (btnSnooze15 != null)
-            {
-                btnSnooze15.Text = "Snooze\n15 min";
-                btnSnooze15.Click += BtnSnooze15_Click;
-            }
+            if (btnSnoozeUp != null)
+                btnSnoozeUp.Click += (s, e) => ChangeSnoozeMinutes(up: true);
 
-            // Start sound and vibration
-            StartAlarmSound();
-            StartVibration();
+            if (btnSnoozeDown != null)
+                btnSnoozeDown.Click += (s, e) => ChangeSnoozeMinutes(up: false);
+
+            ShowAlarm(Intent);
+
+            AlarmRingService.RingingEnded += OnRingingEnded;
         }
 
-        private void StartAlarmSound()
+        // This page has a single instance: another alarm that rings arrives here
+        protected override void OnNewIntent(Intent? intent)
         {
-            if (!_shouldPlaySound) return;
-
-            try
-            {
-                _mediaPlayer = new MediaPlayer();
-
-                // Try custom sound first
-                if (!string.IsNullOrEmpty(_soundPath) && File.Exists(_soundPath))
-                {
-                    _mediaPlayer.SetDataSource(_soundPath);
-                }
-                else
-                {
-                    // Use default alarm sound
-                    var alarmUri = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
-                    if (alarmUri == null)
-                        alarmUri = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
-                    
-                    if (alarmUri != null)
-                        _mediaPlayer.SetDataSource(this, alarmUri);
-                }
-
-                _mediaPlayer.SetAudioAttributes(
-                    new AudioAttributes.Builder()
-                        .SetUsage(AudioUsageKind.Alarm)
-                        .SetContentType(AudioContentType.Music)
-                        .Build()
-                );
-
-                _mediaPlayer.Looping = true;
-                _mediaPlayer.SetVolume(1.0f, 1.0f); // Max volume
-                _mediaPlayer.Prepare();
-                _mediaPlayer.Start();
-            }
-            catch (Exception ex)
-            {
-                global::System.Diagnostics.Debug.WriteLine($"Error starting alarm sound: {ex.Message}");
-            }
+            base.OnNewIntent(intent);
+            Intent = intent;
+            ShowAlarm(intent);
         }
 
-        private void StartVibration()
+        private void ShowAlarm(Intent? intent)
         {
-            if (!_shouldVibrate) return;
+            // Get alarm data from intent
+            _alarmId = intent?.GetIntExtra("AlarmId", 0) ?? 0;
+            _reminderText = intent?.GetStringExtra("ReminderText") ?? "Alarm";
+            _shouldVibrate = intent?.GetBooleanExtra("Vibrate", false) ?? false;
+            _shouldPlaySound = intent?.GetBooleanExtra("PlaySound", true) ?? true;
+            _soundPath = intent?.GetStringExtra("SoundPath");
 
-            try
-            {
-                _vibrator = (Vibrator?)GetSystemService(VibratorService);
-                
-                if (_vibrator != null && _vibrator.HasVibrator)
-                {
-                    // Vibration pattern: wait 0ms, vibrate 1000ms, wait 500ms, vibrate 1000ms, repeat
-                    long[] pattern = { 0, 1000, 500, 1000, 500 };
+            // The notification that replaces this page when it can't start isn't needed anymore
+            NotificationManagerCompat.From(this).Cancel(_alarmId);
 
-                    if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-                    {
-                        _vibrator.Vibrate(VibrationEffect.CreateWaveform(pattern, 0));
-                    }
-                    else
-                    {
-#pragma warning disable CS0618
-                        _vibrator.Vibrate(pattern, 0);
-#pragma warning restore CS0618
-                    }
-                }
-            }
-            catch (Exception ex)
+            Alarm? alarm = ReadAlarm();
+            _snoozeMinutes = alarm?.GetSnoozeMinutes() ?? Alarm.DefaultSnoozeMinutes;
+            ShowSnoozeMinutes();
+
+            if (_txtMessage != null)
+                _txtMessage.Text = _reminderText;
+
+            // A transient alarm has no sequence to suspend: Stop already ends it
+            if (_btnSuspend != null)
+                _btnSuspend.Visibility = alarm?.IsTransient == true ? ViewStates.Gone : ViewStates.Visible;
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            // An alarm shown without sound is what remains if the process has been killed
+            // while ringing, or if this page was reached from the backup notification
+            if (!AlarmRingService.IsRinging && !IsFinishing)
             {
-                global::System.Diagnostics.Debug.WriteLine($"Error starting vibration: {ex.Message}");
+                StartForegroundService(AlarmRingService.CreateIntent(this, AlarmRingService.ActionRing,
+                    _alarmId, _reminderText, _shouldVibrate, _shouldPlaySound, _soundPath));
             }
         }
 
-        private void StopAlarmSound()
+        private void ChangeSnoozeMinutes(bool up)
         {
-            try
-            {
-                if (_mediaPlayer != null)
-                {
-                    if (_mediaPlayer.IsPlaying)
-                    {
-                        _mediaPlayer.Stop();
-                    }
-                    _mediaPlayer.Release();
-                    _mediaPlayer = null;
-                }
-            }
-            catch (Exception ex)
-            {
-                global::System.Diagnostics.Debug.WriteLine($"Error stopping alarm sound: {ex.Message}");
-            }
+            _snoozeMinutes = Alarm.StepSnoozeMinutes(_snoozeMinutes, up);
+            ShowSnoozeMinutes();
         }
 
-        private void StopVibration()
+        private void ShowSnoozeMinutes()
         {
-            try
-            {
-                if (_vibrator != null)
-                {
-                    _vibrator.Cancel();
-                    _vibrator = null;
-                }
-            }
-            catch (Exception ex)
-            {
-                global::System.Diagnostics.Debug.WriteLine($"Error stopping vibration: {ex.Message}");
-            }
+            if (_txtSnoozeMinutes != null)
+                _txtSnoozeMinutes.Text = string.Format(AppStrings.AlarmSnoozeMinutesFormat, _snoozeMinutes);
         }
 
-        private void BtnStop_Click(object? sender, EventArgs e)
+        private Alarm? ReadAlarm()
         {
             try
             {
-                global::System.Diagnostics.Debug.WriteLine("BtnStop_Click: Stopping alarm sound...");
-
-                // Stop sound and vibration
-                StopAlarmSound();
-                StopVibration();
-
-                // Mark alarm as triggered (keeps it scheduled for next time)
-                UpdateAlarmStatus(dismissed: false);
-
-                // Finish the activity
-                global::System.Diagnostics.Debug.WriteLine("BtnStop_Click: Finishing activity...");
-                Finish();
+                if (_alarmId > 0 && DatabaseService.Instance.Database != null)
+                    return new BL_Alarms().GetAlarmById(_alarmId);
             }
             catch (Exception ex)
             {
-                global::System.Diagnostics.Debug.WriteLine($"Error stopping alarm: {ex.Message}");
-                // Force stop even if there's an error
-                try
-                {
-                    StopAlarmSound();
-                    StopVibration();
-                    Finish();
-                }
-                catch { }
+                gamon.General.LogOfProgram?.Error($"AlarmActivity - reading alarm {_alarmId}", ex);
             }
+            return null;
         }
 
-        private void BtnSuspend_Click(object? sender, EventArgs e)
+        private void AnswerAlarm(string action)
         {
-            try
-            {
-                global::System.Diagnostics.Debug.WriteLine("BtnSuspend_Click: Suspending alarm...");
-
-                // Stop sound and vibration FIRST
-                StopAlarmSound();
-                StopVibration();
-
-                // Then mark alarm as dismissed in database
-                UpdateAlarmStatus(dismissed: true);
-
-                // Finish the activity
-                global::System.Diagnostics.Debug.WriteLine("BtnSuspend_Click: Finishing activity...");
-                Finish();
-            }
-            catch (Exception ex)
-            {
-                global::System.Diagnostics.Debug.WriteLine($"Error suspending alarm: {ex.Message}");
-                // Force stop even if there's an error
-                try
-                {
-                    StopAlarmSound();
-                    StopVibration();
-                    Finish();
-                }
-                catch { }
-            }
+            var intent = AlarmRingService.CreateIntent(this, action, _alarmId, _reminderText,
+                _shouldVibrate, _shouldPlaySound, _soundPath);
+            intent.PutExtra(AlarmRingService.ExtraSnoozeMinutes, _snoozeMinutes);
+            StartService(intent);
+            Finish();
         }
 
-        private void BtnSnooze_Click(object? sender, EventArgs e)
+        private void OnRingingEnded()
         {
-            try
-            {
-                // Schedule alarm again in 5 minutes
-                ScheduleSnooze(5);
-
-                StopAlarmSound();
-                StopVibration();
-                Finish();
-            }
-            catch (Exception ex)
-            {
-                global::System.Diagnostics.Debug.WriteLine($"Error snoozing alarm: {ex.Message}");
-            }
-        }
-
-        private void BtnSnooze15_Click(object? sender, EventArgs e)
-        {
-            try
-            {
-                // Schedule alarm again in 15 minutes
-                ScheduleSnooze(15);
-
-                StopAlarmSound();
-                StopVibration();
-                Finish();
-            }
-            catch (Exception ex)
-            {
-                global::System.Diagnostics.Debug.WriteLine($"Error snoozing alarm for 15 min: {ex.Message}");
-            }
-        }
-
-        private void UpdateAlarmStatus(bool dismissed)
-        {
-            try
-            {
-                if (DatabaseService.Instance.Database != null && _alarmId > 0)
-                {
-                    var blAlarms = new BL_Alarms();
-                    var alarms = blAlarms.GetAllAlarms(all: true);
-                    var alarm = alarms.FirstOrDefault(a => a.IdAlarm == _alarmId);
-
-                    if (alarm != null)
-                    {
-                        if (dismissed)
-                        {
-                            alarm.Dismiss();
-                        }
-                        else
-                        {
-                            alarm.MarkAsTriggered();
-                        }
-                        blAlarms.AddAlarm(alarm);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                global::System.Diagnostics.Debug.WriteLine($"UpdateAlarmStatus error: {ex.Message}");
-            }
-        }
-
-        private void ScheduleSnooze(int minutes)
-        {
-            try
-            {
-                var snoozeAlarm = new Alarm
-                {
-                    IdAlarm = -1, // in-memory only, no DB
-                    ReminderText = _reminderText,
-                    TimeStart = new gamon.DateTimeAndText { DateTime = DateTime.Now.AddMinutes(minutes) },
-                    EnablePlaySoundFile = _shouldPlaySound,
-                    DoVibrate = _shouldVibrate,
-                    SoundFilePath = _soundPath,
-                    StartupGraceWindow = TimeSpan.FromMinutes(10)
-                };
-                snoozeAlarm.CalculateNextTriggerTime();
-
-                var scheduler = new SystemAlarmScheduler();
-                scheduler.ScheduleAsync(snoozeAlarm);
-            }
-            catch (Exception ex)
-            {
-                global::System.Diagnostics.Debug.WriteLine($"ScheduleSnooze error: {ex.Message}");
-            }
+            RunOnUiThread(Finish);
         }
 
         protected override void OnDestroy()
         {
-            global::System.Diagnostics.Debug.WriteLine("AlarmActivity OnDestroy: Cleaning up...");
-
-            StopAlarmSound();
-            StopVibration();
-
-            try
-            {
-                _wakeLock?.Release();
-                _wakeLock = null;
-            }
-            catch (Exception ex)
-            {
-                global::System.Diagnostics.Debug.WriteLine($"Error releasing wake lock: {ex.Message}");
-            }
-
+            AlarmRingService.RingingEnded -= OnRingingEnded;
             base.OnDestroy();
-        }
-
-        protected override void OnPause()
-        {
-            base.OnPause();
-
-            // If activity is finishing, stop sound
-            if (IsFinishing)
-            {
-                global::System.Diagnostics.Debug.WriteLine("AlarmActivity OnPause: Activity finishing, stopping sound...");
-                StopAlarmSound();
-                StopVibration();
-            }
-        }
-
-        public override void OnBackPressed()
-        {
-            // Disable back button - user must dismiss or snooze
-            // Don't call base.OnBackPressed();
         }
 
         private int GetResourceId(string name, string type)
@@ -428,6 +235,12 @@ namespace GlucoMan.Maui.Platforms.Android
             {
                 return 0;
             }
+        }
+
+        private sealed class IgnoreBackCallback : OnBackPressedCallback
+        {
+            public IgnoreBackCallback() : base(true) { }
+            public override void HandleOnBackPressed() { }
         }
     }
 }

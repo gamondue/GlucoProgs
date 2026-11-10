@@ -22,6 +22,67 @@ namespace GlucoMan
 
             dl = DatabaseService.Instance.Database;
         }
+        // constructor that works on a given data layer (used by the tests, with a temporary database)
+        internal BL_MealAndFood(DataLayer dataLayer) : this()
+        {
+            dl = dataLayer;
+        }
+        #region Lists of manufacturers and categories (pickers of FoodPage)
+        // The tables Manufacturers and CategoriesOfFood are "light" lists of suggestions:
+        // - the Manufacturer and Category fields of a food are free strings: saving a food
+        //   never adds them to the lists
+        // - a name is added to a list only on explicit request of the user (button "+")
+        // - deleting a name from a list never changes any food
+        // - the picker's first item is blank and it is the one shown when the page opens
+        internal List<Manufacturer> GetManufacturersForPicker()
+        {
+            List<Manufacturer> list = dl.GetAllManufacturersOfOneFood(null);
+            list.Insert(0, new Manufacturer());
+            return list;
+        }
+        // adds the name to the list of the manufacturers; returns false if the name
+        // is empty or already in the list (ignoring the case)
+        internal bool AddManufacturerToList(string name)
+        {
+            string trimmed = name?.Trim();
+            if (string.IsNullOrEmpty(trimmed))
+                return false;
+            if (dl.GetAllManufacturersOfOneFood(null)
+                .Any(m => string.Equals(m.Name?.Trim(), trimmed, StringComparison.OrdinalIgnoreCase)))
+                return false;
+            return dl.AddManufacturer(new Manufacturer(trimmed), null) != null;
+        }
+        internal void DeleteManufacturerFromList(Manufacturer manufacturer)
+        {
+            if (manufacturer == null || string.IsNullOrEmpty(manufacturer.Name))
+                return;
+            dl.DeleteManufacturer(manufacturer);
+        }
+        internal List<CategoryOfFood> GetCategoriesForPicker()
+        {
+            List<CategoryOfFood> list = dl.GetAllCategoriesOfOneFood(null);
+            list.Insert(0, new CategoryOfFood());
+            return list;
+        }
+        // adds the name to the list of the categories; returns false if the name
+        // is empty or already in the list (ignoring the case)
+        internal bool AddCategoryToList(string name)
+        {
+            string trimmed = name?.Trim();
+            if (string.IsNullOrEmpty(trimmed))
+                return false;
+            if (dl.GetAllCategoriesOfOneFood(null)
+                .Any(c => string.Equals(c.Name?.Trim(), trimmed, StringComparison.OrdinalIgnoreCase)))
+                return false;
+            return dl.AddCategoryOfFood(new CategoryOfFood(trimmed), null) != null;
+        }
+        internal void DeleteCategoryFromList(CategoryOfFood category)
+        {
+            if (category == null || string.IsNullOrEmpty(category.Name))
+                return;
+            dl.DeleteCategoryOfFood(category);
+        }
+        #endregion
         #region Meals
         public Meal GetOneMeal(int? IdMeal)
         {

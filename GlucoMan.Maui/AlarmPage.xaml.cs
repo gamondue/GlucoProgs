@@ -85,7 +85,12 @@ public partial class AlarmPage : ContentPage
                 General.LogOfProgram?.Error("AlarmPage - Constructor - Syncing alarms", ex);
             }
         });
-        
+    }
+
+    // Alarms change also while this page is hidden, when they ring and the user answers
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
         LoadAlarms();
     }
 
@@ -243,6 +248,7 @@ public partial class AlarmPage : ContentPage
         chkPlaying.IsChecked = alarm.IsPlaying ?? false;
         chkPlaySound.IsChecked = alarm.EnablePlaySoundFile ?? false;
         chkVibrate.IsChecked = alarm.DoVibrate ?? false;
+        chkTransient.IsChecked = alarm.IsTransient ?? false;
         txtSoundFilePath.Text = alarm.SoundFilePath ?? "";
         txtState.Text =   alarm.RingingState.ToString();
 
@@ -293,18 +299,21 @@ public partial class AlarmPage : ContentPage
         
         alarm.EnablePlaySoundFile = chkPlaySound.IsChecked;
         alarm.DoVibrate = chkVibrate.IsChecked;
+        alarm.IsTransient = chkTransient.IsChecked;
         alarm.SoundFilePath = txtSoundFilePath.Text;
-        
+
         return alarm;
     }
     private async void BtnAdd_Clicked(object? sender, EventArgs e)
     {
         try
         {
+            // A new alarm must not inherit the runtime state of the alarm selected in the list
+            _currentAlarm = null;
             var alarm = GetAlarmFromUI();
             alarm.IdAlarm = null; // Force new ID
             alarm.CalculateNextTriggerTime();
-            
+
             // Save to database first - this assigns the IdAlarm
             _blAlarms.AddAlarm(alarm);
             
@@ -407,10 +416,9 @@ public partial class AlarmPage : ContentPage
                 return;
             }
             
-            _currentAlarm.Dismiss();
-            _blAlarms.AddAlarm(_currentAlarm);
             await _alarmScheduler.CancelAsync(_currentAlarm.IdAlarm.Value);
-            
+            _blAlarms.DismissAlarm(_currentAlarm.IdAlarm);
+
             await DisplayAlert(AppStrings.Success, "Alarm dismissed", AppStrings.OK);
             LoadAlarms();
         }
@@ -548,6 +556,7 @@ public partial class AlarmPage : ContentPage
         chkPlaying.IsChecked = false;
         chkPlaySound.IsChecked = false;
         chkVibrate.IsChecked = false;
+        chkTransient.IsChecked = false;
         txtSoundFilePath.Text = "";
         txtState.Text = "";
 

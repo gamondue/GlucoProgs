@@ -11,6 +11,8 @@ public partial class ChartPage : ContentPage
     private BL_BolusesAndInjections blInj = new();
     private DateTime _dateOfGraph;
     private List<(float Hour, float Value)> _dataPoints = new();
+    // Same points, divided where the UTC offset changes
+    private List<GlucoseChartCurve> _curves = new();
     // Nearest points of the adjacent days (Hour < 0 for the previous day, > 24 for the next),
     // used only to shape the Bezier curve at the day boundaries
     private (float Hour, float Value)? _previousDayPoint;
@@ -44,36 +46,9 @@ public partial class ChartPage : ContentPage
     private float alarmHigh = 240;
     private float alarmLow = 60;
 
-    private static double CurrentUtcOffsetHours => Common.CurrentTimeZone;
-
-    private static DateTime ToConfiguredLocalTime(DateTime? dateTime)
+    private static float HourOnChart(DateTime? dateTime)
     {
-        if (!dateTime.HasValue)
-            return DateTime.MinValue;
-
-        var dt = dateTime.Value;
-        var recordOffset = 0.0;
-        var utcOffset = dt.Kind == DateTimeKind.Utc
-            ? TimeSpan.Zero
-            : TimeSpan.FromHours(recordOffset);
-
-        // If the data is already stored in local time, the offset is applied as a visual shift.
-        // When the value is UTC, convert it to the currently configured timezone.
-        return dt.Kind == DateTimeKind.Utc
-            ? dt.AddHours(CurrentUtcOffsetHours)
-            : dt.AddHours(CurrentUtcOffsetHours - recordOffset);
-    }
-
-    private static float GetHourInConfiguredTimezone(DateTime? dateTime, double? recordUtcOffset = null)
-    {
-        if (!dateTime.HasValue)
-            return 0;
-
-        var dt = dateTime.Value;
-        var sourceOffset = recordUtcOffset ?? 0;
-        var targetOffset = CurrentUtcOffsetHours;
-        var adjusted = dt.AddHours(targetOffset - sourceOffset);
-        return adjusted.Hour + adjusted.Minute / 60f + adjusted.Second / 3600f;
+        return dateTime.HasValue ? GlucoseChartCurves.HourOfDay(dateTime.Value) : 0;
     }
 
     public ChartPage(DateTime dateOfGraph)
@@ -243,6 +218,7 @@ public partial class ChartPage : ContentPage
 
             // Clear previous Data
             _dataPoints.Clear();
+            _curves = new();
             _injections.Clear();
             _meals.Clear();
             _previousDayPoint = null;
@@ -274,19 +250,8 @@ public partial class ChartPage : ContentPage
             if (list != null && list.Count >0)
             {
                 // Convert GlucoseRecord to chart Data points
-                foreach (var record in list)
-                {
-                    if (record.EventTime != null && record.EventTime.DateTime.HasValue &&
-                     record.GlucoseValue != null && record.GlucoseValue.Double.HasValue)
-                    {
-                        float hour = GetHourInConfiguredTimezone(record.EventTime.DateTime, record.UtcOffset);
-                        float glucoseValue = (float)record.GlucoseValue.Double.Value;
-
-                        _dataPoints.Add((hour, glucoseValue));
-
-                        System.Diagnostics.Debug.WriteLine($"Added point: Hour={hour:F2}, Glucose={glucoseValue}");
-                    }
-                }
+                _curves = GlucoseChartCurves.Build(list);
+                _dataPoints = _curves.SelectMany(c => c.Points).ToList();
 
                 System.Diagnostics.Debug.WriteLine($"Loaded {_dataPoints.Count} glucose points from database");
             }
@@ -518,60 +483,68 @@ public partial class ChartPage : ContentPage
             // Draw curve with spline (Bezier curves)
             if (_dataPoints.Count > 1)
             {
-                using (var path = new SKPath())
+                // Curves aren't joined: where the UTC offset changes the chart has to show it
+                for (int iCurve = 0; iCurve < _curves.Count; iCurve++)
                 {
-                    var orderedPoints = BuildBezierAnchorPoints(_dataPoints);
-
-                    // First point
-                    float x0 = MapXToCanvas(orderedPoints[0].Hour, chartRect, initialX, finalX);
-                    float y0 = MapYToCanvas(orderedPoints[0].Value, chartRect, initialY, finalY);
-                    path.MoveTo(x0, y0);
-
-                    // Use cubic Bezier curves to create a smooth spline
-                    for (int i = 0; i < orderedPoints.Count - 1; i++)
+                    using (var path = new SKPath())
                     {
-                        var p0 = orderedPoints[i];
-                        var p1 = orderedPoints[i + 1];
+                        var orderedPoints = BuildBezierAnchorPoints(_curves[iCurve].Points, iCurve == 0, iCurve == _curves.Count - 1);
 
-                        float x1 = MapXToCanvas(p0.Hour, chartRect, initialX, finalX);
-                        float y1 = MapYToCanvas(p0.Value, chartRect, initialY, finalY);
-                        float x2 = MapXToCanvas(p1.Hour, chartRect, initialX, finalX);
-                        float y2 = MapYToCanvas(p1.Value, chartRect, initialY, finalY);
+                        // First point
+                        float x0 = MapXToCanvas(orderedPoints[0].Hour, chartRect, initialX, finalX);
+                        float y0 = MapYToCanvas(orderedPoints[0].Value, chartRect, initialY, finalY);
+                        path.MoveTo(x0, y0);
 
-                        // Calculate control points for Bezier curves
-                        // Use 1/3 of horizontal distance as control point
-                        float controlPointDistance = (x2 - x1) / 3;
+                        // A lone sample between two curves becomes a dot, thanks to the round cap
+                        if (orderedPoints.Count == 1)
+                            path.LineTo(x0, y0);
 
-                        float cx1 = x1 + controlPointDistance;
-                        float cy1 = y1;
-                        float cx2 = x2 - controlPointDistance;
-                        float cy2 = y2;
+                        // Use cubic Bezier curves to create a smooth spline
+                        for (int i = 0; i < orderedPoints.Count - 1; i++)
+                        {
+                            var p0 = orderedPoints[i];
+                            var p1 = orderedPoints[i + 1];
 
-                        path.CubicTo(cx1, cy1, cx2, cy2, x2, y2);
-                    }
+                            float x1 = MapXToCanvas(p0.Hour, chartRect, initialX, finalX);
+                            float y1 = MapYToCanvas(p0.Value, chartRect, initialY, finalY);
+                            float x2 = MapXToCanvas(p1.Hour, chartRect, initialX, finalX);
+                            float y2 = MapYToCanvas(p1.Value, chartRect, initialY, finalY);
 
-                    // Platform-specific stroke width: 6 for Android, 3 for Windows
-#if ANDROID
-                    float curveStrokeWidth = 6;
-#else
-                    float curveStrokeWidth = 3;
-#endif
+                            // Calculate control points for Bezier curves
+                            // Use 1/3 of horizontal distance as control point
+                            float controlPointDistance = (x2 - x1) / 3;
 
-                    using (var paint = new SKPaint
-                    {
-                        Color = SKColor.Parse("#8B0000"),
-                        Style = SKPaintStyle.Stroke,
-                        StrokeWidth = curveStrokeWidth,
-                        IsAntialias = true,
-                        StrokeCap = SKStrokeCap.Round,
-                        StrokeJoin = SKStrokeJoin.Round
-                    })
-                    {
-                        // clip to the chart area: the curve may start/end with points of the adjacent days
-                        canvas.Save();
-                        canvas.ClipRect(chartRect);
-                        canvas.DrawPath(path, paint);
-                        canvas.Restore();
+                            float cx1 = x1 + controlPointDistance;
+                            float cy1 = y1;
+                            float cx2 = x2 - controlPointDistance;
+                            float cy2 = y2;
+
+                            path.CubicTo(cx1, cy1, cx2, cy2, x2, y2);
+                        }
+
+                        // Platform-specific stroke width: 6 for Android, 3 for Windows
+    #if ANDROID
+                        float curveStrokeWidth = 6;
+    #else
+                        float curveStrokeWidth = 3;
+    #endif
+
+                        using (var paint = new SKPaint
+                        {
+                            Color = SKColor.Parse("#8B0000"),
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = curveStrokeWidth,
+                            IsAntialias = true,
+                            StrokeCap = SKStrokeCap.Round,
+                            StrokeJoin = SKStrokeJoin.Round
+                        })
+                        {
+                            // clip to the chart area: the curve may start/end with points of the adjacent days
+                            canvas.Save();
+                            canvas.ClipRect(chartRect);
+                            canvas.DrawPath(path, paint);
+                            canvas.Restore();
+                        }
                     }
                 }
             }
@@ -598,16 +571,15 @@ public partial class ChartPage : ContentPage
                 using var mealBorderPaint = new SKPaint { Color = SKColors.Blue, Style = SKPaintStyle.Stroke, StrokeWidth =1 };
                 using var errorBarPaint = new SKPaint { Color = SKColors.Red, Style = SKPaintStyle.Stroke, StrokeWidth =2, IsAntialias = true };
 
-                var orderedPoints = _dataPoints.OrderBy(p => p.Hour).ToList();
-
                 foreach (var meal in _meals)
                 {
                     if (meal.EventTime?.DateTime.HasValue != true)
                         continue;
 
                     var dt = meal.EventTime.DateTime.Value;
-                    float hour = GetHourInConfiguredTimezone(meal.EventTime.DateTime, meal.UtcOffset);
+                    float hour = HourOnChart(meal.EventTime.DateTime);
                     float x = MapXToCanvas(hour, chartRect, initialX, finalX);
+                    var orderedPoints = PointsOfEvent(meal.UtcOffset);
 
                     // Determine Y on curve by interpolation or nearest
                     float glucoseY = chartRect.Top + iconSize; // default
@@ -699,14 +671,14 @@ public partial class ChartPage : ContentPage
                         continue;
 
                     var dt = inj.EventTime.DateTime.Value;
-                    float hour = GetHourInConfiguredTimezone(inj.EventTime.DateTime, inj.UtcOffset);
+                    float hour = HourOnChart(inj.EventTime.DateTime);
                     float x = MapXToCanvas(hour, chartRect, initialX, finalX);
 
                     // Find the glucose value at this time by interpolating or using nearest point
                     float glucoseY = chartRect.Top + iconSize; // default if no Data
 
                     // Find nearest Data point or interpolate
-                    var orderedPoints = _dataPoints.OrderBy(p => p.Hour).ToList();
+                    var orderedPoints = PointsOfEvent(inj.UtcOffset);
                     if (orderedPoints.Count >0)
                     {
                         // Find closest point before and after injection time
@@ -769,7 +741,7 @@ public partial class ChartPage : ContentPage
                 .FirstOrDefault();
             if (prev != null)
             {
-                float hour = GetHourInConfiguredTimezone(prev.EventTime.DateTime, prev.UtcOffset);
+                float hour = HourOnChart(prev.EventTime.DateTime);
                 // hour of the previous day: shift it before the origin of the chart
                 _previousDayPoint = (hour - 24f, (float)prev.GlucoseValue.Double.Value);
             }
@@ -781,7 +753,7 @@ public partial class ChartPage : ContentPage
                 .FirstOrDefault();
             if (next != null)
             {
-                float hour = GetHourInConfiguredTimezone(next.EventTime.DateTime, next.UtcOffset);
+                float hour = HourOnChart(next.EventTime.DateTime);
                 // hour of the next day: shift it after the end of the chart
                 _nextDayPoint = (hour + 24f, (float)next.GlucoseValue.Double.Value);
             }
@@ -792,10 +764,17 @@ public partial class ChartPage : ContentPage
             System.Diagnostics.Debug.WriteLine($"Failed to load adjacent days glucose records: {ex.Message}");
         }
     }
-    private List<(float Hour, float Value)> BuildBezierAnchorPoints(List<(float Hour, float Value)> points)
+    private List<(float Hour, float Value)> PointsOfEvent(double? utcOffset)
+    {
+        return GlucoseChartCurves.CurveOfEvent(_curves, utcOffset)?.Points ?? new();
+    }
+    // Only the outer ends of the day reach the borders of the chart: the ends of
+    // a curve next to another one stay where the samples finish
+    private List<(float Hour, float Value)> BuildBezierAnchorPoints(List<(float Hour, float Value)> points,
+        bool isFirstCurve, bool isLastCurve)
     {
         var ordered = points.OrderBy(p => p.Hour).ToList();
-        if (ordered.Count < 2)
+        if (ordered.Count == 0)
             return ordered;
 
         var anchored = new List<(float Hour, float Value)>(ordered.Count + 2);
@@ -807,17 +786,23 @@ public partial class ChartPage : ContentPage
 
         // if a point of the previous day is available, the curve starts from it
         // (outside the chart, it will be clipped), otherwise it's flat up to the first point
-        if (_previousDayPoint.HasValue && _previousDayPoint.Value.Hour < first.Hour)
-            anchored.Add(_previousDayPoint.Value);
-        else if (first.Hour > leftAnchorHour)
-            anchored.Add((leftAnchorHour, first.Value));
+        if (isFirstCurve)
+        {
+            if (_previousDayPoint.HasValue && _previousDayPoint.Value.Hour < first.Hour)
+                anchored.Add(_previousDayPoint.Value);
+            else if (first.Hour > leftAnchorHour)
+                anchored.Add((leftAnchorHour, first.Value));
+        }
 
         anchored.AddRange(ordered);
 
-        if (_nextDayPoint.HasValue && _nextDayPoint.Value.Hour > last.Hour)
-            anchored.Add(_nextDayPoint.Value);
-        else if (last.Hour < rightAnchorHour)
-            anchored.Add((rightAnchorHour, last.Value));
+        if (isLastCurve)
+        {
+            if (_nextDayPoint.HasValue && _nextDayPoint.Value.Hour > last.Hour)
+                anchored.Add(_nextDayPoint.Value);
+            else if (last.Hour < rightAnchorHour)
+                anchored.Add((rightAnchorHour, last.Value));
+        }
 
         return anchored;
     }
@@ -834,12 +819,11 @@ public partial class ChartPage : ContentPage
     }
 
     // Return interpolated glucose value (mg/dL) for a given hour (fractional), or null if no Data
-    private double? GetInterpolatedGlucoseValue(double hour)
+    private double? GetInterpolatedGlucoseValue(double hour, double? utcOffset)
     {
-    if (_dataPoints == null || _dataPoints.Count ==0)
+    var ordered = PointsOfEvent(utcOffset);
+    if (ordered.Count ==0)
         return null;
-
-    var ordered = _dataPoints.OrderBy(p => p.Hour).ToList();
 
     // exact match
     var exact = ordered.FirstOrDefault(p => Math.Abs(p.Hour - hour) <0.0001f);
@@ -898,8 +882,8 @@ public partial class ChartPage : ContentPage
                     if (injection?.EventTime?.DateTime.HasValue == true)
                     {
                         var dt = injection.EventTime.DateTime.Value;
-                        double hour = GetHourInConfiguredTimezone(injection.EventTime.DateTime, injection.UtcOffset);
-                        var glucose = GetInterpolatedGlucoseValue(hour);
+                        double hour = HourOnChart(injection.EventTime.DateTime);
+                        var glucose = GetInterpolatedGlucoseValue(hour, injection.UtcOffset);
 
                         // get IU value from Injection.InsulinValue or InsulinCalculated
                         double? iu = null;
@@ -912,7 +896,7 @@ public partial class ChartPage : ContentPage
                         string glucoseText = glucose.HasValue ? $"{glucose.Value:F0} mg/dL" : "No glucose";
                         string iuText = iu.HasValue ? $"{iu.Value:G}" : "No IU";
 
-                        try { lblDateRange.Text = $"{TimeSpan.FromHours(GetHourInConfiguredTimezone(injection.EventTime.DateTime, injection.UtcOffset)).ToString(@"hh\:mm")} - {glucoseText} - {iuText} IU"; } catch { }
+                        try { lblDateRange.Text = $"{TimeSpan.FromHours(hour).ToString(@"hh\:mm")} - {glucoseText} - {iuText} IU"; } catch { }
                         e.Handled = true;
                         return;
                     }
@@ -928,8 +912,8 @@ public partial class ChartPage : ContentPage
                     if (meal?.EventTime?.DateTime.HasValue == true)
                     {
                         var dt = meal.EventTime.DateTime.Value;
-                        double hour = GetHourInConfiguredTimezone(meal.EventTime.DateTime, meal.UtcOffset);
-                        var glucose = GetInterpolatedGlucoseValue(hour);
+                        double hour = HourOnChart(meal.EventTime.DateTime);
+                        var glucose = GetInterpolatedGlucoseValue(hour, meal.UtcOffset);
 
                         double? cho = null;
                         try { cho = meal.CarbohydratesGrams?.Double; } catch { cho = null; }
@@ -937,7 +921,7 @@ public partial class ChartPage : ContentPage
                         string glucoseText = glucose.HasValue ? $"{glucose.Value:F0} mg/dL" : "No glucose";
                         string choText = cho.HasValue ? $"{cho.Value:G}" : "No CHO";
 
-                        try { lblDateRange.Text = $"{TimeSpan.FromHours(GetHourInConfiguredTimezone(meal.EventTime.DateTime, meal.UtcOffset)).ToString(@"hh\:mm")} - {glucoseText} - {choText} CHO"; } catch { }
+                        try { lblDateRange.Text = $"{TimeSpan.FromHours(hour).ToString(@"hh\:mm")} - {glucoseText} - {choText} CHO"; } catch { }
                         e.Handled = true;
                         return;
                     }

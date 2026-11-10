@@ -1,4 +1,4 @@
-using gamon;
+﻿using gamon;
 using GlucoMan;
 using GlucoMan.Maui.Resources.Strings;
 using Microsoft.Maui.ApplicationModel;
@@ -561,9 +561,10 @@ public partial class InjectionsPage : ContentPage
         if (abort)
             return;
 
+        await Services.TimeZoneCheckService.Instance.CheckAndPromptIfChangedAsync(this);
         if (chkNowInAdd.IsChecked)
         {
-            DateTime now = DateTime.Now;
+            DateTime now = Common.LocalNow;
             CurrentInjection.EventTime.DateTime = now;
             dtpInjectionDate.Date = now;
             dtpInjectionTime.Time = now.TimeOfDay;

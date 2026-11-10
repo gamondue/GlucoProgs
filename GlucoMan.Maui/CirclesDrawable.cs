@@ -132,7 +132,7 @@ namespace GlucoMan.Maui
             {
                 // CERCHI COLORATI - con saturazione variabile (iniezioni)
                 System.Diagnostics.Debug.WriteLine("Drawing COLORED injection points");
-                DateTime now = DateTime.Now;
+                DateTime now = Common.LocalNow;
                 foreach (CircleData point in InjectionPointsCoordinates)
                 {
                     canvas.StrokeColor = point.Color;
@@ -271,7 +271,7 @@ namespace GlucoMan.Maui
         internal void LoadInjectionsCoordinates(List<Injection> allRecentInjections)
         {
             int circleHue = 240;
-            DateTime now = DateTime.Now;
+            DateTime now = Common.LocalNow;
             double maximalSaturation = 100;
             double minimalSaturation = 20;
 
